@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2022-12-12T17:45:08+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Technology behind this post</title><link href="https://javax0.github.io/2022/12/07/blog-posting.html" rel="alternate" type="text/html" title="Technology behind this post" /><published>2022-12-07T00:00:00+01:00</published><updated>2022-12-07T00:00:00+01:00</updated><id>https://javax0.github.io/2022/12/07/blog-posting</id><content type="html" xml:base="https://javax0.github.io/2022/12/07/blog-posting.html">== 1. Introduction
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2022-12-12T18:38:09+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Technology behind this post</title><link href="https://javax0.github.io/2022/12/07/blog-posting.html" rel="alternate" type="text/html" title="Technology behind this post" /><published>2022-12-07T00:00:00+01:00</published><updated>2022-12-07T00:00:00+01:00</updated><id>https://javax0.github.io/2022/12/07/blog-posting</id><content type="html" xml:base="https://javax0.github.io/2022/12/07/blog-posting.html">== 1. Introduction
 
 This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at https://javax0.wordpress.com[javax0.wordpress.com].
 The technology, the hosting, and all were okay by that time, but times changed.
@@ -288,125 +288,209 @@ The application of Jamal is independent of build automation. It can be antora, j
 
 == 4. Conclusion
 
-Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don&apos;t Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Docs as Code is not enough</title><link href="https://javax0.github.io/2022/03/24/2626.html" rel="alternate" type="text/html" title="Docs as Code is not enough" /><published>2022-03-24T00:00:00+01:00</published><updated>2022-03-24T00:00:00+01:00</updated><id>https://javax0.github.io/2022/03/24/2626</id><content type="html" xml:base="https://javax0.github.io/2022/03/24/2626.html">== 1. Docs as Code
-
-
-=== 1.1. it is the first step to the right direction
-
-The approach to treating your documentation the same way as program code is a step in the right direction, but it is far from state-of-the-art. The practice is detailed on many websites that advocate the use of docs-as-code (DAC). For example the link:https://www.writethedocs.org/guide/docs-as-code/[Write the Docs] community has a great article on docs-as-code. The article lists
-
- 	* Issue Trackers
- 	* Version Control (Git)
- 	* Plain Text Markup (Markdown, reStructuredText, Asciidoc)
- 	* Code Reviews
- 	* Automated Tests
-
-as required tools to this approach. Another example is link:https://docs-as-co.de/[docs-as-code], which is a toolset for documentation maintenance. They write
-[quote]
-____
-
-With docs-as-code, you treat your documentation the same way as your code.
-
-You use…
-
-your IDE to write it
+Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don&apos;t Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Docs as Code is not enough</title><link href="https://javax0.github.io/2022/03/24/2626.html" rel="alternate" type="text/html" title="Docs as Code is not enough" /><published>2022-03-24T00:00:00+01:00</published><updated>2022-03-24T00:00:00+01:00</updated><id>https://javax0.github.io/2022/03/24/2626</id><content type="html" xml:base="https://javax0.github.io/2022/03/24/2626.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-docs-as-code&quot;&gt;1. Docs as Code&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-1-it-is-the-first-step-to-the-right-direction&quot;&gt;1.1. it is the first step to the right direction&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The approach to treating your documentation the same way as program code is a step in the right direction, but it is far from state-of-the-art. The practice is detailed on many websites that advocate the use of docs-as-code (DAC). For example the &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Write the Docs&lt;/a&gt; community has a great article on docs-as-code. The article lists&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Issue Trackers&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Version Control (Git)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Plain Text Markup (Markdown, reStructuredText, Asciidoc)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Code Reviews&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Automated Tests&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;as required tools to this approach. Another example is &lt;a href=&quot;https://docs-as-co.de/&quot;&gt;docs-as-code&lt;/a&gt;, which is a toolset for documentation maintenance. They write&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With docs-as-code, you treat your documentation the same way as your code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You use…&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;your IDE to write it
 your version control system to store and version it
 your test-runner to test it
-your build system to build and deploy it&quot;
-____
-
-This is very much the same as the approach of link:https://www.writethedocs.org/guide/docs-as-code/[Write the Docs].
-
-image::https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-3.svg[]
-
-You have to have your documents in a format supported by the DAC tools. Use version control, document review, automated build, issue tracker, and automated tests. It is very much the same approach we use in code development.
-
-Essentially it is a copy of the professional software development process&apos; coding part. Documentation, however, is not coding. While it is a good idea to reuse some parts of the coding methodology technics, there is more to it.
-
-image::https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-4.svg[]
-
-== 2. What docs-as-code Ignores
-
-Coding is a transformation process converting documentation, namely the requirement documentation, into code. The requirement documentation may not be documentation in the classical sense. It may be some note, a list of wishes on a jot of paper. Still, the essence is to convert some human affine into machine affine. Some techniques try to support this process, but most of these techniques die when in production. For example, creating the documentation as UML and making it so precise that the code generation is automatic afterward is not feasible. You could do it in principle, but the cost of the effort is too high. It is cheaper to create the code than documentation that defines the functionality with mathematical precision.
-
-Documenting an application is precisely the opposite direction.
-
-image::https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-5.svg[]
-
-Something that failed in one direction does not necessarily fail when we try to go the other direction. You may not be able to jump from the river to the bridge, but the other way is very much possible.
-
-When creating the program documentation, our source is precisely describing the functionality we want to document. After all, the code is the most precise documentation of the application functionality. We already have the precision, which was not feasible to have for the other way around.
-
-The docs-as-code approach, as described by most articles, ignores it. However, it can be amended, and it should be. We can look at it as the next step in the docs-as-code evolution.
-
-=== 2.1. The next step
-
-We can categorize documentation into two categories.
-
- 	* Explanatory, and
- 	* Reference
-
-Sometimes a document belongs to one of the categories, but documents are a mix of the two most of the time. It may even happen that you cannot even tell if a sentence in a document belongs to one category or the other.
-
-Creating an explanatory style text cannot be automated. It needs human effort to create sentences that are clear and easily understandable. The importance is demonstrated by the lack of them in this article, as you may have noticed.
-
-However, creating the reference text is more or less a mechanical task. The documentarian (a term from write-the-docs) copies the key&apos;s name to explain how to configure the system and writes a sentence around it. Copies some sample code from the unit tests into a code segment into the Asciidoc documentation and adds explanation. The reference is taken from the code verbatim in these examples, and the explanatory part is added.
-
-image::https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-1.svg[]
-
-You can automate the copy of the reference information. Most of the time, it is not automated.
-
-The catch is that automation, just as in the case of tests, is more expensive than doing manual work once. It pays back when the actual operation (copy and paste) happens many times.
-
-And it usually does. To be more precise, it is supposed to happen. However, the documentation maintenance misses the task in practice, and the document becomes stale. It is where the docs-as-code automated test may help. In principle, it is possible to create a test checking the documentation and find discrepancies between the names in the code and the documentation. It can be heuristic, or it can be exact. To do it the exact way, the documentation and/or the code needs meta-information helping the test to perform the consistency check.
-
-Such a test can signal that the documentation may be outdated and need change. For example, it may give a warning, like
-[quote]
-____
-&quot;The name of the field XYZ is not the same as in the documentation ZZZ. Change ZZZ in the documentation to XYZ&quot;.
-____
-
-It is a foolish and outrageous error message. I immediately know that the program architecture is messed up when I see such an error message. If the test can tell me what to do with such precision, it could fix the problem with the same effort.
-
-It is much better if we let the automated build copy the actual name instead of checking that the human did it correctly. To do that, the documentarian should put the meta-information into the documentation instead of the copied value. The meta-information is read by the automated build tool, and using that; it copies the actual value or values.
-
-If the value changes, the build process will automatically change it.
-
-Another advantage is the lesser possibility for error. If the documentarian makes a mistake copying the field&apos;s name, the text will not complain. If he writes XXY instead of XYZ, the documentation will contain the wrong name unless some human review process discovers and fixes the bug. If the documentarian inserts the meta information and makes a mistake, the build process will likely fail. If instead of XYZ, I have to write `{java:field com.javax0.jamal.api#XYZ}` any simple typo will be detected. If there is a field  `com.javax0.jamal.api#XYZ` it is unlikely to have also `com.javax0.jamal.api#XXY`.
-
-image::https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-2.svg[]
-
-With this approach, the docs-as-code workflow is extended. The documentation&apos;s &quot; source code &quot; starts behaving as a source code. The automated build is no longer simply formatting and executing language checks. The goal is to automate everything that you can automate. It may not be cheaper than doing the work manually, but certainly less error-prone.
-
-== 3. Tools
-
-All the above theory is pleasant and attractive but worth nothing unless there are tools to implement them. My motivation writing this article is partly to advocate the use of the open-source tool link:https://github.com/verhas/jamal[Jamal]. Although Jamal is a general-purpose macro language and can be used in many areas, its primary purpose is document maintenance support. It is a simple to write, non-intrusive macro language. Using it, you can insert meta-information into the documentation to be processed by the automated build. You can use it with any plain text document format, like Asciidoc, markdown, apt, etc. The latest releases also support the DOCX format to use it even with Microsoft Word.
-
-The set of the macros is quite extensive, and it is easy to add your own. The documentation support module can gather information from the application&apos;s source code as snippets. Snippets can then be transformed, extracted, and inserted into the documentation. Information from the code can be extracted using text tools using the source code text. However, in the case of Java applications, the document transformation may also collect information using reflection. It can be done because Jamal itself is a Java application.
-
-It can be started on the command line as a maven plugin and a maven extension. It is also embedded as a doclet and a taglet to allow Jamal macros in the JavaDoc documentation.
-
-You can use macros to check the consistency of the documentation and the code. You can mark some part of the code as a snippet, and the documentation related to the specific region may contain the hash code of the piece. When the part changes in the source code, the macro evaluation will automatically signal an error.
-
-The application of Jamal is independent of build automation. It can be antora, jBake, or simply a maven project with different plugins. The application of Jamal is also independent of the documentation format. It can be Asciidoc, markdown, apt, etc., as long as the documentation format is text. Using the Word extension included in the command line version, it can even be Microsoft DOCX Word format.
-
-== 4. Conclusion
-
-Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don&apos;t Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.
-
-=== Comments imported from Wordpress
-
-
-*Docs as Code is not enough - Java Code Geeks - R4 News* 2022-04-04 05:02:00
-
-
-
-
-
-[quote]
-____
-[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Docs as Code is not enough [&amp;#8230;]
-____</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Lambda and Final Parameters</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" rel="alternate" type="text/html" title="Lambda and Final Parameters" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-parameters</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html">== 1. Introduction
+your build system to build and deploy it&quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is very much the same as the approach of &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Write the Docs&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-3.svg&quot; alt=&quot;docs as code 3&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You have to have your documents in a format supported by the DAC tools. Use version control, document review, automated build, issue tracker, and automated tests. It is very much the same approach we use in code development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Essentially it is a copy of the professional software development process&apos; coding part. Documentation, however, is not coding. While it is a good idea to reuse some parts of the coding methodology technics, there is more to it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-4.svg&quot; alt=&quot;docs as code 4&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-what-docs-as-code-ignores&quot;&gt;2. What docs-as-code Ignores&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Coding is a transformation process converting documentation, namely the requirement documentation, into code. The requirement documentation may not be documentation in the classical sense. It may be some note, a list of wishes on a jot of paper. Still, the essence is to convert some human affine into machine affine. Some techniques try to support this process, but most of these techniques die when in production. For example, creating the documentation as UML and making it so precise that the code generation is automatic afterward is not feasible. You could do it in principle, but the cost of the effort is too high. It is cheaper to create the code than documentation that defines the functionality with mathematical precision.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Documenting an application is precisely the opposite direction.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-5.svg&quot; alt=&quot;docs as code 5&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Something that failed in one direction does not necessarily fail when we try to go the other direction. You may not be able to jump from the river to the bridge, but the other way is very much possible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When creating the program documentation, our source is precisely describing the functionality we want to document. After all, the code is the most precise documentation of the application functionality. We already have the precision, which was not feasible to have for the other way around.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The docs-as-code approach, as described by most articles, ignores it. However, it can be amended, and it should be. We can look at it as the next step in the docs-as-code evolution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-the-next-step&quot;&gt;2.1. The next step&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We can categorize documentation into two categories.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Explanatory, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Reference&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Sometimes a document belongs to one of the categories, but documents are a mix of the two most of the time. It may even happen that you cannot even tell if a sentence in a document belongs to one category or the other.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Creating an explanatory style text cannot be automated. It needs human effort to create sentences that are clear and easily understandable. The importance is demonstrated by the lack of them in this article, as you may have noticed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, creating the reference text is more or less a mechanical task. The documentarian (a term from write-the-docs) copies the key&amp;#8217;s name to explain how to configure the system and writes a sentence around it. Copies some sample code from the unit tests into a code segment into the Asciidoc documentation and adds explanation. The reference is taken from the code verbatim in these examples, and the explanatory part is added.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-1.svg&quot; alt=&quot;docs as code 1&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can automate the copy of the reference information. Most of the time, it is not automated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The catch is that automation, just as in the case of tests, is more expensive than doing manual work once. It pays back when the actual operation (copy and paste) happens many times.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And it usually does. To be more precise, it is supposed to happen. However, the documentation maintenance misses the task in practice, and the document becomes stale. It is where the docs-as-code automated test may help. In principle, it is possible to create a test checking the documentation and find discrepancies between the names in the code and the documentation. It can be heuristic, or it can be exact. To do it the exact way, the documentation and/or the code needs meta-information helping the test to perform the consistency check.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Such a test can signal that the documentation may be outdated and need change. For example, it may give a warning, like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&quot;The name of the field XYZ is not the same as in the documentation ZZZ. Change ZZZ in the documentation to XYZ&quot;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is a foolish and outrageous error message. I immediately know that the program architecture is messed up when I see such an error message. If the test can tell me what to do with such precision, it could fix the problem with the same effort.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is much better if we let the automated build copy the actual name instead of checking that the human did it correctly. To do that, the documentarian should put the meta-information into the documentation instead of the copied value. The meta-information is read by the automated build tool, and using that; it copies the actual value or values.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If the value changes, the build process will automatically change it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Another advantage is the lesser possibility for error. If the documentarian makes a mistake copying the field&amp;#8217;s name, the text will not complain. If he writes XXY instead of XYZ, the documentation will contain the wrong name unless some human review process discovers and fixes the bug. If the documentarian inserts the meta information and makes a mistake, the build process will likely fail. If instead of XYZ, I have to write &lt;code&gt;{java:field com.javax0.jamal.api#XYZ}&lt;/code&gt; any simple typo will be detected. If there is a field  &lt;code&gt;com.javax0.jamal.api#XYZ&lt;/code&gt; it is unlikely to have also &lt;code&gt;com.javax0.jamal.api#XXY&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-2.svg&quot; alt=&quot;docs as code 2&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With this approach, the docs-as-code workflow is extended. The documentation&amp;#8217;s &quot; source code &quot; starts behaving as a source code. The automated build is no longer simply formatting and executing language checks. The goal is to automate everything that you can automate. It may not be cheaper than doing the work manually, but certainly less error-prone.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-tools&quot;&gt;3. Tools&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All the above theory is pleasant and attractive but worth nothing unless there are tools to implement them. My motivation writing this article is partly to advocate the use of the open-source tool &lt;a href=&quot;https://github.com/verhas/jamal&quot;&gt;Jamal&lt;/a&gt;. Although Jamal is a general-purpose macro language and can be used in many areas, its primary purpose is document maintenance support. It is a simple to write, non-intrusive macro language. Using it, you can insert meta-information into the documentation to be processed by the automated build. You can use it with any plain text document format, like Asciidoc, markdown, apt, etc. The latest releases also support the DOCX format to use it even with Microsoft Word.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The set of the macros is quite extensive, and it is easy to add your own. The documentation support module can gather information from the application&amp;#8217;s source code as snippets. Snippets can then be transformed, extracted, and inserted into the documentation. Information from the code can be extracted using text tools using the source code text. However, in the case of Java applications, the document transformation may also collect information using reflection. It can be done because Jamal itself is a Java application.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It can be started on the command line as a maven plugin and a maven extension. It is also embedded as a doclet and a taglet to allow Jamal macros in the JavaDoc documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can use macros to check the consistency of the documentation and the code. You can mark some part of the code as a snippet, and the documentation related to the specific region may contain the hash code of the piece. When the part changes in the source code, the macro evaluation will automatically signal an error.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The application of Jamal is independent of build automation. It can be antora, jBake, or simply a maven project with different plugins. The application of Jamal is also independent of the documentation format. It can be Asciidoc, markdown, apt, etc., as long as the documentation format is text. Using the Word extension included in the command line version, it can even be Microsoft DOCX Word format.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-conclusion&quot;&gt;4. Conclusion&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don&amp;#8217;t Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;comments-imported-from-wordpress&quot;&gt;Comments imported from Wordpress&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;Docs as Code is not enough - Java Code Geeks - R4 News&lt;/strong&gt; 2022-04-04 05:02:00&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Docs as Code is not enough [&amp;#8230;]&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Lambda and Final Parameters</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" rel="alternate" type="text/html" title="Lambda and Final Parameters" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-parameters</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html">== 1. Introduction
 
 
 
