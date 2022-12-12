@@ -1,0 +1,66 @@
+---
+title: "How to instantiate the system class" 
+layout: posta
+comments: on
+---
+
+This question is raised many times by novices. I have seen it many times on different forums and yesterday it came in front of me on LinkedIn. There are numerous answers to this questions, and we can learn a bit from the different answers.
+
+The question itself is triggered by the fact that the `System` class is a utility class that has only `static` fields and methods and is not meant to be instantiated. Because it is not meant to be instantiated it has an explicit private, argument-less constructor and there is no factory method inside the class calling this constructor. Because of this you just can not write
+
+[source,java]
+----
+System system = new System();
+----
+
+
+without getting compilation error.
+
+
+=== 1.1. Answer#1, use reflection
+
+
+[source,java]
+----
+Constructor<System> constructor = System.class.getDeclaredConstructor(null);
+constructor.setAccessible(true);
+System system = (System) constructor.newInstance(null);
+----
+
+
+This is a very straightforward answer and you can get a kick start and motivation to learn reflection. On the other hand it does not give much to your java knowledge development in addition to waking your curiosity.
+
+People wanting to educate usually give another answer
+
+
+
+
+=== 1.2. Answer#2 You Shall Not
+
+
+Why do you want to instantiate the System class? There is no use of it and it was designed not to be instantiated. It was designed not to be instantiated and engineers at SUN did all measures to prevent you to do that.
+
+Really? All measures?
+
+Well, not really. All measures that are on economic level. There can be more things to do. And here comes the next topic in the chain of thoughts:
+
+
+=== 1.3. How to protect utility classes
+
+
+The `System` class is protected the way it is and we will return at the end of this article why it is not protected more. If there are more ways to protect a utility class to be instantiated is another question. The possibilities are the following:
+
+
+	* Document the class and clearly express that the user of the class is not expected to instantiate the class. This helps a lot, but the user may still accidentally instantiate the class not fully understanding the documentation and the intended use of the class. This happens quite often, therefore using more technology to prevent this is easy to justify.
+	* Have an argument less private constructor. This will prevent the casual user to instantiate the class. Even if the user was sloppy or hard understanding the documentation language he or she will face the fact that the compiler will not compile the code that contains `new UtilityClass`. On the other hand the users still can use reflection. Do we care? For now, yes.
+	* Do not call this private constructor from you static methods. Obviously this would just ruin all your efforts you invested making the constructor private.
+	* Make the class final. Why does it help? It will not prevent the direct user of the class to use reflection but will prevent anyone to create a library that extends the utility class and makes it instantiable using special tricks. The next user using the extending class may fall into a trap without  wrong intention getting an instance of your class through the extended class.
+	* To prevent reflection initiating the class throw a run-time exception from the constructor of the class. Even if you catch this exception in the code that uses reflection, you can not get access to the created objects being half way initialized, since the assignment to a variable or any use of the object the operator `new` returns would execute after the constructor returns. And the constructor just does not return.
+
+
+These are the tools to make a utility class safe. There may be some more tricks that one can apply, but I strongly believe that this is already more than enough. SUN engineers made the class `final` and the constructor `private`. They believed that anything else is overkill, and I tend to agree with them.
+
+Bonus question for the not faint of hearts:
+
+How can you still get access to an instance of a class that was created using all the above (1-5) preventive measures? I will tell you on this blog in the next article, apprx in a week.
+

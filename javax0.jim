@@ -1,0 +1,16 @@
+{@comment}
+define the 'section', 'subsection' and 'subsubsection' macros that number the individual sections
+
+{@counter:define id=:scount}
+{@counter:define id=:sscount}
+{@counter:define id=:ssscount}
+{@define section($x)=== {scount}. $x{@counter:define id=:sscount}}
+{@define subsection($x)==== {scount last}.{sscount}. $x{@counter:define id=:ssscount}}
+{@define subsubsection($x)===== {scount last}.{sscount last}.{ssscount}. $x}
+
+
+{@define article($fileName,$refText)=link:/{@replace (regex) |$fileName|(\d)-|$1/|}.html[$refText]}
+{@define liquid($x)={@escape* `liquid`{`liquid`} $x {@escape* `liquid`}`liquid`}}
+{@define raw($x)={liquid raw}$x{liquid endraw}}
+
+{@define png($x,...$Y)=image::https://javax0.github.io/assets/images/$x.png[$Y]}

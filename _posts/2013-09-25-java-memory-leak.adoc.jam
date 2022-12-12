@@ -1,0 +1,163 @@
+---
+title: "Java memory leak" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+[quote]
+____
+Java has garbage collector and therefore there is no such things as memory leak.WRONG
+____
+
+
+This is wrong on many different levels. Although this is true that there is a garbage collector (GC) that collects the memory chunks that are not used anymore this is still not the stone of the philosophers. GC offloads a huge amount of error prone job from the programmers shoulder, but does not solve every problem related to memory allocation. To make the things a bit worse there are constructs in the Java environment that may "trick" the GC to keep some allocated memory as allocated even though our program is not using it any more. After 20 years of programming of C and 7 years of Java (some overlapping) I can state that Java is far better in this aspect than C or C++. Still there is some room for improvement. Until those improvements become reality programmers better know the nuts and bolts of memory handling and the usual pitfalls not to fall into the traps. But first thing first.
+
+__What is a memory leak?__
+
+[quote]
+____
+Memory leak is the repetitive allocation of memory without consequential release of it when no longer used, leading to the consumption of ever increasing memory limited by external measures not controlled by the program possibly rendering the execution to a degraded state.
+____
+
+
+In good old C programming time we talked about memory leak when the program was loosing reference to an allocated memory segment and did not release it. In such a situation the program has no means to get a grab to any handle or pointer to that memory segment to call the run-time function `free` and as such the memory segment remains allocated, it can not be reused by the program and this way it is totally wasted. The memory is reclaimed by the OS when the process exits, though.
+
+This is a very typical memory leak, but the definition I gave above is wider than that. It may happen that the code still has a pointer to the allocated memory but it does not release the memory and at the same time it does not uses it anymore. A programmer may build up a linked list hooking up all memory segments allocated calling `malloc` still never calling `free` has the same result. Since the result is the same, it is not really interesting if there is a possibility to get access to the memory pointer which is needed to release it or not if we do not release it anyway. It only affects the way to fix the bug, but in either case bugfixing needs code modification.
+
+If we look at Java and the GC you can see that this is nearly impossible to produce the classical memory leak where the program looses all references to the allocated memory and thus looses the possibility to release the memory. In that case the GC recognizes the loose of all references to the allocated memory and does the release process. As a matter of fact, that is the standard way to release the memory in Java: just loose all references to an object and GC will collect it. There are no garbage cans, no selective bins. Just throw it away and they will collect it. This is the very reason why many programmers believe that there is no memory leak when programming in Java. From the practical point of view this is close to correct: there are much less hassle hunting memory leaks when programming in Java than it is when programming C, C++ or any other language that does not have a garbage collector.
+
+This is the point where we reach to the question: how can memory leak happen in Java?
+
+`Thread` and `ThreadLocal` storage is a very good candidate for memory leak. You can get a memory leaking applications in five easy steps: (List was composed by Daniel Pryden in a link:http://stackoverflow.com/questions/6470651/creating-a-memory-leak-with-java[stackoverflow post].)
+
+
+* The application creates a long-running thread (or use a thread pool to leak even faster).
+* The thread loads a class via an (optionally custom) `ClassLoader`.
+* The class allocates a large chunk of memory (e.g. `new byte[1000000]`), stores a strong reference to it in a static field, and then stores a reference to itself in a `ThreadLocal`. Allocating the extra memory is optional (leaking the Class instance is enough), but it will make the leak work that much faster.
+* The thread clears all references to the custom class or the `ClassLoader` it was loaded from.
+* Repeat.
+
+
+Since you have no reference to the class and the loader of it you can not get access to the thread local storage and thus you can not get access to the allocated memory (unless you are desperate enough to use reflection). Still the thread local storage has reference and does not allow GC to collect the memory. Thread local storage is not weak. (Btw: why isn't is weak?)
+
+If you have never experienced anything like that you may think that this is an extremely artificial scenario composed by an evil brain. The truth is that the pattern was created by nature (well, programmers, but not with the intention to create memory leak) and was distilled to the above simple form debugging applications running in Tomcat. Those are very common in the Java word. Redeploying applications without restarting the Tomcat instance many times caused slow degradation of memory because of exactly the above pattern and there are not too much Tomcat can do against it. The applications should be careful using thread local.
+
+You should also be careful when storing large data referenced by static variables. Better avoid static variables if ever you can and better rely on containers you program runs in. They are more flexible than the Java class loader hierarchy. If you store large amount of data in a Map or Set why not to use the weak version of the map or set? If you do not have the key, will you even need the value attached to it?
+
+And now the hash maps and sets. If you use objects as keys that does not implement, or implement the methods `equals()` and `hashCode` wrong then calling `put()` will throw your data into a sink hole. You will never be able to recover it from the hash set/map and what is worse you will get duplicates (or better multiplicates) just as many times you put an object into the structure. You just throw your memory into a sinkhole.
+
+There are numerous examples of possible memory leaks in Java. Even though they are magnitude less frequent than they are in C, or C++. Usually it is better to have a GC than not having.
+
+=== Comments imported from Wordpress
+
+
+*Norbert Madarász* 2013-09-25 15:14:15
+{%@comment id: 39 %}
+{%@comment author_email: norbert.madarasz@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 213.253.200.106 %}
+{%@comment date_gmt: 2013-09-25 14:14:15 %}
+[quote]
+____
+Another term for java memory leak is object loitering: holding strong references to unused objects.
+
+There is a nice and simple example of it in Joshua Bloch's Effective Java:
+[source,java]
+----
+// Can you spot the "memory leak"?
+public class Stack {
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    public Stack() {
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+    public void push(Object e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+    public Object pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+       return elements[--size];
+    }
+
+    /**
+    * Ensure space for at least one more element, roughly
+    * doubling the capacity each time the array needs to grow.
+    */
+    private void ensureCapacity() {
+        if (elements.length == size)
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+    }
+}
+----
+
+"Whenever a class manages its own memory, the programmer should be alert for memory leaks. Whenever an element is freed, any object references contained in the element should be nulled out. Another common source of memory leaks is caches."
+
+The corrected version of the pop method looks like this:
+[source,java]
+----
+    public Object pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+        Object result = elements[--size];
+        elements[size] = null; // Eliminate obsolete reference
+        return result;
+    }
+----
+
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Third time lucky? | cartesian product* 2013-10-13 19:38:42
+{%@comment id: 52 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://cartesianproduct.wordpress.com/2013/10/13/third-time-lucky/ %}
+{%@comment author_IP: 192.0.83.13 %}
+{%@comment date_gmt: 2013-10-13 18:38:42 %}
+[quote]
+____
+[&#8230;] Java memory leak (javax0.wordpress.com) [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Pit* 2013-11-06 20:55:06
+{%@comment id: 79 %}
+{%@comment author_email: teeter23@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 82.131.1.107 %}
+{%@comment date_gmt: 2013-11-06 19:55:06 %}
+[quote]
+____
+nice!
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Ivo* 2014-08-17 21:41:54
+{%@comment id: 1347 %}
+{%@comment author_email: ivo@plumbr.eu %}
+{%@comment author_url: https://www.plumbr.eu %}
+{%@comment author_IP: 90.191.175.164 %}
+{%@comment date_gmt: 2014-08-17 20:41:54 %}
+[quote]
+____
+This is truly well explained, having worked in the leak detection domain for years now, it is seldom when I see so clearly expressed thoughts around memory management principles in Java. And whenever one can actually express the memory management principles in more details, they tend to have some systems programming background with C.
+
+Anyhow, whenever you stumble upon the next leak suspect in your life, you might consider giving Plumbr (https://plumbr.eu) a trial run, we would find all the cases described in your post and pinpoint you down to the single line in code where the leak originated.
+
+Ivo, the Product guy from Plumbr.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

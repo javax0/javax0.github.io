@@ -1,0 +1,114 @@
+---
+title: "Creating Immutable Objects Run-Time" 
+layout: posta
+comments: on
+---
+
+Java supports immutable variables, in the form of `final` modifier for fields and local variables, but it does not support the immutability of objects on the language level. There are design patterns that aim to distinguish mutator and query methods in objects, but the standard library and libraries from different sources may not support the feature.
+
+Using immutable objects makes the code safer because they reveal programming mistakes manifesting run time sooner. This is the so called "fail-fast" principle that you can certainly understand and appreciate if you came from the C or C++ programming field to Java. If you can have an immutable version of an object and you pass it on to a library (be it external or your own) an exception occurs as soon as the code tries to call any method that is a mutator. Having no immutable version the error such a call causes manifests much later when the program fails with the modified and thus presumably inconsistent-state object.
+
+Because of these advantages of immutable objects there are libraries that deliver immutability for some special cases. The most known and most widely used example is the Guava immutable collection library from Google. This creates immutable versions for collections. However collections are not the total world of Java classes.
+
+When you have the code under your own control you can split your interfaces to a query and a mutator part, the mutator eventually extending the query interface. The implementation can also be done in two classes: a query class implementing the query interface, and a mutator class extending the query class implementing the mutator interface (that also includes the query interface functions). When you want an immutable version of an object you cast it and pass on using the query interface. This is, however not 100% security. The library can, by sheer ignorance of the code or by mistake, cast the object back and mutate the object state. The fool proof solution is to implement the query interface in a class that is set up with a reference to mutable object and implementing delegation to all methods defined in the query interface. Though this is cumbersome to maintain such code in Java in case of numerous and huge classes the solution is generally simple and straightforward. You can even generate the delegating query implementation (extending the mutable class) when the query/mutator interfaces, and class implementations are not separated.
+
+The project link:https://github.com/verhas/immutator[Immutator] delivers this functionality during run-time. Using the library you can create a delegating proxy class during run-time that will extend the mutator class and will pass the method calls to the original object when the method is considered query but throw a runtime exception when the method is considered to be a mutator. The use of the class is very simple, all you have to do is to call a static method of the `Immutable` class:
+
+[source,java]
+----
+MyMutatorClass proxy = Immutable.of(mutableObject);
+----
+
+
+The generated proxy will belong to a class that extends the original class `mutableObject` belongs to, therefore you can pass along `proxy` to any code where you would pass the `mutableObject` but you do not want the code to alter the state of the object.
+
+How does the library know which methods are query and which methods are mutators? The library immutator in this simple case (there are more complex calls if the simple case is not sufficient) assumes that any method that is `void` is also a mutator, and any method that returns some value is a query method.
+
+To support the ever increasing popularity of [a]#fluent api# the call can be written in the form:
+
+[source,java]
+----
+MyMutatorClass proxy = Immutable.of.fluent(mutableObject);
+----
+
+
+in which case any method that returns a value compatible with the class of the argument is also considered to be a mutator method.
+
+If even this functionality does not describe the behavior of the class to proxy then the general form of the call is:
+
+[source,java]
+----
+MyMutatorClass proxy = Immutable.of.using(Query.class).of(mutableObject);
+----
+
+
+which believes that any method defined in the interface `Query` is a query and the methods that do not present in the interface `Query` are mutators. Using this form an query proxy can be created for any objects.
+
+This is nice and interesting. Having said all that there are some limitations in the implementation of the library that partially come from the Java language and from the available JDK.
+
+You can not declare any final method as mutator method. The reason for it is that the generated proxy class has to extend the original class so that the proxy object can be used at the place of the original object. It can not, however override the final methods. Final methods are actually not proxied, but execution is passed directly to the original method. This is how Java works.
+
+The proxy object is created in Java source and compiled during run time. This may be slower than, for example using link:http://cglib.sourceforge.net/[cglib] that uses the link:http://asm.ow2.org/[asm] package and generates byte-code directly. On the other hand the library may be more resilient to Java version changes and it is easier to have look at the internal working of the library and the proxy.
+
+Last, but not least the library uses some unsafe package calls (google that if you need), that may not work on all platforms. This is needed to create the instance of the proxy object. Since the proxy class is the extension of the original class creating a proxy object the "normal way" would implicitly invoke the constructor of the extended class. This may not be a problem, but in some cases, when the constructor does some heavy duty work, this may be.
+
+Knowing all those incorporating the library into your application is very simple. Since the `com.javax0` libraries are stored in Sonatype repository all you have to do is inserts the library as a dependency into your `pom.xml` file as
+
+[source,xml]
+----
+                         <dependency>
+                             <groupId>com.javax0</groupId>
+                             <artifactId>immutator</artifactId>
+                             <version>1.0.0</version>
+                         </dependency>
+----
+
+
+and stay tuned for upcoming releases.
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2013-11-21 13:31:32
+
+
+
+
+
+[quote]
+____
+This article was reposted on DZONE http://java.dzone.com/articles/creating-immutable-objects-run
+____
+
+
+
+
+
+*Java compile in Java | Java Deep* 2016-03-09 16:13:26
+
+
+
+
+
+[quote]
+____
+[&#8230;] the classes you create this way are only available to your code during run-time. You can create immutable versions of your objects for example. If you want to have classes that are available during compile [&#8230;]
+____
+
+
+
+
+
+*java用什么编译器_Java用Java编译 - 算法网* 2021-08-18 00:48:49
+
+
+
+
+
+[quote]
+____
+[&#8230;] 例如，您可以创建对象的不可变版本。 [&#8230;]
+____
+
+
+

@@ -1,0 +1,43 @@
+---
+title: "We hate/love lambda" 
+layout: posta
+comments: on
+---
+
+We have the long waited lambda feature in Java 8. And we love it. We love to use it at places where we used anonymous class. We love to use it where we used some looping construct. Now we use functional interfaces instead and thus we get faster performance using parallel streams and we get more readable code. The time is a short period of euphoria to be replaced by the several, low orbiting WTFs reviewing out others code. I write nice and readable code but I continually experience that others write ugly, unreadable and wrong code. (Please feel the delicate odour of irony.) And I expect lambda will make it worse.
+
+There are two main values in a programming language feature:
+
+
+	* How well can you express your ideas utilizing the feature.
+	* How badly one can use (or abuse) the feature.
+
+
+Good language features aid a lot in expressing yourself and can not be abused. They just shine bright readable in all their glory no matter how hard a bad guy may use them the wrong way. They end up with properly working and readable code. The only problem with these ideal language features is that they do not exist.
+
+On the other hand bad language features are hard to use to express your ideas and are easy to misuse. And contrary to the previous one: they exist.
+
+The reality is that most languages have language features that provide great ways to express your ideas but at the same time they can also be misused. Usually the easier to express yourself the easier to misuse a feature. Java language does not shine with brilliant syntax to briefly express your ideas but the same time you can not abuse it really. You can abuse it a bit, but there is no Java counterpart of the obfuscated C contest. Java is verbose, dull, boring. It is so dull that the language that wanted to overcome this dullness is named groovy. Groovy is many steps ahead of Java implementing shiny features. They have the tools and they are not afraid to use it. Groovy developers are and should not be afraid of unreadable code written by the bad guys or else they are going to have bad time. If you are to maintain Groovy code, prepare for the worst. No matter how good and beautiful Groovy code could be it will be just bad, because it was written by average programmer.
+
+The Groovy language implements a feature if the feature can be used well and brilliant but how bad the feature can be abused is not considered really. The designers of the Groovy language assume that the programmers are all brilliant, and experienced artists. We all are, aren't we?
+
+Implementing lambda Java made a step towards the Groovy direction. It is a great feature that can replace the ugly anonymous class use, aid functional style and so on. But at the same time ...
+
+[polldaddy poll=7966894]
+
+=== Comments imported from Wordpress
+
+
+*C, C, glorious C | cartesian product* 2014-05-30 17:50:08
+
+
+
+
+
+[quote]
+____
+[&#8230;] We hate/love lambda [&#8230;]
+____
+
+
+

@@ -1,0 +1,195 @@
+---
+title: "Java Record" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+The https://openjdk.java.net/jeps/359 outlines a new Java feature that may/will be implemented in some future versions of Java. The JEP suggests having a new type of "class": record. The sample in the JEP reads as follows:
+
+[source,java]
+----
+record Range(int lo, int hi) {
+  public Range {
+    if (lo > hi)  /* referring here to the implicit constructor parameters */
+      throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
+  }
+}
+----
+
+
+Essentially a record will be a class that intends to have only `final` fields that are set in the constructor. The JEP as of today also allows any other members that a class has, but essentially a record is a record, pure data and perhaps no functionality at its core. The description of a record is short and to the point and eliminates a lot of boilerplate that we would need to encode such a class in Java 13 or less or whichever version record will be implemented. The above code using conventional Java will look like the following:
+
+[source,java]
+----
+public class Range {
+
+    final int lo;
+    final int hi;
+
+    public Range(int lo, int hi) {
+        if (lo > hi)  /* referring here to the implicit constructor parameters */
+            throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
+        this.lo = lo;
+        this.hi = hi;
+    }
+}
+----
+
+
+Considering my Java::Geci code generation project this was something that was screaming for a code generator to bridge the gap between today and the day when the new feature will be available on all production platforms.
+
+Thus I started to think about how to develop this generator and I faced a few issues. The Java::Geci framework can only convert a compilable project to another compilable project. It cannot work like some other code generators that convert an incomplete source code, which cannot be compiled without the modifications of the code generator, to a complete version. This is because Java::Geci works during the test phase. To get to the test phase the code has to compile first. This is a well-known trade-off and was a design decision. In most of the cases when Java::Geci is useful this is something easy to cope with. On the other hand, we gain the advantage that the generators do not need configuration management like reading and interpreting property or XML files. They only provide an API and the code invoking them from a test configure the generators through it. The most advantage is that you can even provide call-backs in forms of method references, lambdas or object instances that are invoked by the generators so that these generators can have a totally open structure in some aspects of their working.
+
+Why is this important in this case? The record generation is fairly simple and does not need any complex configuration, as a matter of fact, it does not need any configuration at all. On the other hand, the `compilable -&amp;gt; compilable` restrictions are affecting it. If you start to create a record using, say Java 8 and Java::Geci then your manual code will look something like this:
+
+[source,java]
+----
+@Geci("record")
+public class Range {
+
+    final int lo;
+    final int hi;
+}
+----
+
+
+This does not compile, because by the time of the first compilation before the code generation starts the default constructor does not initialize the fields. Therefore the fields cannot be `final`:
+
+[source,java]
+----
+@Geci("record")
+public class Range {
+
+    int lo;
+    int hi;
+}
+----
+
+
+Running the generator we will get
+
+[source,java]
+----
+package javax0.geci.tests.record;
+
+import javax0.geci.annotations.Geci;
+
+@Geci("record")
+public final class Range {
+    final  int  lo;
+    final  int  hi;
+
+    //<editor-fold id="record">
+    public Range(final int lo, final int hi) {
+        this.lo = lo;
+        this.hi = hi;
+    }
+
+    public int getLo() {
+        return lo;
+    }
+
+    public int getHi() {
+        return hi;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(lo, hi);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Range that = (Range) o;
+        return java.util.Objects.equals(that.lo, lo) &amp;&amp; java.util.Objects.equals(that.hi, hi);
+    }
+    //</editor-fold>
+}
+----
+
+
+what this generator actually does is that
+
+
+* it generates the constructor
+* converts the class and the fields to `final` as it is a requirement by the JEP
+* generates the getters for the fields
+* generates the `equals()` and `hashCode()` methods for the class
+
+
+If the class has a `void` method that has the same (though case insensitive) name as the class, for example:
+
+[source,java]
+----
+    public void Range(double hi, long lo) {
+        if (lo > hi)  /* referring here to the implicit constructor parameters */
+            throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
+    }
+----
+
+
+then the generator will
+
+
+* invoke that method from the generated constructor,
+* modify the argument list of the method to match the current list of fields.
+
+
+[source,java]
+----
+    public void Range(final int lo, final int hi) {
+        if (lo > hi)  /* referring here to the implicit constructor parameters */
+            throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
+    }
+
+    //<editor-fold id="record">
+    public Range(final int lo, final int hi) {
+        Range(lo, hi);
+        this.lo = lo;
+        this.hi = hi;
+    }
+----
+
+
+Note that this generation approach tries to behave the possible closest to the actual `record` as proposed in the JEP and generates code that can be converted to the new syntax as soon as it is available. This is the reason why the validator method has to have the same name as the class. When converting to a real record all that has to be done is to remove the `void` keyword converting the method to be a constructor, remove the argument list as it will be implicit as defined in the JEP and remove all the generated code between the editor folds (also automatically generated when the generator was executed first).
+
+The modification of the manually entered code is a new feature of Java::Geci that was triggered by the need of the Record generator and was developed to overcome the shortcomings of the `compilable -&amp;gt; compilable` restriction. How a generator can use this feature that will be available in the next 1.3.0 release of Java::Geci will be detailed in a subsequent article.
+
+Takeaway
+
+The takeaway of this article is that you can use Java records with Java 8, 9, ... even before it becomes available.
+
+=== Comments imported from Wordpress
+
+
+*rupali2* 2020-10-03 16:42:27
+{%@comment id: 29824 %}
+{%@comment author_email: wrupali11@gmail.com %}
+{%@comment author_url: http://clinicalsearch315527547.wordpress.com %}
+{%@comment author_IP: 42.106.126.63 %}
+{%@comment date_gmt: 2020-10-03 15:42:27 %}
+[quote]
+____
+Nice blog, Thank you to share such an informative blog with us. For more information aboutlink:https://www.clariwell.in/best-java-course-in-pune[ java programing ] visit here :https://www.clariwell.in
+____
+{%@comment approved: trash %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 191051465 %}
+
+*Stefan Reich* 2019-10-16 15:17:55
+{%@comment id: 28361 %}
+{%@comment author_email: stefan.reich.maker.of.eye@googlemail.com %}
+{%@comment author_url: https://botcompany.de %}
+{%@comment author_IP: 90.186.63.209 %}
+{%@comment date_gmt: 2019-10-16 14:17:55 %}
+[quote]
+____
+When they extend Java on the source level nowadays, it's always really late and typically quite restricted. I've had records in my Java source-level extension for years... it's one of the easier parts too. Just crank out the boilerplate and allow user to override whatever they want.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

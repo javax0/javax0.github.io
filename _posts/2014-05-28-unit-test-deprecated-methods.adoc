@@ -1,0 +1,31 @@
+---
+title: "Unit test deprecated methods" 
+layout: posta
+comments: on
+---
+
+Deprecated methods have to be link:http://javax0.wordpress.com/2014/02/05/use-java-annotation-deprecated-the-right-way/[treated different]. At least in my opinion. The question I did not discuss in that article is if we have to unit test deprecated methods or not. For the impatient here is my statement:
+
+[quote]
+____
+
+Deprecated methods have to be unit tested the same way as other methods.
+
+____
+
+
+Probably this is not a question when there is already a unit test for the method. In that case you just leave it there and keep it running each time the CI server fires. The question may come up in your mind when you inherit some legacy code and you, yourself deprecate some methods or just find it deprecated with no appropriate unit test. Why bother to invest time writing unit tests when the method will no longer be in use?
+
+The answer to this why lays where the difference is between a deprecated and a deleted method. The deprecated method is still in use. It may happen that no one uses the method but that is not guaranteed. If it were you could just delete the method. Deprecated method is still in the published API with a slight comment: you better do not use it. Clear?
+
+What if there is no time to write the unit tests?
+
+If there is no time (treat this precondition as a hypothetic and not questionable: that is another topic for what to have time) then there is no question. 
+
+[quote]
+____
+Unit test are not writing themselves during the night, while you sleep. 
+____
+
+
+What if you have some time but kind of short. In that case, if nothing else prevails, you can linger the tests for the deprecated methods to the end of the task list. If nothing else prevails. Being deprecated does not necessarily mean: not important. Many may still use it. It means: deprecated.

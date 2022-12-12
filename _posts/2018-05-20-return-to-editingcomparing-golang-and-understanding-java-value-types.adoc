@@ -1,0 +1,9 @@
+---
+title: "Comparing Golang and understanding Java Value Types" 
+layout: posta
+comments: on
+---
+
+Slides and recorded sound of the talk at W-JAX 2018 Mainz conference.
+
+https://youtu.be/9kuHe8iGqk0

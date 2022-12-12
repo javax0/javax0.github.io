@@ -1,0 +1,115 @@
+---
+title: "Calling grandparent methods in Java: you can not" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+In the article link:https://javax0.wordpress.com/2015/01/21/fine-points-of-protection/[Fine points of protection] I detailed how "protected" extends the "package private" access. There I wrote: 
+
+[quote]
+____
+
+What you can do is
+
+* __Override the method in the child class or__
+* __call the parents method using the keyword super.__
+
+And generally this is really all you can do with protected methods.
+
+____
+
+
+(Note that in this article I talk about methods and method calling, but the very similar statements can be said about fields, constructors.)
+
+If you can call `super.method()` to access the parent's `method()` even if the actual class has overridden it why can not you call `super.super.method()`?
+
+The absolutely correct and short answer is: because Java language does not allow you to do that. (link:http://rohandhapodkar.blogspot.in/2012/03/call-grand-parent-method-in-java.html[JVM does] though, but you should not.) You can not directly access grandparent methods skipping parent methods. The interesting question is: Why?
+
+The reason lies in object orientation principles. When you extend a class you extend the defined functionality of the class.
+
+The fact that the parent class extends another class (the grandparent class) is part of the implementation that is none of the business of any other code outside of the class. This is the basic principle of encapsulation: advertise the defined functionality of a class to the outside world but keep the implementation private. There are secrets that you keep hidden even from your son. "Nicht vor dem Kind."
+
+Generally this is the reason. If you could access the grandparent directly you would create a dependency on the implementation of the father, and this would violate encapsulation.
+
+
+
+
+
+=== Comments imported from Wordpress
+
+
+*bugybunny* 2015-03-05 10:40:05
+{%@comment id: 6976 %}
+{%@comment author_email: testacc1992@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 152.96.234.124 %}
+{%@comment date_gmt: 2015-03-05 09:40:05 %}
+[quote]
+____
+While you’re at it: „Kind“ should be capitalized
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 6719 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2015-03-05 10:43:28
+{%@comment id: 6978 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-03-05 09:43:28 %}
+[quote]
+____
+Danke.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 6719 %}
+{%@comment user_id: 31131067 %}
+
+*Kofa* 2015-01-28 22:26:32
+{%@comment id: 6716 %}
+{%@comment author_email: kofa@kovacs-telekes.org %}
+{%@comment author_url: http://kovacs-telekes.org/ %}
+{%@comment author_IP: 176.63.254.136 %}
+{%@comment date_gmt: 2015-01-28 21:26:32 %}
+[quote]
+____
+There is one exception to this: if you implement two related interfaces (say Parent and Child), both implementing the same default method (say defaultMethod()), your class must override it, too (since it's ambiguous), but it can use the syntax Parent.super.defaultMethod() to call it.
+http://www.lambdafaq.org/how-are-conflicting-method-declarations-resolved/
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 44825336 %}
+
+*vladmihalcea* 2015-01-29 12:04:49
+{%@comment id: 6718 %}
+{%@comment author_email: mih_vlad@yahoo.com %}
+{%@comment author_url: http://vladmihalcea.com %}
+{%@comment author_IP: 195.20.156.19 %}
+{%@comment date_gmt: 2015-01-29 11:04:49 %}
+[quote]
+____
+I don't know ant German so I went on searching that German phrase, but I think it should be "Nicht vor dem kind", instead of "Nich vor dem kind".
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 55983739 %}
+
+*Peter Verhas* 2015-01-29 13:19:31
+{%@comment id: 6719 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-01-29 12:19:31 %}
+[quote]
+____
+Thanks. Typo fixed.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 6718 %}
+{%@comment user_id: 31131067 %}

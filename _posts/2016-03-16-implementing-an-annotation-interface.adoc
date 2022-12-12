@@ -1,0 +1,267 @@
+---
+title: "Implementing an annotation interface" 
+layout: posta
+comments: on
+---
+
+​
+Using annotation is every day task for a Java developer. If nothing else simple `@Override` annotation should ring the bell. Creating annotations is a bit more complex. Using the "home made" annotations during run-time via reflection or creating a compile time invoked annotation processor is again one level of complexity. But we rarely "implement" an annotation interface. Somebody secretly, behind the scenes certainly does for us.
+
+When we have an annotation
+
+[source,java]
+----
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface AnnoWithDefMethod {
+    String value() default "default value string";
+}
+----
+
+
+then a class annotated with this annotation
+
+[source,java]
+----
+@AnnoWithDefMethod("my default value")
+public class AnnotatedClass {
+}
+----
+
+
+and finally we when get the annotation during runtime executing
+
+[source,java]
+----
+AnnoWithDefMethod awdm = AnnotatedClass.class.getAnnotation(AnnoWithDefMethod.class);
+----
+
+
+then what do we get into the variable `awdm`? It is an object. Objects are instances of classes, not interfaces. Which means that somebody under the hood of the Java runtime has "implemented" the annotation interface. We can even print out features of the object:
+
+[source,java]
+----
+        System.out.println(awdm.value());
+        System.out.println(Integer.toHexString(System.identityHashCode(awdm)));
+        System.out.println(awdm.getClass());
+        System.out.println(awdm.annotationType());
+        for (Method m : awdm.getClass().getDeclaredMethods()) {
+            System.out.println(m.getName());
+        }
+----
+
+
+to get a result something like
+
+[source]
+----
+my default value
+60e53b93
+class com.sun.proxy.$Proxy1
+interface AnnoWithDefMethod
+value
+equals
+toString
+hashCode
+annotationType
+----
+
+
+So we do not need to implement an annotation interface but we can if we wanted. But why would we want that? So far I have met one situation where that was the solution: configuring guice dependency injection.
+
+Guice is the DI container of Google. The configuration of the binding is given as Java code in a declarative manner as it is described on the link:https://github.com/google/guice/wiki/Bindings[documentation page]. You can bind a type to an implementation simply declaring
+
+[source,java]
+----
+bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+----
+
+
+so that all `TransactionLog` instance injected will be of `DatabaseTransactionLog`. If you want to have different imlpementation injected to different fields in your code you should some way signal it to Guice, for example creating an annotation, putting the annotation on the field, or on the constructor argument and declare the
+
+[source,java]
+----
+bind(CreditCardProcessor.class)
+        .annotatedWith(PayPal.class)
+        .to(PayPalCreditCardProcessor.class);
+----
+
+
+This requires `PayPal` to be an annotation interface and you are required to write an new annotation interface acompaniing each `CreditCardProcessor` implementation or even more so that you can signal and separate the implementation type in the binding configuration. This may be an overkill, just having too many annotation classes.
+
+Instead of that you can also use names. You can annotate the injection target with the annotation `@Named("CheckoutPorcessing")` and configure the binding
+
+[source,java]
+----
+bind(CreditCardProcessor.class)
+        .annotatedWith(Names.named("CheckoutProcessing"))
+        .to(CheckoutCreditCardProcessor.class);
+----
+
+
+This is a tehnique that is well known and widely used in DI containers. You specify the type (interface), you create the implementations and finally you define the binding type using names. There is no problem with this, except that it is hard to notice when you type porcessing instead of processing. Such a mistake remains hidden until the binding (run-time) fails. You can not simply use a `final static String` to hold the actual value because it can not be used as the annotation parameter. You could use such a constant field in the binding definition but it is still duplication.
+
+The idea is to use something else instead of String. Something that is checked by the compiler. The obvious choice is to use a class. To implement that the code can be created learning from the code of link:https://github.com/google/guice/blob/master/core/src/com/google/inject/name/Named.java[`NamedImpl`], which is a class implementing the link:https://github.com/google/guice/blob/master/core/src/com/google/inject/name/Named.java[annotation interface]. The code is something like this (Note: `Klass` is the annotation interface not listed here.):
+
+[source,java]
+----
+class KlassImpl implements Klass {
+    Class<? extends Annotation> annotationType() {
+        return Klass.class
+    }
+    static Klass klass(Class value){
+        return new KlassImpl(value: value)
+    }
+    public boolean equals(Object o) {
+        if(!(o instanceof Klass)) {
+            return false;
+        }
+        Klass other = (Klass)o;
+        return this.value.equals(other.value());
+    }
+    public int hashCode() {
+        return 127 * "value".hashCode() ^ value.hashCode();
+    }
+ 
+     Class value
+    @Override
+    Class value() {
+        return value
+    }
+}
+----
+
+
+The actual binding will look something like
+
+[source,java]
+----
+  @Inject
+  public RealBillingService(@Klass(CheckoutProcessing.class) CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    ...
+  }
+ 
+    bind(CreditCardProcessor.class)
+        .annotatedWith(Klass.klass(CheckoutProcessing.class))
+        .to(CheckoutCreditCardProcessor.class);
+----
+
+
+In this case any typo is likely to be discovered by the compiler. What happens actually behind the scenes, and why were we requested to implement the annotation interface?
+
+When the binding is configured we provide an object. Calling `Klass.klass(CheckoutProcessing.class)` will create an instance of `KlassImpl` and when Guice tries to decide if the actual binding configuration is valid to bind `CheckoutCreditCardProcessor` to the `CreditCardProcessor` argument in the constructor of `RealBillingService` it simply calls the method `equals()` on the annotation object. If the instance created by the Java runtime (remember that Java runtime creates an instance that had a name like `class com.sun.proxy.$Proxy1`) and the instance we provided are equal then the binding configuration is used otherwise some other binding has to match.
+
+There is another catch. It is not enough to implement `equals()`. You may (and if you are a Java programmer (and you are why else you read this article (you are certainly not a lisp programmer)) you also should) remember that if you override `equals()` you have to override also `hashCode()`. And actually you should provide an implementation that does the same calculation as the class created by the Java runtime. The reason for this is that the comparison may not directly be performed by the application. It may (and it does) happen that Guice is looking up the annotation objects from a Map. In that case the hash code is used to identify the bucket in which the comparing object has to be and the method `equals()` is used afterwards to check the identity. If the method `hashCode()` returns different number in case of the Java runtime created and out objects they will not even match up. `equals()` would return true, but it is never invoked for them because the object is not found in the map.
+
+The actual algorithm for the method `hashCode` is described on the link:https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html[documentation] of the interface `java.lang.annotation`. I have seen this documentation before but understood the reason why the algorithm is defined when I first used Guice and implemented a similar annotation interface implementing class.
+
+The final thing is that the class also has to implement `annotationType()`. Why? If I ever figure that out I will write about that.
+
+
+​
+
+=== Comments imported from Wordpress
+
+
+*Garai Márton* 2016-03-18 00:53:46
+
+
+
+
+
+[quote]
+____
+Umm. Can't You use just
+
+[source,java]
+----
+myContainer.RegisterType<IMyService, CustomerService>();
+----
+
+
+? Like any normal IoC would do? Or Just use convention based registration, like any normal IoC would do?
+____
+
+
+
+
+
+*notRealThing* 2016-03-20 23:45:06
+
+
+
+
+
+[quote]
+____
+Seems you did not understood the reason - idea is to have multiple different implementations injected for the same interface at runtime. Suppose you have:
+
+[source,java]
+----
+class Bla {
+IMyService one; // want here instance of CustomerService
+IMyService two; // want gere instance of SuperCustomerService
+}
+----
+
+
+to avoid creating surrogate interfaces or using "Named" you can use what Peter described.
+____
+
+
+
+
+
+*János Szurovecz* 2016-03-16 20:53:52
+
+
+
+
+
+[quote]
+____
+Great article. I don't know the answer to your last question, but the class can implement multiple annotation interfaces and this might be the reason. But I bet you know the answer.
+I think the "annotation interface" link is wrong.
+____
+
+
+
+
+
+*Martin Grajcar* 2016-03-29 21:11:53
+
+
+
+
+
+[quote]
+____
+Concerning
+
+[source]
+----
+annotationType()
+----
+
+
+I couldn't resist to ask: http://stackoverflow.com/q/36293911/581205
+____
+
+
+
+
+
+*Annotation Handling and JPMS | Java Deep* 2019-07-31 16:02:40
+
+
+
+
+
+[quote]
+____
+[&#8230;] Many frameworks use annotations during run-time, others hook into the compilation phase implementing an annotation processor. I wrote about annotation processors and how to create one. This time we focus on the simpler way: handling annotations during run-time. We do not even implement the annotation interface, which is a rarely used possibility but is complex and hard to do as the article describes. [&#8230;]
+____
+
+
+

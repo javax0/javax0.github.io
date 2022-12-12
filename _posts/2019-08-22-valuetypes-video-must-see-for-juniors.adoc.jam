@@ -1,0 +1,13 @@
+---
+title: "ValueTypes video, must see for juniors" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+JAX-TV uploaded the recording of my talk I presented this year in Mainz at W-JAX
+
+https://www.youtube.com/watch?v=vA4ZJpFNLhM
+
+The topic is Java ValueTypes. The talk, however, starts with the topic of how the CPU feels the time. What are the different ratios between the different time intervals when we read something from the CPU cache, memory, SSD or even over the network? This is a knowledge needed to understand the importance of value types.
+
+The talk uses the same metaphor (the CPU as a bureaucrat and the clock as the heartbeat), which I also used in my book. It is very graphic and easy to remember, therefore I think this is a good listen for every junior. Even perhaps for some of the seniors.

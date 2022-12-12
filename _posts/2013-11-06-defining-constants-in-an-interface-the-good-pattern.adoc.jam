@@ -1,0 +1,183 @@
+---
+title: "Defining constants in an interface: the good pattern" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+In a link:http://javax0.wordpress.com/2013/10/31/defining-constants-in-an-interface/[previous post] I analyzed a bit the __constant interface__ pattern and I got to the conclusion that there is nothing horrible defining constants in an interface so long as long there is no any class that implements the interface.
+
+The problem is that you may implement the interface. The reason to do that may be sheer ignorance or just simple mistake.
+
+The first and easiest solution is to use `@interface` keyword instead of `interface`. This will define an annotation interface that can be implemented by a class but it requires the definition of the method
+
+[source,java]
+----
+@Override
+public Class<? extends Annotation> annotationType() {
+    return null;
+}
+----
+
+
+If this does not stop somebody implementing the interface "accidentally" then nothing is.
+
+Also since this is not a usual practice to implement such an interface Eclipse will not offer the interface after the `implements` keyword for completion.
+
+My personal taste however is not compatible with this approach. This is technically possible, but I consider this rather to be an entry in some weird obfuscated code contest than production code.
+
+The solution I prefer over the previous one is a nested structure. The outer element is a class that has an interface and a class inside. The interface is private thus you can not implement it outside even if you are ignorant. This interface defines the constants. Since the interface is private the constants can not be accessed from outside directly, but we overcome this obstacle. Along with the interface there is a final and public member class. This class implements the interface (sorry for the purists) and contains a private default constructor. But this is all it does. The template code for this looks something like:
+
+[source,java]
+----
+public class ConstantClass {
+  private interface ConstantInterface {
+    int a = 13;
+  }
+  
+  public final class Constants implements ConstantInterface {
+      private Constants(){}
+  }
+}
+----
+
+
+Since the class `Constants` is final it can not be extended, and since this is the only class for which `ConstantInterface` is visible there can be no other classes that implement the interface. This ensures that the __constant interface__ pattern step number 2 (implementing the interface by a class) can not accidentally be done and thus the interface can not leak into the definition of any class except the very one `Constants` class.
+
+The use of the constants is the same as they were defined directly in the utility class.
+
+If you compare this pattern to the pattern that is using a __utility class__ to define constants you see that this pattern does not require you to use the keywords `public static final` in front of each constant. This is a bit more error prone as you can not forget the keywords. On the other hand this pattern is more complex.
+
+There is also an advantage of this pattern that shines in the unlikely case when there are many constants you want to structure and group into different groups. You can have many private member interfaces each defining one set of the constants and then many member classes that can implement one or more of the interfaces. This can give you a very structured way to define your constants. If you have many. Which, to be honest, is not likely to happen. If you only have a few constants then simply go on with the good old utility class solution. Using a pattern should make your code simpler and not more complex.
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2014-02-26 20:47:36
+{%@comment id: 139 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 46.126.53.182 %}
+{%@comment date_gmt: 2014-02-26 19:47:36 %}
+[quote]
+____
+You simply suggest to release the `private` restriction of the interface to package private and instead packaging the whole mess into a class to put it all in a package.
+
+This is possible. Matter of taste. A bit less restrictive toward accidental implementation of the interface.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 138 %}
+{%@comment user_id: 31131067 %}
+
+*Epo Jemba* 2014-02-26 21:16:19
+{%@comment id: 140 %}
+{%@comment author_email: epo.jemba@kametic.com %}
+{%@comment author_url: https://github.com/kametic/nuun-framework %}
+{%@comment author_IP: 82.238.154.3 %}
+{%@comment date_gmt: 2014-02-26 20:16:19 %}
+[quote]
+____
+Your "simply" make me smile ;) My comment wasn't meant to be critical, I naively though you'll enjoy it. My comment was here only to bring this possibility as alternative, as you were iterating on this topic. I think this version is clean, because no inner class and valid according java. "All tastes are in nature", they say and it is a good thing :)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 139 %}
+{%@comment user_id: 0 %}
+
+*Epo Jemba* 2014-02-26 19:39:01
+{%@comment id: 138 %}
+{%@comment author_email: epo.jemba@kametic.com %}
+{%@comment author_url: https://github.com/kametic/nuun-framework %}
+{%@comment author_IP: 194.250.98.243 %}
+{%@comment date_gmt: 2014-02-26 18:39:01 %}
+[quote]
+____
+Hi Peter, this very clean idea. To prove my gratitude, I try to contribute in order to remove the last "cons" of the pattern. 
+
+Compilation Unit can hold more than one class definition but only one have to be public. I'm sure you see the trick now. 
+
+1) You drop your outer class "ConstantClass"
+2) You remove "private" before ConstantInterface
+3) You rename ConstantClass.java to Constants.java
+
+And you're done. Constants.a is available and not ConstantClass.Constants.a. So the pattern now is usable even by purists ;).
+
+Hope you like it.
+
+Epo Jemba
+Kametic
+https://github.com/kametic/nuun-framework
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2014-09-02 09:25:37
+{%@comment id: 1662 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 84.3.188.140 %}
+{%@comment date_gmt: 2014-09-02 08:25:37 %}
+[quote]
+____
+If you drop the outer class and relax the access restriction on the interface you increase the risk of a programmer "implementing" the interface. Making the structure a way that the interface can not directly be implemented was an important point.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 139 %}
+{%@comment user_id: 31131067 %}
+
+*DucQuoc.wordpress.com* 2017-04-05 02:24:06
+{%@comment id: 10690 %}
+{%@comment author_email: ducquoc.vn@gmail.com %}
+{%@comment author_url: http://ducquoc.wordpress.com %}
+{%@comment author_IP: 123.21.189.18 %}
+{%@comment date_gmt: 2017-04-05 01:24:06 %}
+[quote]
+____
+Why don't we use an Enum? That way seems OK without being called "over-engineering" !
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17424645 %}
+
+*Peter Verhas* 2017-04-05 02:31:47
+{%@comment id: 10691 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 31.10.149.202 %}
+{%@comment date_gmt: 2017-04-05 01:31:47 %}
+[quote]
+____
+What is the gain of enum over a normal class? You can not inherit from it. Okay: have a final class.
+
+You still have to write 'public static final' in front of the constant declarations, just like in case of a class and in addition you should have at least one constant that is enum type, you may not need.
+
+Could you give me some example of an enum declaring two global constants? One is type int, the other is String.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 10690 %}
+{%@comment user_id: 31131067 %}
+
+*jhake* 2018-04-05 23:14:32
+{%@comment id: 12335 %}
+{%@comment author_email: jhake.kineticsnw@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 97.113.15.94 %}
+{%@comment date_gmt: 2018-04-05 22:14:32 %}
+[quote]
+____
+I like this idea. The usage helps clarify the source of the constants:
+import com.company.project.package.ConstantClass.Constants;
+public class myClass {
+   int foo = Constants.a + 1; 
+}
+This example assumes I want to define constants on a particular package basis, which may be a matter of taste.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

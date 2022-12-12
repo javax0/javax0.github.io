@@ -1,0 +1,232 @@
+---
+title: "Why to use String" 
+layout: posta
+comments: on
+---
+
+Recently I was tutoring juniors during a training session. One of the task was to write a class that can dwarwle maps based on some string key. The result one of the juniors created contained the following method:
+
+[source,java]
+----
+	void dwarwle(HashMap<String,Dwarwable> mapToDwarwle, String dwarwleKey){
+		for( final Entry<String, Dwarwable> entry : mapToDwarwle.entrySet()){
+			dwarwle(entry.getKey(),entry.getValue(),dwarwleKey);
+		}
+	}
+----
+
+
+The code was generally ok. The method to dwarwle an individual dwarwable entry using the actual key it is assigned to in the hash map and the dwarwle key is factored to a separate method. It is so simple that I do not list here. The variable names are also meaningful so long as long you know what actually dwarwling is. The method is short and readable, but the argument list expects a `HashMap` instead of a `Map`. Why do we want to restrict the caller to use a `HashMap`? What if the caller has a `TreeMap` and for good reason. Do we want to have separate method that can dwarwle `TreeMap`? Certainly not.
+
+[quote]
+____
+Expect the interface, pass the implementation.
+____
+
+
+The junior changed the code replacing `HashMap` to `Map` but after five minutes or so this clever lady raised her hand and had the following question:
+
+"If we changed HashMap to Map, why did not we change String to CharSequence?"
+
+It is not so easy to answer a question like that when it comes out of the blue. The first thing that came up in my mind is that the reason is that we usually do it that way and that is why. But that is not a real argument, at least I would not accept anything like that and I also expect my students not to accept such answer. It would be very dictator style anyway.
+
+The real answer is that the parameter is used as a key in a map and the key of a map should be immutable (at least mutation should be resilient to equals and hashcode calculation). `CharSequence` is an interface and an interface in Java (unfortunately) can not guarantee immutability. Only implementation can. `String` is a good, widely known and well tested implementation of this interface and therefore can be a good choice. There is a good discussion about it on link:http://stackoverflow.com/questions/13234584/when-to-use-charsequence[stackoverflow].
+
+In this special case we expect the implementation because we need something immutable and we "can not" trust the caller to pass a character sequence implementation that is immutable. Or: we can, but it has a price. If a `StringBuilder` is passed and modified afterwards our dwarwling library may not work and a blame war may start. When we design an API and a library we should also think about not only the possible but also about the actual, average use.
+
+
+[quote]
+____
+A library is as good as it is used and not as it could be used.
+____
+
+
+This can also be applied to other products, not only libraries but this may lead too far (physics and weapon).
+
+
+
+=== Comments imported from Wordpress
+
+
+*Bence Sarosi* 2014-11-02 21:05:07
+
+
+
+
+
+[quote]
+____
+Yes and no.
+http://javax0.wordpress.com/2014/10/29/do-not-use-immutable-in-your-api/
+
+The real reason behind this all I think is String being so much low-level and widely used (of course it is) that if modules that depend on immutability had to deal with the issue themselves it could potentially render systems that use text unmaintainable.
+
+What do you think?
+____
+
+
+
+
+
+*Basil Bourque* 2014-10-24 09:41:18
+
+
+
+
+
+[quote]
+____
+This challenge is known formally as known as the Liskov Substitution Principle, defining the need for strong behavioral subtyping.
+
+https://en.wikipedia.org/wiki/Liskov_substitution_principle
+____
+
+
+
+
+
+*Tom* 2014-10-24 15:35:48
+
+
+
+
+
+[quote]
+____
+The reason to use the Map interface is that it's a role: there are multiple ways of filling that role, and we don't mind what sort of Map it is. Abstracting over that type means abstracting over its behaviour, and that means its interface.
+
+In this example, the String is data. It's apparent that we're using it as data, because we're using it as a key: we're not calling any methods on it. We don't want to abstract over data.
+____
+
+
+
+
+
+*Edward Beckett (@edwardjbeckett)* 2014-10-25 08:00:23
+
+
+
+
+
+[quote]
+____
+Pardon my ignorance but what exactly does "dwarwle" mean?
+____
+
+
+
+
+
+*tamasrev* 2014-10-26 13:31:25
+
+
+
+
+
+[quote]
+____
+My guess about dwarwle:
+A fictional word that fits well into example code. Luckily, it has a noun and a verb form so it can be a method too :)
+____
+
+
+
+
+
+*Peter Verhas* 2014-10-29 09:48:23
+
+
+
+
+
+[quote]
+____
+I can neither confirm nor deny.
+____
+
+
+
+
+
+*ipsi* 2014-10-30 11:49:03
+
+
+
+
+
+[quote]
+____
+Ehhhh... Strictly speaking, Strings __are not__ immutable.
+
+Given the following code:
+
+[source,java]
+----
+String a = "ABC", b = "ABC", c = new String(new char[]{'A', 'B', 'C'});
+a.intern();
+b.intern();
+char[] naughty;
+Class clazz = String.class;
+Field f = clazz.getDeclaredField("value");
+f.setAccessible(true);
+naughty = (char[]) f.get(a);
+naughty[0] = 'Z';
+System.out.println(a);
+System.out.println(b);
+System.out.println(c);
+----
+
+You will get the following output:
+
+ZBC
+ZBC
+ABC
+
+You should clearly __never ever__ do this, but it's perfectly possible, assuming you haven't set up a SecurityManager which will deny setAccessible on fields in the String class. I've also never seen it in the wild, and I personally wouldn't worry about it unless you've otherwise got good reason to suspect incredible stupidity.
+____
+
+
+
+
+
+*Peter Verhas* 2014-10-30 12:02:25
+
+
+
+
+
+[quote]
+____
+Taking that into consideration will lead to far away. How secure can our application can be and how much should we trust the libraries we use and also the other parts of the code. After all nothing is immutable except, perhaps bytes in the ROM (unless you use a hammer). A JNI call can just overcome any limitations of the JVM and just may change anything. Why to stop at reflection, lets use the big bomb to do nasty things.
+
+Side note: The lines
+
+[source,java]
+----
+a.intern();
+b.intern();
+----
+
+
+have no effect. The string "ABC" is already interned by the code generated by the compiler and calling `intern()` does not alter the string. It only returns a new string that is interned. Thus the lines above would make more sense in the form:
+
+[source,java]
+----
+a = a.intern();
+b = b.intern();
+----
+
+
+except that the variables point to an already interned string. They are pointing to the very same string object actually, thus
+
+[source,java]
+----
+a == b
+----
+
+
+is also true. This does not, however, lessen the value of your comment. Strings are special beasts in Java.
+____
+
+
+

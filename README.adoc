@@ -1,0 +1,61 @@
+= Javax0 Blog Source Code
+
+This is the repository that stores the source code for the blog link:https://javax0.github.io[Javax0 BLOG].
+The blog is structured using Jekyll site builder.
+The articles are written in Asciidoc, and they use Jamal as a macro language.
+The blog is built locally on the development machine and gets deployed suing GIT.
+
+== Directories and files
+
+Here is a short description what you can find in the different directories and files.
+This documentation is not complete.
+
+=== _posts
+
+This directorx contains the articles.
+The article file names are `YYYY-MM-DD-article.adoc.jam`.
+The `.jam` extension mean link:https://github.com/verhas/jamal[Jamal] macro extension.
+These files are processed by Jamal as you can see in the `build` shell script resulting in the `.adoc` files.
+Also, the `.adoc` files are generated automatically while editing the `.adoc.jam` files in IntelliJ with
+
+* Asciidoctor plugin installed, and
+
+* Jamal preprocessor installed in the `.asciidoctor/lib` directory of the project.
+
+=== _projects
+
+This directory contains the Java or other development projects that are used as demo for the articles.
+There is a subdirectory for each article with the same name as the article (w/o the file extensions).
+For example, the article `2022-12-07-blog-posting.adoc.jam` has the corresponding subdirectory `2022-12-07-blog-posting`.
+
+One article can have zero, one or more projects.
+
+=== about
+
+Standard Jekyll directory with the about `index.html`.
+
+=== docs
+
+Contains the generated site.
+GitHub pages is configured to deploy from this directory and not from the branch `gh-pages`.
+Jekyll generates the output to this directory as it is configured in the `_config.yml` file:
+
+
+  destination: docs
+
+
+=== assets
+
+Are static HTML assets, like images in the `images` directory.
+
+=== build
+
+Shell scripts, build the site
+
+=== deploy
+
+Shell script, invokes `.build`, then adds, commits and pushes the new and modified pages.
+
+=== run
+
+Shell script, runs Jekyll locally.

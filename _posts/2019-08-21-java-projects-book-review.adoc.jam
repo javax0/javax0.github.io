@@ -1,0 +1,149 @@
+---
+title: "Java Projects: Book Review" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+This article is about the book
+
+[quote]
+____
+
+Java Projects Second Edition, by Peter Verhas
+
+____
+
+
+image::https://static.packt-cdn.com/products/9781789131895/cover/smaller[]
+
+that I wrote last year. The aim of such an article is usually to boost the sales of the book. It is no different in this case, but since this is a book that I wrote, and I am the person, who is writing the review it would be extremely awkward to praise the book. So I will not, although I like this book a lot. I think loving your own product, at least at the time when it is ready is a must. You may think about it differently later like I do about the previous edition of the same book, which could have been better. But then again, that is why there is the second edition in addition to the fact that Java developed in the meantime and it became Java 11 from Java 9. But back to the previous thought: you have to love your product when it is finished otherwise you can just throw it away. If you do not like it no-one else will. What is also important that you also have to love your work while you are working on it. And I did and I enjoyed creating this book.
+
+Thus now I will write about the book, what it is, and what I intended it to be. Later in the article, I will also talk about how I was working on the book, some technicalities, and some secrets. (They are not that much of a secret if I publish them here, are they.) But before those, have the URLs here, where you can buy my book at PACKT, or Amazon, etc.
+
+
+* link:https://subscription.packtpub.com/book/application-development/9781789131895[PACKT]
+* link:https://www.amazon.com/Java-Projects-fundamentals-programming-practical-ebook/dp/B07G1B4R8B[Amazon]
+* link:https://www.oreilly.com/library/view/java-projects-/9781789131895/[Safari]
+
+
+
+{%section |Intended Audience and Content of the Book%}
+
+
+In agreement with the publisher, I wanted to write a book for those, who want to learn Java but already have some programming experience. I did not want to write about the simple notion of variables, loops, conditional constructs. I wanted to write a book that teaches you Java and a bit of programming. I wanted a book that any PHP, Python, C#, C, C++, Go, etc. programmer fresh out of uni can read and learn some Java programming and they can decide if it is for them or not. I wanted to dedicate the last chapter to non-java programming topics, like what can happen later in your career if you start as a programmer. You can remain a programmer, or become an architect, project manager, devops engineer. There are many possibilities based upon opportunities and interest. This intention was met with less agreement from the publisher side, but they accepted that my hands are the one that hit the keyboard and we got to a compromise. So the last chapter is also about some technical topics, like Java agent, polyglot programming, annotation processing, DSL, SDLC and so on.
+
+
+{%section |Content of the book%}
+
+
+The book has ten chapters in a bit more than 500 pages.
+
+
+* Chapter ONE
+
+
+is how you get started. To start you need to install the Java environment and you have to get familiar with the command line tools. This is a bit cumbersome and in the case of Java, it is more complex than it is with other languages. I have some friends who started to learn Java using this book and struggled with it (not because of the book, but because of the complexity of the task). When you start learning Java you have to be patient at this point and you must have a strong belief that it will work.
+
+
+* Chapter TWO
+
+
+is about the supporting tools and about the basic language elements. Even though the book is for those who can already program in some programming language, the text has to describe the basic elements of the language like variables, classes, methods, types, expressions, loops and so on. You can see how complex Java is so that it is already the second chapter we are in and we just start the language.
+
+
+* Chapter THREE
+
+
+is where we start programming something more complex than a "Hello, World". The program is a sorting program and we implement not only the simple bubble sort but also quick sort. Along the way, we also touch topics like generics, TDD, unit tests, Java modules. These are advanced topics that originally were planned in later chapters, but I wanted to explain less the language and more programming along with the language.
+
+
+* Chapter FOUR 
+
+
+is a new program, and brings us new topics. In this chapter, we (I imagine the reader and I) develop the game link:https://en.wikipedia.org/wiki/Mastermind_(board_game)[Mastermind]. The user, sitting in front of the computer "hides" the pins and the program finds out what is hidden. The same chapter talks about collections, dependency injection, and integration tests.
+
+
+* Chapter FIVE
+
+
+is the one I am most proud of. It is about concurrent programming. Many books use an example that scales well. You run it on one processor and it runs. You run it on two processors and it runs twice as fast. In real life usually, tasks are not that independent. So I decided to make the Mastermind game concurrent. This needed some refactoring. Honestly: I did not realize that before I started to write chapter 5 and chapter 4 was already finished. I decided not to rewrite chapter 4 (although that would have been the smaller amount of work), rather I detailed in the chapter the coding decisions and how the code has to be refactored. This is only a part of a chapter that is already about a very complex topic, so do not expect a full-blown refactoring tutorial. If you need a good book about refactoring then read link:https://martinfowler.com/books/refactoring.html[Martin Fowler's Refactoring] book.
+
+In addition to that, the chapter details most of the concurrent programming tools: wait, notify, locks, queues. The chapter concludes with the introduction of microbenchmarking that shows how faster parallel programs run faster on many CPUs.
+
+
+* Chapter SIX
+
+
+is about creating a simple web interface for the program. Because the main topic of the book is Java and not HTML, CSS and JavaScript, the front-end is fairly simple. On the other hand, the chapter focuses on IP, TCP, DNS, HTTP, and even HTTP/2. Then it goes on detailing the C/S architecture, mentions JavaServer Pages (a must is a must) and then we develop the code writing a servlet running with Jetty.
+
+
+* Chapter SEVEN
+
+
+uses a new program and here we develop a REST service using Spring MVC, servlet filters, audit logging with AOP and we even discuss how dynamic proxies work.
+
+
+* Chapter EIGHT
+
+
+extends the program and touches subjects like annotations, reflection, functional programming and scripting in Java.
+
+
+* Chapter NINE
+
+
+is the last coding chapter. Here we create an "accounting" application using reactive interface. It is a bit awkward example but at the time I could not find anything better. Nevertheless, the principles of reactive programming and how to use the new reactive interfaces in Java are described in this chapter.
+
+
+* Chapter TEN
+
+
+is the last chapter and that way it is the densest. It talks about topics that all developers should know about but hardly any developer will use. You, probably, will never create a Java agent or an annotation interface. But you should know what they are and that is why they are described here. There are also a few words about polyglot programming, which will be more and more prevalent. The majority of the chapter is about how programming in an enterprise setting works.
+
+
+{%section |Motivation%}
+
+
+My motivation was to create a programming book that will outlast the current version of Java. A book that teaches whoever reads it a bit of programming and helps them start to become a better programmer. Maybe my frustration meeting a lot of job interview candidates who had no clue in some of the very essential areas but who still thought they were senior developers was also a motivation factor.
+
+
+{%section |Technicalities%}
+
+
+At the start, I teased that I will tell you some secrets. Here they are.
+
+Packt wanted me to write the book using Microsoft Word or using an online Wordpress based WYSIWYG editor. Wordpress has markup editing possibility, but this was switched off. I asked that they switch it on, but I was refused. So I decided to use Microsoft Word when I created the first edition of the book. The result was disastrous. The code samples copied from the actual source were reformatted during the editing process somewhere in the hands of the editors. Some of the formatting change made the code hard to read. Some of the changes were simply wrong, like removing all the spaces between the word `int` and the variable name `n` resulting `intn`.
+
+When I started the second edition I decided to hack the system. By that time I was practicing a bit with Python and I created the Pyama project that can fetch code fragments from the source directories and it can insert it into Markdown files overriding the old versions. I also created a script that converted the special Wordpress flavor HTML into Markdown and back. The first edition of my book was converted by Packt into this Wordpress format.
+
+When I opened a chapter with the WYSIWYG editor I pressed F12 to get to the debug mode and I used "edit HTML" on the WYSIWYG form to copy the HTML and paste it into a text file. I converted the input HTML to Markdown and I worked on the Markdown version. I like to work in a way that I edit the markup and at the same time, I can see the rendered page. When a chapter was ready I converted it back to HTML and I used the same debug mode to paste the code back. It worked. Packt did not know it.
+
+
+{%section |Summary%}
+
+
+I believe that I wrote a book, which can be used professionally to learn programming and a bit also Java 11. As I wrote at the start of the first chapter:
+
+[quote]
+____
+It is like going through a path in a forest. You can focus on the gravel of the road but it is pointless. Instead, you can enjoy the view, the trees, the birds, and the environment around you, which is more enjoyable. This book is similar as I won't be focusing only on the language. From time to time, I will cover topics that are close to the road and will give you some overview and directions on where you can go further after you finish this book. I will not only teach you the language but also talk a bit about algorithms, object-oriented programming principles, tools that surround Java development, and how professionals work. This will be mixed with the coding examples that we will follow.
+____
+
+
+=== Comments imported from Wordpress
+
+
+*savanrajput* 2021-04-27 07:17:30
+{%@comment id: 30319 %}
+{%@comment author_email: savanrajput1185@gmail.com %}
+{%@comment author_url: http://technologybookspublication.wordpress.com %}
+{%@comment author_IP: 113.193.198.152 %}
+{%@comment date_gmt: 2021-04-27 06:17:30 %}
+[quote]
+____
+Hello , your blog is informative and very help full for beginners , thank you for sharing it .
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 203270583 %}

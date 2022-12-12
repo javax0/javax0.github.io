@@ -1,0 +1,91 @@
+---
+title: "Creating a Video Tutorial" 
+layout: posta
+comments: on
+---
+
+I usually write technical articles here. This article is an exception. I do not know if this is a checked exception or not though. I do not even know if this really is an exception or rather an error or just something throwable. (I am just fooling around with the different Java exception types only because I am such a fun guy and also because this is a Java blog, so it SHOULD, as defined in rfc2119, have some words about Java.)
+
+This article is about how I create video tutorials. I have created a few. Not many. The implication of the amount is that what I tell you here is not the ultima ratio. I am almost sure that in many things I am wrong and I am open to criticism. Just be polite: a few people actually read this blog, including the comments.
+
+I created screen video recording as product documentation when I was running my own company ten years ago. I also created some as a training for my current employer, EPAM, and also for this blog and for PACKT. (Yes, this part of the article is a commercial, please go and subscribe and learn link:https://www.packtpub.com/application-development/java-9-new-features-deep-dive-video[Java 9 new features] from me listening to link:https://www.packtpub.com/application-development/java-9-new-features-deep-dive-video[Java 9 New Features Deep Dive [Video]].)
+
+
+== 1. Length
+
+
+The length of a video should be 5 to 10 minutes. The shorter the better. I was worried at first about not being able to fill these time frames. But it is easy. I usually struggle with the opposite. Sometimes I can not make the video as short as I would like to.
+
+
+== 2. Presentation
+
+
+Many times I create a presentation to highlight what I will talk about during the demonstration. This is important. These visuals help the audience get the content and understand what they can expect in the coming five or ten minutes. In other cases, the presentation itself is the main attraction. I usually use Microsoft PowerPoint simply because that is what I have the most experience with and it is available both on Windows and OSX.
+
+
+== 3. Screen Recording
+
+
+I use OSX and iShowU Instant. I record video in HD format these days and I also use an external monitor attached to my mbp. The recording control is on the built-in display of the mbp, which is a bit higher resolution than HD and the recorded scene is running on the external screen.
+
+I record applications maximized and if possible set to full screen. There is no reason to show the little "minimize, maximize, close" icons or the application frame. This is equally true on OSX, Linux or Windows.
+
+When you do something on the screen do not explain it while doing it. Explain it before and then do it. The reason for that is that this way the keyboard and mouse noise is separated from the talk and can be muted. Also, when you type silently you have the option later while editing the video to speed up the typing. The audience gets bored seeing how the typed letters come up one after the other. You can simply speed it up for a longer typing ten times even. They will see that this is sped up, but that is not a problem unless you want to demonstrate the speed of something.
+
+
+== 4. Voice Recording
+
+
+I live in a little, peaceful Swiss dorf (village). The road is near and the airplanes landing to Kloten (ZRH) just fly above the house, so the voice recording environment is not ideal, but around 10pm it is acceptable. In my former (Budapest) location, I could not record without noise. So the first thing is that you need a very quiet environment. Perhaps this is the most costly investment, but it also serves other purposes: it boosts your sleep, irons your nerves. Peace is invaluable, world peace... you know.
+
+When you consider the noise, do not only rely on your ears. I have a neighbor who is a professional drum player. Switzerland has strict noise regulation and these guys living here mean it: he is using some special drum set that suppresses the sound a lot. I am 52 and it means my hearing started to slowly decay. I would not have noticed that he is playing the drum sometimes till 11pm (which is strictly illegal, you can do the noisy activity until something like 8pm) unless I started recording. The microphone was recording it and I could hear it in the headset attached to the mic.
+
+I also realized through the headset that the table and the chair is a huge source of the noise. PACKT supports content creators (at least they supported me) with some PDFs that give some very practical technical advice and the chair was mentioned there. Table was not. Do not lean on the table when recording. Better yet, do not even touch it.
+
+The second important thing is the microphone. I tried to use the built-in mic of my MacBook Pro, which is exceptionally good for things like Skype, ad-hoc recording, recording a meeting, but not sufficient for tutorial recording. I bought an external microphone for 28CHF but it was not good enough. It was noisy. The one that I finally found is sufficient is a link:https://www.zoom-na.com/products/field-video-recording/field-recording/zoom-h2n-handy-recorder[Zoom H2n] recorder that also works as a USB microphone.
+
+It stands on my desk on a tripod. I usually put a pillow between the mic and the notebook, so the noise of the vent is dumped and I also moved the external HDD under the table. The pillow thing was coming from one of the PACKT materials and it is a great idea: it works and it is simple. The HDD now stands on the floor on a cork wood base (originally it was some IKEA cooking thing) which is put on top of a thick, folded (multiple times) cloth. Even though the noise of it is almost inaudible I disconnect it when I do the recording. That also prevents a backup firing off while recording eating the CPU off from the screen recorder, which itself is not a CPU hog to my surprise, but that is a different story. Here we talk about the noise (sic) recording. Btw: while recording also disable the network, unless you want to demonstrate something that needs it. You do not want to record notification popups.
+
+While I talk I attach a BOSE Q25 headset directly to the mic and through that I hear my own voice amplified. Because you hear your own voice from inside through your bones when you talk it sounds totally different when you listen to the recording. With the headset, the voice leaving my mouth is amplified and with active noise cancellation, I hear myself more from outside only through the microphone. It helps me to articulate better and also to recognize when my tongue twists.
+
+
+== 5. Talking
+
+
+I had to realize that I have to talk slow. I mean really slow. And as far as I know, most people who record voice run in the same shoe. When you record something, slow down your talk and when you feel that this is ridiculously slow then it probably is just okay.
+
+When your tongue twists or you just realize that you made a mistake in a sentence: do not correct the part like you would do in a live presentation. Stop. Take a breath. Think. Wait 5 seconds or more. Take your time and restart from the start of the last, erroneous sentence. The 5 seconds helps you to think about where to restart from, but this is also something easy to notice on the waveform when the recorded video is edited. If there is a pause in the voice it probably is something to cut off. I also hit the table with my palm, which makes a noise overloading the microphone and is a clearly visible peak on the waveform. You can also clap your hands or use a whistle. May seem ridiculous first.
+
+
+== 6. Recording face
+
+
+You may want to record your face while you talk about some slides. This is good for the audience, it makes your presentation more personal. I use an external webcam for this purpose. Although iShowU Instant can put the video input on the recorded screen as a picture in the picture, I decided to record the video input separately. On OSX I can record simultaneous screen using iShowU and the video input using PhotoBooth. That way both inputs will have the same audio recorded from the same microphone. This helps to put the two videos in sync when editing and then one of the audio (presumably the one from the presentation, as it is the one less sensitive to slipped audio) can be deleted.
+
+This way it is also possible to put the PIP face at different locations although I do not recommend that you move it a lot around. But it can many times be removed from the screen. For example, if you record slides as well as demo code then you can show your talking head on the slides and hide it when showing code demo on the screen.
+
+When you talk you have to face the camera. It is difficult because you want to talk about a slide that is not in the camera. It is on a screen that is just at the side of the camera. The bad news is that the audience will see that you are not looking into their eyes (which is the camera). You HAVE TO look into the camera.
+
+I was told to look at the slide, read it and then look into the camera and say the text again and then cut it off during the editing phase. It did not work. What worked was that I created a teller machine from a cardboard box, picture glass, and black paint. I also bought for something like 5$ a teller application that runs on my iPad and is reflected from the glass, which is set 45 degrees in front of the webcam. It all stands on a tripod on the table.
+
+
+== 7. Video Background
+
+
+I use a curtain behind my chair to have an ambient background. There is nothing wrong with a room in the background, but it may cause some problems.
+
+A clock on the wall will show that you recorded the video in several steps. It will jump back and forth and it is distracting for the audience. It is also bad when some background items, chairs, tables, etc. jump between different cuts of the video.
+
+
+== 8. Video Editing
+
+
+To edit the video I use iMovie. This comes free with the operating system on a mac and has enough functionalities to edit a technical video. Sometimes I feel I lack some features, which are available in professional video editing software products but later I realize that I do not need them.
+
+I value the Kern Burns cropping functionality very much. This was originally invented to show still pictures in a dynamic, moving way in a movie. When doing screen capture I can use this functionality to move the focus to the area of the screen, (usually showing the IDE when programming Java) that is important from the demo point of view.
+
+
+== 9. Takeaway
+
+
+There are many ways of doing tutorial videos, and I cannot tell what will fit your personality, topic, and audience. I wrote down my experience and I hope you can find something useful in it for you.

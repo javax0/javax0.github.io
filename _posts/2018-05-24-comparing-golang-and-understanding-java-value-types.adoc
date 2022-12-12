@@ -1,0 +1,22 @@
+---
+title: "Comparing Golang and understanding Java Value Types" 
+layout: posta
+comments: on
+---
+
+I start to talk about
+
+[quote]
+____
+
+Comparing Golang and understanding Java Value Types
+
+The talk compares the memory model of the Go programming language to the memory model of Java. This comparison will help Java developers understand the planned Java 10 feature: Value Types. The talk will describe how these are implemented in Go, and why they so much needed for the Java language. At the end of the presentation, the audience will also understand why Value Types cannot be extended, immutable and passed always by value.
+This talk is very lucrative for the audience because it is about Go language as well as a future of the upcoming Java version that is not available yet. Both are a gem for the audience.
+
+____
+
+
+right now.
+
+You can look at the slides at https://github.com/verhas/compare-go-java-devdays2018-peter-verhas

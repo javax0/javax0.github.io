@@ -1,0 +1,196 @@
+---
+title: "We do not use UML, we are agile" 
+layout: posta
+comments: on
+---
+
+I have heard many times the sentence(s) in the title and I can not argue with that. These are two independent statements, and it is out of my scope to disagree. Your group does not use link:http://en.wikipedia.org/wiki/Unified_Modeling_Language[UML]. Fact. You are working agile: again: fact. What to argue about? The problem usually is the implied "because" between the two statements. If you say __"We do not use uml BECAUSE we are agile."__ then there is a problem. Not a life threatening issue, but still something to think about again and perhaps get things better. After all agile is all about constant improvement.
+
+UML is a tool that can be used different level, different purposes and there may be some place to use it even when you are working agile. There are link:http://saturnnetwork.wordpress.com/2010/10/22/five-reasons-developers-dont-use-uml-and-six-reasons-to-use-it/[several reasons] why not to use and also why to use UML. My experience for the reasoning why not to use uml lists the same reasons as the article referenced above. You can see yourself that these argument are also very lame. All of them can be summarized as: "I do not know it, therefore I do not use it." All other words are just psychological self-confirmation to push aside the bad feeling for the poor decision not to learn the right tool. Learning new topics is hard and people are inherently lazy to learn new things. Very true. But this is what makes us, experts having good job. Are you an expert?
+
+This is even worse when people learn new things (this time this is about UML) but learn it half-way and do not take the pain to use it properly. Here I list a few examples of extremely bad UML use that you have to avoid by all cost. I personally have seen examples of each.
+
+[quote]
+____
+Intimidate customer BA using UML
+____
+
+
+Once I met a software company who created vast amount of UML diagrams and presented the architecture to the technical people of the customer in this form. This alone was not a problem. The issue with this was that the technical people were aware of UML as such but were now knowledgeable. They just could not read UML and were afraid to admit it. They were afraid to ask, complain about flaws in the design and the architecture documents went approved without significant feedback. This made the architect's life easier for the time, but caused significant headache for the company on the long run. Even though the architecture design is the responsibility of the vendor it is not without reason they are to be approved by the customer. After all: this is a cake baked by the vendor but is eaten by the customer.
+
+[quote]
+____
+Creating UML for the obvious
+____
+
+
+This was very similar to the first one: UML was used to impress the customer. There was an UML model created for each and every class, even the simple utility classes, component, communication models and everything. Then the UML tool created hundreds of pages, redundant PDF documents with all the diagrams that were imaginable generated from the model. Fortunately the PDF was never printed killing trees.
+
+[quote]
+____
+Diagrams UML like
+____
+
+
+I have seen many times diagrams that looked like UML diagrams at the first view. On the second glance you spot some strange notations and then you realize that different diagram elements are mixed in a single diagram, and they are used in totally wrong ways. I have seen many times class diagram elements used to depict relations between modules. What seemed to be inheritance by the notation turned to be a communication from one component denoted as a class to the other by the intention of the designer. The complaint was: __"our drawing tool does not support component diagrams"__. OMG! Use a different tool then! Pencil and paper version 1.0 ?
+
+[quote]
+____
+We know UML
+____
+
+
+__"We know UML."__ The problem was that the members of the team knew UML differently. They sketched something on the white board discussing the architecture but instead of doing the effective work, soon they fiercely argued on a specific line if that is composition, aggregation or a simple relation. C'mon: focus on the real issue.
+
+
+=== 1.1. Conclusion
+
+
+I do not tell you have to use UML. I do recommend though. Learn it a bit. But do not learn it to the extreme. Learn it to use it and not for knowing all the bits of it. (This is true for almost anything.) Do not be shy admitting if you do not understand something. Ask for clarification. If you lack UML knowledge and you are the customer, ask the vendor to setup a workshop for you and explain the notation. If they say: "hey, this is UML" you can bravely say: "Hey, I am the customer."
+
+Do not generate UML documentation, huge, many page PDF files. Whenever you create a document ask yourself the question: who will read it and what is the purpose to read it? If you are the customer, be strict and limit the size of the documentation you are willing to accept and read.
+
+It may happen you use UML "like" drawings, but do not be happy getting drowned into that mud. Learn and strive for the correct use. Other professionals will understand your diagrams if it means what it is meant to mean.
+
+And last, but not least: use UML as a tool and focus on the work to be done. Use UML and be agile.
+
+=== Comments imported from Wordpress
+
+
+*kingbabounebaboune* 2013-08-17 19:03:04
+
+
+
+
+
+[quote]
+____
+Problem starts when people use UML to produce code and believe this to be the grail. When in fact they use a subset of UML that they selected for their needs and their documentation purposes.  As a modeling language for generating code, UML is flawed and too complex to use for a project vs a programming languages made up of words and semantics.  Yes, it is good for illustration when (As pointed out) people understand it. To express the various flows of a real complete (code level) project requires too many different UML diagrams. This ends up as being so many pictures that it is simply not human readable. Books (words and semantics) are used to tell stories, I doubt a series of diagrams can do better in an efficient way.  At least that is my perception.
+____
+
+
+
+
+
+*Tom* 2013-08-18 21:57:20
+
+
+
+
+
+[quote]
+____
+Peter, this is a very interesting post. Thousands of software architects couldn't agree more with your arguments. Congrats for your outspokenness.
+____
+
+
+
+
+
+*Tom* 2013-08-18 22:05:35
+
+
+
+
+
+[quote]
+____
+I understand what you mean but the first goal of UML is neither to produce code nor to model the code. It 's mainly a communication tool used at a higher level of abstraction. Diagrams shouldn't tell the whole story with all the details; they rather should give the plot so that you can enjoy the sentences :)
+____
+
+
+
+
+
+*kingbaboune* 2013-08-19 07:32:52
+
+
+
+
+
+[quote]
+____
+@Tom: Exactly. UML should communicate the plot.
+____
+
+
+
+
+
+*Peter Verhas* 2013-08-19 08:04:31
+
+
+
+
+
+[quote]
+____
+Thanks.
+____
+
+
+
+
+
+*lmm* 2014-03-25 15:46:12
+
+
+
+
+
+[quote]
+____
+I have seen plenty of bad UML but I've never seen good UML. How many chances am I supposed to give it before I give up and conclude that the technology is fundamentally broken?
+
+UML seems to be opposed to agile because as far as I can see it's only ever used for non-functional requirements, which are anti-agile. It's not a good tool for expressing functional/business requirements. It's not a good tool for expressing technical design, which in any case should not be done ahead of time - the best, agile way is to allow design to be emergent, arising from test-driven implementation of requirements rather than architecting up front.
+____
+
+
+
+
+
+*Peter Verhas* 2014-03-25 20:29:25
+
+
+
+
+
+[quote]
+____
+You are unlucky you have not seen any good UML.
+
+Agile or not, sometimes you need to draw. When you communicate with your co-workers, with your customers you talk, you write and sometimes you draw pictures. A picture is worth a thousand words. When drawing it is better to use some standard and a standard toolset. For example draw UML using a pencil on paper: standard format and standard toolset. I recommend link:http://martinfowler.com/books/uml.html[UML Distilled by Martin Fowler].
+____
+
+
+
+
+
+*lmm* 2014-03-26 18:06:23
+
+
+
+
+
+[quote]
+____
+I think if you're using pencil and paper you're not using what most developers understand by UML and what we tend to object to.
+____
+
+
+
+
+
+*Peter Verhas* 2014-03-26 18:34:06
+
+
+
+
+
+[quote]
+____
+Have a look at UML Distilled. It is short, practical, focusing on real use. It discusses the levels. Most of the time I use whiteboard, Visual-Paradigm, MagicDraw UML, EA or MS Visio. Whatever is available for the project. I hardly ever use UML more than sketching. That is where, in my opinion, UML adds the most value.
+____
+
+
+

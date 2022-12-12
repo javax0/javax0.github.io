@@ -1,0 +1,428 @@
+---
+title: "Tools to keep JavaDoc up-to-date" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+There are many projects where the documentation is not up-to-date. It is easy to forget to change the documentation after the code was changed. The reason is fairly understandable. There is a change in the code, then debug, then hopefully change in the tests (or the other way around in the reverse order if you are more TDD) and then the joy of a new functioning version and the happiness about the new release makes you forget to perform the cumbersome task updating the documentation.
+
+In this article, I will show an example, how to ease the process and ensure that the documentation is at least more up-to-date.
+
+
+{%section |The tool%}
+
+
+The tool I use in this article is Java::Geci, which is a code generation framework. The original design aim of Java::Geci is to provide a framework in which, it is extremely easy to write code generators that inject code into already existing Java source code or generate new Java source files. Hence the name: GEnerate Code Inline or GEnerate Code, Inject.
+
+What does a code generation support tool do when we talk about documentation?
+
+On the highest level of the framework, the source code is just a text file. Documentation, like JavaDoc, is text. Documentation in the source directory structure, like markdown files, is text. Copying and transforming parts of the text to other location is a special form of code generation. This is exactly what we will do.
+
+
+{%section |Two uses for documentation%}
+
+
+There are several ways Java::Geci supports documentation. I will describe one of these in this article.
+
+The way is to locate some lines in the unit tests and copy the content after possible transformation into the JavaDoc. I will demonstrate this using a sample from the `apache.commons.lang` project current master version after release 3.9. This project is fairly well documented although there is room for improvement. This improvement has to be performed with as little human effort as possible. (Not because we are lazy, but rather because the human effort is error-prone.)
+
+[quote]
+____
+It is important to understand that Java::Geci is not a preprocessing tool. The code gets into the actual source code and it gets updated. Java::Geci does not eliminate the redundancy of copy-paste code and text. It manages it and ensures that the code remains copied and created over and over again whenever something inducing change in the result happens.
+____
+
+
+
+{%section |How Java::Geci works in general%}
+
+
+If you have already heard about Java::Geci you can skip this chapter. For the others here is the brief structure of the framework.
+
+Java::Geci generates code when the unit tests run. Java::Geci actually runs as one or more unit tests. There is a fluent API to configure the framework. This essentially means that a unit test that runs generators is one single assertion statement that creates a new `Geci` object, calls the configuration methods and then calls `generate()`. This method, `generate()` returns true when it has generated something. If all the code it generated is exactly the same as it was already in the source files then it returns `false`. Using an `Assertion.assertFalse` around it will fail the test in case there was any change in the source code. Just run the compilation and the tests again.
+
+The framework collects all the files that were configured to be collected and invokes the configured and registered code generators. The code generators work with abstract `Source` and `Segment` objects that represent the source files and the lines in the source files that may be overwritten by generated code. When all the generators have finished their work the framework collects all segments, inserts them into `Source` objects and if any of them significantly changed then it updates the file.
+
+Finally, the framework returns to the unit test code that started it. The return value is `true` if there was any source code file updated and `false` otherwise.
+
+
+{%section |Examples into JavaDoc%}
+
+
+The JavaDoc example is to automatically include examples into the documentation of the method `org.apache.commons.lang3.ClassUtils.getAbbreviatedName()` in the Apache Commons Lang3 library. The documentation currently in the `master` branch is:
+
+[source,java]
+----
+/**
+*
+
+Gets the abbreviated class name from a {@code String}.
+
+*
+*
+
+The string passed in is assumed to be a class name - it is not checked.
+
+*
+*
+
+The abbreviation algorithm will shorten the class name, usually without
+* significant loss of meaning.
+
+*
+
+The abbreviated class name will always include the complete package hierarchy.
+* If enough space is available, rightmost sub-packages will be displayed in full
+* length.
+
+*
+*
+
+**
+*
+*
+*
+*
+*
+<table><caption>Examples</caption>
+<tbody>
+<tr>
+<td>className</td>
+<td>len</td>
+<td>return</td>
+<td>null</td>
+<td>1</td>
+<td>""</td>
+<td>"java.lang.String"</td>
+<td>5</td>
+<td>"j.l.String"</td>
+<td>"java.lang.String"</td>
+<td>15</td>
+<td>"j.lang.String"</td>
+<td>"java.lang.String"</td>
+<td>30</td>
+<td>"java.lang.String"</td>
+</tr>
+</tbody>
+</table>
+* @param className the className to get the abbreviated name for, may be {@code null}
+* @param len the desired length of the abbreviated name
+* @return the abbreviated name or an empty string
+* @throws IllegalArgumentException if len <= 0
+* @since 3.4
+*/
+----
+
+
+The problem we want to solve is to automatize the maintenance of the examples. To do that with Java::Geci we have to do three things:
+
+
+    * Add Java::Geci as a dependency to the project
+    * Create a unit test that runs the framework
+    * Mark the part in the unit test, which is the source of the information
+    * replace the manually copied examples text with a Java::Geci `Segment` so that Java::Geci will automatically copy the text from the test there
+
+
+
+{%subsection |Dependency%}
+
+
+Java::Geci is in the Maven Central repository. The current release is `1.2.0`. It has to be added to the project as a test dependency. There is no dependency for the final LANG library just as there is no dependency on JUnit or anything else used for the development. There are two explicit dependencies that have to be added:
+
+[source,text]
+----
+com.javax0.geci
+javageci-docugen
+1.2.0
+test
+
+
+com.javax0.geci
+javageci-core
+1.2.0
+test
+
+----
+
+
+The artifact `javageci-docugen` contains the document handling generators. The artifact `javageci-core` contains the core generators. This artifact also bring the `javageci-engine` and `javageci-api` artifacts. The engine is the framework itself, the API is, well the API.
+
+
+{%subsection |Unit test%}
+
+
+The second change is a new file, `org.apache.commons.lang3.docugen.UpdateJavaDocTest`. This file is a simple and very conventional Unit tests:
+
+[source,java]
+----
+/*
+* Licensed to the Apache Software Foundation (ASF) ...
+*/
+package org.apache.commons.lang3.docugen;
+
+import *;
+
+public class UpdateJavaDocTest {
+
+@Test
+void testUpdateJavaDocFromUnitTests() throws Exception {
+final Geci geci = new Geci();
+int i = 0;
+Assertions.assertFalse(geci.source(Source.maven())
+.register(SnippetCollector.builder().files("\\.java$").phase(i++).build())
+.register(SnippetAppender.builder().files("\\.java$").phase(i++).build())
+.register(SnippetRegex.builder().files("\\.java$").phase(i++).build())
+.register(SnippetTrim.builder().files("\\.java$").phase(i++).build())
+.register(SnippetNumberer.builder().files("\\.java$").phase(i++).build())
+.register(SnipetLineSkipper.builder().files("\\.java$").phase(i++).build())
+.register(MarkdownCodeInserter.builder().files("\\.java$").phase(i++).build())
+.splitHelper("java", new MarkdownSegmentSplitHelper())
+.comparator((orig, gen) -> !orig.equals(gen))
+.generate(),
+geci.failed());
+}
+
+}
+----
+
+
+What we can see here is huge `Assertions.assertFalse` call. First, we create a new `Geci` object and then we tell it where the source files are. Without getting into the details, there are many different ways how the user can specify where the sources are. In this example, we just say that the source files are where they usually are when we use Maven as a build tool.
+
+The next thing we do is that we register the different generators. Generators, especially code generators usually run independent and thus the framework does not guarantee the execution order. In this case, these generators, as we will see later, very much depend on the actions of each other. It is important to have them executed in the correct order. The framework let us achieve this via phases. The generators are asked how many phases they need and in each phase, they are also queried if they need to be invoked or not. Each generator object is created using a builder pattern and in this, each is told which phase it should run. When a generator is configured to run in phase `i` (calling `.phase(i)`) then it will tell the framework that it will need at least `i` phases and for phases `1..i-1` it will be inactive. This way the configuration guarantees that the generators run in the following order:
+
+
+    * SnippetCollector
+    * SnippetAppender
+    * SnippetRegex
+    * SnippetTrim
+    * SnippetNumberer
+    * SnipetLineSkipper
+    * MarkdownCodeInserter
+
+
+Technically all these are generators, but they do not "generate" code. The `SnippetCollector` collects the snippets from the source files. `SnippetAppender` can append multiple snippets together, when some sample code needs the text from different parts of the program. `SnippetRegex` can modify the snippets before using regular expressions and replaceAll functionality (we will see that in this example). `SnippetTrim` can remove the leading tabs and spaces from the start of the lines. This is important when the code is deeply tabulated. In this case, simply importing the snipped into the documentation could easily push the actual characters off of the printable area on the right side. `SnippetNumberer` can number snippet lines in case we have some code where the documentation refers to certain lines. `SnipetLineSkipper` can skip certain lines from the code. For example, you can configure it so that the import statements will be skipped.
+
+Finally, the real "generator" that may alter the source code is `MarkdownCodeInserter`. It was created to insert the snippets into the Markdown-formatted files, but it works just as well for Java source files when the text needs to be inserted into a JavaDoc part.
+
+The last two but one configuration calls tell the framework to use the `MarkdownSegmentSplitHelper` and to compare the original lines and those that were created after the code generation using a simple `equals`. `SegmentSplitHelper` objects help the framework to find the segments in the source code. In Java files, the segments are usually and by default between
+
+[source,java]
+----
+//
+----
+
+
+and
+
+[source,java]
+----
+//
+----
+
+
+lines. This helps to separate the manual and the generated code. The editor-fold is also collapsible in all advanced editor so you can focus on the manually created code.
+
+In this case, however, we insert into segments that are inside JavaDoc comments. These JavaDoc comments more like Markdown than Java in the sense that they may contain some markup but also HTML friendly. Very specifically, they may contain XML comments that will not appear in the output document. The segment start in this case, as defined by the `MarkdownSegmentSplitHelper` object is between
+
+[source,java]
+----
+<!-- snip snipName parameters ... -->
+----
+
+
+and
+
+[source,java]
+----
+<!-- end snip -->
+----
+
+
+lines.
+
+The comparator has to be specified for a very specific reason. The framework has two comparators built-in. One is the default comparator that compares the lines one by one and character by character. This is used for all file types except Java. In the case of Java, there is a special comparator used, which recognizes when only a comment was changed or when the code was only reformatted. In this case, we are changing the content of the comment in a Java file, so we need to tell the framework to use the simple comparator or else it will not relaize we updated anything. (It took 30 minutes to debug why it was not updating the files first.)
+
+The final call is to `generate()` that starts the whole process.
+
+
+{%subsection |Mark the code%}
+
+
+The unit test code that documents this method is `org.apache.commons.lang3.ClassUtilsTest.test_getAbbreviatedName_Class()`. This should look like the following:
+
+[source,java]
+----
+@Test
+public void test_getAbbreviatedName_Class() {
+// snippet test_getAbbreviatedName_Class
+assertEquals("", ClassUtils.getAbbreviatedName((Class<?>) null, 1));
+assertEquals("j.l.String", ClassUtils.getAbbreviatedName(String.class, 1));
+assertEquals("j.l.String", ClassUtils.getAbbreviatedName(String.class, 5));
+assertEquals("j.lang.String", ClassUtils.getAbbreviatedName(String.class, 13));
+assertEquals("j.lang.String", ClassUtils.getAbbreviatedName(String.class, 15));
+assertEquals("java.lang.String", ClassUtils.getAbbreviatedName(String.class, 20));
+// end snippet
+}
+----
+
+
+I will not present here the original, because the only difference is that the two `snippet ...` and `end snippet` lines were inserted. These are the triggers for the `SnippetCollector` to collect the lines between them and store them in the "snippet store" (nothing mysterious, practically a big hash map).
+
+
+{%subsection |Define a segment%}
+
+
+The really interesting part is how the JavaDoc is modified. At the start of the article, I already presented the whole code as it is today. The new version is:
+
+[source,java]
+----
+/**
+* Gets the abbreviated class name from a {@code String}.
+*
+* The string passed in is assumed to be a class name - it is not checked.
+*
+* The abbreviation algorithm will shorten the class name, usually without
+* significant loss of meaning.
+* The abbreviated class name will always include the complete package hierarchy.
+* If enough space is available, rightmost sub-packages will be displayed in full
+* length.
+*
+*
+*
+* you can write manually anything here, the code generator will update it when you start it up
+*
+<table><caption>Examples</caption>
+<tbody>
+<tr>
+<td>className</td>
+<td>len</td>
+<td>return</td>
+<!-- snip test_getAbbreviatedName_Class regex="
+replace=&#039;/~s*assertEquals~((.*?)~s*,~s*ClassUtils~.getAbbreviatedName~((.*?)~s*,~s*(~d+)~)~);/*
+</tr><tr>
+<td>{@code $2}</td>
+<td>$3</td>
+<td>{@code $1}</td>
+</tr>
+/&#039; escape=&#039;~&#039;" --><!-- end snip -->
+</tbody>
+</table>
+* @param className the className to get the abbreviated name for, may be {@code null}
+* @param len the desired length of the abbreviated name
+* @return the abbreviated name or an empty string
+* @throws IllegalArgumentException if len <= 0
+* @since 3.4
+*/
+----
+
+
+The important part is where the lines 15...20 are. (You see, sometimes it is important to number the snippet lines.) The line 15 signals the segment start. The name of the segment is `test_getAbbreviatedName_Class` and when there is nothing else defines it will also be used as the name of the snippet to insert into. However, before the snippet gets inserted it is transformed by the `SnippetRegex` generator. It will replace every match of the regular expression
+
+[source,text]
+----
+\s*assertEquals\((.*?)\s*,\s*ClassUtils\.getAbbreviatedName\((.*?)\s*,\s*(\d+)\)\);
+----
+
+
+with the string
+
+[source,text]
+----
+*
+{@code $2}$3{@code $1}
+
+----
+
+
+Since these regular expressions are inside a string that is also inside a string we would need `\\\\` instead of a single `\`. That would make our regular expressions look awful. Therefore the generator `SnippetRegex` can be configured to use some other character of our choice, which is less fence-phenomenon prone. In this example, we use the tilde character and it usually works. What it finally results when we run it is:
+
+[source,text]
+----
+<!-- snip test_getAbbreviatedName_Class regex="
+replace=&#039;/~s*assertEquals~((.*?)~s*,~s*ClassUtils~.getAbbreviatedName~((.*?)~s*,~s*(~d+)~)~);/*
+<tr>
+<td>{@code $2}</td>
+<td>$3</td>
+<td>{@code $1}</td>
+</tr>
+/&#039; escape=&#039;~&#039;" -->
+*
+{@code (Class) null}1{@code ""}
+
+*
+{@code String.class}1{@code "j.l.String"}
+
+*
+{@code String.class}5{@code "j.l.String"}
+
+*
+{@code String.class}13{@code "j.lang.String"}
+
+*
+{@code String.class}15{@code "j.lang.String"}
+
+*
+{@code String.class}20{@code "java.lang.String"}
+
+<!-- end snip -->
+----
+
+
+
+{%section |Summary / Takeaway%}
+
+
+Document updating can be automatized. At first, it is a bit cumbersome. Instead of copying and reformatting the text the developer has to set up a new unit test, mark the snippet, mark the segment, fabricate the transformation using regular expressions. However, when it is done any update is automatic. It is not possible to forget to update the documentation after the unit tests changed.
+
+This is the same approach that we follow when we create unit tests. At first, it is a bit cumbersome to create unit tests instead of just debugging and running the code in an ad-hoc way and see if it really behaves as we expected, looking at the debugger. However, when it is done any update is automatically checked. It is not possible to forget to check an old functionality when the code affecting that changes.
+
+In my opinion documentation maintenance should be as automatized as testing. Generally: anything that can be automatized in software development has to be automatized to save effort and to reduce the errors.
+
+=== Comments imported from Wordpress
+
+
+*Béla Újházi* 2019-09-18 08:40:41
+{%@comment id: 28266 %}
+{%@comment author_email: bela.ujhazi@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 91.120.28.2 %}
+{%@comment date_gmt: 2019-09-18 07:40:41 %}
+[quote]
+____
+This tool naming never gets old :D
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2019-09-18 11:08:53
+{%@comment id: 28267 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 178.197.227.113 %}
+{%@comment date_gmt: 2019-09-18 10:08:53 %}
+[quote]
+____
+The naming may be a source of fun, but it is not the important point.
+
+Also, the release 1.2.0 has a JVM8 backport that is available in the maven central repo with the same coordinates as the main release replacing the `javax0` to `javax1` in the `groupId`.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 28266 %}
+{%@comment user_id: 31131067 %}
+
+*Handling repeated code automatically | Java Deep* 2019-09-25 15:00:13
+{%@comment id: 28310 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2019/09/25/handling-repeated-code-automatically/ %}
+{%@comment author_IP: 192.0.89.230 %}
+{%@comment date_gmt: 2019-09-25 14:00:13 %}
+[quote]
+____
+[&#8230;] Keep JavaDoc up-to-date [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

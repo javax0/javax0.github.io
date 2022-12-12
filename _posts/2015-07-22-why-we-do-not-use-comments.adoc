@@ -1,0 +1,36 @@
+---
+title: "Why we do not use comments" 
+layout: posta
+comments: on
+---
+
+When I learned PASCAL programming at TU Budapest in 1986 there was a preprocessor developed specially for student code. It stopped the compilation process if the number of inline comments was less than the number of executable code. There was a rule: we had to have at least 50% of the code meaningful comments. 30 years passed and now we fight inline comments. Clean code purists evangelize not to have inline comments at all and have unit documentation (JavaDoc in case of Java) only on the interface. Anything else explaining the implementation has to be self explanatory from the code itself.
+
+That time there were even tools that extracted inline comments into documentation partially including the executable code. Can you recall link:https://en.wikipedia.org/wiki/WEB[WEB] and [a]#TANGLE#? That time it seemed to be very exciting to have a language that can be compiled to TeX for documentation purposes and also to PASCAL so the code could be executed. After 30 years we can see that was a dead end street. We do not mix programming and documentation. We rather separate them.
+
+What is the reason for the change of attitude? Computer scientists 30 years ago were "stupid"? Were they advocating something that was and is bad? Or was that good that time and it is good now? Is there something that radically changed in the world and we live in a different world?
+
+I was thinking about this recently and came to the conclusion that the answer is: A bit of both. The word "stupid" is a bit harsh and rude, but stating that computer scientists did not know as much as they do today is agreeable. After all that is development. If the knowledge remained the same it would mean we are at the point where we were 30 years ago. We learned a lot of things related to computer science. Many of these things are related to human science, and should belong to the area of psychology or something alike. That is one side of the dish.
+
+30 years ago comments were demanded. Today we say that comments are bad among other reasons because they become outdated and misleading. 30 years ago the mantra was to keep the comments maintained along with the code and keep it up to date. Easy to say, but people tend not to follow that advice. For a while you can push the mantra and you can try to force people to keep their comments up to date but that is as futile as forbidding sex for a teenager. It is like trying to command gravity to stop and walk home dry while the raindrops float above your head. Human works differently and you can not alter human mankind. What is the solution we seem learned in 30 years? Adapt practice to what human can and will do.
+
+If comments get outdated and misleading then it is better not to have any. On the other hand we need something to compensate for the loss of the feature comments provided. What we aim now is readable code. And this is the other side of the scale. This is something that changed in the world. We have new programming languages and new tools. If you were required to create readable code in FORTRAN or COBOL so that there is no need for inline comments you would be in trouble. Thus there was the strong push to comment. Those days the comments compensated for the language shortage and the outcome average was better including the misleading comments than naked code.
+
+Today we have Java, Scala, C#, Go, Swift, Ruby, Python. All modern languages (sorry for those I missed) that make it possible to express the behavior and implementation in a readable and concise format that does not need comments. We also use unit tests, something that was unknown 30 years ago, which is more a documentation of the implementation than test. We use code to document, and ever less documentation going from waterfall towards agile. I hope that this is a good direction for some time and I look curious to the future.
+
+=== Comments imported from Wordpress
+
+
+*Amir Najam* 2015-09-09 10:44:03
+
+
+
+
+
+[quote]
+____
+Informative post. Actually I am used to doing comments with coding. And this post is helpful for me. Thanks for sharing.
+____
+
+
+

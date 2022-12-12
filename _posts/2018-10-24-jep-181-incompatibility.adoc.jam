@@ -1,0 +1,81 @@
+---
+title: "JEP 181 incompatibility, nesting classes / 2" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+JEP 181 is a nest based access control https://openjdk.java.net/jeps/181. It was introduced in Java 11 and it deliberately introduced an incompatibility with previous versions. This is a good example that being compatible with prior versions of Java is not a rule carved into stone but it rather is to keep the consistency and steady development of the language. In this article, I will look at the change through an example that I came across a few years ago and how Java 11 makes life easier and more consistent in this special case.
+
+[quote]
+____
+Java backward compatibility is limited to features and not to behavior
+____
+
+
+
+{%section |Original Situation%}
+
+
+A few years ago when I wrote the ScriptBasic for Java interpreter that can be extended with Java methods, so that they are available just as if they were written in BASIC I created some unit tests. The unit test class contained some inner class that had some method in it available for the BASIC code. The inner class was static and private as it had nothing to do with any other classes except the test, however, the class and the methods were still accessible to the test code because they resided in the same class. To my dismay, the methods were not accessible via the BASIC programs. When I tried to call the methods through the BASIC interpreter, which itself was using reflective access I got `IllegalAccessException`.
+
+To rectify the situation I created the following simple code after a few hours of debugging and learning:
+
+[source,java]
+----
+package javax0;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class ReflThrow {
+    private class Nested {
+        private void m(){
+            System.out.println("m called");
+        }
+    }
+    public static void main(String[] args)
+            throws NoSuchMethodException,
+            InvocationTargetException,
+            IllegalAccessException {
+        ReflThrow me = new ReflThrow();
+        Nested n = me.new Nested();
+        n.m();
+        Method m = Nested.class.getDeclaredMethod("m");
+        m.invoke(n);
+    }
+}
+----
+
+
+If you run this code with Java N where N < 11 then you get something similar to this:
+
+[source,text]
+----
+m called
+Exception in thread "main" java.lang.IllegalAccessException: class ReflThrow cannot access a member of class ReflThrow$Nested with modifiers "private"
+    at java.base/jdk.internal.reflect.Reflection.throwIllegalAccessException(Reflection.java:423)
+    at java.base/jdk.internal.reflect.Reflection.throwIllegalAccessException(Reflection.java:414)
+...
+----
+
+
+It works, however, fine using Java 11 (and presumably it will also work fine with later versions of Java).
+
+
+{%section |Explanation%}
+
+
+Up to version 11 of Java the JVM did not handle inner and nested classes. All classes in the JVM are top-level classes. The Java compiler creates a specially named top-level class from the inner and nested classes. For example one of the Java compilers may create the class files `ReflThrow.class` and `ReflThrow$Nested.class`. Because they are top level classes for the JVM the code in the class `ReflThrow` cannot invoke the private method `m()` of `Nested` when they are two different top-level classes.
+
+On the Java level, however, when these classes are created from a nested structure it is possible. To make it happen the compiler creates an extra synthetic method inside the class `Nested` that the code in `ReflThrow` can call and this method already inside `Nested` calls `m()`.
+
+The synthetic methods have the modifier `SYNTHETIC` so that the compiler later knows that other code should not “see” those methods. That way invoking the method `m()` works nicely.
+On the other hand, when we try to call the method `m()` using its name and reflective access the route goes directly through the class boundaries without invoking any synthetic method, and because the method is private to the class it is in, the invocation throws the exception.
+
+Java 11 changes this. The JEP 181 incorporated into the already released Java 11 introduces the notion nest. __"Nests allow classes that are logically part of the same code entity, but which are compiled to distinct class files, to access each other's private members without the need for compilers to insert accessibility-broadening bridge methods."__ It simply means that there are classes which are nests and there are classes which belong to a nest. When the code is generated from Java then the top level class is the nesting class and the classes inside are nested. This structure on the JVM level leaves a lot of room for different language structures and does not put an octroi of a Java structure on the execution environment. The JVM is aimed to be polyglot and it is going to be even "more" polyglot with the introduction of the GraalVM in the future. The JVM using this structure simply sees that two classes are in the same nest, thus they can access each other `private` methods, fields and other members. This also means that there are no bridge methods with different access restrictions and that way reflection goes through exactly the same access boundaries as the normal Java call.
+
+
+{%section |Summary / Takeaway%}
+
+
+Java does not change overnight and is mostly backward compatible. Backward compatibility is, however, limited to features and not to behavior. The JEP181 did not, and it never actually intended to reproduce the not absolutely perfect `IllegalAccessException` throwing behavior of the reflective access to nested classes. This behavior was rather an implementation behavior/bug rather than a language feature and was in Java 11 fixed.

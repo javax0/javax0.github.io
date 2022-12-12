@@ -1,0 +1,47 @@
+---
+title: "No loop, do break" 
+layout: posta
+comments: on
+---
+
+image::http://tifyty.files.wordpress.com/2013/01/ax.png?w=300[]Reading the standard of the Java language I found something interesting. Something that implies that `break` can be used without a loop, and not only inside a loop but inside any block. And it does:
+[div]##
+[source,java]
+----
+package wierdo;
+
+public class Wierdo {
+	public static void main(String[] args) {
+		label: {
+			if (args.length == 0)
+				break label;
+			System.out.println("We happy, we have arguments!");
+		}
+		System.out.println("Hello Wierldo!");
+	}
+}
+----
+
+
+Weird, is it? You can read some more link:https://www.google.hu/search?q=java+break+block[on this].
+
+Practical consequences? If you are an architect and you work with subordinates: keep an axe by your side to chop off hands writing those in prod code. If you are coders: mind the architect approaching with the axe. (Just kidding...)
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2013-04-07 08:17:14
+
+
+
+
+
+[quote]
+____
+Yeah. That twisted "goto" emulation has proven handy millions of times in my code ;-)
+You can also "jump backwards" using "continue" to leverage the byte-code "goto" instruction:
+http://stackoverflow.com/a/6373262/521799
+____
+
+
+

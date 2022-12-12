@@ -1,0 +1,208 @@
+---
+title: "Sometimes you need tuples in Java. Or not." 
+layout: posta
+comments: on
+---
+
+link:http://en.wikipedia.org/wiki/Tuple[Tuple] is an ordered list of elements. In Java that is `List<Object>`. Even though it exists there is an extra need from programmers for tuples. You can see that there is a package named link:http://www.javatuples.org/[javatuples] that defines tuples that contain 1, 2 up to 10 elements. (Btw: There is a class in the package named link:http://www.javatuples.org/apidocs/org/javatuples/Unit.html[Unit] that contains one element. WAT?) There is a long link:http://stackoverflow.com/questions/13977236/tuple-unmodifiable-ordered-list-of-elements-data-structure-in-java[discussion on stackoverflow] about tuples.
+
+But where does it come from? Why do some Java programmers long for tuples? The answer is that tuples are part of the language constructs of other languages. They date back to such old ages that only program archeologist can remember. Languages like LISP use tuples. Python is also lurking here from the last century. Why did they implement a feature like tuples? link:http://www.youtube.com/watch?v=0ieicflBG_Y[Perhaps it seemed to be a good idea.] If it was not coming from the past, Java developer would not long for it. Which itself is a hint: do you really need it? But the fact is fact:
+
+[quote]
+____
+Java misses tuples. __THIS IS A LIE!__
+____
+
+
+Which is not true for two reasons:
+
+
+	* There is no need for tuples.
+	* There is a built in type in Java that can handle tuple
+
+
+There is an interface named `java.util.Map.Entry` that is there just to hold two objects and there is a simple implementation `java.util.AbstractMap.SimpleEntry`. Thus Java does not misses tuples and neither do I.
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2015-04-23 17:12:34
+
+
+
+
+
+[quote]
+____
+[quote]
+____
+
+some of them would say or think – ‘duhh it’s from AbstractMap package...
+
+____
+
+
+I would not call that person Java developer. Not even a junior Java developer. Inner classes are essential part of the language. Should be known.
+____
+
+
+
+
+
+*satyr* 2015-04-23 16:40:34
+
+
+
+
+
+[quote]
+____
+I think that using java.util.AbstractMap.SimpleEntry is like demanding that Java developers would think outside the box (some of them would say or think - 'duhh it's from AbstractMap package, it's too complicated, method can return only one object unless it's a collection otherwise it's a violation of OOP'). Furthermore as Martin mentioned it's half-immutable.
+____
+
+
+
+
+
+*Martin Grajcar* 2015-04-22 22:13:15
+
+
+
+
+
+[quote]
+____
+I disagree a bit. There's sometimes a need for a tuple, e.g., when you need to return two or more things and there's no behavior to add. Fortunately, this is pretty rare and writing one more trivial class once per year is not that bad (especially when using project Lombok). Concerning
+
+[source]
+----
+AbstractMap.SimpleEntry
+----
+
+
+, it's half-immutable, which makes it rarely suitable. But all in all, having no tuples in Java is a good thing as it'd be surely overused.
+____
+
+
+
+
+
+*Homer* 2016-10-24 18:32:49
+
+
+
+
+
+[quote]
+____
+Java methods are invoked with tuples. A tuple is a list with a fixed size and fixed type by index position. Entry can only replace a 2-tuple.
+
+If Java supported tuples, you could write:
+(String, String) parsePair(String stuff) { return (..., ...); }
+
+The results could be used directly with method invocation:
+some.method(parsePair(stuff)); // where method(String x, String y);;
+
+Without support for tuples, you have to create a holder type (or hijack something like Entry):
+map.put(e.getKey(), e.getValue())
+____
+
+
+
+
+
+*plchung4* 2017-05-08 11:41:09
+
+
+
+
+
+[quote]
+____
+What about a tuple of 3, 4, 5, 6, ... or more items??
+
+Let's say you want to write quickly a simple program to find some data in CSVs. Of course object arrays would work but sometimes a generic class that supports typed value and some default implementation of hashCode / equals etc would improve productivity a lot more.
+
+That's the reason why the old language python regained so much popularity these days. Not everyone has the luxury of time to design all the architecture carefully and foresee the upcoming 5 years of future developments.
+
+The target result could just be a very small temporary program just fits within one screen. Or some financial institute production support cases we just want quick fix urgently within minutes.
+
+Code first, and refactor later. In some urgent situation we really need this.
+____
+
+
+
+
+
+*Malte* 2017-10-25 13:41:34
+
+
+
+
+
+[quote]
+____
+I feel the need to point out that Python is hardly "lurking here from the last century". It's a modern, powerful language. Whether or not a language has a tuple type has nothing to do with its age, but is a design decision that the creators of the language made. Plenty of modern languages have tuples, others don't, and they all have their reasons.
+
+They are neither good nor bad, it just depends.
+
+Also, if you're worried that AbstractMap.SimpleEntry is "half-immutable" then take a look at AbstractMap.SimpleImmutableEntry.
+____
+
+
+
+
+
+*Peter Verhas* 2017-10-25 13:49:08
+
+
+
+
+
+[quote]
+____
+https://en.wikipedia.org/wiki/History_of_Python
+
+"The programming language Python ... implementation was started in December 1989..."
+____
+
+
+
+
+
+*Malte* 2017-10-25 13:59:09
+
+
+
+
+
+[quote]
+____
+https://en.wikipedia.org/wiki/Java_(programming_language)
+
+"James Gosling, Mike Sheridan, and Patrick Naughton initiated the Java language project in June 1991"
+
+I guess Java is also lurking here from the last century? :P
+Anyway, my point was really that a language's age says very little about its applicability, relevance or whether or not its design is "good". Forgive my knee-jerk reaction.
+____
+
+
+
+
+
+*Peter Verhas* 2017-10-25 14:01:22
+
+
+
+
+
+[quote]
+____
+"I guess Java is also lurking here from the last century?"
+
+Absolutely.
+____
+
+
+

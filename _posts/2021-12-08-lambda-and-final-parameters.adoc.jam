@@ -1,0 +1,269 @@
+---
+title: Lambda and Final Parameters
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+
+{%section |Introduction%}
+
+
+
+
+Lambda expressions can use the variables in the scope of the lambda expression, but only if they are final or effectively final. What is the reason for that? Why is that? It is an interesting question because the answer is not apparent and opinionated.
+
+
+
+There is only one ultimate answer, though: because that is what the Java Language Specification says. But saying that is boring. True, but boring. I prefer the answer that says lambdas can only use final and effectively final local variables because lambdas are not closures.
+
+
+
+In the following, I will discuss what final and effectively final mean, the differences between closures and lambdas, and finally, how we can create closures in Java using lambda expressions. I am not advocating the creation of lambda expression-based closures in Java, nor the abandonment of the idea.
+
+
+
+
+{%section |`final` and effectively final%}
+
+
+
+
+When declaring it, a local variable is final if we use the `final` keyword. The compiler will also require that the variable get a value only once. This value assignment may happen at the location of the declaration but can be a bit later. There can be multiple lines that assign value to the final variable so long as long only one of them can execute for each method invocation. The typical case is when you declare a final variable without assigning value to it, and then you have an `if` statement giving different values in the "then" and the "else" branch.
+
+
+
+Needless to say that the variable has to be initialized before the lambda expression is created.
+
+
+
+A variable is effectively final if not final, but it could be. It gets an assigned value at the declaration or can get a given value only once.
+
+
+
+
+{%section |Life of a Lambda%}
+
+
+
+
+A lambda expression is a kind of anonymous class. The JVM handles it differently, and it is more efficient than an anonymous class, not to mention that it is more readable. However, from our point of view, we can think of it as an inner class.
+
+
+
+[source]
+----
+public class Anon {
+
+    public static Function&lt;Integer, Integer&gt; incrementer(final int step) {
+        return (Integer i) -&gt; i + step;
+    }
+    public static Function&lt;Integer, Integer&gt; anonIncrementer(final int step) {
+        return new Function&lt;Integer, Integer&gt;() {
+            @Override
+            public Integer apply(Integer i) {
+                return i + step;
+            }
+        };
+    }
+}
+----
+
+
+
+
+When the lambda expression is created, the JVM makes an instance of the lambda class that implements the `Function` interface.
+
+
+
+[source]
+----
+var inc = Anon.incrementer(5);
+assertThat(inc.getClass().getName()).startsWith("javax0.blog.lambdas.Anon$$Lambda$");
+assertThat(inc.getClass().getSuperclass().getName()).isEqualTo("java.lang.Object");
+assertThat(inc.getClass().getInterfaces()).hasSize(1);
+assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Function.class);
+----
+
+
+
+
+The JVM will place this object on the heap. In some cases, the compiler may realize that the object cannot get out of the method's scope, and in this case, it may store it in the stack. It is called local variable escape analysis, which can just put any object on the stack, which cannot escape from the method and may die together with the method return. However, for our discussion, we can forget this advanced feature of the Java environment.
+
+
+
+The lambda is created in the method and stored in the heap. It is alive so long as long there is a hard reference to this object and is not collected. If a lambda expression could reference and use a local variable, which lives in the stack, it would need access to something gone after the method returns. It is not possible.
+
+
+
+There are two solutions to overcome this discrepancy. One is what Java follows, creating a copy of the variable's value. The other one is creating a closure.
+
+
+
+
+{%section |Closure and Groovy%}
+
+
+
+
+We will look at Groovy examples when talking about closures. The reason to select Groovy is that it is very close to Java. We will look at some Groovy examples, and for the matter of demonstration, we will use Java-style as much as possible. Groovy is more or less compatible with Java; any Java code can be compiled as a Groovy source. The actual semantic may, however, be different slightly.
+
+
+
+Groovy solved the issue of local variable accessibility creating closures. The closure closes the functionality and the environment into a single object. For example, the following Groovy code:
+
+
+
+[source]
+----
+class MyClosure {
+    static incrementer() {
+        Integer z = 0
+        return { Integer x -&gt; z++; x + z }
+    }
+}
+----
+
+
+
+
+creates a closure, similar to our lambda expression, but it also uses the local variable `z`. This local variable is not final and not effectively final. What happens here is that the compiler creates a new class that contains a field for each local variable used in the closure. A new local variable references an instance of this new class, and the local variable uses all references to this object and its fields. This object, along with the "lambda expression" code, is the closure.
+
+
+
+Since the object is on the heap, it stays alive as long as there is a hard reference. The object, which holds the described function has one, so this object will be available so long as long the closure is alive.
+
+
+
+[source]
+----
+def inc = MyClosure.incrementer();
+assert inc(1) == 2
+assert inc(1) == 3
+assert inc(1) == 4
+----
+
+
+
+
+It is clearly shown in the test execution where the closure increases the `z` amount at each execution.
+
+
+
+Closures are lambdas with state.
+
+
+
+
+{%section |Lambda in Java%}
+
+
+
+
+Java approaches this problem differently. Instead of creating a new synthetic object to hold the referenced local variables, it simply uses the values of the variables. Lambdas seem to use the variables, but they don't. They use only constants copying the value of the variables.
+
+
+
+When designing lambdas, there were two options. I was not part of the team making the decisions, so what I write here is only my opinion, guessing, but it may help you understand why the decision was made. One option could be to copy the variable's value when the lambda is created, not caring about the later value change of the local variable. Could it work? Inevitably. Would it be readable? In many cases, it would not be. What if the variable changes later? Will the lambda use the changed value? No, it will use the copied, frozen value. It is different from how variables work usually.
+
+
+
+Java requires the variable to be final or effectively final to solve this discrepancy. The disturbing case having the different variable value when the lambda is used is avoided.
+
+
+
+When designing language elements, there are always tradeoffs. On one end, some constructs provide great power to the hands of the developers. However, great power requires great responsibility. Most of the developers are not mature enough to take on the responsibility.
+
+
+
+On the other side of the scale are the simple constructs providing less functionality. It may not solve some problems so elegantly, but you also cannot create unreadable code so easily. Java is usually going this way. There has been an obfuscated C contest almost since the language C started. Who can write less readable code in that programming language? Since then, almost all languages started the contest, except two. Java and Perl. In the case of Java, the contest would be dull, as you cannot write obfuscated code in Java. In the case of Perl, the contest is pointless.
+
+
+
+
+{%section |Closure in Java%}
+
+
+
+
+If you want to have a closure in Java, you can create one yourself. The good old way is to use anonymous, or for that matter, regular classes. The other is to mimic the behavior of the Groovy compiler and create a class that encapsulates the closure data.
+
+
+
+The Groovy compiler creates the class for you to enclose the local variables, but nothing stops you from making it manually if you want it in Java. You have to do the same thing. Move every local variable that the closure uses into a class as an instance field.
+
+
+
+[source]
+----
+public static Function&lt;Integer, Integer&gt; incrementer() {
+    AtomicInteger z = new AtomicInteger(0);
+    return x -&gt; {
+        z.set(z.get() + 1);
+        return x + z.get();
+    };
+}
+----
+
+
+
+
+We only had one local variable, `int z`, in our example. We need a class that can hold an int. The class for that is `AtomicInteger`. It does many other things, and it is usually used when concurrent execution is an issue. Because of that, some overhead may slightly affect the performance, which I abjectly ignore for now.
+
+
+
+If there are more than one local variables, we need to craft a class for them.
+
+
+
+[source]
+----
+public static Function&lt;Integer, Integer&gt; incrementer() {
+    class DataHolder{int z; int m;}
+    final var dh = new DataHolder();
+    return x -&gt; {
+        dh.z++;
+        dh.m++;
+        return x + dh.z*dh.m;
+    };
+}
+----
+
+
+
+
+As you can see in this example, we can declare a class even inside the method, and for the cohesion of the code, it is the right place. Eventually, it is easy to see that this approach is working.
+
+
+
+[source]
+----
+final var inc = LambdaComplexClosure.incrementer();
+assertThat(inc.apply(1)).isEqualTo(2);
+assertThat(inc.apply(1)).isEqualTo(5);
+assertThat(inc.apply(1)).isEqualTo(10);
+----
+
+
+
+
+It is, however, questionable if you want to use this approach. Lambdas generally should be stateless. When you need a state that a lambda uses, in other words, when you need a closure, which the language does not directly support, you should use a class.
+
+
+
+
+{%section |Summary%}
+
+
+
+
+* This article discussed why a lambda expression can access only final and effectively final local variables.* We also discussed the reason and how different languages approach this issue.* Finally, we looked at a Groovy example and how Java can mimic this.
+
+
+
+Therefore, if anyone asks you the interview question, why a lambda expression can access only final and effectively final local variables, you will know the answer. Because the Java Language Specification says so. Everything else is speculation.
+
+
+
+You an find the code for this article along with the article text source code at https://github.com/verhas/demo/tree/master/LambdaFinal
+

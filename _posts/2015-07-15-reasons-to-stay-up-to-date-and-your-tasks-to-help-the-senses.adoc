@@ -1,0 +1,40 @@
+---
+title: "Reasons to stay up-to-date and your tasks to help the senses" 
+layout: posta
+comments: on
+---
+
+When you work in an enterprise environment you face many times applications implemented using outdated technology. And most of the developers agree that it is bad. It is bad not only because nobody loves to work with outdated technology but also because it is not good for the enterprise. Outdated technology is never so flexible as the new one, always has more development, maintenance and lost opportunity cost. You certainly have hard time to find an link:http://marketplace.eclipse.org/search/site/struts[eclipse plugin] for the actual version that supports struts 1.0 When there is some bug in the system you are less lucky to find a solution on link:http://stackoverflow.com/search?q=struts[open source boards]. New environments produce easier to use user interface and are more flexible to develop features to follow the ever changing business needs.
+
+All these seem evident and still enterprise environments usually contain a huge load of outdated software. Why? The reason is that change needs demand and the demand many time is lacking. A very good model for corporate change is  from link:http://www.kotterinternational.com/the-8-step-process-for-leading-change/[Kotter] and it says that the first step out of eight steps for change is "sense of urgency". If there is no sense then there is no action. There may be a need, but if people do not feel the urgency they will not change.
+
+I recall an old story when I was working for Digital Equipment Corp. and we were requested to do a USA export training. We did not feel the urgency no matter how well it was explained why it is important for the company. On a day when the deadline was only a few days ahead I, who have not done the online training yet, got an eMail from the country manager: __"Dear Peter, This training is mandatory. You or your successor will do the training. Sincerely: Ferenc"__ At that point I sensed the urgency.
+
+There are other examples, like global warming, environmental pollution or me being overweight, all that will some time cost something more than just jobs or money.
+
+Why did I tell this story? Because the situation in enterprise IT is similar. There is urgency for updating the technology, but there is a lack of sense. We pollute our environment with outdated technology, we face ever increasing (warming up) maintenance costs, more bugs that are harder to fix and many times a fix just causing other problems.
+
+Technology people are in the position to help the senses. Albeit not exactly the same way as our country manager was doing. Those that are aware of the urgency should make documentation, presentation or any other effective way of communication to deliver the knowledge to those that should have the sense (of urgency) and to raise awareness.
+
+If you are a good developer you should be able to communicate this to the business people. You can convince them to update the technology or else you will face dramatic change in the economy of the company. It may cost jobs and it may cost the enterprise in the long run. That is a problem. Not a tragedy, but a problem. If the company is on the decline and the shareholders decide to squeeze the last drops out of it but are reluctant to invest, the decision not to upgrade to a newer technology may be absolutely reasonable. On the other hand, as a developer you may not want to work there. On the other hand if the company is not on decline but the shareholders still decide not to invest into technology then actually the company __is__ on decline. It is just that they are not aware of it. And again as a developer you may not want to work there.
+
+
+
+
+
+=== Comments imported from Wordpress
+
+
+*Laszlo Gazsi* 2015-07-21 17:58:54
+
+
+
+
+
+[quote]
+____
+You have nailed it again, Peter! I currently work in an enterprise environment and this is what hurts the most: we see new technologies appear, but we are not allowed to touch them, even if we know that the hours spent with maintaining the old system would drastically decrease and so would the costs. The reason we are not allowed to use the newer technologies is that tens of thousands of users depend on our tools day by day and the newer versions of the technologies we use may contain yet undiscovered issues. From my experience it is very hard and most of the time even impossible to make a change in an enterprise environment, in which the management usually fears and resists any change.
+____
+
+
+

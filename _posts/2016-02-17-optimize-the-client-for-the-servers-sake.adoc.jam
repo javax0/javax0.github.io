@@ -1,0 +1,75 @@
+---
+title: "Optimize the client for the server's sake" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |The Story%}
+
+
+Once upon a time there was an application that was running on some server and the client functionality was implemented in HTML/CSS and JavaScript. The application was serving trillion (not literally) of users all hanging on the end of some phone lines talking to customers who were usually impatient and needed fast resolution to their problems. Typical call center application where speed is key.
+
+[quote]
+____
+Users were dissatisfied by the speed of the service.
+____
+
+
+No surprise. They usually are.
+
+The application was delivering static resources for the client and JSON encoded data via REST interface. The underlying data structure was using relational database managed from Java using link:http://www.jooq.org/[JOOQ]. All good technologies were applied to make the service as fast as possible, still the performance was not accepted by the users. Users claimed that the system was slow, unusable, annoying, dead as fish frozen in a lake (yes, actually that was one of the expression we got in the ticketing system). We were aware that "unusable" was some exaggeration: after all there were thousands of queries running through the system daily. But "slow" and "annoying" are not measurable terms not to mention "dead fish". First thing first: we had to measure!
+
+
+{%section |Measure%}
+
+
+To address the issue we injected some JavaScript that was measuring the actual performance and it was also reporting the client measured response times to a separate server via some very simple and very fast REST service. We paid attention not to put extra load on the original servers not to make the situation even worse. The result showed that some of the results arrived to the client within 1sec, most of them in 2sec but there was actually a significant tail of the Poisson distribution with some responses as long as 15sec. We also had the measurement on the server side and the results were similar. On the server side we measured approximately 10% more transactions that were lost for the measurement on the client and the Poisson tail on the server contained responses up to 90sec. We did not pay attention to these differences until a bit later.
+
+[quote]
+____
+Meeting the requirements may not be enough.
+____
+
+
+The actual measurements showed that the response times were in-line with the requirement so we created a report showing all good and shiny hoping that this will settle the story. We presented the results to the management and we almost got fired. They were not interested in measurements and response time milisecs. All they cared was user satisfaction. (Btw: At this point I understood why the name "user acceptance test" is not "customer acceptance test".) We were blatantly directed not to mess with some useless measurements but go and stand by some of the users and experience direct eyes how slow the system was. It was a kind of shock. Standing by a user and "feeling" the system speed was not considered to be an engineering approach. But having nothing else in hand we did. And it worked!
+
+
+{%section |Assess%}
+
+
+We could see that some of the users were impatient. They clicked on a button and after a second when nothing happened they clicked on it again. It meant that the browser was sending a request to the server but before the response arrived the communication was cancelled on the client side and the request was sent again. Processing started from zero by the second button press but the wait time for the user accumulated.
+
+
+{%section |Fix%}
+
+
+To help the patience of the users we introduced some hour glass effect on the JavaScript level that signalled to the user that they have pressed a button and that the button press was handled by the application. Also the hour glass was moving "entertaining" the users and we also hid the button (and the whole filled in form) behind a semitransparent DIV layer actually preventing double submit. We did not have high expectations. Afterall it did not make the system faster. The users loved the new feature. First of all they felt that we care. They had been complaining and now we were doing something for them. Interestingly they also felt the system faster because of the rotating hour glass on the screen. End of story? Almost.
+
+
+{%section |Learn%}
+
+
+After a week or so we executed the measurement again. It was not a big effort since all the tooling was already there. What we experienced was that the 10% difference between the number of transactions measured on the client and on the server practically vanished. Probably these were the transactions when the user pressed the button second time. It was a full processing run on the server side, but was not reported by the client since the transaction as well as the measurement on the client side was cancelled. These got eliminated with the improved user interface that also decreased the load on the server by 10%. Which finally resulted slightly faster response times.
+
+__Usual disclaimers apply.__
+
+=== Comments imported from Wordpress
+
+
+*Gábor Lipták* 2016-02-19 21:39:44
+{%@comment id: 9633 %}
+{%@comment author_email: gabor.liptak@gmail.com %}
+{%@comment author_url: https://plus.google.com/117570574002796472922 %}
+{%@comment author_IP: 80.110.81.186 %}
+{%@comment date_gmt: 2016-02-19 20:39:44 %}
+[quote]
+____
+Preventing multiple submits of course is a good idea. It is usually a must for ajax based frontends.
+Uncertainty is the worst for the customers. For example I am going mad, when I call some call center and the following is said: "Our agents are quite busy, please expect a longer wait". If it is clearly said: "You have to wait approximately 10 minutes", it is fine.
+The same is with for example buying something at amazon. They say, that the delivery comes on Wednesday, when it is 80% that it can be delivered on Tuesday. The customer will be happy if it comes on Tuesday, when Wednesday was promised.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

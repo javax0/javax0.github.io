@@ -1,0 +1,114 @@
+---
+title: "A New Era for Determining Equivalence in Java?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+A few month ago I read a blog post of the title link:http://marxsoftware.blogspot.com/2019/04/new-java-equivalence.html?m=1["A New Era for Determining Equivalence in Java?"] and it was somehow very much in line with what I developed that time in my current liebling side project link:https://github.com/verhas/javageci[Java::Geci]. I recommend that you pause reding here and read the original article and then return here, even knowing that telling that a sizable percentage of the readers will not come back. The article is about how to implement `equals()` and `hashCode()` properly in Java and some food for thoughts about how it should be or rather how it should have been. In this article, I will details these for those who do not read the original articles and I also add my thoughts. Partly how using Java::Geci addresses the problems and towards the end of my article how recursive data structures should be handled in `equals()` and in `hashCode()`. (Note that the very day I was reading the article I was also polishing the link:https://github.com/verhas/javageci/blob/master/MAPPER.md[mapper] generator to handle recursive data structures. It was very much resonating with the problems I was actually fixing.)
+
+If you came back or even did not go away reading the original article and even the referenced JDK letter of link:https://github.com/cushon[Liam Miller-Cushon] titled "link:http://cr.openjdk.java.net/~cushon/amber/equivalence.html[Equivalence]" here you can have a short summary from my point of view of the most important statements / learning from those articles:
+
+
+* Generating `equals()` and `hashCode()` is cumbersome manually.
+* There is support in the JDK since Java 7, but still the code for the methods is there and has to be maintained.
+* IDEs can generate code for these methods, but regenerating them is still not an automated process and executing the regeneration manually is a human-error prone maintenance process. (a.k.a. you forget to run the generator)
+
+
+The JDK letter from link:https://github.com/cushon[Liam Miller-Cushon] titled "link:http://cr.openjdk.java.net/~cushon/amber/equivalence.html[Equivalence]" lists the tipical errors in the implementation of `equals()` and `hashCode()`. It is worth reiterating these in a bit more details. (Some text is quoted verbatim.)
+
+
+* __"Overriding Object.equals(), but not hashCode(). (The contract for Object.hashCode states that if two objects are equal, then calling the hashCode() method on each of the two objects must produce the same result. Implementing equals() but not hashCode() makes that unlikely to be the case.)"__ This is a rookie mistake and you may say that you will never commit that. Yes, if you are a senior as a programmer but not yet a senior in your mental capabilities e.g.: forgetting where your dental prostheses are then you will never forget to create `hashCode()` whenever you create `equals()`. Note, however, that this is a very short and temporal period in life. Numerous juniors also form the codebase and the lacking `hashCode()` may always lurk in the deep dark corners of the haystack of the Java code and we have to use all economically viable measures to avoid the non-existence of them.
+* __"Equals implementations that unconditionally recurse."__ This is a common mistake and even seniors many times ignore this possible error. This is hardly ever a problem because the data structures we use are usually not recursive. When they are recursive the careless recursive implementation of the `equals()` or `hashCode()` methods may result in an infinite loop, stack overflow, and other inconvenient things. I will talk about this topic towards the end of the article.
+* __"Comparing mismatched pairs of fields or getters, e.g.  `a == that.a` &amp;&amp; `b == that.a.`"__ This is a topical typing error and it remains unnoticed very easily like topical -> typical.
+* Equals implementations that throw a NullPointerException when given a  null argument. (They should return false instead.)
+* Equals implementations that throw a ClassCastException when given an argument of the wrong type. (They should return false instead.)
+* Implementing `equals()` by delegating to `hashCode()`. (Hashes collide frequently, so this will lead to false positives.)
+* Considering state in `hashCode()` that is not tested in the corresponding  `equals()` method. (Objects that are equal must have the same `hashCode()`.)
+* `equals()` and `hashCode()` implementations that use reference equality or `hashCode()` for array members. (They likely intended value equality and `hashCode()`.)
+* Other bugs (which are out of scope for the proposal): usage errors like comparing two statically different types, or non-local errors with definitions (e.g. overriding equals and changing semantics, breaking substitutability)
+
+
+What can we do to avoid these errors? One possibility is to enhance the language, as the mentioned proposal suggests so that the methods `hashCode()` and `equals()` can be described in a declarative way and the actual implementation, which is routine and cumbersome is done by the compiler. This is a bright future, but we have to wait for it. Java is not famous for incorporating ideas promptly. When something is implemented it is maintained for eternity in a backward-compatible manner. Therefore the choice is to implement it fast, possibly in the wrong way and live with it forever. Or wait till the industry is absolutely sure how it has to be implemented in the language and then and only that time implement it. Java is following the second way of development.
+
+This is a shortage in the language that comes from language evolution as I described in the article link:https://javax0.wordpress.com/2019/09/18/your-code-is-redundant-live-with-it/[Your Code is Redundant...]. A temporal shortage that will be fixed later but as for now, we have to handle this shortage.
+
+One answer to such shortage is code generation and that is where Java::Geci comes into the picture.
+
+Java::Geci is a code generation framework that is very well fitted to create code generators that help reduce code redundancy for domain-specific problems. The code generators run during unit test execution time, which may seem a bit later, as the code was already compiled. This is, however, fixed with the working that the code generating "test" fails if it generated any code and executing the compilation and the tests the second time will not fail anymore.
+
+Side note: This way of working may also be very familiar to any software developer: let's run it again, it may work!
+
+In the case of programming language evolution shortages Java::Geci is just as good, from the technical point of view. There is no technical difference between code generation for domain-specific reasons and code generation for language evolution shortage reason. In the case of language evolution issues, however, it is likely that you will find other code generation tools that also solve the issue. To generate `equals()` and `hashCode()` you can use the integrated development environment. There can be nothing simpler than selecting a menu from the IDE and click: "generate equals and hashCode".
+
+This solves all but one of the above problems, assuming that the generated code is well-behaving. That only one problem is that whenever the code is updated it will not run the code generator again to update the generated code. This is something that IDEs can hardly compete with Java::Geci. It is more steps to set up the Java::Geci framework than just clicking a few menu items. You need the test dependency, you have to create a unit test method and you have to annotate the class that needs the generator, or as an alternative, you have to insert an editor-fold block into the code that will contain the generated code. However, after that, you can forget the generator and you do not need to worry about any of the developers in your team forgetting to regenerate the `equals()` or `hashCode()` method.
+
+
+{%section |Takeaway%}
+
+
+
+* Having the proper `equals()` and `hashCode()` methods for a class is not as simple as it seems. Writing them manually is hardly ever the best approach.
+* Use come tool that generates them and ensure that the generated code and the code generation does not exhibit any of the above common mistakes.
+* If you just need it Q&amp;D then use the IDE menu and generate the methods. On the other hand, if you have a larger codebase, with many developers working on it and it is possible that the code generation may need re-execution then use a tool that automates the execution of the code generation. Example: Java::Geci.
+* Use the newest possibe version of the tools, like Java so that you do not lag behind available technology.
+
+
+=== Comments imported from Wordpress
+
+
+*Iorek* 2019-10-23 17:02:59
+{%@comment id: 28388 %}
+{%@comment author_email: peter.szaszvari@gmail.com %}
+{%@comment author_url: http://petyo61.wordpress.com %}
+{%@comment author_IP: 178.48.203.46 %}
+{%@comment date_gmt: 2019-10-23 16:02:59 %}
+[quote]
+____
+Lombok? Works fine in my opinion. Generater the code, updates when needed, and integrstes to IDE when needed, but works without it too.
+I still could not get used to the name of your library. Whi did you make it so hatd for Hungarians?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17463056 %}
+
+*Peter Verhas* 2019-10-24 10:26:43
+{%@comment id: 28393 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 195.56.119.209 %}
+{%@comment date_gmt: 2019-10-24 09:26:43 %}
+[quote]
+____
+In IT it is not enough that something works. A professional application should be maintained all the time till the end of the life of the application. Lombok has two major problems:
+
+
+* It uses a non-guaranteed API. There is no guarantee that all of a sudden a new version of Java, or just another implementation will continue to work with Lombok. Lombok modifies the AST the compiler builds and this is not a guaranteed feature of the API.
+* Lombok modifies the language. When you use Lombok you need a Java programmer, who also understands the Lombok flavor of the language. It is not a big problem at the moment when there is only one of the kind. But if that technology spreads, how many flavors of Java would you like to have in the industry?
+
+
+Java::Geci does not use any undocumented and accidentally available but not guaranteed API. It generates the code into the source, so you program pure Java and not a flavor.
+
+As for the name of the library: it is documented on the project page
+
+https://github.com/verhas/javageci/blob/master/NAME.md
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 28388 %}
+{%@comment user_id: 31131067 %}
+
+*rupali2* 2020-09-15 04:19:44
+{%@comment id: 29672 %}
+{%@comment author_email: wrupali11@gmail.com %}
+{%@comment author_url: http://clinicalsearch315527547.wordpress.com %}
+{%@comment author_IP: 42.108.242.182 %}
+{%@comment date_gmt: 2020-09-15 03:19:44 %}
+[quote]
+____
+Thank you for posting this information which are related to link:https://www.clariwell.in/best-java-course-in-pune[ Java.]. It is very helpful information.Keep up the good work.
+____
+{%@comment approved: trash %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 191051465 %}

@@ -1,0 +1,22 @@
+---
+title: "Prevent Hacking with Modules in Java 9" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+I start to talk about
+
+[quote]
+____
+
+Prevent Hacking with Modules in Java 9
+
+Before Java 9 there was a lot of room to do tricky things mainly using reflection. Some of these possibilities were even considered as security holes. With the advent of Java 9, the module systems close these secret doors in Java runtime library and also allows library developers to do the same for their libraries.
+The presentation will demonstrate some shocking and funny examples what you could do using Java 8 and then tries to do the same obviously failing using Java 9.
+
+____
+
+
+right now.
+
+You can look at the slides at https://verhas.github.io/preventHack-J9-devdays2018-peter-verhas/#/

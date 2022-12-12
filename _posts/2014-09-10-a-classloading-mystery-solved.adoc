@@ -1,0 +1,153 @@
+---
+title: "A classloading mystery solved" 
+layout: posta
+comments: on
+---
+
+
+== 1. Facing a good old problem
+
+
+I was struggling with some class loading issue on an application server. The libraries were defined as maven dependencies and therefore packaged into the WAR and EAR file. Some of these were also installed into the application server, unfortunately of different version. When we started the application we faced the various exceptions that were related to these types of problems. There is a good link:http://publib.boulder.ibm.com/infocenter/wsdoc400/v6r0/index.jsp?topic=/com.ibm.websphere.iseries.doc/info/ae/ae/rtrb_classload_viewer.html[IBM article] about these exceptions if you want to dig deeper.
+
+Even though we knew that the error was caused by some double defined libraries on the classpath it took more than two hours to investigate which version we really needed, and what JAR to remove.
+
+
+== 2. Same topic by accident on JUG the same week
+
+
+A few days later we participated the link:http://www.jug.ch/html/events/2014/classloader.html[Do you really get Classloaders?] session of Java Users' Society in Zürich. link:http://devangelist.blogspot.hu/[Simon Maple] delivered an extremely good intro about class loaders and went into very deep details from the very start. It was an eye opening session for many. I also have to note that Simon works Zero turnaround and he evangelizes for JRebel. In such a situation a tutorial session is usually biased towards the actual product that is the bread for the tutor. In this case my opinion is that Simon was absolutely gentleman and ethic keeping an appropriate balance.
+
+
+== 3. Creating a tool, to solve mystery
+
+
+=== 3.1. just to create another one
+
+
+A week later I had some time to hobby program that I did not have time for a couple weeks by now and I decided to create a little tool that lists all the classes and JAR files that are on the classpath so investigation can be easier to find duplicates. I tried to rely on the fact that the classloaders are usually instances of `URLClassLoader` and thus the method `getURLs()` can be invoked to get all the directory names and JAR files.
+
+Unit testing in such a situation can be very tricky, since the functionality is strongly tied to the class loader behavior. To be pragmatic I decided to just do some manual testing started from JUnit so long as long the code is experimental. First of all I wanted to see if the concept is worth developing it further. I was planning to execute the test and look at the log statements reporting that there were no duplicate classes and then executing the same run but second time adding some redundant dependencies to the classpath. I was using JUnit 4.10 The version is important in this case.
+
+I executed the unit test from the command line and I saw that there were no duplicate classes, and I was happy. After that I was executing the same test from Eclipse and surprise: I got 21 classes redundantly defined!
+
+[source,text]
+----
+12:41:51.670 DEBUG c.j.c.ClassCollector - There are 21 redundantly defined classes.
+12:41:51.670 DEBUG c.j.c.ClassCollector - Class org/hamcrest/internal/SelfDescribingValue.class is defined 2 times:
+12:41:51.671 DEBUG c.j.c.ClassCollector -   sun.misc.Launcher$AppClassLoader@7ea987ac:file:/Users/verhasp/.m2/repository/junit/junit/4.10/junit-4.10.jar
+12:41:51.671 DEBUG c.j.c.ClassCollector -   sun.misc.Launcher$AppClassLoader@7ea987ac:file:/Users/verhasp/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar
+...
+----
+
+
+Googling a bit I could discover easily that JUnit 4.10 has an extra dependency as shown by maven
+
+[source,text]
+----
+$ mvn dependency:tree
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building clalotils 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ clalotils ---
+[INFO] com.verhas:clalotils:jar:1.0.0-SNAPSHOT
+[INFO] +- junit:junit:jar:4.10:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.1:test
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.7:compile
+[INFO] \- ch.qos.logback:logback-classic:jar:1.1.2:compile
+[INFO]    \- ch.qos.logback:logback-core:jar:1.1.2:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.642s
+[INFO] Finished at: Wed Sep 03 12:44:18 CEST 2014
+[INFO] Final Memory: 13M/220M
+[INFO] ------------------------------------------------------------------------
+----
+
+
+This is actually fixed in 4.11 so if I change the dependency to JUnit 4.11 I do not face the issue. Ok. Half of the mystery solved. But why maven command line execution does not report the classes double defined?
+
+Extending the logging, logging more and more I could spot out a line:
+
+[source,text]
+----
+12:46:19.433 DEBUG c.j.c.ClassCollector - Loading from the jar file /Users/verhasp/github/clalotils/target/surefire/surefirebooter235846110768631567.jar
+----
+
+
+What is in this file? Let's unzip it:
+
+[source,text]
+----
+$ ls -l /Users/verhasp/github/clalotils/target/surefire/surefirebooter235846110768631567.jar
+ls: /Users/verhasp/github/clalotils/target/surefire/surefirebooter235846110768631567.jar: No such file or directory
+----
+
+
+The file does not exist! Seemingly maven creates this JAR file and then deletes it when the execution of the test is finished. Googling again I found the solution.
+
+Java loads the classes from the classpath. The classpath can be defined on the command line but there are other sources for the application class loaders to fetch files from. One such a source is the manifest file of a JAR. The manifest file of a JAR file can define what other JAR files are needed to execute the classes in the JAR file. Maven creates a JAR file that contains nothing else but the manifest file defining the JARs and directories to list the classpath. These JARs and directories are NOT returned by the method `getURLs()`, therefore the (first version) of my little tool did not find the duplicates.
+
+For demonstration purposes I was quick enough to make a copy of the file while the `mvn test` command was running, and got the following output:
+
+[source,text]
+----
+$ unzip /Users/verhasp/github/clalotils/target/surefire/surefirebooter5550254534465369201\ copy.jar 
+Archive:  /Users/verhasp/github/clalotils/target/surefire/surefirebooter5550254534465369201 copy.jar
+  inflating: META-INF/MANIFEST.MF    
+$ cat META-INF/MANIFEST.MF 
+Manifest-Version: 1.0
+Class-Path: file:/Users/verhasp/.m2/repository/org/apache/maven/surefi
+ re/surefire-booter/2.8/surefire-booter-2.8.jar file:/Users/verhasp/.m
+ 2/repository/org/apache/maven/surefire/surefire-api/2.8/surefire-api-
+ 2.8.jar file:/Users/verhasp/github/clalotils/target/test-classes/ fil
+ e:/Users/verhasp/github/clalotils/target/classes/ file:/Users/verhasp
+ /.m2/repository/junit/junit/4.10/junit-4.10.jar file:/Users/verhasp/.
+ m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar fi
+ le:/Users/verhasp/.m2/repository/org/slf4j/slf4j-api/1.7.7/slf4j-api-
+ 1.7.7.jar file:/Users/verhasp/.m2/repository/ch/qos/logback/logback-c
+ lassic/1.1.2/logback-classic-1.1.2.jar file:/Users/verhasp/.m2/reposi
+ tory/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar
+Main-Class: org.apache.maven.surefire.booter.ForkedBooter
+
+$ 
+----
+
+
+It really is nothing else than the manifest file defining the classpath. But why does maven do it? Sonatype people, some of whom I also know personally are clever people. They don't do such a thing just for nothing. The reason to create a temporary JAR file to start the tests is that the length of the command line is link:http://support.microsoft.com/kb/830473[limited on some of the operating systems] that the length of the classpath may exceed. Even though Java (since Java 6) itself link:http://docs.oracle.com/javase/6/docs/technotes/tools/windows/classpath.html[resolves wildcard] characters in the classpath it is not an option to maven. The JAR files are in different directories in the maven repo each having long name. Wildcard resolution is not recursive, there is a good reason for it, and even if it were you just would not like to have all your local repo  on the classpath.
+
+
+== 4. Conclusion
+
+
+
+	* Do not use JUnit 4.10! Use something older or newer, or be prepared for surprises.
+
+	* Understand what a classloader is and how it works, what is does.
+
+	* Use an operating system that has huge limit for the maximum size of a command line length.
+            Or just live with the limitation.
+
+
+Something else? Your ideas?
+
+=== Comments imported from Wordpress
+
+
+*javabealzy* 2014-09-27 16:26:11
+
+
+
+
+
+[quote]
+____
+really surprised !
+____
+
+
+

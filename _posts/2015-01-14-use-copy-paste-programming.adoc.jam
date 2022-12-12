@@ -1,0 +1,144 @@
+---
+title: "Use copy paste programming!" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |Copy paste is bad%}
+
+We hate copy paste. Why? Because the result code is unmaintainable. I get a bug reported from QA, I analyze the code, look at logs, debug, drink a lot of coffee and finally I get to the code that is the root cause of the bug. I fix it, test the use case, release new code to learn next day that a very similar bug appears in a similar use case. In that case a different code runs looking very similar to the one I was mending the day before and I just start to wonder how many more copies of the same code will I face and have to change.
+
+
+{%section |There are things worse than copy paste%}
+
+Now imagine a schnitt, like in movies. Let's jump to another time. I get a bug reported from QA, I analyze the code. I do not understand. There are a lot of small interfaces, abstract classes, deep hierarchies. Many of the classes have no direct relation to business. I ask for help from the developer who created the code, and he starts to explain. In two days I start to understand his idea of coding structure and how he was implementing the code in a strict object oriented way, avoiding the slightest copy/paste. After three days I find the place where a single line has to be modified. Before doing that I plan to create the unit test to fail first, then fix the code and re-run the unit test to see that the same error never comes again. So I open the unit test class testing the one I am going to modify and I do not understand how it works. It is complex and extends another class that uses another and another. This time it is a bit easier to understand since I already know the mindset of the programmer, who created it but it is still a whole day to create the new test. We are already in day #4 following the bug report customers banging on the door for fix.
+
+
+{%section |To copy or not to copy...%}
+
+
+Which is the better approach? Have some copy paste and face that some of the bugs will just appear in other areas or have an extremely strict but deep hierarchy OO design in the code that avoids bug reappearing but has a steep learning curve?
+
+There is no one and only one best ever answer for this question. Neither of them is a good approach. Sometimes some copy paste may be forgivable sin. Deep inheritance structure is difficult to understand. It is usually recommended not to have more than three levels. One may also argue that in the above example the code could have been created with less levels of inheritance without actual copy paste. (Except that the above is not an actual but an imagined example distilled from many years of experience.) The level of repetition may conflict with OO structure. When you have the OO structure you make abstraction. Abstract code is harder to understand. When you copy-paste-modify the modified code will be on the same abstraction level as the one you copied. It may be easier to understand.
+
+
+{%section |Copy unit test code%}
+
+
+When it is about unit tests, I tend to forgive copy paste and verbosity to get simpler structures and readability. But that is because unit tests are more documentation than code. They have to be expressive as you look at it immediately. It should not require investigation and understanding of code structures defined somewhere else to get the point what the test is doing. I tend to agree with a unit test that copies one test and then contains slightly modified code. It still has one of the drawbacks on maintenance: if you change the code the change has to be propagated to all other places as well where the code was copied. But in this case if you forget to propagate the change you will get test errors or failures. This way you can see copy paste as an advantage: when you change the code you are forced to look at, refactor and think through all the test cases that are affected.
+
+
+{%section |Do not copy production code%}
+
+
+These effects that turn drawbacks to advantages in case unit test code may become a nightmare in production code. If you have doubt then do not copy. Do not be afraid to create too steep hierarchy structure. Programmers fall more often into the copy-paste trap than into steep hierarchies. Unless you are a senior programmer I recommend that you avoid copy-paste in production code at all costs as a rule of thumb. If you are senior you do not need my recommendation: you will avoid copy-paste on your own.
+
+
+{%section |Side note%}
+
+
+Just a story: __Some time ago I wrote some mail about copy-paste in a code and I created a typo writing copy-pasta. In a few minutes I got a reply: "Pasta? You are referring to spaghetti code?" Nomen est omen.__
+
+
+=== Comments imported from Wordpress
+
+
+*szjanihu* 2015-01-14 21:16:21
+{%@comment id: 6358 %}
+{%@comment author_email: szjani@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 84.3.236.122 %}
+{%@comment date_gmt: 2015-01-14 20:16:21 %}
+[quote]
+____
+I think intention is the keyword. If there are two places where you can use the same code, but they are completely independent and may differ in the future, then copy&amp;paste not just allowed but a must. Otherwise, if they are related things and a business rule says the same logic must be used there, then the same code have to be used.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 19570253 %}
+
+*Ottó Takács* 2015-01-15 10:52:24
+{%@comment id: 6362 %}
+{%@comment author_email: takacsot@gmail.com %}
+{%@comment author_url: https://plus.google.com/109696442647592159849 %}
+{%@comment author_IP: 136.173.62.145 %}
+{%@comment date_gmt: 2015-01-15 09:52:24 %}
+[quote]
+____
+The article is both good and wrong.
+
+It is all about compromise to resolve contradicting concepts: DRY and decoupling
+
+copy paste is 100% decoupled and 0% DRY
+fully reused code is 100% DRY and 0% decoupled.
+
+It is all about compromise.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Martin Grajcar* 2015-01-14 16:48:28
+{%@comment id: 6356 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 77.47.82.132 %}
+{%@comment date_gmt: 2015-01-14 15:48:28 %}
+[quote]
+____
+Isn't copy-pasta the result of copy-pasting spaghetti code? ;)
+
+Worse than plain copy-paste is copy-paste-modify, where you end up with tons of similar but somehow differing code. When you understand one occurrence, you may think that the others will be easy, but they're not. To make it really evil, the differences are numerous and most of them were created by editing different occurrences in a different way for no reason, but some are important. So you have to deal with more code which is resistant to any unification attempt as you can be never sure why it differs.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Gábor Lipták* 2015-02-20 10:36:24
+{%@comment id: 6777 %}
+{%@comment author_email: gabor.liptak@gmail.com %}
+{%@comment author_url: https://plus.google.com/117570574002796472922 %}
+{%@comment author_IP: 213.185.184.228 %}
+{%@comment date_gmt: 2015-02-20 09:36:24 %}
+[quote]
+____
+Steep hierarchies can be avoided in a lot of cases with preferring composition over inheritance. Unit tests "might" contain copy pasted code, since they should test a unit. If I have a super class for test cases, then I introduce an unwanted dependency between my tests. This case I think copy pasting test code is really better.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Do not unit test bugs | Java Deep* 2015-02-04 16:00:31
+{%@comment id: 6745 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2015/02/04/do-not-unit-test-bugs/ %}
+{%@comment author_IP: 207.198.101.32 %}
+{%@comment date_gmt: 2015-02-04 15:00:31 %}
+[quote]
+____
+[&#8230;] Why something would be good in unit testing when this is not good in programming. One thing is that it is not always the way like that, and the other is that the same mistake may not be so obvious when we create unit [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter* 2015-01-25 22:35:24
+{%@comment id: 6710 %}
+{%@comment author_email: fodpeter@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 80.218.32.7 %}
+{%@comment date_gmt: 2015-01-25 21:35:24 %}
+[quote]
+____
+Sometimes when I watch people working, I think the copy-paste shortcut was invented by the devil.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

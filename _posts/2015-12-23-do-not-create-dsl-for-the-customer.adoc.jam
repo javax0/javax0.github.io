@@ -1,0 +1,84 @@
+---
+title: "Do Not Create DSL for the Customer" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Domain Specific Language (DSL) solutions are many times created with the intent to give a tool to the hands of the customer representatives (business people) to do the configuration of the application on their own. Most of these attempts fail miserably: the DSL ends in the hands of the developers. (Sometimes there can be exceptions those I have never experienced.) Why can't business people use DSL?
+
+That is because
+
+[quote]
+____
+customers are stupid.
+____
+
+
+ After all this is the rule number one when you are working in a support organization on L1 level. And it will never change. So long as long "never" means the time until you are the customer in a situation. In that case 
+
+[quote]
+____
+the customer is always right.
+____
+
+
+Right? Although it may seem funny, stupid or exagarating both of these ideas have some background and can be true to some limit no matter how contradicting they are.
+ 
+The harsh and offending formulation "customers are stupid" comes from the fact that customers are not expert in your area. If you are a mechanic your customers do not know about the injectors and the valve settings. They just want the car running from A to B. If you are plumber your customers just want to have a shower and drink fresh water but they are not really interested nor knowledgable about fittings. If you are electrician your customers just want light and wiring is an unavoidable nuisance.
+ 
+Customers are not stupid. They just see the world from a different angle and they do not know your profession. And this is very good, otherwise you would be jobless.
+ 
+On the other side of the scale customers are not entirely right all the times. It is just the fact that they have the money you want to work for and if they are not satisfied they will not pay. 
+
+[quote]
+____
+Customers pay for the value they get and not for the work you do.
+____
+
+
+ Generally: you have to find a job where you can create great value with minimal work. Some people are good at it some are not that good.
+ 
+You can fix their cars but it has to be a value for them. If you just refill the water in the screenwash: that is not a huge value as compared to the effort. They could do it themselves and actually today they do. Likewise if you are a plumber your service is not requested each time the client wants the water to run. Similarly there is no need for an electrician to switch the light on and off.
+ 
+This is the idea of DSL. A switch on the wall is a DSL. Does it work?
+ 
+Why do most of the DSL projects fail then?
+ 
+What I see is that most of these project implement first the switch on the wall and the outlet to plug in the TV, washing machine and so on but then they start to go on and try to invent other tools that would support the reorganization of the wiring. Someting like a cross connection table at the electric center of the house where the customer can plug in wires to have 12V direct current in some of the outlets, 120V alternating current in other outlets and 220V in the guest room when visitors come from Europe.
+ 
+I hope you get the point: DSL solutions become just too complex for the customers. First it starts off with a simple text file. Later on it is an Excell table. Then a whole buch of sheets with many columns. Even later somehow scripts emerge that help the editing and the conistency maintenance of the data. And it all supposed to be maintained by the customer.
+
+The house will burn down! Call the firebrigade!
+ 
+And you do call the firebrigade and you realize that you, as a programmer do nothing but edit XLS files and maintain scripts that edit XLS files and fix bugs that were introduced by the customer. To avoid that you invent new XLS files that the customers fills in and that the developers use as a definition manually entering, copy pasting data to the XLS that controls the application. (Btw: Excell could be anything else, some other tool, but it is just the fact of life: it is Excell.)
+ 
+You wanted to focus on more advanced programming tasks and offload the everyday burden of configuration and you ended up editing XLS 10 hours a day. You made the right choice, didn't?
+ 
+So what is the right way to do it? Are DSLs doomed and should not be created?
+ 
+The fact is that you can create DSL for the customer but they have to be as simple as a light switch or a tap. You can build DSL that is more complex but do not expect a customer to use it. Layer the tasks, and separate who can do what so that everybody is working on tasks where he/she can have the most added value.
+
+Yes, this is a simple advice that is hard to execute. But we can try.
+ 
+ 
+ 
+
+=== Comments imported from Wordpress
+
+
+*tamasrev* 2015-12-23 17:29:01
+{%@comment id: 9399 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.99.48.140 %}
+{%@comment date_gmt: 2015-12-23 16:29:01 %}
+[quote]
+____
+Just a side note: being always right means being insane. Since it cuts you off the feedback cycle. So calling the customer 'stupid' is a euphemism.
+
+Otherwise I *mostly agree. Only mostly because I happen to work on a project where accountant are using excel tables to define some accountant stuff that I hardly understand. They've been operating like this for 20 years and they are fine with it. However, this is the 1st such example in my career.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

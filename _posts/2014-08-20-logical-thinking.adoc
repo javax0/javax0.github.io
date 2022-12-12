@@ -1,0 +1,19 @@
+---
+title: "Logical thinking..." 
+layout: posta
+comments: on
+---
+
+[quote]
+____
+"The fact that logical thinking is part of the job description of a programmer does not imply that others should not practice that."
+____
+
+
+This was a very witty comment on a Hungarian newsletter focusing on Java. The actual issue was about how to handle a SOAP message that is 1.8GB and has to be handled once a day. The issue was around checking the correctness of the message against some predefined XSD and then parsing the content and do some functionality controlled by the content.
+
+This is a nice task and though I had no practical experience with a SOAP message of that huge size I recommended to do some benchmark on a machine which fits more or less the size of the memory and CPU of the production machine no matter what software stack is selected. These days a machine with 16GB or more memory is not so rare and one may be able to handle the 1.8GB SOAP in memory even if the overhead of JVM and Java were huge. (Which I do not say is, but it could be. If you are interested: you can measure and publish an article about that, different story.)
+
+Some of the commenters followed a different pattern. They, the cleverer ones, suggested that perhaps the developer has to ask the business analyst (BA) about the details. It may not necessarily be the best solution from the business point of view to transfer such huge beasts over SOAP. What was the business reason to use SOAP? What was the business reason to use XML? What is the business benefit? What are the business goals? Business goals are rarely related to SOAP or XML. They are tools one (several) level lower in the solution chain.
+
+When the business analyst gets the requirements from the business people, she should not just blindly pass it on. We, developers expect them to think a bit of technology. They are the bridge between the business people and the developers. Some of the BAs are very experienced technically and are eager to learn. Probably they are the ones that are also eager to learn on the other side: how the business work. Some BAs are less technical but still do their job. A SOAP message of 1.8GB should ring the warning bell even for a BA? Or not?

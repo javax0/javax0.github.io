@@ -1,0 +1,26 @@
+---
+title: "Constructors, superconstructors and Swift" 
+layout: posta
+comments: on
+---
+
+Recently I was looking at the language tutorial of Swift. It is totally different from Java. It resembles more to C++ in its structure. It is compiled code, no VM, no garbage collection (it uses reference counting that is more like C++ smart pointers). At the same time it is a modern language that tries to get all the good constructs from other languages. Some part of the tutorial is easy to read when the construct is similar to Java. In that case terminology and the way the language designer was thinking is the same as in Java that I know well. In other cases the approach is totally different. In that case it is harder to understand the language construct but the same time there is some intellectual reward.
+
+One such aspect is class constructor. It has lots of similarities to Java constructors. The functionality of the constructor is the same as  in Java: it has to initialize the object. Fields have to be initialized almost the same way as in Java. Though Java allows you to have non-final fields to keep some default value (zero or null), Swift requires that all fields are initialized or have explicit default values. Some way I can understand that restriction: Swift tries to get rid off the one million dollar mistake, the null value. (It calls it nil, and has build-in optional value handling.)
+
+The interesting thing is how superclasses are initialized. In Java the super constructor has to be invoked by the constructor before any other code is executed. There is a good reason for it. The class inherits fields from the super class and before executing the super constructor the part of the object that belongs to the super class is not properly initialized. Initializer blocks make it even more complex, but the essence is the same.
+image::https://javax0.files.wordpress.com/2015/12/childclass_java_-_javax_blog_-____github_javax_blog_.png[]
+
+Swift on the other hand allows you to call the super constructor any time from the child constructor. You may think that Swift in this sense is not so restrictive. But it is a modern language and avoids all messy constructs, like uninitialized variables, half initialized objects or even implicite null values in variables. Knowing that I could soon realize reading the tutorial that Swift is not less restrictive. It has more complex rules.
+
+Swift defines a two phase initialization process. It does not require that the very first thing an initializer does is invoking the super constructor, but it does not allow the initializer to do much before doing so. Very specifically the constructor can not access any of the fields in the first phase. 
+image::https://javax0.files.wordpress.com/2015/12/main_swift_e28094_edited.png[]
+The only extra functionality is that this way the constructor can use the constructor arguments to decide which super constructor to invoke. This is not possible in Java.
+
+These are the facts. The rest is subjective.
+
+Should I miss this possibility in Java? Several years of experience show that we can program with the restrictions of Java successfully and I have never felt the lack of this feature as a huge burden.
+
+At the same time I feel that Swift's more complex rules may be confusing and complex to learn and get experience with for a novice programmer.
+
+But neither languages are for novice programmers, and also I got used to the restrictions of Java I live with. If you, as a programmer, get too much freedom from a programming language you also get the numerous possibilities to create bad code. Restrictions are good. Freedom is slavery. Or not? This may lead too far.

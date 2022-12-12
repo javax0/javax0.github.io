@@ -1,0 +1,118 @@
+---
+title: "Problem with Java Security" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+[em]#This article is about my thoughts about the currently emerged security issue related to Java. Not too technical and only general thoughts.#
+
+Recently a new vulnerability of the Java runtime emerged. You can have a look at http://nakedsecurity.sophos.com/2013/01/10/protect-yourself-against-latest-java-zero-day-vulnerability-now-maljavajar-b/ and http://nakedsecurity.sophos.com/2013/01/11/apple-and-mozilla-just-say-no-to-java/ and also http://www.pcworld.com/article/2025160/its-time-to-rewrite-java-from-scratch-security-expert-says.html
+
+The latest article suggest not less than rewriting the security part of the Java system. The title exaggerates to rewriting Java as a whole. And this is one of the major, though not the largest problem with Java security that I will discuss in this article: journalism. But we will see that later. The first question I want to talk about is why this issue came up now and not earlier. Similar vulnerabilities were discovered in Java last year and that time I could not see articles stating that Java generally is insecure.
+
+You can think of this process of awakening like the two stages of incident management and problem management that may sound familiar if you know ITIL. When the problem first appeared it was fixed. That is the most important thing because many businesses depend on Java and if Java turns to be unusable as a whole that costs a lot of money. Really a lot. Fortunately there is marginal probability to find Java insecure without reasonable way to fix the issue. Even if the issue is fixed the vulnerability costs us money. There can be security breaches during the period between the vulnerability discovery and the time the fix is applied. Applying the fix is also cost for many businesses and institutions, and those are not happy spending money for something that does not lead to higher income. Thus we raise the question: "this happened this time, but can we trust your technology that it will not happen in the future?". To find the answer is problem management.
+
+Institutions like men working in support are lazy. After all we are programmers down in our heart and programmers are lazy. Actually programmers have to be lazy to be good in their job. Because of that support people say "this was a one time problem, we fixed it, but it is not likely that there are more such bugs in the system". Wrong. Totally wrong this time and, my personal opinion is that such answer and attitude is totally wrong at any time. If you find a cockroach under your bed, it is a vain hope that it was a lonely warrior. There will be more and you better call bug hunters. As for Java it became obvious this year on January 11, 2013. A similar bug to the one appeared a year ago emerged again. Dear ORACLE: what are you doing with it now? What is your answer to the "problem management" question. What will you do so that it does not happen any more time? We wait for the answer not being ready from the vendor side. In the meantime we may speculate what the answer can be. There are technical aspects to anticipate the answer as well as industry answers.
+
+In this article I would like to express my thoughts on the topic. Before getting into the details I want to state that I am not a security expert. Even not being one you can not avoid dealing with security issues if you work for the IT industry for more than 20 years, which I do.
+
+{%subsubsection |problem #1%}
+
+
+{%section |Nothing is prohibited...%}
+
+The first and most technical issue with Java considering security that the language and the runtime are rather permissive. When you start a Java application with some security context (discussed a bit later) you can do anything unless the security context forbids that. This is not a secure approach. The secure approach is to forbid everything that is not allowed. Java is just the other way. Why?
+
+This is because secure systems are hard to use. Their use costs a lot because of the hardness of the use. To set the permissions properly so that our business functions smoothly you have to discover your business processes and set the permissions to that everybody can do what it needs to do to operate the business. Having a more exhaustive map of the business processes costs way more than the permissive approach. If you trust the players at your company you can use the permissive approach. There are some things that are definitely forbidden: for example your secretary can not give herself raise. On the other hand she can occasionally handle parcels arriving to the company when you are away. If the company controls are permissible there is no need to say that: it is common sense. When the players can not be trusted you need to be restrictive. You can replace a secretary you do not trust but you can not replace the Internet users. They, or rather we are the people of the earth with our human nature. Crime, fighting, war, on-line felony are inherent part of human nature. Live with it!
+
+This control issue goes down to every aspect of your company from key distribution (I mean keys made of metal to doors) down to software, even Java. Java is permissive.
+
+{%subsubsection |problem #2%}
+
+
+{%section |Way too complex%}
+
+When you start a Java application the security context that is meant to control the access to various resources is null. This is not the case for Java Applets, but I will talk about that later. It is possible to set the security context programmatically and most application servers do that. Opps... sorry. They actually don't. They can be configured to do that. By default they do not. Why? Because it would be so difficult to use them if they forced the administrators to configure the security that the majority of their user base would be nonexistent. Security is complex. This is the unfortunate fact but it is not because of Java. It is a general fact. I have never seen any production installation of Tomcat configured with non null security context.
+
+For applets this is not the case. Applets run in a sand box of the Internet browser and the Java programs are allowed to mangle the sand only in the box. The sand is a metaphor an in this case means files to be read, written, executed, ports to listen on, memory objects out of the process space of the applet thread and other operating system resources. The Java system, more specifically the JVM that executes the code uses these resources on behalf of the Java programs and it does not check security (I am not absolutely sure about that, but the depth I dig into showed that). Java code is supposed to be blocked by the JDK routines to reach that level. And there are many functions that have to be controlled by security. It is like a house that has many entrances. One for the house master, one for the kids, one for the maid and there is even some hole on the wall for the mice. Each one except the forgotten ones has guards. Some are good, some have some faults as we see recently. One is fixed does not guarantee there isn't another somewhere else. Even these doors are connected with a complex maze of tunnels. Way too complex.
+
+If you want security controlled you need something as simple as possible. The more complex the more bugs there can be. Have only one door and simple rules.
+
+{%subsection |Forget Applets%}
+
+The easiest solution to this problem on the problem management level is what Apple and Firefox did. Switch off Java for the browsers. Applets are Java programs that intended to give client side functionality to browsers. The idea was perhaps too early, or just became the victim of the Sun vs. MS war. It alone would be a long post to discuss the reasons. Whatever: Java applets are rarely used and are generally considered legacy. Most of the functionality that was meant to be solved using applets are solved now by JavaScript that developed enormously during the recent years. Even though applets are still around and the browsers support applets. There are a very few applications that need them. I personally know two. One is a home banking application. Terminate your account and contract a different bank! The other one I know and recently faces is Atlassian JIRA that uses applet to ease the upload of screen shots. You can upload the JPG file instead. No problem.
+
+Thus my suggestion to solve the issue on the problem management level is to forget applets once and for all. At least that is the way we are heading.
+
+{%subsubsection |problem #3%}
+
+
+{%section |Scripting languages on the road%}
+
+Would forgetting applets solve the issue? For the current issue yes, but again: this is incident management. From a different angle the issue remains. Java is not secured inside. If we want to use Java as language and runtime environment in which some of the players are not trusted then the architecture is not appropriate. I do not see such use in addition to applets at the moment but with the dawn of scripting languages and their viral spread on JVM raises similar issue again:
+
+Soon we will want to run scripted programs inside the JVM. These programs will source from untrusted players who extend the functionality of the program. This is as blog engine's HTML pages were extended by the HTML text of the blogger and the commenter. Does WordPress trust me that much? I doubt. Thus they make counter measures so that I can not inject XSS, click jacking and other naughty things (or can I?). We will create/use applications that allow the users to write simple scripts to perform operations that are tailor made and that are not readily available from top of the head of the application designers.
+
+This situation is similar to the applet. In case of the applet the outside world has to be protected from untrusted code written in Java. In case of scripts the outside world including the JVM and Java code running in the application has to be protected from the scripting solution. Many of the scripting implementation do not go that way. Programs written in JRuby, Scala, Jython and so on are compiled to JVM byte code and run just as they were written in Java. The Java architecture however is far from being ready to protect one piece of Java code from the other running in the same JVM. There is no internal access control in the JVM.
+
+We have a long way to go.
+
+{%subsubsection |problem #4%}
+
+
+{%section |Journalism%}
+
+The aim of journalists is to gather as many readers as possible. Even I, writing this article, do it to have many readers. Not for money, though. To have readers the article has to be interesting and appealing. If the truth is not appealing enough a bit of color, slipping a bit the facts does not harm. Or does it?
+
+Yes, it does, especially in the arena of security. People like to feel threatened. That is why horror movies and thrillers exist. That is the reason most of the people read security related articles. It helps the soul reassuring ourselves. The side effect is that some of the people not only shivers reading the articles but partially understands some of the statements. Not all, only some of them. And most of the people are not knowledgeable enough to judge the statements. If there are some bend in the facts, some statements slip then the perception may diverge from reality 180 degree. Just going the other way around.
+
+The articles say that Apple and Firefox "say no to Java". Actually they say no to Java applets and Java application started right from the web. Apple actually does that for all applications anyway unless you configure security setting to differ from default.
+
+The title of the other article says: __"It's time to rewrite Java from scratch, security expert says"__. If you read the article it talks about the security part of Java.
+
+The casual reader from these will deduct that Java is wrong. That is not the case and if you believe something that is different from the fact you get poorer. You make decisions whether you want to use Java in your company or become a Microsoft shop based on your knowledge. Thus those exaggerations are good to the competitors only. Not for the users of the technology and at the end of the line the customers of the users of the technology.
+
+{%section |Summary%}
+
+Consider these as random thoughts only. I wanted to be as precise as I could, however security and Java security is not my major. These are just some spots on the whole issue and many areas remain darkened. Feel free to discuss what you agree or see my approach wrong.
+
+My personal area that is a bit related to this area is ScriptBasic for Java, which is a scripting language NOT compiled to Java byte code, but rather interpreted by Java code (thus it actually is slower) and can be fully controlled by the embedding application what scripts can do. It was designed to provide a mean to application programmers to provide a tool to users to extend applications embedding the interpreter in a way that can not harm the application.
+
+Enough of me. Now: what are your thoughts?
+
+=== Comments imported from Wordpress
+
+
+*Verhás István* 2015-07-17 15:14:55
+{%@comment id: 8352 %}
+{%@comment author_email: istvan@verhas.com %}
+{%@comment author_url: http://www.facebook.com/100001049515746 %}
+{%@comment author_IP: 92.249.176.130 %}
+{%@comment date_gmt: 2015-07-17 14:14:55 %}
+[quote]
+____
+You use the word "Java" sometimes confusing. Actually Java is a set of specifications that can be rewritten but i have no knowledge that the Java specifications have any security issue. As such there is no need to rewrite the Java specifications. The JVM is one part of the Java specifications and it has many implementations. One of the implementations is the Sun/Oracle one that has the above mentioned security issue. In theory it is also possible to change the vendor of the JVM and not just waiting for the answer.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Michael Jacob* 2015-09-24 01:48:11
+{%@comment id: 8812 %}
+{%@comment author_email: jacob@j-e-b.net %}
+{%@comment author_url: https://plus.google.com/+MichaelJacob %}
+{%@comment author_IP: 109.193.251.112 %}
+{%@comment date_gmt: 2015-09-24 00:48:11 %}
+[quote]
+____
+My thoughts? Simple: "(1) Always expect any program written in a fully speced language to be able to do everything you can do. Period." and then: "(2) Be prepared for any program that handles untrusted data to have bugs that allow the untrusted data to execute code in the program's context." and to be complete: "(3) #2 also applies to the clause 'you can do' in #1"
+
+When I look at security context in application servers, I apply #1 and "if you cannot trust an application that handles you business transactions not to do bad things to the system it runs on, why do you trust it to process your business transaction correctly?" in combination with #2 and "if someone breaks in here, they will have access to all this application's data and everything running on the same account/computer/database as it. So don't put anything else there."
+
+In the end it comes to "data that is so valuable that you cannot survive it being stolen and network cards don't belong on/in the same computer". (Same for "backups"/"destroyed")
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

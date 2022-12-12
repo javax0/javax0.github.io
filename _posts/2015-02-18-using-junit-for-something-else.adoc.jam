@@ -1,0 +1,88 @@
+---
+title: "Using junit for something else" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |junit != unit test%}
+
+
+Junit is the Java unit testing framework. We use it for unit testing usually, but many times we use it to execute integration tests as well. The major difference is that unit tests test individual units, while integration tests test how the different classes work together. This way integration tests cover longer execution chain. This means that they may discover more errors than unit tests, but at the same time they usually run longer times and it is harder to locate the bug if a test fails. If you, as a developer are aware of these differences there is nothing wrong to use junit to execute non-unit tests.
+
+I have seen examples in production code when the junit framework was used to execute system tests, where the execution chain of the test included external service call over the network. Junit is just a tool, so still, if you are aware of the drawbacks there is nothing inherently wrong with it. However in the actual case the execution of the junit tests were executed in the normal maven test phase and once the external service went down the code failed to build. That is bad, clearly showing the developer creating the code was not aware of the big picture that includes the external services and the build process.
+
+After having all that said, let me tell you a different story and join the two threads later.
+
+
+{%section |We speak languages... many%}
+
+
+Our programs have user interface, most of the time. The interface contains texts, usually in different languages. Usually in English and local language where the code is targeted. The text literals are usually externalized stored in "properties" files. Having multiple languages we have separate properties file for each language, each defining a literal text for an id.
+
+For example we have the files
+
+[source,text]
+----
+messages-de.properties
+messages-fr.properties
+messages-en.properties
+messages-pl.properties
+messages.properties
+----
+
+
+and in the Java code we were accessing these via the Spring link:http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/MessageSource.html[`MessageSource`] calling
+
+[source,java]
+----
+String label = messageSource.getMessage("my.label.name",null,"label",locale);
+----
+
+
+
+{%section |We, programmers are kind of lazy%}
+
+
+The problems came when we did not have some of the translations of the texts. The job of specifying the actual text of the labels in different languages does not belong to the programmers. Programmers are good speaking Java, C and other programming languages but are not really shining when it comes to natural languages. Most of us just do not speak all the languages needed. There are people who have the job to translate the text. Different people usually for different languages. Some of them work faster, others slower and the coding just could not wait for the translations to be ready. For the time till the final translation is available we use temporary strings.
+
+[quote]
+____
+All temporary solutions become final.
+____
+
+
+The temporary strings, which were just the English version got into the release.
+
+
+{%section |Process and discipline: failed%}
+
+
+To avoid that we implemented a process. We opened a Jira issue for each translation. When the translation was ready it got attached to the issue. When it got edited into the properties file and committed to git the issue was closed. It was such a burden and overhead that programmers were slowed down by it and less disciplined programmers just did not follow the process. Generally it was a bad idea.
+
+We concluded that not having a translation into the properties files is not the real big issue. The issue is not knowing that it was missing and creating a release. So we needed a process to check the correctness of the properties files before release.
+
+
+{%section |Light-way process and control%}
+
+
+Checking would have been cumbersome manually. We created junit tests that compared the different language files and checked that there is no key missing from one present in an other and that the values are not the same as the default English version. The junit test was to be executed each time when the project was to be released. Then we realized that some of the values are really the same as the English version so we started to use the letter 'X' at the first position in the language files to signal a label waiting for real translated value replacement. At this point somebody suggested that the junit test could be replaced by a simple 'grep'. It was almost true, except we still wanted to discover missing keys and test running automatically during the release process.
+
+
+{%section |Summary, and take-away%}
+
+
+The Junit framework was designed to execute unit tests, but frameworks can and will be used not only for the purpose they were designed for. (Side note: this is actually true for any tool be it simple as a hammer or complex as default methods in Java interfaces.)
+
+You can use junit to execute tasks that can be executed during the testing phase of build and/or release. 
+
+
+	* The tasks should execute fast, since the execution time adds to the build/release cycle.
+	* Should not depend on external sources, especially those that are reachable over the network, 
+            because these going down may also render the build process fail.
+	* When something is not acceptable for the build use the junit api to signal failure. Do not just write warnings. Nobody reads warnings.
+
+
+
+
+

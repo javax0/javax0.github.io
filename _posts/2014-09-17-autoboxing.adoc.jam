@@ -1,0 +1,115 @@
+---
+title: "Autoboxing" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Autoboxing is clear for all Java developers since Java 1.5 Well, I may be too optimistic. At least all developers are supposed to be ok with autoboxing. After all there is a good tutorial about it on the page of link:http://docs.oracle.com/javase/tutorial/java/data/autoboxing.html[ORACLE].
+
+Autoboxing is the phenomena when the Java compiler automatically generates code creating an object from a primitive type when it is needed. For example you can write:
+
+[source,java]
+----
+Integer a = 42;
+----
+
+
+and it will automatically generate JVM code that puts the value `int` 42 into an `Integer` object. This is so nice of the compiler to do it for us that after a while we, programmers just tend to forget about the complexity behind it and from time to time we run against the wall.
+
+For example we have `double.class` and `Double.class`. Both of them are objects (as being a class and each class itself is an object in permgen or just on the heap in post-permgen version of JVM). Both of these objects are of type  `Class`. What is more: since Java 1.5 both of them are of type `Class<Double>`.
+
+If two objects have the same type, they also have to be assignment compatible aren't they. Seems to be an obvious statement. If you have object `O a` and object `O b` then you can assign `a = b`.
+
+Looking at the code, however we may realize being oblivious instead of obvious:
+
+[source,java]
+----
+public class TypeFun {
+    public static void main(String[] args) {
+        // public static final Class<Double>   TYPE = (Class<Double>)Class.getPrimitiveClass("double");
+        System.out.println("Double.TYPE == double.class: " + (Double.TYPE == double.class));
+        System.out.println("Double.TYPE == Double.class: " + (Double.TYPE == Double.class));
+        System.out.println("double.class.isAssignableFrom(Double.class): " + (double.class.isAssignableFrom(Double.class)));
+        System.out.println("Double.class.isAssignableFrom(double.class): " + (Double.class.isAssignableFrom(double.class)));
+    }
+}
+----
+
+
+resulting
+
+[source]
+----
+Double.TYPE == double.class: true
+Double.TYPE == Double.class: false
+double.class.isAssignableFrom(Double.class): false
+Double.class.isAssignableFrom(double.class): false
+----
+
+
+This means that the primitive pair of `Double` is `double.class` (not surprising). Even though one can not be assigned from the other. We can look at the source at least of the one of the them. The source of the class `Double` is in the RT.jar and it is open source. There you can see that:
+
+[source,java]
+----
+public static final Class<Double>	TYPE = (Class<Double>) Class.getPrimitiveClass("double");
+----
+
+
+Why does it use that weird `Class.getPrimitiveClass("double")` instead of `double.class`? That is the primitive pair of the type `Double`.
+
+The answer is not trivial and you can dig deep into the details of Java and JVM. Since `double` is not a class, there is nothing like `double.class` in reality. You can still use this literal in the Java source code though and this is where the Java language, compiler and the run-time has some strong bondage. The compiler knows that the class `Double` defines a field named `TYPE` denoting the primitive type of it. Whenever the compiler sees `double.class` in the source code it generates JVM code `Double.TYPE`. (Give it a try and then use javap to decode the generated code!) For this very reason the developer of the RT could not write 
+
+[source,java]
+----
+public static final Class<Double>	TYPE = double.class;
+----
+
+
+into the source of the class `Double`. It would compile to the code equivalent:
+
+[source,java]
+----
+public static final Class<Double>	TYPE = TYPE;
+----
+
+
+How is autoboxing going on then? The source
+
+[source,java]
+----
+Double b = (double)1.0;
+----
+
+
+results
+
+[source]
+----
+         0: dconst_1      
+         1: invokestatic  #2                  // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+         4: astore_1 
+----
+
+
+however if we replace the two 'd' letters:
+
+[source,java]
+----
+double b = (Double)1.0;
+----
+
+
+then we get
+
+[source]
+----
+         0: dconst_1      
+         1: invokestatic  #2                  // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+         4: invokevirtual #3                  // Method java/lang/Double.doubleValue:()D
+         7: dstore_1    
+----
+
+
+, which ineed explains a lot of things. The instances of the class `double.class` the class `Double.class` are not assign compatible. Autoboxing solves this. Java 4 was a long time ago and we, luckily forgot it.
+
+Your homework: reread what happens related to autoboxing when you have overloaded methods that have arguments of the "class" type and the corresponding primitive type.

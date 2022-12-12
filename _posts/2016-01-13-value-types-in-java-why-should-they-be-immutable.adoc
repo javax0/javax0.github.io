@@ -1,0 +1,369 @@
+---
+title: "Value types in Java: why should they be immutable?" 
+layout: posta
+comments: on
+---
+
+[quote]
+____
+Value types need not be immutable. But they are.
+____
+
+
+In the previous post I discussed the difference between pointers and references in Java and how the method parameters are passed (passed-by-value or passed-by-reference). These are strongly related to value types that do not exist in Java (yet).
+
+There is a link:http://cr.openjdk.java.net/~jrose/values/values-0.html[proposal] from John Rose, Brian Goetz, and Guy Steele detailing how value types will/may work in Java and also there are some good articles about it. I have read link:http://www.beyondjava.net/blog/java-8-types-revamping-javas-type-system/["Value Types: Revamping Java’s Type System"] that I liked a lot and I recommend to read. If the proposal is too dense for you to follow the topic you can read that article first. It summarizes very much the background, what value types are, advantages, why it is a problem that Java does not implement value types and why it is not trivial. Even though the terminology "value type" may also be used to denote something different I will use it as it is used in the proposal and in the article.
+
+
+== 1. How do we pass arguments vs. what do we store in variables
+
+
+As you may recall from the link:https://javax0.wordpress.com/2016/01/06/pointers-in-java/[previous article] I detailed that Java passes method arguments by reference or by value depending on the type of the argument:
+
+
+	* reference is passed when the argument is an object
+	* by-value when the argument is primitive.
+
+
+There are some comments link:https://javax0.wordpress.com/2016/01/06/pointers-in-java/[on the original] post and also on the link:http://www.javacodegeeks.com/2016/01/pointers-in-java.html[JCG republish] that complain about my terminology about passing an argument by-reference. The comments state that arguments are always passed by value because the variables already contain reference to the objects. In reality variables, however contain bits. Even though this is important to know how we imagine those bits, and what terminology we use when we communicate. We can either say that
+
+
+	* class variables contain objects and in that case we pass these objects to methods by-reference
+	* or we can say that the variables contain the reference and in that case we pass the value of the variables.
+
+
+If we follow the thinking #1 then the argument passing is by-value and/or by-reference based on the actual nature of the argument (object or primitive). If we follow the thinking #2 then the variables store reference and/or values based on the nature of their type. I personally like to think that when I write
+
+[source]
+----
+Triangle triangle;
+----
+
+
+then the variable `triangle` is a triangle and not a reference to a triangle. But it does not really matter what it is in my brain. In either of the cases #1 or #2 there is a different approach for class types and for primitives. If we introduce value types to the language the difference becomes more prevalent and important to understand.
+
+
+== 2. Value types are immutable
+
+
+I explained that the implicit argument passing based on type does not cause any issue because primitives are immutable and therefore, when passed as method argument, they could not be changed even if they were passed by reference. So we usually do not care. Value types are not different. Value types are also immutable because they are values and values do not change. For example the value of PI is 3.145926... and it never changes.
+
+However, what does this immutability mean in programming? Values be real numbers, integers or compound value types are all represented in memory as bits. Bits in memory (unless memory is ROM) can be changed.
+
+In case of an object immutability is fairly simple. There is an object somewhere in the universe that we can not alter. There can be numerous variables holding the object (having a reference to it) and the code can rely on the fact that the bits at the memory location where the actual value of the object is represented are not changed (more or less).
+
+In case of value types this is a bit different and this difference comes from the different interpretation of the bits that represent a value type from the same bits when they may represent an object.
+
+
+== 3. Value types have no identity
+
+
+Value types do not have identity. You can not have two `int` variables holding the value `3` and distinguish one from the other. They hold the same value. This is the same when the type is more complex.
+
+Say I have a value type that has two fields, like
+
+[source]
+----
+ValueType TwoFields {
+  int count;
+  double size;
+  }
+----
+
+
+and say I have two variables
+
+[source]
+----
+ Twofields tF1 = new TwoFields(1,3.14)
+ Twofields tF2 = new TwoFields(1,3.14)
+----
+
+
+I can not tell the variables `tF1` and `tF2` from other. If they were objects they would be `equals` to each other but not `==` to each other. In case of value types there is not `==` as they have no identity.
+
+If `TwoFields` is immutable class I can not or should not write
+
+[source]
+----
+ TwoFields tF;
+  ...
+ tF.count++;
+----
+
+
+or some similar construct. But I still can write
+
+[source]
+----
+ TwoFields tF;
+  ...
+ tF = new TwoFields(tF.count+1, tF.size)
+----
+
+
+which leaves the original object intact. If `TwoFields` is a value type then either of the constructs, whichever is allowed, will create a new value.
+
+
+== 4. Value types as arguments
+
+
+How are value types passed as method argument then? Probably copying the value to the parameter variable. Possibly passing some reference. It is, however, up to the compiler (be it Java, or some other language). Why?
+
+	* Value types are usually small. At least they should be small. A huge value type looses the advantages that value types deliver but have the disadvantages.
+	* Value types are immutable so there is no problem copying them just like in case of primitives. They can be passed by value the same way as "everything in Java is passed by value".
+        * They have no identity, there can be no references to them.
+
+
+But this is not only about passing them as arguments. This is also how variables are assigned. Look at the code
+
+[source]
+----
+ Twofields tF1 = new TwoFields(1,3.14)
+ Twofields tF2 = new TwoFields(1,3.14)
+----
+
+
+and compare it to
+
+[source]
+----
+ Twofields tF1 = new TwoFields(1,3.14)
+ Twofields tF2 = tF1
+----
+
+
+If `TwoFields` is a value type there should be no difference between the two versions. They have to produce the same result (though may not through the same code when compiled). In this respect there is no real difference between argument passing and variable assignment. Values are copied even if the actual variables as bits contain some references to some memory locations where the values are stored.
+
+
+== 5. Summary
+
+
+As I started the article: value types need not be immutable. This is not something that the language designers decide. They are free to implement something that is mutable, but in that case it will not be value type. Value types are immutable.
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2016-01-26 18:11:46
+
+
+
+
+
+[quote]
+____
+My opinion is that the disservice was done when it was first declared that Java argument passing is by value. It is a simplification and as soon as value types will come into picture you will run out of terminology. How would you call passing a value type as an argument when not the reference to
+memory piece holding the compound type is pushed on the stack but the actual value? That is "real" passing by value and what Java does with objects will be called, perhaps pass by reference value or something.
+
+Generally we are discussing terminology as far as I can understand the situation. Many novice can be confused by the complexity of the real world, but it does not justify oversimplification.
+____
+
+
+
+
+
+*Peter Verhas* 2016-01-15 10:22:37
+
+
+
+
+
+[quote]
+____
+Martin Grajcar is your name. Even though we write
+
+"Martin wrote: ...."
+
+And not
+
+"The person referenced by the name Martin wrote: ..."
+
+When I see "Martin Grajcar" I like to think about the intelligent and clever person making the comments and not the reference (a.k.a. a name).
+____
+
+
+
+
+
+*Martin Grajcar* 2016-01-15 05:49:21
+
+
+
+
+
+[quote]
+____
+I personally like to think that when I write
+
+[source,java]
+----
+Triangle triangle;
+----
+
+
+, then the variable triangle is a triangle and not a reference to a triangle.
+
+Just write
+
+[source,java]
+----
+Triangle triangle2 = triangle;
+----
+
+
+to see that it's wrong. You have two variables, but just a single triangle. So the statement that variables are objects rather than references is equivalent to
+
+[source]
+----
+2 = 1
+----
+
+
+.
+____
+
+
+
+
+
+*Paul Bjorkstrand* 2016-01-28 01:32:48
+
+
+
+
+
+[quote]
+____
+As it has been stated in much of the documentation and many, many write-ups, Java is fully pass-by-value. The way Java passes "objects" is by passing the object-reference, by-value, to  called methods. Java object-references are a special case __value-type__ (yes, they are value types) that allow you to easily access another location in memory. Another name for this concept is: a pointer. Regardless whether it is called (object-)pointer or (object-)reference, the semantics of Java is the same.
+
+A resource that I found useful when I try to explain the difference to newbies to Java is http://javadude.com/articles/passbyvalue.htm . I think that page has a pretty good write up explaining the difference between pass-by-value vs pass-by-reference and how it pertains to Java.
+
+Cheers!
+____
+
+
+
+
+
+*illegalmethod* 2016-01-26 16:45:14
+
+
+
+
+
+[quote]
+____
+Parameters in Java are always passed by value. Otherwise you could write Methods like this:
+[source,java]
+----
+public static void swap(Integer a, Integer b) {
+    Integer temp = a;
+    a = b;
+    b = temp;
+}
+----
+
+____
+
+
+
+
+
+*Paul Bjorkstrand* 2016-01-26 17:28:22
+
+
+
+
+
+[quote]
+____
+I understand that you are trying to "simplify" the thought of how Java passes arguments. It doesn't change the fact that you are incorrectly using the phrase "pass by reference". What does the following print to the console?
+
+[source,java]
+----
+void testByReference() {
+ String variable = "apple";
+ setBananaByReference(variable);
+
+System.out.println(variable);
+}
+
+void setBananaByReference(String parameter) {
+  parameter = "banana";
+}
+----
+
+
+If Java is pass by reference, then it would print "banana". That is how pass by reference is defined: taking an action on the __variable__ that is passed in. This is not the case with Java.
+
+In Java, the line parameter = "banana"; does not actually set the value of the passed in __variable__, it sets the value of the parameter. Yes, if the object which is referenced by the parameter is mutable, you can take action on the internal parts of the referenced object, but you cannot, CANNOT change what variable points to. No matter how much you try, variable can never be changed in this manner.
+
+The following code is a test of this invariant:
+
+[source,java]
+----
+void testByValue() {
+  String variable = "apple";
+  String temp = variable;
+
+assert variable == temp;
+  setBananaByReference(variable);
+  assert variable == temp;
+}
+
+void setBananaByReference(String parameter) {
+  parameter = "banana";
+}
+----
+
+
+By saying Java is anything other than pass by value is not just somewhat incorrect, it is doing a disservice to anyone who is learning the difference between pass by reference and pass by value. Regardless your opinion on the terminology, pass by reference has a specific definition, pass by value has a specific definition. Coopting them in this manner, continues to propagate the misinformation that Java is pass by reference.
+____
+
+
+
+
+
+*Comparing Golang with Java | Java Deep* 2016-04-27 16:01:33
+
+
+
+
+
+[quote]
+____
+[&#8230;] more than that. Go lang has interfaces and structs. But they are not really classes. They are value types. They are passed by value and wherever they are stored in memory the data there is only the pure [&#8230;]
+____
+
+
+
+
+
+*GolangをJavaと比べてみた～Java愛好家がGoの機能を見たときの第一印象～ | FAworksブログ* 2017-06-22 03:48:21
+
+
+
+
+
+[quote]
+____
+[&#8230;] 関数とクロージャが第一級オブジェクトであるGoは、少なくともJavaScriptのようなオブジェクト指向だ。しかし実際はそれ以上だ。Golangにはインターフェースと構造体がある。だが、これらは別にクラスというわけではなく、値型だ。これらに値が渡され、メモリのどこに格納されていても、オブジェクトヘッダなどのない純粋なデータのみ存在する。Goの構造体は、C言語の構造体と非常に良く似ている。フィールドを含めることはできるが、互いに拡張することや、メソッドを含めることはできない。オブジェクト指向にはやや違ったアプローチが取られる。 [&#8230;]
+____
+
+
+
+
+
+*golang与java_Golang与Java比较 | 算法网* 2022-01-23 02:57:46
+
+
+
+
+
+[quote]
+____
+[&#8230;] Go lang具有接口和结构。 但是它们并不是真正的课程。 它们是值类型 。 [&#8230;]
+____
+
+
+

@@ -1,0 +1,80 @@
+---
+title: "Uptime" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+I was working five years in telecom industry where service availability was God. We had to reach five nines that is 99.999% percent of the time the service had to work.
+
+Just a simple calculation 99% availability means that the service may be out of service 3 and half day per year. 99.9% means an outage period close to 9 hours. 99.99% means barely an hour and 99.999% five minutes. Is it okay if the phone is out of service at most 5 minutes a year? Certainly. How about your online banking interface? How about a pace maker?
+
+
+{%section |How many 9s do we need?%}
+
+
+The point is that you should not aim five nines (or any other availability value) if you do not know why you need that. The bottom line is, as always money. To get to a level of availability has a cost label attached. The more nines you need in your uptime number the more cost you have. The latter nines costs exponentially more. On the other side you have the income, the reputation and all other things that count as money value and are adversely affected by downtime.
+
+Telecom invests a lot of money to get to five nine. Does it pay off? If we only count the lost revenue during the downtime (people can not call and thus do not pay for the talk) then it does not. If we count the reputation, lost customers churning to competition then maybe. If we consider emergency calls: definitely.
+
+Telecom has its values established long time ago and the five nines came from common knowledge distilled during a long time. When you design a service for the enterprise or for the public you do not have that. You have to assess what is worth doing.
+
+Ten years ago I was studying economy. A friend was also studying there and at one of the micmac (mixed micro and macro economy subject) exam he barely passed, though he was usually performing excellent. Being shocked by the unexpected low performance the professor asked him about it. He said: __"I was not only studying but also following in practice what you taught us. Invest no more than what is needed to reach the goals. Any more investment is wasted."__
+
+Assume for now that we assessed the costs and benefits and we decided we need X nines.
+
+
+{%section |Is more always better?%}
+
+
+But how about accidental reaching more uptime than needed? Operation wasted money, invested too much into availability. This is certainly not good. It may also happen that by time small investments (e.g.: continuous improvement of personnel, new technologies) lead to better uptime. If it costs nothing the higher uptime is extra gift. But if there is a significant difference between the aimed availability and the actual, the investment was definitely oversized. What will prevent operation to aim higher than what financially feasible is?
+
+It is a difficult organizational question. This is not simply put money in on one end of the tube and get availability on the other. You can invest in many different things that lead to higher availability. You can educate your support people. You can buy higher quality, larger MTBF hardware. You can invest in software quality. Some of these have lower cost others cost a lot. If operation reaches in practice higher availability than needed then they wasted money. But it is hard if not impossible to tell which money.
+
+
+{%section |Measure the people performance on system uptime?%}
+
+
+Should you measure your operation people on uptime? Certainly. That is a core competency they have: provide the aimed uptime. If the operation does not get the required uptime there will be consequences. You have to assess the reasons, design changes in the system, in the policies, in management hierarchy, but certainly something is to be changed. If there is no change the availability remains low. 
+
+[quote]
+____
+If there are no consequences of underperformance on people certainly there will be on the company.
+____
+
+
+Should you incentive the higher than aimed uptime? Obviously no. May be not that obviously, but certainly: no. If you incentive then they will be motivated reach the goal. If they are motivated to reach something the company does not need they will spend company money to reach that. If you incentive anyone for getting X they will get X. Simple feedback loop. Simple. Ok. But if you do not incentive higher than needed availability then ...
+
+
+{%section |should you punish higher availability?%}
+
+
+If you punish people for higher availability, operation will still be motivated to spend extra money to get higher availability and ruin it to the required level by means that they can control. (Simply switch off service "illegally" or claiming maintenance.) Even if you do not punish them, they are still motivated to spend extra money just to be safe. We get to the mix of incentives and punishments controlling quality and budget and companies sometime end up with extremely complex motivational schemes.
+
+This dilemma is nothing special. This is a very general management topic. You cannot measure what you really want to achieve in your organization. In case of operation you cannot measure that operation is spending the money the most possible wise way and deliver services reliably the level business need. You cannot measure it simply because it cannot be defined what most wise way is.
+
+What we can do is measure something that relates somehow to what we really need. We start to measure X. The management problem is that if you measure X people will deliver X. So what is the solution? Measurement and culture. We know what the measurements are, we aim the direct goals we are measured on but perform the strategic, tactic and everyday tasks keeping an eye on company goals. That is the culture part. Without culture we are only robots, and robots don't do good work.
+
+Yet.
+
+
+=== Comments imported from Wordpress
+
+
+*tamasrev* 2016-04-27 20:50:28
+{%@comment id: 9807 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.99.48.140 %}
+{%@comment date_gmt: 2016-04-27 19:50:28 %}
+[quote]
+____
+Punishment for higher availability? That's strange, because the perceived availability is almost always higher than the guaranteed availability. Yeah, it has to do something with probability.
+
+Say, you aim at five 9-s. Is it okay to provide that in every second year? Of course not. You have to provide it at almost every year. So you make sure your system can deal with hardware and software failures too. You implement rigorous deployment processes. Maybe you check the probability of certain failures and plan your system accordingly.
+
+Still, system uptime has variance. So you have to cover lot of ground to provide guarantees. See the link:https://en.wikipedia.org/wiki/Confidence_interval[confidence intervals] for further details. Or just check link:http://financetrain.com/assets/cip3.gif[this picture].
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

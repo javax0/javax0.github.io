@@ -1,0 +1,178 @@
+---
+title: "Generics Names" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Generics type parameter names usually contain one, single capital case character. If you start to read the official ORACLE documentation on generics the first example is
+
+[source,java]
+----
+/**
+ * Generic version of the Box class.
+ * @param <T> the type of the value being boxed
+ */
+public class Box<T> {
+    // T stands for "Type"
+    private T t;
+
+    public void set(T t) { this.t = t; }
+    public T get() { return t; }
+}
+----
+
+
+The name of the generic type is `T`. One single letter, not too meaningful and generally against other identifier naming styles. It is widely used only for generics. Strange. What is the reason for that? 
+
+Here are the arguments I have heard so far:
+
+
+  * __A class or method does not need many type variable names, so you will not run out of the letters of the ABC.__
+  
+    * Based on that reasoning we should also use one character method names? There should not bee too many methods in a class so we will not run out of the alphabet there as well.
+  
+  * __It is not a problem that the one character does not inherently explain the type, since there is JavaDoc. You can explain what the type name actually stands for.__
+  
+    * And we should also forget everything we have learned about clean code and variable naming. Code structure defines what the code does and since that is what it really is code structure is up-to-date. Naming (variables, methods, etc.) usually follow the change of code structure, since naming helps the programmer. Even though naming is many times outdated especially in case of boolean variables. It suggest many times just the very opposite what the real meaning is. JavaDoc is maintained and corrected some time after the code and the unit tests are finished, debugged and polished. In practice "some time after" means: never. JavaDoc is outdated, not available when reading the code as promptly as name itself thus should contain information you can not include into the code structure and well naming. Why would type names be an exception?
+  
+  * __Types names bearing one character makes them distinguishable from variable, method and class names as well as constant names.__
+  
+    * It is a good point. Type names have to be distinguishable from variable, method and class names. But I see no strong point why we should use different name casing from constants. There is no place where you could use a constant and a type or where it would really be confusing. They are used in totally different places, in different syntactical positions. If this is such a big pain in the donkey why do not we suffer from it in case of method and variable names? Method names are followed by `()` characters in Java? Not anymore as we get to Java 8!
+  
+  * __But link:http://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s5.2.8-type-variable-names[Google Code Style] allows you to use multi character type names.__
+  
+    * Oh yes. And it says that if you use multi character type names the name should have a `T` postfix, like `RequestT`, `FooBarT`. Should I also prefix `String` variables with the letters `sz` and `Integer`s with `i` as in link:http://en.wikipedia.org/wiki/Hungarian_notation[Hungarian Notation]?
+  
+
+
+
+{%section |What then?%}
+
+
+If you do not like the single character naming for generics you can name them with `_` or `$` prefix. This is a suggestion that you can see on link:http://stackoverflow.com/questions/6143402/breaking-java-generics-naming-convention[stackoverflow]. As for me: it is strange. Using the `$` makes some "heimlich", warm feeling reminding me of my youth when I was programming Perl. I do not do that anymore and for good reasons. Times changed, technology changed, I changed. 
+
+The `$` is usually used by the compiler and some code generators to name generated fields and methods. Your use of `$` on the Java source level may cause some difficulty for the compiler to find the appropriate name in case there is some naming collision, but the current version of the java compilers are fairly error prone in this respect. They just keep trying to find an appropriate name with some simple algorithm until they find a name that is not colliding with any Java source code name, so this will not be a problem.
+
+[b]#Underscore#: well, is really something that we used in old times instead of space. On old matrix printers the underscore character was printed so badly that you could not distinguish it from space and thus this was an ugly trick to have multi word variable names. Because of this underscore at the start of the name is a total anti-pattern imho, practically naming two things using the same name. It is almost like if the underscore character was not there at all.
+
+You can also use `T_` prefix as it is the convention in C++ and in C# (I am not familiar with those too much, I am not sure about that). But this is just as ugly as it is without the `T`.
+
+My taste is to use meaningful names with the same conventions we follow in case of constants. For example to use 
+
+[source,java]
+----
+    public final class EventProducer<LISTENER extends IEventListener<EVENT>,EVENT> 
+           implements IEventProducer<LISTENER, EVENT> {
+----
+
+
+instead of
+
+[source,java]
+----
+    public final class EventProducer<L extends IEventListener<E>,E> 
+            implements IEventProducer<L,E> {
+----
+
+
+Even though that is my personal, senior, professional, expert opinion I do not use it. Why? Because I work in an enterprise environment in a team. The gain to use something more readable than the official default is not as high as the damage of a debate and disagreement would be. In addition to that new hires have to get used to the local style and it also costs money. Using the usable, but not optimal global style is better than using a good local style. Live with it.
+
+
+{%section |Can we go global?%}
+
+
+You can try. That is the most I can say. It would have been better if the original suggestion setting the coding standard were better than the 1960's style one letter approach, but this is already history. The damage has been done. And this is nothing comparable to the damage caused by the brilliant idea introducing null into OO.
+
+We will live with the one character generics so long as long Java is alive. And since I am almost 50, it is going to be a longer period than my life span. Note that COBOL is still alive. We should expect nothing less from Java.
+
+=== Comments imported from Wordpress
+
+
+*Java Weekly 20/15: Microservice Premium, Wildfly Swarm, Hibernate OGM* 2015-05-18 04:25:15
+{%@comment id: 8183 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://www.thoughts-on-java.org/java-weekly-2015/ %}
+{%@comment author_IP: 162.243.77.193 %}
+{%@comment date_gmt: 2015-05-18 03:25:15 %}
+[quote]
+____
+[&#8230;] Verhas wrote a nice post about Generic Names. A standard name for a generic type parameter consists of one capital letter, e.g. T. As it is not [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Mark Perry* 2015-05-18 16:18:41
+{%@comment id: 8184 %}
+{%@comment author_email: maperry78@yahoo.com.au %}
+{%@comment author_url: http://gravatar.com/maperry78 %}
+{%@comment author_IP: 58.106.10.69 %}
+{%@comment date_gmt: 2015-05-18 15:18:41 %}
+[quote]
+____
+I think the most important reason is you should not be relying on generic names to be inferring meaning.  The meaning comes from the types and associated methods (the algebra) and introducing descriptive names implies otherwise.  This is why we use single letter generics like List<A>, Either<A, B>, State<S, A>, etc.  Of course, Java's type system is poor, but the types are documentation (http://yowconference.com.au/slides/yowlambdajam2014/Morris-ParametricityTypesAreDocumentation.pdf).
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Caleb Cushing* 2015-05-19 14:07:12
+{%@comment id: 8186 %}
+{%@comment author_email: xenoterracide@gmail.com %}
+{%@comment author_url: https://plus.google.com/+CalebCushing %}
+{%@comment author_IP: 24.206.100.35 %}
+{%@comment date_gmt: 2015-05-19 13:07:12 %}
+[quote]
+____
+I mostly agree with this, I tend to use all uppercase, and snake case (underscores). I sometimes use T, for example Factory , where i can't really infer more about T than it is a type, or I'll use E for Entity, I also find K and V appropriate in their context, but reality is once you get beyond a certain number of generic parameters (2) it generally becomes hard to read the code using single character names.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Caleb Cushing* 2015-05-19 14:08:47
+{%@comment id: 8187 %}
+{%@comment author_email: xenoterracide@gmail.com %}
+{%@comment author_url: https://plus.google.com/+CalebCushing %}
+{%@comment author_IP: 24.206.100.35 %}
+{%@comment date_gmt: 2015-05-19 13:08:47 %}
+[quote]
+____
+@Mark you could use that to justify single character variable names too, and truthfully in some contexts short names aren't that unreadable because of types and good IDE's but saying it's ok to do this in all contexts leads to unreadable code.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 8184 %}
+{%@comment user_id: 0 %}
+
+*Martin Grajcar* 2015-05-13 16:32:16
+{%@comment id: 8172 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 77.47.82.132 %}
+{%@comment date_gmt: 2015-05-13 15:32:16 %}
+[quote]
+____
+[quote]
+____
+
+But I see no strong point why we should use different name casing from constants.
+
+____
+
+
+Right, but having this difference makes it more visible on the first sight.
+
+Actually, all kind of sane names should be used. We have already i, j, k for loop variables (and x, y, z for coordinates) and whenever I see a single small letter identifier, I know what it is. This is very useful as this information comes before I even start to think. Similarly it works for type variables like K and V.
+
+The meaning of type variables is usually pretty obvious as they're omnipresent. If I don't know what L and E in IEventProducer<L,E> mean, I look at a method like send(E event, L listener) and then I do. And I won't forget it as there just the two.
+
+It also helps to keep the signatures short (and usually fit into one line). Imagine something like combineInto(Map<K, V> result, Map<K, V> source1, Map<K, V> source2).
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

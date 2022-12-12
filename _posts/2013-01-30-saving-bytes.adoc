@@ -1,0 +1,34 @@
+---
+title: "Saving Bytes" 
+layout: posta
+comments: on
+---
+
+In the good old day's we were hacking Z80 machine code and we were writing assembly on paper. I had a laminated card with all the opcodes and I had to look up the codes from the card and write on the paper along the assembly. The calculation of relative jumps was also a good practice, which is nowadays extinct. At third grade I wrote a small booklet on Z80 programming with some sample programs and explanation that was replicated in the official printer factory of the Uni. PDF, eMail? It was late '80. I used link:http://en.wikipedia.org/wiki/Tasword[Tasword]. Can any of you recall?
+
+Those days we were competing on who can write the shorter program for a given problem. There were many tricks that we could use to save up bytes. We created code that used the byte offset of the jump instruction as an op code depending on where the program was coming from and the decimal BCD correction instructions in totally different way they were supposed to be used. Good old days.
+
+These days we do not need to save up bytes and I am happy about that. We can focus on problems that make more sense and higher level. These low level issues are to be solved by compilers, loaders and after all we have plenty of memory these days. My mac has 8GB memory, which is 175000 times more than the memory than the ZX Spectrum had. If we would line up that many Spectrums side by side on the road it would make 61km, that is 38 miles. And the compilers and optimizers also know this and they are not keen on spending much CPU time to find some clever way to compress the program. So good so far. Usually.
+
+Some days ago on a forum I was discussing with some guy about clean code practice and I said that any method argument variable in Java should have been final. And it is a good practice to write the final keyword in front of each argument variable and this is a language design flaw that these variables are not final by definition. The reply was that some of the variables are altered and in this case a new local variable is to be used. Waste of memory. Well, yes, and no. The JIT compiler in HotSpot JVM will optimize that. "Too late" the answer came. By the time the JIT optimizes the JVM code was already loaded into the limited memory phone. And javac does not optimize too much: should not, that would be premature optimization.
+
+So we are saving bytes again? Unfortunately. The compiler and the other tools are designed for the major use. Niche use should use link:http://www.yworks.com/en/products_yguard_about.html[niche tools] if exist. Some do. But then phones also tend to have huge enough memory to accommodate our code. Then the vacuum cleaners will come, and the light switches. But at some time all memory shortage will disappear, no? Well, I have to say no. Memory, perhaps. Then comes the bandwidth shortage. You will want to download some program to your personal space-ship that is 2h light speed away close to Jupiter. Hand shaking, error corrections, lag... bytes count again. Then this is solved later and something new comes, perhaps some swarm effect in hyperspace that we can not even imagine today.
+
+What is the morale? No matter what happens old technologies and tricks come back from time to time. They will perhaps have slightly different format, but the root problem is always the same: do not waste resources. Save the trees, eat ... whatever.
+
+=== Comments imported from Wordpress
+
+
+*Spóroljunk a bájtokon | tifyty* 2013-01-30 17:36:53
+
+
+
+
+
+[quote]
+____
+[...] erőforrásokat pazarolni. És ez nem csak a programozásra igaz. Védd a fákat, egyél hódot! (angolul ez egy kicsit pikánsabban [...]
+____
+
+
+

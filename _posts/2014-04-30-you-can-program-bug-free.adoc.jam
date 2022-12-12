@@ -1,0 +1,58 @@
+---
+title: "You can program bug free" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+[caption id="attachment_488" align="alignright" width="300"]image:http://javax0.files.wordpress.com/2014/04/qamoneyspentwise.png?w=300[link="http://javax0.files.wordpress.com/2014/04/qamoneyspentwise.png?w=300"] Money Spent Wise on QA[/caption]
+
+You can not. This is a lie, just like the cake. You can lower the number of bugs. The more you spend wisely on QA the less bugs you will have. The magic word is "wisely". You can spend unlimited amount without increasing the quality. Old truth in just any area: you can waste money if you are not wise.
+
+On the other side of the line there is no free lunch. If you do not spend enough on QA you can only dream about properly working software. You won't have less bugs if you do not spend on QA. And you will never be bug free.
+
+Bug free software is contradiction. We have bugs, and we do not like them. We have to zap them.
+
+
+{%section |Ad-hoc bug zap%}
+
+
+Most of the bugs are zapped in an ad-hoc manner. The developer writes some test, develops some code. The code does not work, has bugs and the developer fixes the code until it runs fine with the unit tests crafted beforehand. Integration tests and end-to-end tests may also discover some bugs. These are usually reported in a bug tracking system and the developers fix them and they are eliminated in the next release.
+
+Sometimes, however bugs are not that easy to handle.
+
+
+{%section |Classified bugs%}
+
+
+Sometimes bugs are not that simple to handle. Sometimes it takes a lot of time to fix a bug. It may need analysis how and when the bug manifests. Sometimes bugs magically disappear like if computers were non deterministic. Other times fixing a bug requires significant code modification. This is, by the way, a clear sign of design shortage on the technical or business level (or both).
+
+If a bug is difficult developers may be reluctant to hunt for it and fix it. If it needs alteration of lot of code they may tend to declare the behavior to be a feature rather than a bug. Fortunately we know who has the last word in such a debate: money. Feature is what business uses to make value. Everything else is just behavior. And here comes the other aspect of bug classification: does business care about a certain behavior? If yes, the behavior is a bug and is a target for fix. If not then this is just a behavior.
+
+[caption id="attachment_481" align="alignleft" width="300"]image:http://javax0.files.wordpress.com/2014/04/bug-classification.png?w=300[link="http://javax0.files.wordpress.com/2014/04/bug-classification.png?w=300"] Bug Classification Quadrandt[/caption]
+
+Looking at that in a quadrant we have four different types of bugs.
+
+	* There are bugs that are easy to fix and have high impact on the business. They are the easy picks. Developers are usually eager to fix those bugs and become the hero of the project.
+	* Bugs hard to fix and having no business impact will never be fixed. There is no point.
+	* Bugs easy to fix and low impact on business are fixed many times when a developer has some time (minutes) to do the fix. This is the hobby area.
+	* There are bugs that are hard to fix and have high impact on the business. These are the critical bugs that get most of the attention. These bugs will not be fixed from one day to the other and therefore they have to be assessed, budgeted, scheduled and eventually fixed.
+
+
+
+{%subsection |Cost of bug fix%}
+
+
+Business needs these bugs fixed and many times the cost to fix them does not represent any extra value. Usually business feels that these bugs just have to be fixed but not on their costs. They have already paid for the feature, which eventually fails. If the development organization is separate company then the vendor should have the budget to do the fix. It had to be included in the contractual price. If the development is in-house the cost may not be discussed or may be T&amp;M based. In that latter case the developers "charge" only the hours they spent developing the feature instead of project fixed price but when there is some bug the hours to fix are also charged. This is something not clarified well enough among the players and is a source of interdepartmental stress in many times.
+
+"Easy picks" are fixed without budgeting and business people press the developers to fix the bugs "in their free time" without separate budget. The driver for this may be to lessen the burden of costs that business people are usually measured on and also many times to hide the errors that were in the specification, communication on the business side. On the other hand developers want even easier to fix bugs to be assessed since they are usually measured on billable time. They are also reluctant to burn their so called "free time". This time is not really "free time". This time is covered by work hours and is usually used for self education. And developers (at least those that deserve the title) love to educate themselves (for example reading blogs like this).
+
+For this reason there is no clear and precise border between the "Easy Pick" and the "Assess, Budget, Schedule, Fix" areas. Business people want to pull the border to east leaving more and more bugs in the easy pick area, while developers want the border more to the west, and the fight area is in between. And the real problem is when the project members spend significant amount and effort in that area.
+
+
+{%subsection |Conclusion%}
+
+
+When you find yourself in a debate about bugs and features with the business people, try to bring up this quadrant in your mind. Many times the cost/value coordinates of the bugs are not discovered. Think about it even qualitatively. 
+
+
+

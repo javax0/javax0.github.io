@@ -1,0 +1,272 @@
+---
+title: "Pointers in Java" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Are there pointers in Java? The short answer is "no, there are none" and this seems to be obvious for many developers. But why is it not that obvious for others?
+
+	* 
+link:http://stackoverflow.com/questions/1750106/how-can-i-use-pointers-in-java[http://stackoverflow.com/questions/1750106/how-can-i-use-pointers-in-java]
+
+	* 
+link:http://stackoverflow.com/questions/2629357/does-java-have-pointers[http://stackoverflow.com/questions/2629357/does-java-have-pointers]
+
+	* 
+link:https://www.google.hu/search?q=pointers+in+java[https://www.google.hu/search?q=pointers+in+java]
+
+
+That is because the references that Java uses to access objects are very similar to pointers. If you have experience with C programming before Java it may be easier to think about the values that are stored in the variables as pointers that point to some memory locations holding the objects. And it is more or less ok. More less than more but that is what we will look at now.
+
+
+{%section |Difference between reference and pointer%}
+
+
+As link:http://stackoverflow.com/users/12960/brian-agnew[Brian Agnew] link:http://stackoverflow.com/questions/2629357/does-java-have-pointers[summarized] on stackoverflow there are two major differences.
+
+
+	* There is no pointer arithmetic
+	* References do not "point" to a memory location
+
+
+
+{%subsection |Missing pointer arithmetic%}
+
+
+When you have an array of a `struct` in C the memory allocated for the array contains the content of the structures one after the other. If you have something like
+
+[source,C]
+----
+struct circle {
+   double radius;
+   double x,y;
+}
+struct circle circles[6];
+----
+
+
+it will occupy `6*3*sizeof(double)` bytes in memory (that is usually 144 bytes on 64 bit architecture) in a continuous area. If you have something similar in Java, you need a class (link:http://cr.openjdk.java.net/~jrose/values/values-0.html[until we get to Java 10 or later]):
+
+[source,Java]
+----
+class Circle {
+   double radius;
+   double x,y;
+}
+----
+
+
+and the array
+
+[source,Java]
+----
+Circle circles[6];
+----
+
+
+will need 6 references (48 bytes or so) and also 6 objects (unless some of them are null) each 24bytes data (or so) and link:http://stackoverflow.com/questions/26357186/what-is-in-java-object-header[object header] (16bytes). That totals to 288bytes on a 64bit architecture and the memory area is not continuous.
+
+When you access an element, say `circles[n]` of the C language array the code uses pointer arithmetic. It uses the address stored in the pointer `circles` adds `n` times `sizeof(struct circle)` (bytes) and that is where the data is.
+
+The Java approach is a bit different. It looks at the object `circles`, which is an array, calculates the `n`-th element (this is similar to C) and fetches the reference data stored there. After the reference data is at hand it uses that to access the object from some different memory location where the reference data leads.
+
+Note that in this case the memory overhead of Java is 100% and also the number of memory reads is 2 instead of 1 to access the actual data.
+
+
+{%subsection |References do not point to memory%}
+
+
+Java references are not pointer. They contain some kind of pointer data or something because that comes from the nature of today computer architecture but this is totally up to the JVM implementation what it stores in a reference value and how it accesses the object it refers to. It could be absolutely ok though not too effective implementation to have a huge array of pointers each pointing to an object of the JVM and the references be indices to this array.
+
+In reality JVM implement the references as a kind of pointer mix, where some of the bits are flags and some of the bits are "pointing" to some memory location relative to some area.
+
+Why do JVMs do that instead of pointers?
+
+The reason is the garbage collection. To implement an effective garbage collection and to avoid the fragmentation of the memory the JVM regularly moves the objects around in the memory. When memory occupied by objects not referenced anymore are freed and we happen to have a small object still used and referenced in the middle of a huge memory block available we do not want that memory block to be split. Instead the JVM moves the object to a different memory area and updates all the references to that object to keep track of the new location. Some GC implementations stop the other Java threads for the time these updates happen, so that no Java code uses a reference not updated but objects moved. Other GC implementations integrate with the underlying OS virtual memory management to cause page fault when such an access occurs to avoid the stopping of the application threads.
+
+However the thing is that references are NOT pointers and it is the responsibility of the implementation of the JVM how it manages all these situations.
+
+The next topic strongly related to this area is parameter passing.
+
+
+{%section |Are parameters passed by value or passed by reference in Java?%}
+
+
+The first programming language I studied at the uni was PASCAL invented by link:https://en.wikipedia.org/wiki/Niklaus_Wirth[Niklaus Wirth]. In this language the procedure and function arguments can be passed by value or by reference. When a parameter was passed by reference then the declaration of the argument in the procedure or function head was preceded by the keyword `VAR`. At the place of the use of the function the programmer is not allowed to write an expression as the actual argument. You have to use a variable and any change to the argument in the function (procedure) will have effect on the variable passed as argument.
+
+When you program in language C you always pass a value. But this is actually a lie, because you may pass the value of a pointer that points to a variable that the function can modify. That is when you write things like `char *s` as an argument and then the function can alter the character pointed by `s` or a whole string if it uses pointer arithmetic.
+
+In PASCAL the declaration of pass-by-value OR pass-by-reference is at the declaration of the function (or procedure). In C you explicitly have to write an expression like `&amp;s` to pass the pointer to the variable `s` so that the caller can modify it. Of course the function also has to be declared to work with a pointer to a whatever type `s` has.
+
+When you read PASCAL code you can not tell at the place of the actual function call if the argument is passed-by-value and thus may be modified by the function. In case of C you have to code it at both of the places and whenever you see that the argument value `&amp;s` is passed you can be sure that the function is capable modifying the value of `s`.
+
+What is it then with Java? You may program Java for years and may not face the issue or have a thought about it. Java solves the issue automatically? Or just gives a solution that is so simple that the dual pass-by-value/reference approach does not exist?
+
+The sad truth is that Java is actually hides the problem, does not solve it. So long as long we work only with objects Java passes the objects by reference. Whatever expression you write to the actual function call when the result is an object a reference to the object is passed to the method. If the expression is a variable then the reference contained by the variable (which is the value of the variable, so this is a kind of pass-by-value) is passed.
+
+When you pass a primitive (`int`, `boolean` etc) then the argument is passed by value. If the expression evaluated results a primitive then it is passed by value. If the expression is a variable then the primitive value contained by the variable is passed. That way we can say looking at the three example languages that
+
+
+	* PASCAL declares how to pass arguments
+	* C calculates the actual value where it is passed
+	* Java decides based on the type of the argument
+
+
+Java, in my opinion, is a bit messy. But I did not realized it because this messiness is limited and is hidden well by the fact that the boxed versions of the primitives are immutable. Why would you care the underlying mechanism of argument passing if the value can not be modified anyway. If it is passed by value: it is OK. If it passed by reference, it is still okay because the object is immutable.
+
+Would it cause problem if the boxed primitive values were mutable? We will see if and when we will have link:http://cr.openjdk.java.net/~jrose/values/values-0.html[value types] in Java.
+
+=== Comments imported from Wordpress
+
+
+*pail* 2016-01-27 20:51:14
+{%@comment id: 9586 %}
+{%@comment author_email: paulc@objectvision.co.uk %}
+{%@comment author_url:  %}
+{%@comment author_IP: 81.187.253.174 %}
+{%@comment date_gmt: 2016-01-27 19:51:14 %}
+[quote]
+____
+Java is pass-by-value. There is no pass-by-reference because java does not have objects, only object references (which are passed by value).
+
+'null' is a value (as demonstrated by the fact that it can be used in = and == expressions) and since it can be passed as any object type arg, args must therefore be references which are passed by value.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Value types in Java: why should they be immutable? | Java Deep* 2016-01-13 16:02:36
+{%@comment id: 9552 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2016/01/13/value-types-in-java-why-should-they-be-immutable/ %}
+{%@comment author_IP: 192.0.83.29 %}
+{%@comment date_gmt: 2016-01-13 15:02:36 %}
+[quote]
+____
+[&#8230;] you may recall from the previous article I detailed that Java passes method arguments by reference or by value depending on the type of the [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Francis Ham* 2016-01-11 10:06:57
+{%@comment id: 9537 %}
+{%@comment author_email: kungfupfirsich@gmail.com %}
+{%@comment author_url: https://plus.google.com/104843154609502980160 %}
+{%@comment author_IP: 91.143.102.5 %}
+{%@comment date_gmt: 2016-01-11 09:06:57 %}
+[quote]
+____
+In response to your last comment: Although you have explained things (mostly) correctly, you still seem to confuse how and what. One paragraph is particularly confusing. Let's examine it.
+
+"So long as long we work only with objects Java passes by reference."
+No, [strong]#a# reference is passed [strong]#by value#.
+
+"Whatever expression you write to the actual function call when the result is an object a reference to the object is passed to the method."
+Correct. And it's passed by value.
+
+" If the expression is a variable then the reference contained by the variable (which is the value of the variable, so this is a kind of pass-by-value) is passed."
+Not kind of but exactly pass-by-value.
+
+The irony is that you explained pass-by-reference correctly earlier:
+"... will have effect on the variable passed as argument".
+That cannot be done in Java.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*assylias* 2016-01-08 13:04:19
+{%@comment id: 9512 %}
+{%@comment author_email: ylt@letallec.org %}
+{%@comment author_url: http://assylias.wordpress.com %}
+{%@comment author_IP: 46.31.243.225 %}
+{%@comment date_gmt: 2016-01-08 12:04:19 %}
+[quote]
+____
+And also this: http://www.yoda.arachsys.com/java/passing.html
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 9511 %}
+{%@comment user_id: 22959887 %}
+
+*tamasrev* 2016-01-08 10:58:57
+{%@comment id: 9509 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 213.163.40.33 %}
+{%@comment date_gmt: 2016-01-08 09:58:57 %}
+[quote]
+____
+I really like it: a simple explanation of a complex situation.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}
+
+*Francis Ham* 2016-01-08 12:58:32
+{%@comment id: 9510 %}
+{%@comment author_email: kungfupfirsich@gmail.com %}
+{%@comment author_url: https://plus.google.com/104843154609502980160 %}
+{%@comment author_IP: 91.143.102.5 %}
+{%@comment date_gmt: 2016-01-08 11:58:32 %}
+[quote]
+____
+In Java arguments are passed by value. Always. Structs are value types whereas classes are reference types. Comparing them to make your point is not the best of ideas.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*assylias* 2016-01-08 13:02:15
+{%@comment id: 9511 %}
+{%@comment author_email: ylt@letallec.org %}
+{%@comment author_url: http://assylias.wordpress.com %}
+{%@comment author_IP: 46.31.243.225 %}
+{%@comment date_gmt: 2016-01-08 12:02:15 %}
+[quote]
+____
+Java is always pass-by-value - in the case of Objects, it is the reference itself that is passed by value. Saying that objects are passed by reference would imply that when you write `void m(Dog d) { d = new Dog(); }`, the Dog in the calling code would now refer to a new Dog, which is not the case... See for example: http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 22959887 %}
+
+*Peter Verhas* 2016-01-08 14:28:34
+{%@comment id: 9513 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 178.197.231.240 %}
+{%@comment date_gmt: 2016-01-08 13:28:34 %}
+[quote]
+____
+I am very certain that I described the topic detailed and clear. I do not want to argue about if the explanation "objects are passed by reference" or "objects are not passed at all" is the better. I personally vote for the first.
+
+The referenced web pages underline the statement of my article that there is a lot of confusion about this issue and thing will become more confusing if/when value types are going to be introduced.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 9512 %}
+{%@comment user_id: 31131067 %}
+
+*turner2448* 2017-09-09 11:28:10
+{%@comment id: 11420 %}
+{%@comment author_email: turner2448@hotmail.com %}
+{%@comment author_url: http://turner2448.wordpress.com %}
+{%@comment author_IP: 87.81.141.128 %}
+{%@comment date_gmt: 2017-09-09 10:28:10 %}
+[quote]
+____
+Incorrect. Java is pass by value. Always. No ifs, no buts.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 47308895 %}

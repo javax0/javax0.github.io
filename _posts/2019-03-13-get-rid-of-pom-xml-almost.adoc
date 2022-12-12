@@ -1,0 +1,301 @@
+---
+title: "Get rid of pom XML... almost" 
+layout: posta
+comments: on
+---
+
+
+== 1. Introduction
+
+
+POM files are XML formatted files that declaratively describe the build structure of a Java project to be built using Maven. Maintaining the POM XML files of large Java projects is many times cumbersome. XML is verbose and also the structure of the POM requires the maintenance of redundant information. The naming of the artifacts many times is redundant repeating some part of the name in the `groupId` and in the `artifactId`. The version of the project should appear in many files in case of a multi-module project. Some of the repetitions can be reduced using properties defined in the parent pom, but you still have to define the parent pom version in each module pom, because you refer to a POM by the artifact coordinates and not just referring to it as "the pom that is there in the parent directory". The parameters of the dependencies and the plugins can be configured in the parent POM in the `pluginManagement` and `dependency` management but you still can not get rid of the list of the plugins and dependencies in each and every module POM though they are usually just the same.
+
+You may argue with me because it is also the matter of taste, but for me, POM files in their XML format are just too redundant and hard to read. Maybe I am not meticulous enough but many times I miss some errors in my POM files and have a hard time to fix them.
+
+There are some technologies to support other formats, but they are not widely used. One such approach to get rid of the XML is link:https://github.com/takari/polyglot-maven[Poyglot Maven]. However, if you look on that Github page at the very first example, which is Ruby format POM you can still see a lot of redundant information, repetitions. This is because Polyglot Maven plugs-into Maven itself and replaces only the XML format to something different but does not help on the redundancy of the POM structure itself.
+
+In this article, I will describe an approach that I found much better than any other solution, where the POM files remain XML for the build process, thus there is no need for any new plugin or change of the build process, but these `pom.xml` files are generated using the Jamal macro language from the `pom.xml.jam` file and some extra macro files that are shared by the modules.
+
+
+== 2. Jamal
+
+
+The idea is to use a text-based macro language to generate the XML files from some source file that contains the same information is a reduced format. This is some kind of programming. The macro description is a program that outputs the verbose XML format. When the macro language is powerful enough the source code can be descriptive enough and not too verbose. My choice was Jamal. To be honest, one of the reasons to select Jamal was that it is a macro language that I developed almost 20 years ago using Perl and a half year ago I reimplemented it in Java.
+
+The language itself is very simple. Text and macros are mixed together and the output is the text and the result of the macros. The macros start with the `{` character or any other string that is configured and end by the corresponding `}` character or by the string that was configured to be the ending string. Macros can be nested and there is fine control what order the nested macros should be evaluated. There are user-defined and built-in macros. One of the built-in macros is `define` that is used to define user-defined macros.
+
+An example talks better. Let's have a look at the following `test.txt.jam` file.
+
+[source]
+----
+{@define GAV(_groupId,_artifactId,_version)=
+    {#if |_groupId|<groupId>_groupId</groupId>}
+    {#if |_artifactId|<artifactId>_artifactId</artifactId>}
+    {#if |_version|<version>_version</version>}
+}
+
+{GAV :com.javax0.geci:javageci-parent:1.1.2-SNAPSHOT}
+----
+
+
+processing it with Jamal we will get
+
+[source]
+----
+
+    <groupId>com.javax0.geci</groupId>
+    <artifactId>javageci-parent</artifactId>
+    <version>1.1.2-SNAPSHOT</version>
+----
+
+
+I deleted the empty lines manually for typesetting reasons though, but you get a general idea. `GAV` is defined using the built-in macro `define`. It has three arguments named `_groupId`,`_artifactId` and `_version`. When the macro is used the format argument names in the body of the macro are replaced with the actual values and replace the user-defined macro in the text. The text of the `define` built-in macro itself is an empty string. There is a special meaning when to use `@` and when to use `#` in front of the built-in macros, but in this article, I cannot get into that level of detail.
+
+The `if` macros also make it possible to omit `groupId`, `artifactId` or `version`, thus
+
+[source]
+----
+{GAV :com.javax0.geci:javageci-parent:}
+----
+
+
+also works and will generate
+
+[source]
+----
+    <groupId>com.javax0.geci</groupId>
+    <artifactId>javageci-parent</artifactId>
+----
+
+
+If you feel that still there is a lot of redundancy in the definition of the macros: you are right. This is the simple approach defining `GAV`, but you can go to the extreme:
+
+[source]
+----
+{#define GAV(_groupId,_artifactId,_version)=
+    {@for z in (groupId,artifactId,version)=
+        {#if |_z|<z>_z</z>}
+    }
+}{GAV :com.javax0.geci:javageci-parent:}
+----
+
+
+Be warned that this needs an insane level of understanding of macro evaluation order, but as an example, it shows the power. More information on Jamal https://github.com/verhas/jamal
+
+Let's get back to the original topic: how Jamal can be used to maintain POM files.
+
+
+== 3. Cooking pom to jam
+
+
+There can be many ways, which each may be just good. Here I describe the first approach I used for the Java::Geci project. I create a `pom.jim` file (`jim` stands for Jamal imported or included files). This contains the definitions of macros, like `GAV`, `dependencies`, `dependency` and many others. You can download this file from the Java::Geci source code repo: https://github.com/verhas/javageci The `pom.jim` file can be the same for all projects, there is no any project specific in it. There is also a `version.jim` file that contains the macro that defines at one single place the project version, the version of Java I use in the project and the groupId for the project. When I bump the release number from `-SNAPSHOT` to the next release or from the release to the next `-SNAPSHOT` this is the only place where I need to change it and the macro can be used to refer to the project version in the top level POM? but also in the module POMs referring to the parent.
+
+In every directory, where there should a `pom.xml` file I create a `pom.xml.jam` file. This file imports the `pom.jim` file, so the macros defined there can be used in it. As an example the Java::Geci `javageci-engine` module `pom.xml.jam` file is the following:
+
+[source]
+----
+{@import ../pom.jim}
+{project |jar|
+    {GAV ::javageci-engine:{VERSION}}
+    {parent :javageci-parent}
+    {name|javageci engine}
+    {description|Javageci macro library execution engine}
+
+    {@include ../plugins.jim}
+
+    {dependencies#
+        {@for MODULE in (api,tools,core)=
+            {dependency :com.javax0.geci:javageci-MODULE:}}
+        {@for MODULE in (api,engine)=
+            {dependency :org.junit.jupiter:junit-jupiter-MODULE:}}
+    }
+}
+----
+
+
+I think that this is fairly readable, at least for me it is more readable than the original `pom.xml` was:
+
+[source]
+----
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>javageci-engine</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <parent>
+        <groupId>com.javax0.geci</groupId>
+        <artifactId>javageci-parent</artifactId>
+        <version>1.1.1-SNAPSHOT</version>
+    </parent>
+    <name>javageci engine</name>
+    <description>Javageci macro library execution engine</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.javax0.geci</groupId>
+            <artifactId>javageci-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.javax0.geci</groupId>
+            <artifactId>javageci-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.javax0.geci</groupId>
+            <artifactId>javageci-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+----
+
+
+To start Jamal I can use the Jamal Maven plugin. To do that the easiest way is to have a `genpom.xml` POM file in the root directory, with the content:
+
+[source]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.javax0.jamal</groupId>
+    <artifactId>pom.xml_files</artifactId>
+    <version>out_of_pom.xml.jam_files</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.javax0.jamal</groupId>
+                <artifactId>jamal-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>jamal</goal>
+                        </goals>
+                        <configuration>
+                            <transformFrom>\.jam$</transformFrom>
+                            <transformTo></transformTo>
+                            <filePattern>.*pom\.xml\.jam$</filePattern>
+                            <exclude>target|\.iml$|\.java$|\.xml$</exclude>
+                            <sourceDirectory>.</sourceDirectory>
+                            <targetDirectory>.</targetDirectory>
+                            <macroOpen>{</macroOpen>
+                            <macroClose>}</macroClose>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+----
+
+
+Having this I can start Maven with the command line `mvn -f genpom.xml clear`. This not only creates all the POM files but also clears the previous compilation result of the project, which is probably a good idea when the POM file changes. It can also be executed when there is no `pom.xml` yet in the directory or when the file is not valid due to some bug you may have in the jam cooked POM file. Unfortunately, all recursivity has to end somewhere and it is not feasible, though possible to maintain the `genpom.xml` as a jam cooked POM file.
+
+
+== 4. Summary
+
+
+What I described is one approach to use a macro language as a source instead of raw editing the `pom.xml` file. The advantage is the shorter and simpler project definition. The disadvantage is the extra POM generation step, which is manual and not part of the build process. You also lose the possibility to use the Maven release plugin directly since that plugin modifies the POM file. I myself always had problems to use that plugin, but it is probably my error and not that of the plugin. Also, you have to learn a bit Jamal, but that may also be an advantage if you happen to like it. In short: you can give it a try if you fancy. Starting is easy since the tool (Jamal) is published in the central repo, the source and the documentation is on Github, thus all you need is to craft the `genpom.xml` file, cook some jam and start the plugin.
+
+POM files are not the only source files that can be served with jam. I can easily imagine the use of Jamal macros in the product documentation. All you need is creating a `documentationfile.md.jam` file as a source file and modify the main POM to run Jamal during the build process converting the `.md.jam` to the resulting macro processed markdown document. You can also set up a separate POM just like we did in this article in case you want to keep the execution of the conversion strictly manual. You may even have `java.jam` files in case you want to have a preprocessor for your Java files, but I beg you not to do that. I do not want to burn in eternal flames in hell for giving you Jamal. It is not for that purpose.
+
+There are many other possible uses of Jamal. It is a powerful macro language that is easy to embed into applications and also easy to extend with macros written in Java. Java::Geci also has a 1.0 version module that supports Jamal to ease code generation still lacking some built-in macros that are planned to make it possible to reach out to the Java code structure via reflections. I am also thinking about to develop some simple macros to read Java source files and to include into documentation. When I have some result in those I will write about.
+
+If you have any idea what else this technology could be used for, do not hesitate to contact me.
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2019-03-15 19:59:00
+
+
+
+
+
+[quote]
+____
+Well, this article is not about comparing maven and other things. However, I have heard of companies who crafted Java source code using vi and use shell scripts with javac commands in it to compile. Their argument is that way they really know what is happening during compilation and if something does not work then they can rectify it.
+____
+
+
+
+
+
+*Martin Grajcar* 2019-03-15 16:52:30
+
+
+
+
+
+[quote]
+____
+I see as the biggest problem with these declarative tools is the difficulty to find out what's wrong when something stops working. I've heard of about ten-people companies having one guy specialized on maven and spending most time with it. That's a shame.
+
+Maybe we should forget them all, provide libraries each doing one simple step (resolve a version conflict, load a dependency, ...) and use our programming skills to assemble them together. When anything goes wrong with this, then we can use everything we've learned as programmers to fix it.
+
+I can't say anything about maven+jamal, as I gave up on maven years ago.
+____
+
+
+
+
+
+*Borbély Viktor* 2019-03-13 20:16:37
+
+
+
+
+
+[quote]
+____
+Hi, nice article. Did you consider using gradle build files?
+Seems much clearer than Pom.xml and Jamal.
+____
+
+
+
+
+
+*Peter Verhas* 2019-03-13 23:28:45
+
+
+
+
+
+[quote]
+____
+Yes, and Gradle being Groovy based also makes it possible to define variables and alikes. It is programmable and gives you free hand to reduce redundancy wherever you feel fit even in cases that are very much project specific. I see no reason to use Jamal or any other similar macro application in case of Gradle build files. If your Gradle build files are redundant, contain copied code then you have not mastered Gradle and you better do that instead of using any macro language.
+
+Gradle is a heavy tool with its learning curve.
+
+Maven is much more mature and established. I have seen many program factories where Maven is the recommended tool for the very reason that it cannot be programmed the way like Gradle and therefore the chance of unnecessarily complex build files is much smaller. It may also happen that a developer, like me, is experienced with Maven and less so with Gradle and the priority list of to-learn new things puts Gradle much behind other things. Learning and applying Jamal is much simpler than Gradle, especially for me, who made Jamal, which I totally agree is a special case.
+____
+
+
+

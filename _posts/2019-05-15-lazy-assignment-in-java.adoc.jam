@@ -1,0 +1,248 @@
+---
+title: "Lazy assignment in Java" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Programmers are inherently lazy, and __similis simili gaudet__, like when the programs are lazy. Have you ever heard of lazy loading? Or lazy singleton? (I prefer the single malt version, though.) If you are programming in Scala or Kotlin, a JVM language, you can even lazily evaluate expressions.
+
+If you are programming in Scala, you can write:
+
+[source,scala]
+----
+lazy val z = "Hello"
+----
+
+
+and the expression will only be evaluated when `z` is accessed the first time. If you program in Kotlin, you can write something like
+
+[source,java]
+----
+val z: String by lazy { "Hello" }
+----
+
+
+and the expression will only be evaluated when `z` is accessed the first time.
+
+Java does not support that lazy evaluation per se, but being a powerful language, it provides language elements that you can use to have the same result. While Scala and Kotlin give you the fish, Java teaches you to catch your fish. (Let's put a pin in this thought.)
+
+What happens in the background when you code the above lines in Scala or Kotlin is that the expression is not evaluated, and the variable will not hold the result of the expression. Instead, the languages create some virtual "lambda" expressions, a 'supplier' that the code will later use to calculate the expression's value.
+
+We can do that ourselves in Java. We can use a simple class, `Lazy` that provides the functionality:
+
+[source,java]
+----
+public class Lazy implements Supplier {
+
+final private Supplier supplier;
+private boolean supplied = false;
+private T value;
+
+private Lazy(Supplier supplier) {
+this.supplier = supplier;
+}
+
+public static  Lazy let(Supplier supplier) {
+return new Lazy(supplier);
+}
+
+@Override
+public T get() {
+if (supplied) {
+return value;
+}
+supplied = true;
+return value = supplier.get();
+}
+}
+----
+
+
+The class has the `public static` method `let()` that can be used to define a supplier and this supplier is invoked the first time the method `get()` is invoked. With this class, you can write the above examples as
+
+[source,java]
+----
+var z = Lazy.let( () -> "Hello" );
+----
+
+
+By the way, it seems to be even simpler than the Kotlin version. You can use the class from the library:
+
+[source,xml]
+----
+<groupId>com.javax0</groupId>
+<artifactId>lazylet</artifactId>
+<version>1.0.0</version>
+----
+
+
+and then you do not need to copy the code into your project. It is a micro-library that contains only this class with an inner class that makes `Lazy` usable in a multi-thread environment.
+
+The use is simple as demonstrated in the unit tests:
+
+[source,java]
+----
+private static class TestSupport {
+int count = 0;
+
+boolean callMe() {
+count++;
+return true;
+}
+}
+
+...
+
+final var ts = new TestSupport();
+var z = Lazy.let(ts::callMe);
+if (false &amp;&amp; z.get()) {
+Assertions.fail();
+}
+Assertions.assertEquals(0, ts.count);
+z.get();
+Assertions.assertEquals(1, ts.count);
+z.get();
+Assertions.assertEquals(1, ts.count);
+----
+
+
+To get the multi-thread safe version you can use the code:
+
+[source,java]
+----
+final var ts = new TestSupport();
+var z = Lazy.sync(ts::callMe);
+if (false &amp;&amp; z.get()) {
+Assertions.fail();
+}
+Assertions.assertEquals(0, ts.count);
+z.get();
+Assertions.assertEquals(1, ts.count);
+z.get();
+Assertions.assertEquals(1, ts.count);
+----
+
+
+and get a `Lazy` supplier that multiple threads can use, and it is still guaranteed that the supplier passed as argument is evaluated only once.
+
+
+{%subsection |Giving you a fish or teaching you to fish%}
+
+
+I said to put a pin in the note, "While Scala and Kotlin give you the fish, Java teaches you to catch your fish." Here is what I meant by that.
+
+Many programmers write programs without understanding how the programs execute. They program in Java, and they write excellent and working code, but they have no idea how the underlying technology works. They have no idea about the class loaders, garbage collections. Or they do, but they do not know anything about the machine code that the JIT compiler generates. Or they even do that, but they have no idea about the processor caches, different memory types, hardware architecture. Or they know that but have no knowledge about microelectronics and lithography and how the layout of the integrated circuits are, how the electrons move inside the semiconductor, how quantum mechanics determines the non-deterministic inner working of the computer.
+
+I do not say that you have to be a physicist and understand quantum mechanics' intricate details to be a good programmer. I recommend, however, to understand a few layers below your everyday working tools. If you use Kotlin or Scala, it is okay to use the lazy structures they provide. They give a programming abstraction one level higher than what Java provides in this specific case. But it is vital to know how the implementation probably looks like. If you know how to fish, you can buy the packaged fish because you can tell when the fish is good. If you do not know how to fish, you will rely on the mercy of those who give you the fish.
+
+=== Comments imported from Wordpress
+
+
+*Lazy task in Java | Hiya Android - Android World* 2019-05-19 13:37:36
+{%@comment id: 27509 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://www.hello-android.com/2019/05/19/lazy-task-in-java-hiya-android/ %}
+{%@comment author_IP: 23.239.65.122 %}
+{%@comment date_gmt: 2019-05-19 12:37:36 %}
+[quote]
+____
+[&#8230;] Printed on Hiya Android with permission by Peter Verhas, companion at our JCG program. See the unique article right here: Lazy task in Java [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*evik* 2019-05-20 01:03:54
+{%@comment id: 27510 %}
+{%@comment author_email: evikgm@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 176.63.27.7 %}
+{%@comment date_gmt: 2019-05-20 00:03:54 %}
+[quote]
+____
+I suggested a change and did not imply that it is the only way to go, for me it seemed more flexible.
+In case 1 the caller on subsequent calls has no means to tell the difference between a problem and a valid calculation as null might be a valid value.
+In case 2 if there are side effects that should happen only once and are repeated because of the exception then it is a design problem.
+Case 3 does not allow a chance to recover from an intermittent error (like network problem).
+
+Both case 1 and 3 are closing on the error and does not have the flexibility to recover. If you go with the second variation you can still add some code around to get the more fixed solutions if that is needed.
+
+Btw both Kotlin and Scala implements lazy with retries on exceptions.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27504 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2019-05-17 11:10:46
+{%@comment id: 27501 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 178.197.231.67 %}
+{%@comment date_gmt: 2019-05-17 10:10:46 %}
+[quote]
+____
+lorek, I know you from a long time ago. I can assure you, that you are not a bad programmer. If you said that in the field of programming I am more of an expert I accept that. There are other knowledge areas where you excel more. For example quantum mechanics. I am absolutely sure that you know more about the characteristics of the distribution function of the electrons in a covalently binding hydrogen molecule than what I know.
+
+Knowledge and experience in a specific area is not an absolute value.
+
+I am happy that you still keep reading my blogs. By the way, this also shows that you are not a bad programmer. A bad programmer by accident may read some of my articles, but no bad programmer would keep reading them all, and I know you do. Appreciate.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27500 %}
+{%@comment user_id: 31131067 %}
+
+*Iorek* 2019-05-17 11:02:35
+{%@comment id: 27500 %}
+{%@comment author_email: peter.szaszvari@gmail.com %}
+{%@comment author_url: http://petyo61.wordpress.com %}
+{%@comment author_IP: 168.149.159.6 %}
+{%@comment date_gmt: 2019-05-17 10:02:35 %}
+[quote]
+____
+I am a "fallen physicist" understanding all the layers you mentioned but still feeling under educated and after all a bad programmer.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17463056 %}
+
+*evik* 2019-05-17 16:59:02
+{%@comment id: 27502 %}
+{%@comment author_email: evikgm@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 176.63.27.7 %}
+{%@comment date_gmt: 2019-05-17 15:59:02 %}
+[quote]
+____
+I am not sure how Kotlin or Scala handles it but in your solution if supplier throws an exception then Lazy starts to return null values instead of trying again. I would suggest to set supplied to true only after getting the result to avoid this.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2019-05-17 22:02:06
+{%@comment id: 27504 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 83.79.60.72 %}
+{%@comment date_gmt: 2019-05-17 21:02:06 %}
+[quote]
+____
+Well, this is a non-defined functionality that can be imagined in many different ways.
+
+
+* The current implementation will just return null for all subsequent calls, which makes sense because the value was not set.
+* Your proposed behavior would repeatedly try to call the supplier that will trigger the side effects so many times as many times the method get() is invoked.
+* I can also imagine a solution that throws the exception if it happens at the first invocation of the method get() and then it is thrown again if get() is invoked again.
+
+
+Why your solution is the only real one and any other behavior a misnomer?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27502 %}
+{%@comment user_id: 31131067 %}

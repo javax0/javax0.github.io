@@ -1,0 +1,263 @@
+---
+title: "Box old objects to be auto closable"
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Since Java 7 we can use try-with-resources and have any object automatically closed that implements the `Autocloseable` interface. If the resource __is__ `Autocloseable`. Some of the classes need some wrap-up but are not `Autocloseable`. These are mainly old classes in some legacy framework that still get in our way to make us trip up. Nobody is using Struts any more, but still, there are enough old frameworks that are there lurking in the dark and with which we have to live. I recently had that experience and I was so motivated that I created a simple `AutoCloser` class.
+
+We may have a legacy class (in the example this is a mocking inner class of the testing class)
+
+[source,java]
+----
+    public class NotAutoclosable {
+        public NotAutoclosable() {
+            opened = true;
+        }
+
+        public void dispose() {
+            opened = false;
+        }
+    }
+----
+
+
+which is not auto-closeable as the name also implies. It does not implement the `Autocloseable` interface and it does not have a `close()` method. It has to be disposed calling the aptly named method `dispose()`. (The `boolean` field `opened` is used to check later in the unit test to assert the correct functioning of the `AutoCloser` class.)
+
+The use of the class looks as follows:
+
+[source,java]
+----
+    @Test
+    void test() {
+        final NotAutoclosable notAu;
+        try (final var s = AutoCloser.useResource(new NotAutoclosable())
+                .closeWith(sp -> sp.get().dispose())) {
+            Assertions.assertTrue(opened);
+        }
+        Assertions.assertFalse(opened);
+    }
+----
+
+
+We create the resource using the constructor of the inner class and we also define a `Consumer` that will "close" the resource. This consumer will get the same `Supplier` that is stored in the variable `s`.
+
+Side note: this functional argument has to be a consumer and cannot be a `Runnable` using the variable `s` because that variable is not initialized when the lambda expression is evaluated as a lambda expression. When it is going to be used it will already be defined but that is too late for the Java compiler, it does not trust the programmer that much and usually, it does it with good reason.
+
+The `AutoCloser` class is the following:
+
+[source,java]
+----
+public class AutoCloser<T> {
+
+    private final T resource;
+
+    private AutoCloser(T resource) {
+        this.resource = resource;
+    }
+
+    public static <T> AutoCloser<T> useResource(T resource) {
+        return new AutoCloser<>(resource);
+    }
+
+    public AutoClosableSupplier closeWith(Consumer<Supplier<T>> closer){
+        return new AutoClosableSupplier(closer);
+    }
+
+    public class AutoClosableSupplier implements Supplier<T>, AutoCloseable {
+        private final Consumer<Supplier<T>> closer;
+
+        private AutoClosableSupplier(Consumer<Supplier<T>> closer) {
+            this.closer = closer;
+        }
+
+        @Override
+        public T get() {
+            return resource;
+        }
+
+        @Override
+        public void close() {
+            closer.accept(this);
+        }
+
+    }
+}
+----
+
+
+The inner `AutoClosableSupplier` class is used because we do not want the programmer accidentally forget to specify the lambda that will finally close the resource.
+
+This is nothing really serious. It is just a programming style that moves the closing of the resource close to the opening of the resource a bit like the `deferred` statement in the Go language.
+
+=== Comments imported from Wordpress
+
+
+*zazzo73* 2019-06-02 15:08:36
+{%@comment id: 27567 %}
+{%@comment author_email: stefanofago@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 79.20.90.33 %}
+{%@comment date_gmt: 2019-06-02 14:08:36 %}
+[quote]
+____
+Ok... Mr. Verhas, I think here we are...
+https://github.com/stefanofago73/autocloseable-experiments
+I've also put some other ideas inside... but are all experiments ( i need time.. aarrgghhh). I like internal DSL (in recent past I've also made some research about it) and it's really interesting the double-dispatch (we can call it in this way? it seems like a visitor) of your solution... again... sorry for the time you've lost 'cause me and thank you for all ...
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27564 %}
+{%@comment user_id: 148174939 %}
+
+*Peter Verhas* 2019-06-05 09:14:02
+{%@comment id: 27579 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 178.197.231.21 %}
+{%@comment date_gmt: 2019-06-05 08:14:02 %}
+[quote]
+____
+I had a good look at your code. I saw no major architectural difference between your versions and what I described. I used a simple call chain/fluent API kind of structure to get the resource as well as to force the declaration of the closing function.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27558 %}
+{%@comment user_id: 31131067 %}
+
+*Peter Verhas* 2019-06-02 12:36:42
+{%@comment id: 27564 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 83.79.60.72 %}
+{%@comment date_gmt: 2019-06-02 11:36:42 %}
+[quote]
+____
+I still would love a repository URL that I can clone to my dev machine and look at the code in my IDE. Gists solve the formatting but it is still difficult to download the files one by one and create a project to start up. Thank you very much if you would do that.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 31131067 %}
+
+*Peter Verhas* 2019-06-01 15:14:17
+{%@comment id: 27559 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 83.79.60.72 %}
+{%@comment date_gmt: 2019-06-01 14:14:17 %}
+[quote]
+____
+Btw: when you post code you can use markdown format.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27558 %}
+{%@comment user_id: 31131067 %}
+
+*zazzo73* 2019-06-01 15:54:30
+{%@comment id: 27561 %}
+{%@comment author_email: stefanofago@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 79.20.90.33 %}
+{%@comment date_gmt: 2019-06-01 14:54:30 %}
+[quote]
+____
+Sorry! I've not thought about formatting... my fault... Here: https://gist.github.com/stefanofago73 can you find the complete code fragment of both versions... Thank You for All and Have a Nice Week End
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27558 %}
+{%@comment user_id: 148174939 %}
+
+*Peter Verhas* 2019-06-01 15:13:43
+{%@comment id: 27558 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 83.79.60.72 %}
+{%@comment date_gmt: 2019-06-01 14:13:43 %}
+[quote]
+____
+It is fairly difficult to follow these examples for two reasons:
+
+
+They are not complete so when I try to comprehend I have to fill in the missing gaps with my assumptions about what you were thinking when you created the code. It is difficult and likely my assumptions are far from your intention.
+The code is coded in an extremely compact way that may be appealing to some, but not professional in the sense that no professional code should be hard to apprehend for a mediocre programmer.
+
+
+Since this is not a huge effort these days to publish such code into a public repository, could I ask you to create the simplest possible project out of your examples that include unit test samples about the use of the code and post here the repository URL? That will also benefit other readers.
+
+As for now and as far as I can see your example is not radically different from what I described in the article. Your version is less readable for me and the expressiveness of the API is not as strong as a fluent API. Note though, that expressiveness is a very subjective term in this case.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 27557 %}
+{%@comment user_id: 31131067 %}
+
+*zazzo73* 2019-06-01 14:49:47
+{%@comment id: 27557 %}
+{%@comment author_email: stefanofago@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 79.20.90.33 %}
+{%@comment date_gmt: 2019-06-01 13:49:47 %}
+[quote]
+____
+Mr. Verhas,
+
+thx for your posts and your work. I take only a moment for question: what differences can we spot with this version, instead of using a simple wrapper? To be clear, it isn't a critic: I'm only studying the different interpretations of the same problem, summarizing pro/con, nothing more...
+
+I've researched for something similar but I've found two "strange" solutions (my trade-off are related also to have a compact form, code maintenance, and so on...):
+
+DIRTY:
+
+[source,java]
+----
+public class AutoCloserDirty {
+    public static final <S> AutoCloseable autoclose(S element, Consumer<S> elementInvocation) {
+        return ((BiFunction<S, Consumer<S>, AutoCloseable>)
+                  (subject, callback) -> () -> callback.accept(subject)).apply(element, elementInvocation));
+    }
+}
+----
+
+
+...so i can write:
+
+[source,java]
+----
+try( AutoCloseable c = autoclose(service, IService::destroy)){
+    service.execute("Hello World!");
+    } catch (Exception e) { 
+    e.printStackTrace(); 
+    } // dirty for the catch!...
+----
+
+
+LEAN:
+
+[source,java]
+----
+public class AutoCloserLean {
+    public static final <S> LeanCloseable<S> autoclose(S element, Consumer<S> elementInvocation) {
+        return new LeanCloseable<S>(element, elementInvocation);
+    }
+}// END
+----
+
+
+...where `LeanCloseable` is something similar to your inner class ...so i can write:
+
+[source,java]
+----
+try (LeanCloseable service = autoclose(new Service(), IService::destroy)) { 
+    service.get().execute("Hello World!"); 
+    }
+----
+
+
+Thank You for your time!
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 148174939 %}

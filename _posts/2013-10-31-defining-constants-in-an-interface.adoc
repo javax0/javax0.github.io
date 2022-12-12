@@ -1,0 +1,71 @@
+---
+title: "Defining constants in an interface" 
+layout: posta
+comments: on
+---
+
+link:http://www.amazon.com/Effective-Java-Edition-Joshua-Bloch/dp/0321356683[Effective Java] says in Item 19, that "Use interfaces only to define types". This time I would like to argue with this statement, but before starting a debate lets see the reasoning of that short chapter. What is the ground for the advice that diverts us from defining constants in interfaces. (Constants I mean `public static final` variables.)
+
+The __constant interface__ pattern says that
+
+	* you define the constants in an interface, and
+	* the classes needing the constants implement the interface.
+
+
+This way the constants can be used as they were defined inside the class. The interface and thus the constants defined in it became part of the class. This is easy and convenient. What is the problem?
+
+The problem is that the interface does not only become part of the implementation of the class but it also becomes part of the definition of the class. A class has tangible part that you face every day as a programmer: this is the implementation. The intangible part is the definition of the class: what it is for. Since you can define and use a class without implementing any interface the definition of a class may be implicit. If there are no interfaces that the class implement, or even if the class implements some interfaces the definition of the class lies in the documentation of the class, in the signature of the accessible methods and generally in common sense.
+
+When a class implements an interface the interface becomes part of the __definition of the class__.
+
+[quote]
+____
+The constant interface pattern is a poor use of interfaces.
+____
+
+
+The before-mentioned book says "implementing a constant interface causes the implementation detail leak into the class's exported API". Later on the book draws the conclusion "In summary, interfaces should be used only to define types. They should not be used to export constants."
+
+And now the debate:
+
+Drawing this conclusion is too bald, in my opinion. The pattern contains two steps: 1. defining constants in interface, 2. implementing the interface. The conclusion focuses on the first step of the pattern. Of course if you avoid step 1 you can not do number 2. But the problem is actually not the interface defining constants. The problem is that the class is implementing the interface.
+
+The book suggests to use utility classes to define constants. However interfaces could be used exactly the same way as utility classes defining only constants. There is no even syntactic difference in the use. You import the class/interface, you can do static import if that fits your personal/corporate style and you use the constants defined in the class/interface. The major difference is that the interface can not be instantiated by its nature while utility classes can. Utility classes should have a private constructor to avoid accidental instantiation. In an interface all variables are `public static final` by default. In utility classes you have to define them to be like that, which leads to code clutter. Using an interface you may not accidentally forget the `final`, `public` or `static` because they "are there" by default. link:http://checkstyle.sourceforge.net/[Checkstyle] even warns you not to use those keywords in an interface. The compiler knows it anyway and the person who reads the code to maintain it is supposed to know Java.
+
+What is the drawback of defining constants in an interface then? It may accidentally be implemented and this is against the nature of an interface to deliver implementation. While I can not argue with the first part of the statement the nature of interfaces are not that solid. What about Java8? There can be static methods in an interface, and default method implementations. You may like it or not but the direction Java currently goes with interfaces is more towards the practical way. Using a pattern that defines constants in an interface to import it instead of "implementing" is directly this way.
+
+As a summary, my suggestion is to avoid using the __interface pattern__ as defined in "Effective Java". Never implement an interface in any of your classes only to get access to the constants defined in the class, unless the constants are inherent part of the definition of the class and not only the part of the implementation. On the other hand I see no significant danger to define a constants only interface and import it into your class and use the constants.
+
+Next week I will write about an extended pattern using interfaces to define constants that avoids the possibility to accidentally "implement" them.
+
+=== Comments imported from Wordpress
+
+
+*Defining constants in an interface: the good pattern | Java Deep* 2013-11-06 10:38:02
+
+
+
+
+
+[quote]
+____
+[&#8230;] a previous post I analyzed a bit the constant interface pattern and I got to the conclusion that there is nothing [&#8230;]
+____
+
+
+
+
+
+*vine* 2014-09-02 08:39:34
+
+
+
+
+
+[quote]
+____
+I agree with your practical argument!
+____
+
+
+

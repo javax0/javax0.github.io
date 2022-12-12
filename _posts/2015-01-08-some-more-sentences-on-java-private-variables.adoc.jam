@@ -1,0 +1,133 @@
+---
+title: "Some more sentences on Java, private variables" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+In the article link:http://javax0.wordpress.com/2014/11/26/some-sentences-about-java/[Some Sentences about Java] I described that privates variables are visible from inner and nested classes and the other way around also. This is done on Java level, it is a feature of the language. However knowing that the JVM does not know anything about inner and nested classes one may wonder how this is implemented.
+
+
+{%section |No inner classes in JVM%}
+
+
+When you compile a Java class source file the compiler generates the binary file with the extension `.class` from the `.java` file. This binary file contains the symbolic information needed by the compiler to compile other classes that some way depend on this class and it also contains the JVM byte code, which is needed to execute the program. The same is true for interfaces except that they contain executable code only for default methods and for field initialization code executed when the classloader loads the interface.
+
+When there is a class inside another class or interface then the compiler generates extra `.class` files for these classes. The name of these classes usually contain the name of the outer class, `$` sign and the name of the inner or nested class. Since the `$` sign is a legal character in an identifier in Java the JVM can not tell, and does not bother to tell if the class is an inner or top level class in Java language level.
+
+
+{%section |Private is not private then?%}
+
+
+Private methods and fields this way are accessed between classes. Because JVM does not know class nesting these are, for the JVM, "top level" classes.
+
+As a sample lets have a Java code:
+
+[source,java]
+----
+package com.javax0;
+public class Inner {
+	private static class InnerInner {
+		private static Object b;
+	}
+	public void m() {
+		InnerInner.b = null;
+	}
+}
+----
+
+
+If I compile the code with the command line
+
+[source,text]
+----
+$ javac  Inner.java
+$ ls -1
+Inner$InnerInner.class
+Inner.class
+Inner.java
+----
+
+
+I get the two class files. Dissassembling the inner class:
+
+[source,text]
+----
+$ javap -v Inner\$InnerInner.class 
+Classfile /Users/verhasp/github/JavaBeanTester/src/test/java/com/javax0/Inner$InnerInner.class
+  Last modified 2014.12.27.; size 413 bytes
+  MD5 checksum 79f4ea55abe8211fec751d9a4dec9ae1
+  Compiled from "Inner.java"
+class com.javax0.Inner$InnerInner
+  minor version: 0
+  major version: 52
+  flags: ACC_SUPER
+Constant pool:
+   #1 = Fieldref           #3.#15         // com/javax0/Inner$InnerInner.b:Ljava/lang/Object;
+   #2 = Methodref          #4.#16         // java/lang/Object."<init>":()V
+   #3 = Class              #18            // com/javax0/Inner$InnerInner
+   #4 = Class              #21            // java/lang/Object
+   #5 = Utf8               b
+   #6 = Utf8               Ljava/lang/Object;
+   #7 = Utf8               <init>
+   #8 = Utf8               ()V
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               access$002
+  #12 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #13 = Utf8               SourceFile
+  #14 = Utf8               Inner.java
+  #15 = NameAndType        #5:#6          // b:Ljava/lang/Object;
+  #16 = NameAndType        #7:#8          // "<init>":()V
+  #17 = Class              #22            // com/javax0/Inner
+  #18 = Utf8               com/javax0/Inner$InnerInner
+  #19 = Utf8               InnerInner
+  #20 = Utf8               InnerClasses
+  #21 = Utf8               java/lang/Object
+  #22 = Utf8               com/javax0/Inner
+{
+  static java.lang.Object access$002(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Ljava/lang/Object;
+    flags: ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: dup
+         2: putstatic     #1                  // Field b:Ljava/lang/Object;
+         5: areturn
+      LineNumberTable:
+        line 4: 0
+}
+SourceFile: "Inner.java"
+$ 
+----
+
+
+you can notice that an synthetic method was created to set the value of the private field `b`. This method is needed to access the field from the outer class. The direct access is prohibited by the JVM but the compiler allows you to access the field through the synthetic methods it generates. You can not, however call the synthetic method from any other class, because the Java compiler will refuse to compile the code that tries to access directly a synthetic method. This protection works on the compiler level. If you happen to craft some JVM code directly using some special tool that accesses the synthetic method, the JVM will not stop you.
+
+
+{%section |Eclipse warnings%}
+
+
+There is another sign that you may face when creating classes causes the compiler to create synthetic methods. This is when Eclipse warns you about it:
+
+image:https://javax0.files.wordpress.com/2014/12/fullscreen_2014__12__27__19_00.png[link="https://javax0.files.wordpress.com/2014/12/fullscreen_2014__12__27__19_00.png"]
+
+This screen capture shows the line #7 of the previous Java source code where Eclipse tells you that though the code "`InnerInner.b = null;`" looks like a simple assignment it will be executed as a method call.
+
+Fortunately you can configure Eclipse not to display this warning.
+
+
+{%section |Synthetic methods%}
+
+
+If you are interested more in synthetic and bridge methods, read a [a]#previous article# of Java Deep.
+
+
+{%section |Should we avoid private variables inside inner classes?%}
+
+
+The final question after we looked at this detail of the Java language is how seriously we should be worried about the warning that Eclipse gives us. Should we use private nested classes or should we avoid them?
+
+If we use them then the generated JVM code will be littered with synthetic methods and thus the execution will be more complex. If we do not use them then the generated JVM code will be simpler. Should I be worried about the simplicity and the coolness of the generated JVM? I doubt.
+
+What I would focus on is the readability of the code we maintain and not the code javac generates.

@@ -1,0 +1,13 @@
+---
+title: "Logging in Java 9" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Java 9 has a new logging facade that will ease a bit the burden that many developers feel on the skin when they use different frameworks supporting different logging solutions. In this article, I will talk a bit about this burden, where it comes from, how the community tried to solve the issue and what Java 9 delivers to this field in July. At the end of the article, I also give a little bonus. The bonus is a class that combines the new logging capabilities with the Java 9 stack walker framework.
+
+
+{%section |Logging burden%}
+
+
+Java has a logging solution built in since Java 1.4 At the time there were already some existing logging frameworks and everybody was expecting that use of the different logging frameworks will end when there is one supported by Java built into the JDK. The expectation was wrong. You can not command people what to use for their programming needs. They will use the solution that fits their needs best. If you provide a solution that they love, they will use it. Part of it is marketing, part of it is the product: price, features, performance. Logging frameworks developed and Java built-in logged. You certainly have heard of log4j, Apache Commons Logging, logback, slf4j.

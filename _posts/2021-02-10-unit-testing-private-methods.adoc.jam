@@ -1,0 +1,424 @@
+---
+title: "Unit testing private methods" 
+layout: posta
+comments: on
+---
+{%@sep [% %] %}
+[%@import javax0.jim%]
+
+[%section |Introduction%]
+
+In this article, I will contemplate the testing of private methods in unit tests. After that, I will propose a way or pattern to do it, if you must. Finally, I will show how you can generate this pattern automatically.
+
+And yes, I will also write a takeaway section to know what you have read.
+
+[%section |Test or not to Test Private Methods%]
+
+Unit testing is usually not black-box testing. It is debatable if it ought to be or not. Practice shows that it rarely is. When we equip the tested unit with different mocks, we play around with the implementation and not the defined functionality that a black-box test should only deal with.
+
+After setting up and injecting the mock objects, we invoke the tested methods, and these methods are usually public. In other words, the invocation of the tested system is more like a black-box test. You can say that the test setup is not a black-box test, but the actual test is.
+
+The advantage of black-box testing is that it does not need to change if the tested module changes' internal working. If the functionality changes, it is another story. It is easier to refactor, optimize, simplify, beautify your code if there are clean unit tests that do not depend on the implementation. If the unit tests depend on the implementation, then you cannot reliably refactor your code. As soon as you change the implementation, the test has to follow the change.
+
+I do not particularly appreciate when the unit test cannot be black-box, but there are cases when it is unavoidable. An unusual and frequent case is when we want to test a private method. If you want to, or even God forgive, have to test a private method, it is a code smell. The method may be simple, and you can achieve the coverage of its functionality by invoking only the public API of the tested unit. You do not have to test the private method, and if you do not have to, you must not want.
+
+Another possibility is that that the private method is so complicated that it deserves its own test. In that case, the functionality deserves a separate utility class.
+
+Still, there is a third possibility. After all the contemplating, we decide that the private method remains inside the unit, and we want to test it.
+
+It is a small, insignificant problem that you cannot invoke from outside, and the test is inevitably out of the unit. Some developers remove the `private` modifier changing the access level from private to "test-private".
+
+No kidding! After more than 500 technical interviews over the past ten years, I have heard many things. I regret that I did not start recording these. As I heard a few times, one of these lovely things: "test private" as a terminology instead of package-private. Two or three candidates out of the 500 said that the accessibility is test private when there is no access modifier in front of the class member. It means they said that the member can also be accessible from the unit tests. From other classes in the same package? Not so sure.
+
+What this story suggests is that many developers struggle to test private methods. I have also seen this in many other projects.
+
+I am not too fond of this approach because we weaken the access protection of a class member to ease testing.
+
+A different approach is when the tests use reflection to access the class members. There are two issues with this approach. One is the suboptimal performance. The other is the bloated code. The fact that the access to the class members via reflection is slower than the direct access is usually not significant. We are talking about tests. If the test execution needs significant time, then the tests are wrong, or the project is large or has some particular testing need. Even in these cases, the reason for the slow speed is usually not the reflective access.
+
+The bloated code, on the other hand, hinders readability. It is also cumbersome to write every time things like
+
+[source,java]
+----
+Field f = sut.getClass().getDeclaredField("counter");
+f.setAccessible(true);
+f.set(sut, z);
+----
+
+
+when we want to set a private field, or
+
+[source,java]
+----
+Method m = sut.getClass().getDeclaredMethod("increment");
+m.setAccessible(true);
+m.invoke(sut);
+----
+
+
+when we want to invoke a private method. The maintenance of such tests is also questionable. If the name of the method or field changes, the test has to follow. There is no significant risk of forgetting because the test will fail, but still, it is a manual editing functionality. Most of the IDEs support renaming. Whenever I rename a method or field, the IDE renames all the references to it. Not when the reference is part of a string.
+
+There is no real solution to this issue, except when you write code that does not need the testing of private methods and fields. Still, some approaches have advantages.
+
+[%section |Doing it with a Style%]
+
+One approach is to declare a `private` `static` delegating inner class with the same name as the tested class. This class has to implement the same methods as the original tested class, and these implementations should delegate to the original methods. The class also has to implement setters and getters to all the fields.
+
+If we instantiate this class instead of the original one, then we can invoke any method or set any field without reflective access in the test code. The inner class hides the reflective access.
+
+The reason to name the class with the same simple name as the tested class is that the tests do not need to change this way. If a test has a code that instantiated the tested class calling `new Sut()` and now we start to have an inner class named `Sut`, then the constructor all of a sudden will refer to the inner class.
+
+Let's see an example. The following class is a simple example that has one public method and a private one. The complexity of the methods barely reaches the level that would rectify extensive testing, but this makes it suitable for demonstration purposes.
+
+[source,java]
+----
+public class SystemUnderTest {
+
+private int counter = 0;
+
+public int count(int z) {
+while (z > 0) {
+z--;
+increment();
+}
+return counter;
+}
+
+private void increment(){
+counter++;
+}
+
+}
+----
+
+
+This file, along with the other samples, can be found in full at https://github.com/verhas/javageci/tree/1.6.1/javageci-jamal/src/test/java/javax0/geci/jamal/sample
+
+The test itself is also very simple:
+
+[source,java]
+----
+@Test
+void testCounter() throws Exception {
+final var sut = new SystemUnderTest();
+sut.setCounter(0);
+sut.increment();
+Assertions.assertEquals(1, sut.getCounter());
+}
+----
+
+
+The only problem with this solution that the system under test does not contain the setter, and the method `increment()` is private. The code, as it is now, does not compile. We have to provide an implementation of the delegating `static` inner class named `SystemUnderTest`.
+
+The following code shows an implementation of this class, which I created manually.
+
+[source,java]
+----
+private static class SystemUnderTest {
+private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();
+
+private void setCounter(int z) throws NoSuchFieldException, IllegalAccessException {
+Field f = sut.getClass().getDeclaredField("counter");
+f.setAccessible(true);
+f.set(sut, z);
+}
+
+private int getCounter() throws NoSuchFieldException, IllegalAccessException {
+Field f = sut.getClass().getDeclaredField("counter");
+f.setAccessible(true);
+return (int) f.get(sut);
+}
+
+private void increment() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+Method m = sut.getClass().getDeclaredMethod("increment");
+m.setAccessible(true);
+m.invoke(sut);
+}
+
+private int count(int z) {
+return sut.count(z);
+}
+}
+----
+
+
+It is already an achievement because we could separate the messy reflective access from the test code. The test, this way, is more readable. Since we cannot avoid the reflective code, it will not get better than this as per the readability. The other issue, maintainability, however, can still be improved.
+
+[%section |Doing it Automated%]
+
+Creating the delegating inner class is relatively straightforward. It does not need much innovation. If you specify the task precisely, any cheaply hired junior could create the inner class. It is so simple that even a program can create it. It does not need the human brain.
+
+If you tried to write a Java program from scratch that generates this code, it would be, well, not simple. Fortunately (ha ha ha), we have Java::Geci, and even more, we have the Jamal module. Jav::Geci is a code generation framework that you can use to generate Java code. The framework contains readily available code generators, but it is also open and pluggable, providing a clean API for new code generators. It does all the tasks needed for most of the code generators and lets the code generator program focus on its core business.
+
+Code generation.
+
+For simpler applications, when the code generation is straightforward and does not need a lot of algorithm implementation, the module Jamal can be used. Jamal is a text-based templating language, which can be extended with Java classes implementing macros. The Java::Geci Jamal module includes a code generator that parses the source files and looks for code that has the following structure:
+
+[source,java]
+----
+
+/*!Jamal
+
+TEMPLATE
+
+*/
+
+CODE HERE
+
+//__END__
+----
+
+
+When it sees one, it evaluates the code that is written on the lines TEMPLATE using Jamal, and then it replaces the lines of CODE HERE with the result. It generates code, and if there was a generated code but is stale, it updates the code.
+
+The code generation runs during the test execution time, which has advantages and disadvantages.
+
+One disadvantage is that the empty code or stale code should also compile. The compilation should not depend on the up-to-date-ness of the generated code. In practice, we usually (well, not usually, rather always) can cope with it.
+
+The advantage is that the code generation can access the Java code structures via reflection. That way, for example, the code generators can get a list of all declared fields or methods and can generate some delegating methods for them.
+
+The Jamal module contains Java classes implementing macros that can do that. The fact that you can express the generation of the unit test delegating inner class as Jamal macros shows the tool's power. On the other hand, I have to note that this task is somewhere at the edge of the tool's complexity. Nevertheless, I decided to use this task as a sample because generating setter and getters is boring. I also want to avoid lazy readers asking me why to have another setter/getter generator, as it happened at some conferences where I talked about Java::Geci. Setter and getter generator is not a good example, as it does not show you the advantage. You can do that with the IDE or using Lombok or some other tool. Perhaps after reading this article, you can try and implement the setter/getter generation using Jamal just for fun and to practice.
+
+The previous code snippets were from the class `ManualTestSystemUnderTest`. This class contains the manually created delegating inner class. I created this class for demonstration purposes. The other testing class, `GeneratedTestSystemUnderTest` contains the generated sample code. We will look at the code in this file and how Java::Geci generates it automatically.
+
+Before looking at the code, however, I have to make two notes:
+
+ 	* The example code uses a simplified version of the macros. These macros do not cover all the possible causes.
+ 	* On the other hand, the code includes all the macros in the source file. Professional code does not need to have these macros in the source. All they need is an import from a resource file and then the invocation of a single macro. Two lines. The macros generating the delegating inner class are defined in a resource file. It is written once, you do not need to write them all the time. I will show you at the end of this article how it is invoked.
+
+Let's have a look at the class `GeneratedTestSystemUnderTest`! This class contains the following Jamal template in a Java comment:
+
+[source]
+----
+/*!jamal
+{%@import res:geci.jim%}\
+{%beginCode SystemUnderTest proxy generated%}
+private static class SystemUnderTest {
+private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();
+{%!#for ($name,$type,$args) in
+({%#methods
+{%class javax0.geci.jamal.sample.SystemUnderTest%}
+{%selector private %}
+{%format/$name|$type|$args%}
+%}) =
+{%@options skipForEmpty%}
+private $type $name({%`@argList $args%}) throws Exception {
+Method m = sut.getClass().getDeclaredMethod("$name"{%`#classList ,$args%});
+m.setAccessible(true);
+m.invoke(sut{%`#callArgs ,$args%});
+}
+%}
+{%!#for ($name,$type,$args) in
+({%#methods
+{%class javax0.geci.jamal.sample.SystemUnderTest%}
+{%selector/ !private &amp; declaringClass -> ( ! canonicalName ~ /java.lang.Object/ )%}
+{%format/$name|$type|$args%}
+%}) =
+{%@options skipForEmpty%}
+private $type $name({%`@argList $args%}) {
+{%`#ifNotVoid $type return %}sut.$name({%`#callArgs $args%});
+}
+%}
+{%!#for ($name,$type) in
+({%#fields
+{%class javax0.geci.jamal.sample.SystemUnderTest%}
+{%selector/ private %}
+{%format/$name|$type%}
+%}) =
+{%@options skipForEmpty%}
+private void {%setter=$name%}($type $name) throws Exception {
+Field f = sut.getClass().getDeclaredField("$name");
+f.setAccessible(true);
+f.set(sut,$name);
+}
+
+private $type {%getter/$name/$type%}() throws Exception {
+Field f = sut.getClass().getDeclaredField("$name");
+f.setAccessible(true);
+return ($type)f.get(sut);
+}
+%}
+{%!#for ($name,$type) in
+({%#fields
+{%class javax0.geci.jamal.sample.SystemUnderTest%}
+{%selector/ !private %}
+{%format/$name|$type%}
+%}) =
+{%@options skipForEmpty%}
+private void {%setter/$name%}($type $name) {
+sut.$name = $name;
+}
+
+private $type {%getter/$name/$type%}() {
+return sut.$name;
+}
+%}
+}
+{%endCode%}
+*/
+----
+
+
+In this code the macro start string is `{%` and the macro closing string is `%}`. It is the default setting when Java::Geci starts Jamal to process a source file. This way, the macro enhanced template can freely contain standalone `{` and `}` characters, which is very common in Java. Macros implemented as Java code use the `@` or the `#` character in front of the macro name. If there is no such character in front of the macro name, then the macro is user-defined from a `@define ...` macro.
+
+The text of the template contains three parts:
+
+ 	* the start of the code,
+ 	* four loops, and
+ 	* the end of the generated code in the template (this is just a closing `}` character).
+
+The start of the template
+
+[source]
+----
+{%@import res:geci.jim%}\
+{%beginCode SystemUnderTest proxy generated%}
+private static class SystemUnderTest {
+private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();
+----
+
+
+imports the macro definitions from the resource file `geci.jim`. The file itself is part of the library. If you have the dependency on the classpath when the code generator and the Jamal processor runs, you can import the definition from this resource file. The macro definitions in this file are simple Jamal macros defined as text. You can have a look at them at the URL
+
+https://github.com/verhas/javageci/blob/1.6.1/javageci-jamal/src/main/resources/geci.jim
+
+The next line uses the `beginCode` user-defined macro, which is defined in `geci.jim` as the following:
+
+[source]
+----
+{%@define beginCode(:x)=//<editor-fold desc=":x">%}
+----
+
+
+When this macro is used it will result the start of an editor fold that helps to keep the generated code non-intrusive when the file is opened in the IDE. When this macro is evaluated, it will be
+
+[source,java]
+----
+//<editor-fold desc="SystemUnderTest proxy generated">
+----
+
+
+The next two lines start the `private` `static` inner class. It is just plain text; there is no macro in it.
+
+Now we get to the four loops that generate proxy codes for
+
+ 	* Delegating proxy methods for the `private` methods of the tested class.
+ 	* Delegating proxy methods for the non-private methods declared in the class or inherited, except those inherited from the `Object` class.
+ 	* Setter and getter methods for the `private` fields of the tested class.
+ 	* Setter and getter methods for the non-private fields of the tested class.
+
+Since these are very similar, I will discuss here only the first in detail.
+
+[source,java]
+----
+{%!#for ($name,$type,$args) in
+({%#methods
+{%class javax0.geci.jamal.sample.SystemUnderTest%}
+{%selector private %}
+{%format/$name|$type|$args%}
+%}) =
+{%@options skipForEmpty%}
+private $type $name({%`@argList $args%}) throws Exception {
+Method m = sut.getClass().getDeclaredMethod("$name"{%`#classList ,$args%});
+m.setAccessible(true);
+m.invoke(sut{%`#callArgs ,$args%});
+}
+%}
+----
+
+
+The loop is constructed using a `for` macro, a Java-implemented, built-in macro of Jamal from the core package. This macro is always available for any Jamal processing. This macro iterates through a comma-separated list and repeats its contents for each list element replacing the loop variables with the actual values. There can be more than one loop variable. In such a case, like in our example, the actual value is split up along the `|` characters. The comma used as a list separator, and the values separator `|` can be redefined. In the above case, the `for` loop uses three-loop variables, `$name`, `$type`, and`$args`. The start with a`$` sign has no significance. Any string can be used as a loop variable.
+
+The list of values is between the `()` characters after the `in` keyword. This list is the result of the evaluation of the `methods` built-in macro. This macro is implemented in Java and is part of the Java::Geci Jamal module. It is not a generally available Jamal macro, but when we run the code generation of Java::Geci, this JAR file is on the classpath, and thus this macro is available.
+
+The `methods` macro lists the methods of a class.
+
+The class name is taken from the user-defined macro `$class`, which can be defined using the user-defined macro `class`. The listing also considers a selector expression that can be used to filter out some of the methods. It is also provided in a user-defined macro, and there is also a helper macro in `geci.jim` to define it, named `selector`. In the example above, the selector expression is `private`, which will select only the private methods.
+
+When the list is collected, the macro `methods` must convert it to a comma-separated list. To do that, it uses a formatting string that can contain placeholders. In our case, the placeholders are `$name`, `$type`, and `$args`. Every element in the list for the `for` loop will contain these three strings for the listed methods separated by two `|` characters as indicated by the format string.
+
+The part after the `=` sign in the for loop is repeated for each method. It will declare a `private` method that invokes the same method of the tested method. To do that, it uses the help of the Java::Geci Jamal module provided built-in macros `argList`, `classList`, and `callArgs`. These help generating code that declares the arguments, lists the classes of the argument types or lists the arguments for the actual call.
+
+Since this is just an article and not a full-blown documentation of Java::Geci and Jamal, I skip some details. For example, why the macro `for` uses the `#` character in front of it instead of `@`, why there is a backtick character in front of the macros in the loop's body, and why the for loop uses a `!` character. These details control the macro evaluation order. The list of the methods needs to be created before the `for` loop starts because it requires the method list. On the other hand, the macros in the loop's body have to be evaluated after the loop generated the text for every listed method.
+
+Also, note that this implementation is for demonstration purposes only. It simplifies the problem and does not cover all the corner cases. For example, it will generate a setter for a `final` field.
+
+If you want to use this code generation, you can use the macro `proxy(KLASS)` defined in the resource file `res:unittestproxy.jim`.
+
+You can have a look at the class UnitTestWithGeneratedUnitTestProxy, which is a tad more complex than the sample and tests these macros. The start of the generated code is the following:
+
+[source]
+----
+/*!jamal
+{%@import res:unittestproxy.jim%}\
+
+{%beginCode SystemUnderTest proxy generated%}
+{%proxy javax0.geci.jamal.unittestproxy.TestSystemUnderTest%}
+{%endCode%}
+*/
+----
+
+
+It merely imports the `res:unittestproxy.jim` file, which imports `geci.jim` and then uses the macro `proxy` to generate all the needed code covering all the corner cases.
+
+If you want to use the code generator in your code, you have to do two things:
+
+A. Include the dependency in your `pom.xml` file:
+
+[source,xml]
+----
+<dependency>
+<groupId>com.javax0.geci</groupId>
+<artifactId>javageci-jamal</artifactId>
+<version>1.6.1</version>
+<scope>test</scope>
+</dependency>
+----
+
+
+B. Create a small unit test that runs the code generator:
+
+[source,java]
+----
+@Test
+@DisplayName("run the Jamal generator")
+public void testRunJamalGenerator() throws Exception {
+Geci geci = new Geci();
+Assertions.assertFalse(
+geci.register(new JamalGenerator())
+.generate()
+, geci.failed()
+);
+}
+----
+
+
+The generator runs during the unit test. During the test run, it has access to the structure of the Java code via reflection. The Jamal macros like `methods`, `fields` can query the different classes and provide the list of the methods and fields. The test fails if there was any new code generated. It only happens when the code generator runs the first time or when the tested system has changed. In this case, the test fails because the compiled code during the execution is not the final one. In such a case, start Maven again, and the second time the compilation already runs fine. Do not forget to commit the changed code. There is no risk of failing to update the generated code, like in IDE provided code generation that you have to invoke manually.
+
+[%section |Takeaway%]
+
+What you should remember from this article:
+
+ 	* Try not to test private methods. If you feel the need, you did something wrong. Probably. Possibly not.
+ 	* If you test private methods arrange the reflective code into a private static class that delegates the call to the original class. This will remove the implementation of the reflective access from the test and the test remains what it has to be: functionality test.
+ 	* If you are a lazy person, and as a good programmer you have to be, use a Java::Geci and Jamal to generate these inner classes for your tests.
+ 	* Master Java::Geci and Jamal and use them to generate code for your other, specific needs.
+
+
+=== Comments imported from Wordpress
+
+
+*Unit testing private methods | Java Code Geeks | World Best News* 2021-02-18 15:08:48
+{%@comment id: 30214 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://worldbestnews.info/unit-testing-private-methods-java-code-geeks/ %}
+{%@comment author_IP: 209.159.146.10 %}
+{%@comment date_gmt: 2021-02-18 14:08:48 %}
+[quote]
+____
+[&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Unit testing private methods [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

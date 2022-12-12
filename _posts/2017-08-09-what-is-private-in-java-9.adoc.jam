@@ -1,0 +1,122 @@
+---
+title: "What is private in Java 9?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+When doing interviews I experience that most of the candidates do not know what private modifier in Java really means. They know something about it that is enough for every day coding, but far from complete. It is not a problem. Knowing enough is, well... enough. But it is still interesting to know some of the inner working of Java. In some rare cases it may shed light on some details. If nothing else then it is entertaining `.orElse(whyDoYouReadIt)` ?
+
+[small]#By the way: mentioning interviews is a good opportunity to write link:http://blogs.tedneward.com/post/when-interviews-fail/[rants] even if the statements and implications related to my person are, in my view, false. After all, my person is not important and distancing myself from the fact that it criticizes me I find that article interesting and the conclusions about the interviews are important and actually totally in line with my opinion.#
+
+This article is to describe some of the Java facts hopefully in a bit more readable way than reading the language standard.
+
+
+{%section |So what is private?%}
+
+
+`private` is an access modifier in Java. If you have a `private` member (method, field, inner or nested class or a nested interface) of a class it can only be used by code, which is in the same class. The interesting question is: what happens when there are more than one classes that the `private` method is in? How can it be in more than one class? In case there is a class that contains another class and there is a `private` method inside the inner/nested class then it is inside the inner/nested class and also in the top level class.
+
+image::https://javax0.files.wordpress.com/2017/07/java_modifiers_private_scope.png[]
+
+Can a private method inside an enclosed class called from the outer class? Can a code inside an enclosed class call a private method in the outer class? The answer is yes in both cases. The sample code
+
+[source,java]
+----
+package javax0.package1;
+
+class TopLevelClass {
+
+  void topMethod(){
+    NestedClass nc = new NestedClass();
+    nc.method();
+  }
+  
+  private int z;
+
+  interface NestedInterface {
+    default void method(){
+      TopLevelClass tlc = new TopLevelClass();
+      tlc.z++;
+    }
+  }
+
+  static class NestedClass {
+    private int k;
+
+    private void method() {
+      TopLevelClass tlc = new TopLevelClass();
+      k = tlc.z;
+    }
+  }
+}
+----
+
+
+clearly shows this situation: the nested class `NestedClass` and the nested interface `NestedInterface` both contain code that can access the outer class contained `private` field `z`. Similarly the top level class code can call the private method inside the nested class. The fact that this sample code does not actually perform anything reasonable is not important in this case.
+
+If we compile this single source file we get three class files:
+
+
+	* `TopLevelClass$NestedClass.class`
+	* `TopLevelClass$NestedInterface.class`
+	* `TopLevelClass.class`
+
+
+That is because the JVM does not know what is top level and what is nested. The JVM does not know anything about nested and top level classes. For JVM a class is just a class. A top level class if you insist. That is mainly because the Java language 1.0 did not have nested and inner classes and the JVM was designed according to that. When inner and nested classes were introduced in Java 1.1 the compilation was modified only instead of the JVM so that the inner and nested classes remained a language feature but not handled by the JVM directly.
+
+How can the top level class access a private method in another class that was nested in the source code, but when it is compiled it is just another "top level" class. They are on the same level. If the accessibility were changed to public then we could also access it from other classes, but we can not. The compiler will not allow any other code in other classes to access the private method and  even if we did some trick to overcome the compiler the generated class fill will make the JVM to throw an exception. Private in Java is private.
+
+What really happens is that the compiler generates special getter and setter methods to get access to the field `z`.
+image::https://javax0.files.wordpress.com/2017/07/toplevelclassdisassembly.png[]
+Such a __bridge__ method is created for every private field or method that is accessed from a different class inside the same top level class. If the private whatever is not accessed from the enclosing class then the method is not generated. If the field is only read then only the getter is generated, if it is only set from outside then only the setter is generated.
+
+image::https://javax0.files.wordpress.com/2017/07/bridges.png[]
+
+
+This is also an interesting failure believing that a private field (or whatever) is accessible __only__ from within the same object. That is the usual way we use these members when we program, but if the code has a reference of another instance of the same type then through that reference we can access the private fields of the other object just as good as we can access "our own" fields. Is this a rare case? You may think because you rarely program it. But in reality it is extremely frequent: the IDE usually generated the code for us and that is why some developer does not think about that. Without this it would hardly be possible to code the `equals(Object other)` method of classes.
+
+image::https://javax0.files.wordpress.com/2017/07/equals.png[]
+
+
+
+{%section |What about Java 9?%}
+
+
+So far there is nothing specific to Java 9 in this article and these days every Java article should be about Java 9 (or 10 already?).
+
+If we look at access control generally then we have to talk about JPMS, and there are many great articles about that. link:https://blog.codefx.org/tag/jpms/[codeFx] has a good list of articles about it. link:http://blog.joda.org/2017/04/java-9-modules-jpms-basics.html[Stephen Colebourne] has nice articles.
+
+Soon you will be able even to buy books about Java module systems from different publishers. I am in a lucky position that I can already read one in draft from Packt as a reviewer and I love it. But JPMS does not change "private" on this level. Still there will be nested classes and inner classes and bridge methods exactly the same way as before.
+
+The little difference is that Java 9 now has private methods inside interfaces. This means that now we should be prepared to have syntethic bridge methods not only in inner and nested classes, but also in interfaces.
+
+
+{%section |Takeaway ... %}
+
+
+Sometimes the simplest things are not as simple as they seem. After all the whole IT technology, science, engineering is nothing else but a bunch of zeroes and ones. It is just that we have a lot of them. Really a lot. If there was something new to you in this article then it should tell you that there are areas in the Java language and in the JVM that you may be interested to examine a bit more. For example:
+
+
+	* What is the difference between a nested and an inner class?
+	* Can you have a nested interface inside a class and similarly can you have an inner interface inside a class?
+	* What about classes or interfaces inside an interface? Can you have an inner class in an interface? How about a nested class?
+	* Can you write a code using reflection that list all the methods a class has? Will it list the synthetic methods? What modifiers will it have?
+	* When you compile an inner class it will have the compiled name `Outer$Inner.class`, which is a legitimate name. But what happens if there is a `Outer$Inner.java` source file? Figure it out!
+	* The generated synthetic methods also have legitim names. What happens if you define a method with that name? Is it Java specification or implementation specific what you see?
+	* How deep can you nest inner and nested classes and/or interfaces? Can a nested class contain an inner class? Can an inner class contain a nested class?
+	* What is your guess, why there is no symbolic name in the JDK for the synthetic modifier? Why can the actual modifier value be the same as the value for `volatile` fields?
+	* Can you have a static field, class or method inside a nested class?
+
+
+The answer to those questions and the knowledge is not practical, I know. I have never ever seen any code or project where knowing that an inner class can not have a static field was giving any advantage. On the other hand thinking about these, getting the answers may give you some joy, like solving crosswords if that is your taste and a knowledge that still may be useful aiding to the understanding the technology in a way that we do not recognize. In some situation one person just finds a bug faster than other because she "feels" the technology. That is when you can not tell what was whispering the solution to your ears but something, knowledge like the above did. But it will only if you love to dig into those fine bits of the technology.
+
+Last a trick question, even less practical than those above just for entertainment, if you like:
+
+
+{%section |Puzzle%}
+
+
+__We know that it is not possible to have a static field inside an inner (not nested) class. Is it still possible to have a compiled class file generated by the Java compiler from an inner class that has a static method?__
+
+
+

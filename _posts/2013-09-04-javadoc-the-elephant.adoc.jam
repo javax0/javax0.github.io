@@ -1,0 +1,98 @@
+---
+title: "JavaDoc the Elephant" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Clean code says that you should not write inline comments, and you also should not write java doc for things that are trivial. I, myself also get mad seeing comments like
+
+[source,java]
+----
+    /**
+     * Calculates a/b
+     * @param a the nominator
+     * @param b the denominator
+     * @return the calculated value
+     */
+    double div(final double a, final double b) {
+...
+----
+
+
+This is absolutely pointless. However on the other end there are examples when non-commenting gets to the extreme. The following is an imagined situation.
+
+
+	* Joe: We need to transport branches. Did you prepare the library for the purpose?
+	* Aliz: Yes, as agreed. Here you have the code, the compiled version is in the repository. Have a good day.
+	* Joe: Wait! Wait! Where is the documentation?
+	* Aliz: Documentation? You have the code. This is self explanatory. We follow clean code. There is no reason to repeat in English that is best described by the code.
+	* Joe: Hm... Ok. We will see.
+	* Aliz: You are experienced programmers, it should not be a problem to understand our code.
+
+
+Joe then starts to read the code and this is what he sees:
+image::http://upload.wikimedia.org/wikipedia/commons/1/1e/Elefant_pune.jpg[]
+
+[quote]
+____
+This is an elephant.
+____
+
+
+"Great! Aliz delivered us an elephant to transport branches. We need a tamer, harness. Not a big cost to produce, still a bit inconvenient. But on the other hand we can also use this as a shower. When the elephant is in good mood it is playful and sprinkles water on people, which is fun and can also serve as a kind of cleaning process in certain situations, so we can transport branches cleaned."
+
+So Joe, and his troop start to use the transport appliance, and at the same time complains that Aliz and her team deliver the harness and the tamer in the next release.
+
+
+	* Joe: So you delivered the next release of the library to transport branches.
+	* Aliz: Yes, and we listened to your complaints and you do not need any tamer anymore neither have you the burden to fix a harness on the appliance.
+	* Joe: And how can we use the new version?
+	* Aliz: Just as the previous one. Just put on the branches and have them transported. There may be some small differences in the usage, but you, as senior programmer will easily solve that. Read the code!
+
+
+Joe then starts to read the code and this is what he sees:
+
+image::http://upload.wikimedia.org/wikipedia/commons/7/70/Yellow_Mercedes_Benz_Sprinter.PNG[]
+
+[quote]
+____
+This is a van.
+____
+
+
+"We do not need a tamer, but we need a driver, which is certainly more common these days and is a simpler task to provide. Although this has to be a truck driver and not a system driver, it is still manageable. But how can we use this thing to clean the branches?"
+
+Since Joe and his team already have the tamer, and the harness, and since they already have a well tamed elephant, they feel reluctant to use the new version. Also the sprinkler is fun, though that is not the main purpose but still: it makes them like the version 1.0.0 of the transport appliance as opposed to the version 1.1.0
+
+Time passes and after a few month Aliz sees that the team of Joe still reports bugs (no matter how often the elephant is cleaned) of the version 1.0.0 and had not started to use the second version. What is the problem?
+
+
+
+The problem is that there was no documentation clearly defining what is delivered as guaranteed function and what is delivered by "accident", internal methods and packages that in Java world can not be totally hidden. If the elephant were declared as a transport appliance and the method to sprinkle water were documented clearly as an internal functionality then the team of Joe would not have used that. Every responsible developer knows that non-supported methods, classes, packages should not be used from outside of the library or else there are consequences: typically version lock in.
+
+For example ORACLE (and formerly SUN) engineers clearly documented that the packages `sun.*` are for internal use and no real developer dared to use those classes in production code. link:http://www.infoq.com/news/2013/08/Oracle-Resurrects-getCallerClass[Or am I wrong?]
+
+=== Comments imported from Wordpress
+
+
+*tamasrev* 2013-09-04 19:16:14
+{%@comment id: 34 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.98.237.33 %}
+{%@comment date_gmt: 2013-09-04 18:16:14 %}
+[quote]
+____
+I really like this elephant metaphor, especially the part when the team builds dependencies on the trunk :)
+
+One example I witnessed at a client of ours was this: They had a classical JEE application: they had an appserver, they had an Oracle database, moreover they even had an open mq. So far so good. If you take a closer look at open mq documentation, you'll learn that you can configure it to store its messages in a DB. So, the developers concluded, let's write selects to that DB! But, if they write selects, why not make them participate in distributed XA transactions? It was great fun debugging it.
+
+Here is another elephant's trunk. I am guilty of this one: Once I had to extend a JComboBox to display a few values which are not selectable. Among other things I had to wrap a few actions in its ActionMap. The key of that map are documented nowhere. You can either print them to the console or you can find them as private static fields of the BasicComboBoxUI.Actions inner class. It makes me shiver when I think about it.
+
+
+Regarding the documentation, I prefer tests as example code. They should be fine for in-team documentation. For the world out there, well, one has to design an API and thoroughly document it.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

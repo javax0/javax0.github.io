@@ -1,0 +1,18 @@
+---
+title: "DevDays Vilnius 2018" 
+layout: posta
+comments: on
+---
+
+Starting today I participate DevDays in Vilnius for the whole week.
+
+Come and see me on May 24, 2018, in Hall 2 at 14:00 and also at 15:55.
+
+I will talk about
+
+14:00 Prevent Hacking with Modules in Java 9 and
+15:55 Comparing Golang and Understanding Java Value Types
+
+https://devdays.lt/peter-verhas/
+
+https://devdays.lt/

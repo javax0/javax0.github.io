@@ -1,0 +1,6 @@
+.idea
+.asciidoctor/
+.asciidoctor/lib
+.sass-cache/
+.jekyll-cache/
+venv

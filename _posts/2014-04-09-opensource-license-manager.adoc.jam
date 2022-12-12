@@ -1,0 +1,94 @@
+---
+title: "OpenSource License Manager" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%subsubsection |What is a License Manager?%}
+
+License managers are used to enforce license rights, or at least to support the enforcement. When you develop an open source program, there is no much you need to or can do to enforce license rights. The code is there and if anyone just wants to abuse the program there is nothing technical that could stop them. Closed source programs are different. (Are they?) In that case the source code is not available for the client. It is not possible to alter the program so that it circumvents the license enforcement code, and thus there is a real role for license rights enforcement.
+
+But this is not true.
+
+The truth is that there is no fundamental difference between closed and open source code in this respect. Closed source codes can also be altered. The ultimate "source" for the execution is there after all: the machine code. There are tools that help to analyze and decode the binary to more or less human readable format and thus it is possible to circumvent the license management. It is possible and there is a great source of examples for it. On some sites hosted in some countries you can simply download the cracked version of practically any software. I do not recommend to do that and not only for ethical reasons though. You just never know which of the sites are funded by secret services or criminals (if there is any difference) and you never know if you install spy software on your machine using the cracked version.
+
+Once I worked for a company where one of the success measurements of their software was the number of the days after release till the cracked versions appeared on the different sites compared to the same value of the competitor. The smaller the number was for their software the happier they were. Were they crazy? Why were they happy to know that their software was cracked? When the number of the days was only one single they, why did not they consider applying stronger license enforcement measure, like morphing code, hardware key and so on?
+
+The answer is the following. This company knows very well that license management is not to prevent the unauthorized use. It can be used that way but it will have two major effects which will ruin your business:
+
+	* Writing license management code you spend your time on non-productive code.
+	* License management (this way) works against your customer.
+
+
+[quote]
+____
+Never implement license management against your customer.
+____
+
+
+When your license management solution is too restrictive you may restrict the software use of your customer. When you deliver your code using hardware key you impose inconvenience to your customer. When you bind your license to Ethernet MAC address of the machine the application is running on, again: you work against your customer.
+
+
+{%subsubsection |`Set<User> != Set<Customer>`%}
+
+
+Face the said truth: there will always be people, who use your software without paying for it. They are not your customers. Do they steal from you? Not necessarily. If there is someone who is not buying your software, he is not your customer.
+
+If you know that there is no way they would pay for the software and the decision was in your hands whether you want them to use the software or use that of your competitor what would you choose? I guess you would like your software to be used to get more feedback and more knowledge even in the area of non-customers. People using your software may become your customer more likely than people not using it. This is why big companies sell out educational licenses to universities and other academic institutions.
+
+Should we use license management at all in that case? Is license management bad down to ground in all aspects? My answer is that it is not. There is a correct use case for license management, even when the software is open source (but not free, like Atlassian products). To find and understand this use case there is one major thing to understand:
+
+[quote]
+____
+
+The software is for the customer, and any line in the code has to support the customers to reach their business goals.
+
+____
+
+
+Paying the fee for the software is for the customers. If nobody finances a software the software will die. There is nothing like free lunch. Somebody has to pay for it. To become a customer and pay for the software used is the most straightforward business model and provides the strongest feedback and control for the customer over the vendor to get the features needed.
+
+At the same time paying for the software use is not the core business of the customer. Paying for the resources used supports them to reach their business goals is indirect. This is where license management comes into picture. It helps the customer to due their duties. It helps them remember their long term needs. This also means that license management should not prevent functionality. No functionality should stop if a license expires. Not to mention functionality that may prevent access to data that actually belongs to the customer.
+
+If you approach license management with this mindset you can see that even open source (but not free) software may need it.
+
+
+{%subsubsection |License Management Tool: license3j%}
+
+
+Many years ago I was looking for some license management library and I found that there was none open source. I wanted to create an open source (but not free) application and it required that the license management is also open source. What I found was also overpriced taking into account our budget that was just zero for a part time start-up software (which actually failed business wise miserably, but that is another story). For this reason I created link:https://github.com/verhas/License3j[License3j] which surprisingly became one of the most used library of my OS projects.
+
+License3j is very simple in terms of business objects. It uses a simple property file and lets the application check the content of the individual fields. The added value is handling electronic signature and checking the authenticity of the license file. Essentially it is hardly more than a single class file.
+
+[source,text]
+----
+<dependency>
+	<groupId>com.verhas</groupId>
+	<artifactId>license3j</artifactId>
+	<version>1.0.4</version>
+</dependency>
+----
+
+
+Feel free to use it if you like.
+
+
+
+=== Comments imported from Wordpress
+
+
+*Ali Erturk* 2014-11-13 21:03:19
+{%@comment id: 4420 %}
+{%@comment author_email: alierturk12@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 176.40.150.32 %}
+{%@comment date_gmt: 2014-11-13 20:03:19 %}
+[quote]
+____
+I recommend License4J (license4j.com), it is feature rich api and application.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

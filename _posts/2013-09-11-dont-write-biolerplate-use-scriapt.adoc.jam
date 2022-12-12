@@ -1,0 +1,167 @@
+---
+title: "Don't write boilerplate, use scriapt" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+A good programmer never writes boilerplate code. Instead he/she recognizes the repetitive patterns after writing some, or even before it gets written, and creates some abstract code that serves the purpose, creates a new class, a new method and instead of copy paste calls the method and/or uses instances of the new class.
+
+In modern languages this is possible to a wide extent. When I started Java I was missing the good old C preprocessor a lot. But this craving passed away, I learned the language and I know much better how to use it proficiently without repeating myself. I do not usually write boilerplate code because I can avoid that and I deliberately want to avoid that because writing boilerplate code is boring as such it is source of error. Since I have not been writing boilerplate code for a long time I got recently annoyed when I had to create a huge Java `enum`, of a few hundred codes that were reflecting the business domain record names.
+
+These record names appeared in XML files traveling in JMS and in JSON format traveling over https and had to appear many times at different locations in out Java code. When we started the project we realized that using the strings as key in `Map`s is error prone: a changing one 1etter in the name of a key can cause bugs hard to find. If we maintain a huge enum that has a symbolic name for each of the keys and the key associated to it, then any typo is identified by the Eclipse IDE signaling the syntax error. (Did you recognize that in the previous sentence I wrote '1etter' instead of 'letter'? Many do not, and this is the problem.)
+
+Maintaining the enum is a bit tedious. It looks something like this:
+
+[source,java]
+----
+package com.javax0.scriapt.sample;
+
+public enum DomainEnum {
+	FIX_4_2("FIX.4.2"), A9("9"), A35("35"), A49_PHLX("49=PHLX"), A56_PERS(
+			"56=PERS"), A20071123_05_30_00_000("20071123-05:30:00.000"), ATOMNOCCC9990900(
+			"ATOMNOCCC9990900"), PHLX_EQUITY_TESTING("PHLX EQUITY TESTING"), DEUT(
+			"DEUT"), DE("DE"), FF("FF"), DK("DK"), KK("KK"), ;
+	final String name;
+
+	DomainEnum(final String s) {
+		name = s;
+	}
+}
+----
+
+
+Even though this is not the real example you can see that the keys can not be used as identifiers, not too meaningful unless you know the business domain well (which may not be the case this time because this is a made up example). The allocation of the identifiers for each key is simple and algorithmic:
+
+
+*  If the key starts with a non-alpha character prepend it with the letter 'A'.
+*  Replace any non alphanumeric character in the key with '_' underscore.
+
+
+A junior can be assigned to the task to maintain this file, but even then this is unreadable and tedious and for these reasons: error prone.
+
+There was also many boilerplate code written defining the classes for the business domain, mainly different type of field (usually Strings) with setters and getters and converters that convert the XML and the JSON files to domain model objects and the other way around (marshaling).
+
+To omit the setters and the getters you can use groovy that does a good job in things like these, and there are also various solutions to solve the marshaling problem especially when this is such a wide spread and ubiquitous  format as JSON and XML. Unfortunately groovy is out of question when the programming language of the project is Java and full stop. Management decided and that is it.
+
+General marshaling is based on reflection and run time structure parsing of the JSON/XML as well as the Java structure. The JSON and the XML can not be parsed before but the Java structure is there during compile time. If something can be done during compile time then it should not be done using tools that operate during run time without good reason. I do not argue against the current marshaling frameworks: having a mature framework, that just does the job and there is no performance bottleneck in the system can be a good reason.
+
+However in our case, as an experiment we decided to eliminate the boilerplate code writing a JavaScript that generates the enumeration. Code to generate the domain objects and the various marshalers can be written in a similar way. The script can be executed manually, and whenever there is some modification in the script containing the list of the fields and also the Java generating code it has to be executed. This is a manual process, even though much less effort than maintaining the source files manually. However I wanted to eliminate this manual process as well totally.
+
+The first thing that came to my mind was to write a maven plugin, but the second thought was to create an annotation processor instead. If an annotation processor is used to execute the script, then we are totally independent of the build tool. It can be maven, ant, graddle, buildr or even make. All we need is some annotation on some class that triggers the execution of the annotation processor.
+
+I created an annotation processor before, the link:https://github.com/verhas/fluflu[fluflu] fluent API generator and thus had some experience. This time the annotation processor was even simpler. It is so simple that it should not take more than ten minutes for an experienced Java programmer to understand. link:https://github.com/verhas/scriapt/blob/master/src/main/java/com/javax0/scriapt/Processor.java[Here it is.]
+
+If a class is annotated by the annotation `CompileScript` it will trigger the execution of the script. The script can be JavaScript or any other script that can be invoked using the JSR223 standard. It can be python, groovy or even my little child link:https://github.com/verhas/jScriptBasic[ScriptBasic for Java]. The only requirement is that the interpreter should be available on the classpath during compile time. In case of JavaScript this is guaranteed when you use Java version 6 or later, in the form of the Rhino interpreter.
+
+The actual trigger class as you can see in the example repo on github link:https://github.com/verhas/scriapt-samples[scriapt samples] is simple as this:
+
+[source,java]
+----
+package com.javax0.scriapt.sample;
+
+import com.javax0.scriapt.CompileScript;
+
+@CompileScript(value="compilescripts/generateEnums.js")
+public class EnumGeneratorTriggerClass {
+}
+----
+
+
+It does nothing, it is only to trigger the script execution during the compilation phase.
+
+And then comes the big question: what else can we use it for? We have a general purpose weapon to generate java code freely during compilation phase. The possibilities are endless.
+
+What would You use it for?
+
+=== Comments imported from Wordpress
+
+
+*tamasrev* 2013-09-11 21:54:29
+{%@comment id: 35 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.98.237.33 %}
+{%@comment date_gmt: 2013-09-11 20:54:29 %}
+[quote]
+____
+I happen to have an idea, just let me experiment it with first: I'd like to generate a poor man's test  harness.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}
+
+*Java compile in Java | Java Deep* 2016-03-09 16:13:28
+{%@comment id: 9668 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2016/03/09/java-compile-in-java/ %}
+{%@comment author_IP: 192.0.83.48 %}
+{%@comment date_gmt: 2016-03-09 15:13:28 %}
+[quote]
+____
+[&#8230;] Note that the classes you create this way are only available to your code during run-time. You can create immutable versions of your objects for example. If you want to have classes that are available during compile time you should use annotation processor like scriapt. [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Generating Source Code, a Compromise | Java Code Geeks | Aquaiver IT Solutions* 2018-05-24 15:09:49
+{%@comment id: 12482 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://articles.aquaiver.com/generating-source-code-a-compromise-java-code-geeks/ %}
+{%@comment author_IP: 199.231.189.6 %}
+{%@comment date_gmt: 2018-05-24 14:09:49 %}
+[quote]
+____
+[&#8230;] parameters in Java“, or Scriapt Java annotation processing tool described in the article “Don’t write boilerplate, use scriapt“. These tools are Java specific and build time executable. They are annotation processors, that [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Generating Source Code, a Compromise | Java Deep* 2018-05-23 15:01:12
+{%@comment id: 12477 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2018/05/23/generating-source-code-a-compromise/ %}
+{%@comment author_IP: 192.0.101.169 %}
+{%@comment date_gmt: 2018-05-23 14:01:12 %}
+[quote]
+____
+[&#8230;] in Java&#8220;, or Scriapt Java annotation processing tool described in the article &#8220;Don’t write boilerplate, use scriapt&#8220;. These tools are Java specific and build time executable. They are annotation processors, [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Annotation Handling and JPMS | Java Deep* 2019-07-31 16:02:38
+{%@comment id: 27921 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2019/07/31/annotation-handling-and-jpms/ %}
+{%@comment author_IP: 192.0.89.56 %}
+{%@comment date_gmt: 2019-07-31 15:02:38 %}
+[quote]
+____
+[&#8230;] during run-time, others hook into the compilation phase implementing an annotation processor. I wrote about annotation processors and how to create one. This time we focus on the simpler way: handling annotations during run-time. We do not even [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*g代码生成器 源代码_生成源代码，这是一个妥协 - 算法网* 2021-09-01 21:59:33
+{%@comment id: 30905 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://itpcb.com/a/1066993 %}
+{%@comment author_IP: 43.128.14.191 %}
+{%@comment date_gmt: 2021-09-01 20:59:33 %}
+[quote]
+____
+[&#8230;] 我创建了我的文章“ Java中的命名参数 ”中提到的Fluflu之类的工具，或“ 别写样板，使用scriapt ”一文中描述的Scriapt Java注释处理工具。 [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

@@ -1,0 +1,390 @@
+---
+title: "How to mock the System.class" 
+layout: posta
+comments: on
+---
+
+In this article I will show you a way to test code that uses static methods from a final class and how to mock that class. The example to mock is the `System` class. (We are not playing in the sand, we are real warriors.) We will use mockito, powermock, maven, eclipse and lots of brain of yours to follow. (You are also a java warrior after all!)
+
+
+== 1. The Problem
+
+When you unit test your application you usually use some mocking framework. Some of the most known are EasyMock and Mockito. There are others as well but for now I am not going to talk about these. They are light weight tools when you are really heavily into testing. Especially when you are creating test code that was created without caring about testability. Consider for example the following code fragment:
+
+[source,java]
+----
+    public String getConfigValue(final String key) {
+        String configValue = null;
+        final String envKey = "sb4j." + key;
+        if (configProperties != null &amp;&amp; configProperties.containsKey(key)) {
+            configValue = configProperties.getProperty(key);
+        }
+        String sysValue = null;
+        if ((sysValue = System.getenv(envKey)) != null) {
+            configValue = sysValue;
+        }
+        if ((sysValue = System.getProperty(envKey)) != null) {
+            configValue = sysValue;
+        }
+        return configValue;
+    }
+----
+
+
+A very simple code that tries to look up some configuration key in a `Properties` type variable (not defined here in the fragment, it is defined as a field in the class) but the configuration value for a certain key can be redefined in the environment variables and in the system properties (those defined with the java option `-D` on the command line). The strongest is the system property. If that is defined everything else is irrelevant. The second strongest is the environment variable, and the final choice is the configuration properties variable that are read from a `.properties` file (reading also not listed here to save space).
+
+[small]#You may notice that the system property and the environment variable names are prefixed using the string "sb4j." You can guess that this code fragment is from ScriptBasic for Java while it was under development.#
+
+The code is simple and seems to be OK, but trust me (not because I am engineer [as a matter of fact I am], but because of my experience): no code can be so simple that it can not contain a bug. I have learnt it modifying a method once, simpler than this above and since I had ten more minutes before heading towards home not to miss my movie for the evening I wrote a unit test. The movie was long time over when I finished with the fifth unit test that I created that night: every new bug you find deserves its own unit test.
+
+We have to write unit test for the code. We need to mock the external classes that are used by the code. Some of them at least. We have the classes `java.util.Properties`, `java.lang.String` and `java.lang.System`. Obviously we need not mock `String`. Even though this is a class, it is almost like a primitive type. Similarly we need not mock `Properties`. Whatever the mock could provide us a stub instance of the `Properties` class can provide. We will not be able to check that the properties were really read using `containsKey` and `getProperty` method calls but if we get back the value we inserted into the stub properties variable we should be ok.
+
+What we need to mock however is `System` and we have to mock the static methods `getenv` and `getProperty`.
+
+
+== 2. The Solution
+
+To do that we have to use Powermock. This is an extension to EasyMock and to Mockito (my fav is the second over the first one) and gives methods that let us mock static methods. To do so it needs to craft some hefty things into the Java byte code that I would not ever like to have in a production code except for testing and mocking. I am not knowledgeable how power mock really works, but I have the feeling that they are poking some areas that are beyond the official Java contract. I never mind this at this moment. Lets go and prepare the test.
+
+To do so we need a unit test and we have to tell the test framework that we use Powermock so that a modified runner provided by Powermock is used instead of the standard JUnit runner. This is very simple to tell it actually, all we have to do is to annotate the class using the annotations:
+[source,java]
+----
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ System.class })
+public class TestBasicConfiguration {
+----
+
+`RunWith` is `org.junit.runner.RunWith` and it is processed by the JUnit framework. `PrepareForTest` is `org.powermock.core.classloader.annotations.PrepareForTest` and informs PowerMock that it has to prepare the list of classes (in our case a single class, called `System`) to be mocked.
+
+For your reference I include here the full source code of the test with all test methods as they were in the test class:
+[source,java]
+----
+package com.scriptbasic.configuration;
+
+import java.util.Properties;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import com.bdd.Business;
+import com.scriptbasic.interfaces.Configuration;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ System.class })
+public class TestBasicConfiguration {
+
+    private static final Configuration config = new BasicConfiguration();
+    private static final String key = "key";
+    private static final String value = "value";
+    private static final String badValue = "badValue";
+
+    @Test
+    public void testGetConfigValueWhenConfigKeyExistsShallReturnValue() {
+        new Business() {
+            private String actual;
+            private Properties props;
+
+            @Override
+            public void given() {
+                props = Mockito.mock(Properties.class);
+                config.setConfigProperties(props);
+                Mockito.when(props.containsKey(key)).thenReturn(true);
+                Mockito.when(props.getProperty(key)).thenReturn(value);
+            }
+
+            @Override
+            public void when() {
+                actual = config.getConfigValue(key);
+            }
+
+            @Override
+            public void then() {
+                Mockito.verify(props).containsKey(key);
+                Mockito.verify(props).getProperty(key);
+                Assert.assertEquals(value, actual);
+            }
+
+        }.execute();
+    }
+
+    @Test
+    public void testGetConfigValueWhenEnvironmentKeyExist() {
+        String actual;
+        Properties props;
+        // GIVEN
+        props = PowerMockito.mock(Properties.class);
+        PowerMockito.mockStatic(System.class);
+        config.setConfigProperties(props);
+        Mockito.when(props.containsKey(key)).thenReturn(true);
+        Mockito.when(props.getProperty(key)).thenReturn(badValue);
+        Mockito.when(System.getenv("sb4j." + key)).thenReturn(value);
+        // WHEN
+        actual = config.getConfigValue(key);
+        // THEN
+        Mockito.verify(props).containsKey(key);
+        Mockito.verify(props).getProperty(key);
+        PowerMockito.verifyStatic();
+        System.getenv("sb4j." + key);
+        Assert.assertEquals(value, actual);
+    }
+
+    @Test
+    public void testGetConfigValueWhenEnvironmentKeyExists() {
+        new Business() {
+            private String actual;
+            private Properties props;
+
+            @Override
+            public void given() {
+                props = PowerMockito.mock(Properties.class);
+                PowerMockito.mockStatic(System.class);
+                config.setConfigProperties(props);
+                Mockito.when(props.containsKey(key)).thenReturn(true);
+                Mockito.when(props.getProperty(key)).thenReturn(badValue);
+                Mockito.when(System.getenv("sb4j." + key)).thenReturn(value);
+            }
+
+            @Override
+            public void when() {
+                actual = config.getConfigValue(key);
+            }
+
+            @Override
+            public void then() {
+                Mockito.verify(props).containsKey(key);
+                Mockito.verify(props).getProperty(key);
+                PowerMockito.verifyStatic();
+                System.getenv("sb4j." + key);
+                Assert.assertEquals(value, actual);
+            }
+
+        }.execute();
+    }
+
+    @Test
+    public void testGetConfigValueWhenSystemPropertyExists(){
+        new Business() {
+            private String actual;
+            private Properties props;
+            
+            @Override
+            public void given() {
+                props = PowerMockito.mock(Properties.class);
+                PowerMockito.mockStatic(System.class);
+                config.setConfigProperties(props);
+                Mockito.when(props.containsKey(key)).thenReturn(true);
+                Mockito.when(props.getProperty(key)).thenReturn(badValue);
+                Mockito.when(System.getenv("sb4j." + key)).thenReturn(badValue);
+                Mockito.when(System.getProperty("sb4j." + key)).thenReturn(value);
+            }
+            
+            @Override
+            public void when() {
+                actual = config.getConfigValue(key);
+            }
+            
+            @Override
+            public void then() {
+                Mockito.verify(props).containsKey(key);
+                Mockito.verify(props).getProperty(key);
+                PowerMockito.verifyStatic();
+                System.getenv("sb4j." + key);
+                PowerMockito.verifyStatic();
+                System.getProperty("sb4j." + key);
+                Assert.assertEquals(value, actual);
+            }
+        }.execute();
+    }
+}
+----
+
+[small]#For demonstration purposes some comments were deleted, but other than those, the code above is complete.#
+PowerMock is powerful and makes life easy when testing static method, but not that powerful. If we execute maven, we get the following error:
+[source,text]
+----
+Results :
+
+Failed tests: 
+  testGetConfigValueWhenEnvironmentKeyExist(com.scriptbasic.configuration.TestBasicConfiguration): 
+
+Tests in error: 
+  testGetConfigValueWhenEnvironmentKeyExists(com.scriptbasic.configuration.TestBasicConfiguration): 
+  testGetConfigValueWhenSystemPropertyExists(com.scriptbasic.configuration.TestBasicConfiguration): 
+
+Tests run: 56, Failures: 1, Errors: 2, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20.666s
+----
+
+What is the problem? Let us have a look at the surefire reports file:
+
+[source,text]
+----
+$ cat target/surefire-reports/com.scriptbasic.configuration.TestBasicConfiguration.txt 
+-------------------------------------------------------------------------------
+Test set: com.scriptbasic.configuration.TestBasicConfiguration
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 3.455 sec <<< FAILURE!
+testGetConfigValueWhenEnvironmentKeyExist(com.scriptbasic.configuration.TestBasicConfiguration)  Time elapsed: 0.83 sec  <<< FAILURE!
+Wanted but not invoked java.lang.System.getenv("sb4j.key");
+Actually, there were zero interactions with this mock.
+	at org.powermock.api.mockito.internal.invocationcontrol.MockitoMethodInvocationControl.performIntercept(MockitoMethodInvocationControl.java:292)
+	at org.powermock.api.mockito.internal.invocationcontrol.MockitoMethodInvocationControl.invoke(MockitoMethodInvocationControl.java:194)
+	...
+
+testGetConfigValueWhenEnvironmentKeyExists(com.scriptbasic.configuration.TestBasicConfiguration)  Time elapsed: 0.083 sec  <<< ERROR!
+org.mockito.exceptions.misusing.MissingMethodInvocationException: 
+when() requires an argument which has to be 'a method call on a mock'.
+For example:
+    when(mock.getArticles()).thenReturn(articles);
+
+Also, this error might show up because:
+1. you stub either of: final/private/equals()/hashCode() methods.
+   Those methods *cannot* be stubbed/verified.
+2. inside when() you don't call method on mock but on some other object.
+
+	at com.scriptbasic.configuration.TestBasicConfiguration$2.given(TestBasicConfiguration.java:109)
+	at com.bdd.Business.execute(Business.java:17)
+----
+
+You can see on the highlighted code the relevant error messages. `System` was NOT mocked, and not because it is a system class but rather because this is final. Looking at the code in RT you can see that it really is, just as you can also have a look at the documentation: http://docs.oracle.com/javase/7/docs/api/java/lang/System.html
+
+We are doomed? We can not test this code?
+
+The good approach, generally is, to move all these external dependencies to a utility class, having static methods proxying the call to the `System` class. In that case we can mock the utility class and life is beautiful again. To be honest, I could do that in the example case. The developed code of sb4j was in my hands and I could modify it any way I wanted. But the idea to overcome this issue just did not leave my mind. There is a problem that I can have a workaround for and not a solution. The solution is to test the code as it is now!
+
+If I only had a `System` class that was not final. Hey!! Wait!! I can have a class named `System` that is not final:
+[source,java]
+----
+public class System {
+    public static String getenv(String key) {
+        return java.lang.System.getenv(key);
+    }
+
+    public static String getProperty(String key) {
+        return java.lang.System.getProperty(key);
+    }
+}
+----
+
+If I place this class in the same package as the tested code then the compiler will compile the tested class again this `System` stub instead of the `java.lang.System` and this class can be mocked. But this alter the code base. Does not change the code itself but the class file at the end calls this stub, which calls system and this affects performance. After all this is all about reading configuration, so performance should not be a big issue, but even though: I just do not like it. And if the production code contains the stub `System` then it also needs testing even if it as simple as cold water. And to test it I have to mock `java.lang.System` and the circle of hell just closed.
+
+What if this code would only be compiled against the code for the testing and not for the compilation of the production code? In that case I test the original code without modification and the production `.class` is not influenced by the test needs. Even more: if I use my stub `System` class only for testing, it does not need to proxy the methods `getenv` and `getProperty` to `java.lang.System` since it will never been used in production code. And we do not need testing it since this is not production code.
+
+Interesting is it? Let's give it a try. Let me create a class under `src/test/java` in the same class as the above code containing a simpler version of the above class:
+[source,java]
+----
+public class System {
+    public static String getenv(String key) {
+        return null;
+    }
+
+    public static String getProperty(String key) {
+        return null;
+    }
+}
+----
+
+And executing the code in Eclipse: tadam! It works. Problem solved.
+
+Almost. Running `mvn clean install` from the command line I get exactly the same error as the above. The version of the class used for testing is still compiled against the `java.lang.System`. On second thought this is fine. When we compile using maven we get one set of classes from our java sources. If you look at the maven log on the screen, you see:
+
+[source,text]
+----
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ jscriptbasic ---
+[INFO] Compiling 243 source files to ... target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ jscriptbasic ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 31 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ jscriptbasic ---
+[INFO] Compiling 38 source files to ... target/test-classes
+----
+
+that the test compilation compiles only the test classes, which are few in this case compared to the production classes.
+[small]#Note that I deleted the full path from the printout.#
+When the tests run the directories `target/test-classes` and `targed/classes` are on the classpath in this order. It means that test classes are found first and production classes are found the second. If I want to have a version of the tested class for testing then I have to compile it twice: once for the production code and once for the test. There will be two versions of the class on the classpath: one in the `target/test-classes` directory and one in the `targed/classes` directory, and the test framework will perform the tests on the first one, "linked" against the stub `System`.
+
+The only issue that remained is how to tell maven to compile the source code again for testing. There is no easy solution as maven, by default is handling sources from a single directory. I also do not want to have the test classes in the production JAR file and even more I do not want to have the production code compiled against my stub.
+
+The help comes with the maven helper plugin that can be used to configure extra directories for the test compilation. Actually this is a bit of hack: we tell the compiler that there are "generated" sources (ha ha :-D ) for the test:
+
+[source,xml]
+----
+<plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>build-helper-maven-plugin</artifactId>
+	<version>1.4</version>
+	<executions>
+		<execution>
+			<id>add-test-source</id>
+			<phase>generate-sources</phase>
+			<goals>
+				<goal>add-test-source</goal>
+			</goals>
+			<configuration>
+				<sources>
+					<source>${basedir}/src/main</source>
+				</sources>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
+----
+
+And finally we are there. What we gained is that 
+
+*  we tested the source code
+*  we did mock the System.class
+*  there is no production code left untested
+
+
+The drawbacks are
+
+
+*  we tested the code, but a different compilation, not the same `.class`
+*  all production classes are compiled twice
+
+
+
+== 3. The Conclusion
+
+There was a code that used System static methods directly and needed testing. Usually those dependencies should be "moved far away" from the code and the code should be crafted bearing in mind the testability. I did not discuss how to make the code testable. I only focused on the technical issue: how to test the given class without modifying the source code.
+
+What we test actually is the source code. Usually we do not make any distinction between testing the source code or testing the compiled class file. In this case there is difference and the approach found does test the source code compiled to a test class file. Does it matter?
+
+When we execute unit tests we use mocks. The test class uses a to-be-mocked stub implementation of the class that we need to mock instead of the original. If we could mock the original the test would execute exactly the same way. For this reason I see no real risk in this approach. We never measure what we are interested in. In this case, how the code behaves in operation. You can not test that. Not only in practice, but also theory supports that: you can not tell if Schrödinger's cat is dead or alive. Instead we measure something that is close to the thing we really are interested in. In this case we test the compiled code in a test environment. Now using this approach we test the source code compiled to a test class in a test environment. We moved a bit from the usual measuring point, however I believe that the move was tangential, and the distance did not change.
+
+My final note below this article: if you need to mock static methods, and especially methods from the system class: start to consider refactoring the code.
+
+
+=== Comments imported from Wordpress
+
+
+*mikesrobi* 2013-11-28 17:31:02
+
+
+
+
+
+[quote]
+____
+JMockit is able to mock out static methods, final classes and private methods without modifying existing code, see: 
+http://stackoverflow.com/questions/1629841/how-to-jmockit-system-getenvstring
+For more details also see the answers in: 
+http://stackoverflow.com/questions/4105592/comparison-between-mockito-vs-jmockit-why-is-mockito-voted-better-than-jmockit
+____
+
+
+

@@ -1,0 +1,121 @@
+---
+title: "Don not hit sysadmins with NPE!" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+image:http://javax0.files.wordpress.com/2014/08/no-npe-ever.png?w=300[link="http://javax0.files.wordpress.com/2014/08/no-npe-ever.png?w=300"]My opinion is that having a null pointer exception and getting it into the log without catching, handling and re-throwing it in another exception is not inherently bad. If we can do nothing better then it should not be a problem. The thing is that in practice almost always there is a better way to handle the situation.
+
+Recently I was pair programming and we debugged some web code. We could not get through the authentication filter on the development environment and the authentication was not really in scope for the debugging so we decided to switch that totally off for the time. The next thing was an NPE. We looked at the code and we saw at the line something like
+
+[source,java]
+----
+principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+----
+
+
+
+It was obvious: since the authentication was switched off the result of `getAuthentication()` was null, and therefore calling `getPrincipal()` on null caused the NPE. Should we modify the code to check if there is authentication information and throw a different exception? What would be the benefit to do that? The code runs slower, gets bigger (and bigger code is harder to maintain). And the NPE and the code source together are obvious. There is no need to change.
+
+On second thought the NPE may not be that obvious for a support guy operating the code somewhere at the other side of this rotating ball. He may not have handy access to the source code and may not understand easily that the root cause for the NPE was the misconfiguration of the authentication layer. He/she has to start the server, it does not work and calls the support, raises a ticket. You as a responsible developer being at the farthest end of the support line may woke up during your finest sleep just to tell him/her that the authentication layer was misconfigured. Than you regret that you could have told it in the logs and in the exception.
+
+[source,java]
+----
+Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+if( auth == null ){
+  throw new BadConfigurationException("The authentication layer is not properly configured SecurityContextHolder.getContext().getAuthentication() returned null."
+}
+principal = auth.getPrincipal();
+----
+
+
+Not that big deal and pays back on the long run.
+
+Moral: What seems to be obvious for the developer during development may not be that easy for the system administrator. Admins are not familiar with the code, may not have access to source code, have less experience in programming. On the other hand they have great experience setting up and running systems. It is a hard work, they deserve proper log messages and talkative exceptions.
+
+=== Comments imported from Wordpress
+
+
+*Martin Grajcar* 2014-08-15 00:09:56
+{%@comment id: 1303 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 77.47.82.132 %}
+{%@comment date_gmt: 2014-08-14 23:09:56 %}
+[quote]
+____
+I'd say that throwing an NPE is perfectly fine, assuming it gets a message:
+
+Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+Preconditions.checkNotNull(auth, "The authentication layer is not properly configured SecurityContextHolder.getContext().getAuthentication() returned null.");
+principal = auth.getPrincipal();
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Bo* 2014-08-15 04:22:05
+{%@comment id: 1307 %}
+{%@comment author_email: sittingatthebay@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 80.109.73.167 %}
+{%@comment date_gmt: 2014-08-15 03:22:05 %}
+[quote]
+____
+A developer that ignores valid returns (which null is on getAuthentication()), deserves to be woken at night :D
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*JackFr* 2014-08-15 17:34:44
+{%@comment id: 1316 %}
+{%@comment author_email: fij1mf@yahoo.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 159.53.174.144 %}
+{%@comment date_gmt: 2014-08-15 16:34:44 %}
+[quote]
+____
+moral != morale 
+caching != catching
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2014-08-15 18:22:23
+{%@comment id: 1317 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 46.126.53.182 %}
+{%@comment date_gmt: 2014-08-15 17:22:23 %}
+[quote]
+____
+Thanks. I corrected and I learnt one new English word. The other one was typo that the spellchecker did not cache :-)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 1316 %}
+{%@comment user_id: 31131067 %}
+
+*Michael Jacob* 2015-09-23 00:41:44
+{%@comment id: 8808 %}
+{%@comment author_email: jacob@j-e-b.net %}
+{%@comment author_url: https://plus.google.com/+MichaelJacob %}
+{%@comment author_IP: 109.193.251.112 %}
+{%@comment date_gmt: 2015-09-22 23:41:44 %}
+[quote]
+____
+Sometimes those null checks really get into your way. Either because they'll add 18 indentation levels to your code, or because they'll make it hard to read, or you might be in a performance critical path (yes, even with Java that can happen).
+
+In that case you can wrap your code in a try block, catch that NPE and then check what was null to produce a nice error message. But make sure your half-finished work doesn't have any unwanted outside effect!
+
+BTW: I also have one of those checkNotNull() helper methods, but mine is, generics by thanked, inlinable. Very helpful every time Eclipse decides to force me to check enum.values() for null elements and such nonsense. Or thinks that a library's "public static final Foo foo = new Foo();" needs to be null-checked...
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

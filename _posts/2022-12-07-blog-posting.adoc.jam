@@ -1,0 +1,188 @@
+---
+title: Technology behind this post
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%section Introduction%}
+
+This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at https://javax0.wordpress.com[javax0.wordpress.com].
+The technology, the hosting, and all were okay by that time, but times changed.
+This blog post describes why I changed the blog technology and what technology I use here to write these blog posts.
+
+{%section Problems with WordPress%}
+
+First, I have to state that I am not saying or implying that WordPress would not be an excellent platform.
+It is a well-established and a kind of one of its kind, de-facto number-one blogging forum.
+The problems are specific to my particular needs for this blog.
+These needs may not be specific to my person, but a bit more general: technical blogging.
+
+It is like Opel, Toyota, VW, or any other average, workhorse car type.
+Opel is a good car; it runs, is reliable, and is reasonably priced.
+However, if I am a farmer and need to plow my fields, I will probably choose a tractor instead.
+In this analogy, the farmer is a __technical__ blogger.
+Emphasis is on __technical__.
+For anybody else: WordPress is an excellent choice.
+
+Let's have a look at the issues that I had.
+
+{%subsection Markup%}
+
+When I write anything, I like to edit some markup.
+I can use Word or LibreOffice.
+I was using DEC Write in the early 1990-is if you are old enough to know what that is but not too old to forget things and still remember.
+Even at that time, I preferred markups, which at that time were TeX and LaTeX.
+
+[NOTE]
+====
+I even wrote a hyphenation preprocessor for Tex for the Hungarian language, and it became a standard part of some Linux distributions.
+Since they installed Linux on  Mars Rovers, sometimes I entertain myself with the idea that some of my code got as far as planet Mars.
+Please let me have this fantasy, and do not correct me if I am wrong.
+====
+
+We could use other markups, like APT, Markdown, Asciidoc, and many others over the years.
+These days two of those are used mainly, Markdown and Asciidoc.
+WordPress hosted site supported or still supports Markdown, but I started to prefer Asciidoc for these blogs.
+The only problem was that I could not.
+
+{%subsection Code Samples%}
+
+When I write some technical blogs, I include code samples.
+I develop the code first, and then I write the article.
+That is the principle.
+
+However, the practice is that after I started to write the article, I realized that the code was not perfect.
+So I changed the code and copied the relevant part to the article sample displays.
+Unless I forget to update some of those after a few iterations.
+
+It was also the case when I wrote my first book, and I have sworn that it will never happen again.
+
+{%subsection Version Control%}
+
+Editing on WordPress works, and you can look at the different versions.
+But it is not comparable with the possibilities provided by a Git repository.
+
+{%section The New Blog Technology%}
+
+{%subsection Github Pages and Jekyll%}
+
+The new technology stack for blogging is based on GitHub pages.
+It is not unique, and it has support for Jekyll, which is a static blogging engine.
+Setting up a Jekyll-based blog is pretty straightforward.
+I already had the organization name `javax0` on GitHub.
+It only seemed logical to use this as `javax0.github.io` for blogging.
+Later I may use the `javax0.com` domain that I also keep.
+
+Installing Jekyll on my MacBook was a bit tricky.
+First, I had to install the newest Ruby.
+An old version of Ruby comes preinstalled on every macOS.
+This old version is not suitable for running Jekyll.
+I used brew, but it failed, complaining that I was not on the sudoer list.
+It took a while until I realized that, for some reason, two `sudo` programs were installed on my machine.
+The brew installer used a different one than what I reached from the command line.
+I had to add myself to the other sudoer's list as well.
+The last trick was to tweak the `PATH` so Jekyll would use the newest Ruby version.
+After that, there was still some problem when I configured Jekyll to run locally and on GitHub.
+It was executing some commands following some StackOverflow page suggestions.
+
+Sometimes I had no idea what I was doing.
+I can only hope that I did not install malware during the process.
+You, AsciiDoc, Jekyll, and other tool developers have all my trust.
+
+I integrated JRuby into Jamal, but I do not program in Ruby.
+
+{%subsection Jekyll Asciidoc Plugin%}
+
+In addition to Jekyll, I also installed the Asciidoc plugin for Jekyll.
+Since both Asciidoctor and Jekyll are written in Ruby, it was nothing more than issuing a few commands.
+
+{%subsection Jamal%}
+
+The extra part, which is not a standard Asciidoc-boosted Jekyll installation, is my use of Jamal.
+The main reason to use Jamal is to include the code samples in the blog posts, but it does much more than that.
+
+I wrote above that I struggled with maintaining the code samples when writing my books.
+I created the pyama tool in Python for the second book I wrote.
+It copies the code snippets into the text file that I edited.
+Later I developed the snippet module for Jamal, which revolves around this concept.
+Keep the source in the code files, have only a reference in the document, and copy it in the CI/CD process.
+I hesitated to use Jamal and the snipped module myself for a long time.
+It is easier to edit a file showing some code when the code is there a few lines above.
+Pyama was copying the code into the edited file.
+Jamal does not do that.
+Jamal can also do that, but I do not recommend using that feature.
+A source file is a source file.
+
+When I created the Asciidoctor Jamal plugin that can plug Jamal functionality into Asciidoctor and delivers Jamal WYSIWYG editing in IntelliJ, the situation changed drastically.
+There was no reason more to use something like pyama.
+
+NOTE: Pyama is still available in my GitHub, but there are much better tools for the purpose.
+
+Using Jamal, I can include code snippets and delete or keep some lines by selecting regular expressions or line numbers.
+I can number the lines, and I can still use all the Asciidoctor formatting features at the same time.
+
+{%subsection Installing Jamal%}
+
+Installing Jamal to use in IntelliJ is very simple.
+All it takes to download a ZIP file and extract the content into the projects `.asciidoctor/lib` directory.
+You should open IntelliJ settings and associate the `.jam` extension with the Asciidoctor plugin (in addition to the other default extensions already there).
+Restart IntelliJ, and you can start editing your first Jamal-enabled Asciidoc file.
+
+As you edit the file on the left pane, you see the formatted text on the right pane.
+It is how the plugin works, but you can also use Jamal macros now.
+
+{%png |image-2022-12-09-16-47-43-394|width=500%}
+
+{%subsection Blogging Macros%}
+
+There are not too many specific macros that differ from other documentation macros.
+Most of the macros I use in Jamal are snippet macros and built-in core ones.
+Some macros help scan the snippets following the directory naming conventions of the site.
+There are some macros to reference one article from another easily.
+
+{%subsection Deploying the Site%}
+
+Deployment of the site is simply a git push.
+Almost.
+The site has to be built before.
+There is a simple build script:
+
+
+[source,bash]
+----
+{%@include [verbatim] ../deploy%}
+----
+
+This script builds the site, adds all the new and modified generated files, and then pushes it to the git server.
+It also opens the web page, so I can immediately see the blog's opening page after it is deployed.
+
+I tried to let GitHub pages do the building of the Jekyll site.
+After all, it supports Jekyll.
+The problem is that GitHub does not support the Jekyll Asciidoc plugin.
+It is a bit strange: Asciidoc is natively supported by GitHub, and any readme or other files can be Asciidoc.
+Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.
+
+{%section What will be Missing%}
+
+WordPress very neatly showed the statistics of the site.
+I do not know if I can get such statistics here.
+Probably not.
+
+On the other hand, most of the readers for my articles came from the republishing sites DZone and Java Code Geeks.
+I will keep them.
+(Note to myself: I have to inform them about the blog's new location officially.)
+They automatically fetch the blog posts.
+So I do not need to do anything.
+They select from the published articles.
+They only repost the good ones.
+
+If you know any other aggregator I should contact, give me some advice. I am open.
+
+{%section Summary%}
+
+I hope blogging using this toolset will be much more fun than the old technology.
+At least, I am less likely to end up in some articles with `&amp;lt;` and `&amp;gt;` infested source codes.
+(I had to apply a unique trick to get them here.)
+
+This type of blogging using Asciidoc, Jekyll, and Jamal is more a Doc as a Code that I advocate heavily.
+We will see how it will work.

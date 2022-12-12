@@ -1,0 +1,104 @@
+---
+title: "A little bit of testing" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Behaviour Driven Development usually says that the test structure consists of
+
+	* GIVEN
+	* WHEN
+	* THEN
+
+Even Mockito has an DBBMockito façade implementation that fits to this habit. If you want a big shot you can have JBehave. However for now let us starts with some simple unit test:
+
+[source,java]
+----
+    private static final Configuration config = new BasicConfiguration();
+    private static final String key = "key";
+    private static final String value = "value";
+    private static final String badValue = "badValue";
+...
+    public void testGetConfigValueWhenEnvironmentKeyExists() {
+        String actual;
+        Properties props;
+        // GIVEN
+        props = PowerMockito.mock(Properties.class);
+        PowerMockito.mockStatic(System.class);
+        config.setConfigProperties(props);
+        Mockito.when(props.containsKey(key)).thenReturn(true);
+        Mockito.when(props.getProperty(key)).thenReturn(badValue);
+        Mockito.when(System.getenv("sb4j." + key)).thenReturn(value);
+        // WHEN
+        actual = config.getConfigValue(key);
+        // THEN
+        Mockito.verify(props).containsKey(key);
+        Mockito.verify(props).getProperty(key);
+        PowerMockito.verifyStatic();
+        System.getenv("sb4j." + key);
+        Assert.assertEquals(value, actual);
+    }
+----
+
+
+Do you feel something under you skin that this is not the real one? What are those comments? Whenever I feel the need to write comments into a method I start to think about better variable and method names and refactoring. Why is this method so complex that this is hard to understand without the comments? Yes, sure: I can remove those three comment lines, but even then it is not really an improvement.
+
+What if we could create a simple `Business` class and we could book our ticked from the economy class to business class? We are not even forced to finish the class, it is OK half way ready:
+
+[source,java]
+----
+public abstract class Business {
+
+    abstract public void given();
+    abstract public void when();
+    abstract public void then();
+    public void execute(){
+        given();
+        when();
+        then();
+    }
+
+}
+----
+
+
+It is so small that it just fits any project. Whenever we have it the test code looks much better:
+
+[source,java]
+----
+    @Test
+    public void testGetConfigValueWhenEnvironmentKeyExists() {
+        new Business() {
+            private String actual;
+            private Properties props;
+
+            @Override
+            public void given() {
+                props = PowerMockito.mock(Properties.class);
+                PowerMockito.mockStatic(System.class);
+                config.setConfigProperties(props);
+                Mockito.when(props.containsKey(key)).thenReturn(true);
+                Mockito.when(props.getProperty(key)).thenReturn(badValue);
+                Mockito.when(System.getenv("sb4j." + key)).thenReturn(value);
+            }
+
+            @Override
+            public void when() {
+                actual = config.getConfigValue(key);
+            }
+
+            @Override
+            public void then() {
+                Mockito.verify(props).containsKey(key);
+                Mockito.verify(props).getProperty(key);
+                PowerMockito.verifyStatic();
+                System.getenv("sb4j." + key);
+                Assert.assertEquals(value, actual);
+            }
+
+        }.execute();
+    }
+----
+
+
+Much better, is it. The only question remaining: who in the hell could we mock the `System` class? Believe me: the code above is copy/paste without modification from a real live test and it works. Stay tuned for some coming posts where I detail how it was made.

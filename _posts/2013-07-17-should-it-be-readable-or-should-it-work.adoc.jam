@@ -1,0 +1,49 @@
+---
+title: "Should it be readable or should it work?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+__Should it be readable or should it work?__
+
+This question was given to me by a junior programmer from my team a few month ago. The person was asking it aggressive and frustrated because the project was late and there was big pressure from the management to have the software delivered.
+
+The answer, in such a stressful situation is evident: programs should work, otherwise they are just a list of characters or bytes. When adrenaline rushes there are only two choices: hit or run. That is the way our specie survived during the million years of evolution. But after a while, when you calm down you can start thinking. You end up with a working (really working ?) bunch of code. It passed UAT thus you are still alive, not fired and the Spanish inquisition packed their dreadful tools and went back to their offices on the top floor, for a while. The sun shines again, the dark clouds vanished, as for now. But what will come next after just two weeks when the next sprint finishes?
+
+You take a deep breath and start to run again for the next sprint. The "working" code remains without re-factoring the way it is now. We need that code executing and readability comes into place only when you want to modify the code. Code modification is not in the scope for the moment. Delivering the next functionality, however, is. Project manager is swinging the whip above your head and you slowly realize that your code you imagined to be the best ever program on earth degrades to a heap of X (X can be different things based on your current mood, education and language versatility).
+
+[quote]
+____
+Any temporary code is terminal.
+____
+
+
+When you write a few lines of code to fix a bug and you put there a `//TODO this has to be changed later` you should know that the probability of the change is very small. The code will remain as it is. In some cases it will be re-factored but that is even worse. Why? Let me explain!
+
+The refactoring is usually done because a developer can not stand the spaghetti macrame the code became and devotes some "free" time to do the re-factoring or re-structuring. This is not a professional approach. 
+
+From the technology point of view it can be professional. There are unit tests and functional and integration tests and all the bells and whistles that are needed for a professional refactor. The non professional part is the financing.
+
+
+[quote]
+____
+If you found free lunch, better do not eat that. You never know why it was free.
+____
+
+
+
+It is not professional in the meaning that this is a work done for pure enthusiasm and not for the money. This work is financed by someone, who is not the consumer of the product of the work. Such a situation is never professional. There is no free lunch, and what is more: you better do want to pay for your lunch. That will ensure that you will have the quality lunch today, tomorrow and in the future so long as long you pay for it. You need the lunch, they need the money. The same holds for programming. In other words: you will get what you paid for. Low price: no meat in the soup.
+
+Refactors are like lunches. You better pay for it if you are in the customer shoes. How much to pay? How much refactor you will really need to get the best code you can? Tricky question that is hard to answer.
+
+[quote]
+____
+Sometimes it is more important to have a code that is readable than a code that works.
+____
+
+
+The key word in this sentence is: [strong]#sometimes#. When the delivery is not in jeopardy. When this is the decision to do it Q&amp;D and go for a beer (or bear if you are the hunter type) or to DIR. [small]#(Q&amp;D stands for quick and dirty, DIR is do it right)# I also feel the urge to finish something fast though not for rushing for the beer, neither the bear. First running the code I feel like Victor Frankenstein seeing his creature's first movement. But then, if it works, why mend? I do not want to kill my creature just to have a better looking code. The feeling when I can see bugs appearing that were not present in the ten-minutes-ago ugly code. Yes, it was ugly, but it worked. Why did I started to re-factor it? And then I bang my head against the wall.
+
+But there is a caveat: if the ugly code worked but the refined, good looking code does not, there is a good chance that the old code was faulty as well, just unseen. You just did not realized the bugs were there. Turn on the light and the small feet run to the little holes at the side of the floor. Software bug is not cockroach. If you turn on the light they can be seen. Write unit tests. Write tons of unit tests and spend time thinking how your code could look better. It will pay for it. And the long run: the customer will pay it, and on the other hand customer will also get the value. Then you will not face the question any more __Should it be readable or should it work?__
+
+So long as long the next project starts...

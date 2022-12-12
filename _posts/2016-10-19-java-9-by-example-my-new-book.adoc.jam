@@ -1,0 +1,54 @@
+---
+title: "Java 9 by Example, My New Book" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Sometime during the summer, I decided to write a book on Java programming after being suggested to do so by Packt. Java is a market leader and the number one programming language in the enterprise programming arena, and learning it is a good option for novice programmers. I recommend it to be learned as the main language after you got your fingers burnt with languages that have a simpler ecosystem, such as Python, Delphy, VisualBasic, and so on. Many advocate the death of Java but I do not share their opinion. There may be more modern and fancier languages, but for enterprise computing, Java is still there and will be there, at least for the next 20 years. If you learn Java now, you learn an actively developing, stable, and reliable environment and tool, and you gain significant knowledge that you can convert to "jobs" in the coming decades.
+
+[b]#An overview of the book#
+
+While designing the book, I decided to address those readers who already have some programming experience and want to learn Java as a main language, but apart from that, the book starts with the basics. Java 9 is especially good to get started since it has a REPL interpreter that compiles the Java code you type in, so you can try the features interactively. Throughout the book, you will see sample programs, first simple ones and then more complex examples, that are explained in detail. We focus not only on the language features, such as module support, functional programming, lambda expressions, and reactive interfaces but also on programming style and program design. Continuously tutoring and coaching junior developers in my everyday work, I have gathered some experience on what is important and yet easily overlooked by beginners, and I have focused on these issues in the book.
+
+The examples include sorting algorithms, explaining bubble and quick short, a game called Mastermind, a sample e-Commerce application, and a simple accounting application. The game, Mastermind, is followed in three chapters: the basic algorithm, a massively parallel algorithm (which is not trivial for this problem), and a web application where you can finally see the colors on the screen.
+
+Finishing the book, the reader will have a comprehensive view of the language and will gain a stable basic knowledge to study further in the special directions he or she chooses.
+
+image::https://www.packtpub.com/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/b/0/b05673_cover.png[]
+
+[b]#How to get the book#
+
+This book is currently work in progress at the moment. You can, however, get an early access eBook from the Packt Website at link:https://www.packtpub.com/application-development/java-9-programming-example[https://www.packtpub.com/application-development/java-9-programming-example]. Here you can see pre-reviewed drafts of the chapters as they are written, giving you access to content as early as possible. To know more about Early Access click on the below link. link:https://www.packtpub.com/books/info/packt/early-access[https://www.packtpub.com/books/info/packt/early-access]
+
+=== Comments imported from Wordpress
+
+
+*Garai Márton* 2016-10-19 10:01:54
+{%@comment id: 10260 %}
+{%@comment author_email: garaimarton.mail@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 91.82.81.150 %}
+{%@comment date_gmt: 2016-10-19 09:01:54 %}
+[quote]
+____
+Delphi. IMHO novice programmers should burn their fingers with weak typed/untyped language first. Like PHP or JavaScript. Better experience of "I want to draw my castle. Why should I care if it's an object or not?"
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Java blogs for experienced programmers | Javarevisited* 2016-12-07 10:40:40
+{%@comment id: 10388 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://www.javarevisited.co/java-blogs-for-experienced-programmers/ %}
+{%@comment author_IP: 207.174.215.236 %}
+{%@comment date_gmt: 2016-12-07 09:40:40 %}
+[quote]
+____
+[&#8230;] Deep &#8211; Perter Verhas writes only about Java in his blog. He has recently published a new book Java 9 By Example. In his blog lot of excellent posts on Java and especially on Java [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
