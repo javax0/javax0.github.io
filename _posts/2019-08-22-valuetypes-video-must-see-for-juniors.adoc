@@ -1,8 +1,9 @@
 ---
-title: "ValueTypes video, must see for juniors" 
+title: "ValueTypes video, must see for juniors"
 layout: posta
 comments: on
 ---
+
 
 JAX-TV uploaded the recording of my talk I presented this year in Mainz at W-JAX
 

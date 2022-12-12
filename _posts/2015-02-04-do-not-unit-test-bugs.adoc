@@ -1,8 +1,9 @@
 ---
-title: "Do not unit test bugs" 
+title: "Do not unit test bugs"
 layout: posta
 comments: on
 ---
+
 
 Before getting to the topic of the title let's have a simple programming sample. On the programming task I will demonstrate some bad coding style and based on that it will be easier for me to explain why the same style is bad in unit tests. Well, now that I wrote this sentence this seems to be a obvious statement. Why something would be good in unit testing when this is not good in programming. One thing is that link:https://javax0.wordpress.com/2015/01/14/use-copy-paste-programming/[it is not always the way like that], and the other is that the same mistake may not be so obvious when we create unit tests.
 
@@ -84,7 +85,7 @@ One day, however, somebody gets the strange idea to test if 9 is prime. Believe 
 
 [quote]
 ____
-BGTCKT17645329-KT The method Prime does not give the 
+BGTCKT17645329-KT The method Prime does not give the
 correct answer for the numbers that are multiplications of three. For example it results true for an object that represents 9.
 
 ____
@@ -287,6 +288,3 @@ The major problem with pseudo-random testing is that it can not be reproduced. W
 
 For the case, your suggested pseudo random tests are very well suiting and I wish it was that easy to create test data automatically for real life commercial tests.
 ____
-
-
-

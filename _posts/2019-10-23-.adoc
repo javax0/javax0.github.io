@@ -1,14 +1,15 @@
 ---
-title: "Apache Commons StringUtils Fluent Facade" 
+title: "Apache Commons StringUtils Fluent Facade"
 layout: posta
 comments: on
 ---
 
 
+
 == 1. Fluent API to Apache Commons StringUtils
 
 
-This library is simply a fluent wrapper around Apache StringUtils 
+This library is simply a fluent wrapper around Apache StringUtils
 methods.
 
 

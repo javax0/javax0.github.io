@@ -4,3 +4,5 @@
 .sass-cache/
 .jekyll-cache/
 venv
+.jekyll-metadata
+.ruby-version

@@ -324,11 +324,11 @@ Give it a try and use Jamal.
 
 
 *Peter Verhas* 2021-04-27 16:01:29
-{%@comment id: 30322 %}
-{%@comment author_email: peter@verhas.com %}
-{%@comment author_url: http://tifyty.wordpress.com %}
-{%@comment author_IP: 85.0.100.51 %}
-{%@comment date_gmt: 2021-04-27 15:01:29 %}
+[%@comment id: 30322 %]
+[%@comment author_email: peter@verhas.com %]
+[%@comment author_url: http://tifyty.wordpress.com %]
+[%@comment author_IP: 85.0.100.51 %]
+[%@comment date_gmt: 2021-04-27 15:01:29 %]
 [quote]
 ____
 Jamal is both A and B.
@@ -345,17 +345,17 @@ Whenever you change the unit test extending the text data or modifying it the Ja
 
 These are only the features that already exist and tested and documented. The roadmap includes many morepossibilities.
 ____
-{%@comment approved: 1 %}
-{%@comment type: comment %}
-{%@comment parent: 0 %}
-{%@comment user_id: 31131067 %}
+[%@comment approved: 1 %]
+[%@comment type: comment %]
+[%@comment parent: 0 %]
+[%@comment user_id: 31131067 %]
 
 *ODI* 2021-02-26 18:50:52
-{%@comment id: 30227 %}
-{%@comment author_email: istvan.danyi@gmail.com %}
-{%@comment author_url:  %}
-{%@comment author_IP: 84.236.99.78 %}
-{%@comment date_gmt: 2021-02-26 17:50:52 %}
+[%@comment id: 30227 %]
+[%@comment author_email: istvan.danyi@gmail.com %]
+[%@comment author_url:  %]
+[%@comment author_IP: 84.236.99.78 %]
+[%@comment date_gmt: 2021-02-26 17:50:52 %]
 [quote]
 ____
 Sounds great to have new tool supporting documentation activities. It has a very much needs. In order to understand properly, I have been thinking a lot what kind of tool JAMAL really is. Two main categories came up to my mind:
@@ -366,7 +366,7 @@ However, for both categories there are several existent candidates, so the next 
 
 Anyway, I totally agree with you that documentation should handle like a source code. There are a lot of commmon in procedures such version management, building/compiling (=publishing), visualizing track changes, "running" (=rendering interactive content). Unfortunately toolchains and practice are not so matured yet. Hope, some time or other DevOps CI/CD pipelines will always handle publishing of complete SW documentations as well.
 ____
-{%@comment approved: 1 %}
-{%@comment type:  %}
-{%@comment parent: 0 %}
-{%@comment user_id: 39100303 %}
+[%@comment approved: 1 %]
+[%@comment type:  %]
+[%@comment parent: 0 %]
+[%@comment user_id: 39100303 %]

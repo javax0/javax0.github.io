@@ -1,8 +1,9 @@
 ---
-title: "Unit testing private methods" 
+title: "Unit testing private methods"
 layout: posta
 comments: on
 ---
+
 
 
 
@@ -22,7 +23,7 @@ The advantage of black-box testing is that it does not need to change if the tes
 
 I do not particularly appreciate when the unit test cannot be black-box, but there are cases when it is unavoidable. An unusual and frequent case is when we want to test a private method. If you want to, or even God forgive, have to test a private method, it is a code smell. The method may be simple, and you can achieve the coverage of its functionality by invoking only the public API of the tested unit. You do not have to test the private method, and if you do not have to, you must not want.
 
-Another possibility is that that the private method is so complicated that it deserves its own test. In that case, the functionality deserves a separate utility class.
+Another possibility is that the private method is so complicated that it deserves its own test. In that case, the functionality deserves a separate utility class.
 
 Still, there is a third possibility. After all the contemplating, we decide that the private method remains inside the unit, and we want to test it.
 
@@ -409,16 +410,12 @@ What you should remember from this article:
 
 
 *Unit testing private methods | Java Code Geeks | World Best News* 2021-02-18 15:08:48
-{%@comment id: 30214 %}
-{%@comment author_email:  %}
-{%@comment author_url: https://worldbestnews.info/unit-testing-private-methods-java-code-geeks/ %}
-{%@comment author_IP: 209.159.146.10 %}
-{%@comment date_gmt: 2021-02-18 14:08:48 %}
+
+
+
+
+
 [quote]
 ____
 [&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Unit testing private methods [&#8230;]
 ____
-{%@comment approved: 1 %}
-{%@comment type: pingback %}
-{%@comment parent: 0 %}
-{%@comment user_id: 0 %}
