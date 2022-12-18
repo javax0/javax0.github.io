@@ -155,7 +155,7 @@ There is a simple build script:
 git add --all docs
 git commit -m "deploy"
 git push
-open https://javax0.github.ioq
+open https://javax0.github.io
 ----
 
 This script builds the site, adds all the new and modified generated files, and then pushes it to the git server.
