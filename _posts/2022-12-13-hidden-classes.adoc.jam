@@ -5,6 +5,12 @@ comments: on
 ---
 {%@import javax0.jim%}
 {%section Introduction%}
+{%@define JEP=link:https://openjdk.org/jeps/371[JEP371]%}
+{%@define BAELDUNG=link:https://www.baeldung.com/java-hidden-classes[introductory article]%}
+{%@define SB=link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy]%}
+{%@define BB=link:https://bytebuddy.net/[ByteBuddy]%}
+{%@define cglib=link:https://github.com/cglib/cglib[cglib]%}
+{%@define equals=link:https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)[equals]%}
 
 Java can have anonymous classes from the very start.
 However, anonymous classes were not really anonymous.
@@ -14,12 +20,153 @@ If you are familiar with the command `javap` you can "disassemble" a JAR file, a
 Java 15 introduced hidden classes, which really do not have name.
 Almost, as you will see.
 It is not part of the language, but part of the JDK.
-There is no language element to create a hidden clas, but there are JDK methods and classes that come to rescue.
+There is no language element to create a hidden classes, but there are JDK methods and classes that come to rescue.
+
+In this article we will discuss
+
+* what hidden classes are and what is the reason to have them,
+
+* how zou can use hidden classes,
+
+* how to load hidden classes using the JDK methods and finally
+
+* how to create and load hidden classes the easy way using {%SB%}.
+
+[NOTE]
+====
+I created SourceBuddy, and it is an Apache v2.0 licensed open source program.
+During the creation of the code I have learned a few things about hidden classes I wanted to share with you.
+You may also look at this article as SourceBuddy promotion, which is ok if you do that.
+Nevertheless, I hope being successful adding extra value in this article.
+====
 
 {%section What are hidden classes?%}
 
+There is an easy to read {%BAELDUNG%} about hidden classes on Baeldung.
+If you are impatient and do not care some intricate details, just go there and read that article.
+Baeldung articles are always short, focusing on the most important and correct.
+They give a good starting point, which there would be no reason to repeat.
 
+Hidden classes were proposed in the {%JEP%}, and it reads:
+
+____
+hidden ... classes that cannot be used directly by the bytecode of other classes
+____
+
+This is a bit short and may not be easy to understand what it really means.
+
+A hidden class is loaded into the JVM.
+When a class is in source code format or byte code it cannot be "hidden".
+This term can refer only to loaded classes.
+Calling them secretly loaded class could be more appropriate.
+
+A class gets secret when it is loaded in a special way so that it remains secret in front of other code parts.
+Remaining secret, however, does not mean that other codes cannot use this class.
+They can so long as long they "know" about the secret.
+The big difference is that this class is not "advertised" in the sense that it cannot be found by the name.
+
+When you load a class the hidden way creating a hidden class you will have a reference to this class.
+Using the reflective methods you can instantiate the class many times, and then you can invoke methods, set, get fields.
+If the class implements an interface or extends a class you can cast the instance reference to the interface and class and invoke the methods without reflection.
+
+The class is hidden for two reasons:
+
+* it does not have a name other classes could reference, and
+
+* there is no reference from the class loader to the class.
+
+When you call `getName()` or `getSimpleName()` on a variable referencing a hidden class you will get some string.
+These are names for messages, for humans and are irrelevant for the other classes.
+When a class refers to another class it needs the canonical name.
+`getCanonicalName()` returns `null`.
+Canonical name is the real name of the class, and that is non-existent in the case of hidden classes.
+
+Since the class cannot be found through the class loader without the canonical name, there is no reason for the loader to keep a reference to the class.
+Why would it keep a reference when it cannot give the class to anyone.
+Keeping a reference woult have only one side effect: it would prevent the GC to unload the class so long as long the class loader is alive.
+
+Since there is no reference from the class loader to the class the GC can unload the class object as soon as it is out of use.
 
 {%section What is the use of hidden classes?%}
+
+The {%JEP%} describes the reason for hidden classes.
+It says
+
+____
+Allow frameworks to define classes as non-discoverable implementation details of the framework, so that they cannot be linked against by other classes nor discovered through reflection.
+____
+
+Many frameworks use dynamically created classes.
+They are proxy classes in most of the cases.
+A proxy class implements an interface or extends another class and when invoked it calls an instance of the interface or the original class.
+It also does something extra as well usually, or else there would be no reason for the proxy class and proxy instance.
+
+An example is the Spring framework when your code requires it to inject a request bean into a session bean.
+(Or any other shorter lifecycle bean into a longer one.)
+There can be several threads serving different requests at the same time all belonging to the same session.
+All these threads will see the same session bean, but they magically will see their own request beans.
+The magic is a proxy object extending the request bean's class.
+When you call a method on the request bean, you invoke the proxy instance.
+It checks the thread and the request that it serves and forwards the call to the appropriate request bean.
+
+Another example is JPA lazy loading.
+You can have an SQL table where each row references the previous one.
+When you try to load the last record it will automatically load the previous one, which in deed will load the one before and so on.
+It will load the whole table.
+This happens unless you annotate the field as lazy.
+It means that the actual data from the database has to be loaded only when it is needed.
+
+When you load the record you get a proxy object.
+This proxy object knows which record it refers to and will load the record from the database only when a method is called.
+
+The same mechanism is used for Aspect Oriented Programming and in many other cases.
+
+You can create a proxy class using only the JDK reflection API so long as long the target class implements the interface you want to proxy.
+If there is no such interface you can use the {%BB%} library.
+
+[NOTE]
+====
+The {%cglib%} library is widely used and well-known in the many frameworks, but it is deprecated recently.
+====
+
+When you create such classes you do not need any name for these classes.
+You get the reference to the class and the reference to the instance.
+The framework injects the reference to the field it has to and then the code uses them as any object.
+It does not need to know the name of the class.
+All it needs to know that it is an instance of the target class or interface.
+However, some code may discover the name.
+These classes have some name that reflection can discover.
+Some "clever" junior may discover it and play some neat trick, that you may have later issues maintaining.
+Would it be better if there was no name at all?
+Probably yes, it would be cleaner.
+Hence: hidden classes.
+
+[NOTE]
+====
+Thes proxy classes may also cause some issue when you implement the `equals(Object other)` method.
+The usual implementation of the {%equals%} method starts comparing the `other` object's class to the actual class.
+It will eventually be `false` when the other object is a proxy instance.
+What the `equals()` method should check is the assignability whenever there is a possibility that the `other` object is a proxy.
+====
+
+____
+Support extending an access control nest with non-discoverable classes.
+____
+
+____
+Support aggressive unloading of non-discoverable classes, so that frameworks have the flexibility to define as many as they need.
+____
+
+____
+Deprecate the non-standard API sun.misc.Unsafe::defineAnonymousClass, with the intent to deprecate it for removal in a future release.
+____
+
+____
+Do not change the Java programming language in any way.
+____
+
 {%section Creating hidden classes%}
 {%section Creating hidden classes the easy way%}
+
+
+
