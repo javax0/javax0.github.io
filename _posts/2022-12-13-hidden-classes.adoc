@@ -1,0 +1,90 @@
+---
+title: Hidden Classes in Java 15
+layout: posta
+comments: on
+---
+
+== 1. Introduction
+
+Java can have anonymous classes from the very start.
+However, anonymous classes were not really anonymous.
+You did not need to name them, but under the hood they were named by the Java compiler.
+If you are familiar with the command `javap` you can "disassemble" a JAR file, and you can see the name the compiler generated for the anonymous classes.
+
+Java 15 introduced hidden classes, which really do not have name.
+Almost, as you will see.
+It is not part of the language, but part of the JDK.
+There is no language element to create a hidden classes, but there are JDK methods and classes that come to rescue.
+
+In this article we will discuss
+
+* what hidden classes are and what is the reason to have them,
+
+* how zou can use hidden classes,
+
+* how to load hidden classes using the JDK methods and finally
+
+* how to create and load hidden classes the easy way using
+link:jttps://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
+
+[NOTE]
+====
+I created SourceBuddy, and it is an Apache v2.0 licensed open source program.
+During the creation of the code I have learned a few things about hidden classes I wanted to share with you.
+You may also look at this article as SourceBuddy promotion, which is ok if you do that.
+Nevertheless, I hope being successful adding extra value in this article.
+====
+
+== 2. What are hidden classes?
+
+There is an easy to read links:https://www.baeldung.com/java-hidden-classes[introductory article] about hidden classes on Baeldung.
+If you are impatient and do not care some intricate details, just go there and read that article.
+Baeldung articles are always short, focusing on the most important and correct.
+They give a good starting point, which there would be no reason to repeat.
+
+Hidden classes were proposed in the link:https://openjdk.org/jeps/371[JEP371], and it reads:
+
+____
+hidden ... classes that cannot be used directly by the bytecode of other classes
+____
+
+This is a bit short and may not be easy to understand what it really means.
+
+A hidden class is loaded into the JVM.
+When a class is in source code format or byte code it cannot be "hidden".
+This term can refer only to loaded classes.
+Calling them secretly loaded class could be more appropriate.
+
+A class gets secret when it is loaded in a special way so that it remains secret in front of other code parts.
+Remaining secret, however, does not mean that other codes cannot use this class.
+They can so long as long they "know" about the secret.
+The big difference is that this class is not "advertised" in the sense that it cannot be found by the name.
+
+When you load a class the hidden way creating a hidden class you will have a reference to this class.
+Using the reflective methods you can instantiate the class many times, and then you can invoke methods, set, get fields.
+If the class implements an interface or extends a class you can cast the instance reference to the interface and class and invoke the methods without reflection.
+
+The class is hidden for two reasons:
+
+* it does not have a name other classes could reference, and
+
+* there is no reference from the class loader to the class.
+
+When you call `getName()` or `getSimpleName()` on a variable referencing a hidden class you will get some string.
+These are names for messages, for humans and are irrelevant for the other classes.
+When a class refers to another class it needs the canonical name.
+`getCanonicalName()` returns `null`.
+Canonical name is the real name of the class, and that is non-existent in the case of hidden classes.
+
+Since the class cannot be found through the class loader without the canonical name, there is no reason for the loader to keep a reference to the class.
+Why would it keep a reference when it cannot give the class to anyone.
+Keeping a reference woult have only one side effect: it would prevent the GC to unload the class so long as long the class loader is alive.
+
+Since there is no reference from the class loader to the class the GC can unload the class object as soon as it is out of use.
+
+== 3. What is the use of hidden classes?
+
+
+
+== 4. Creating hidden classes
+== 5. Creating hidden classes the easy way

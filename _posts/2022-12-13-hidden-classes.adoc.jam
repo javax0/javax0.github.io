@@ -1,0 +1,25 @@
+---
+title: Hidden Classes in Java 15
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%section Introduction%}
+
+Java can have anonymous classes from the very start.
+However, anonymous classes were not really anonymous.
+You did not need to name them, but under the hood they were named by the Java compiler.
+If you are familiar with the command `javap` you can "disassemble" a JAR file, and you can see the name the compiler generated for the anonymous classes.
+
+Java 15 introduced hidden classes, which really do not have name.
+Almost, as you will see.
+It is not part of the language, but part of the JDK.
+There is no language element to create a hidden clas, but there are JDK methods and classes that come to rescue.
+
+{%section What are hidden classes?%}
+
+
+
+{%section What is the use of hidden classes?%}
+{%section Creating hidden classes%}
+{%section Creating hidden classes the easy way%}
