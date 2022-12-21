@@ -153,17 +153,83 @@ ____
 Support extending an access control nest with non-discoverable classes.
 ____
 
+This is the second bullet point in the list of goals in the link:https://openjdk.org/jeps/371[JEP371].
+Hidden classes can be loaded in a way that they become member of a nest.
+What is a nest?
+
+Well it is a long story, but since it is Christmas-time, I am on holiday and this article will not be printed on paper wasting tree, here it goes.
+Once upon a time, there was a Java version 1.0 that did not have inner classes.
+Now, if you ask me what inner classes are, then you better stop reading it here.
+Then Java version 1.1 introduced inner classes, but it did not change the JVM structure.
+The JVM did not know anything about inner classes.
+The Java compiler created regular (almost) top level classes from the inner classes.
+It invented some funny name, like `A$B` when there was a class `B` inside `A`.
+
+NOTE: You can try to define an `A$B` top level class in the same package where the class `A` containing the class `B` is.
+`A$B` is an absolutely valid name.
+You will see what the compiler does.
+
+There were some hacking with the visibility though.
+An inner class has the same visibility as the top level class.
+Anything private inside one compilation unit (file) is visible.
+Visibility, however, also enforced by the JVM.
+But the JVM sees two top level classes.
+To overcome this the compiler generated bridge methods in the classes wherever it was needed.
+They are package level for the JVM and when called they pass on the call to the private method.
+
+Then came Java 11 something like 25 years later and link:https://openjdk.org/jeps/181[introduced the nest control].
+Since Java 11 every class has a relation to another class or to itself, which is the nest host of the class.
+Classes having the same nest host can see each other's private members.
+The JVM does not need the bridge methods anymore.
+
+When you load a class hidden you can specify it to become the member of the same nest (having the same nest host) as the class that created the lookup object.
+
+NOTE: We have not discussed yet what a lookup object is, and how to load a class hidden.
+It will come.
+As for now: a lookup object is something that can load a byte array as hidden class into the JVM memory.
+When a lookup object is created from inside a method of a class the lookup object will belong to that class.
+When a class is loaded as hidden using the lookup object it is possible to pass an option to make the new hidden class to belong to the nest the lookup object was created in.
+
+Without the hidden class functionality I do not know any other possibility to load a class that will belong to an already existing nest.
+If you know any possibility, write it in a comment.
+
+The next bullet point reads:
 ____
 Support aggressive unloading of non-discoverable classes, so that frameworks have the flexibility to define as many as they need.
 ____
+
+It is an important point.
+When you create a class it remains in the memory so long as long the classloader is alive.
+Classloaders keep references to all the classes they loaded.
+These references say that there may be some code asking the classloader to return the loaded class object by the name.
+The class may be long forgotten by the application logic, nobody will ever need it.
+Still the garbage collector cannot collect it because there is a reference in the classloader.
+A solution is to create a new class loader for every new non-hidden dynamically created class, but that is an overkill.
+
+Classloaders loading hidden classes do not keep a reference to the hidden class by default.
+As with the nesting host, it is possible to provide an option to differ.
+
+I do not see any reason.
+There is no name, not discoverable, but keep an extra reference so the GC cannot throw it away.
+If you see any reasonable use case, again: comment.
 
 ____
 Deprecate the non-standard API sun.misc.Unsafe::defineAnonymousClass, with the intent to deprecate it for removal in a future release.
 ____
 
+Very well. Yes. Absolutely.
+
 ____
 Do not change the Java programming language in any way.
 ____
+
+Nice point. Sure.
+
+With these we discussed what hidden classes are.
+You should have a firm understanding about their nature and why they are important.
+We also derailed a bit to nest hosting or host nesting, nesting hosting... whatever.
+
+In the following I will discuss how we create hidden classes using the JDK API and then using link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
 
 == 4. Creating hidden classes
 == 5. Creating hidden classes the easy way
