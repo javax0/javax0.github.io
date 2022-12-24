@@ -14,3 +14,31 @@ define the 'section', 'subsection' and 'subsubsection' macros that number the in
 {@define raw($x)={liquid raw}$x{liquid endraw}}
 
 {@define png($x,...$Y)=image::https://javax0.github.io/assets/images/$x.png[$Y]}
+
+{@define java($X)=[source,java]
+----
+{@snip (actions=number,trim format="%2d. ") $X}
+----}
+
+{@define codeDisclaimer=
+[%collapsible,title=Code Sample Disclaimer, sidebar]
+====
+[sidebar]
+The code samples are available on GitHub in the link:https://github.com/javax0/javax0.github.io/tree/master/_projects[project directory].
+Each article has a project directory named `YYYY-MM-DD-article-title` where the project code files are.
+The samples are automatically copied from the project directory to the article using Jamal.
+No manual copy, no outdated stale samples.
+====}
+
+{@define outputDisclaimer=
+[%collapsible,title=Output Disclaimer, sidebar]
+====
+[sidebar]
+The output in the unit tests is redirected calling `System.setOut()`.
+The output is collected to a file and then this file is included calling `include [verbatim]` Jamal macro into the article.
+====}
+
+{@define sampleOutput($X)=[source,text]
+----
+{#include [verbatim] ../_projects/{ARTICLE}/$X}
+----}

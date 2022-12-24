@@ -4,6 +4,7 @@ layout: posta
 comments: on
 ---
 
+
 == 1. Introduction
 
 
@@ -26,7 +27,7 @@ In this article we will discuss
 
 * what hidden classes are and what is the reason to have them,
 
-* how zou can use hidden classes,
+* how you can use hidden classes,
 
 * how to load hidden classes using the JDK methods and finally
 
@@ -157,6 +158,14 @@ This is the second bullet point in the list of goals in the link:https://openjdk
 Hidden classes can be loaded in a way that they become member of a nest.
 What is a nest?
 
+[NOTE]
+====
+If you know what a nesting host is, and you are impatient, jump to the next
+____
+quote.
+____
+====
+
 Well it is a long story, but since it is Christmas-time, I am on holiday and this article will not be printed on paper wasting tree, here it goes.
 Once upon a time, there was a Java version 1.0 that did not have inner classes.
 Now, if you ask me what inner classes are, then you better stop reading it here.
@@ -217,7 +226,10 @@ ____
 Deprecate the non-standard API sun.misc.Unsafe::defineAnonymousClass, with the intent to deprecate it for removal in a future release.
 ____
 
-Very well. Yes. Absolutely.
+Very well.
+Yes.
+Absolutely.
+Separate articles and many of them.
 
 ____
 Do not change the Java programming language in any way.
@@ -228,8 +240,143 @@ Nice point. Sure.
 With these we discussed what hidden classes are.
 You should have a firm understanding about their nature and why they are important.
 We also derailed a bit to nest hosting or host nesting, nesting hosting... whatever.
+Hope it was some value.
 
 In the following I will discuss how we create hidden classes using the JDK API and then using link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
 
-== 4. Creating hidden classes
+== 4. Creating Hidden Classes
+
+Articles and tutorials showing how to load hidden classes use precompiled Java classes.
+These are usually part of the running application.
+The tutorial calculates the path to the `.class` file and reads the byte code.
+
+Technically this is correct, but it is against the basic need for hidden class loading: load dynamically created classes hidden.
+These classes are not hidden.
+
+[NOTE]
+====
+To explain a bit what I mean by that here is an old story from 1995 describing a similar situation.
+
+In 1995 internet was mainly dial-up and ADSL higher speed internet was an exception.
+The fastest speed was 56kbps, which is 1000 times slower than what you get today even on mobile.
+I was working for Digital Equipment Corp. in Hungary, and they had a by-the-time-new technology: internet over TV cable.
+We installed it as a pilot and made a demo for the journalists.
+To demonstrate the high speed we delivered a video on the internet connection.
+
+Journalist understanding and question was:
+
+____
+You delivered video using some new technology over a TV cable.
+What is the point?
+____
+
+Technically it was a good choice to use a video stream as a demonstration.
+For the specific audience, it was not the best choice.
+====
+
+In this article we will create a class from text, Java source on the fly and then load the resulting byte code as hidden class.
+
+
+[%collapsible,title=Code Sample Disclaimer, sidebar]
+====
+[sidebar]
+The code samples are available on GitHub in the link:https://github.com/javax0/javax0.github.io/tree/master/_projects[project directory].
+Each article has a project directory named `YYYY-MM-DD-article-title` where the project code files are.
+The samples are automatically copied from the project directory to the article using Jamal.
+No manual copy, no outdated stale samples.
+====
+
+The sample project for this article contains only unit test files.
+The class is `TestHiddenClassLoader`.
+We have the source code for the hidden class stored in a field variable.
+
+[source,java]
+----
+ 1.     private static final String CODE1 = """
+ 2.             package com.javax0.blog.hiddenclasses;
+ 3.
+ 4.             public class MySpecialClass implements TestHiddenClassLoader.Hello {
+ 5.
+ 6.                 @Override
+ 7.                 public void hello() {
+ 8.                     System.out.println("Hello, from the hidden class.");
+ 9.                 }
+10.             }
+11.             """;
+
+----
+
+The interface is also inside the same class
+
+[source,java]
+----
+1.     interface Hello {
+2.         void hello();
+3.     }
+
+----
+
+The following code is from one of the unit tests:
+
+[source,java]
+----
+1.         final var byteCode = Compiler.java().from(CODE1).compile().get();
+2.         final var lookup = MethodHandles.lookup();
+3.         final var classLookup = lookup.defineHiddenClass(byteCode, true);
+4.         final var helloClass = (Class<Hello>) classLookup.lookupClass();
+5.
+6.         final var hello = helloClass.getConstructor().newInstance();
+7.         hello.hello();
+
+----
+
+In this code we use the link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] library to compile the Java source to byte code.
+The first line of the sample does that.
+We use link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] version 2.0.0.
+
+To load the compiled byte code as a hidden class we need a lookup object.
+This object is created on the second line.
+The lookup object is used on the third and on the fourth line to load the class hidden.
+Line 3 defines the class loading it into the JVM.
+The second argument, `true` initializes the class.
+That is when the `static{}` blocks execute.
+The last line invokes the interface defined method `hello()`.
+
+Now the local variable `hello` is an instance of an object, which is a hidden class.
+What is the name, simple name and canonical name of a hidden class.
+Let's print it out.
+
+[source,java]
+----
+1.         System.out.println(hello.getClass());
+2.         System.out.println(hello.getClass().getSimpleName());
+3.         System.out.println(hello.getClass().getName());
+4.         System.out.println(hello.getClass().getCanonicalName());
+
+----
+
+
+[%collapsible,title=Output Disclaimer, sidebar]
+====
+[sidebar]
+The output in the unit tests is redirected calling `System.setOut()`.
+The output is collected to a file and then this file is included calling `include [verbatim]` Jamal macro into the article.
+====
+
+[source,text]
+----
+Hello, from the hidden class.
+class com.javax0.blog.hiddenclasses.MySpecialClass/0x000000080119c000
+MySpecialClass/0x000000080119c000
+com.javax0.blog.hiddenclasses.MySpecialClass/0x000000080119c000
+null
+
+----
+
+You can see the output from calling `hello()` and then the name as printed from the implicit `toString()` from the class object, the simple name, the name and in the last line the canonical name.
+This last one is the interesting as it is `null` showing that there is no name of the class.
+It is hidden.
+
+
+
 == 5. Creating hidden classes the easy way
