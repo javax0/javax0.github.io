@@ -5,7 +5,9 @@ comments: on
 ---
 
 
+
 == 1. Introduction
+
 
 
 
@@ -40,6 +42,7 @@ During the creation of the code I have learned a few things about hidden classes
 You may also look at this article as SourceBuddy promotion, which is ok if you do that.
 Nevertheless, I hope being successful adding extra value in this article.
 ====
+
 
 == 2. What are hidden classes?
 
@@ -87,6 +90,7 @@ Why would it keep a reference when it cannot give the class to anyone.
 Keeping a reference woult have only one side effect: it would prevent the GC to unload the class so long as long the class loader is alive.
 
 Since there is no reference from the class loader to the class the GC can unload the class object as soon as it is out of use.
+
 
 == 3. What is the use of hidden classes?
 
@@ -144,7 +148,7 @@ Hence: hidden classes.
 
 [NOTE]
 ====
-Thes proxy classes may also cause some issue when you implement the `equals(Object other)` method.
+These proxy classes may also cause some issue when you implement the `equals(Object other)` method.
 The usual implementation of the link:https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)[equals] method starts comparing the `other` object's class to the actual class.
 It will eventually be `false` when the other object is a proxy instance.
 What the `equals()` method should check is the assignability whenever there is a possibility that the `other` object is a proxy.
@@ -244,6 +248,7 @@ Hope it was some value.
 
 In the following I will discuss how we create hidden classes using the JDK API and then using link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
 
+
 == 4. Creating Hidden Classes
 
 Articles and tutorials showing how to load hidden classes use precompiled Java classes.
@@ -313,6 +318,7 @@ The interface is also inside the same class
 1.     interface Hello {
 2.         void hello();
 3.     }
+4.
 
 ----
 
@@ -348,10 +354,14 @@ Let's print it out.
 
 [source,java]
 ----
-1.         System.out.println(hello.getClass());
-2.         System.out.println(hello.getClass().getSimpleName());
-3.         System.out.println(hello.getClass().getName());
-4.         System.out.println(hello.getClass().getCanonicalName());
+1.         System.out.println("1. " + hello.getClass());
+2.         System.out.println("2. " + hello.getClass().getClassLoader());
+3.         System.out.println("3. " + this.getClass().getClassLoader());
+4.         System.out.println("4. " + hello.getClass().getSimpleName());
+5.         System.out.println("5. " + hello.getClass().getName());
+6.         System.out.println("6. " + hello.getClass().getCanonicalName());
+7.         System.out.println("7. " + lookup.getClass());
+8.         System.out.println("8. " + lookup.getClass().getClassLoader());
 
 ----
 
@@ -366,17 +376,146 @@ The output is collected to a file and then this file is included calling `includ
 [source,text]
 ----
 Hello, from the hidden class.
-class com.javax0.blog.hiddenclasses.MySpecialClass/0x000000080119c000
-MySpecialClass/0x000000080119c000
-com.javax0.blog.hiddenclasses.MySpecialClass/0x000000080119c000
-null
+1. class com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011a0000
+2. jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+3. jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+4. MySpecialClass/0x00000008011a0000
+5. com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011a0000
+6. null
+7. class java.lang.invoke.MethodHandles$Lookup
+8. null
 
 ----
 
-You can see the output from calling `hello()` and then the name as printed from the implicit `toString()` from the class object, the simple name, the name and in the last line the canonical name.
+You can see the output from calling `hello()` and then the name as printed from the implicit `toString()` from the class object, the class loader that loaded the hidden class, the simple name, the name and in the last line the canonical name.
 This last one is the interesting as it is `null` showing that there is no name of the class.
 It is hidden.
 
+The class, although hidden has a reference to the class loader that loaded it.
+It is needed when there is anything to resolve during the execution of the code.
+The difference is that the class loader does not have a reference to the class.
+One direction from the class to the loader exists, the other direction from the loader to the class does not.
 
+The class loader is the same as the one that loaded the class calling `MethodHandles.lookup()`.
+You can see that, since we printed out the class loader of the `this` object in the test.
+
+Finally, we also print out the class of the lookup object and the class loader.
+The latter is `null`. which means it was loaded by the bootstrap class loader. (For more information on class loaders I can recommend reading the article link:https://www.baeldung.com/java-classloaders[class loaders] from Baeldung blog.)
+
+You should also note that the interface `hello` is package private.
+It is still visible for the dynamically created code, because that code is in the same package and in the same module.
+
+[NOTE]
+====
+Starting with Java 9 there is a module system in Java.
+Many developers I meet say that they are not interested in JPMS they do not need to use it.
+
+The fact is that you DO use it, you want it or not.
+It is the same as concurrent programming.
+Java is concurrent, at least there are three threads in a JVM, so your code runs in a concurrent environment, you want it or not.
+You may not run into a trouble not understanding the details for a long time.
+However, when you start to dig deeper and start to create code that uses some "tricks" or does something special, you almost certainly face some weird error.
+To understand the errors, to handle them, mitigate cause, fix the bug, you must know and understand the underlying theory.
+
+Loading hidden classes dynamically created is exactly such a trick.
+You should learn Java Modules.
+====
+
+When the hidden class is loaded it is in the same package as the one where the interface is defined.
+This is not enough, however, as we will see an example in the next section.
+It is also a requirement, that the same class loader loads the interface and the hidden class.
+That way the interface and the hidden class are in the same module, in this case the same unnamed module.
+The different class loaders load classes into different modules, thus when you load a class using a different class loader it may not see the package fields, methods, interfaces etc. even if they are in the same package.
+
+It is not the only requirement that the lookup object is from the same module.
+It is also a requirement that it is from the same package as the class to be loaded.
+We have to stop here to clarify things to be painfully precise,because it is easy to confuse things at this point.
+
+The lookup object itself is an instance of a class, which is in the `java.lang.invoke` package.
+The class loader that loaded this class is `null` as shown in the output.
+It means the bootstrap class loader.
+The bootstrap class loader is implemented in C/C++ and not in Java.
+There is no corresponding Java object representing this class loader, thus there cannot be a reference to it.
+This is solved returning `null` from `getClassloader()`.
+There is a module, package and class that "belongs" to the lookup object.
+This is the module, package and class of the code that was calling the `MethodHandles.lookup()` method.
+
+You cannot create a hidden class from one package for another.
+if you try that, like in the following sample code:
+
+[source,java]
+----
+1.         try {
+2.             final var byteCode = Compiler.java()
+3.                     .from("package B; class A{}").compile().get();
+4.             MethodHandles.lookup().defineHiddenClass(byteCode,true);
+5.         } catch (Throwable t) {
+6.             System.out.println(t);
+7.         }
+
+----
+
+still from the test class `com.javax0.blog.hiddenclasses.TestHiddenClassLoader`.
+The class to be loaded is NOT in the same package as the caller for `MethodHandles.lookup()`.
+This will result the printout:
+
+[source,text]
+----
+java.lang.IllegalArgumentException: B.A not in same package as lookup class
+
+----
 
 == 5. Creating hidden classes the easy way
+
+In the previous section we created a new class dynamically, and then we loaded the new class hidden.
+The loading was done using lookup objects that we acquired from the `MethodHandles` class.
+In this section we will see how we can do the same calling the fluent API of link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
+
+The code creating a class saying hello is the following:
+
+[source,java]
+----
+1.         final var hello = Compiler.java()
+2.                 .from(CODE1.replaceAll("\\.Hello", ".PublicHello")).hidden()
+3.                 .compile().load().newInstance(PublicHello.class);
+4.         hello.hello();
+
+----
+
+In this code we replaced the interface from `Hello` to `PublicHello`, which you may guess:
+
+[source,java]
+----
+1.     public interface PublicHello {
+2.         void hello();
+3.     }
+
+----
+
+Is essentially the same as the previous interface, but it is `public`.
+The process is much simpler than before.
+We specify the source code, we declare that it is a hidden class calling `hidden()`, we compile, load and ask for an instance cast to `PublicHello`.
+
+If we want to use the package private interface, like
+
+[source,java]
+----
+1.         Assertions.assertThrows(IllegalAccessError.class, () ->
+2.                 Compiler.java().from(CODE1).hidden().compile().load().newInstance(PublicHello.class));
+
+----
+
+we will get an error.
+
+[source,text]
+----
+java.lang.IllegalAccessError: class com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011a4c00 cannot access its superinterface com.javax0.blog.hiddenclasses.TestHiddenClassLoader$Hello (com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011a4c00 is in unnamed module of loader com.javax0.sourcebuddy.ByteClassLoader @1de5f259; com.javax0.blog.hiddenclasses.TestHiddenClassLoader$Hello is in unnamed module of loader 'app')
+
+----
+
+link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] creates its own look up object using the class loader part of link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
+You use link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] to load a class as hidden.
+To do that it needs a lookup object, which comes from the same package as the class to be loaded.
+It does it creating a class dynamically.
+This class implements the `Supplier<MethodHandles.Lookup>` interface, and it is loaded. non-hidden.
+An instance of this class is

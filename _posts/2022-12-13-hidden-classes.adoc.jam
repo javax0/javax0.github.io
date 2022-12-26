@@ -5,9 +5,13 @@ comments: on
 ---
 {%#define ARTICLE={%#file (format="$bareNaked"){%@pos.file%}%}%}
 {%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
 {%section Introduction%}
 {%@define JEP=link:https://openjdk.org/jeps/371[JEP371]%}
 {%@define BAELDUNG=link:https://www.baeldung.com/java-hidden-classes[introductory article]%}
+{%@define CLASSLOADERS=link:https://www.baeldung.com/java-classloaders[class loaders]%}
 {%@define SB=link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy]%}
 {%@define BB=link:https://bytebuddy.net/[ByteBuddy]%}
 {%@define cglib=link:https://github.com/cglib/cglib[cglib]%}
@@ -41,6 +45,9 @@ You may also look at this article as SourceBuddy promotion, which is ok if you d
 Nevertheless, I hope being successful adding extra value in this article.
 ====
 
+{%@comment
+=========================================================================================
+%}
 {%section What are hidden classes?%}
 
 There is an easy to read {%BAELDUNG%} about hidden classes on Baeldung.
@@ -88,6 +95,9 @@ Keeping a reference woult have only one side effect: it would prevent the GC to 
 
 Since there is no reference from the class loader to the class the GC can unload the class object as soon as it is out of use.
 
+{%@comment
+=========================================================================================
+%}
 {%section What is the use of hidden classes?%}
 
 The {%JEP%} describes the reason for hidden classes.
@@ -144,7 +154,7 @@ Hence: hidden classes.
 
 [NOTE]
 ====
-Thes proxy classes may also cause some issue when you implement the `equals(Object other)` method.
+These proxy classes may also cause some issue when you implement the `equals(Object other)` method.
 The usual implementation of the {%equals%} method starts comparing the `other` object's class to the actual class.
 It will eventually be `false` when the other object is a proxy instance.
 What the `equals()` method should check is the assignability whenever there is a possibility that the `other` object is a proxy.
@@ -244,6 +254,9 @@ Hope it was some value.
 
 In the following I will discuss how we create hidden classes using the JDK API and then using {%SB%}.
 
+{%@comment
+=========================================================================================
+%}
 {%section Creating Hidden Classes%}
 
 Articles and tutorials showing how to load hidden classes use precompiled Java classes.
@@ -314,13 +327,101 @@ Let's print it out.
 
 {%sampleOutput hello_parameters.txt%}
 
-You can see the output from calling `hello()` and then the name as printed from the implicit `toString()` from the class object, the simple name, the name and in the last line the canonical name.
+You can see the output from calling `hello()` and then the name as printed from the implicit `toString()` from the class object, the class loader that loaded the hidden class, the simple name, the name and in the last line the canonical name.
 This last one is the interesting as it is `null` showing that there is no name of the class.
 It is hidden.
 
+The class, although hidden has a reference to the class loader that loaded it.
+It is needed when there is anything to resolve during the execution of the code.
+The difference is that the class loader does not have a reference to the class.
+One direction from the class to the loader exists, the other direction from the loader to the class does not.
 
+The class loader is the same as the one that loaded the class calling `MethodHandles.lookup()`.
+You can see that, since we printed out the class loader of the `this` object in the test.
 
+Finally, we also print out the class of the lookup object and the class loader.
+The latter is `null`. which means it was loaded by the bootstrap class loader. (For more information on class loaders I can recommend reading the article {%CLASSLOADERS%} from Baeldung blog.)
+
+You should also note that the interface `hello` is package private.
+It is still visible for the dynamically created code, because that code is in the same package and in the same module.
+
+[NOTE]
+====
+Starting with Java 9 there is a module system in Java.
+Many developers I meet say that they are not interested in JPMS they do not need to use it.
+
+The fact is that you DO use it, you want it or not.
+It is the same as concurrent programming.
+Java is concurrent, at least there are three threads in a JVM, so your code runs in a concurrent environment, you want it or not.
+You may not run into a trouble not understanding the details for a long time.
+However, when you start to dig deeper and start to create code that uses some "tricks" or does something special, you almost certainly face some weird error.
+To understand the errors, to handle them, mitigate cause, fix the bug, you must know and understand the underlying theory.
+
+Loading hidden classes dynamically created is exactly such a trick.
+You should learn Java Modules.
+====
+
+When the hidden class is loaded it is in the same package as the one where the interface is defined.
+This is not enough, however, as we will see an example in the next section.
+It is also a requirement, that the same class loader loads the interface and the hidden class.
+That way the interface and the hidden class are in the same module, in this case the same unnamed module.
+The different class loaders load classes into different modules, thus when you load a class using a different class loader it may not see the package fields, methods, interfaces etc. even if they are in the same package.
+
+It is not the only requirement that the lookup object is from the same module.
+It is also a requirement that it is from the same package as the class to be loaded.
+We have to stop here to clarify things to be painfully precise,because it is easy to confuse things at this point.
+
+The lookup object itself is an instance of a class, which is in the `java.lang.invoke` package.
+The class loader that loaded this class is `null` as shown in the output.
+It means the bootstrap class loader.
+The bootstrap class loader is implemented in C/C++ and not in Java.
+There is no corresponding Java object representing this class loader, thus there cannot be a reference to it.
+This is solved returning `null` from `getClassloader()`.
+There is a module, package and class that "belongs" to the lookup object.
+This is the module, package and class of the code that was calling the `MethodHandles.lookup()` method.
+
+You cannot create a hidden class from one package for another.
+if you try that, like in the following sample code:
+
+{%java NotInSamePackage_Error%}
+
+still from the test class `{%@snip TestPackage%}.{%@snip TestHiddenClassLoader%}`.
+The class to be loaded is NOT in the same package as the caller for `MethodHandles.lookup()`.
+This will result the printout:
+
+{%sampleOutput NotInSamePackage_Error.txt%}
+{%@comment
+=========================================================================================
+%}
 {%section Creating hidden classes the easy way%}
 
+In the previous section we created a new class dynamically, and then we loaded the new class hidden.
+The loading was done using lookup objects that we acquired from the `MethodHandles` class.
+In this section we will see how we can do the same calling the fluent API of {%SB%}.
 
+The code creating a class saying hello is the following:
 
+{%java sayFluentHello%}
+
+In this code we replaced the interface from `Hello` to `PublicHello`, which you may guess:
+
+{%java PublicInterfaceHello%}
+
+Is essentially the same as the previous interface, but it is `public`.
+The process is much simpler than before.
+We specify the source code, we declare that it is a hidden class calling `hidden()`, we compile, load and ask for an instance cast to `PublicHello`.
+
+If we want to use the package private interface, like
+
+{%java errFluentHello%}
+
+we will get an error.
+
+{%sampleOutput IAE_Error.txt%}
+
+{%SB%} creates its own look up object using the class loader part of {%SB%}.
+You use {%SB%} to load a class as hidden.
+To do that it needs a lookup object, which comes from the same package as the class to be loaded.
+It does it creating a class dynamically.
+This class implements the `Supplier<MethodHandles.Lookup>` interface, and it is loaded. non-hidden.
+An instance of this class is

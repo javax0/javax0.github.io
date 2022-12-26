@@ -1,10 +1,11 @@
+// snipline TestPackage filter=package\s(.*);
 package com.javax0.blog.hiddenclasses;
 
 import com.javax0.sourcebuddy.Compiler;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
@@ -14,6 +15,12 @@ public class TestHiddenClassLoader {
 
     // snippet InterfaceHello
     interface Hello {
+        void hello();
+    }
+
+    // end snippet
+    // snippet PublicInterfaceHello
+    public interface PublicHello {
         void hello();
     }
     // end snippet
@@ -38,11 +45,13 @@ public class TestHiddenClassLoader {
     public static final String CLASS_NAME = "com.javax0.blog.hiddenclasses.MySpecialClass";
 
     private static PrintStream out;
+
     private static void setout(final String output) throws FileNotFoundException {
         out = System.out;
         System.setOut(new PrintStream(output));
     }
-    private static void resetout(){
+
+    private static void resetout() {
         System.setOut(out);
     }
 
@@ -60,11 +69,58 @@ public class TestHiddenClassLoader {
         hello.hello();
         //end snippet
         // snippet hidden_parameters
-        System.out.println(hello.getClass());
-        System.out.println(hello.getClass().getSimpleName());
-        System.out.println(hello.getClass().getName());
-        System.out.println(hello.getClass().getCanonicalName());
+        System.out.println("1. " + hello.getClass());
+        System.out.println("2. " + hello.getClass().getClassLoader());
+        System.out.println("3. " + this.getClass().getClassLoader());
+        System.out.println("4. " + hello.getClass().getSimpleName());
+        System.out.println("5. " + hello.getClass().getName());
+        System.out.println("6. " + hello.getClass().getCanonicalName());
+        System.out.println("7. " + lookup.getClass());
+        System.out.println("8. " + lookup.getClass().getClassLoader());
         // end snippet
+        resetout();
+    }
+
+    @Test
+    @DisplayName("Invoke the hidden class and say hello using the fluent API")
+    void sayFluentHello() throws Exception {
+        // snippet sayFluentHello
+        final var hello = Compiler.java()
+                .from(CODE1.replaceAll("\\.Hello", ".PublicHello")).hidden()
+                .compile().load().newInstance(PublicHello.class);
+        hello.hello();
+        //end snippet
+    }
+
+    @Test
+    @DisplayName("Fails when other module")
+    void failingLoad() throws Exception {
+        // snippet errFluentHello
+        Assertions.assertThrows(IllegalAccessError.class, () ->
+                Compiler.java().from(CODE1).hidden().compile().load().newInstance(PublicHello.class));
+        //end snippet
+        setout("IAE_Error.txt");
+        try {
+            Compiler.java().from(CODE1).hidden().compile().load().newInstance(PublicHello.class);
+        } catch (Throwable t) {
+            System.out.println(t);
+        }
+        resetout();
+    }
+
+    @Test
+    @DisplayName("Fails when other module")
+    void failingLoadOtherPackage() throws Exception {
+        setout("NotInSamePackage_Error.txt");
+        // snippet NotInSamePackage_Error
+        try {
+            final var byteCode = Compiler.java()
+                    .from("package B; class A{}").compile().get();
+            MethodHandles.lookup().defineHiddenClass(byteCode,true);
+        } catch (Throwable t) {
+            System.out.println(t);
+        }
+        //end snippet
         resetout();
     }
 
@@ -82,7 +138,7 @@ public class TestHiddenClassLoader {
                         }
                         """;
         final var byteCodeA = Compiler.java().from(CODE).compile().get();
-        final var byteCodeB = Compiler.java().from(CODE.replaceAll("A","B")).compile().get();
+        final var byteCodeB = Compiler.java().from(CODE.replaceAll("A", "B")).compile().get();
         final var lookup = MethodHandles.lookup();
         lookup.defineHiddenClass(byteCodeA, true);
         lookup.defineHiddenClass(byteCodeB, false);
@@ -116,7 +172,7 @@ public class TestHiddenClassLoader {
     @DisplayName("Invoke the hidden class and say hello using SourceBuddy")
     void sayHellotoSB() throws Exception {
         // snippet sayHelloSB
-        final var hello = Compiler.java().from(CLASS_NAME, CODE1).hidden().compile().load().newInstance(CLASS_NAME, Hello.class);
+        final var hello = Compiler.java().from(CLASS_NAME, CODE1).hidden(MethodHandles.lookup()).compile().load().newInstance(CLASS_NAME, Hello.class);
         hello.hello();
         //end snippet
     }
