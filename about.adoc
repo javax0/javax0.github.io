@@ -4,7 +4,6 @@ title: About
 permalink: /about/
 ---
 
-
 == This is Javax0
 
 This is the new Javax0 blog.
@@ -12,6 +11,12 @@ The old blog started in 2013 was hosted at https://javax0.wordpress.com[Wordpres
 The editing, maintaining and whatnot was a bit too cumbersome.
 Therefore, I started this site.
 Technical details of blogging are in the link:/2022/12/07/blog-posting.html[article].
+
+=== Content License
+
+The blog content can be used governed my the link:https://en.wikipedia.org/wiki/Creative_Commons_license[Creative Commons License]
+image:CC_BY_icon.svg.png[]
+
 
 === Commenting Policy
 
