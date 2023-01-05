@@ -1,0 +1,1 @@
+java.lang.IllegalArgumentException: B.A not in same package as lookup class
