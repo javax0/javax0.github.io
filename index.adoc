@@ -3,7 +3,6 @@ layout: home
 title: Java Deep
 ---
 
-
 Javax0 is a technical blog about Java and some other programming stuff.
 You can find here articles which were originally posted on the Wordpress.com site.
 
@@ -12,8 +11,12 @@ Articles 2022 December and later were published here originally.
 
 Javax0 is also republished regularly on DZone, Web Code Geek and Java Code Geeks.
 
-[cols="1a,1a,1a"]
+(C) CC-BY 2013 Peter Verhas
+
+[cols="1a,2a,1a,1a"]
 |===
+|
+image:PeterVerhas.png[width=100]
 |
 image::https://i1.wp.com/www.dzone.com/sites/all/files/big-mvbbutton.png[link="http://java.dzone.com/"><img src="https://i1.wp.com/www.dzone.com/sites/all/files/big-mvbbutton.png"]
 
