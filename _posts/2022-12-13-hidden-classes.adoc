@@ -6,14 +6,24 @@ comments: on
 
 
 
+
+
+
+
+
+
+
+
+
+
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2022-12-13-hidden-classes[https://github.com/javax0/javax0.github.io/tree/master/_projects/2022-12-13-hidden-classes]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2022-12-13-hidden-classes.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2022-12-13-hidden-classes.adoc.jam]
+****
+====
 == 1. Introduction
-
-
-
-
-
-
-
 
 Java can have anonymous classes from the very start.
 (Well, actually they came in version 1.1 only.)
@@ -679,7 +689,7 @@ The code dynamically creating an inner class is the following:
  1.         final var inner = Compiler.java().from("""
  2.                         package com.javax0.blog.hiddenclasses.otherpackage;
  3.
- 4.                         public class {%java OuterClass%}
+ 4.                         public class OuterClass
  5.                                                 {
  6.                             private int z;
  7.
@@ -711,3 +721,75 @@ There is no magic.
 When you call `nest()` link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] looks for the already loaded version of `OuterClass` and using reflection fetches the lookup object from it.
 To do that the outer class has to have a static field or method of type `MethodHandles.Lookup`.
 `OuterClass` has a method, so link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] calls this method to get the lookup object.
+
+The example above creates a static inner class.
+You can create the same way a non-static inner class as well.
+
+[NOTE]
+====
+The difference between static and non-static inner classes in Java is that a non-static inner class instances have a reference each to an instance of an outer class instance.
+Static inner classes do not.
+This is where the name comes from.
+Static inner class instances belong to the class.
+Non-static belong to an instance of the outer class.
+
+To get the reference to the instance of the outer class the constructor of the inner class is modified.
+When you specify a constructor for an inner class the compiled adds an extra parameter in front of the other parameters specified in the Java source code.
+This extra first parameter is the reference to the instance of the outer class.
+This reference is stored in a field not available at the source level, but used by the code to access the fields and methods of the outer instance.
+====
+
+The creation of a non-static inner class looks very much the same as the creation of the static inner class:
+
+[source,java]
+----
+ 1.         final var outer = new OuterClass();
+ 2.         final var inner = Compiler.java().from("""
+ 3.                         package com.javax0.blog.hiddenclasses.otherpackage;
+ 4.
+ 5.                         public class OuterClass {
+ 6.                             private int z;
+ 7.
+ 8.                             public class Inner {
+ 9.                                public void a(){
+10.                                  z++;
+11.                                }
+12.                             }
+13.
+14.                         }""").nest(MethodHandles.Lookup.ClassOption.NESTMATE).compile().load()
+15.                 .newInstance("Inner", classes(OuterClass.class), args(outer));
+16.         final var m = inner.getClass().getDeclaredMethod("a");
+17.         m.invoke(inner);
+18.         Assertions.assertEquals(56, outer.getZ());
+
+----
+
+We need an instance of the outer class to instantiate the inner class.
+This is the variable `outer`.
+We have to pass this variable to the constructor through the `newInstance()` API of link:https://github.com/sourcebuddy/sourcebuddy[SourceBuddy].
+This method call has a version that accepts a `Class[]` and an `Object[]` array specifying the constructor argument types and values.
+In the case of an inner class it is the outer class and an instance of it.
+
+
+== 6. Summary
+
+In this article we discussed some details of the hidden classes introduced in Java 15.
+We went a little deeper than the usual introductory articles.
+Now you understand how hidden classes work and how to use them in your projects.
+
+
+[%collapsible,title="How to Comment", sidebar]
+====
+****
+Use the Disqus commenting possibility to comment.
+If you find any incorrectness in the article, you are welcome to mention it.
+You can also access the source code of the article on github at
+
+link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2022-12-13-hidden-classes.adoc.jam[`https://github.com/javax0/javax0.github.io/blob/master/_posts/2022-12-13-hidden-classes.adoc.jam`]
+
+You are welcome to create a link:https://github.com/javax0/javax0.github.io/issues/new[ticket], create a  link:https://github.com/javax0/javax0.github.io/fork[fork], suggest modification via pull requests.
+Note that this repository also contains the demonstration sample source code.
+
+For other aspects of commenting read the link:https://javax0.github.io/about/[ABOUT] page of this blog.
+****
+====

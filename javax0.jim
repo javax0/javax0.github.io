@@ -20,6 +20,16 @@ define the 'section', 'subsection' and 'subsubsection' macros that number the in
 {@snip (actions=number,trim format="%2d. ") $X}
 ----}
 
+{@define articleDisclaimer=
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/{ARTICLE}[https://github.com/javax0/javax0.github.io/tree/master/_projects/{ARTICLE}]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam]
+****
+====}
+
+
 {@define codeDisclaimer=
 [%collapsible,title=Code Sample Disclaimer]
 ====
@@ -40,6 +50,23 @@ No manual copy, no outdated stale samples.
 [sidebar]
 The output in the unit tests is redirected calling `System.setOut()`.
 The output is collected to a file and then this file is included calling `include [verbatim]` Jamal macro into the article.
+====}
+
+{@define commentDisclaimer=
+[%collapsible,title="How to Comment", sidebar]
+====
+****
+Use the Disqus commenting possibility to comment.
+If you find any incorrectness in the article, you are welcome to mention it.
+You can also access the source code of the article on github at
+
+link:https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam[`https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam`]
+
+You are welcome to create a link:https://github.com/javax0/javax0.github.io/issues/new[ticket], create a  link:https://github.com/javax0/javax0.github.io/fork[fork], suggest modification via pull requests.
+Note that this repository also contains the demonstration sample source code.
+
+For other aspects of commenting read the link:https://javax0.github.io/about/[ABOUT] page of this blog.
+****
 ====}
 
 {@define sampleOutput($X)=[source,text]

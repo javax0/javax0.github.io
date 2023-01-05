@@ -241,7 +241,7 @@ public class TestHiddenClassLoader {
         final var inner = Compiler.java().from("""
                         package com.javax0.blog.hiddenclasses.otherpackage;
                                                 
-                        public class {%java OuterClass%}
+                        public class OuterClass
                                                 {
                             private int z;
                                         

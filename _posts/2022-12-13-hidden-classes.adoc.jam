@@ -8,7 +8,6 @@ comments: on
 {%@comment
 =========================================================================================
 %}
-{%section Introduction%}
 {%@define JEP=link:https://openjdk.org/jeps/371[JEP371]%}
 {%@define BAELDUNG=link:https://www.baeldung.com/java-hidden-classes[introductory article]%}
 {%@define CLASSLOADERS=link:https://www.baeldung.com/java-classloaders[class loaders]%}
@@ -17,6 +16,10 @@ comments: on
 {%@define cglib=link:https://github.com/cglib/cglib[cglib]%}
 {%@define equals=link:https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)[equals]%}
 {%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+
+{%articleDisclaimer%}
+{%section Introduction%}
+
 Java can have anonymous classes from the very start.
 (Well, actually they came in version 1.1 only.)
 However, anonymous classes were not really anonymous.
@@ -528,5 +531,40 @@ When you call `nest()` {%SB%} looks for the already loaded version of `OuterClas
 To do that the outer class has to have a static field or method of type `MethodHandles.Lookup`.
 `OuterClass` has a method, so {%SB%} calls this method to get the lookup object.
 
+The example above creates a static inner class.
+You can create the same way a non-static inner class as well.
 
+[NOTE]
+====
+The difference between static and non-static inner classes in Java is that a non-static inner class instances have a reference each to an instance of an outer class instance.
+Static inner classes do not.
+This is where the name comes from.
+Static inner class instances belong to the class.
+Non-static belong to an instance of the outer class.
 
+To get the reference to the instance of the outer class the constructor of the inner class is modified.
+When you specify a constructor for an inner class the compiled adds an extra parameter in front of the other parameters specified in the Java source code.
+This extra first parameter is the reference to the instance of the outer class.
+This reference is stored in a field not available at the source level, but used by the code to access the fields and methods of the outer instance.
+====
+
+The creation of a non-static inner class looks very much the same as the creation of the static inner class:
+
+{%java HiddenInnerClass%}
+
+We need an instance of the outer class to instantiate the inner class.
+This is the variable `outer`.
+We have to pass this variable to the constructor through the `newInstance()` API of {%SB%}.
+This method call has a version that accepts a `Class[]` and an `Object[]` array specifying the constructor argument types and values.
+In the case of an inner class it is the outer class and an instance of it.
+
+{%@comment
+=========================================================================================
+%}
+{%section Summary%}
+
+In this article we discussed some details of the hidden classes introduced in Java 15.
+We went a little deeper than the usual introductory articles.
+Now you understand how hidden classes work and how to use them in your projects.
+
+{%commentDisclaimer%}
