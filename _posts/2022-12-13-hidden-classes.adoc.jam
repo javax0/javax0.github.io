@@ -18,6 +18,7 @@ comments: on
 {%@define equals=link:https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)[equals]%}
 {%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
 Java can have anonymous classes from the very start.
+(Well, actually they came in version 1.1 only.)
 However, anonymous classes were not really anonymous.
 You did not need to name them, but under the hood they were named by the Java compiler.
 If you are familiar with the command `javap` you can "disassemble" a JAR file, and you can see the name the compiler generated for the anonymous classes.
@@ -42,7 +43,7 @@ In this article we will discuss
 I created SourceBuddy, and it is an Apache v2.0 licensed open source program.
 During the creation of the code I have learned a few things about hidden classes I wanted to share with you.
 You may also look at this article as SourceBuddy promotion, which is ok if you do that.
-Nevertheless, I hope being successful adding extra value in this article.
+Nevertheless, I hope being successful adding extra value in this article so that this is not simply a promo.
 ====
 
 {%@comment
@@ -154,11 +155,26 @@ Hence: hidden classes.
 
 [NOTE]
 ====
-These proxy classes may also cause some issue when you implement the `equals(Object other)` method.
+The proxy classes may also cause some issue when you implement the `equals(Object other)` method.
 The usual implementation of the {%equals%} method starts comparing the `other` object's class to the actual class.
 It will eventually be `false` when the other object is a proxy instance.
 What the `equals()` method should check is the assignability whenever there is a possibility that the `other` object is a proxy.
 ====
+
+In addition to that, there is another reason to have hidden classes.
+As soon as a class has a name, it is possible to discover it by the name.
+TO keep it discoverable the class loader has to keep the class alive.
+The class loader has a reference to the loaded classes.
+It means that the garbage collector will not be able to collect the class, even when it is no longer in use.
+
+If a class has no name, the class loader does not need to keep a reference to this class.
+As a matter of fact class loaders do not keep references to hidden classes unless you explicitly instruct them to do so.
+When all instances of a hidden class are collected and there is no reference to the class the garbage collector will recognize it as garbage.
+The class loader will not keep the class in memory.
+
+That way the frameworks will not over-consume memory when a long-running code creates a lot of class.
+Better frameworks caring about the collection of unused classes do not need to create separate class loaders for these ephemeral classes.
+There is no need to create a short-living, disposable class loader to make the class also disposable.
 
 ____
 Support extending an access control nest with non-discoverable classes.
@@ -170,13 +186,12 @@ What is a nest?
 
 [NOTE]
 ====
-If you know what a nesting host is, and you are impatient, jump to the next
-____
-quote.
-____
+If you know what a nesting host is, and you are impatient, jump to the next quote.
 ====
 
 Well it is a long story, but since it is Christmas-time, I am on holiday and this article will not be printed on paper wasting tree, here it goes.
+(Actually I wrote this article for weeks. Now it is still not published and already next year, January.)
+
 Once upon a time, there was a Java version 1.0 that did not have inner classes.
 Now, if you ask me what inner classes are, then you better stop reading it here.
 Then Java version 1.1 introduced inner classes, but it did not change the JVM structure.
@@ -263,31 +278,10 @@ Articles and tutorials showing how to load hidden classes use precompiled Java c
 These are usually part of the running application.
 The tutorial calculates the path to the `.class` file and reads the byte code.
 
-Technically this is correct, but it is against the basic need for hidden class loading: load dynamically created classes hidden.
-These classes are not hidden.
+Technically this is correct, but does not demonstrate the basic need for hidden class loading: load dynamically created classes hidden.
+These classes are not dynamically created, they could be loaded the normal way.
 
-[NOTE]
-====
-To explain a bit what I mean by that here is an old story from 1995 describing a similar situation.
-
-In 1995 internet was mainly dial-up and ADSL higher speed internet was an exception.
-The fastest speed was 56kbps, which is 1000 times slower than what you get today even on mobile.
-I was working for Digital Equipment Corp. in Hungary, and they had a by-the-time-new technology: internet over TV cable.
-We installed it as a pilot and made a demo for the journalists.
-To demonstrate the high speed we delivered a video on the internet connection.
-
-Journalist understanding and question was:
-
-____
-You delivered video using some new technology over a TV cable.
-What is the point?
-____
-
-Technically it was a good choice to use a video stream as a demonstration.
-For the specific audience, it was not the best choice.
-====
-
-In this article we will create a class from text, Java source on the fly and then load the resulting byte code as hidden class.
+In this article we will create a class from text, Java source on the fly -- during run-time -- and then load the resulting byte code as hidden class.
 
 {%codeDisclaimer%}
 
@@ -307,7 +301,7 @@ The following code is from one of the unit tests:
 
 In this code we use the {%SB%} library to compile the Java source to byte code.
 The first line of the sample does that.
-We use {%SB%} version 2.0.0.
+We use {%SB%} version 2.1.0.
 
 To load the compiled byte code as a hidden class we need a lookup object.
 This object is created on the second line.
@@ -407,11 +401,11 @@ In this code we replaced the interface from `Hello` to `PublicHello`, which you 
 
 {%java PublicInterfaceHello%}
 
-Is essentially the same as the previous interface, but it is `public`.
+It is essentially the same as the previous interface, but it is `public`.
 The process is much simpler than before.
 We specify the source code, we declare that it is a hidden class calling `hidden()`, we compile, load and ask for an instance cast to `PublicHello`.
 
-If we want to use the package private interface, like
+If we want to use the package private interface, like (not replacing `Hello` to `PublicHello`):
 
 {%java errFluentHello%}
 
@@ -419,9 +413,120 @@ we will get an error.
 
 {%sampleOutput IAE_Error.txt%}
 
-{%SB%} creates its own look up object using the class loader part of {%SB%}.
-You use {%SB%} to load a class as hidden.
-To do that it needs a lookup object, which comes from the same package as the class to be loaded.
-It does it creating a class dynamically.
-This class implements the `Supplier<MethodHandles.Lookup>` interface, and it is loaded. non-hidden.
-An instance of this class is
+The reason is explained clearly in the error message.
+The interface and the class implementing it are in two different modules.
+Both are unnamed modules, but they are not the same.
+In Java starting with Java 9 there are modules and when the application does not use modules it essentially creates pseudo modules putting the classes there.
+The JDK classes are still in modules, like `java.base`.
+
+The hidden class creation as created above uses a separate class loader to load the dynamically written Java class.
+The separate class loader loads classes to its own module.
+Code in different modules cannot see classes from other modules unless they are public.
+
+Although {%SB%} does a little trick to load a class hidden, it cannot overcome this restriction.
+
+Loading a class hidden needs a lookup object.
+This object is usually provided by the application.
+In the calls above the calls do not specify any lookup object, but {%SB%} still needs one.
+To have one it creates one.
+The lookup object remembers the class that was calling `MethodHandles.lookup()` to create one.
+When loading a class hidden it is a requirement that the lookup object "belongs" to the package the class is in.
+The lookup object was created making the call for it from a class, which is *in* that package.
+The lookup object will "belong" to that class and hence to the package the class is in.
+
+To have a lookup object that comes from a class from a specific package we need a class in that package that can give us one.
+If there is none in the code, we have to create one dynamically.
+{%SB%} does that exactly.
+It creates the Java source code for the class, compiles it and loads it, instantiates it and calls the  `Supplier<MethodHandles.Lookup>` defined `get()` method the class implements.
+
+This is a kind of trick that seem to violate the access control built-in to Java.
+We seem to get a new hidden class in a package that was not prepared for it.
+A package is protected from external access in Java (trivial).
+Only public and protected members and classes can be used from outside the package.
+The package can be accessed using reflection from the outside, but only in the same module or the module has to be opened explicitly.
+Similarly, object loaded using a lookup object should be in the same package and access the package internal members and whatnot if a class in the package provided that lookup.
+
+As we could see from the error message before, it only seems to be the package.
+In reality the new hidden class is in a package that has the same name, but it is in a different module.
+
+If you want to have a hidden class, which is in the same package and not only a package that has the same name, you need a lookup object from that package.
+
+In our example it is simple.
+Out `Hello` interface is in the same package as the test code, so we can create the lookup object ourselves:
+
+{%java noErrFluentHello%}
+
+In real life examples the access to a lookup object may be a bit more complex.
+When the code calling {%SB%} is in a different package than the code generated then the lookup object creation cannot be in the {%SB%} calling code.
+
+In the next example we will see how that is to be done.
+
+We have a class `OuterClass` in the package `com.javax0.blog.hiddenclasses.otherpackage`.
+
+{%#skipLines
+{%java OuterClass%}
+%}
+
+NOTE: Some lines are skipped from the class. We will use those later.
+
+This class has a method `lookup()`.
+It creates a lookup object and returns it.
+If we call this method from our code we will have a proper lookup object.
+Note that this class is in a different package and not the same as our test code.
+Out test code is  in `com.javax0.blog.hiddenclasses`, and `OuterClass` is a package deeper.
+Essentially in a different package.
+
+We also have another class for the demonstration
+
+{%java MyPackagePrivateClass%}
+
+This is a package private class, with a package private method in it.
+If we create dynamically a hidden class, as in the following example:
+
+{%java testOtherPackageClassCreation%}
+
+it will work.
+
+There is one topic that we have not touched.
+This is how to create a nest mate.
+
+When you have a binary class file, you can load it as a nest mate to a class that provided a lookup object.
+The JVM does not care how that class was created.
+When we compile Java source we only have one possibility.
+The class has to be an inner class.
+
+When you use {%SB%} you have to provide your source code as an inner class to the one you want the hidden to be nest mate with.
+The source code and the class was already provided when you compiled your code.
+It is not possible to insert into THAT source code any new inner class.
+We have to fool the compiler.
+
+We provide a class having the same name as the one we want to insert our inner class later.
+When the compilation is done, we have the outer class and the inner class as well.
+We tell the class loading to forget the outer and only to load the inner one, hidden.
+
+This is what we will do.
+This time we display here the whole outer class that we use for demonstration including the skipped lines.
+
+{%java OuterClass%}
+
+It has a private field and a getter for it to test effectively the changed value as you will see.
+It also has the before-mentioned `lookup()` method.
+The code dynamically creating an inner class is the following:
+
+{%java HiddenStaticInnerClass%}
+
+There is an `OuterClass` in the source, but it is only to help the compilation and to tell {%SB%} the name of the nesting host.
+When we call the method `nest()` with the option `NESTMATE` it knows that the class `OuterClass` is the nesting host.
+It also marks the class not to be loaded by the class loader ever.
+The inner class compiles to a separate byte code and when it is loaded it becomes a nest mate of `OuterClass`.
+
+If you paid attention to the intricate details of Java access control we discussed in this article you notice that we do not provide a lookup object.
+And the example above still works.
+How is it possible?
+There is no magic.
+When you call `nest()` {%SB%} looks for the already loaded version of `OuterClass` and using reflection fetches the lookup object from it.
+To do that the outer class has to have a static field or method of type `MethodHandles.Lookup`.
+`OuterClass` has a method, so {%SB%} calls this method to get the lookup object.
+
+
+

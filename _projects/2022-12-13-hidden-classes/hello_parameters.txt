@@ -1,0 +1,9 @@
+Hello, from the hidden class.
+1. class com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b0c00
+2. jdk.internal.loader.ClassLoaders$AppClassLoader@5b37e0d2
+3. jdk.internal.loader.ClassLoaders$AppClassLoader@5b37e0d2
+4. MySpecialClass/0x00000008011b0c00
+5. com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b0c00
+6. null
+7. class java.lang.invoke.MethodHandles$Lookup
+8. null

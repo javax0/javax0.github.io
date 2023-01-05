@@ -21,13 +21,17 @@ define the 'section', 'subsection' and 'subsubsection' macros that number the in
 ----}
 
 {@define codeDisclaimer=
-[%collapsible,title=Code Sample Disclaimer, sidebar]
+[%collapsible,title=Code Sample Disclaimer]
 ====
-[sidebar]
+****
 The code samples are available on GitHub in the link:https://github.com/javax0/javax0.github.io/tree/master/_projects[project directory].
 Each article has a project directory named `YYYY-MM-DD-article-title` where the project code files are.
+
+For this article it is ``{ARTICLE}``.
+
 The samples are automatically copied from the project directory to the article using Jamal.
 No manual copy, no outdated stale samples.
+****
 ====}
 
 {@define outputDisclaimer=

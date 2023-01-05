@@ -1,6 +1,7 @@
 // snipline TestPackage filter=package\s(.*);
 package com.javax0.blog.hiddenclasses;
 
+import com.javax0.blog.hiddenclasses.otherpackage.OuterClass;
 import com.javax0.sourcebuddy.Compiler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
+
+import static com.javax0.sourcebuddy.Compiler.args;
+import static com.javax0.sourcebuddy.Compiler.classes;
 
 // snipline TestHiddenClassLoader filter=(Test\w+)
 public class TestHiddenClassLoader {
@@ -109,6 +113,16 @@ public class TestHiddenClassLoader {
     }
 
     @Test
+    @DisplayName("Does not fail when other module if has lookup object")
+    void loadWithLookupObject() throws Exception {
+        // snippet noErrFluentHello
+        final var hi = Compiler.java().from(CODE1).hidden(MethodHandles.lookup()).compile()
+                .load().newInstance(Hello.class);
+        hi.hello();
+        //end snippet
+    }
+
+    @Test
     @DisplayName("Fails when other module")
     void failingLoadOtherPackage() throws Exception {
         setout("NotInSamePackage_Error.txt");
@@ -116,7 +130,7 @@ public class TestHiddenClassLoader {
         try {
             final var byteCode = Compiler.java()
                     .from("package B; class A{}").compile().get();
-            MethodHandles.lookup().defineHiddenClass(byteCode,true);
+            MethodHandles.lookup().defineHiddenClass(byteCode, true);
         } catch (Throwable t) {
             System.out.println(t);
         }
@@ -170,10 +184,80 @@ public class TestHiddenClassLoader {
 
     @Test
     @DisplayName("Invoke the hidden class and say hello using SourceBuddy")
-    void sayHellotoSB() throws Exception {
+    void sayHelloToSB() throws Exception {
         // snippet sayHelloSB
         final var hello = Compiler.java().from(CLASS_NAME, CODE1).hidden(MethodHandles.lookup()).compile().load().newInstance(CLASS_NAME, Hello.class);
         hello.hello();
         //end snippet
+    }
+
+
+    @Test
+    @DisplayName("Create package class with lookup object from other class")
+    void testOtherPackageClassCreation() throws Exception {
+        // snippet testOtherPackageClassCreation
+        final var hidden = Compiler.java().from("""
+                package com.javax0.blog.hiddenclasses.otherpackage;
+                                        
+                public class AnyName_ItWillBeDropped_Anyway {
+                    public void hi(){
+                        new MyPackagePrivateClass().sayHello();
+                    }
+                }""").hidden(OuterClass.lookup()).compile().load().newInstance();
+        final var hi = hidden.getClass().getDeclaredMethod("hi");
+        hi.invoke(hidden);
+        // end snippet
+    }
+
+    @Test
+    @DisplayName("Inner class creation works with fetched lookup object")
+    void testInnerClassCreationFetchLookup() throws Exception {
+        // snippet HiddenInnerClass
+        final var outer = new OuterClass();
+        final var inner = Compiler.java().from("""
+                        package com.javax0.blog.hiddenclasses.otherpackage;
+                                                
+                        public class OuterClass {
+                            private int z;
+                                        
+                            public class Inner {
+                               public void a(){
+                                 z++;
+                               }
+                            }
+                                        
+                        }""").nest(MethodHandles.Lookup.ClassOption.NESTMATE).compile().load()
+                .newInstance("Inner", classes(OuterClass.class), args(outer));
+        final var m = inner.getClass().getDeclaredMethod("a");
+        m.invoke(inner);
+        Assertions.assertEquals(56, outer.getZ());
+        // end snippet
+    }
+
+    @Test
+    @DisplayName("Static inner class creation works with fetched lookup object")
+    void testStaticInnerClassCreationFetchLookup() throws Exception {
+        // snippet HiddenStaticInnerClass
+        final var inner = Compiler.java().from("""
+                        package com.javax0.blog.hiddenclasses.otherpackage;
+                                                
+                        public class {%java OuterClass%}
+                                                {
+                            private int z;
+                                        
+                            public static class StaticInner {
+                               public OuterClass a(){
+                                 final var outer = new OuterClass();
+                                 outer.z++;
+                                 return outer;
+                               }
+                            }
+                                        
+                        }""").nest(MethodHandles.Lookup.ClassOption.NESTMATE).compile().load()
+                .newInstance("StaticInner");
+        final var m = inner.getClass().getDeclaredMethod("a");
+        final var outer = (OuterClass)m.invoke(inner);
+        Assertions.assertEquals(56, outer.getZ());
+        // end snippet
     }
 }
