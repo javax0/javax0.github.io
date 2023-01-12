@@ -1,0 +1,166 @@
+---
+title: Ten Useless Things You Did Not Know About Java
+layout: posta
+comments: on
+---
+{%#define ARTICLE={%#file (format="$bareNaked"){%@pos.file%}%}%}
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+
+Java is a complex language and some features, which originally seemed to be a good idea turned out to be useless.
+In this article we will have a look at 10 such Java language features.
+
+{%section Java Has Labels%}
+
+You can have labels in your Java code.
+
+{%java LABEL%}
+
+Just like you could have them in assembly.
+Or when you were programming BASIC numbering the lines.
+
+You can reference these labels in the `break` or `continue` command to interrupt an outer loop.
+
+The output of the above program is:
+{%sampleOutput LABEL_OUTPUT.TXT%}
+
+If you want to compare here is the version without the labels:
+
+[%collapsible, title="Click to open the version without labels"]
+====
+{%java noLABEL%}
+
+and the output
+
+{%sampleOutput NO_LABEL_OUTPUT.TXT%}
+====
+
+{%section You can `break` from a Block%}
+
+Labels make it possible to break from a block.
+It does not need to be a loop.
+
+{%java fizbuzz%}
+
+It will print
+
+{%sampleOutput FIZBUZZ.TXT%}
+
+{%section |`static` Methods can also be `final`%}
+
+When a method is final in a class it means that it cannot be redefined in a child class.
+Static methods, however are not virtual.
+They cannot be redefined.
+If there is a static method in the child class of the same signature, that has nothing to do with the method in the parent class.
+Or does it?
+
+Actually it does.
+If the static method is `final` then the child class cannot have a method with the same signature.
+
+To demonstrate this we compile the test classes dynamically.
+We do not want to have in our demo project any syntax error.
+
+{%java staticFinalMethod%}
+
+We compile FIZZ and BUZZ.
+Both classes have a method named `fizzy()`.
+No problem.
+Then we change the method in the class `Fizz` to `final`.
+Now the compilation fails.
+
+You cannot "override" the final method.
+
+{%section |`goto` is a reserved word%}
+
+There is no `goto` in Java, and still: `goto` is a keyword.
+The designers of the language thought it to be a good idea.
+Future versions of Java may have a `goto` statement.
+Let's reserve this as a keyword.
+
+{%java noGoto%}
+
+If we name the method `_goto` it is okay.
+Using it without an underscore in the front: it is a keyword.
+It does not compile.
+
+If you consider that `var` on the other hand is NOT a keyword...
+
+{%section |`var` is not a keyword in Java%}
+
+Java 10  introduced `var`.
+There are a lot of articles about how you can use `var` and why `var` is not a syntactic sugar.
+However, `var` is also not a keyword.
+
+If it was a keyword we could have a program, like
+
+{%java var%}
+
+which was a valid code before Java 10.
+It still is, because `var` is not a keyword, but it would be ruined if it was.
+Lucky, it is not.
+
+You cannot, however, name a class to be `var`.
+Which means that even though `var` is not a keyword, we still may have some possible incompatibility.
+
+{%section |Stream operations are mutating%}
+
+This is also a Java secret, but at least this knowledge is not useless.
+After all, who would like to read an article full of useless things.
+As a matter of fact there was a question on a Java interview, so it may even be important to know.
+
+When you chain the stream methods they transform streams.
+There is no operation happening until the final terminal operation is chained up and starts to execute.
+The stream operations without the terminal operation only build up the operation chain.
+They transform one stream to a new stream.
+
+____
+Not only!
+____
+
+Stream operations, like `map` also modify teh stream they are attached to.
+The stream will remember that there was already an operation attached to it and will throw an exception if you try to form a stream.
+The following code demonstrates this:
+
+{%java stream%}
+
+The output of this is:
+
+{%sampleOutput STREAM.TXT%}
+
+{%section |`strictfp` is a modifier%}
+
+Once upon a time there was a keyword, called `strictfp`.
+It was introduced in Java 1.2, and it required the floating point calculations to be performed a bit differently.
+Floating point calculations traditionally used the format IEEE 754 standard defined.
+The early x86 processors with the x87 floating point coprocessor was working a bit differently.
+The coprocessor used longer format, allowing more precision.
+The `float` and `double` values were 64bit, but the intermediate values during a calculation were stored on more bits.
+
+Prior to Java 1.2 the compiler generated machine code modifying the result of every intermediate value to 64bit.
+This required extra machine code operations and slowed the calculation down.
+It was not only slower but more error-prone to overflow errors.
+A calculation result could be okay with the 64bit precision while some intermediate values in the calculation overflowed.
+Using the more precision provided by the hardware could lead to correct value in that situation.
+
+`strictfp` was introduced to let the compiler generate more effective floating point code.
+With 1.2 and later till Java 17 the compiler generates code using the extra precision, unless the class or method is `strictfp`.
+
+.just kidding
+____
+`strictfp` means that the floating calculation will result the same wrong result on all platforms.
+____
+
+Times change.
+With the introduction of Pentium 4 in 2001 the extra code can be avoided for strict floating point.
+Java could generate the strict floating point effectively.
+
+Java 17 came 20 years later and Java changed again.
+Java 17 and later uses the strict arithmetic even when `strictfp` is not specified.
+
+You can still use it, and you can reflectively query its existence on a class, interface or non-abstract method, but the Java compiler does not use it anymore.
+May be, the Java compiler was the only one using `strictfp` even in the past.
+At least, I have never met anyone who needed that and used it.
+
