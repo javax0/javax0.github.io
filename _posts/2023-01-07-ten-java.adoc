@@ -1,5 +1,5 @@
 ---
-title: Ten Useless Things You Did Not Know About Java
+title: Nine Useless Things You Did Not Know About Java
 layout: posta
 comments: on
 ---
@@ -359,7 +359,89 @@ java.lang.IllegalStateException: stream has already been operated upon or closed
 
 ----
 
-== 7. `strictfp` is a modifier
+== 7. Streams do not always run
+
+You know that the intermediary operations on a stream do not run if there is no terminal operation.
+The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
+However, not all terminal operations run the whole chain.
+It may lead to surprises in some cases.
+To see that let's use `peek()`.
+
+`peek()` is a stream intermediary method that does not modify the stream.
+The Javadoc of the method in the official JDK documentation says:
+
+____
+This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline
+____
+
+The same Javadoc then gives a sample that uses `System.out.println` to print values from a stream in different stages.
+We will do the same
+
+[source,java]
+----
+1.         final var w = Stream.of(1, 2, 3, 4, 5, "apple", "bird", 3.1415926)
+2.                 .peek(System.out::println).toArray();
+3.         System.out.println(w.length);
+
+----
+
+This sample goes through the elements of the stream.
+It prints the elements of the stream and then the number of the elements as we have collected them to an `Object[]`:
+
+[source,text]
+----
+1
+2
+3
+4
+5
+apple
+bird
+3.1415926
+8
+
+----
+
+This is nice and dandy.
+What if we do not collect the elements?
+In the example above we are only interested in the number of the elements, there is no reason to collect them to an array.
+
+[source,java]
+----
+1.         final long z = Stream.of(1, 2, 3, 4, 5, "apple", "bird", 3.1415926)
+2.                 .peek(System.out::println).count();
+3.         System.out.println(z);
+
+----
+
+We expect to get the same output as before.
+The reality, however, is that the output this time is:
+
+[source,text]
+----
+8
+
+----
+
+Where did the elements go?
+Why `peek` does not print the elements?
+
+The terminal operation `count()` does not execute the stream pipeline in this case.
+Therefore, the `peek()` action is not invoked.
+There is no magic or secret in it.
+The JavaDoc of `count()` explains it.
+
+____
+An implementation may choose to not execute the stream pipeline ... if it is capable of computing the count directly from the stream source.
+____
+
+In some cases, like the one in the example above, the terminal operation `count()` does not need to iterate through the stream to know the number of elements.
+So it does not.
+
+Even the documentation of `peek()` has a link to this fact.
+Nobody reads documentation.
+
+== 8. `strictfp` is a modifier
 
 Once upon a time there was a keyword, called `strictfp`.
 It was introduced in Java 1.2, and it required the floating point calculations to be performed a bit differently.
@@ -392,3 +474,88 @@ Java 17 and later uses the strict arithmetic even when `strictfp` is not specifi
 You can still use it, and you can reflectively query its existence on a class, interface or non-abstract method, but the Java compiler does not use it anymore.
 May be, the Java compiler was the only one using `strictfp` even in the past.
 At least, I have never met anyone who needed that and used it.
+
+== 9. There are multiple `ArrayList` implementations in the JDK
+
+If you program Java for a long time you know that you can easily create a list of elements calling `Array.asList()`.
+If you looked at the implementation of this static method you could see that it is simply:
+
+[source,java]
+----
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> List<T> asList(T... a) {
+        return new ArrayList<>(a);
+    }
+----
+
+in the class `java.util.Arrays`.
+Although the return type of the method is the interface `List`, the documentation guarantees that the return type is `ArrayList`.
+It says
+
+____
+Returns a fixed-size list backed by the specified array.
+____
+
+So it is an `ArrayList`.
+Yes and no.
+Let's try the following program:
+
+[source,java]
+----
+1.         try {
+2.             final ArrayList<Integer> x = (ArrayList) Arrays.asList(1, 2, 3, 4);
+3.         } catch (ClassCastException cce) {
+4.             System.out.println(cce);
+5.         }
+
+----
+
+The output will be
+
+[source,text]
+----
+java.lang.ClassCastException: class java.util.Arrays$ArrayList cannot be cast to class java.util.ArrayList (java.util.Arrays$ArrayList and java.util.ArrayList are in module java.base of loader 'bootstrap')
+
+----
+
+The returned list is indeed an `ArrayList`, but it is a `java.util.Arrays$ArrayList` and not `java.util.ArrayList`.
+These are two different classes and are not compatible.
+One cannot be converted to the other, only the simple name is the same.
+
+NOTE: Two classes are the same if their _canonical name_ is the same and were loaded by one class loader.
+Simple name being the same is not enough.
+
+Why the implementors of `asList()` created a new `ArrayList` class?
+Probably they wanted to create optimized code.
+The list this method returns is backed up by an array just like the `java.util` one.
+However, this array cannot be resized.
+It is the same array that you provided as an argument.
+Not copied, or cloned.
+It remains in its place and used by the list implementation.
+You can see that in the following code sample:
+
+[source,java]
+----
+1.         final Integer[] w = {1, 2, 3};
+2.         final var wl = Arrays.asList(w);
+3.         Assertions.assertEquals(1, wl.get(0));
+4.         w[0] = 55;
+5.         wl.set(1, 66);
+6.         Assertions.assertEquals(55, wl.get(0));
+7.         Assertions.assertEquals(66, w[1]);
+
+----
+
+When the code modifies the array the list also gets modified.
+When the list is modified the array also gets modified.
+That is because they are the one and the same.
+
+== 10. Summary
+
+We have visited nine Java features.
+These are not important.
+Writing about these was fun and I hope reading them was also fun.
+I tried to be precise and I could not resist to include some information that may also be useful in spite of the article title.
+
+If you know any other more or less useless facts about Java, please write it down in the comments.
