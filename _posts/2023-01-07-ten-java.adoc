@@ -1,5 +1,5 @@
 ---
-title: Nine Useless Things You Did Not Know About Java
+title: Ten Useless Things You Did Not Know About Java
 layout: posta
 comments: on
 ---
@@ -9,7 +9,7 @@ comments: on
 
 
 Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
-In this article, we will look at nine such Java language features.
+In this article, we will look at ten such Java language features.
 
 == 1. Java Has Labels
 
@@ -551,9 +551,61 @@ When the code modifies the array, the list also gets modified.
 When the list is modified, the array also gets modified.
 That is because they are one and the same.
 
-== 10. Summary
+== 10. something != something
 
-We have visited nine Java features.
+Recently a friend (Istvan Kovács) posted a puzzle on link:https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/[Linked-in].
+What should you write to the place of `???`
+
+[source,java]
+----
+1.         final var variable = ???;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+The question was: what should you write into the place of the `???` characters?
+Unless you want to have a failing test, you need something which is not equal to itself.
+
+It cannot be an object, because `==` compares the reference "address", therefore an object is always `==` to itself.
+It can only be a primitive value.
+
+The solution comes from the link:https://ieeexplore.ieee.org/document/30711[IEEE 754] standard.
+It has the sentence:
+
+____
+The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
+infinite or finite number x but reverse if x is Not a Number ( NaN )
+____
+
+Although it talks about the C language, Java has inherited a lot from it.
+Java implements the standard as we have already discussed related to the `strictfp` keyword.
+That way the code sample is
+
+[source,java]
+----
+1.         final var variable = Float.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+or
+[source,java]
+----
+1.         final var variable = Double.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+
+== 11. Summary
+
+We have visited ten Java features.
 These are not important.
 Writing about these was fun, and I hope reading them was also fun.
 I tried to be precise, and I could not resist including some information that may also be useful despite the article title.
