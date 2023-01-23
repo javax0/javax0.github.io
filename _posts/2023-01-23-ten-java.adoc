@@ -8,6 +8,14 @@ comments: on
 
 
 
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java[https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam]
+****
+====
+
 Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
 In this article, we will look at ten such Java language features.
 

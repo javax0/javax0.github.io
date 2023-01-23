@@ -3,12 +3,13 @@ title: Ten Useless Things You Did Not Know About Java
 layout: posta
 comments: on
 ---
-{%#define ARTICLE={%#file (format="$bareNaked"){%@pos.file%}%}%}
+
 {%@import javax0.jim%}
 {%@comment
 =========================================================================================
 %}
 {%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+{%articleDisclaimer%}
 
 Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
 In this article, we will look at ten such Java language features.

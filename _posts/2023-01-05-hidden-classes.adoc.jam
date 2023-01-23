@@ -3,7 +3,6 @@ title: Hidden Classes in Java 15
 layout: posta
 comments: on
 ---
-{%#define ARTICLE={%#file (format="$bareNaked"){%@pos.file%}%}%}
 {%@import javax0.jim%}
 {%@comment
 =========================================================================================
