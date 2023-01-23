@@ -1,0 +1,15 @@
+1 
+2 
+3 fiz
+4 
+5 buzz
+6 fiz
+7 
+8 
+9 fiz
+10 buzz
+11 
+12 fiz
+13 
+14 
+15 fizbuzz

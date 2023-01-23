@@ -1,0 +1,613 @@
+---
+title: Ten Useless Things You Did Not Know About Java
+layout: posta
+comments: on
+---
+
+
+
+
+
+Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
+In this article, we will look at ten such Java language features.
+
+== 1. Java Has Labels
+
+You can have labels in your Java code.
+
+[source,java]
+----
+ 1.         LABEL1:
+ 2.         for (int i = 0; i < 10; i++) {
+ 3.             for (int j = 0; j < 10; j++) {
+ 4.                 if (i * j > 15 && (i * j) % 2 == 0) break LABEL1;
+ 5.                 System.out.print("%d,%d ".formatted(i, j));
+ 6.             }
+ 7.             System.out.println();
+ 8.         }
+ 9.         System.out.println();
+10.         System.out.println();
+11.         LABEL2:
+12.         for (int i = 0; i < 10; i++) {
+13.             for (int j = 0; j < 10; j++) {
+14.                 if (i * j > 15 && (i * j) % 2 == 0) {
+15.                     System.out.println();
+16.                     continue LABEL2;
+17.                 }
+18.                 System.out.print("%d,%d ".formatted(i, j));
+19.             }
+20.             System.out.println();
+21.         }
+
+----
+
+Like you could have them in assembly.
+Or when you were programming BASIC numbering the lines.
+
+To interrupt an outer loop, you can reference these labels in the `break` or `continue` command.
+
+The output of the above program is:
+[source,text]
+----
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9 
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9 
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7 
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9 
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9 
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7 
+3,0 3,1 3,2 3,3 3,4 3,5 
+4,0 4,1 4,2 4,3 
+5,0 5,1 5,2 5,3 
+6,0 6,1 6,2 
+7,0 7,1 7,2 7,3 
+8,0 8,1 
+9,0 9,1 
+
+----
+
+If you want to compare, here is the version without the labels:
+
+[%collapsible, title="Click to open the version without labels"]
+====
+[source,java]
+----
+ 1.         for (int i = 0; i < 10; i++) {
+ 2.             for (int j = 0; j < 10; j++) {
+ 3.                 if (i * j > 15 && (i * j) % 2 == 0) break;
+ 4.                 System.out.print("%d,%d ".formatted(i, j));
+ 5.             }
+ 6.             System.out.println();
+ 7.         }
+ 8.         System.out.println();
+ 9.         System.out.println();
+10.         for (int i = 0; i < 10; i++) {
+11.             for (int j = 0; j < 10; j++) {
+12.                 if (i * j > 15 && (i * j) % 2 == 0) {
+13.                     System.out.println();
+14.                     continue;
+15.                 }
+16.                 System.out.print("%d,%d ".formatted(i, j));
+17.             }
+18.             System.out.println();
+19.         }
+
+----
+
+and the output
+
+[source,text]
+----
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9 
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9 
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7 
+3,0 3,1 3,2 3,3 3,4 3,5 
+4,0 4,1 4,2 4,3 
+5,0 5,1 5,2 5,3 
+6,0 6,1 6,2 
+7,0 7,1 7,2 7,3 
+8,0 8,1 
+9,0 9,1 
+
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9 
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9 
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7 
+
+
+3,0 3,1 3,2 3,3 3,4 3,5 
+3,7 
+3,9 
+4,0 4,1 4,2 4,3 
+
+
+
+
+
+
+5,0 5,1 5,2 5,3 
+5,5 
+5,7 
+5,9 
+6,0 6,1 6,2 
+
+
+
+
+
+
+
+7,0 7,1 7,2 7,3 
+7,5 
+7,7 
+7,9 
+8,0 8,1 
+
+
+
+
+
+
+
+
+9,0 9,1 
+9,3 
+9,5 
+9,7 
+9,9 
+
+----
+====
+
+== 2. You can `break` from a Block
+
+Labels make it possible to break from a block.
+It does not need to be a loop.
+
+[source,java]
+----
+ 1.         for (int i = 1; i <= 15; i++) {
+ 2.             FIZZ:
+ 3.             {
+ 4.                 System.out.printf("%d ", i);
+ 5.                 if (i % 3 != 0) break FIZZ;
+ 6.                 System.out.print("fiz");
+ 7.             }
+ 8.             BUZZ:
+ 9.             {
+10.                 if (i % 5 != 0) break BUZZ;
+11.                 System.out.print("buzz");
+12.             }
+13.             System.out.println();
+14.         }
+
+----
+
+It will print
+
+[source,text]
+----
+1 
+2 
+3 fiz
+4 
+5 buzz
+6 fiz
+7 
+8 
+9 fiz
+10 buzz
+11 
+12 fiz
+13 
+14 
+15 fizbuzz
+
+----
+
+== 3. `static` Methods can also be `final`
+
+When a method is final in a class, you cannot redefine it in a child class.
+Static methods, however, are not virtual.
+They cannot be redefined.
+A static method in the child class of the same signature has nothing to do with the method in the parent class.
+Or does it?
+
+Actually, it does.
+If the static method is `final`, then the child class cannot have a method with the same signature.
+
+To demonstrate this, we compile the test classes dynamically.
+We do not want any syntax errors in our demo project.
+
+[source,java]
+----
+ 1.         final var FIZZ = """
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 public class Fizz {
+ 4.                     static void fizzy(){
+ 5.                     }
+ 6.                 }
+ 7.                 """;
+ 8.         final var BUZZ = """
+ 9.                 package com.javax0.blog.tenjava;
+10.                 public class Buzz extends Fizz {
+11.                     static void fizzy(){
+12.                     }
+13.                 }
+14.                 """;
+15.         final var testSet1 = Compiler.java().from(
+16.                 FIZZ
+17.         ).from(BUZZ).compile().load();
+18.         testSet1.get("Buzz");
+19.         Assertions.assertThrows(Compiler.CompileException.class, () -> Compiler.java().from(
+20.                 FIZZ.replaceAll("static void", "final static void")
+21.         ).from(BUZZ).compile());
+
+----
+
+We compile FIZZ and BUZZ.
+Both classes have a method named `fizzy()`.
+No problem.
+Then we change the method in the class `Fizz` to `final`.
+Now the compilation fails.
+
+You cannot "override" the final method.
+
+== 4. `goto` is a reserved word
+
+There is no `goto` in Java; still, ' goto` is a keyword.
+The designers of the language thought it to be a good idea.
+Future versions of Java may have a `goto` statement.
+Let's reserve this as a keyword.
+
+[source,java]
+----
+ 1.         Compiler.java().from("""
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 class NoGotoPlease{
+ 4.                   public void _goto(){
+ 5.                   }
+ 6.                 }
+ 7.                 """
+ 8.         ).compile();
+ 9.         Assertions.assertThrows(Compiler.CompileException.class, () -> Compiler.java().from("""
+10.                 package com.javax0.blog.tenjava;
+11.                 class NoGotoPlease{
+12.                   public void goto(){
+13.                   }
+14.                 }
+15.                 """
+16.         ).compile());
+
+----
+
+If we name the method `_goto`, it is okay.
+Using it without an underscore in the front: it is a keyword.
+It does not compile.
+
+If you consider that `var`, on the other hand, is NOT a keyword...
+
+== 5. `var` is not a keyword in Java
+
+Java 10  introduced `var`.
+There are a lot of articles about how you can use `var` and why `var` is not syntactic sugar.
+However, `var` is also not a keyword.
+
+If it was a keyword, we could have a program, like
+
+[source,java]
+----
+ 1. public class VarNotKeyword {
+ 2.     final int var = 13;
+ 3.
+ 4.     void myMethod() {
+ 5.         int var = var().var;
+ 6.     }
+ 7.
+ 8.     VarNotKeyword var() {
+ 9.         return new VarNotKeyword();
+10.     }
+11.
+12. }
+
+----
+
+which was a valid code before Java 10.
+It still is because `var` is not a keyword, but it would be ruined if it was.
+Luckily, it is not.
+
+You cannot name a class to be `var`.
+This means that even though `var` is not a keyword, we may still have some incompatibility.
+
+== 6. Stream operations are mutating
+
+It is also a Java secret, but at least this knowledge is not useless.
+After all, who would like to read an article full of useless things?
+As a matter of fact, there was a question on a Java interview, so it may even be essential to know.
+
+When you chain the stream methods, they transform streams.
+There is no operation happening until the final terminal operation is chained up and starts to execute.
+The stream operations without the terminal operation only build up the operation chain.
+They transform one stream into a new stream.
+
+____
+Not only!
+____
+
+Stream operations, like `map`, also modify the stream they are attached to.
+The stream will remember that an operation was already attached to it and will throw an exception if you try to form a stream.
+The following code demonstrates this:
+
+[source,java]
+----
+1.         final Stream<Object> stream = Stream.of("a", 2, 3, new Object[2]);
+2.         final var stringStream1 = stream.map(Object::toString);
+3.         try {
+4.             final var stream2 = stream.map(obj -> " " + obj);
+5.         } catch (IllegalStateException e) {
+6.             System.out.println(e);
+7.         }
+8.         final var string = stringStream1.collect(Collectors.joining("\n"));
+
+----
+
+The output of this is:
+
+[source,text]
+----
+java.lang.IllegalStateException: stream has already been operated upon or closed
+
+----
+
+== 7. Streams do not always run
+
+You know that the intermediary operations on a stream do not run if there is no terminal operation.
+The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
+However, not all terminal operations run the whole chain.
+It may lead to surprises in some cases.
+To see that, let's use `peek()`.
+
+`peek()` is a stream intermediary method that does not modify the stream.
+The Javadoc of the method in the official JDK documentation says:
+
+____
+This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline.
+____
+
+The same Javadoc then gives a sample that uses `System.out.println` to print values from a stream in different stages.
+We will do the same
+
+[source,java]
+----
+1.         final var w = Stream.of(1, 2, 3, 4, 5, "apple", "bird", 3.1415926)
+2.                 .peek(System.out::println).toArray();
+3.         System.out.println(w.length);
+
+----
+
+This sample goes through the elements of the stream.
+It prints the elements of the stream and then the number of the elements as we have collected them to an `Object[]`:
+
+[source,text]
+----
+1
+2
+3
+4
+5
+apple
+bird
+3.1415926
+8
+
+----
+
+This is nice and dandy.
+What if we do not collect the elements?
+In the example above, we are only interested in the number of elements; there is no reason to collect them into an array.
+
+[source,java]
+----
+1.         final long z = Stream.of(1, 2, 3, 4, 5, "apple", "bird", 3.1415926)
+2.                 .peek(System.out::println).count();
+3.         System.out.println(z);
+
+----
+
+We expect to get the same output as before.
+The reality, however, is that the output this time is:
+
+[source,text]
+----
+8
+
+----
+
+Where did the elements go?
+Why `peek` does not print the elements?
+
+In this case, the terminal operation `count()` does not execute the stream pipeline.
+Therefore, the `peek()` action is not invoked.
+There is no magic or secret in it.
+The JavaDoc of `count()` explains it.
+
+____
+An implementation may choose to not execute the stream pipeline ... if it is capable of computing the count directly from the stream source.
+____
+
+In some cases, like the one in the example above, the terminal operation `count()` does not need to iterate through the stream to know the number of elements.
+So it does not.
+
+Even the documentation of `peek()` has a link to this fact.
+Nobody reads documentation.
+
+== 8. `strictfp` is a modifier
+
+Once upon a time, there was a keyword called `strictfp`.
+It was introduced in Java 1.2 and required the floating point calculations to be performed differently.
+Floating point calculations traditionally used the format IEEE 754 standard defined.
+The early x86 processors with the x87 floating point coprocessor worked differently.
+The coprocessor used a longer format, allowing more precision.
+The `float` and `double` values were 64bit, but the generated code stored the intermediate values on more bits during a calculation.
+
+Before Java 1.2, the compiler generated machine code modifying the result of every intermediate value to 64bit.
+This required extra machine code operations and slowed the calculation down.
+It was not only slower but more error-prone to overflow errors.
+A calculation result could be okay with the 64-bit precision while some intermediate values overflowed.
+Using more precision provided by the hardware could lead to the correct value.
+
+`strictfp` was introduced to let the compiler generate a more effective floating-point code.
+With 1.2 and later till Java 17, the compiler generates code using the extra precision unless the class or method is `strictfp`.
+
+.just kidding
+____
+`strictfp` means that the floating calculation will result in the exact wrong result on all platforms.
+____
+
+Times change.
+Pentium 4 in 2001 allows the compiler to avoid the extra code for strict floating point.
+Java could generate the strict floating point effectively.
+
+Java 17 came 20 years later, and Java changed again.
+Java 17 later uses strict arithmetic even when `strictfp` is not specified.
+
+You can still use it, and reflectively query its existence on a class, interface, or non-abstract method, but the Java compiler does not use it anymore.
+Maybe, the Java compiler was the only one using `strictfp` even in the past.
+At least, I have never met anyone who needed that and used it.
+
+== 9. There are multiple `ArrayList` implementations in the JDK
+
+If you have programmed Java for a long time, you know that you can easily create a list of elements calling `Array.asList()`.
+If you look at the implementation of this static method, you can see that it is simply:
+
+[source,java]
+----
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> List<T> asList(T... a) {
+        return new ArrayList<>(a);
+    }
+----
+
+in the class `java.util.Arrays`.
+Although the method's return type is the interface `List`, the documentation guarantees that the return type is `ArrayList`.
+It says
+
+____
+Returns a fixed-size list backed by the specified array.
+____
+
+So it is an `ArrayList`.
+Yes and no.
+Let's try the following program:
+
+[source,java]
+----
+1.         try {
+2.             final ArrayList<Integer> x = (ArrayList) Arrays.asList(1, 2, 3, 4);
+3.         } catch (ClassCastException cce) {
+4.             System.out.println(cce);
+5.         }
+
+----
+
+The output will be
+
+[source,text]
+----
+java.lang.ClassCastException: class java.util.Arrays$ArrayList cannot be cast to class java.util.ArrayList (java.util.Arrays$ArrayList and java.util.ArrayList are in module java.base of loader 'bootstrap')
+
+----
+
+The returned list is an `ArrayList`, but it is a `java.util.Arrays$ArrayList` and not `java.util.ArrayList`.
+These are two different classes and are not compatible.
+One cannot be converted to the other; only the simple name is the same.
+
+NOTE: Two classes are the same if their _canonical name_ is the same and were loaded by one class loader.
+The simple name being the same is not enough.
+
+Why did the implementors of `asList()` create a new `ArrayList` class?
+Probably they wanted to create optimized code.
+The list this method returns is backed up by an array just like the `java.util` one.
+However, this array cannot be resized.
+It is the same array that you provided as an argument.
+It is not copied or cloned.
+It remains in its place and is used by the list implementation.
+You can see that in the following code sample:
+
+[source,java]
+----
+1.         final Integer[] w = {1, 2, 3};
+2.         final var wl = Arrays.asList(w);
+3.         Assertions.assertEquals(1, wl.get(0));
+4.         w[0] = 55;
+5.         wl.set(1, 66);
+6.         Assertions.assertEquals(55, wl.get(0));
+7.         Assertions.assertEquals(66, w[1]);
+
+----
+
+When the code modifies the array, the list also gets modified.
+When the list is modified, the array also gets modified.
+That is because they are one and the same.
+
+== 10. something != something
+
+Recently a friend (Istvan Kovács) posted a puzzle on link:https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/[Linked-in].
+What should you write to the place of `???`
+
+[source,java]
+----
+1.         final var variable = ???;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+The question was: what should you write into the place of the `???` characters?
+Unless you want to have a failing test, you need something which is not equal to itself.
+
+It cannot be an object, because `==` compares the reference "address", therefore an object is always `==` to itself.
+It can only be a primitive value.
+
+The solution comes from the link:https://ieeexplore.ieee.org/document/30711[IEEE 754] standard.
+It has the sentence:
+
+____
+The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
+infinite or finite number x but reverse if x is Not a Number ( NaN )
+____
+
+Although it talks about the C language, Java has inherited a lot from it.
+Java implements the standard as we have already discussed related to the `strictfp` keyword.
+That way the code sample is
+
+[source,java]
+----
+1.         final var variable = Float.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+or
+[source,java]
+----
+1.         final var variable = Double.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail("variable is == to variable");
+4.         }
+
+----
+
+
+== 11. Summary
+
+We have visited ten Java features.
+These are not important.
+Writing about these was fun, and I hope reading them was also fun.
+I tried to be precise, and I could not resist including some information that may also be useful despite the article title.
+
+If you know any other more or less useless facts about Java, please write them down in the comments.

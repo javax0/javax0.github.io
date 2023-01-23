@@ -1,0 +1,316 @@
+---
+title: Ten Useless Things You Did Not Know About Java
+layout: posta
+comments: on
+---
+{%#define ARTICLE={%#file (format="$bareNaked"){%@pos.file%}%}%}
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+
+Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
+In this article, we will look at ten such Java language features.
+
+{%section Java Has Labels%}
+
+You can have labels in your Java code.
+
+{%java LABEL%}
+
+Like you could have them in assembly.
+Or when you were programming BASIC numbering the lines.
+
+To interrupt an outer loop, you can reference these labels in the `break` or `continue` command.
+
+The output of the above program is:
+{%sampleOutput LABEL_OUTPUT.TXT%}
+
+If you want to compare, here is the version without the labels:
+
+[%collapsible, title="Click to open the version without labels"]
+====
+{%java noLABEL%}
+
+and the output
+
+{%sampleOutput NO_LABEL_OUTPUT.TXT%}
+====
+
+{%section You can `break` from a Block%}
+
+Labels make it possible to break from a block.
+It does not need to be a loop.
+
+{%java fizbuzz%}
+
+It will print
+
+{%sampleOutput FIZBUZZ.TXT%}
+
+{%section |`static` Methods can also be `final`%}
+
+When a method is final in a class, you cannot redefine it in a child class.
+Static methods, however, are not virtual.
+They cannot be redefined.
+A static method in the child class of the same signature has nothing to do with the method in the parent class.
+Or does it?
+
+Actually, it does.
+If the static method is `final`, then the child class cannot have a method with the same signature.
+
+To demonstrate this, we compile the test classes dynamically.
+We do not want any syntax errors in our demo project.
+
+{%java staticFinalMethod%}
+
+We compile FIZZ and BUZZ.
+Both classes have a method named `fizzy()`.
+No problem.
+Then we change the method in the class `Fizz` to `final`.
+Now the compilation fails.
+
+You cannot "override" the final method.
+
+{%section |`goto` is a reserved word%}
+
+There is no `goto` in Java; still, ' goto` is a keyword.
+The designers of the language thought it to be a good idea.
+Future versions of Java may have a `goto` statement.
+Let's reserve this as a keyword.
+
+{%java noGoto%}
+
+If we name the method `_goto`, it is okay.
+Using it without an underscore in the front: it is a keyword.
+It does not compile.
+
+If you consider that `var`, on the other hand, is NOT a keyword...
+
+{%section |`var` is not a keyword in Java%}
+
+Java 10  introduced `var`.
+There are a lot of articles about how you can use `var` and why `var` is not syntactic sugar.
+However, `var` is also not a keyword.
+
+If it was a keyword, we could have a program, like
+
+{%java var%}
+
+which was a valid code before Java 10.
+It still is because `var` is not a keyword, but it would be ruined if it was.
+Luckily, it is not.
+
+You cannot name a class to be `var`.
+This means that even though `var` is not a keyword, we may still have some incompatibility.
+
+{%section |Stream operations are mutating%}
+
+It is also a Java secret, but at least this knowledge is not useless.
+After all, who would like to read an article full of useless things?
+As a matter of fact, there was a question on a Java interview, so it may even be essential to know.
+
+When you chain the stream methods, they transform streams.
+There is no operation happening until the final terminal operation is chained up and starts to execute.
+The stream operations without the terminal operation only build up the operation chain.
+They transform one stream into a new stream.
+
+____
+Not only!
+____
+
+Stream operations, like `map`, also modify the stream they are attached to.
+The stream will remember that an operation was already attached to it and will throw an exception if you try to form a stream.
+The following code demonstrates this:
+
+{%java stream%}
+
+The output of this is:
+
+{%sampleOutput STREAM.TXT%}
+
+{%section |Streams do not always run%}
+
+You know that the intermediary operations on a stream do not run if there is no terminal operation.
+The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
+However, not all terminal operations run the whole chain.
+It may lead to surprises in some cases.
+To see that, let's use `peek()`.
+
+`peek()` is a stream intermediary method that does not modify the stream.
+The Javadoc of the method in the official JDK documentation says:
+
+____
+This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline.
+____
+
+The same Javadoc then gives a sample that uses `System.out.println` to print values from a stream in different stages.
+We will do the same
+
+{%java peeking%}
+
+This sample goes through the elements of the stream.
+It prints the elements of the stream and then the number of the elements as we have collected them to an `Object[]`:
+
+{%sampleOutput PEEK.txt%}
+
+This is nice and dandy.
+What if we do not collect the elements?
+In the example above, we are only interested in the number of elements; there is no reason to collect them into an array.
+
+{%java no_peeking%}
+
+We expect to get the same output as before.
+The reality, however, is that the output this time is:
+
+{%sampleOutput NO_PEEK.txt%}
+
+Where did the elements go?
+Why `peek` does not print the elements?
+
+In this case, the terminal operation `count()` does not execute the stream pipeline.
+Therefore, the `peek()` action is not invoked.
+There is no magic or secret in it.
+The JavaDoc of `count()` explains it.
+
+____
+An implementation may choose to not execute the stream pipeline ... if it is capable of computing the count directly from the stream source.
+____
+
+In some cases, like the one in the example above, the terminal operation `count()` does not need to iterate through the stream to know the number of elements.
+So it does not.
+
+Even the documentation of `peek()` has a link to this fact.
+Nobody reads documentation.
+
+{%section |`strictfp` is a modifier%}
+
+Once upon a time, there was a keyword called `strictfp`.
+It was introduced in Java 1.2 and required the floating point calculations to be performed differently.
+Floating point calculations traditionally used the format IEEE 754 standard defined.
+The early x86 processors with the x87 floating point coprocessor worked differently.
+The coprocessor used a longer format, allowing more precision.
+The `float` and `double` values were 64bit, but the generated code stored the intermediate values on more bits during a calculation.
+
+Before Java 1.2, the compiler generated machine code modifying the result of every intermediate value to 64bit.
+This required extra machine code operations and slowed the calculation down.
+It was not only slower but more error-prone to overflow errors.
+A calculation result could be okay with the 64-bit precision while some intermediate values overflowed.
+Using more precision provided by the hardware could lead to the correct value.
+
+`strictfp` was introduced to let the compiler generate a more effective floating-point code.
+With 1.2 and later till Java 17, the compiler generates code using the extra precision unless the class or method is `strictfp`.
+
+.just kidding
+____
+`strictfp` means that the floating calculation will result in the exact wrong result on all platforms.
+____
+
+Times change.
+Pentium 4 in 2001 allows the compiler to avoid the extra code for strict floating point.
+Java could generate the strict floating point effectively.
+
+Java 17 came 20 years later, and Java changed again.
+Java 17 later uses strict arithmetic even when `strictfp` is not specified.
+
+You can still use it, and reflectively query its existence on a class, interface, or non-abstract method, but the Java compiler does not use it anymore.
+Maybe, the Java compiler was the only one using `strictfp` even in the past.
+At least, I have never met anyone who needed that and used it.
+
+{%section There are multiple `ArrayList` implementations in the JDK%}
+
+If you have programmed Java for a long time, you know that you can easily create a list of elements calling `Array.asList()`.
+If you look at the implementation of this static method, you can see that it is simply:
+
+[source,java]
+----
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> List<T> asList(T... a) {
+        return new ArrayList<>(a);
+    }
+----
+
+in the class `java.util.Arrays`.
+Although the method's return type is the interface `List`, the documentation guarantees that the return type is `ArrayList`.
+It says
+
+____
+Returns a fixed-size list backed by the specified array.
+____
+
+So it is an `ArrayList`.
+Yes and no.
+Let's try the following program:
+
+{%java ArrayListCastError%}
+
+The output will be
+
+{%sampleOutput ARRAYLIST.ERR%}
+
+The returned list is an `ArrayList`, but it is a `java.util.Arrays$ArrayList` and not `java.util.ArrayList`.
+These are two different classes and are not compatible.
+One cannot be converted to the other; only the simple name is the same.
+
+NOTE: Two classes are the same if their _canonical name_ is the same and were loaded by one class loader.
+The simple name being the same is not enough.
+
+Why did the implementors of `asList()` create a new `ArrayList` class?
+Probably they wanted to create optimized code.
+The list this method returns is backed up by an array just like the `java.util` one.
+However, this array cannot be resized.
+It is the same array that you provided as an argument.
+It is not copied or cloned.
+It remains in its place and is used by the list implementation.
+You can see that in the following code sample:
+
+{%java backingArray%}
+
+When the code modifies the array, the list also gets modified.
+When the list is modified, the array also gets modified.
+That is because they are one and the same.
+
+{%section something != something%}
+
+Recently a friend (Istvan Kovács) posted a puzzle on link:https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/[Linked-in].
+What should you write to the place of `???`
+
+{%#replaceLines replace="/Float.NaN/???/"
+{%java NaN%}%}
+
+The question was: what should you write into the place of the `???` characters?
+Unless you want to have a failing test, you need something which is not equal to itself.
+
+It cannot be an object, because `==` compares the reference "address", therefore an object is always `==` to itself.
+It can only be a primitive value.
+
+The solution comes from the link:https://ieeexplore.ieee.org/document/30711[IEEE 754] standard.
+It has the sentence:
+
+____
+The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
+infinite or finite number x but reverse if x is Not a Number ( NaN )
+____
+
+Although it talks about the C language, Java has inherited a lot from it.
+Java implements the standard as we have already discussed related to the `strictfp` keyword.
+That way the code sample is
+
+{%java NaN%}
+
+or
+{%#replaceLines replace="/Float.NaN/Double.NaN/"
+{%java NaN%}%}
+
+
+{%section Summary%}
+
+We have visited ten Java features.
+These are not important.
+Writing about these was fun, and I hope reading them was also fun.
+I tried to be precise, and I could not resist including some information that may also be useful despite the article title.
+
+If you know any other more or less useless facts about Java, please write them down in the comments.
+
