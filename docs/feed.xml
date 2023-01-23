@@ -1,4 +1,725 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-01-05T18:18:49+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Hidden Classes in Java 15</title><link href="https://javax0.github.io/2023/01/05/hidden-classes.html" rel="alternate" type="text/html" title="Hidden Classes in Java 15" /><published>2023-01-05T00:00:00+01:00</published><updated>2023-01-05T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/05/hidden-classes</id><content type="html" xml:base="https://javax0.github.io/2023/01/05/hidden-classes.html">&lt;details&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-01-23T13:16:17+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Ten Useless Things You Did Not Know About Java</title><link href="https://javax0.github.io/2023/01/23/ten-java.html" rel="alternate" type="text/html" title="Ten Useless Things You Did Not Know About Java" /><published>2023-01-23T00:00:00+01:00</published><updated>2023-01-23T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/23/ten-java</id><content type="html" xml:base="https://javax0.github.io/2023/01/23/ten-java.html">&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
+In this article, we will look at ten such Java language features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-java-has-labels&quot;&gt;1. Java Has Labels&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can have labels in your Java code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         LABEL1:
+ 2.         for (int i = 0; i &amp;lt; 10; i++) {
+ 3.             for (int j = 0; j &amp;lt; 10; j++) {
+ 4.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break LABEL1;
+ 5.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+ 6.             }
+ 7.             System.out.println();
+ 8.         }
+ 9.         System.out.println();
+10.         System.out.println();
+11.         LABEL2:
+12.         for (int i = 0; i &amp;lt; 10; i++) {
+13.             for (int j = 0; j &amp;lt; 10; j++) {
+14.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
+15.                     System.out.println();
+16.                     continue LABEL2;
+17.                 }
+18.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+19.             }
+20.             System.out.println();
+21.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Like you could have them in assembly.
+Or when you were programming BASIC numbering the lines.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To interrupt an outer loop, you can reference these labels in the &lt;code&gt;break&lt;/code&gt; or &lt;code&gt;continue&lt;/code&gt; command.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output of the above program is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+3,0 3,1 3,2 3,3 3,4 3,5
+4,0 4,1 4,2 4,3
+5,0 5,1 5,2 5,3
+6,0 6,1 6,2
+7,0 7,1 7,2 7,3
+8,0 8,1
+9,0 9,1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to compare, here is the version without the labels:&lt;/p&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Click to open the version without labels&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 0; i &amp;lt; 10; i++) {
+ 2.             for (int j = 0; j &amp;lt; 10; j++) {
+ 3.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break;
+ 4.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+ 5.             }
+ 6.             System.out.println();
+ 7.         }
+ 8.         System.out.println();
+ 9.         System.out.println();
+10.         for (int i = 0; i &amp;lt; 10; i++) {
+11.             for (int j = 0; j &amp;lt; 10; j++) {
+12.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
+13.                     System.out.println();
+14.                     continue;
+15.                 }
+16.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+17.             }
+18.             System.out.println();
+19.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;and the output&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+3,0 3,1 3,2 3,3 3,4 3,5
+4,0 4,1 4,2 4,3
+5,0 5,1 5,2 5,3
+6,0 6,1 6,2
+7,0 7,1 7,2 7,3
+8,0 8,1
+9,0 9,1
+
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+
+
+3,0 3,1 3,2 3,3 3,4 3,5
+3,7
+3,9
+4,0 4,1 4,2 4,3
+
+
+
+
+
+
+5,0 5,1 5,2 5,3
+5,5
+5,7
+5,9
+6,0 6,1 6,2
+
+
+
+
+
+
+
+7,0 7,1 7,2 7,3
+7,5
+7,7
+7,9
+8,0 8,1
+
+
+
+
+
+
+
+
+9,0 9,1
+9,3
+9,5
+9,7
+9,9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-you-can-break-from-a-block&quot;&gt;2. You can &lt;code&gt;break&lt;/code&gt; from a Block&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Labels make it possible to break from a block.
+It does not need to be a loop.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 1; i &amp;lt;= 15; i++) {
+ 2.             FIZZ:
+ 3.             {
+ 4.                 System.out.printf(&quot;%d &quot;, i);
+ 5.                 if (i % 3 != 0) break FIZZ;
+ 6.                 System.out.print(&quot;fiz&quot;);
+ 7.             }
+ 8.             BUZZ:
+ 9.             {
+10.                 if (i % 5 != 0) break BUZZ;
+11.                 System.out.print(&quot;buzz&quot;);
+12.             }
+13.             System.out.println();
+14.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It will print&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
+2
+3 fiz
+4
+5 buzz
+6 fiz
+7
+8
+9 fiz
+10 buzz
+11
+12 fiz
+13
+14
+15 fizbuzz&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-static-methods-can-also-be-final&quot;&gt;3. &lt;code&gt;static&lt;/code&gt; Methods can also be &lt;code&gt;final&lt;/code&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When a method is final in a class, you cannot redefine it in a child class.
+Static methods, however, are not virtual.
+They cannot be redefined.
+A static method in the child class of the same signature has nothing to do with the method in the parent class.
+Or does it?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Actually, it does.
+If the static method is &lt;code&gt;final&lt;/code&gt;, then the child class cannot have a method with the same signature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To demonstrate this, we compile the test classes dynamically.
+We do not want any syntax errors in our demo project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var FIZZ = &quot;&quot;&quot;
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 public class Fizz {
+ 4.                     static void fizzy(){
+ 5.                     }
+ 6.                 }
+ 7.                 &quot;&quot;&quot;;
+ 8.         final var BUZZ = &quot;&quot;&quot;
+ 9.                 package com.javax0.blog.tenjava;
+10.                 public class Buzz extends Fizz {
+11.                     static void fizzy(){
+12.                     }
+13.                 }
+14.                 &quot;&quot;&quot;;
+15.         final var testSet1 = Compiler.java().from(
+16.                 FIZZ
+17.         ).from(BUZZ).compile().load();
+18.         testSet1.get(&quot;Buzz&quot;);
+19.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(
+20.                 FIZZ.replaceAll(&quot;static void&quot;, &quot;final static void&quot;)
+21.         ).from(BUZZ).compile());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We compile FIZZ and BUZZ.
+Both classes have a method named &lt;code&gt;fizzy()&lt;/code&gt;.
+No problem.
+Then we change the method in the class &lt;code&gt;Fizz&lt;/code&gt; to &lt;code&gt;final&lt;/code&gt;.
+Now the compilation fails.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You cannot &quot;override&quot; the final method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-goto-is-a-reserved-word&quot;&gt;4. &lt;code&gt;goto&lt;/code&gt; is a reserved word&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no &lt;code&gt;goto&lt;/code&gt; in Java; still, &apos; goto` is a keyword.
+The designers of the language thought it to be a good idea.
+Future versions of Java may have a &lt;code&gt;goto&lt;/code&gt; statement.
+Let&amp;#8217;s reserve this as a keyword.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         Compiler.java().from(&quot;&quot;&quot;
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 class NoGotoPlease{
+ 4.                   public void _goto(){
+ 5.                   }
+ 6.                 }
+ 7.                 &quot;&quot;&quot;
+ 8.         ).compile();
+ 9.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(&quot;&quot;&quot;
+10.                 package com.javax0.blog.tenjava;
+11.                 class NoGotoPlease{
+12.                   public void goto(){
+13.                   }
+14.                 }
+15.                 &quot;&quot;&quot;
+16.         ).compile());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If we name the method &lt;code&gt;_goto&lt;/code&gt;, it is okay.
+Using it without an underscore in the front: it is a keyword.
+It does not compile.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you consider that &lt;code&gt;var&lt;/code&gt;, on the other hand, is NOT a keyword&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-var-is-not-a-keyword-in-java&quot;&gt;5. &lt;code&gt;var&lt;/code&gt; is not a keyword in Java&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java 10  introduced &lt;code&gt;var&lt;/code&gt;.
+There are a lot of articles about how you can use &lt;code&gt;var&lt;/code&gt; and why &lt;code&gt;var&lt;/code&gt; is not syntactic sugar.
+However, &lt;code&gt;var&lt;/code&gt; is also not a keyword.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If it was a keyword, we could have a program, like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1. public class VarNotKeyword {
+ 2.     final int var = 13;
+ 3.
+ 4.     void myMethod() {
+ 5.         int var = var().var;
+ 6.     }
+ 7.
+ 8.     VarNotKeyword var() {
+ 9.         return new VarNotKeyword();
+10.     }
+11.
+12. }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;which was a valid code before Java 10.
+It still is because &lt;code&gt;var&lt;/code&gt; is not a keyword, but it would be ruined if it was.
+Luckily, it is not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You cannot name a class to be &lt;code&gt;var&lt;/code&gt;.
+This means that even though &lt;code&gt;var&lt;/code&gt; is not a keyword, we may still have some incompatibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-stream-operations-are-mutating&quot;&gt;6. Stream operations are mutating&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is also a Java secret, but at least this knowledge is not useless.
+After all, who would like to read an article full of useless things?
+As a matter of fact, there was a question on a Java interview, so it may even be essential to know.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you chain the stream methods, they transform streams.
+There is no operation happening until the final terminal operation is chained up and starts to execute.
+The stream operations without the terminal operation only build up the operation chain.
+They transform one stream into a new stream.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Not only!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stream operations, like &lt;code&gt;map&lt;/code&gt;, also modify the stream they are attached to.
+The stream will remember that an operation was already attached to it and will throw an exception if you try to form a stream.
+The following code demonstrates this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Stream&amp;lt;Object&amp;gt; stream = Stream.of(&quot;a&quot;, 2, 3, new Object[2]);
+2.         final var stringStream1 = stream.map(Object::toString);
+3.         try {
+4.             final var stream2 = stream.map(obj -&amp;gt; &quot; &quot; + obj);
+5.         } catch (IllegalStateException e) {
+6.             System.out.println(e);
+7.         }
+8.         final var string = stringStream1.collect(Collectors.joining(&quot;\n&quot;));&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output of this is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.IllegalStateException: stream has already been operated upon or closed&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-streams-do-not-always-run&quot;&gt;7. Streams do not always run&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You know that the intermediary operations on a stream do not run if there is no terminal operation.
+The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
+However, not all terminal operations run the whole chain.
+It may lead to surprises in some cases.
+To see that, let&amp;#8217;s use &lt;code&gt;peek()&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;peek()&lt;/code&gt; is a stream intermediary method that does not modify the stream.
+The Javadoc of the method in the official JDK documentation says:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The same Javadoc then gives a sample that uses &lt;code&gt;System.out.println&lt;/code&gt; to print values from a stream in different stages.
+We will do the same&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var w = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
+2.                 .peek(System.out::println).toArray();
+3.         System.out.println(w.length);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This sample goes through the elements of the stream.
+It prints the elements of the stream and then the number of the elements as we have collected them to an &lt;code&gt;Object[]&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
+2
+3
+4
+5
+apple
+bird
+3.1415926
+8&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is nice and dandy.
+What if we do not collect the elements?
+In the example above, we are only interested in the number of elements; there is no reason to collect them into an array.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final long z = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
+2.                 .peek(System.out::println).count();
+3.         System.out.println(z);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We expect to get the same output as before.
+The reality, however, is that the output this time is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;8&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Where did the elements go?
+Why &lt;code&gt;peek&lt;/code&gt; does not print the elements?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not execute the stream pipeline.
+Therefore, the &lt;code&gt;peek()&lt;/code&gt; action is not invoked.
+There is no magic or secret in it.
+The JavaDoc of &lt;code&gt;count()&lt;/code&gt; explains it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;An implementation may choose to not execute the stream pipeline &amp;#8230;&amp;#8203; if it is capable of computing the count directly from the stream source.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In some cases, like the one in the example above, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not need to iterate through the stream to know the number of elements.
+So it does not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Even the documentation of &lt;code&gt;peek()&lt;/code&gt; has a link to this fact.
+Nobody reads documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;8-strictfp-is-a-modifier&quot;&gt;8. &lt;code&gt;strictfp&lt;/code&gt; is a modifier&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Once upon a time, there was a keyword called &lt;code&gt;strictfp&lt;/code&gt;.
+It was introduced in Java 1.2 and required the floating point calculations to be performed differently.
+Floating point calculations traditionally used the format IEEE 754 standard defined.
+The early x86 processors with the x87 floating point coprocessor worked differently.
+The coprocessor used a longer format, allowing more precision.
+The &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; values were 64bit, but the generated code stored the intermediate values on more bits during a calculation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before Java 1.2, the compiler generated machine code modifying the result of every intermediate value to 64bit.
+This required extra machine code operations and slowed the calculation down.
+It was not only slower but more error-prone to overflow errors.
+A calculation result could be okay with the 64-bit precision while some intermediate values overflowed.
+Using more precision provided by the hardware could lead to the correct value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; was introduced to let the compiler generate a more effective floating-point code.
+With 1.2 and later till Java 17, the compiler generates code using the extra precision unless the class or method is &lt;code&gt;strictfp&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;just kidding&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; means that the floating calculation will result in the exact wrong result on all platforms.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Times change.
+Pentium 4 in 2001 allows the compiler to avoid the extra code for strict floating point.
+Java could generate the strict floating point effectively.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java 17 came 20 years later, and Java changed again.
+Java 17 later uses strict arithmetic even when &lt;code&gt;strictfp&lt;/code&gt; is not specified.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can still use it, and reflectively query its existence on a class, interface, or non-abstract method, but the Java compiler does not use it anymore.
+Maybe, the Java compiler was the only one using &lt;code&gt;strictfp&lt;/code&gt; even in the past.
+At least, I have never met anyone who needed that and used it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-there-are-multiple-arraylist-implementations-in-the-jdk&quot;&gt;9. There are multiple &lt;code&gt;ArrayList&lt;/code&gt; implementations in the JDK&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you have programmed Java for a long time, you know that you can easily create a list of elements calling &lt;code&gt;Array.asList()&lt;/code&gt;.
+If you look at the implementation of this static method, you can see that it is simply:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;    @SafeVarargs
+    @SuppressWarnings(&quot;varargs&quot;)
+    public static &amp;lt;T&amp;gt; List&amp;lt;T&amp;gt; asList(T... a) {
+        return new ArrayList&amp;lt;&amp;gt;(a);
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;in the class &lt;code&gt;java.util.Arrays&lt;/code&gt;.
+Although the method&amp;#8217;s return type is the interface &lt;code&gt;List&lt;/code&gt;, the documentation guarantees that the return type is &lt;code&gt;ArrayList&lt;/code&gt;.
+It says&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Returns a fixed-size list backed by the specified array.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So it is an &lt;code&gt;ArrayList&lt;/code&gt;.
+Yes and no.
+Let&amp;#8217;s try the following program:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         try {
+2.             final ArrayList&amp;lt;Integer&amp;gt; x = (ArrayList) Arrays.asList(1, 2, 3, 4);
+3.         } catch (ClassCastException cce) {
+4.             System.out.println(cce);
+5.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output will be&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.ClassCastException: class java.util.Arrays$ArrayList cannot be cast to class java.util.ArrayList (java.util.Arrays$ArrayList and java.util.ArrayList are in module java.base of loader &apos;bootstrap&apos;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The returned list is an &lt;code&gt;ArrayList&lt;/code&gt;, but it is a &lt;code&gt;java.util.Arrays$ArrayList&lt;/code&gt; and not &lt;code&gt;java.util.ArrayList&lt;/code&gt;.
+These are two different classes and are not compatible.
+One cannot be converted to the other; only the simple name is the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Two classes are the same if their &lt;em&gt;canonical name&lt;/em&gt; is the same and were loaded by one class loader.
+The simple name being the same is not enough.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Why did the implementors of &lt;code&gt;asList()&lt;/code&gt; create a new &lt;code&gt;ArrayList&lt;/code&gt; class?
+Probably they wanted to create optimized code.
+The list this method returns is backed up by an array just like the &lt;code&gt;java.util&lt;/code&gt; one.
+However, this array cannot be resized.
+It is the same array that you provided as an argument.
+It is not copied or cloned.
+It remains in its place and is used by the list implementation.
+You can see that in the following code sample:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Integer[] w = {1, 2, 3};
+2.         final var wl = Arrays.asList(w);
+3.         Assertions.assertEquals(1, wl.get(0));
+4.         w[0] = 55;
+5.         wl.set(1, 66);
+6.         Assertions.assertEquals(55, wl.get(0));
+7.         Assertions.assertEquals(66, w[1]);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the code modifies the array, the list also gets modified.
+When the list is modified, the array also gets modified.
+That is because they are one and the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;10-something-something&quot;&gt;10. something != something&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Recently a friend (Istvan Kovács) posted a puzzle on &lt;a href=&quot;https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/&quot;&gt;Linked-in&lt;/a&gt;.
+What should you write to the place of &lt;code&gt;???&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = ???;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The question was: what should you write into the place of the &lt;code&gt;???&lt;/code&gt; characters?
+Unless you want to have a failing test, you need something which is not equal to itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It cannot be an object, because &lt;code&gt;==&lt;/code&gt; compares the reference &quot;address&quot;, therefore an object is always &lt;code&gt;==&lt;/code&gt; to itself.
+It can only be a primitive value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution comes from the &lt;a href=&quot;https://ieeexplore.ieee.org/document/30711&quot;&gt;IEEE 754&lt;/a&gt; standard.
+It has the sentence:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
+infinite or finite number x but reverse if x is Not a Number ( NaN )&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Although it talks about the C language, Java has inherited a lot from it.
+Java implements the standard as we have already discussed related to the &lt;code&gt;strictfp&lt;/code&gt; keyword.
+That way the code sample is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Float.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Double.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;11-summary&quot;&gt;11. Summary&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have visited ten Java features.
+These are not important.
+Writing about these was fun, and I hope reading them was also fun.
+I tried to be precise, and I could not resist including some information that may also be useful despite the article title.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you know any other more or less useless facts about Java, please write them down in the comments.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam</summary></entry><entry><title type="html">Hidden Classes in Java 15</title><link href="https://javax0.github.io/2023/01/05/hidden-classes.html" rel="alternate" type="text/html" title="Hidden Classes in Java 15" /><published>2023-01-05T00:00:00+01:00</published><updated>2023-01-05T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/05/hidden-classes</id><content type="html" xml:base="https://javax0.github.io/2023/01/05/hidden-classes.html">&lt;details&gt;
 &lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
 &lt;div class=&quot;content&quot;&gt;
 &lt;div class=&quot;sidebarblock&quot;&gt;
@@ -1663,7 +2384,215 @@ your build system to build and deploy it&quot;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Lambda and final variables</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html" rel="alternate" type="text/html" title="Lambda and final variables" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-variables</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Lambda and Final Parameters</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" rel="alternate" type="text/html" title="Lambda and Final Parameters" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-parameters</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Lambda expressions can use the variables in the scope of the lambda expression, but only if they are final or effectively final. What is the reason for that? Why is that? It is an interesting question because the answer is not apparent and opinionated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is only one ultimate answer, though: because that is what the Java Language Specification says. But saying that is boring. True, but boring. I prefer the answer that says lambdas can only use final and effectively final local variables because lambdas are not closures.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the following, I will discuss what final and effectively final mean, the differences between closures and lambdas, and finally, how we can create closures in Java using lambda expressions. I am not advocating the creation of lambda expression-based closures in Java, nor the abandonment of the idea.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-final-and-effectively-final&quot;&gt;2. &lt;code&gt;final&lt;/code&gt; and effectively final&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When declaring it, a local variable is final if we use the &lt;code&gt;final&lt;/code&gt; keyword. The compiler will also require that the variable get a value only once. This value assignment may happen at the location of the declaration but can be a bit later. There can be multiple lines that assign value to the final variable so long as long only one of them can execute for each method invocation. The typical case is when you declare a final variable without assigning value to it, and then you have an &lt;code&gt;if&lt;/code&gt; statement giving different values in the &quot;then&quot; and the &quot;else&quot; branch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Needless to say that the variable has to be initialized before the lambda expression is created.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A variable is effectively final if not final, but it could be. It gets an assigned value at the declaration or can get a given value only once.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-life-of-a-lambda&quot;&gt;3. Life of a Lambda&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A lambda expression is a kind of anonymous class. The JVM handles it differently, and it is more efficient than an anonymous class, not to mention that it is more readable. However, from our point of view, we can think of it as an inner class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Anon {
+
+    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer(final int step) {
+        return (Integer i) -&amp;amp;gt; i + step;
+    }
+    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; anonIncrementer(final int step) {
+        return new Function&amp;amp;lt;Integer, Integer&amp;amp;gt;() {
+            @Override
+            public Integer apply(Integer i) {
+                return i + step;
+            }
+        };
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the lambda expression is created, the JVM makes an instance of the lambda class that implements the &lt;code&gt;Function&lt;/code&gt; interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var inc = Anon.incrementer(5);
+assertThat(inc.getClass().getName()).startsWith(&quot;javax0.blog.lambdas.Anon$$Lambda$&quot;);
+assertThat(inc.getClass().getSuperclass().getName()).isEqualTo(&quot;java.lang.Object&quot;);
+assertThat(inc.getClass().getInterfaces()).hasSize(1);
+assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Function.class);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The JVM will place this object on the heap. In some cases, the compiler may realize that the object cannot get out of the method&amp;#8217;s scope, and in this case, it may store it in the stack. It is called local variable escape analysis, which can just put any object on the stack, which cannot escape from the method and may die together with the method return. However, for our discussion, we can forget this advanced feature of the Java environment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The lambda is created in the method and stored in the heap. It is alive so long as long there is a hard reference to this object and is not collected. If a lambda expression could reference and use a local variable, which lives in the stack, it would need access to something gone after the method returns. It is not possible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are two solutions to overcome this discrepancy. One is what Java follows, creating a copy of the variable&amp;#8217;s value. The other one is creating a closure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-closure-and-groovy&quot;&gt;4. Closure and Groovy&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will look at Groovy examples when talking about closures. The reason to select Groovy is that it is very close to Java. We will look at some Groovy examples, and for the matter of demonstration, we will use Java-style as much as possible. Groovy is more or less compatible with Java; any Java code can be compiled as a Groovy source. The actual semantic may, however, be different slightly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Groovy solved the issue of local variable accessibility creating closures. The closure closes the functionality and the environment into a single object. For example, the following Groovy code:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class MyClosure {
+    static incrementer() {
+        Integer z = 0
+        return { Integer x -&amp;amp;gt; z++; x + z }
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;creates a closure, similar to our lambda expression, but it also uses the local variable &lt;code&gt;z&lt;/code&gt;. This local variable is not final and not effectively final. What happens here is that the compiler creates a new class that contains a field for each local variable used in the closure. A new local variable references an instance of this new class, and the local variable uses all references to this object and its fields. This object, along with the &quot;lambda expression&quot; code, is the closure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since the object is on the heap, it stays alive as long as there is a hard reference. The object, which holds the described function has one, so this object will be available so long as long the closure is alive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def inc = MyClosure.incrementer();
+assert inc(1) == 2
+assert inc(1) == 3
+assert inc(1) == 4&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is clearly shown in the test execution where the closure increases the &lt;code&gt;z&lt;/code&gt; amount at each execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Closures are lambdas with state.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-lambda-in-java&quot;&gt;5. Lambda in Java&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java approaches this problem differently. Instead of creating a new synthetic object to hold the referenced local variables, it simply uses the values of the variables. Lambdas seem to use the variables, but they don&amp;#8217;t. They use only constants copying the value of the variables.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When designing lambdas, there were two options. I was not part of the team making the decisions, so what I write here is only my opinion, guessing, but it may help you understand why the decision was made. One option could be to copy the variable&amp;#8217;s value when the lambda is created, not caring about the later value change of the local variable. Could it work? Inevitably. Would it be readable? In many cases, it would not be. What if the variable changes later? Will the lambda use the changed value? No, it will use the copied, frozen value. It is different from how variables work usually.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java requires the variable to be final or effectively final to solve this discrepancy. The disturbing case having the different variable value when the lambda is used is avoided.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When designing language elements, there are always tradeoffs. On one end, some constructs provide great power to the hands of the developers. However, great power requires great responsibility. Most of the developers are not mature enough to take on the responsibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On the other side of the scale are the simple constructs providing less functionality. It may not solve some problems so elegantly, but you also cannot create unreadable code so easily. Java is usually going this way. There has been an obfuscated C contest almost since the language C started. Who can write less readable code in that programming language? Since then, almost all languages started the contest, except two. Java and Perl. In the case of Java, the contest would be dull, as you cannot write obfuscated code in Java. In the case of Perl, the contest is pointless.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-closure-in-java&quot;&gt;6. Closure in Java&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to have a closure in Java, you can create one yourself. The good old way is to use anonymous, or for that matter, regular classes. The other is to mimic the behavior of the Groovy compiler and create a class that encapsulates the closure data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Groovy compiler creates the class for you to enclose the local variables, but nothing stops you from making it manually if you want it in Java. You have to do the same thing. Move every local variable that the closure uses into a class as an instance field.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
+    AtomicInteger z = new AtomicInteger(0);
+    return x -&amp;amp;gt; {
+        z.set(z.get() + 1);
+        return x + z.get();
+    };
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We only had one local variable, &lt;code&gt;int z&lt;/code&gt;, in our example. We need a class that can hold an int. The class for that is &lt;code&gt;AtomicInteger&lt;/code&gt;. It does many other things, and it is usually used when concurrent execution is an issue. Because of that, some overhead may slightly affect the performance, which I abjectly ignore for now.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If there are more than one local variables, we need to craft a class for them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
+    class DataHolder{int z; int m;}
+    final var dh = new DataHolder();
+    return x -&amp;amp;gt; {
+        dh.z++;
+        dh.m++;
+        return x + dh.z*dh.m;
+    };
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As you can see in this example, we can declare a class even inside the method, and for the cohesion of the code, it is the right place. Eventually, it is easy to see that this approach is working.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final var inc = LambdaComplexClosure.incrementer();
+assertThat(inc.apply(1)).isEqualTo(2);
+assertThat(inc.apply(1)).isEqualTo(5);
+assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is, however, questionable if you want to use this approach. Lambdas generally should be stateless. When you need a state that a lambda uses, in other words, when you need a closure, which the language does not directly support, you should use a class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-summary&quot;&gt;7. Summary&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;This article discussed why a lambda expression can access only final and effectively final local variables.* We also discussed the reason and how different languages approach this issue.* Finally, we looked at a Groovy example and how Java can mimic this.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Therefore, if anyone asks you the interview question, why a lambda expression can access only final and effectively final local variables, you will know the answer. Because the Java Language Specification says so. Everything else is speculation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You an find the code for this article along with the article text source code at &lt;a href=&quot;https://github.com/verhas/demo/tree/master/LambdaFinal&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/demo/tree/master/LambdaFinal&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Lambda and final variables</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html" rel="alternate" type="text/html" title="Lambda and final variables" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-variables</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -1925,214 +2854,6 @@ assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Lambda and Final Parameters</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" rel="alternate" type="text/html" title="Lambda and Final Parameters" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-parameters</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lambda expressions can use the variables in the scope of the lambda expression, but only if they are final or effectively final. What is the reason for that? Why is that? It is an interesting question because the answer is not apparent and opinionated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is only one ultimate answer, though: because that is what the Java Language Specification says. But saying that is boring. True, but boring. I prefer the answer that says lambdas can only use final and effectively final local variables because lambdas are not closures.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following, I will discuss what final and effectively final mean, the differences between closures and lambdas, and finally, how we can create closures in Java using lambda expressions. I am not advocating the creation of lambda expression-based closures in Java, nor the abandonment of the idea.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-final-and-effectively-final&quot;&gt;2. &lt;code&gt;final&lt;/code&gt; and effectively final&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When declaring it, a local variable is final if we use the &lt;code&gt;final&lt;/code&gt; keyword. The compiler will also require that the variable get a value only once. This value assignment may happen at the location of the declaration but can be a bit later. There can be multiple lines that assign value to the final variable so long as long only one of them can execute for each method invocation. The typical case is when you declare a final variable without assigning value to it, and then you have an &lt;code&gt;if&lt;/code&gt; statement giving different values in the &quot;then&quot; and the &quot;else&quot; branch.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Needless to say that the variable has to be initialized before the lambda expression is created.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A variable is effectively final if not final, but it could be. It gets an assigned value at the declaration or can get a given value only once.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-life-of-a-lambda&quot;&gt;3. Life of a Lambda&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A lambda expression is a kind of anonymous class. The JVM handles it differently, and it is more efficient than an anonymous class, not to mention that it is more readable. However, from our point of view, we can think of it as an inner class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Anon {
-
-    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer(final int step) {
-        return (Integer i) -&amp;amp;gt; i + step;
-    }
-    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; anonIncrementer(final int step) {
-        return new Function&amp;amp;lt;Integer, Integer&amp;amp;gt;() {
-            @Override
-            public Integer apply(Integer i) {
-                return i + step;
-            }
-        };
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the lambda expression is created, the JVM makes an instance of the lambda class that implements the &lt;code&gt;Function&lt;/code&gt; interface.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var inc = Anon.incrementer(5);
-assertThat(inc.getClass().getName()).startsWith(&quot;javax0.blog.lambdas.Anon$$Lambda$&quot;);
-assertThat(inc.getClass().getSuperclass().getName()).isEqualTo(&quot;java.lang.Object&quot;);
-assertThat(inc.getClass().getInterfaces()).hasSize(1);
-assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Function.class);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The JVM will place this object on the heap. In some cases, the compiler may realize that the object cannot get out of the method&amp;#8217;s scope, and in this case, it may store it in the stack. It is called local variable escape analysis, which can just put any object on the stack, which cannot escape from the method and may die together with the method return. However, for our discussion, we can forget this advanced feature of the Java environment.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The lambda is created in the method and stored in the heap. It is alive so long as long there is a hard reference to this object and is not collected. If a lambda expression could reference and use a local variable, which lives in the stack, it would need access to something gone after the method returns. It is not possible.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are two solutions to overcome this discrepancy. One is what Java follows, creating a copy of the variable&amp;#8217;s value. The other one is creating a closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-closure-and-groovy&quot;&gt;4. Closure and Groovy&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will look at Groovy examples when talking about closures. The reason to select Groovy is that it is very close to Java. We will look at some Groovy examples, and for the matter of demonstration, we will use Java-style as much as possible. Groovy is more or less compatible with Java; any Java code can be compiled as a Groovy source. The actual semantic may, however, be different slightly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Groovy solved the issue of local variable accessibility creating closures. The closure closes the functionality and the environment into a single object. For example, the following Groovy code:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class MyClosure {
-    static incrementer() {
-        Integer z = 0
-        return { Integer x -&amp;amp;gt; z++; x + z }
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;creates a closure, similar to our lambda expression, but it also uses the local variable &lt;code&gt;z&lt;/code&gt;. This local variable is not final and not effectively final. What happens here is that the compiler creates a new class that contains a field for each local variable used in the closure. A new local variable references an instance of this new class, and the local variable uses all references to this object and its fields. This object, along with the &quot;lambda expression&quot; code, is the closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since the object is on the heap, it stays alive as long as there is a hard reference. The object, which holds the described function has one, so this object will be available so long as long the closure is alive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def inc = MyClosure.incrementer();
-assert inc(1) == 2
-assert inc(1) == 3
-assert inc(1) == 4&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is clearly shown in the test execution where the closure increases the &lt;code&gt;z&lt;/code&gt; amount at each execution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Closures are lambdas with state.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-lambda-in-java&quot;&gt;5. Lambda in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java approaches this problem differently. Instead of creating a new synthetic object to hold the referenced local variables, it simply uses the values of the variables. Lambdas seem to use the variables, but they don&amp;#8217;t. They use only constants copying the value of the variables.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing lambdas, there were two options. I was not part of the team making the decisions, so what I write here is only my opinion, guessing, but it may help you understand why the decision was made. One option could be to copy the variable&amp;#8217;s value when the lambda is created, not caring about the later value change of the local variable. Could it work? Inevitably. Would it be readable? In many cases, it would not be. What if the variable changes later? Will the lambda use the changed value? No, it will use the copied, frozen value. It is different from how variables work usually.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java requires the variable to be final or effectively final to solve this discrepancy. The disturbing case having the different variable value when the lambda is used is avoided.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing language elements, there are always tradeoffs. On one end, some constructs provide great power to the hands of the developers. However, great power requires great responsibility. Most of the developers are not mature enough to take on the responsibility.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other side of the scale are the simple constructs providing less functionality. It may not solve some problems so elegantly, but you also cannot create unreadable code so easily. Java is usually going this way. There has been an obfuscated C contest almost since the language C started. Who can write less readable code in that programming language? Since then, almost all languages started the contest, except two. Java and Perl. In the case of Java, the contest would be dull, as you cannot write obfuscated code in Java. In the case of Perl, the contest is pointless.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-closure-in-java&quot;&gt;6. Closure in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to have a closure in Java, you can create one yourself. The good old way is to use anonymous, or for that matter, regular classes. The other is to mimic the behavior of the Groovy compiler and create a class that encapsulates the closure data.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The Groovy compiler creates the class for you to enclose the local variables, but nothing stops you from making it manually if you want it in Java. You have to do the same thing. Move every local variable that the closure uses into a class as an instance field.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
-    AtomicInteger z = new AtomicInteger(0);
-    return x -&amp;amp;gt; {
-        z.set(z.get() + 1);
-        return x + z.get();
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We only had one local variable, &lt;code&gt;int z&lt;/code&gt;, in our example. We need a class that can hold an int. The class for that is &lt;code&gt;AtomicInteger&lt;/code&gt;. It does many other things, and it is usually used when concurrent execution is an issue. Because of that, some overhead may slightly affect the performance, which I abjectly ignore for now.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If there are more than one local variables, we need to craft a class for them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
-    class DataHolder{int z; int m;}
-    final var dh = new DataHolder();
-    return x -&amp;amp;gt; {
-        dh.z++;
-        dh.m++;
-        return x + dh.z*dh.m;
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you can see in this example, we can declare a class even inside the method, and for the cohesion of the code, it is the right place. Eventually, it is easy to see that this approach is working.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final var inc = LambdaComplexClosure.incrementer();
-assertThat(inc.apply(1)).isEqualTo(2);
-assertThat(inc.apply(1)).isEqualTo(5);
-assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is, however, questionable if you want to use this approach. Lambdas generally should be stateless. When you need a state that a lambda uses, in other words, when you need a closure, which the language does not directly support, you should use a class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-summary&quot;&gt;7. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;This article discussed why a lambda expression can access only final and effectively final local variables.* We also discussed the reason and how different languages approach this issue.* Finally, we looked at a Groovy example and how Java can mimic this.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Therefore, if anyone asks you the interview question, why a lambda expression can access only final and effectively final local variables, you will know the answer. Because the Java Language Specification says so. Everything else is speculation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You an find the code for this article along with the article text source code at &lt;a href=&quot;https://github.com/verhas/demo/tree/master/LambdaFinal&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/demo/tree/master/LambdaFinal&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Why and how to do technical interviews?</title><link href="https://javax0.github.io/2021/09/22/why-and-how-to-do-technical-interviews.html" rel="alternate" type="text/html" title="Why and how to do technical interviews?" /><published>2021-09-22T00:00:00+02:00</published><updated>2021-09-22T00:00:00+02:00</updated><id>https://javax0.github.io/2021/09/22/why-and-how-to-do-technical-interviews</id><content type="html" xml:base="https://javax0.github.io/2021/09/22/why-and-how-to-do-technical-interviews.html">&lt;div class=&quot;sect1&quot;&gt;
@@ -2965,526 +3686,6 @@ B) content source assembler - to collect of different sources and build up the f
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Anyway, I totally agree with you that documentation should handle like a source code. There are a lot of commmon in procedures such version management, building/compiling (=publishing), visualizing track changes, &quot;running&quot; (=rendering interactive content). Unfortunately toolchains and practice are not so matured yet. Hope, some time or other DevOps CI/CD pipelines will always handle publishing of complete SW documentations as well.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Unit testing private methods</title><link href="https://javax0.github.io/2021/02/10/unit-testing-private-methods.html" rel="alternate" type="text/html" title="Unit testing private methods" /><published>2021-02-10T00:00:00+01:00</published><updated>2021-02-10T00:00:00+01:00</updated><id>https://javax0.github.io/2021/02/10/unit-testing-private-methods</id><content type="html" xml:base="https://javax0.github.io/2021/02/10/unit-testing-private-methods.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, I will contemplate the testing of private methods in unit tests. After that, I will propose a way or pattern to do it, if you must. Finally, I will show how you can generate this pattern automatically.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And yes, I will also write a takeaway section to know what you have read.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-test-or-not-to-test-private-methods&quot;&gt;2. Test or not to Test Private Methods&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Unit testing is usually not black-box testing. It is debatable if it ought to be or not. Practice shows that it rarely is. When we equip the tested unit with different mocks, we play around with the implementation and not the defined functionality that a black-box test should only deal with.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After setting up and injecting the mock objects, we invoke the tested methods, and these methods are usually public. In other words, the invocation of the tested system is more like a black-box test. You can say that the test setup is not a black-box test, but the actual test is.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The advantage of black-box testing is that it does not need to change if the tested module changes&apos; internal working. If the functionality changes, it is another story. It is easier to refactor, optimize, simplify, beautify your code if there are clean unit tests that do not depend on the implementation. If the unit tests depend on the implementation, then you cannot reliably refactor your code. As soon as you change the implementation, the test has to follow the change.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I do not particularly appreciate when the unit test cannot be black-box, but there are cases when it is unavoidable. An unusual and frequent case is when we want to test a private method. If you want to, or even God forgive, have to test a private method, it is a code smell. The method may be simple, and you can achieve the coverage of its functionality by invoking only the public API of the tested unit. You do not have to test the private method, and if you do not have to, you must not want.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Another possibility is that the private method is so complicated that it deserves its own test. In that case, the functionality deserves a separate utility class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Still, there is a third possibility. After all the contemplating, we decide that the private method remains inside the unit, and we want to test it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a small, insignificant problem that you cannot invoke from outside, and the test is inevitably out of the unit. Some developers remove the &lt;code&gt;private&lt;/code&gt; modifier changing the access level from private to &quot;test-private&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;No kidding! After more than 500 technical interviews over the past ten years, I have heard many things. I regret that I did not start recording these. As I heard a few times, one of these lovely things: &quot;test private&quot; as a terminology instead of package-private. Two or three candidates out of the 500 said that the accessibility is test private when there is no access modifier in front of the class member. It means they said that the member can also be accessible from the unit tests. From other classes in the same package? Not so sure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What this story suggests is that many developers struggle to test private methods. I have also seen this in many other projects.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I am not too fond of this approach because we weaken the access protection of a class member to ease testing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A different approach is when the tests use reflection to access the class members. There are two issues with this approach. One is the suboptimal performance. The other is the bloated code. The fact that the access to the class members via reflection is slower than the direct access is usually not significant. We are talking about tests. If the test execution needs significant time, then the tests are wrong, or the project is large or has some particular testing need. Even in these cases, the reason for the slow speed is usually not the reflective access.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The bloated code, on the other hand, hinders readability. It is also cumbersome to write every time things like&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;Field f = sut.getClass().getDeclaredField(&quot;counter&quot;);
-f.setAccessible(true);
-f.set(sut, z);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;when we want to set a private field, or&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;Method m = sut.getClass().getDeclaredMethod(&quot;increment&quot;);
-m.setAccessible(true);
-m.invoke(sut);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;when we want to invoke a private method. The maintenance of such tests is also questionable. If the name of the method or field changes, the test has to follow. There is no significant risk of forgetting because the test will fail, but still, it is a manual editing functionality. Most of the IDEs support renaming. Whenever I rename a method or field, the IDE renames all the references to it. Not when the reference is part of a string.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is no real solution to this issue, except when you write code that does not need the testing of private methods and fields. Still, some approaches have advantages.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-doing-it-with-a-style&quot;&gt;3. Doing it with a Style&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;One approach is to declare a &lt;code&gt;private&lt;/code&gt; &lt;code&gt;static&lt;/code&gt; delegating inner class with the same name as the tested class. This class has to implement the same methods as the original tested class, and these implementations should delegate to the original methods. The class also has to implement setters and getters to all the fields.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we instantiate this class instead of the original one, then we can invoke any method or set any field without reflective access in the test code. The inner class hides the reflective access.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The reason to name the class with the same simple name as the tested class is that the tests do not need to change this way. If a test has a code that instantiated the tested class calling &lt;code&gt;new Sut()&lt;/code&gt; and now we start to have an inner class named &lt;code&gt;Sut&lt;/code&gt;, then the constructor all of a sudden will refer to the inner class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let&amp;#8217;s see an example. The following class is a simple example that has one public method and a private one. The complexity of the methods barely reaches the level that would rectify extensive testing, but this makes it suitable for demonstration purposes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;public class SystemUnderTest {
-
-private int counter = 0;
-
-public int count(int z) {
-while (z &amp;gt; 0) {
-z--;
-increment();
-}
-return counter;
-}
-
-private void increment(){
-counter++;
-}
-
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This file, along with the other samples, can be found in full at &lt;a href=&quot;https://github.com/verhas/javageci/tree/1.6.1/javageci-jamal/src/test/java/javax0/geci/jamal/sample&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/javageci/tree/1.6.1/javageci-jamal/src/test/java/javax0/geci/jamal/sample&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The test itself is also very simple:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;@Test
-void testCounter() throws Exception {
-final var sut = new SystemUnderTest();
-sut.setCounter(0);
-sut.increment();
-Assertions.assertEquals(1, sut.getCounter());
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The only problem with this solution that the system under test does not contain the setter, and the method &lt;code&gt;increment()&lt;/code&gt; is private. The code, as it is now, does not compile. We have to provide an implementation of the delegating &lt;code&gt;static&lt;/code&gt; inner class named &lt;code&gt;SystemUnderTest&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The following code shows an implementation of this class, which I created manually.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;private static class SystemUnderTest {
-private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();
-
-private void setCounter(int z) throws NoSuchFieldException, IllegalAccessException {
-Field f = sut.getClass().getDeclaredField(&quot;counter&quot;);
-f.setAccessible(true);
-f.set(sut, z);
-}
-
-private int getCounter() throws NoSuchFieldException, IllegalAccessException {
-Field f = sut.getClass().getDeclaredField(&quot;counter&quot;);
-f.setAccessible(true);
-return (int) f.get(sut);
-}
-
-private void increment() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-Method m = sut.getClass().getDeclaredMethod(&quot;increment&quot;);
-m.setAccessible(true);
-m.invoke(sut);
-}
-
-private int count(int z) {
-return sut.count(z);
-}
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is already an achievement because we could separate the messy reflective access from the test code. The test, this way, is more readable. Since we cannot avoid the reflective code, it will not get better than this as per the readability. The other issue, maintainability, however, can still be improved.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-doing-it-automated&quot;&gt;4. Doing it Automated&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Creating the delegating inner class is relatively straightforward. It does not need much innovation. If you specify the task precisely, any cheaply hired junior could create the inner class. It is so simple that even a program can create it. It does not need the human brain.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you tried to write a Java program from scratch that generates this code, it would be, well, not simple. Fortunately (ha ha ha), we have Java::Geci, and even more, we have the Jamal module. Jav::Geci is a code generation framework that you can use to generate Java code. The framework contains readily available code generators, but it is also open and pluggable, providing a clean API for new code generators. It does all the tasks needed for most of the code generators and lets the code generator program focus on its core business.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Code generation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For simpler applications, when the code generation is straightforward and does not need a lot of algorithm implementation, the module Jamal can be used. Jamal is a text-based templating language, which can be extended with Java classes implementing macros. The Java::Geci Jamal module includes a code generator that parses the source files and looks for code that has the following structure:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;/*!Jamal
-
-TEMPLATE
-
-*/
-
-CODE HERE
-
-//__END__&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When it sees one, it evaluates the code that is written on the lines TEMPLATE using Jamal, and then it replaces the lines of CODE HERE with the result. It generates code, and if there was a generated code but is stale, it updates the code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The code generation runs during the test execution time, which has advantages and disadvantages.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;One disadvantage is that the empty code or stale code should also compile. The compilation should not depend on the up-to-date-ness of the generated code. In practice, we usually (well, not usually, rather always) can cope with it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The advantage is that the code generation can access the Java code structures via reflection. That way, for example, the code generators can get a list of all declared fields or methods and can generate some delegating methods for them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The Jamal module contains Java classes implementing macros that can do that. The fact that you can express the generation of the unit test delegating inner class as Jamal macros shows the tool&amp;#8217;s power. On the other hand, I have to note that this task is somewhere at the edge of the tool&amp;#8217;s complexity. Nevertheless, I decided to use this task as a sample because generating setter and getters is boring. I also want to avoid lazy readers asking me why to have another setter/getter generator, as it happened at some conferences where I talked about Java::Geci. Setter and getter generator is not a good example, as it does not show you the advantage. You can do that with the IDE or using Lombok or some other tool. Perhaps after reading this article, you can try and implement the setter/getter generation using Jamal just for fun and to practice.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The previous code snippets were from the class &lt;code&gt;ManualTestSystemUnderTest&lt;/code&gt;. This class contains the manually created delegating inner class. I created this class for demonstration purposes. The other testing class, &lt;code&gt;GeneratedTestSystemUnderTest&lt;/code&gt; contains the generated sample code. We will look at the code in this file and how Java::Geci generates it automatically.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Before looking at the code, however, I have to make two notes:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;The example code uses a simplified version of the macros. These macros do not cover all the possible causes.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;On the other hand, the code includes all the macros in the source file. Professional code does not need to have these macros in the source. All they need is an import from a resource file and then the invocation of a single macro. Two lines. The macros generating the delegating inner class are defined in a resource file. It is written once, you do not need to write them all the time. I will show you at the end of this article how it is invoked.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let&amp;#8217;s have a look at the class &lt;code&gt;GeneratedTestSystemUnderTest&lt;/code&gt;! This class contains the following Jamal template in a Java comment:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/*!jamal
-{%@import res:geci.jim%}\
-{%beginCode SystemUnderTest proxy generated%}
-private static class SystemUnderTest {
-private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();
-{%!#for ($name,$type,$args) in
-({%#methods
-{%class javax0.geci.jamal.sample.SystemUnderTest%}
-{%selector private %}
-{%format/$name|$type|$args%}
-%}) =
-{%@options skipForEmpty%}
-private $type $name({%`@argList $args%}) throws Exception {
-Method m = sut.getClass().getDeclaredMethod(&quot;$name&quot;{%`#classList ,$args%});
-m.setAccessible(true);
-m.invoke(sut{%`#callArgs ,$args%});
-}
-%}
-{%!#for ($name,$type,$args) in
-({%#methods
-{%class javax0.geci.jamal.sample.SystemUnderTest%}
-{%selector/ !private &amp;amp;amp; declaringClass -&amp;gt; ( ! canonicalName ~ /java.lang.Object/ )%}
-{%format/$name|$type|$args%}
-%}) =
-{%@options skipForEmpty%}
-private $type $name({%`@argList $args%}) {
-{%`#ifNotVoid $type return %}sut.$name({%`#callArgs $args%});
-}
-%}
-{%!#for ($name,$type) in
-({%#fields
-{%class javax0.geci.jamal.sample.SystemUnderTest%}
-{%selector/ private %}
-{%format/$name|$type%}
-%}) =
-{%@options skipForEmpty%}
-private void {%setter=$name%}($type $name) throws Exception {
-Field f = sut.getClass().getDeclaredField(&quot;$name&quot;);
-f.setAccessible(true);
-f.set(sut,$name);
-}
-
-private $type {%getter/$name/$type%}() throws Exception {
-Field f = sut.getClass().getDeclaredField(&quot;$name&quot;);
-f.setAccessible(true);
-return ($type)f.get(sut);
-}
-%}
-{%!#for ($name,$type) in
-({%#fields
-{%class javax0.geci.jamal.sample.SystemUnderTest%}
-{%selector/ !private %}
-{%format/$name|$type%}
-%}) =
-{%@options skipForEmpty%}
-private void {%setter/$name%}($type $name) {
-sut.$name = $name;
-}
-
-private $type {%getter/$name/$type%}() {
-return sut.$name;
-}
-%}
-}
-{%endCode%}
-*/&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this code the macro start string is &lt;code&gt;{%&lt;/code&gt; and the macro closing string is &lt;code&gt;%}&lt;/code&gt;. It is the default setting when Java::Geci starts Jamal to process a source file. This way, the macro enhanced template can freely contain standalone &lt;code&gt;{&lt;/code&gt; and &lt;code&gt;}&lt;/code&gt; characters, which is very common in Java. Macros implemented as Java code use the &lt;code&gt;@&lt;/code&gt; or the &lt;code&gt;#&lt;/code&gt; character in front of the macro name. If there is no such character in front of the macro name, then the macro is user-defined from a &lt;code&gt;@define &amp;#8230;&amp;#8203;&lt;/code&gt; macro.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The text of the template contains three parts:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;the start of the code,&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;four loops, and&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;the end of the generated code in the template (this is just a closing &lt;code&gt;}&lt;/code&gt; character).&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The start of the template&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{%@import res:geci.jim%}\
-{%beginCode SystemUnderTest proxy generated%}
-private static class SystemUnderTest {
-private javax0.geci.jamal.sample.SystemUnderTest sut = new javax0.geci.jamal.sample.SystemUnderTest();&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;imports the macro definitions from the resource file &lt;code&gt;geci.jim&lt;/code&gt;. The file itself is part of the library. If you have the dependency on the classpath when the code generator and the Jamal processor runs, you can import the definition from this resource file. The macro definitions in this file are simple Jamal macros defined as text. You can have a look at them at the URL&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/javageci/blob/1.6.1/javageci-jamal/src/main/resources/geci.jim&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/javageci/blob/1.6.1/javageci-jamal/src/main/resources/geci.jim&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The next line uses the &lt;code&gt;beginCode&lt;/code&gt; user-defined macro, which is defined in &lt;code&gt;geci.jim&lt;/code&gt; as the following:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{%@define beginCode(:x)=//&amp;lt;editor-fold desc=&quot;:x&quot;&amp;gt;%}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When this macro is used it will result the start of an editor fold that helps to keep the generated code non-intrusive when the file is opened in the IDE. When this macro is evaluated, it will be&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;//&amp;lt;editor-fold desc=&quot;SystemUnderTest proxy generated&quot;&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The next two lines start the &lt;code&gt;private&lt;/code&gt; &lt;code&gt;static&lt;/code&gt; inner class. It is just plain text; there is no macro in it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Now we get to the four loops that generate proxy codes for&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Delegating proxy methods for the &lt;code&gt;private&lt;/code&gt; methods of the tested class.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Delegating proxy methods for the non-private methods declared in the class or inherited, except those inherited from the &lt;code&gt;Object&lt;/code&gt; class.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Setter and getter methods for the &lt;code&gt;private&lt;/code&gt; fields of the tested class.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Setter and getter methods for the non-private fields of the tested class.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since these are very similar, I will discuss here only the first in detail.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;{%!#for ($name,$type,$args) in
-({%#methods
-{%class javax0.geci.jamal.sample.SystemUnderTest%}
-{%selector private %}
-{%format/$name|$type|$args%}
-%}) =
-{%@options skipForEmpty%}
-private $type $name({%`@argList $args%}) throws Exception {
-Method m = sut.getClass().getDeclaredMethod(&quot;$name&quot;{%`#classList ,$args%});
-m.setAccessible(true);
-m.invoke(sut{%`#callArgs ,$args%});
-}
-%}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The loop is constructed using a &lt;code&gt;for&lt;/code&gt; macro, a Java-implemented, built-in macro of Jamal from the core package. This macro is always available for any Jamal processing. This macro iterates through a comma-separated list and repeats its contents for each list element replacing the loop variables with the actual values. There can be more than one loop variable. In such a case, like in our example, the actual value is split up along the &lt;code&gt;|&lt;/code&gt; characters. The comma used as a list separator, and the values separator &lt;code&gt;|&lt;/code&gt; can be redefined. In the above case, the &lt;code&gt;for&lt;/code&gt; loop uses three-loop variables, &lt;code&gt;$name&lt;/code&gt;, &lt;code&gt;$type&lt;/code&gt;, and`$args`. The start with a`$` sign has no significance. Any string can be used as a loop variable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The list of values is between the &lt;code&gt;()&lt;/code&gt; characters after the &lt;code&gt;in&lt;/code&gt; keyword. This list is the result of the evaluation of the &lt;code&gt;methods&lt;/code&gt; built-in macro. This macro is implemented in Java and is part of the Java::Geci Jamal module. It is not a generally available Jamal macro, but when we run the code generation of Java::Geci, this JAR file is on the classpath, and thus this macro is available.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The &lt;code&gt;methods&lt;/code&gt; macro lists the methods of a class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The class name is taken from the user-defined macro &lt;code&gt;$class&lt;/code&gt;, which can be defined using the user-defined macro &lt;code&gt;class&lt;/code&gt;. The listing also considers a selector expression that can be used to filter out some of the methods. It is also provided in a user-defined macro, and there is also a helper macro in &lt;code&gt;geci.jim&lt;/code&gt; to define it, named &lt;code&gt;selector&lt;/code&gt;. In the example above, the selector expression is &lt;code&gt;private&lt;/code&gt;, which will select only the private methods.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the list is collected, the macro &lt;code&gt;methods&lt;/code&gt; must convert it to a comma-separated list. To do that, it uses a formatting string that can contain placeholders. In our case, the placeholders are &lt;code&gt;$name&lt;/code&gt;, &lt;code&gt;$type&lt;/code&gt;, and &lt;code&gt;$args&lt;/code&gt;. Every element in the list for the &lt;code&gt;for&lt;/code&gt; loop will contain these three strings for the listed methods separated by two &lt;code&gt;|&lt;/code&gt; characters as indicated by the format string.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The part after the &lt;code&gt;=&lt;/code&gt; sign in the for loop is repeated for each method. It will declare a &lt;code&gt;private&lt;/code&gt; method that invokes the same method of the tested method. To do that, it uses the help of the Java::Geci Jamal module provided built-in macros &lt;code&gt;argList&lt;/code&gt;, &lt;code&gt;classList&lt;/code&gt;, and &lt;code&gt;callArgs&lt;/code&gt;. These help generating code that declares the arguments, lists the classes of the argument types or lists the arguments for the actual call.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since this is just an article and not a full-blown documentation of Java::Geci and Jamal, I skip some details. For example, why the macro &lt;code&gt;for&lt;/code&gt; uses the &lt;code&gt;#&lt;/code&gt; character in front of it instead of &lt;code&gt;@&lt;/code&gt;, why there is a backtick character in front of the macros in the loop&amp;#8217;s body, and why the for loop uses a &lt;code&gt;!&lt;/code&gt; character. These details control the macro evaluation order. The list of the methods needs to be created before the &lt;code&gt;for&lt;/code&gt; loop starts because it requires the method list. On the other hand, the macros in the loop&amp;#8217;s body have to be evaluated after the loop generated the text for every listed method.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Also, note that this implementation is for demonstration purposes only. It simplifies the problem and does not cover all the corner cases. For example, it will generate a setter for a &lt;code&gt;final&lt;/code&gt; field.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to use this code generation, you can use the macro &lt;code&gt;proxy(KLASS)&lt;/code&gt; defined in the resource file &lt;code&gt;res:unittestproxy.jim&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can have a look at the class UnitTestWithGeneratedUnitTestProxy, which is a tad more complex than the sample and tests these macros. The start of the generated code is the following:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/*!jamal
-{%@import res:unittestproxy.jim%}\
-
-{%beginCode SystemUnderTest proxy generated%}
-{%proxy javax0.geci.jamal.unittestproxy.TestSystemUnderTest%}
-{%endCode%}
-*/&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It merely imports the &lt;code&gt;res:unittestproxy.jim&lt;/code&gt; file, which imports &lt;code&gt;geci.jim&lt;/code&gt; and then uses the macro &lt;code&gt;proxy&lt;/code&gt; to generate all the needed code covering all the corner cases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to use the code generator in your code, you have to do two things:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;olist upperalpha&quot;&gt;
-&lt;ol class=&quot;upperalpha&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;Include the dependency in your &lt;code&gt;pom.xml&lt;/code&gt; file:&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&amp;lt;dependency&amp;gt;
-&amp;lt;groupId&amp;gt;com.javax0.geci&amp;lt;/groupId&amp;gt;
-&amp;lt;artifactId&amp;gt;javageci-jamal&amp;lt;/artifactId&amp;gt;
-&amp;lt;version&amp;gt;1.6.1&amp;lt;/version&amp;gt;
-&amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt;
-&amp;lt;/dependency&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;olist upperalpha&quot;&gt;
-&lt;ol class=&quot;upperalpha&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;Create a small unit test that runs the code generator:&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;@Test
-@DisplayName(&quot;run the Jamal generator&quot;)
-public void testRunJamalGenerator() throws Exception {
-Geci geci = new Geci();
-Assertions.assertFalse(
-geci.register(new JamalGenerator())
-.generate()
-, geci.failed()
-);
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The generator runs during the unit test. During the test run, it has access to the structure of the Java code via reflection. The Jamal macros like &lt;code&gt;methods&lt;/code&gt;, &lt;code&gt;fields&lt;/code&gt; can query the different classes and provide the list of the methods and fields. The test fails if there was any new code generated. It only happens when the code generator runs the first time or when the tested system has changed. In this case, the test fails because the compiled code during the execution is not the final one. In such a case, start Maven again, and the second time the compilation already runs fine. Do not forget to commit the changed code. There is no risk of failing to update the generated code, like in IDE provided code generation that you have to invoke manually.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-takeaway&quot;&gt;5. Takeaway&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What you should remember from this article:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Try not to test private methods. If you feel the need, you did something wrong. Probably. Possibly not.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;If you test private methods arrange the reflective code into a private static class that delegates the call to the original class. This will remove the implementation of the reflective access from the test and the test remains what it has to be: functionality test.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;If you are a lazy person, and as a good programmer you have to be, use a Java::Geci and Jamal to generate these inner classes for your tests.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Master Java::Geci and Jamal and use them to generate code for your other, specific needs.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;comments-imported-from-wordpress&quot;&gt;Comments imported from Wordpress&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Unit testing private methods | Java Code Geeks | World Best News&lt;/strong&gt; 2021-02-18 15:08:48&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Unit testing private methods [&amp;#8230;]&lt;/p&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;/div&gt;
