@@ -6,3 +6,4 @@
 venv
 .jekyll-metadata
 .ruby-version
+Makefile
