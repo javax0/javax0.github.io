@@ -1,2 +1,2 @@
 
-= Hidden Classes Demo
+= Ten Java Things Demo
