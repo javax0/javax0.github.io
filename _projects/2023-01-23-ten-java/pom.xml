@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <name>HiddenClasses</name>
     <groupId>com.javax0.blog</groupId>
-    <artifactId>HiddenClasses</artifactId>
+    <artifactId>TenJava</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <description>This project is a demonstration on how to use hidden classes.</description>
+    <description>This project is a demonstration on Ten Things you did not know about Java</description>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
