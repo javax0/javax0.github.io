@@ -9,5 +9,5 @@ all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _pos
     [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
     [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
 [%TARGET%] : [%SOURCE%]
-[%tab%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
+[%HT%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
     %]%]%]
