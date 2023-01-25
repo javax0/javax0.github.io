@@ -1,5 +1,5 @@
 ---
-title: "var and language design" 
+title: "var and language design"
 layout: posta
 comments: on
 ---
@@ -143,6 +143,3 @@ I'd love to see val (while the name is geeky similar, it's better than not havin
 
 Thank you for the article.
 ____
-
-
-

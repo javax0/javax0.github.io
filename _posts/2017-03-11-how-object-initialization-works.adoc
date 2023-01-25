@@ -1,5 +1,5 @@
 ---
-title: "How object initialization works" 
+title: "How object initialization works"
 layout: posta
 comments: on
 ---
@@ -16,7 +16,7 @@ While you wait for the second tutorial here is a puzzle:
 
 [quote]
 ____
-How is it possible to have an instance of the `Concrete` class even though calling `new Concrete()` throws 
+How is it possible to have an instance of the `Concrete` class even though calling `new Concrete()` throws
 `Exception in thread "main" java.lang.NoClassDefFoundError: Could not initialize class com.javax0.classinit.Concrete`
 
 ____
@@ -27,4 +27,3 @@ If you could or could not find the answer to the puzzle watch the second part of
 [youtube https://youtu.be/Pvcn4i2J5G0&amp;w=854&amp;h=480]
 
 The source code is available from link:https://github.com/javax0-tutorials/object-initialization[https://github.com/javax0-tutorials/object-initialization].
-

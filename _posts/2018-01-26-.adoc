@@ -1,9 +1,8 @@
 ---
-title: "Logging in Java 9"
+title: "Logging in Java 9" 
 layout: posta
 comments: on
 ---
-
 
 Java 9 has a new logging facade that will ease a bit the burden that many developers feel on the skin when they use different frameworks supporting different logging solutions. In this article, I will talk a bit about this burden, where it comes from, how the community tried to solve the issue and what Java 9 delivers to this field in July. At the end of the article, I also give a little bonus. The bonus is a class that combines the new logging capabilities with the Java 9 stack walker framework.
 

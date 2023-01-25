@@ -1,18 +1,18 @@
 ---
-title: "Pointers in Java" 
+title: "Pointers in Java"
 layout: posta
 comments: on
 ---
 
 Are there pointers in Java? The short answer is "no, there are none" and this seems to be obvious for many developers. But why is it not that obvious for others?
 
-	* 
+	*
 link:http://stackoverflow.com/questions/1750106/how-can-i-use-pointers-in-java[http://stackoverflow.com/questions/1750106/how-can-i-use-pointers-in-java]
 
-	* 
+	*
 link:http://stackoverflow.com/questions/2629357/does-java-have-pointers[http://stackoverflow.com/questions/2629357/does-java-have-pointers]
 
-	* 
+	*
 link:https://www.google.hu/search?q=pointers+in+java[https://www.google.hu/search?q=pointers+in+java]
 
 
@@ -266,6 +266,3 @@ ____
 ____
 Incorrect. Java is pass by value. Always. No ifs, no buts.
 ____
-
-
-

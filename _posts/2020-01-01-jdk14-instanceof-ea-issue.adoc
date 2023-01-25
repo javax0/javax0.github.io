@@ -1,5 +1,5 @@
 ---
-title: "JDK14 instanceof EA issue" 
+title: "JDK14 instanceof EA issue"
 layout: posta
 comments: on
 ---
@@ -333,6 +333,3 @@ if (z instanceof String) print(((String) z).length());
 
 No new identifier needed, so no scope problem.
 ____
-
-
-

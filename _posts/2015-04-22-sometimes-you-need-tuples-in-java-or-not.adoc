@@ -1,9 +1,8 @@
 ---
-title: "Sometimes you need tuples in Java. Or not."
+title: "Sometimes you need tuples in Java. Or not." 
 layout: posta
 comments: on
 ---
-
 
 link:http://en.wikipedia.org/wiki/Tuple[Tuple] is an ordered list of elements. In Java that is `List<Object>`. Even though it exists there is an extra need from programmers for tuples. You can see that there is a package named link:http://www.javatuples.org/[javatuples] that defines tuples that contain 1, 2 up to 10 elements. (Btw: There is a class in the package named link:http://www.javatuples.org/apidocs/org/javatuples/Unit.html[Unit] that contains one element. WAT?) There is a long link:http://stackoverflow.com/questions/13977236/tuple-unmodifiable-ordered-list-of-elements-data-structure-in-java[discussion on stackoverflow] about tuples.
 
@@ -204,3 +203,6 @@ ____
 
 Absolutely.
 ____
+
+
+

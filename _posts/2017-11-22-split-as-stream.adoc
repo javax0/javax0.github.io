@@ -1,9 +1,8 @@
 ---
-title: "Split as stream"
+title: "Split as stream" 
 layout: posta
 comments: on
 ---
-
 
 I am preparing a regular expression tutorial update for the company I work for. The original tutorial was created in 2012 and Java has changed a wee bit since then. There are new Java language releases and though the regular expression handling is still not perfect in Java (nb. it still uses non-deterministic FSA) there are some new features. I wrote about some of those in a previous post focusing on the new Java 9 methods. This time however I have to look at all the features that are new since 2012.
 
@@ -161,3 +160,6 @@ I couldn't see it calling length three times at the start, even using the origin
 
 The first call to length() is when the Matcher is created (it stores the length of the string). Then length() gets called each time it tries to get the next match - if the current position is the end of the string (current == input.length()), there are no more matches.
 ____
+
+
+

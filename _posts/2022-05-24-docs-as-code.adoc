@@ -1,5 +1,5 @@
 ---
-title: Docs as Code 
+title: "Docs as Code is not enough" 
 layout: posta
 comments: on
 ---
@@ -12,11 +12,11 @@ comments: on
 
 The approach to treating your documentation the same way as program code is a step in the right direction, but it is far from state-of-the-art. The practice is detailed on many websites that advocate the use of docs-as-code (DAC). For example the link:https://www.writethedocs.org/guide/docs-as-code/[Write the Docs] community has a great article on docs-as-code. The article lists
 
-    * Issue Trackers
-    * Version Control (Git)
-    * Plain Text Markup (Markdown, reStructuredText, Asciidoc)
-    * Code Reviews
-    * Automated Tests
+ 	* Issue Trackers
+ 	* Version Control (Git)
+ 	* Plain Text Markup (Markdown, reStructuredText, Asciidoc)
+ 	* Code Reviews
+ 	* Automated Tests
 
 as required tools to this approach. Another example is link:https://docs-as-co.de/[docs-as-code], which is a toolset for documentation maintenance. They write
 [quote]
@@ -60,8 +60,8 @@ The docs-as-code approach, as described by most articles, ignores it. However, i
 
 We can categorize documentation into two categories.
 
-    * Explanatory, and
-    * Reference
+ 	* Explanatory, and
+ 	* Reference
 
 Sometimes a document belongs to one of the categories, but documents are a mix of the two most of the time. It may even happen that you cannot even tell if a sentence in a document belongs to one category or the other.
 
@@ -110,3 +110,20 @@ The application of Jamal is independent of build automation. It can be antora, j
 == 4. Conclusion
 
 Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don't Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.
+
+=== Comments imported from Wordpress
+
+
+*Docs as Code is not enough - Java Code Geeks - R4 News* 2022-04-04 05:02:00
+
+
+
+
+
+[quote]
+____
+[&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Docs as Code is not enough [&#8230;]
+____
+
+
+

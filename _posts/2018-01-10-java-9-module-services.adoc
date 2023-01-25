@@ -1,5 +1,5 @@
 ---
-title: "Java 9 Module Services" 
+title: "Java 9 Module Services"
 layout: posta
 comments: on
 ---
@@ -70,7 +70,7 @@ You can download a multi-module maven project from link:https://github.com/verha
 This project contains three modules `Consumer`, `Provider` and `ServiceInterface`. The consumer calls the `ServiceLoader` and consumes the service, which is defined by an interface `javax0.serviceinterface.ServiceInterface` in the module `ServiceInterface` and implemented in the module `Provider`. The structure of the code can be seen in the following picture:
 
 image::https://javax0.files.wordpress.com/2017/12/modules-in-ide.png[]
-  
+
 The `module-info` files contain the declarations:
 
 [source,java]
@@ -106,7 +106,7 @@ I do not know what it wants to say, but what it means to me is not true. Maybe I
 Looking at our example the `Consumer` module uses something that implements the `javax0.serviceinterface.ServiceInterface` interface. This something is actually the `Provider` module and the implementation in it, but it is decided only during run time and can be replaced by any other fitting implementation. Thus it needs the interface and thus it has to have the `requires` directive in the module info file requiring the `ServiceInterface` module. __It does not have to require the `Provider` module!__ The `Provider` module similarly depends on the `ServiceInterface` module and has to require it. The `ServiceInterface` module does not require anything. It only exports the package that contains the interface.
 
 image::https://javax0.files.wordpress.com/2018/01/modules-sample.png[]
- 
+
 It is also important to note that neither the `Provider` nor the `Consumer` modules are not required to export any package. `Provider` provides the service declared by the interface and implemented by the class named after the `with` keyword in the module info file. It provides this single class for the world and nothing else. To provide only this class it would be redundant to export the package containing it and it would possibly unnecessarily open the classes that may happen in the same package but are module internal. `Consumer` is invoked from the command line using the `–m` option and that also it does not require the module to export any package.
 The command like to start the program is
 
@@ -175,6 +175,3 @@ ____
 ____
 [&#8230;] Java 9 Module Services [&#8230;]
 ____
-
-
-

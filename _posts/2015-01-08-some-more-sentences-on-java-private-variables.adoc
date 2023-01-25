@@ -1,5 +1,5 @@
 ---
-title: "Some more sentences on Java, private variables" 
+title: "Some more sentences on Java, private variables"
 layout: posta
 comments: on
 ---
@@ -52,7 +52,7 @@ I get the two class files. Dissassembling the inner class:
 
 [source,text]
 ----
-$ javap -v Inner\$InnerInner.class 
+$ javap -v Inner\$InnerInner.class
 Classfile /Users/verhasp/github/JavaBeanTester/src/test/java/com/javax0/Inner$InnerInner.class
   Last modified 2014.12.27.; size 413 bytes
   MD5 checksum 79f4ea55abe8211fec751d9a4dec9ae1
@@ -98,7 +98,7 @@ Constant pool:
         line 4: 0
 }
 SourceFile: "Inner.java"
-$ 
+$
 ----
 
 

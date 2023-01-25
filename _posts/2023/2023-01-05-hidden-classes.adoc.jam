@@ -14,7 +14,7 @@ comments: on
 {%@define BB=link:https://bytebuddy.net/[ByteBuddy]%}
 {%@define cglib=link:https://github.com/cglib/cglib[cglib]%}
 {%@define equals=link:https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)[equals]%}
-{%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+{%#snip:collect from="../../_projects/{%ARTICLE%}/src/test/java"%}
 
 {%articleDisclaimer%}
 {%section Introduction%}

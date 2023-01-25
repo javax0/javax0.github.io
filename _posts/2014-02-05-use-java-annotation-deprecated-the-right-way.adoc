@@ -1,5 +1,5 @@
 ---
-title: "Use Java annotation deprecated the right way" 
+title: "Use Java annotation deprecated the right way"
 layout: posta
 comments: on
 ---
@@ -192,6 +192,3 @@ I read from your comment that, perhaps your interpretation of deprecation is a b
 
 It is not a problem that we see the world different. It would otherwise be boring. Setting the topic to something that people think different just seeds the discussion that is the real value of a blog article. I appreciate your comments and thank you for adding value to the article for the commoon good of the community.
 ____
-
-
-

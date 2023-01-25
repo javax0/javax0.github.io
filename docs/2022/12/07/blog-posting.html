@@ -275,7 +275,80 @@ Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="4-what-will-be-missing">4. What will be Missing</h2>
+<h2 id="4-building-the-site">4. Building the site</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<div class="title">update at 2023-01-25</div>
+<p>Building the site was first was a simple <code>Makefile</code> starting Jamal via <code>jbang</code> to convert all the <code>.adoc.jam</code> files to <code>.adoc</code> from the directory <code>_posts</code>.
+This, however, resulted almost 400 files in the directory.
+During the course of the last ten years I wrote 180 articles.
+All their <code>.adoc.jam</code> and the generated <code>.adoc</code> files got into one flat directory.</p>
+</div>
+<div class="paragraph">
+<p>To mitigate this situation I decided to group the articles into subdirectories by years.
+It means eleven subdirectories now and 15 to 20 more in my lifetime.
+It is manageable.
+The problem was I did not know how to write a general <code>make</code> rule that says <code>.adoc.jam</code> files in the subdirectories should be compiled to <code>.adoc</code> files in the <code>_posts</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>I used Jamal to the rescue.
+What else?
+I created a <code>Makefile.jam</code> with the following content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">{@sep [% %] }[%@import tab.jim%]\
+all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _posts%]`//` =[%@comment%]\
+ _posts/[%@file (format=$naked1)$file%]%]\
+
+[%!!#for $dir in ([%@listDir (maxDepth=1 pattern="/\\d{4}$")_posts%])=[%@comment%]\
+  [%@ident
+    [%@for [evalist] $file in `//` [%@listDir (maxDepth=1 pattern="\\.adoc\\.jam$") $dir%]`//` =[%@comment%]\
+    [%#define YYYY=[%#replace (regex)|$dir|.*/_posts/||%]%]\
+    [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
+    [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
+[%TARGET%] : [%SOURCE%]
+[%tab%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
+    %]%]%]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I do not expect you to understand this structure.
+It is fairly complex,but it shows the power of Jamal in some way.
+You should not feel intimidated.
+If you decide to use Jamal only for 10% of what it can do, it is fine.
+It is a tool to provide value and not something you need to master.</p>
+</div>
+<div class="paragraph">
+<p>This Jamal code lists all the files and generates <code>Makefile</code> rules for each <code>.adoc.jam</code> article.
+I struggled a bit with spaces and tabs.
+IntelliJ does not preserve the tabs, except when it is a <code>Makefile</code>.
+However, <code>Makefile.jam</code> is NOT <code>Makefile</code>.
+As a workaround I created a <code>tab.jim</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">{@define tab=	} &lt;- this is a tab character
+A simple tab character.
+
+This file is not to be edited other than vi.
+Other editors may replace the TAB character with spaces.
+Files can import this file and use {tab} in Makefiles.
+To exit vi press the escape key and then capital Z twice.
+Without saving: escsape and then :q!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The comment in the file says it all, I wil not repeat here.</p>
+</div>
+<div class="paragraph">
+<p>I may later move the <code>YYYY</code> yearly subdirectories from <code>_posts</code> to make the <code>_posts</code> directory something that I never need to open in the editor.
+Look at the GitHub repo to see if I did that.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-what-will-be-missing">5. What will be Missing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>WordPress very neatly showed the statistics of the site.
@@ -297,7 +370,7 @@ They only repost the good ones.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="5-summary">5. Summary</h2>
+<h2 id="6-summary">6. Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I hope blogging using this toolset will be much more fun than the old technology.

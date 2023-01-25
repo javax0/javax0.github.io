@@ -1,0 +1,3 @@
+{@import ../javax0.jim}
+This is just a proxy, so that the posts can import the macros without ../ in front of the file name.
+The real thing is in the root directory.

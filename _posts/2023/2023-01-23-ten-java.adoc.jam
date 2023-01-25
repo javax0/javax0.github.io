@@ -8,7 +8,7 @@ comments: on
 {%@comment
 =========================================================================================
 %}
-{%#snip:collect from="../_projects/{%ARTICLE%}/src/test/java"%}
+{%#snip:collect from="../../_projects/{%ARTICLE%}/src/test/java"%}
 {%articleDisclaimer%}
 
 Java is a complex language, and some features that initially seemed a good idea turned out to be useless.

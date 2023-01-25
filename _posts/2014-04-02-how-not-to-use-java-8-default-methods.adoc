@@ -1,9 +1,8 @@
 ---
-title: "How not to use Java 8 default methods"
+title: "How not to use Java 8 default methods" 
 layout: posta
 comments: on
 ---
-
 
 
 == 1. Warning: you can not make this unseen once you have read
@@ -325,9 +324,9 @@ I think I have to end discussions
 If I need to have fields of another class in new one should I use inheritance
 Answer is NO
 
-If I have one entity is subset of another one should I use inheritance
+If I have one entity is subset of another one should I use inheritance 
 Answer is YES
-Do I need multiple inheritance
+Do I need multiple inheritance 
 Answer is YES
 because set theory allows for set to be subset of 2 or more other sets
 Do I need ability to inherit fields in such case
@@ -429,6 +428,9 @@ ____
 Hi,
 Thanks for posting this. It helped me with a particular situation in which it seems to be safe.
 I fall into the case of the junior programmer, so please illuminate me if I'm wrong.
-I'm using an Interface to implement some interoperable Enums. Since they are always static final, it seems that here at least the ifrit can't go out. Working out the compilation took a while until I could figure it out but now it's running fine.
+I'm using an Interface to implement some interoperable Enums. Since they are always static final, it seems that here at least the ifrit can't go out. Working out the compilation took a while until I could figure it out but now it's running fine. 
 The case was that there was a long list of constants of different types to be defined and applicable to different situations so the idea was to separate them accordingly, having one long Enum for all default values and smaller ones for regular usage. Since Enums can't extend, the only way was to use an Interface to make them interoperable, but then the multiple fields, getters and setters had to be copied and pasted around, turning what should be a rather simple list of constants into long boring classes (and a lot of boring work back and forth when something had to be changed). So now, thanks to your trick, the Enums look nice and everything is much easier to maintain :)
 ____
+
+
+
