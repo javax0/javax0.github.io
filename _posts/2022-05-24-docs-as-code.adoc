@@ -1,5 +1,5 @@
 ---
-title: "Docs as Code is not enough" 
+title: "Docs as Code is not enough"
 layout: posta
 comments: on
 ---
@@ -124,6 +124,3 @@ Treating documentation as source code is a good idea and a good start. It can, a
 ____
 [&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Docs as Code is not enough [&#8230;]
 ____
-
-
-

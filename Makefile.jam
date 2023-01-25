@@ -1,5 +1,13 @@
-all: $(wildcard _posts/*.adoc)
-	@echo done all
+{@sep [% %] }[%@import tab.jim%]\
+all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _posts%]`//` =[%@comment%]\
+ _posts/[%@file (format=$naked1)$file%]%]\
 
-_posts/%.adoc : _posts/%.adoc.jam
-	jbang jamal@verhas -open='{%' -close='%}' $@.jam $@
+[%!!#for $dir in ([%@listDir (maxDepth=1 pattern="/\\d{4}$")_posts%])=[%@comment%]\
+  [%@ident
+    [%@for [evalist] $file in `//` [%@listDir (maxDepth=1 pattern="\\.adoc\\.jam$") $dir%]`//` =[%@comment%]\
+    [%#define YYYY=[%#replace (regex)|$dir|.*/_posts/||%]%]\
+    [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
+    [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
+[%TARGET%] : [%SOURCE%]
+[%tab%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
+    %]%]%]

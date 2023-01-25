@@ -1,5 +1,5 @@
 ---
-title: "Handling repeated code automatically" 
+title: "Handling repeated code automatically"
 layout: posta
 comments: on
 ---
@@ -47,7 +47,7 @@ The new need is to have
 
 [source,java]
 ----
-    public interface Failable<I>Function<O, T extends Throwable> 
+    public interface Failable<I>Function<O, T extends Throwable>
 ----
 
 

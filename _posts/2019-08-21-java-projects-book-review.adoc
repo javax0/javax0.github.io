@@ -1,5 +1,5 @@
 ---
-title: "Java Projects: Book Review" 
+title: "Java Projects: Book Review"
 layout: posta
 comments: on
 ---
@@ -57,7 +57,7 @@ is about the supporting tools and about the basic language elements. Even though
 is where we start programming something more complex than a "Hello, World". The program is a sorting program and we implement not only the simple bubble sort but also quick sort. Along the way, we also touch topics like generics, TDD, unit tests, Java modules. These are advanced topics that originally were planned in later chapters, but I wanted to explain less the language and more programming along with the language.
 
 
-* Chapter FOUR 
+* Chapter FOUR
 
 
 is a new program, and brings us new topics. In this chapter, we (I imagine the reader and I) develop the game link:https://en.wikipedia.org/wiki/Mastermind_(board_game)[Mastermind]. The user, sitting in front of the computer "hides" the pins and the program finds out what is hidden. The same chapter talks about collections, dependency injection, and integration tests.
@@ -143,6 +143,3 @@ ____
 ____
 Hello , your blog is informative and very help full for beginners , thank you for sharing it .
 ____
-
-
-

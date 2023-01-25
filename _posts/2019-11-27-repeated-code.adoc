@@ -1,5 +1,5 @@
 ---
-title: "Repeated code" 
+title: "Repeated code"
 layout: posta
 comments: on
 ---

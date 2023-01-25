@@ -1,5 +1,5 @@
 ---
-title: "No loop, do break" 
+title: "No loop, do break"
 layout: posta
 comments: on
 ---
@@ -42,6 +42,3 @@ Yeah. That twisted "goto" emulation has proven handy millions of times in my cod
 You can also "jump backwards" using "continue" to leverage the byte-code "goto" instruction:
 http://stackoverflow.com/a/6373262/521799
 ____
-
-
-

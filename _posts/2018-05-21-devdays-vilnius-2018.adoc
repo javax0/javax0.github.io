@@ -1,5 +1,5 @@
 ---
-title: "DevDays Vilnius 2018" 
+title: "DevDays Vilnius 2018"
 layout: posta
 comments: on
 ---

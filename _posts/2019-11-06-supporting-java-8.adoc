@@ -1,5 +1,5 @@
 ---
-title: "Supporting Java 8" 
+title: "Supporting Java 8"
 layout: posta
 comments: on
 ---

@@ -1,5 +1,5 @@
 ---
-title: "You can program bug free" 
+title: "You can program bug free"
 layout: posta
 comments: on
 ---
@@ -52,6 +52,4 @@ For this reason there is no clear and precise border between the "Easy Pick" and
 === 2.2. Conclusion
 
 
-When you find yourself in a debate about bugs and features with the business people, try to bring up this quadrant in your mind. Many times the cost/value coordinates of the bugs are not discovered. Think about it even qualitatively. 
-
-
+When you find yourself in a debate about bugs and features with the business people, try to bring up this quadrant in your mind. Many times the cost/value coordinates of the bugs are not discovered. Think about it even qualitatively.

@@ -1,5 +1,5 @@
 ---
-title: "Comparing Golang and understanding Java Value Types" 
+title: "Comparing Golang and understanding Java Value Types"
 layout: posta
 comments: on
 ---

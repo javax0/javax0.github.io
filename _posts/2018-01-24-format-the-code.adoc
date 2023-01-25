@@ -1,5 +1,5 @@
 ---
-title: "Format the code" 
+title: "Format the code"
 layout: posta
 comments: on
 ---
@@ -134,7 +134,7 @@ ____
 
 [quote]
 ____
-When reading code, the environment is important. So for example, when You write code into a code base full of 
+When reading code, the environment is important. So for example, when You write code into a code base full of
                     {
 }
 You should do the same. In books the environment is the "industry standard", but most of the code bases might differ in one or two things. Company standard should be followed.
@@ -184,6 +184,3 @@ ____
 ____
 vim > emacs.
 ____
-
-
-

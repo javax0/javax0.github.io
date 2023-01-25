@@ -6,6 +6,8 @@ comments: on
 {%@import javax0.jim%}
 {%section Introduction%}
 
+`{%asciidoc:output%}`
+
 This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at https://javax0.wordpress.com[javax0.wordpress.com].
 The technology, the hosting, and all were okay by that time, but times changed.
 This blog post describes why I changed the blog technology and what technology I use here to write these blog posts.
@@ -161,6 +163,50 @@ After all, it supports Jekyll.
 The problem is that GitHub does not support the Jekyll Asciidoc plugin.
 It is a bit strange: Asciidoc is natively supported by GitHub, and any readme or other files can be Asciidoc.
 Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.
+
+.update at 2023-01-25
+{%section Building the site%}
+
+Building the site was first was a simple `Makefile` starting Jamal via `jbang` to convert all the `.adoc.jam` files to `.adoc` from the directory `_posts`.
+This, however, resulted almost 400 files in the directory.
+During the course of the last ten years I wrote 180 articles.
+All their `.adoc.jam` and the generated `.adoc` files got into one flat directory.
+
+To mitigate this situation I decided to group the articles into subdirectories by years.
+It means eleven subdirectories now and 15 to 20 more in my lifetime.
+It is manageable.
+The problem was I did not know how to write a general `make` rule that says `.adoc.jam` files in the subdirectories should be compiled to `.adoc` files in the `_posts` directory.
+
+I used Jamal to the rescue.
+What else?
+I created a `Makefile.jam` with the following content:
+
+[source,bash]
+----
+{%@include [verbatim] ../../Makefile.jam%}
+----
+
+I do not expect you to understand this structure.
+It is fairly complex,but it shows the power of Jamal in some way.
+You should not feel intimidated.
+If you decide to use Jamal only for 10% of what it can do, it is fine.
+It is a tool to provide value and not something you need to master.
+
+This Jamal code lists all the files and generates `Makefile` rules for each `.adoc.jam` article.
+I struggled a bit with spaces and tabs.
+IntelliJ does not preserve the tabs, except when it is a `Makefile`.
+However, `Makefile.jam` is NOT `Makefile`.
+As a workaround I created a `tab.jim` file:
+
+[source,bash]
+----
+{%@include [verbatim] ../../tab.jim%}
+----
+
+The comment in the file says it all, I wil not repeat here.
+
+I may later move the `YYYY` yearly subdirectories from `_posts` to make the `_posts` directory something that I never need to open in the editor.
+Look at the GitHub repo to see if I did that.
 
 {%section What will be Missing%}
 

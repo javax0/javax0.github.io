@@ -1,5 +1,5 @@
 ---
-title: "A New Era for Determining Equivalence in Java?" 
+title: "A New Era for Determining Equivalence in Java?"
 layout: posta
 comments: on
 ---
@@ -108,6 +108,3 @@ ____
 ____
 Thank you for posting this information which are related to link:https://www.clariwell.in/best-java-course-in-pune[ Java.]. It is very helpful information.Keep up the good work.
 ____
-
-
-

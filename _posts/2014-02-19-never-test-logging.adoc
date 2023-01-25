@@ -1,5 +1,5 @@
 ---
-title: "Never Test Logging" 
+title: "Never Test Logging"
 layout: posta
 comments: on
 ---
@@ -19,7 +19,7 @@ There is also a technical side why developers are reluctant, as link:http://stac
 [quote]
 ____
 
-It's a pain, either making the production code messy (due to injecting the logger) or the test smelly (replacing the static logger with a mock). 
+It's a pain, either making the production code messy (due to injecting the logger) or the test smelly (replacing the static logger with a mock).
 
 ____
 
@@ -236,6 +236,3 @@ works best. It's hack determining the Logger name from the stack trace (doing th
 
 And no, I'd never use it for a DB or anything but logging.
 ____
-
-
-

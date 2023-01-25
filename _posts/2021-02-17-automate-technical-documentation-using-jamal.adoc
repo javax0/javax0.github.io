@@ -1,5 +1,5 @@
 ---
-title: Automate Technical Documentation using Jamal 
+title: Automate Technical Documentation using Jamal
 layout: posta
 comments: on
 ---
@@ -13,7 +13,7 @@ Writing good technical documentation is an art.
 
 [quote]
 ____
-An art is the expression or application of human creative skill and imagination, ... to be appreciated primarily for their beauty or emotional power. 
+An art is the expression or application of human creative skill and imagination, ... to be appreciated primarily for their beauty or emotional power.
 ____
 
 
@@ -366,6 +366,3 @@ However, for both categories there are several existent candidates, so the next 
 
 Anyway, I totally agree with you that documentation should handle like a source code. There are a lot of commmon in procedures such version management, building/compiling (=publishing), visualizing track changes, "running" (=rendering interactive content). Unfortunately toolchains and practice are not so matured yet. Hope, some time or other DevOps CI/CD pipelines will always handle publishing of complete SW documentations as well.
 ____
-
-
-

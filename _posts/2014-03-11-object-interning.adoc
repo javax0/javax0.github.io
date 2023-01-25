@@ -1,5 +1,5 @@
 ---
-title: "Object Interning" 
+title: "Object Interning"
 layout: posta
 comments: on
 ---
@@ -132,7 +132,7 @@ If you look at the other codes in the before mentioned link:http://stackoverflow
 ----
 public class InternPool<T> {
 
-    private WeakHashMap<T, WeakReference<T>> pool = 
+    private WeakHashMap<T, WeakReference<T>> pool =
         new WeakHashMap<T, WeakReference<T>>();
 
     public synchronized T intern(T object) {
@@ -280,6 +280,3 @@ I am hoping the above scenario is not actually possible. Ideally GC should guara
 
 If the race condition is possible, there might be a simple solution: If you do get a non null 'res', then maybe you could immediately execute a 'put' to ensure it is in the pool even if GC just removed it?
 ____
-
-
-

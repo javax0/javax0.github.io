@@ -1,5 +1,5 @@
 ---
-title: "Converting objects to Map and back" 
+title: "Converting objects to Map and back"
 layout: posta
 comments: on
 ---
@@ -116,6 +116,3 @@ The code selects only the fields that are denoted by the `filter` expression.
 ____
 [&#8230;] Converting Objects to Map and Back [&#8230;]
 ____
-
-
-

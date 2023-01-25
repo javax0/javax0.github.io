@@ -1,5 +1,5 @@
 ---
-title: "Handling exceptions functional style" 
+title: "Handling exceptions functional style"
 layout: posta
 comments: on
 ---

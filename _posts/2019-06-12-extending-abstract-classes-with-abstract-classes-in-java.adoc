@@ -1,5 +1,5 @@
 ---
-title: "Extending abstract classes with abstract classes in Java" 
+title: "Extending abstract classes with abstract classes in Java"
 layout: posta
 comments: on
 ---

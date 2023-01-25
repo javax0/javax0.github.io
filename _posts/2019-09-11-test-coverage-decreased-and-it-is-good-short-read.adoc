@@ -1,5 +1,5 @@
 ---
-title: "Test coverage decreased and it is good (short, read)" 
+title: "Test coverage decreased and it is good (short, read)"
 layout: posta
 comments: on
 ---

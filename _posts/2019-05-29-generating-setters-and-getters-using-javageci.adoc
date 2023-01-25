@@ -1,5 +1,5 @@
 ---
-title: "Generating setters and getters using Java::Geci" 
+title: "Generating setters and getters using Java::Geci"
 layout: posta
 comments: on
 ---
@@ -41,8 +41,8 @@ public class Accessor extends AbstractFilteredFieldsGenerator {
     ...
 
     @Override
-    public void process(Source source, Class<?> klass, 
-                        CompoundParams params, 
+    public void process(Source source, Class<?> klass,
+                        CompoundParams params,
                         Field field) throws Exception {
         final var id = params.get("id");
         source.init(id);
@@ -271,10 +271,10 @@ setter even you do not want to debug the setter itself. (See a few
 words about delombok later.)
 * Because there is no generated source code Lombok has to be part of the
 whole build process. It has to be available on the developer machine
-as well as on the CI server. 
+as well as on the CI server.
 * You can get rid of lombok. There is a project delombok that generates
 the source code for the functionality. This functionality is designed
-to get rid of lombok from a project and not to live with it 
+to get rid of lombok from a project and not to live with it
 continuously. After the code changed it is not trivial to get rid of
 the already generated and not needed code and to insert the new code.
 * Lombok was not designed to be a framework for code generators. You
@@ -322,7 +322,7 @@ I guess, I should have chosen a different word. It's just that I love Lombok and
 
 I didn't and don't claim that you had any bad intentions with your comparison. I also see, I haven't read your FAQ carefully enough (breakpoints) and haven't thought far enough (build process).
 
-Thank you for the update. I don't feel a need for forking. I might want to add a sentence like 
+Thank you for the update. I don't feel a need for forking. I might want to add a sentence like
 "Lombok is a different kind of tool" (but I don't know where I'd fit well) as I can imagine using a source code generator in addition to Lombok (I actually do it already on a tiny project).
 ____
 
@@ -408,7 +408,7 @@ Invalid points:
 - build process: This is only a problem when you're prone to forgetting to add your libraries. What happens when you forget to add e.g., Guava?
 
 Valid but FUD-like formulated:
-- Lombok flavor: I guess, there are people out there having problems to understand this flavor, but they most probably don't code in Java. Isn't that flavor just what many wished Java would look like? Especially with getters and setters, it just does what many other languages provide out of the box. 
+- Lombok flavor: I guess, there are people out there having problems to understand this flavor, but they most probably don't code in Java. Isn't that flavor just what many wished Java would look like? Especially with getters and setters, it just does what many other languages provide out of the box.
 - There is no real source code generated: Yes, and that's why I prefer it to any other tool. Without the generated boilderplate, my classes are much smaller and it's much easier to navigate. YMMV.
 - can get rid of Lombok: Indeed, you can, and you're right that it's a sort of a one way ticket. You can do it regularly as a part of your build process, e.g., when you need the generated code for another tool (I do it in order to see how much boilerplate gets saved).. You can replace the source by the generated code, but that's only meant as the last resort. As long as Lombok works well, you won't do it.
 
@@ -456,6 +456,3 @@ ____
 ____
 I would also like to thank you the comments. They are valuable and comments and feedbacks are the major rewards writing a blog. I would welcome if you could write an article or just a few words about your experiences. Keep your finger on the pulse of the project repo, there are new features every week, trying to keep backward compatibility.
 ____
-
-
-

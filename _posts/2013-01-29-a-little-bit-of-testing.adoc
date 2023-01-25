@@ -1,5 +1,5 @@
 ---
-title: "A little bit of testing" 
+title: "A little bit of testing"
 layout: posta
 comments: on
 ---
@@ -10,7 +10,7 @@ Behaviour Driven Development usually says that the test structure consists of
 	* WHEN
 	* THEN
 
-Even Mockito has an DBBMockito façade implementation that fits to this habit. If you want a big shot you can have JBehave. However for now let us starts with some simple unit test:
+Even Mockito has an DBBMockito facade implementation that fits to this habit. If you want a big shot you can have JBehave. However, for now let us starts with some simple unit test:
 
 [source,java]
 ----
@@ -43,7 +43,7 @@ Even Mockito has an DBBMockito façade implementation that fits to this habit. I
 
 Do you feel something under you skin that this is not the real one? What are those comments? Whenever I feel the need to write comments into a method I start to think about better variable and method names and refactoring. Why is this method so complex that this is hard to understand without the comments? Yes, sure: I can remove those three comment lines, but even then it is not really an improvement.
 
-What if we could create a simple `Business` class and we could book our ticked from the economy class to business class? We are not even forced to finish the class, it is OK half way ready:
+What if we could create a simple `Business` class, and we could book our ticked from the economy class to business class? We are not even forced to finish the class, it is OK half way ready:
 
 [source,java]
 ----
@@ -101,4 +101,4 @@ It is so small that it just fits any project. Whenever we have it the test code 
 ----
 
 
-Much better, is it. The only question remaining: who in the hell could we mock the `System` class? Believe me: the code above is copy/paste without modification from a real live test and it works. Stay tuned for some coming posts where I detail how it was made.
+Much better, is it. The only question remaining: who in the hell could we mock the `System` class? Believe me: the code above is copy/paste without modification from a real live test, and it works. Stay tuned for some coming posts where I detail how it was made.

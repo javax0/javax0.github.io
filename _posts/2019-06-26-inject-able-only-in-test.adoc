@@ -1,5 +1,5 @@
 ---
-title: "Inject-able only in test?" 
+title: "Inject-able only in test?"
 layout: posta
 comments: on
 ---
@@ -173,6 +173,3 @@ ____
 ____
 [&#8230;] Inject-able only in test? is a thought-provoking blog post that describes how you can write tests for a legacy code by replacing the real dependencies with test doubles. Also, this blog post explains why you should do this and helps you to make the required changes to your legacy code. [&#8230;]
 ____
-
-
-

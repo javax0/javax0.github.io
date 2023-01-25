@@ -1,5 +1,5 @@
 ---
-title: "Your code is redundant, live with it!" 
+title: "Your code is redundant, live with it!"
 layout: posta
 comments: on
 ---
@@ -49,7 +49,7 @@ For example, downloading and zipping the text of the classical English novel Mob
 [quote]
 ____
 
-If we analyze this kind of redundancy we can see that there are six levels of redundancy. What I will write here about the six layers is not well-known or well-established theory. Feel free to challenge it. 
+If we analyze this kind of redundancy we can see that there are six levels of redundancy. What I will write here about the six layers is not well-known or well-established theory. Feel free to challenge it.
 
 This model and categorization are useful to establish a way of thinking about code generation when to generate code, why to generate code. After all, I came up with this model when I was thinking about the Java::Geci framework and I was thinking about why I invested a year of hobby time into this when there are so many other code generation tools. This redundancy model kind of gives the correct reason that I was only feeling before.
 
@@ -152,6 +152,3 @@ ____
 ____
 [&#8230;] Your code is redundant, live with it! [&#8230;]
 ____
-
-
-

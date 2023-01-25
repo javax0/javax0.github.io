@@ -1,0 +1,8 @@
+{@define tab=	} <- this is a tab character
+A simple tab character.
+
+This file is not to be edited other than vi.
+Other editors may replace the TAB character with spaces.
+Files can import this file and use {tab} in Makefiles.
+To exit vi press the escape key and then capital Z twice.
+Without saving: escsape and then :q!

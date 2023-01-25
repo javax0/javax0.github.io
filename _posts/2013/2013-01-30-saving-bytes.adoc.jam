@@ -4,7 +4,7 @@ layout: posta
 comments: on
 ---
 {%@import javax0.jim%}
-In the good old day's we were hacking Z80 machine code and we were writing assembly on paper. I had a laminated card with all the opcodes and I had to look up the codes from the card and write on the paper along the assembly. The calculation of relative jumps was also a good practice, which is nowadays extinct. At third grade I wrote a small booklet on Z80 programming with some sample programs and explanation that was replicated in the official printer factory of the Uni. PDF, eMail? It was late '80. I used link:http://en.wikipedia.org/wiki/Tasword[Tasword]. Can any of you recall?
+In the good old day's we were hacking Z80 machine code, and we were writing assembly on paper. I had a laminated card with all the opcodes and I had to look up the codes from the card and write on the paper along the assembly. The calculation of relative jumps was also a good practice, which is nowadays extinct. At third grade I wrote a small booklet on Z80 programming with some sample programs and explanation that was replicated in the official printer factory of the Uni. PDF, eMail? It was late '80. I used link:http://en.wikipedia.org/wiki/Tasword[Tasword]. Can any of you recall?
 
 Those days we were competing on who can write the shorter program for a given problem. There were many tricks that we could use to save up bytes. We created code that used the byte offset of the jump instruction as an op code depending on where the program was coming from and the decimal BCD correction instructions in totally different way they were supposed to be used. Good old days.
 

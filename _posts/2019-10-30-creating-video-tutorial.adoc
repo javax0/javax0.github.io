@@ -1,5 +1,5 @@
 ---
-title: "Creating a Video Tutorial" 
+title: "Creating a Video Tutorial"
 layout: posta
 comments: on
 ---

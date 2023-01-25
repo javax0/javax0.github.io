@@ -1,5 +1,5 @@
 ---
-title: "Logging or debugging" 
+title: "Logging or debugging"
 layout: posta
 comments: on
 ---
@@ -123,6 +123,3 @@ That sounds like Chronon to me:
 
 http://chrononsystems.com/
 ____
-
-
-

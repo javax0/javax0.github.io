@@ -1,5 +1,5 @@
 ---
-title: "How to mock the System.class" 
+title: "How to mock the System.class"
 layout: posta
 comments: on
 ---
@@ -173,7 +173,7 @@ public class TestBasicConfiguration {
         new Business() {
             private String actual;
             private Properties props;
-            
+
             @Override
             public void given() {
                 props = PowerMockito.mock(Properties.class);
@@ -184,12 +184,12 @@ public class TestBasicConfiguration {
                 Mockito.when(System.getenv("sb4j." + key)).thenReturn(badValue);
                 Mockito.when(System.getProperty("sb4j." + key)).thenReturn(value);
             }
-            
+
             @Override
             public void when() {
                 actual = config.getConfigValue(key);
             }
-            
+
             @Override
             public void then() {
                 Mockito.verify(props).containsKey(key);
@@ -211,12 +211,12 @@ PowerMock is powerful and makes life easy when testing static method, but not th
 ----
 Results :
 
-Failed tests: 
-  testGetConfigValueWhenEnvironmentKeyExist(com.scriptbasic.configuration.TestBasicConfiguration): 
+Failed tests:
+  testGetConfigValueWhenEnvironmentKeyExist(com.scriptbasic.configuration.TestBasicConfiguration):
 
-Tests in error: 
-  testGetConfigValueWhenEnvironmentKeyExists(com.scriptbasic.configuration.TestBasicConfiguration): 
-  testGetConfigValueWhenSystemPropertyExists(com.scriptbasic.configuration.TestBasicConfiguration): 
+Tests in error:
+  testGetConfigValueWhenEnvironmentKeyExists(com.scriptbasic.configuration.TestBasicConfiguration):
+  testGetConfigValueWhenSystemPropertyExists(com.scriptbasic.configuration.TestBasicConfiguration):
 
 Tests run: 56, Failures: 1, Errors: 2, Skipped: 0
 
@@ -230,7 +230,7 @@ What is the problem? Let us have a look at the surefire reports file:
 
 [source,text]
 ----
-$ cat target/surefire-reports/com.scriptbasic.configuration.TestBasicConfiguration.txt 
+$ cat target/surefire-reports/com.scriptbasic.configuration.TestBasicConfiguration.txt
 -------------------------------------------------------------------------------
 Test set: com.scriptbasic.configuration.TestBasicConfiguration
 -------------------------------------------------------------------------------
@@ -243,7 +243,7 @@ Actually, there were zero interactions with this mock.
 	...
 
 testGetConfigValueWhenEnvironmentKeyExists(com.scriptbasic.configuration.TestBasicConfiguration)  Time elapsed: 0.083 sec  <<< ERROR!
-org.mockito.exceptions.misusing.MissingMethodInvocationException: 
+org.mockito.exceptions.misusing.MissingMethodInvocationException:
 when() requires an argument which has to be 'a method call on a mock'.
 For example:
     when(mock.getArticles()).thenReturn(articles);
@@ -303,11 +303,11 @@ Almost. Running `mvn clean install` from the command line I get exactly the same
 ----
 [INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ jscriptbasic ---
 [INFO] Compiling 243 source files to ... target/classes
-[INFO] 
+[INFO]
 [INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ jscriptbasic ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 31 resources
-[INFO] 
+[INFO]
 [INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ jscriptbasic ---
 [INFO] Compiling 38 source files to ... target/test-classes
 ----
@@ -343,7 +343,7 @@ The help comes with the maven helper plugin that can be used to configure extra 
 </plugin>
 ----
 
-And finally we are there. What we gained is that 
+And finally we are there. What we gained is that
 
 *  we tested the source code
 *  we did mock the System.class
@@ -380,11 +380,8 @@ My final note below this article: if you need to mock static methods, and especi
 
 [quote]
 ____
-JMockit is able to mock out static methods, final classes and private methods without modifying existing code, see: 
+JMockit is able to mock out static methods, final classes and private methods without modifying existing code, see:
 http://stackoverflow.com/questions/1629841/how-to-jmockit-system-getenvstring
-For more details also see the answers in: 
+For more details also see the answers in:
 http://stackoverflow.com/questions/4105592/comparison-between-mockito-vs-jmockit-why-is-mockito-voted-better-than-jmockit
 ____
-
-
-

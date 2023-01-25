@@ -1,5 +1,5 @@
 ---
-title: "Reflection selector expression" 
+title: "Reflection selector expression"
 layout: posta
 comments: on
 ---
@@ -120,6 +120,3 @@ ____
 ____
 [&#8230;] Reflection Selector Expression [&#8230;]
 ____
-
-
-

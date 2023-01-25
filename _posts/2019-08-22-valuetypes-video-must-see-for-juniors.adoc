@@ -1,5 +1,5 @@
 ---
-title: "ValueTypes video, must see for juniors" 
+title: "ValueTypes video, must see for juniors"
 layout: posta
 comments: on
 ---

@@ -1,5 +1,5 @@
 ---
-title: "How to generate source code?" 
+title: "How to generate source code?"
 layout: posta
 comments: on
 ---
@@ -223,14 +223,14 @@ You are encouraged to contact me, for the code, create tickets follow on Twitter
 
 [quote]
 ____
-Hi Thank you for this great tool, 
+Hi Thank you for this great tool,
 I was looking for such approach. In go, they commonly generate their source code and it works pretty well. Your decision to handle the generation in the test phase is clever as well.
 
 Just one question, sorry if non clear : does Java:Geci handles merging of the source file. I mean around the editor-fold block, does the content is kept ?
 
 [source]
 ----
-` ... some manualy modified source ... 
+` ... some manualy modified source ...
 //<editor-fold id="HelloWorld3" methodName = "hiyaNyunad">
 //</editor-fold>
  ... some manualy modified source ...
@@ -284,6 +284,3 @@ ____
 ____
 [&#8230;] How to generate Source Code [&#8230;]
 ____
-
-
-

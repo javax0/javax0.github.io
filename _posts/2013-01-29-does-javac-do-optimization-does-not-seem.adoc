@@ -1,5 +1,5 @@
 ---
-title: "Does javac do optimization? Does not seem..." 
+title: "Does javac do optimization? Does not seem..."
 layout: posta
 comments: on
 ---
@@ -507,6 +507,3 @@ ____
 ____
 [&#8230;] years ago I was writing about how Java compiler optimizes the code it executes. Or rather how javac does not do that and the same time JIT does. I made some [&#8230;]
 ____
-
-
-

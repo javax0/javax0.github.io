@@ -1,5 +1,5 @@
 ---
-title: "Annotation Handling and JPMS" 
+title: "Annotation Handling and JPMS"
 layout: posta
 comments: on
 ---
@@ -164,9 +164,9 @@ The code was working fine up until Java 11. When the code was executed using Jav
 
 [source,text]
 ----
-java.lang.reflect.InaccessibleObjectException: 
-Unable to make public final java.lang.String com.sun.proxy.jdk.proxy1.$Proxy12.value() 
-accessible: module jdk.proxy1 does not 
+java.lang.reflect.InaccessibleObjectException:
+Unable to make public final java.lang.String com.sun.proxy.jdk.proxy1.$Proxy12.value()
+accessible: module jdk.proxy1 does not
 "exports com.sun.proxy.jdk.proxy1" to module geci.tools
 ----
 

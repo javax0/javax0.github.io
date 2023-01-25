@@ -1,5 +1,5 @@
 ---
-title: "Java getting back to the browser?" 
+title: "Java getting back to the browser?"
 layout: posta
 comments: on
 ---
@@ -233,6 +233,3 @@ Do not judge WebAssembly about this on the MVP (Minimum Viable Product https://e
 
 WebAssembly is aiming to be a solution for problems that are not running currently in browsers because JavaScript can not do that. My prediction is that in 5 to 10 years it will scale down to simpler applications as well, where JavaScript currently sufficient and WebAssembly will replace JavaScript.
 ____
-
-
-

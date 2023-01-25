@@ -1,5 +1,5 @@
 ---
-title: "We hate/love lambda" 
+title: "We hate/love lambda"
 layout: posta
 comments: on
 ---
@@ -38,6 +38,3 @@ Implementing lambda Java made a step towards the Groovy direction. It is a great
 ____
 [&#8230;] We hate/love lambda [&#8230;]
 ____
-
-
-

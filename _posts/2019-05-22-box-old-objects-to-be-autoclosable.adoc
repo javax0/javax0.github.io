@@ -227,8 +227,8 @@ public class AutoCloserDirty {
 ----
 try( AutoCloseable c = autoclose(service, IService::destroy)){
     service.execute("Hello World!");
-    } catch (Exception e) { 
-    e.printStackTrace(); 
+    } catch (Exception e) {
+    e.printStackTrace();
     } // dirty for the catch!...
 ----
 
@@ -249,14 +249,11 @@ public class AutoCloserLean {
 
 [source,java]
 ----
-try (LeanCloseable service = autoclose(new Service(), IService::destroy)) { 
-    service.get().execute("Hello World!"); 
+try (LeanCloseable service = autoclose(new Service(), IService::destroy)) {
+    service.get().execute("Hello World!");
     }
 ----
 
 
 Thank You for your time!
 ____
-
-
-

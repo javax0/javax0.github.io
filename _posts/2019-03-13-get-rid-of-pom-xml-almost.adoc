@@ -1,5 +1,5 @@
 ---
-title: "Get rid of pom XML... almost" 
+title: "Get rid of pom XML... almost"
 layout: posta
 comments: on
 ---
@@ -296,6 +296,3 @@ Gradle is a heavy tool with its learning curve.
 
 Maven is much more mature and established. I have seen many program factories where Maven is the recommended tool for the very reason that it cannot be programmed the way like Gradle and therefore the chance of unnecessarily complex build files is much smaller. It may also happen that a developer, like me, is experienced with Maven and less so with Gradle and the priority list of to-learn new things puts Gradle much behind other things. Learning and applying Jamal is much simpler than Gradle, especially for me, who made Jamal, which I totally agree is a special case.
 ____
-
-
-

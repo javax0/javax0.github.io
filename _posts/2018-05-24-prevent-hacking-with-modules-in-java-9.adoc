@@ -1,5 +1,5 @@
 ---
-title: "Prevent Hacking with Modules in Java 9" 
+title: "Prevent Hacking with Modules in Java 9"
 layout: posta
 comments: on
 ---

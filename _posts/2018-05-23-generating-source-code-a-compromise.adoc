@@ -1,5 +1,5 @@
 ---
-title: "Generating Source Code, a Compromise" 
+title: "Generating Source Code, a Compromise"
 layout: posta
 comments: on
 ---

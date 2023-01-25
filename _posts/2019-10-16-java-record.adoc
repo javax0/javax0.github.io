@@ -1,5 +1,5 @@
 ---
-title: "Java Record" 
+title: "Java Record"
 layout: posta
 comments: on
 ---
@@ -189,6 +189,3 @@ ____
 ____
 When they extend Java on the source level nowadays, it's always really late and typically quite restricted. I've had records in my Java source-level extension for years... it's one of the easier parts too. Just crank out the boilerplate and allow user to override whatever they want.
 ____
-
-
-

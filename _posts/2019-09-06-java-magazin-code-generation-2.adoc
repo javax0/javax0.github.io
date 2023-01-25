@@ -1,5 +1,5 @@
 ---
-title: "[JAVA MAGAZIN] Code Generation 2" 
+title: "[JAVA MAGAZIN] Code Generation 2"
 layout: posta
 comments: on
 ---

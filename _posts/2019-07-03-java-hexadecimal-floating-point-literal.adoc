@@ -1,5 +1,5 @@
 ---
-title: "Java hexadecimal floating point literal" 
+title: "Java hexadecimal floating point literal"
 layout: posta
 comments: on
 ---
@@ -85,7 +85,7 @@ The same time to preserve backward compatibility the `strictfp` modifier was add
 
 * There are hexadecimal floating point literals in Java. Remember it and also what `strictfp` is because somebody may ask you about it on a Java interview. No practical use in enterprise programming.
 * Do not use them unless it makes the code more readable. I can barely imagine any situation where this would be the case. So, simply put: do not use them just because you can.
-* Follow me on Twitter `@verhas` to get notification about new articles. 
+* Follow me on Twitter `@verhas` to get notification about new articles.
 
 
 [twitter-follow screen_name='verhas']
@@ -186,6 +186,3 @@ public static final double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324
 
 which can't be reasonably written otherwise. I guess, I used it once for 2**100, where I needed to downscale some crazy numbers in order to avoid overflow (Project Euler, nothing practical).
 ____
-
-
-

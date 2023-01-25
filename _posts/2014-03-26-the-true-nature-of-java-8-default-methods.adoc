@@ -1,5 +1,5 @@
 ---
-title: "Java 8 default methods: what can and can not do?" 
+title: "Java 8 default methods: what can and can not do?"
 layout: posta
 comments: on
 ---
@@ -8,7 +8,7 @@ comments: on
 ==== 1.1.1. What default method is
 
 
-With the release of Java 8 you can modify interfaces adding new methods so that the interface remains compatible with the classes that implement the interface. This is very important in case you develop a library that is going to be used by several programmers from Kiev to New York. Until the dawn of Java 8 if you published an interface in a library you could not add a new method without risking that some application implementing the interface will break with the new version of the interface. 
+With the release of Java 8 you can modify interfaces adding new methods so that the interface remains compatible with the classes that implement the interface. This is very important in case you develop a library that is going to be used by several programmers from Kiev to New York. Until the dawn of Java 8 if you published an interface in a library you could not add a new method without risking that some application implementing the interface will break with the new version of the interface.
 
 With Java 8 is this fear gone? No.
 
@@ -35,7 +35,7 @@ This is also true when only one of the interfaces implement the default method a
 However you can not get a compile time error if you have your class already compiled. This way Java 8 is not consistent. It has its reason, which I do not want to detail here or get into debate for various reasons (e.g.: the release is out, debate time is long over and was never on this platform).
 
 
-	* Say you have two interfaces, and a class implementing the two interfaces. 
+	* Say you have two interfaces, and a class implementing the two interfaces.
 	* One of the interfaces implement a default method `m()`.
 	* You compile all the interfaces and the class.
 	* You change the interface not containing the method `m()` to declare it as an abstract method.
@@ -66,7 +66,7 @@ The class contains a main method so we can execute it in our test. It tests if t
 
 [source]
 ----
-~/github/test$ cat C.java 
+~/github/test$ cat C.java
 public class C implements I1, I2 {
   public static void main(String[] args) {
     C c = new C();
@@ -75,13 +75,13 @@ public class C implements I1, I2 {
     }
   }
 }
-~/github/test$ cat base/I1.java 
+~/github/test$ cat base/I1.java
 public interface I1 {
   default void m(){
     System.out.println(&amp;amp;quot;hello interface 1&amp;amp;quot;);
-  }	
+  }
 }
-~/github/test$ cat base/I2.java 
+~/github/test$ cat base/I2.java
 public interface I2 {
 }
 ----
@@ -101,7 +101,7 @@ The directory `compatible` contains a version of the interface `I2` that declare
 
 [source]
 ----
-~/github/test$ cat compatible/I2.java 
+~/github/test$ cat compatible/I2.java
 
 public interface I2 {
   void m();
@@ -113,7 +113,7 @@ This can not be used to compile the class `C`:
 
 [source]
 ----
-~/github/test$ javac -cp .:compatible C.java 
+~/github/test$ javac -cp .:compatible C.java
 C.java:1: error: C is not abstract and does not override abstract method m() in I2
 public class C implements I1, I2 {
        ^
@@ -135,7 +135,7 @@ The third directory, `wrong` contains a version of `I2` that also defines the me
 
 [source]
 ----
-~/github/test$ cat wrong/I2.java 
+~/github/test$ cat wrong/I2.java
 public interface I2 {
   default void m(){
     System.out.println(&amp;amp;quot;hello interface 2&amp;amp;quot;);
@@ -224,6 +224,3 @@ ____
 ____
 [&#8230;] 피터 버하스는 좀 더 상세한 글을 작성 했는데 다음 링크를 참고해봐 ( 자바 8 디폴트 메소드 : 무엇을 할 수 있고 무엇을 못하나? ) 동일한 시그니처를 가진 디폴트 메소드로 구현된 여러 개의 [&#8230;]
 ____
-
-
-

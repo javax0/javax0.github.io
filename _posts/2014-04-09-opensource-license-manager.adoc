@@ -1,5 +1,5 @@
 ---
-title: "OpenSource License Manager" 
+title: "OpenSource License Manager"
 layout: posta
 comments: on
 ---
@@ -88,6 +88,3 @@ Feel free to use it if you like.
 ____
 I recommend License4J (license4j.com), it is feature rich api and application.
 ____
-
-
-

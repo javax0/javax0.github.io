@@ -1,5 +1,5 @@
 ---
-title: "Knowing the bits" 
+title: "Knowing the bits"
 layout: posta
 comments: on
 ---
@@ -62,6 +62,3 @@ Generally that is it when you are professional. Face it!
 ____
 [&#8230;] 英文原文链接 [&#8230;]
 ____
-
-
-

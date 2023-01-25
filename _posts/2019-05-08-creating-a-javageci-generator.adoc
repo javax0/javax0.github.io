@@ -1,5 +1,5 @@
 ---
-title: "Creating a Java::Geci generator" 
+title: "Creating a Java::Geci generator"
 layout: posta
 comments: on
 ---
@@ -321,6 +321,3 @@ ____
 ____
 [&#8230;] Creating a Java::Geci generator [&#8230;]
 ____
-
-
-

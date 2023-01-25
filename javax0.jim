@@ -9,6 +9,7 @@ define the 'section', 'subsection' and 'subsubsection' macros that number the in
 {@define subsubsection($x)===== {scount last}.{sscount last}.{ssscount}. $x}
 
 {#define :ARTICLE={#file (format="$bareNaked"){@pos (top format="%f")}}}
+{#define asciidoc:output={@directory (format=$absolutePath) _posts}}
 
 {@define article($fileName,$refText)=link:/{@replace (regex) |$fileName|(\d)-|$1/|}.html[$refText]}
 {@define liquid($x)={@escape* `liquid`{`liquid`} $x {@escape* `liquid`}`liquid`}}
@@ -72,5 +73,5 @@ For other aspects of commenting read the link:https://javax0.github.io/about/[AB
 
 {@define sampleOutput($X)=[source,text]
 ----
-{#include [verbatim] ../_projects/{ARTICLE}/$X}
+{#include [verbatim] ../../_projects/{ARTICLE}/$X}
 ----}

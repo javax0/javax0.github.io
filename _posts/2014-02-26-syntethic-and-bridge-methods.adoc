@@ -1,5 +1,5 @@
 ---
-title: "Synthetic and bridge methods" 
+title: "Synthetic and bridge methods"
 layout: posta
 comments: on
 ---
@@ -218,7 +218,7 @@ public java.lang.Object get(int);
 ----
 
 
-The interesting this is that the signature of the two methods is the same and only the return types are different. This is allowed in the JVM even though this is not possible in the Java language. The bridge method does not do anything else, but calls the original one. 
+The interesting this is that the signature of the two methods is the same and only the return types are different. This is allowed in the JVM even though this is not possible in the Java language. The bridge method does not do anything else, but calls the original one.
 
 Why do we need this synthetic method? Who will use it. For example the code that wants to invoke the method `get(int)` using a variable that is no of the type `MyLink`:
 
@@ -355,7 +355,7 @@ ____
 [quote]
 ____
 My understanding is that you are expected to mask the result of getModifiers() with the method modifiers to ensure you are seeing the modifiers as intended.
-So, do 
+So, do
 [source,java]
 ----
 m.getModifiers() &amp; Modifier.methodModifiers()
@@ -451,6 +451,3 @@ ____
 ____
 [&#8230;] 是编译器生成的方法, 见参考链接: Synthetic and bridge&nbsp;methods https://docs.oracle.com/javase/tutorial/java/generics/bridgeMethods.html [&#8230;]
 ____
-
-
-
