@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Lambda and final variables | Java Deep, mostly Java</title>
+<title>Lambda and Final Parameters | Java Deep, mostly Java</title>
 <meta name="generator" content="Jekyll v4.3.1" />
-<meta property="og:title" content="Lambda and final variables" />
+<meta property="og:title" content="Lambda and Final Parameters" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="1. Introduction" />
 <meta property="og:description" content="1. Introduction" />
-<link rel="canonical" href="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html" />
-<meta property="og:url" content="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html" />
+<link rel="canonical" href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" />
+<meta property="og:url" content="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" />
 <meta property="og:site_name" content="Java Deep, mostly Java" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-12-08T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Lambda and final variables" />
+<meta property="twitter:title" content="Lambda and Final Parameters" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-12-08T00:00:00+01:00","datePublished":"2021-12-08T00:00:00+01:00","description":"1. Introduction","headline":"Lambda and final variables","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2021/12/08/lambda-and-final-variables.html"},"url":"https://javax0.github.io/2021/12/08/lambda-and-final-variables.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-12-08T00:00:00+01:00","datePublished":"2021-12-08T00:00:00+01:00","description":"1. Introduction","headline":"Lambda and Final Parameters","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html"},"url":"https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
 <body><header class="site-header" role="banner">
@@ -40,7 +40,7 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Lambda and final variables</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Lambda and Final Parameters</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2021-12-08T00:00:00+01:00" itemprop="datePublished">Dec 8, 2021
       </time></p>
@@ -85,11 +85,11 @@
 <div class="content">
 <pre class="highlight"><code>public class Anon {
 
-    public static Function&lt;Integer, Integer&gt; incrementer(final int step) {
-        return (Integer i) -&gt; i + step;
+    public static Function&amp;lt;Integer, Integer&amp;gt; incrementer(final int step) {
+        return (Integer i) -&amp;gt; i + step;
     }
-    public static Function&lt;Integer, Integer&gt; anonIncrementer(final int step) {
-        return new Function&lt;Integer, Integer&gt;() {
+    public static Function&amp;lt;Integer, Integer&amp;gt; anonIncrementer(final int step) {
+        return new Function&amp;lt;Integer, Integer&amp;gt;() {
             @Override
             public Integer apply(Integer i) {
                 return i + step;
@@ -136,7 +136,7 @@ assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Funct
 <pre class="highlight"><code>class MyClosure {
     static incrementer() {
         Integer z = 0
-        return { Integer x -&gt; z++; x + z }
+        return { Integer x -&amp;gt; z++; x + z }
     }
 }</code></pre>
 </div>
@@ -194,9 +194,9 @@ assert inc(1) == 4</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>public static Function&lt;Integer, Integer&gt; incrementer() {
+<pre class="highlight"><code>public static Function&amp;lt;Integer, Integer&amp;gt; incrementer() {
     AtomicInteger z = new AtomicInteger(0);
-    return x -&gt; {
+    return x -&amp;gt; {
         z.set(z.get() + 1);
         return x + z.get();
     };
@@ -211,10 +211,10 @@ assert inc(1) == 4</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>public static Function&lt;Integer, Integer&gt; incrementer() {
+<pre class="highlight"><code>public static Function&amp;lt;Integer, Integer&amp;gt; incrementer() {
     class DataHolder{int z; int m;}
     final var dh = new DataHolder();
-    return x -&gt; {
+    return x -&amp;gt; {
         dh.z++;
         dh.m++;
         return x + dh.z*dh.m;
@@ -254,62 +254,6 @@ assertThat(inc.apply(1)).isEqualTo(10);</code></pre>
 <div class="paragraph">
 <p>You an find the code for this article along with the article text source code at <a href="https://github.com/verhas/demo/tree/master/LambdaFinal" class="bare">https://github.com/verhas/demo/tree/master/LambdaFinal</a></p>
 </div>
-<div class="sect2">
-<h3 id="comments-imported-from-wordpress">Comments imported from Wordpress</h3>
-<div class="paragraph">
-<p><strong>Peter Verhas</strong> 2021-12-30 21:49:42</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Good catch! I fixed that sentence. It has to be "The JVM will place this object on the heap."</p>
-</div>
-<div class="paragraph">
-<p>Thanks.</p>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p><strong>Filip</strong> 2021-12-30 20:46:14</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Is lambda stored on heap or on stack? In paragraph four of "Life of lambda" it is said that lambda is created on a stack, but description is suggesting that it is created on a heap.</p>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p><strong>Lambda and final variables - Java Code Geeks - R4 News</strong> 2021-12-19 14:24:08</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>[&#8230;] Posted on Java Code Geeks with the permission of Peter Verhas, partner of our JCG program. See the original article here: Lambda and final variables [&#8230;]</p>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p><strong>Lambda and final variables &#8211; Java Code Geeks &#8211; Munaf Sheikh</strong> 2021-12-19 14:30:58</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>[&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Lambda and final variables [&#8230;]</p>
-</div>
-</blockquote>
-</div>
-<div class="paragraph">
-<p><strong>Lambda and final variables – Java Code Geeks &#8211; Munaf Sheikh</strong> 2021-12-19 17:35:51</p>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>[&#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Lambda and final variables [&#8230;]</p>
-</div>
-</blockquote>
-</div>
-</div>
 </div>
 </div>
 
@@ -330,8 +274,8 @@ If for any reason you do not want to leave a comment here, <a href="https://gith
         /* Instead, edit the key `disqus.shortname` in _config.yml */
 
         var disqus_config = function (){
-            this.page.url = 'https://javax0.github.io/2021/12/08/lambda-and-final-variables.html';
-            this.page.identifier = '/2021/12/08/lambda-and-final-variables.html';
+            this.page.url = 'https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html';
+            this.page.identifier = '/2021/12/08/lambda-and-final-parameters.html';
         };
 
         (function() {
@@ -349,7 +293,7 @@ If for any reason you do not want to leave a comment here, <a href="https://gith
 
 
 
-  </div><a class="u-url" href="/2021/12/08/lambda-and-final-variables.html" hidden></a>
+  </div><a class="u-url" href="/2021/12/08/lambda-and-final-parameters.html" hidden></a>
 </article>
 
       </div>
