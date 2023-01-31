@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 ---
 {%@import javax0.jim%}
+{%@define asciidoc:output=about.doc%}
 == This is Javax0
 
 This is the new Javax0 blog.
