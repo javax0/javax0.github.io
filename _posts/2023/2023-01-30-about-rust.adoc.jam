@@ -94,8 +94,7 @@ By the way: using pointers also makes Rust prone to this problem.
 This is the feature that makes Rust outstanding and unique.
 C trusts the developer not to make mistakes.
 It is a wrong choice.
-You should never trust the developer.
-Developers make mistakes.
+Developers make mistakes, Rust does not.
 
 Developers have to know when the code is not using an allocated memory chunk anymore, and they have to free it.
 This is something that a compiler could do.
