@@ -1,0 +1,329 @@
+---
+title: About Rust
+layout: posta
+comments: on
+---
+= About Rust
+
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+
+This article is for developers and managers who have heard about Rust but do not know much about it.
+It is not a tutorial.
+I write what I see and give some unsolicited -- or assuming you read it not by accident, then solicited -- advice.
+
+{%section Introduction%}
+
+This article is a few words about Rust.
+
+Rust is a ten-year-old programming language.
+New programming languages arise all the time, and then they get forgotten.
+I remember when Roger Lang told me in 1997 about Java that it was a paper tiger.
+We worked for Digital Equipment Corporation in the Hungarian subsidiary, and Java was relatively new.
+The expression "paper tiger" references the Chinese proverb, "The tiger that is paper is not a tiger".
+
+He failed.
+Java did not.
+Java was a tiger, though an infant.
+Some believed it even then, but nobody could "know".
+The future of Java was not sure.
+
+The same is with Rust.
+Although it is a ten-year-old language, it is still an infant.
+Technically it is not an infant.
+There are many solutions in the language and in the whole infrastructure architecture that are mature and brilliant.
+What is still missing is community and industry acceptance.
+
+My prediction is that
+
+____
+Rust will step over the industry acceptance threshold in 2023, becoming a player in the industry; you can be confident it will not fade and be forgotten soon.
+____
+
+Before going on with the rest of the article, I have to make a statement:
+
+====
+I am not a Rust expert. I have recently started learning the language and am still a beginner.
+I have written more than a simple "Hello,World!" but that is it.
+
+On the other hand, I have more than 40 years of programming experience if we start counting from my first program line, which was executed by a processor (TI-59 calculator) in 1980.
+I programmed in FORTRAN, BASIC, Pascal, C, C++, Java, JavaScript, Python, and many other languages.
+Java, as you can see from the topic of the blog, is my main charter for now.
+May Rust be the future.
+====
+
+In this article, I will write a few words about Rust.
+I will not teach you Rust.
+(After the disclaimer, this should be evident.)
+I will write down some of the features that I felt were important and interesting.
+I try to focus on the essential features from the commercial point of view.
+
+The reason is that they are the features that will make Rust a success or a failure.
+You, as a developer, may like some features.
+You may say, "how cool Rust is because of" this or that feature.
+But if the feature is not essential for the industry, or the managers, then it is not crucial for Rust.
+A language is not a hobby project.
+
+This article is about what I have seen so far and what I imply from it for the future of the language.
+
+{%section Rust is a systems programming language%}
+
+Being a Java developer, I do not feel threatened by Rust.
+Rust is a system programming language like C or C++.
+It is a robust language, and I believe writing enterprise applications in it is possible, but not now.
+
+Rust compiles to machine code or WebAssembly.
+There is no virtual machine and no garbage collection.
+It means that the performance is comparable to C and C++.
+I would not write it is faster than Java because even C and C++ are slower than Java in some particular cases.
+The important thing is that there are no hiccups in the performance during garbage collection.
+
+I acknowledge that Java has dramatically improved and has a highly optimized garbage collector.
+Still, it collects the garbage and then releases it in batches, affecting performance.
+
+Google's Golang garbage collector is also fast.
+However, comparing it to any other GC, you should remember that it does not compact the heap.
+It simply can not because the language uses pointers, and as such, it is prone to memory fragmentation.
+
+By the way: using pointers also makes Rust prone to this problem.
+
+{%section Memory Safety%}
+
+This is the feature that makes Rust outstanding and unique.
+C trusts the developer not to make mistakes.
+It is a wrong choice.
+You should never trust the developer.
+Developers make mistakes.
+
+Developers have to know when the code is not using an allocated memory chunk anymore, and they have to free it.
+This is something that a compiler could do.
+In principle, a compiler could identify the memory chunks that are not used anymore and generate code to free them.
+They don't do that because the task is computationally expensive.
+In short, the compiler cannot identify when to free the memory.
+
+On the other end of the scale, Java safeguards everything using the garbage collector.
+In this case, the run-time keeps track of all the references and frees the memory when it is not referenced anymore.
+
+Rust developers did not accept the statement that the compiler could not do it.
+They approached the problem again, and they found a solution.
+The solution is called "ownership".
+
+The reference to a memory location is either owning the resource or borrowing it.
+There can be only one resource owner, just like in real life.
+
+At first, it is a bit hard to grasp the concept and needs a bit of different thinking than C or Java development.
+However, it is a brilliant solution.
+
+{%section Application Management%}
+
+Rust does not have built-in application management.
+The reason for it is that Rust is a systems programming language.
+When you have a JVM process, you can attach a debugger, query the memory and thread parameters, and make a memory dump.
+With Rust, all you can do is what the operating system lets you do.
+
+When you run an enterprise application that runs for several months between two maintenance stops for the ubiquitous version update, you need information about the running system to know how well it performs.
+
+Rust may have and certainly will have libraries and tools in the future addressing this issue, but it is not part of the ecosystem and the default run-time.
+
+{%section Ease of Learning%}
+
+This is a critical point.
+Rust is not easy to learn.
+Writing the first "Hello, World!" and having it up and running took a few days.
+
+I feel the weight of the language and the ecosystem.
+
+This is good news for the developers.
+If you know Rust, you have little competition.
+Rust developers are expensive.
+For the managers, it is bad news.
+Rust developers are expensive.
+
+{%section Language Features%}
+
+There are many great features in Rust that developers can like.
+The code, after you learn the language, can be very readable.
+
+However, it can also be very unreadable.
+There are Rust quizzes on the net that I do not understand after a month of learning the language.
+Not being able to solve it would be natural, but I often do not understand the explanation.
+It is partially my age; 40 years of experience does not come young, but it is also the complexity of the language.
+
+I usually say that the important question is not
+
+____
+BAD QUESTION: How readable code can someone write in a language?
+____
+
+rather
+
+____
+GOOD QUESTION: How unreadable code can a junior developer, who thinks they mastered it all, write?
+____
+
+In this regard, Rust is guilty.
+The language is open for the developers to be extended.
+The developers can write macros, which are part of the language.
+
+It is similar to the C preprocessor, but macros run during instead of before the compilation.
+The input for the macros is the lexical tokens, and the output is the lexical tokens.
+
+[NOTE]
+====
+To be precise, the macros work on a lexical token tree, not a stream.
+It simply means that the paired symbols, like `(` and `)`, should be in pairs, or else the compiler will complain before passing the lexical tree to the macro.
+====
+
+Java, for example, says that such a "preprocessor" or "macro" is counterintuitive.
+The language is powerful enough.
+If you need any macro to write your code readable, you have done something wrong; you must learn to use the language better.
+Developers, on the other hand, welcome such a possibility.
+We love to use the tool and not to "learn it more".
+This is the main reason why projects like Lombok are so hated and loved at the same time.
+(In addition to the fact that Lombok is using undocumented API.)
+
+Rust is on the other end of the scale.
+It provides not only macro processing but also allows the developers to interpret the token tree in Rust.
+A code written in Rust will start during the compilation and transform part of the lexical tree to another.
+Using this possibility, you can significantly alter the language by giving different meanings and semantics to some constructs.
+Eventually, you should not do that; it was never intended to introduce procedural macros.
+A "clever" junior, however, could.
+
+{%section Backward Compatibility%}
+
+Backward compatibility is a critical issue.
+Pulling an old 8mm magnetic tape zip archive with some Java 1.0 code will compile and run with the newest Java version.
+You can compile with the latest C compiler code written in 1970.
+(Most of the cases.)
+
+However, as we can see in the case of Java, this hinders language development.
+My favorite example is `final`.
+By the time Java was introduced, the obvious and reasonable choice was to make everything non `final` by default.
+Hence, we have the `final` keyword in Java and do not have something like `nonfinal`.
+Today most of us feel that `final` would be a better default, but it is too late to change it.
+
+Rust cuts this Gordian knot.
+Rust introduces the edition mechanism.
+There are different editions of Rust, which are essentially language versions.
+Inside an edition, a new version is always backward compatible.
+Some old conventions can be thrown away when a new edition comes out.
+The new compiler, however, can still work with the old code.
+It just has to know which edition it is, and the edition is stated in the project's `Cargo.toml` file.
+
+{%section Libraries%}
+
+Libraries are also vital parts of the ecosystem.
+There are libraries for Rust, but not as wast as for Java.e
+It clearly shows that mainly enthusiasts support Rust.
+Most of the libraries look like well-designed open-source hobby projects.
+Documented, but not excessively, covers most use cases, but sometimes not all of them.
+
+There are rooms for library development.
+
+{%section Tooling%}
+
+Rust tooling is excellent.
+Eventually not as good as Java, but it is getting there.
+I tried to develop a Rust application using IntelliJ IDEA and CLion.
+It works; you can also debug the language interactively.
+
+I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
+Cross-compilation is a strong point of Rust.
+
+{%section Implications%}
+
+Rust is an important language that we have to pay attention to.
+
+{%subsection Use Rust?%}
+
+The big question is: should you use Rust?
+When should you use Rust?
+
+If you are a developer, allocate time to learn it.
+You will need devotion because it is not trivial.
+Find some hobby projects or libraries that you will develop in Rust.
+Keep Rust in your toolset; it will pay back sooner or later.
+
+If you are a manager, know about it.
+Encourage your developers to learn it.
+
+If your actual project is low-level, more or less a systems programming project, then Rust must be considered.
+I do not advocate selecting Rust, but it must be considered.
+
+The decision has to be made based on non-technical requirements.
+Rust is mature enough to do anything that C can do.
+Technical requirements make no difference in this case.
+The questions you have to ask are
+
+* How long will the project run? How long will you need to maintain it?
+
+* How many developers will work on the project? Can you afford to have a Rust developer? Can you educate
+
+Using Rust at the moment is a significant investment.
+Rust developers are not available in the market significant amount.
+It is a good choice if you can afford to educate your developers to learn Rust.
+
+{%subsection What will Rust do ?%}
+
+My opinion is that Rust will be used in many areas.
+
+{%subsubsection Systems Programming%}
+
+For low-level systems programming, it will definitely be a significant player.
+The promise to create a memory-safe, "unhackable" program is strong.
+It is also something that I genuinely believe Rust delivers.
+
+{%subsubsection Application Programming%}
+
+But this is not the whole story.
+Rust has the potential to be a significant player in enterprise application development.
+It has to evolve to have more commercial-grade libraries and a non-niche developer base to get there.
+
+{%subsubsection Web UI Development%}
+
+I also see the possibility of it being a player in Web UI development.
+The reason for the possibility is WebAssembly.
+
+Compiling the code to run in the browser is a prerequisite, but not enough.
+The main reason, strangely, is the complexity of Rust.
+The needed and delivered code quality of UI projects reflecting the experience of the average UI developer is usually low.
+UI developers are usually young and less experienced.
+This also means an issue when you have a project that needs more experience.
+Finding a senior UI developer may be difficult in the swarm of young developers.
+On the other hand, when you find a developer who can program in Rust, you are more likely to find someone who is a senior developer.
+
+{%section Summary and Conclusion%}
+
+Rust is a language that we have to pay attention to.
+It is technically mature, and it will become commercially mature in the future.
+2023 is the year (my opinion) when it will pass the tipping point.
+
+As a developer, you should learn it.
+
+As a manager, you should know about it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
