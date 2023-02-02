@@ -17,20 +17,24 @@ I write what I see and give some unsolicited -- or assuming you read it not by a
 This article is a few words about Rust.
 
 Rust is a ten-year-old programming language.
+In my opinion this language will shape the industry in the future comparable to the impact of Java.
+Time will tell.
+
+
 New programming languages arise all the time, and then they get forgotten.
 I remember when Roger Lang told me in 1997 about Java that it was a paper tiger.
 We worked for Digital Equipment Corporation in the Hungarian subsidiary, and Java was relatively new.
 The expression "paper tiger" references the Chinese proverb, "The tiger that is paper is not a tiger".
 
-He failed.
-Java did not.
-Java was a tiger, though an infant.
-Some believed it even then, but nobody could "know".
+He failed. +
+Java did not. +
+Java was a tiger, though an infant. +
+Some believed it even then, but nobody could "know". +
 The future of Java was not sure.
 
-The same is with Rust.
-Although it is a ten-year-old language, it is still an infant.
-Technically it is not an infant.
+The same is with Rust now. +
+Although it is a ten-year-old language, it is still an infant. +
+Technically it is not.
 There are many solutions in the language and in the whole infrastructure architecture that are mature and brilliant.
 What is still missing is community and industry acceptance.
 
@@ -89,11 +93,19 @@ By the way: using pointers also makes Rust prone to this problem.
 
 == 3. Memory Safety
 
-This is the feature that makes Rust outstanding and unique.
+This is a technical section in this article.
+If you are a manager and inpatient, here it is in one sentence:
+
+____
+Rust uses a memory management approach, which delivers the same level of safety as Java but without the garbage collection overhead.
+____
+
+(Managers can skip to the next section.)
+
+Memory safety is the feature that makes Rust outstanding and unique.
 C trusts the developer not to make mistakes.
 It is a wrong choice.
-You should never trust the developer.
-Developers make mistakes.
+Developers make mistakes, Rust does not.
 
 Developers have to know when the code is not using an allocated memory chunk anymore, and they have to free it.
 This is something that a compiler could do.
