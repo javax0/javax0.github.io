@@ -96,7 +96,7 @@ By the way: using pointers also makes Rust prone to this problem.
 {%section Memory Safety%}
 
 This is a technical section in this article.
-If you are a manager and inpatient, here it is in one sentence:
+If you are a manager and impatient, here it is in one sentence:
 
 ____
 Rust uses a memory management approach, which delivers the same level of safety as Java but without the garbage collection overhead.
@@ -146,6 +146,9 @@ Rust is not easy to learn.
 Writing the first "Hello, World!" and having it up and running took a few days.
 
 I feel the weight of the language and the ecosystem.
+
+Although for the curious developers that dislike the trial and error approach to debugging, good news for you!
+Rust's strong type system, ownership and borrowing model, and error handling mechanism work together to produce well-defined and accurate error messages, reducing the need for trial-and-error debugging.
 
 This is good news for the developers.
 If you know Rust, you have little competition.
@@ -224,10 +227,13 @@ Some old conventions can be thrown away when a new edition comes out.
 The new compiler, however, can still work with the old code.
 It just has to know which edition it is, and the edition is stated in the project's `Cargo.toml` file.
 
+Overall, the use of editions in Rust is an innovative approach to address the backward compatibility issue, 
+but its effectiveness and impact will depend on how it is adopted and used by the Rust community and developers.
+
 {%section Libraries%}
 
 Libraries are also vital parts of the ecosystem.
-There are libraries for Rust, but not as wast as for Java.e
+There are libraries for Rust, but not as wast as for Java.
 It clearly shows that mainly enthusiasts support Rust.
 Most of the libraries look like well-designed open-source hobby projects.
 Documented, but not excessively, covers most use cases, but sometimes not all of them.
@@ -243,6 +249,8 @@ It works; you can also debug the language interactively.
 
 I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
 Cross-compilation is a strong point of Rust.
+Although there are edge cases always,
+let's pick a bad example: things that GCC supports but aren't even tier 3 for rustc / LLVM.
 
 {%section Implications%}
 
