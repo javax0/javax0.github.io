@@ -315,3 +315,38 @@ It is technically mature, and it will become commercially mature in the future.
 As a developer, you should learn it.
 
 As a manager, you should know about it.
+
+[NOTE]
+====
+This article as a source code was available on GitHub since the start of writing.
+The people who contributed to the text with comments before the publishing date are:
+
+* link:https://github.com/Juriy[Iurii Bura]
+
+* link:[Kristof Szabados]
+====
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
