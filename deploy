@@ -1,6 +1,8 @@
 #!/bin/sh
+rm -rf docs
 ./build
 git add --all docs
 git commit -m "deploy"
 git push
 open https://javax0.github.io
+open https://github.com/javax0/javax0.github.io/actions
