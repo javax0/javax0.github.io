@@ -96,7 +96,7 @@ By the way: using pointers also makes Rust prone to this problem.
 {%section Memory Safety%}
 
 This is a technical section in this article.
-If you are a manager and inpatient, here it is in one sentence:
+If you are a manager and impatient, here it is in one sentence:
 
 ____
 Rust uses a memory management approach, which delivers the same level of safety as Java without the garbage collection overhead.
@@ -224,6 +224,9 @@ Some old conventions can be thrown away when a new edition comes out.
 The new compiler, however, can still work with the old code.
 It just has to know which edition it is, and the edition is stated in the project's `Cargo.toml` file.
 
+Overall, the use of editions in Rust is an innovative approach to address backward compatibility.
+Its effectiveness and impact depends on how it is adopted and used by the Rust developers' community.
+
 {%section Libraries%}
 
 Libraries are also vital parts of the ecosystem.
@@ -243,6 +246,16 @@ It works; you can also debug the language interactively.
 
 I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
 Cross-compilation is a strong point of Rust.
+
+There are two comments, however, that I got from {%KRISTOF%} and {%IRINE%}.
+One is that you should avoid cross-compilation if possible.
+It is not Rust specific.
+Cross compilation, setting up the environment contains many pitfalls that target architecture compilation does not have.
+Cross compilation is usually a practice for embedded systems.
+
+The other comment is that Rust compilation using LLVM targets only the those provided by LLVM.
+C language using GCC has a wider breath.
+
 
 {%section Implications%}
 
@@ -326,6 +339,8 @@ The people who contributed to the text with comments before the publishing date 
 * {%IURII%}
 
 * {%KRISTOF%}
+
+* {%IRINE%}
 ====
 
 
