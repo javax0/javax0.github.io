@@ -7,3 +7,7 @@ venv
 .jekyll-metadata
 .ruby-version
 Makefile
+*.class
+.mvn/
+*.jar
+target/

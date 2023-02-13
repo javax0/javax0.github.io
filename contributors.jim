@@ -1,0 +1,10 @@
+{@define CONTRIBUTORS($x)=
+{!!@for [separator="\n" subseparator="\\|" skipForEmpty lenient evalist] ($ID,$NAME,$URL) in `LINES`
+$x
+`LINES`={@if [not blank] |$ID|{@define $ID=link:$URL[$NAME]}}
+}}
+
+{CONTRIBUTORS
+IURII|Iurii Bura|https://github.com/Juriy
+KRISTOF|Kristof Szabados|
+}
