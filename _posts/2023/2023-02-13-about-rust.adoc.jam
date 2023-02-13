@@ -99,7 +99,7 @@ This is a technical section in this article.
 If you are a manager and inpatient, here it is in one sentence:
 
 ____
-Rust uses a memory management approach, which delivers the same level of safety as Java but without the garbage collection overhead.
+Rust uses a memory management approach, which delivers the same level of safety as Java without the garbage collection overhead.
 ____
 
 (Managers can skip to the next section.)
@@ -111,14 +111,14 @@ Developers make mistakes, Rust does not.
 
 Developers have to know when the code is not using an allocated memory chunk anymore, and they have to free it.
 This is something that a compiler could do.
-In principle, a compiler could identify the memory chunks that are not used anymore and generate code to free them.
+In principle, a compiler could identify the memory chunks not used anymore and generate code to free them.
 They don't do that because the task is computationally expensive.
 In short, the compiler cannot identify when to free the memory.
 
 On the other end of the scale, Java safeguards everything using the garbage collector.
 In this case, the run-time keeps track of all the references and frees the memory when it is not referenced anymore.
 
-Rust developers did not accept the statement that the compiler could not do it.
+Rust language developers did not accept the statement that the compiler could not do it.
 They approached the problem again, and they found a solution.
 The solution is called "ownership".
 
@@ -227,7 +227,7 @@ It just has to know which edition it is, and the edition is stated in the projec
 {%section Libraries%}
 
 Libraries are also vital parts of the ecosystem.
-There are libraries for Rust, but not as wast as for Java.e
+There are libraries for Rust, but not as wast as for Java.
 It clearly shows that mainly enthusiasts support Rust.
 Most of the libraries look like well-designed open-source hobby projects.
 Documented, but not excessively, covers most use cases, but sometimes not all of them.
@@ -266,6 +266,7 @@ I do not advocate selecting Rust, but it must be considered.
 
 The decision has to be made based on non-technical requirements.
 Rust is mature enough to do anything that C can do.
+If there is something prohibited by compile time memory safety, you can still use `unsafe` code as a last resort.
 Technical requirements make no difference in this case.
 The questions you have to ask are
 
@@ -285,6 +286,7 @@ My opinion is that Rust will be used in many areas.
 
 For low-level systems programming, it will definitely be a significant player.
 The promise to create a memory-safe, "unhackable" program is strong.
+There is no general guarantee for the resulting code 100% secure, but a significant share of the security issues use exploits based on memory safety problems.
 It is also something that I genuinely believe Rust delivers.
 
 {%subsubsection Application Programming%}
@@ -315,6 +317,18 @@ It is technically mature, and it will become commercially mature in the future.
 As a developer, you should learn it.
 
 As a manager, you should know about it.
+
+[NOTE]
+====
+This article as a source code was available on GitHub since the start of writing.
+The people who contributed to the text with comments before the publishing date are:
+
+* {%IURII%}
+
+* {%KRISTOF%}
+====
+
+
 
 
 

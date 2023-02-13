@@ -75,3 +75,5 @@ For other aspects of commenting read the link:https://javax0.github.io/about/[AB
 ----
 {#include [verbatim] ../../_projects/{ARTICLE}/$X}
 ----}
+
+{@import contributors.jim}
