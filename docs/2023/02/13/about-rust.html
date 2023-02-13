@@ -167,7 +167,7 @@ It simply can not because the language uses pointers, and as such, it is prone t
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a technical section in this article.
-If you are a manager and inpatient, here it is in one sentence:</p>
+If you are a manager and impatient, here it is in one sentence:</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -349,6 +349,10 @@ Some old conventions can be thrown away when a new edition comes out.
 The new compiler, however, can still work with the old code.
 It just has to know which edition it is, and the edition is stated in the project&#8217;s <code>Cargo.toml</code> file.</p>
 </div>
+<div class="paragraph">
+<p>Overall, the use of editions in Rust is an innovative approach to address backward compatibility.
+Its effectiveness and impact depends on how it is adopted and used by the Rust developers' community.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -378,6 +382,17 @@ It works; you can also debug the language interactively.</p>
 <div class="paragraph">
 <p>I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
 Cross-compilation is a strong point of Rust.</p>
+</div>
+<div class="paragraph">
+<p>There are two comments, however, that I got from <a href="">Kristof Szabados</a> and <a href="https://github.com/scirin">Irine Kokilashvili</a>.
+One is that you should avoid cross-compilation if possible.
+It is not Rust specific.
+Cross compilation, setting up the environment contains many pitfalls that target architecture compilation does not have.
+Cross compilation is usually a practice for embedded systems.</p>
+</div>
+<div class="paragraph">
+<p>The other comment is that Rust compilation using LLVM targets only the those provided by LLVM.
+C language using GCC has a wider breath.</p>
 </div>
 </div>
 </div>
@@ -503,6 +518,9 @@ The people who contributed to the text with comments before the publishing date 
 </li>
 <li>
 <p><a href="">Kristof Szabados</a></p>
+</li>
+<li>
+<p><a href="https://github.com/scirin">Irine Kokilashvili</a></p>
 </li>
 </ul>
 </div>
