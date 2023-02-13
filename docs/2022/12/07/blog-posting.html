@@ -311,7 +311,7 @@ all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _pos
     [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
     [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
 [%TARGET%] : [%SOURCE%]
-[%tab%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
+[%HT%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
     %]%]%]</code></pre>
 </div>
 </div>
@@ -331,12 +331,12 @@ As a workaround I created a <code>tab.jim</code> file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">{@define tab=	} &lt;- this is a tab character
+<pre class="highlight"><code class="language-bash" data-lang="bash">{@define HT=	} &lt;- this is a tab character
 A simple tab character.
 
 This file is not to be edited other than vi.
 Other editors may replace the TAB character with spaces.
-Files can import this file and use {tab} in Makefiles.
+Files can import this file and use {HT} in Makefiles.
 To exit vi press the escape key and then capital Z twice.
 Without saving: escsape and then :q!</code></pre>
 </div>
