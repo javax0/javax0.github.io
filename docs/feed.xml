@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-02-13T13:04:49+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">About Rust</title><link href="https://javax0.github.io/2023/02/13/about-rust.html" rel="alternate" type="text/html" title="About Rust" /><published>2023-02-13T00:00:00+01:00</published><updated>2023-02-13T00:00:00+01:00</updated><id>https://javax0.github.io/2023/02/13/about-rust</id><content type="html" xml:base="https://javax0.github.io/2023/02/13/about-rust.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-02-16T07:07:02+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">About Rust</title><link href="https://javax0.github.io/2023/02/13/about-rust.html" rel="alternate" type="text/html" title="About Rust" /><published>2023-02-13T00:00:00+01:00</published><updated>2023-02-13T00:00:00+01:00</updated><id>https://javax0.github.io/2023/02/13/about-rust</id><content type="html" xml:base="https://javax0.github.io/2023/02/13/about-rust.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article is for developers and managers who have heard about Rust but do not know much about it.
@@ -335,7 +335,7 @@ It works; you can also debug the language interactively.&lt;/p&gt;
 Cross-compilation is a strong point of Rust.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are two comments, however, that I got from &lt;a href=&quot;&quot;&gt;Kristof Szabados&lt;/a&gt; and &lt;a href=&quot;https://github.com/scirin&quot;&gt;Irine Kokilashvili&lt;/a&gt;.
+&lt;p&gt;There are two comments, however, that I got from &lt;a href=&quot;https://github.com/KristofSzabados&quot;&gt;Kristof Szabados&lt;/a&gt; and &lt;a href=&quot;https://github.com/scirin&quot;&gt;Irine Kokilashvili&lt;/a&gt;.
 One is that you should avoid cross-compilation if possible.
 It is not Rust specific.
 Cross compilation, setting up the environment contains many pitfalls that target architecture compilation does not have.
@@ -468,7 +468,7 @@ The people who contributed to the text with comments before the publishing date 
 &lt;p&gt;&lt;a href=&quot;https://github.com/Juriy&quot;&gt;Iurii Bura&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;&quot;&gt;Kristof Szabados&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/KristofSzabados&quot;&gt;Kristof Szabados&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/scirin&quot;&gt;Irine Kokilashvili&lt;/a&gt;&lt;/p&gt;
