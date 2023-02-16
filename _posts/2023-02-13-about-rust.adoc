@@ -245,7 +245,7 @@ It works; you can also debug the language interactively.
 I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
 Cross-compilation is a strong point of Rust.
 
-There are two comments, however, that I got from link:[Kristof Szabados] and link:https://github.com/scirin[Irine Kokilashvili].
+There are two comments, however, that I got from link:https://github.com/KristofSzabados[Kristof Szabados] and link:https://github.com/scirin[Irine Kokilashvili].
 One is that you should avoid cross-compilation if possible.
 It is not Rust specific.
 Cross compilation, setting up the environment contains many pitfalls that target architecture compilation does not have.
@@ -336,7 +336,7 @@ The people who contributed to the text with comments before the publishing date 
 
 * link:https://github.com/Juriy[Iurii Bura]
 
-* link:[Kristof Szabados]
+* link:https://github.com/KristofSzabados[Kristof Szabados]
 
 * link:https://github.com/scirin[Irine Kokilashvili]
 ====
