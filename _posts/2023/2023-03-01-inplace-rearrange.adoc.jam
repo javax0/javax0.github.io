@@ -1,0 +1,57 @@
+---
+title: Rearrange an array in place
+layout: posta
+comments: on
+---
+= Rearrange and array in place
+:stem: latexmath
+
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%@sep 〔〕%}
+
+This article is about an algorithmic problem.
+I did not find a solution to this problem either thinking about it, searching the net or talking to friends.
+The problem itself is simple.
+At the first reading may lure the reader into false sensing of simplicity.
+You may feel that this should not be an issue.
+But it is.
+At least for me.
+
+Nothing Java.
+Nothing programming other than it is about an algorithmic problem.
+
+〔section Problem Statement〕
+
+There is an array of stem:[2n] elements.
+The array is stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_b\}].
+What steps should be taken to rearrange the array so that stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}] with limited, maximum stem:[O(1)] memory, and stem:[O(n)] time.
+
+〔section ChatGPT solution〕
+
+Sine generative AI is sweeping the media and the internet, I thought that I should try to use it to solve the problem.
+After all, if it will take my job just in a few years, at least we can let it do some work for us till then.
+
+Here is the answer, no surprise: totally wrong:
+
+.Wrong answer from ChapGPT
+[WARNING]
+====
+To rearrange the array stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}] into stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}] with limited, maximum O(1) memory, and stem:[O(n)] time you can follow the steps below:
+
+Traverse the array and for each element at index stem:[i], swap it with the element at index stem:[i+n].
+
+  For i=1 to n:
+    Swap A[i] with A[i+n]
+
+After the traversal is complete, the array will be rearranged as stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}].
+The above algorithm has a time complexity of O(n) and uses only O(1) memory as only a constant number of variables are used for swapping elements in the array.
+
+After following these steps, the original array stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}] would be rearranged as stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}].
+====
+
+The described algorithm is stem:[O(n)] time and stem:[O(1)] memory, but the resulting array will be stem:[A=\{b_1,b_2, ... , b_n,a_1,a_2, ... , a_n\}].
+
+NOTE: I am not worried about being replaced by an AI as a software engineer. Yet.
