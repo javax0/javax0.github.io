@@ -3,14 +3,13 @@ title: Rearrange an array in place
 layout: posta
 comments: on
 ---
-= Rearrange and array in place
-:stem: latexmath
-
 {%@import javax0.jim%}
 {%@comment
 =========================================================================================
 %}
 {%@sep 〔〕%}
+= Rearrange and array in place
+〔useLatex〕
 
 This article is about an algorithmic problem.
 I did not find a solution to this problem either thinking about it, searching the net or talking to friends.
@@ -25,9 +24,9 @@ Nothing programming other than it is about an algorithmic problem.
 
 〔section Problem Statement〕
 
-There is an array of stem:[2n] elements.
-The array is stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_b\}].
-What steps should be taken to rearrange the array so that stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}] with limited, maximum stem:[O(1)] memory, and stem:[O(n)] time.
+There is an array of 〔latex 2n〕 elements.
+The array is 〔latex A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_b\}〕.
+What steps should be taken to rearrange the array so that 〔latex A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}〕 with limited, maximum 〔latex O(1)〕 memory, and 〔latex O(n)〕 time.
 
 〔section ChatGPT solution〕
 
@@ -39,19 +38,139 @@ Here is the answer, no surprise: totally wrong:
 .Wrong answer from ChapGPT
 [WARNING]
 ====
-To rearrange the array stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}] into stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}] with limited, maximum O(1) memory, and stem:[O(n)] time you can follow the steps below:
+To rearrange the array 〔latex A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}〕 into 〔latex A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}〕 with limited, maximum O(1) memory, and 〔latex O(n)〕 time you can follow the steps below:
 
-Traverse the array and for each element at index stem:[i], swap it with the element at index stem:[i+n].
+Traverse the array and for each element at index 〔latex i〕, swap it with the element at index 〔latex i+n〕.
 
+****
   For i=1 to n:
     Swap A[i] with A[i+n]
+****
 
-After the traversal is complete, the array will be rearranged as stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}].
+After the traversal is complete, the array will be rearranged as 〔latex A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}〕.
 The above algorithm has a time complexity of O(n) and uses only O(1) memory as only a constant number of variables are used for swapping elements in the array.
 
-After following these steps, the original array stem:[A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}] would be rearranged as stem:[A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}].
+After following these steps, the original array 〔latex A=\{a_1,a_2, ... , a_n, b_1, b_2, ... , b_n\}〕 would be rearranged as 〔latex A=\{a_1,b_1,a_2,b_2, ... , a_n,b_n\}〕.
 ====
 
-The described algorithm is stem:[O(n)] time and stem:[O(1)] memory, but the resulting array will be stem:[A=\{b_1,b_2, ... , b_n,a_1,a_2, ... , a_n\}].
+The described algorithm is 〔latex O(n)〕 time and 〔latex O(1)〕 memory, but the resulting array will be 〔latex A=\{b_1,b_2, ... , b_n,a_1,a_2, ... , a_n\}〕.
 
 NOTE: I am not worried about being replaced by an AI as a software engineer. Yet.
+
+〔section Without the 〔latex| O(1)〕memory constraint〕
+
+The problem is not that hard if you do not have the 〔latex O(1)〕 memory constraint.
+As a matter of fact it is so easy that it can be solved even by ChapGPT.
+Or can it?
+
+.Simpler problem, still not good answer from ChapGPT
+[NOTE]
+====
+To rearrange the array 〔latex A={a_1,a_2, ... , a_n, b_1, b_2, ... , b_n}〕 into 〔latex A={a_1,b_1,a_2,b_2, ... , a_n,b_n}〕, you can follow the steps below:
+
+Create two new arrays, one for the 〔latex a〕 values and another for the 〔latex b〕 values.
+Initialize an empty array for the 〔latex a〕 values, say 〔latex a_{new}〕.
+Initialize an empty array for the 〔latex b〕 values, say 〔latex b_{new}〕.
+Traverse the original array and separate the 〔latex a〕 and 〔latex b〕 values into two separate arrays.
+
+****
+[%hardbreaks]
+``For i=1 to n:``
+`` `` `` `` `` `` `` `` `Add` 〔latex a_i〕 `to` 〔latex a_{new}〕
+`` `` `` `` `` `` `` `` `Add` 〔latex b_i〕 `to` 〔latex b_{new}〕
+
+[%hardbreaks]
+``For i=n+1 to 2n:``
+`` `` `` `` `` `` `` `` `Add` 〔latex b_i〕 `to` 〔latex a_{new}〕
+`` `` `` `` `` `` `` `` `Add` 〔latex a_i〕 `to` 〔latex b_{new}〕
+****
+
+Concatenate the two new arrays in the desired order to get the final result.
+Concatenate 〔latex a_{new}〕 and 〔latex b_{new}〕 in the order 〔latex a_{new}, b_{new}〕 to get the desired result.
+After following these steps, the original array 〔latex A={a_1,a_2, ... , a_n, b_1, b_2, ... , b_n}〕 would be rearranged as 〔latex A={a_1,b_1,a_2,b_2, ... , a_n,b_n}〕.
+====
+
+I believe there is no need to explain why the solution is wrong, and overly complicated.
+The allocation of the two arrays is unnecessarily complicated.
+We need only one extra array of length 〔latex 2n〕, say 〔latex T〕.
+Then the code will look:
+
+****
+[%hardbreaks]
+``For i=1 to n:``
+`` `` `` `` `` `` `` `` `Add` 〔latex a_i〕 `to` 〔latex T〕
+`` `` `` `` `` `` `` `` `Add` 〔latex b_i〕 `to` 〔latex T〕
+****
+
+Voilà, you have the result in 〔latex T〕.
+
+NOTE: Still not worried.
+
+〔section Without the 〔latex| O(n)〕 time constraint: 〔latex O(n^2)〕〕
+
+This problem is also simple to solve, but for some reason ChaptGPT gave such a foolish answer that I decided not to copy here.
+The solution is
+
+. to take 〔latex b_i〕out from the array for every 〔latex i=1,n〕one by one,
+. push every element one position higher below 〔latex b_i〕 until we get to the place where 〔latex b_i〕 will get
+. put 〔latex b_i〕 to its place.
+
+〔png :insert-rearrange:width=50%, align=center〕
+
+****
+
+[%hardbreaks]
+``For i=1 to n:``
+`` `` `` `` `` `` `` `` ``Store`` 〔latex b_i〕 ``being at the position`` 〔latex| n+i〕``to a variable named`` 〔latex x〕
+`` `` `` `` `` `` `` `` ``Move all objects from`` 〔latex| 2i〕 ``till`` 〔latex n+i〕 ``to the next position``
+`` `` `` `` `` `` `` `` ``Put `` 〔latex b_i〕``from the variable`` 〔latex x〕``to the position 2i``
+****
+
+
+During the first step we have to move 〔latex n-1〕 objects.
+During the second step we have to move 〔latex n-2〕 objects, and so on.
+Moving all the 〔latex b_i; i=1,n〕elements will need 〔latex \sum_{i=1}^{n-1} (n-i) = \frac{n(n-1)}{2}〕 moves.
+It means that this algorithm is 〔latex O(n^2)〕 time.
+
+〔section Without the 〔latex| O(n)〕 time constraint: 〔latex O(n \log n)〕〕
+
+There is a more complex solution that is 〔latex O(n \log n)〕 time.
+
+If the array length is 2, a.k.a. the array is 〔latex A=\{a_1,b_1\}〕, then the solution is trivial.
+In that case do not need to do anything, just return the array as it is.
+
+.Funny (wrong) suggestion from CoPilot
+****
+__If the array is longer, then we can split it into two parts, rearrange them separately, and then merge the results.__
+
+It is fun to write articles with CoPilot switched on (pronounce it as Copy-a-Lot).
+I do not say it is easier, or less work.
+Rather the contrary, but undeniably _more fun._
+Cursive word in the above paragraphs all were suggested by CoPilot.
+****
+
+Assume that the array length is 〔latex n=2^m〕.
+Divide the array into four parts:
+
+* 〔latex Q_1=[a_1-a_\frac n2]〕,
+* 〔latex Q_2=[a_{\frac n2+1},a_n]〕,
+* 〔latex Q_3=[b_1-b_\frac n2]〕,
+* 〔latex Q_4=[b_{\frac n2+1},b_n]〕,
+
+Swap the elements of 〔latex Q2〕 and 〔latex Q3〕in a single loop:
+
+****
+[%hardbreaks]
+``For i=1 to `` 〔latex| \frac n2〕``:``
+`` `` `` `` `` `` `` `` ``Swap`` 〔latex a_{\frac n2+i}〕 ``and`` 〔latex b_i〕
+****
+
+Essentially we transform the array 〔latex Q_1|Q_2|Q_3|Q_4〕 into 〔latex Q_1|Q_3|Q_2|Q_4〕.
+After this, the algorithm can be applied for the sub arrays 〔latex Q_1|Q_3〕 and 〔latex Q_1|Q_4〕.
+
+The assumption that 〔latex n=2^m〕helps to halve the array down to the length 2.
+
+The algorithm running time 〔latex T(n) = 2T(\frac n2) + O(n)〕.
+The 〔latex O(n)〕term is the time needed to swap the elements of 〔latex Q_2〕and 〔latex Q_3〕.
+The resulting time complexity is 〔latex O(n \log n)〕.
+
