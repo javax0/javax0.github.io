@@ -1,9 +1,9 @@
 ---
-title: Converting Number to Roman Numerals
+title: Converting Numbers to Roman Numerals
 layout: posta
 comments: on
 ---
-= Converting Number to Roman Numerals
+= Converting Numbers to Roman Numerals
 
 {%@import javax0.jim%}
 {%@comment
@@ -13,60 +13,60 @@ comments: on
 {%#snip:collect from="../../_projects/{%ARTICLE%}/src/test/java"%}
 {%articleDisclaimer%}
 
-In this article we will look at some Java code that converts a number to Roman numerals.
+This article will look at some Java code that converts a number to Roman numerals.
 We will look at different solutions and compare them.
-You can read this article as a mental exercise, like a coding kata, but at the same time we also discuss some coding style.
+You can read this article as a mental exercise, like a coding kata, but at the same time, we also discuss some coding styles.
 If you like to use big words, we can say it is about code architecture.
 
 {%section The Problem%}
 
-We have a number, and we want to convert it to Roman numerals.
+We have a number and want to convert it to Roman numerals.
 Roman numerals are the numbers that we used in the Roman Empire.
-They remained in use for a long time, and they are still used in some places.
+They remained in use for a long time and are still used in some places.
 A typical example is the face of some watches.
 They denoted the numbers with letters.
 
-The value of 1 was denoted with the letter `I`, the value of 5 was denoted with the letter `V`, the value of 10 was denoted with the letter `X`, and so on.
+The value of 1 was denoted with the letter `I`, five was denoted with the letter `V`, ten was denoted with the letter `X`, and so on.
 It is a kind of decimal notation with some additions.
-The decimals are denoted by different symbols, namely `I`, `X`, `C`, and `M` and not the position.
+The decimals are denoted by different symbols, namely `I`, `X`, `C`, and `M`, and not the position.
 Additionally, there are symbols for 5, 50, and 500, namely `V`, `L`, and `D`.
-1, 2 and 3 are denoted repeating the symbol `I`, so they are `I`, `II` and `III`.
-Similarly, 10, 20 and 30 are denoted as `X`, `XX` and `XXX`, and so on.
+1, 2, and 3 are denoted by repeating the symbol `I`, so they are `I`, `II`, and `III`.
+Similarly, 10, 20, and 30 are denoted as `X`, `XX` and `XXX`, and so on.
 A letter does not repeat more than three times in a row.
-There are some exceptions in some watches only, but that is an exception and not the rule.
+There are some exceptions in some watches, but that is an exception and not the rule.
 
-When you need 4, you take the symbol for 5 and subtract the symbol for 1, so 4 is `IV`.
-The subtraction is denoted with placing the `I` before the `V`.
-Following 5, 6, 7, and 8 are denoted as `VI`, `VII`, and `VIII`.
+When you need 4, you take the symbol for five and subtract the symbol for 1, so 4 is `IV`.
+The subtraction is denoted by placing the `I` before the `V`.
+5, 6, 7, and 8 are denoted as `VI`, `VII`, and `VIII`.
 Again 9 Would require four `I` characters, but that is not allowed.
-9 is denoted as `IX`, where the `I` is before the `X`; again a subtraction.
+Nine is denoted as `IX`, where the `I` is before the `X`; again a subtraction.
 The same logic applies to the other symbols.
 
 {%section Solution approach%}
 
 {%subsection Interface%}
 
-For the solution we will have an interface
+For the solution, we will have an interface.
 
 {%java/Romans%}
 
-The important part is the `toRomans()` method.
+The critical part is the `toRomans()` method.
 We will implement it in three different ways and compare the different approaches.
 
 {%subsection Test%}
 
 Professional implementation does not exist without tests.
-the tests are extremely simple:
+The tests are straightforward:
 
 {%java TestRomans%}
 
-The actual method that does the testing simply calls the converter for all possible values:
+The actual method that does the testing calls the converter for all possible values:
 
 {%#range lines="1..13,4010..5000"
 {%java testRomanFormatAll%}
 %}
 
-NOTE: As you can see from the line numbering we have omitted some lines from the output.
+NOTE: As you can see from the line numbering, we have omitted some lines from the output.
 
 {%subsection Trivial Solution%}
 
@@ -77,39 +77,39 @@ Since we have all the roman numerals in a string, the lazy and most straightforw
 
 NOTE: Again, we have omitted some lines from the output.
 
-The next approach is to be a bit more complex.
+The following approach is to be a bit more complex.
 Storing 3999 numbers in an array may be simple, but somehow, it is not elegant.
-We are programmers, and we solve problems with algorithms and not simply listing all the results.
+We are programmers, solving problems with algorithms and not simply listing all the results.
 
 {%subsection Simple Solution%}
 
-The more complex approach still uses a string array along with the number array.
-After all, the selection of the letters representing Roman numerals was arbitrary by the time.
-The Roman scholars did not consult their 2000 years descendants to find out what would be the best way to represent the numbers aligning with the modern computer technology like ASCII codes and Unicode.
-We have to list the numbers and the corresponding Roman numerals in the same order either in a data structure or in the code.
+The more complex approach still uses a string array.
+After all, the selection of the letters representing Roman numerals was arbitrary at the time.
+The Roman scholars did not consult their 2000 years descendants to find out the best way to represent the numbers aligning with modern computer technology like ASCII codes and Unicode.
+We have to list the numbers and the corresponding Roman numerals in the same order, either in a data structure or the code.
 
 {%java RomansSimple%}
 
-We look at the number and if it is larger than 1000 it certainly will start with `M`.
-As a matter of fact, if it is larger than 3000 then it will start with `MMM`, if it is larger than 2000 then it will start with `MM`, and if it is larger than 1000 then it will start with one `M`.
-Roman numerals are the sum of the letters, except the subtraction rule.
+We look at the number; if it is larger than 1000, it will start with `M`.
+If it is larger than 3000, it will start with `MMM`; if it is larger than 2000, it will start with `MM`; and if it is larger than 1000, it will start with one `M`.
+Roman numerals are the sum of the letters, except for the subtraction rule.
 However, we can look at `CM`, `CD`, `XC`, `XL`, `IX`, and `IV` as individual symbols.
 They are two letters, but the algorithm never relies on the fact that the other values are represented with single letters.
-That way we can just go on with all elements from the large ones to the smaller ones.
-When the value is larger than the actual number we add the symbol to the output string and remove the number from the value.
+That way, we can go on with all elements, from large to smaller ones.
+When the value is larger than the actual number, we add the symbol to the output string and remove the number from the value.
 
 I suspect that this is the solution that fits most of the developers.
 Simple and does not require the excessive list of the roman numerals.
 
 {%subsection Complex Solution%}
 
-A real developer, however, does not like a solution that implements a logic in data structure.
+A real developer, however, does not like a solution that implements logic in the data structure.
 The rule that a symbol representing a smaller number than the subsequent one is subtracted from the subsequent one is something that can be programmed.
 It does not need a data structure.
-The data structure is redundant and any redundancy in the code is against maintainability.
+The data structure is redundant, and any redundancy in the code is against maintainability.
 
 Or not.
-Mind my words, we will revisit it in the next main section.
+Mind my words; we will revisit it in the following main section.
 
 The code for the solution that does not use an excessive data structure is the following:
 
@@ -117,43 +117,43 @@ The code for the solution that does not use an excessive data structure is the f
 
 It is a real geek implementation with a minimal data structure and all logic in the code.
 The source of this was a stone tablet found in the ruins of the ancient Roman Empire.
-As such it can be treated as a reference implementation and as such, it does not need explanation.
+As such, it can be treated as a reference implementation, and as such, it does not need explanation.
 The code is evident.
 
 {%section Selecting a Solution%}
 
 We have seen three different solutions.
-Two of them were extreme in terms of pushing the scale from minimal code maximum data to maximum code minimum data.
+Two were extreme in pushing the scale from minimal code maximum data to maximum code minimum data.
 The simple solution was a solution in the middle of the scale.
 Which one should we use in a professional application?
 
 Now, think about it, and have an opinion.
 When you have that, then think about the reason.
-Why would you select that solution.
+Why would you select that solution?
 
 Now read on.
 
-When we crate a professional solution we usually follow engineering practices.
+When we create a professional solution, we usually follow engineering practices.
 One of these is to avoid code redundancy.
-But the same time we also hate data redundancy.
-The reason for it is that any redundancy in the code or data is a potential source of errors.
-In the case of code we call these errors bugs.
-In the case of data we call these errors data errors, or data corruption.
+But at the same time, we also hate data redundancy.
+The reason is that any redundancy in the code or data is a potential source of errors.
+In the case of code, we call these errors bugs.
+In the case of data, we call these errors data errors or data corruption.
 We do not like either of them.
 
-I do not want to be rude, but who cares what we like or hate.
+I do not want to be rude, but who cares what we like or hate?
 The client certainly does not.
-At the end of the day what really matters is the client satisfaction.
-What the client cares in a business environment is money.
-In this case money they spend on the solution, and the same time the money they gain using the software.
+What matters is client satisfaction.
+What the client cares about in a business environment is money.
+In this case, the money they spend on the solution and the money they gain using the software.
 
 Let's have a look at it for this specific example.
 It may seem intriguing, and it is.
 The example is too simple to be a real-world problem.
 However, this simplicity makes it pure and a prime and hopefully entertaining example for the demonstration.
 
-Is there any difference what the client can earn depending on the solution we choose?
-In this case barely.
+Is there any difference in what the client can earn depending on the solution we choose?
+In this case, barely.
 The speed may be a differentiating factor.
 Functionality is not.
 Functionality is the same in all three cases.
@@ -177,120 +177,120 @@ It probably does not matter.
 This 100 times speed up is not significant.
 
 The client uses an application that does a geology calculation.
-The geo engineer uses the result and based on that he starts a new calculation.
-In this iterative way he finds the optimal solution for ... whatever.
+The geo engineer uses the result, and based on that, he starts a new calculation.
+In this iterative way, he finds the optimal solution for ... whatever.
 
 The calculation takes 8 hours and 30 minutes.
-They start it every time before going home and next morning they have the result.
-This way they can do one iteration per day.
-They are very strict not to do overtime or over work.
+They start it every time before going home, and they have the result the next morning.
+This way, they can do one iteration per day.
+They are very strict about not doing overtime or overwork.
 They are not German.
 
-Optimizing the application and speeding it up 10% so that it finishes in 7 hours and 39 minutes does not see, at first sight, to be significant.
-Such a speed-up however means that the geo engineer can do two iterations per day.
+Optimizing the application and speeding it up 10% so that it finishes in 7 hours and 39 minutes does not seem, at first sight, to be significant.
+However, such a speed-up means the geoengineer can do two iterations daily.
 Starting one in the morning, looking at the result, and starting the next one in the afternoon before they leave for their __repas du soir__.
 
-The bottom line is the money, and specifically the client's money.
-In the example, converting numbers to roman numerals, it is hard to say without knowing the specific business application which one creates more money for the client.
+The bottom line is the money, precisely the client's money.
+In the example of converting numbers to roman numerals, it is hard to say without knowing the specific business application in which one creates more money for the client.
 
 {%subsubsection Development Speed%}
 
-The other speed difference is the speed of the development.
-If one solution can be finished sooner and can start earning money for the client sooner, it is significant.
+The other speed difference is the speed of development.
+It is significant if one solution can be finished sooner and can start earning money for the client.
 The money the client gains this way has to be put into the equation.
 
-Many years ago I was working on a project, where the client was managing debts.
+Many years ago, I was working on a project where the client was managing debts.
 The company got a CSV file of 10,000 debtors.
-The people were calling them, texting them, writing eMails and so on.
+The people were calling them, texting them, writing emails, and so on.
 Every contact was recorded into the Excell file.
-At the end of the month they sent to the csv including the transactions back to the lenders' aggregator.
-The next month they started with 10,000 different debtors.
+At the end of the month, they sent the csv, including the transactions, back to the lenders' aggregator.
+The following month they started with 10,000 different debtors.
 
-The added value of the company was the knowledge how to convince the debtors to pay.
-I knew the owners for a long time, I knew they did not do anything illegal or unethical.
+The company's added value was the knowledge of how to convince the debtors to pay.
+I had known the owners for a long time; I knew they did not do anything illegal or unethical.
 
-One day teh aggregator asked them if they could scale up to handle 100,000 debtors every month.
-They could hire more people, but that amount of record was already beyond the technical capability of the Excel based solution.
+One day the aggregator asked them if they could scale up to handle 100,000 debtors every month.
+They could hire more people, but that amount of records was already beyond the technical capability of the Excel-based solution.
 
 They asked for a quote to create an application to handle the 100,000 debtors.
 There were two offers.
-My company, I had back in 2007 offered a solution based on Jira with plugins.
-We guaranteed to deliver in two weeks a working version for the import, and at the end of the first month the version capable exporting.
+My company, which I had back in 2007, offered a solution based on Jira with plugins.
+We guaranteed to deliver a working version for the import in two weeks, and at the end of the first month, the version capable of exporting.
 
 The other company offered a solution developed from scratch using Delphi.
-Their development time was 6 months.
-The big advantage of their proposed solution that it was to be fine-tuned for the specific business application.
-Calling one client after the other the administrator did not need to click three or more times from one issue to the other, like in the case of a Jira based solution.
+Their development time was six months.
+The significant advantage of their proposed solution was that it was to be fine-tuned for the specific business application.
+Calling one client after the other, the administrator did not need to click three or more times from one issue to the other, like in the case of a Jira-based solution.
 It was explained as a click, click, enter, done workflow.
 
 The client ordered both solutions.
-We delivered in two weeks and finished a rudimentary, but usable, working solution in six weeks.
-They were using this solution for the next 13 months until the other solution became ready.
+We delivered in two weeks and finished a rudimentary but usable working solution in six weeks.
+They used this solution for the next 13 months until the other solution became ready.
 
-The bottom line is the money, and specifically the client's money.
-In the example, converting numbers to roman numerals, the trivial solution was five minutes including the unit tests.
+The bottom line is the money, specifically the client's money.
+In converting numbers to roman numerals, the trivial solution was five minutes, including the unit tests.
 The simple solution was 30 minutes.
-The complex solution was 2 hours, except that it was already available since the Roman ages, we just had to copy the characters from the stone tablet.
+The complex solution was 2 hours, except it was already available since the Roman ages; we just had to copy the characters from the stone tablet.
 
 {%subsubsection Development Speed Again%}
 
-The development speed is important not only for the client, but also for the developer.
-The more time you spend developing a feature the more your cost is.
-The client pays for the feature, but the developer pays for the time spent on the feature.
-The price is determined by the market, and it is only vaguely coupled with the cost.
+The development speed is critical not only for the client but also for the developer.
+The more time you spend developing a feature, the more your cost is.
+The client pays for the feature, but the developer pays for the time spent.
+The market determines the price and is only vaguely coupled with the cost.
 
-This is already the cost side of the equation.
+It is already the cost side of the equation.
 
 {%subsubsection Maintenance%}
 
-The next cost factor is the cost of the maintenance.
+The following cost factor is the cost of maintenance.
 Developing an application is not the end of the story.
 The application has to be maintained.
 
 The requirements of the client may change in the future.
-The market changes, the environment changes and the client has to respond to these changes in their business.
-This will require change in the application.
+The market and environment change and the client must respond to these business changes.
+It will require a change in the application.
 
 There may be bugs in the application discovered only after the application is in production.
-These also need change in the application.
+These also need a change in the application.
 
-In the case bugs it is evident that the cost of the maintenance is the burden of the developer.
-In the case of new features it is not so evident, but it is.
-Just as in the case of the original development the client pays for the feature.
-They do not care, and does not even know what the cost of the development was.
+In the case of bugs, it is evident that the maintenance cost is the developer's burden.
+In the case of new features, it is not so evident, but it is.
+Just as in the case of the original development, the client pays for the feature.
+They do not care and do not even know what the cost of the development is.
 
-The cost of the development is discussed with the client many times during the sales negotiation.
-This, however, is a sales issue.
-The client wants to pay the lowest price and the sales person wants to sell the highest.
-Neither of them is interested, however, pushing the price to a range that will the other party stand up from the table and leave at the moment or in the future.
+The development cost is discussed with the client often during the sales negotiation.
+It, however, is a sales issue.
+The client wants to pay the lowest price, and the salesperson wants to sell the highest.
+Neither is interested; however, pushing the price to a range will make the other party stand up from the table and leave now or in the future.
 That is why the costs are mentioned at all.
-This is all sales negotiation.
+It is all sales negotiation.
 The cost is on the production side.
 
 Look at the three examples:
 
-* the trivial solution with a huge data set,
+* the trivial solution with a vast data set,
 * the simple solution with a small set, and
 * the complex solution with a non-redundant data set.
 
 You have to estimate the cost of the maintenance of the different parts.
-What is the probability that a discovered bug or a new feature will need the change of the code or the data?
-What is the cot of such change?
+What is the probability that a discovered bug or a new feature will need a code change or data change?
+What is the cost of such a change?
 
-The fun in this example is that there is barely any imaginable possibility for a change requests.
-Roman numerals are with us for thousands of years, they are literally carved in stone.
+The fun in this example is that there is barely any imaginable possibility for a change request.
+Roman numerals have been with us for thousands of years, they are literally carved in stone.
 They are not going to change.
 
-I selected this example, not only because it was a coding kata a few days ago at the company where I work, but also because recently I had a change request in one of my open source projects.
-Jamal, that you can reach at https://github.com/verhas/jamal has a counter that can format the counter value as roman numerals.
+I selected this example not only because it was a coding kata a few days ago at the company where I work but also because recently, I had a change request in one of my open-source projects.
+Jamal, you can reach https://github.com/verhas/jamal, has a counter that can format the counter value as roman numerals.
 Created, done, tested, and released a few years back.
 What change could you imagine?
 
-Well, I could not imagine any either.
+Well, I could not imagine any, either.
 Until someone asked me if it would be possible to format the counter value as `IIII` for four.
-This is an alternate format for `IV` in some cases.
-I remember that my grandmother had a clock with roman numerals, and it had `IIII` for four.
-It was hand painted.
+It is an alternate format for `IV` in some cases.
+I remember my grandmother had a clock with roman numerals, with `IIII` for four.
+It was hand-painted.
 
 {%section Summary%}
 
@@ -306,24 +306,12 @@ We do functional programming.
 We avoid copy-paste.
 
 Why?
-Because in most of the cases it is the right thing to do.
-Because in most of the cases it is the practice that will result in the lowest cost for us.
+Because, in most cases, it is the right thing to do.
+Because, in most cases, it is the practice that will result in the lowest cost for us.
 Because in most of the cases...
 
 The emphasis in this article is on the __"in most of the cases"__ part.
-There can be exceptions, and as a true professional you have to be able to recognize them.
-There is only one single thing that you MUST NOT do: use this article as an excuse wanting to be lazy.
-This is not about that.
-
-
-
-
-
-
-
-
-
-
-
-
+There can be exceptions, and as a true professional, you have to be able to recognize them.
+There is only one single thing that you MUST NOT do: use this article as an excuse for wanting to be lazy.
+It is not about that.
 
