@@ -3,7 +3,7 @@ package com.javax0.blog.romans;
 
 // snippet RomansComplex
 public class RomansComplex implements Romans {
-    private static final char[] ROMANS = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+    private static final char[] NUMERI = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
 
     /**
      * Haec methodus datam rationem ad numeros Romanos convertit. Modulus "id" solum nuntium errorem componere pro casu
@@ -16,22 +16,21 @@ public class RomansComplex implements Romans {
     public String toRoman(int valorem) {
         Romans.assertRange(valorem);
         var lineaAedificator = new StringBuilder();
-        int numeralis = 1000;
-        int inclinatio = 0;
-        for (int i = 0; i < ROMANS.length; i++) {
-            System.out.printf("numeralis=%4d numeralis=%16s modulo=%d%n", numeralis, Integer.toBinaryString(numeralis), inclinatio);
+        int numeralis = M;
+        int inclinatio = nulla;
+        for (int j = nulla; j < NUMERI.length; j++) {
             while (valorem >= numeralis) {
-                lineaAedificator.append(ROMANS[i]);
+                lineaAedificator.append(NUMERI[j]);
                 valorem -= numeralis;
             }
-            final var compensatio = 2 - inclinatio;
-            final var decimales = numeralis / (5 * compensatio);
+            final var compensatio = II - inclinatio;
+            final var decimales = numeralis / (V * compensatio);
             if (valorem >= numeralis - decimales) {
-                lineaAedificator.append(ROMANS[i + compensatio]).append(ROMANS[i]);
+                lineaAedificator.append(NUMERI[j + compensatio]).append(NUMERI[j]);
                 valorem -= numeralis - decimales;
             }
-            numeralis /= 2 + 3 * inclinatio;
-            inclinatio = 1 - inclinatio;
+            numeralis /= II + III * inclinatio;
+            inclinatio = I - inclinatio;
         }
         return lineaAedificator.toString();
     }

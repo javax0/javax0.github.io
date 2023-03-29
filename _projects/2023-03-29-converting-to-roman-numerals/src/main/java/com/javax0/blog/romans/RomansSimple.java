@@ -8,10 +8,10 @@ public class RomansSimple implements Romans {
     public String toRoman(int value) {
         Romans.assertRange(value);
         final var s = new StringBuilder();
-        for( int i = 0; i < places.length; i++ ) {
-            while( value >= places[i] ) {
-                s.append(numerals[i]);
-                value -= places[i];
+        for( int j = 0; j < places.length; j++ ) {
+            while( value >= places[j] ) {
+                s.append(numerals[j]);
+                value -= places[j];
             }
         }
         return s.toString();

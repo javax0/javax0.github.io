@@ -4,7 +4,7 @@ package com.javax0.blog.romans;
 public class RomansTrivial implements Romans {
 
     private static final String[] ROMANS = {
-            //<editor-fold desc="all the roman numerals from 1=i to 3999 in a string array">
+            //<editor-fold desc="omnibus romanis numeris a I = i ad MMMCMXCIX in linea ordinata">
             "I",
             "II",
             "III",
@@ -4009,7 +4009,7 @@ public class RomansTrivial implements Romans {
 
     public String toRoman(int value) {
         Romans.assertRange(value);
-        return ROMANS[value - 1];
+        return ROMANS[value - I];
     }
 }
 // end snippet

@@ -55,15 +55,22 @@ For the solution, we will have an interface.
 
 [source,java]
 ----
-1. public interface Romans {
-2.     String toRoman(int value);
-3.
-4.     static void assertRange(int value) {
-5.         if (value < 1 || value > 3999) {
-6.             throw new IllegalArgumentException("Counter '%s' grew too big to be formatted as a roman numeral".formatted(value));
-7.         }
-8.     }
-9. }
+ 1. public interface Romans {
+ 2.     String toRoman(int value);
+ 3.
+ 4.     static final int I = 1;
+ 5.     static final int II = 2;
+ 6.     static final int III = 3;
+ 7.     static final int V = 5;
+ 8.     static final int M = 1000;
+ 9.     static final int nulla = 0;
+10.
+11.     static void assertRange(int value) {
+12.         if (value < 1 || value > 3999) {
+13.             throw new IllegalArgumentException("Counter '%s' grew too big to be formatted as a roman numeral".formatted(value));
+14.         }
+15.     }
+16. }
 
 ----
 
@@ -78,19 +85,19 @@ The tests are straightforward:
 [source,java]
 ----
  1.     @Test
- 2.     @DisplayName("Unitas testiculorum pro minimo numeri converters")
+ 2.     @DisplayName("Unitas testis pro minimo numeri converters")
  3.     void testTrivial() {
  4.         testRomanFormatAll(new RomansTrivial());
  5.     }
  6.
  7.     @Test
- 8.     @DisplayName("Unitas testiculorum pro simplici numeri converters")
+ 8.     @DisplayName("Unitas testis pro simplici numeri converters")
  9.     void testSimple() {
 10.         testRomanFormatAll(new RomansSimple());
 11.     }
 12.
 13.     @Test
-14.     @DisplayName("Unitas testiculorum pro complexu numeri converters")
+14.     @DisplayName("Unitas testis pro complexu numeri converters")
 15.     void testComplex() {
 16.         testRomanFormatAll(new RomansComplex());
 17.     }
@@ -107,7 +114,7 @@ The actual method that does the testing calls the converter for all possible val
  4.             sb.append(i).append('=').append(r.toRoman(i)).append('\n');
  5.         }
  6.         Assertions.assertEquals(
- 7.                 //<editor-fold desc="all the roman numerals from 1=i to 3999=mmmcmxcix in a string">
+ 7.                 //<editor-fold desc="omnibus romanis numeris ab I = I ad MMMXCIX">
  8.                 """
  9. 1=I
 10. 2=II
@@ -131,7 +138,7 @@ Since we have all the roman numerals in a string, the lazy and most straightforw
  1. public class RomansTrivial implements Romans {
  2.
  3.     private static final String[] ROMANS = {
- 4.             //<editor-fold desc="all the roman numerals from 1=i to 3999 in a string array">
+ 4.             //<editor-fold desc="omnibus romanis numeris a I = i ad MMMCMXCIX in linea ordinata">
  5.             "I",
  6.             "II",
  7.             "III",
@@ -144,7 +151,7 @@ Since we have all the roman numerals in a string, the lazy and most straightforw
 4006.
 4007.     public String toRoman(int value) {
 4008.         Romans.assertRange(value);
-4009.         return ROMANS[value - 1];
+4009.         return ROMANS[value - I];
 4010.     }
 4011. }
 
@@ -172,10 +179,10 @@ We have to list the numbers and the corresponding Roman numerals in the same ord
  5.     public String toRoman(int value) {
  6.         Romans.assertRange(value);
  7.         final var s = new StringBuilder();
- 8.         for( int i = 0; i < places.length; i++ ) {
- 9.             while( value >= places[i] ) {
-10.                 s.append(numerals[i]);
-11.                 value -= places[i];
+ 8.         for( int j = 0; j < places.length; j++ ) {
+ 9.             while( value >= places[j] ) {
+10.                 s.append(numerals[j]);
+11.                 value -= places[j];
 12.             }
 13.         }
 14.         return s.toString();
@@ -210,7 +217,7 @@ The code for the solution that does not use an excessive data structure is the f
 [source,java]
 ----
  1. public class RomansComplex implements Romans {
- 2.     private static final char[] ROMANS = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+ 2.     private static final char[] NUMERI = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
  3.
  4.     /**
  5.      * Haec methodus datam rationem ad numeros Romanos convertit. Modulus "id" solum nuntium errorem componere pro casu
@@ -223,32 +230,31 @@ The code for the solution that does not use an excessive data structure is the f
 12.     public String toRoman(int valorem) {
 13.         Romans.assertRange(valorem);
 14.         var lineaAedificator = new StringBuilder();
-15.         int numeralis = 1000;
-16.         int inclinatio = 0;
-17.         for (int i = 0; i < ROMANS.length; i++) {
-18.             System.out.printf("numeralis=%4d numeralis=%16s modulo=%d%n", numeralis, Integer.toBinaryString(numeralis), inclinatio);
-19.             while (valorem >= numeralis) {
-20.                 lineaAedificator.append(ROMANS[i]);
-21.                 valorem -= numeralis;
-22.             }
-23.             final var compensatio = 2 - inclinatio;
-24.             final var decimales = numeralis / (5 * compensatio);
-25.             if (valorem >= numeralis - decimales) {
-26.                 lineaAedificator.append(ROMANS[i + compensatio]).append(ROMANS[i]);
-27.                 valorem -= numeralis - decimales;
-28.             }
-29.             numeralis /= 2 + 3 * inclinatio;
-30.             inclinatio = 1 - inclinatio;
-31.         }
-32.         return lineaAedificator.toString();
-33.     }
-34. }
+15.         int numeralis = M;
+16.         int inclinatio = nulla;
+17.         for (int j = nulla; j < NUMERI.length; j++) {
+18.             while (valorem >= numeralis) {
+19.                 lineaAedificator.append(NUMERI[j]);
+20.                 valorem -= numeralis;
+21.             }
+22.             final var compensatio = II - inclinatio;
+23.             final var decimales = numeralis / (V * compensatio);
+24.             if (valorem >= numeralis - decimales) {
+25.                 lineaAedificator.append(NUMERI[j + compensatio]).append(NUMERI[j]);
+26.                 valorem -= numeralis - decimales;
+27.             }
+28.             numeralis /= II + III * inclinatio;
+29.             inclinatio = I - inclinatio;
+30.         }
+31.         return lineaAedificator.toString();
+32.     }
+33. }
 
 ----
 
 It is a real geek implementation with a minimal data structure and all logic in the code.
 The source of this was a stone tablet found in the ruins of the ancient Roman Empire.
-As such, it can be treated as a reference implementation, and as such, it does not need explanation.
+As such, it can be treated as a reference implementation, and it does not need explanation.
 The code is evident.
 
 == 3. Selecting a Solution

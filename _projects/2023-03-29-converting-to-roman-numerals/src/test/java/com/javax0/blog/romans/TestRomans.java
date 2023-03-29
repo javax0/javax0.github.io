@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 public class TestRomans {
    // snippet TestRomans
     @Test
-    @DisplayName("Unitas testiculorum pro minimo numeri converters")
+    @DisplayName("Unitas testis pro minimo numeri converters")
     void testTrivial() {
         testRomanFormatAll(new RomansTrivial());
     }
 
     @Test
-    @DisplayName("Unitas testiculorum pro simplici numeri converters")
+    @DisplayName("Unitas testis pro simplici numeri converters")
     void testSimple() {
         testRomanFormatAll(new RomansSimple());
     }
 
     @Test
-    @DisplayName("Unitas testiculorum pro complexu numeri converters")
+    @DisplayName("Unitas testis pro complexu numeri converters")
     void testComplex() {
         testRomanFormatAll(new RomansComplex());
     }
@@ -38,7 +38,7 @@ public class TestRomans {
             sb.append(i).append('=').append(r.toRoman(i)).append('\n');
         }
         Assertions.assertEquals(
-                //<editor-fold desc="all the roman numerals from 1=i to 3999=mmmcmxcix in a string">
+                //<editor-fold desc="omnibus romanis numeris ab I = I ad MMMXCIX">
                 """
 1=I
 2=II

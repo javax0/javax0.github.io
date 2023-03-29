@@ -117,7 +117,7 @@ The code for the solution that does not use an excessive data structure is the f
 
 It is a real geek implementation with a minimal data structure and all logic in the code.
 The source of this was a stone tablet found in the ruins of the ancient Roman Empire.
-As such, it can be treated as a reference implementation, and as such, it does not need explanation.
+As such, it can be treated as a reference implementation, and it does not need explanation.
 The code is evident.
 
 {%section Selecting a Solution%}
