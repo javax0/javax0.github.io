@@ -7,23 +7,29 @@ import org.junit.jupiter.api.Test;
 public class TestRomans {
    // snippet TestRomans
     @Test
-    @DisplayName("Test the Trivial Roman converter")
+    @DisplayName("Unitas testiculorum pro minimo numeri converters")
     void testTrivial() {
         testRomanFormatAll(new RomansTrivial());
     }
 
     @Test
-    @DisplayName("Test the Simple Roman converter")
+    @DisplayName("Unitas testiculorum pro simplici numeri converters")
     void testSimple() {
         testRomanFormatAll(new RomansSimple());
     }
 
     @Test
-    @DisplayName("Test the Complex Roman converter")
+    @DisplayName("Unitas testiculorum pro complexu numeri converters")
     void testComplex() {
         testRomanFormatAll(new RomansComplex());
     }
     // end snippet
+
+    @Test
+    void test(){
+        var r = new RomansComplex();
+        r.toRoman(41);
+    }
 
     // snippet testRomanFormatAll
     private void testRomanFormatAll(Romans r) {
@@ -37,8 +43,6 @@ public class TestRomans {
 1=I
 2=II
 3=III
-"""+ // skip
-"""
 4=IV
 5=V
 6=VI
@@ -4030,8 +4034,7 @@ public class TestRomans {
 3992=MMMCMXCII
 3993=MMMCMXCIII
 3994=MMMCMXCIV
-3995=MMMCMXCV"""+//end skip
-"""                        
+3995=MMMCMXCV              
 3996=MMMCMXCVI
 3997=MMMCMXCVII
 3998=MMMCMXCVIII

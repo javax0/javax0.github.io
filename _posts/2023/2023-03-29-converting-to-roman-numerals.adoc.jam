@@ -11,11 +11,12 @@ comments: on
 %}
 {%#snip:collect from="../../_projects/{%ARTICLE%}/src/main/java"%}
 {%#snip:collect from="../../_projects/{%ARTICLE%}/src/test/java"%}
+{%articleDisclaimer%}
 
-`I`n this article we will look at some Java code that converts a number to Roman numerals.
+In this article we will look at some Java code that converts a number to Roman numerals.
 We will look at different solutions and compare them.
 You can read this article as a mental exercise, like a coding kata, but at the same time we also discuss some coding style.
-`I`f you like to use big words, we can say it is about code architecture.
+If you like to use big words, we can say it is about code architecture.
 
 {%section The Problem%}
 
@@ -114,7 +115,209 @@ The code for the solution that does not use an excessive data structure is the f
 
 {%java RomansComplex%}
 
-It is a real geek implementation with a minimal
+It is a real geek implementation with a minimal data structure and all logic in the code.
+The source of this was a stone tablet found in the ruins of the ancient Roman Empire.
+As such it can be treated as a reference implementation and as such, it does not need explanation.
+The code is evident.
+
+{%section Selecting a Solution%}
+
+We have seen three different solutions.
+Two of them were extreme in terms of pushing the scale from minimal code maximum data to maximum code minimum data.
+The simple solution was a solution in the middle of the scale.
+Which one should we use in a professional application?
+
+Now, think about it, and have an opinion.
+When you have that, then think about the reason.
+Why would you select that solution.
+
+Now read on.
+
+When we crate a professional solution we usually follow engineering practices.
+One of these is to avoid code redundancy.
+But the same time we also hate data redundancy.
+The reason for it is that any redundancy in the code or data is a potential source of errors.
+In the case of code we call these errors bugs.
+In the case of data we call these errors data errors, or data corruption.
+We do not like either of them.
+
+I do not want to be rude, but who cares what we like or hate.
+The client certainly does not.
+At the end of the day what really matters is the client satisfaction.
+What the client cares in a business environment is money.
+In this case money they spend on the solution, and the same time the money they gain using the software.
+
+Let's have a look at it for this specific example.
+It may seem intriguing, and it is.
+The example is too simple to be a real-world problem.
+However, this simplicity makes it pure and a prime and hopefully entertaining example for the demonstration.
+
+Is there any difference what the client can earn depending on the solution we choose?
+In this case barely.
+The speed may be a differentiating factor.
+Functionality is not.
+Functionality is the same in all three cases.
+
+When one solution is significantly faster than the other, then it should be considered.
+
+But what is significant in this case?
+Is 10% significant?
+Or a 100 times speed up?
+
+{%subsection Speed Difference%}
+
+The speed difference is significant if the client can earn more money with the faster solution.
+
+{%subsubsection Execution Speed%}
+
+The client uses a server application starting once every month once.
+The startup of the application takes 1 second.
+We can invest some effort to speed up this startup time to be under 10ms.
+It probably does not matter.
+This 100 times speed up is not significant.
+
+The client uses an application that does a geology calculation.
+The geo engineer uses the result and based on that he starts a new calculation.
+In this iterative way he finds the optimal solution for ... whatever.
+
+The calculation takes 8 hours and 30 minutes.
+They start it every time before going home and next morning they have the result.
+This way they can do one iteration per day.
+They are very strict not to do overtime or over work.
+They are not German.
+
+Optimizing the application and speeding it up 10% so that it finishes in 7 hours and 39 minutes does not see, at first sight, to be significant.
+Such a speed-up however means that the geo engineer can do two iterations per day.
+Starting one in the morning, looking at the result, and starting the next one in the afternoon before they leave for their __repas du soir__.
+
+The bottom line is the money, and specifically the client's money.
+In the example, converting numbers to roman numerals, it is hard to say without knowing the specific business application which one creates more money for the client.
+
+{%subsubsection Development Speed%}
+
+The other speed difference is the speed of the development.
+If one solution can be finished sooner and can start earning money for the client sooner, it is significant.
+The money the client gains this way has to be put into the equation.
+
+Many years ago I was working on a project, where the client was managing debts.
+The company got a CSV file of 10,000 debtors.
+The people were calling them, texting them, writing eMails and so on.
+Every contact was recorded into the Excell file.
+At the end of the month they sent to the csv including the transactions back to the lenders' aggregator.
+The next month they started with 10,000 different debtors.
+
+The added value of the company was the knowledge how to convince the debtors to pay.
+I knew the owners for a long time, I knew they did not do anything illegal or unethical.
+
+One day teh aggregator asked them if they could scale up to handle 100,000 debtors every month.
+They could hire more people, but that amount of record was already beyond the technical capability of the Excel based solution.
+
+They asked for a quote to create an application to handle the 100,000 debtors.
+There were two offers.
+My company, I had back in 2007 offered a solution based on Jira with plugins.
+We guaranteed to deliver in two weeks a working version for the import, and at the end of the first month the version capable exporting.
+
+The other company offered a solution developed from scratch using Delphi.
+Their development time was 6 months.
+The big advantage of their proposed solution that it was to be fine-tuned for the specific business application.
+Calling one client after the other the administrator did not need to click three or more times from one issue to the other, like in the case of a Jira based solution.
+It was explained as a click, click, enter, done workflow.
+
+The client ordered both solutions.
+We delivered in two weeks and finished a rudimentary, but usable, working solution in six weeks.
+They were using this solution for the next 13 months until the other solution became ready.
+
+The bottom line is the money, and specifically the client's money.
+In the example, converting numbers to roman numerals, the trivial solution was five minutes including the unit tests.
+The simple solution was 30 minutes.
+The complex solution was 2 hours, except that it was already available since the Roman ages, we just had to copy the characters from the stone tablet.
+
+{%subsubsection Development Speed Again%}
+
+The development speed is important not only for the client, but also for the developer.
+The more time you spend developing a feature the more your cost is.
+The client pays for the feature, but the developer pays for the time spent on the feature.
+The price is determined by the market, and it is only vaguely coupled with the cost.
+
+This is already the cost side of the equation.
+
+{%subsubsection Maintenance%}
+
+The next cost factor is the cost of the maintenance.
+Developing an application is not the end of the story.
+The application has to be maintained.
+
+The requirements of the client may change in the future.
+The market changes, the environment changes and the client has to respond to these changes in their business.
+This will require change in the application.
+
+There may be bugs in the application discovered only after the application is in production.
+These also need change in the application.
+
+In the case bugs it is evident that the cost of the maintenance is the burden of the developer.
+In the case of new features it is not so evident, but it is.
+Just as in the case of the original development the client pays for the feature.
+They do not care, and does not even know what the cost of the development was.
+
+The cost of the development is discussed with the client many times during the sales negotiation.
+This, however, is a sales issue.
+The client wants to pay the lowest price and the sales person wants to sell the highest.
+Neither of them is interested, however, pushing the price to a range that will the other party stand up from the table and leave at the moment or in the future.
+That is why the costs are mentioned at all.
+This is all sales negotiation.
+The cost is on the production side.
+
+Look at the three examples:
+
+* the trivial solution with a huge data set,
+* the simple solution with a small set, and
+* the complex solution with a non-redundant data set.
+
+You have to estimate the cost of the maintenance of the different parts.
+What is the probability that a discovered bug or a new feature will need the change of the code or the data?
+What is the cot of such change?
+
+The fun in this example is that there is barely any imaginable possibility for a change requests.
+Roman numerals are with us for thousands of years, they are literally carved in stone.
+They are not going to change.
+
+I selected this example, not only because it was a coding kata a few days ago at the company where I work, but also because recently I had a change request in one of my open source projects.
+Jamal, that you can reach at https://github.com/verhas/jamal has a counter that can format the counter value as roman numerals.
+Created, done, tested, and released a few years back.
+What change could you imagine?
+
+Well, I could not imagine any either.
+Until someone asked me if it would be possible to format the counter value as `IIII` for four.
+This is an alternate format for `IV` in some cases.
+I remember that my grandmother had a clock with roman numerals, and it had `IIII` for four.
+It was hand painted.
+
+{%section Summary%}
+
+We had a little fun with the Roman numerals.
+Do not take all the sentences in this article as facts, especially not the ones written in Latin.
+Or about the Latins.
+
+We discussed code and data complexity a bit, though I mainly left it to your imagination.
+What we discussed, however, is the base of any professional development decision.
+
+We follow object-oriented programming principles.
+We do functional programming.
+We avoid copy-paste.
+
+Why?
+Because in most of the cases it is the right thing to do.
+Because in most of the cases it is the practice that will result in the lowest cost for us.
+Because in most of the cases...
+
+The emphasis in this article is on the __"in most of the cases"__ part.
+There can be exceptions, and as a true professional you have to be able to recognize them.
+There is only one single thing that you MUST NOT do: use this article as an excuse wanting to be lazy.
+This is not about that.
+
+
+
+
 
 
 
