@@ -1,0 +1,126 @@
+---
+title: Converting Number to Roman Numerals
+layout: posta
+comments: on
+---
+= Converting Number to Roman Numerals
+
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%#snip:collect from="../../_projects/{%ARTICLE%}/src/main/java"%}
+{%#snip:collect from="../../_projects/{%ARTICLE%}/src/test/java"%}
+
+`I`n this article we will look at some Java code that converts a number to Roman numerals.
+We will look at different solutions and compare them.
+You can read this article as a mental exercise, like a coding kata, but at the same time we also discuss some coding style.
+`I`f you like to use big words, we can say it is about code architecture.
+
+{%section The Problem%}
+
+We have a number, and we want to convert it to Roman numerals.
+Roman numerals are the numbers that we used in the Roman Empire.
+They remained in use for a long time, and they are still used in some places.
+A typical example is the face of some watches.
+They denoted the numbers with letters.
+
+The value of 1 was denoted with the letter `I`, the value of 5 was denoted with the letter `V`, the value of 10 was denoted with the letter `X`, and so on.
+It is a kind of decimal notation with some additions.
+The decimals are denoted by different symbols, namely `I`, `X`, `C`, and `M` and not the position.
+Additionally, there are symbols for 5, 50, and 500, namely `V`, `L`, and `D`.
+1, 2 and 3 are denoted repeating the symbol `I`, so they are `I`, `II` and `III`.
+Similarly, 10, 20 and 30 are denoted as `X`, `XX` and `XXX`, and so on.
+A letter does not repeat more than three times in a row.
+There are some exceptions in some watches only, but that is an exception and not the rule.
+
+When you need 4, you take the symbol for 5 and subtract the symbol for 1, so 4 is `IV`.
+The subtraction is denoted with placing the `I` before the `V`.
+Following 5, 6, 7, and 8 are denoted as `VI`, `VII`, and `VIII`.
+Again 9 Would require four `I` characters, but that is not allowed.
+9 is denoted as `IX`, where the `I` is before the `X`; again a subtraction.
+The same logic applies to the other symbols.
+
+{%section Solution approach%}
+
+{%subsection Interface%}
+
+For the solution we will have an interface
+
+{%java/Romans%}
+
+The important part is the `toRomans()` method.
+We will implement it in three different ways and compare the different approaches.
+
+{%subsection Test%}
+
+Professional implementation does not exist without tests.
+the tests are extremely simple:
+
+{%java TestRomans%}
+
+The actual method that does the testing simply calls the converter for all possible values:
+
+{%#range lines="1..13,4010..5000"
+{%java testRomanFormatAll%}
+%}
+
+NOTE: As you can see from the line numbering we have omitted some lines from the output.
+
+{%subsection Trivial Solution%}
+
+Since we have all the roman numerals in a string, the lazy and most straightforward solution is to put them into an array and use indexing.
+
+{%#range lines="1..10,4003..5000"
+{%java RomansTrivial%}%}
+
+NOTE: Again, we have omitted some lines from the output.
+
+The next approach is to be a bit more complex.
+Storing 3999 numbers in an array may be simple, but somehow, it is not elegant.
+We are programmers, and we solve problems with algorithms and not simply listing all the results.
+
+{%subsection Simple Solution%}
+
+The more complex approach still uses a string array along with the number array.
+After all, the selection of the letters representing Roman numerals was arbitrary by the time.
+The Roman scholars did not consult their 2000 years descendants to find out what would be the best way to represent the numbers aligning with the modern computer technology like ASCII codes and Unicode.
+We have to list the numbers and the corresponding Roman numerals in the same order either in a data structure or in the code.
+
+{%java RomansSimple%}
+
+We look at the number and if it is larger than 1000 it certainly will start with `M`.
+As a matter of fact, if it is larger than 3000 then it will start with `MMM`, if it is larger than 2000 then it will start with `MM`, and if it is larger than 1000 then it will start with one `M`.
+Roman numerals are the sum of the letters, except the subtraction rule.
+However, we can look at `CM`, `CD`, `XC`, `XL`, `IX`, and `IV` as individual symbols.
+They are two letters, but the algorithm never relies on the fact that the other values are represented with single letters.
+That way we can just go on with all elements from the large ones to the smaller ones.
+When the value is larger than the actual number we add the symbol to the output string and remove the number from the value.
+
+I suspect that this is the solution that fits most of the developers.
+Simple and does not require the excessive list of the roman numerals.
+
+{%subsection Complex Solution%}
+
+A real developer, however, does not like a solution that implements a logic in data structure.
+The rule that a symbol representing a smaller number than the subsequent one is subtracted from the subsequent one is something that can be programmed.
+It does not need a data structure.
+The data structure is redundant and any redundancy in the code is against maintainability.
+
+Or not.
+Mind my words, we will revisit it in the next main section.
+
+The code for the solution that does not use an excessive data structure is the following:
+
+{%java RomansComplex%}
+
+It is a real geek implementation with a minimal
+
+
+
+
+
+
+
+
+
