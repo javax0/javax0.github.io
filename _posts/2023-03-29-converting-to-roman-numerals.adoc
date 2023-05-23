@@ -1,0 +1,453 @@
+---
+title: Converting Numbers to Roman Numerals
+layout: posta
+comments: on
+---
+= Converting Numbers to Roman Numerals
+
+
+
+
+
+
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-03-29-converting-to-roman-numerals[https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-03-29-converting-to-roman-numerals]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-03-29-converting-to-roman-numerals.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-03-29-converting-to-roman-numerals.adoc.jam]
+****
+====
+
+This article will look at some Java code that converts a number to Roman numerals.
+We will look at different solutions and compare them.
+You can read this article as a mental exercise, like a coding kata, but at the same time, we also discuss some coding styles.
+If you like to use big words, we can say it is about code architecture.
+
+== 1. The Problem
+
+We have a number and want to convert it to Roman numerals.
+Roman numerals are the numbers that we used in the Roman Empire.
+They remained in use for a long time and are still used in some places.
+A typical example is the face of some watches.
+They denoted the numbers with letters.
+
+The value of 1 was denoted with the letter `I`, five was denoted with the letter `V`, ten was denoted with the letter `X`, and so on.
+It is a kind of decimal notation with some additions.
+The decimals are denoted by different symbols, namely `I`, `X`, `C`, and `M`, and not the position.
+Additionally, there are symbols for 5, 50, and 500, namely `V`, `L`, and `D`.
+1, 2, and 3 are denoted by repeating the symbol `I`, so they are `I`, `II`, and `III`.
+Similarly, 10, 20, and 30 are denoted as `X`, `XX` and `XXX`, and so on.
+A letter does not repeat more than three times in a row.
+There are some exceptions in some watches, but that is an exception and not the rule.
+
+When you need 4, you take the symbol for five and subtract the symbol for 1, so 4 is `IV`.
+The subtraction is denoted by placing the `I` before the `V`.
+5, 6, 7, and 8 are denoted as `VI`, `VII`, and `VIII`.
+Again 9 Would require four `I` characters, but that is not allowed.
+Nine is denoted as `IX`, where the `I` is before the `X`; again a subtraction.
+The same logic applies to the other symbols.
+
+== 2. Solution approach
+
+=== 2.1. Interface
+
+For the solution, we will have an interface.
+
+[source,java]
+----
+ 1. public interface Romans {
+ 2.     String toRoman(int value);
+ 3.
+ 4.     static final int I = 1;
+ 5.     static final int II = 2;
+ 6.     static final int III = 3;
+ 7.     static final int V = 5;
+ 8.     static final int M = 1000;
+ 9.     static final int nulla = 0;
+10.
+11.     static void assertRange(int value) {
+12.         if (value < 1 || value > 3999) {
+13.             throw new IllegalArgumentException("Counter '%s' grew too big to be formatted as a roman numeral".formatted(value));
+14.         }
+15.     }
+16. }
+
+----
+
+The critical part is the `toRomans()` method.
+We will implement it in three different ways and compare the different approaches.
+
+=== 2.2. Test
+
+Professional implementation does not exist without tests.
+The tests are straightforward:
+
+[source,java]
+----
+ 1.     @Test
+ 2.     @DisplayName("Unitas testis pro minimo numeri converters")
+ 3.     void testTrivial() {
+ 4.         testRomanFormatAll(new RomansTrivial());
+ 5.     }
+ 6.
+ 7.     @Test
+ 8.     @DisplayName("Unitas testis pro simplici numeri converters")
+ 9.     void testSimple() {
+10.         testRomanFormatAll(new RomansSimple());
+11.     }
+12.
+13.     @Test
+14.     @DisplayName("Unitas testis pro complexu numeri converters")
+15.     void testComplex() {
+16.         testRomanFormatAll(new RomansComplex());
+17.     }
+
+----
+
+The actual method that does the testing calls the converter for all possible values:
+
+[source,java]
+----
+ 1.     private void testRomanFormatAll(Romans r) {
+ 2.         final StringBuilder sb = new StringBuilder();
+ 3.         for (int i = 1; i < 4000; i++) {
+ 4.             sb.append(i).append('=').append(r.toRoman(i)).append('\n');
+ 5.         }
+ 6.         Assertions.assertEquals(
+ 7.                 //<editor-fold desc="omnibus romanis numeris ab I = I ad MMMXCIX">
+ 8.                 """
+ 9. 1=I
+10. 2=II
+11. 3=III
+4008. """
+4009.                 //</editor-fold>
+4010.                 , sb.toString());
+4011.     }
+
+----
+
+
+NOTE: As you can see from the line numbering, we have omitted some lines from the output.
+
+=== 2.3. Trivial Solution
+
+Since we have all the roman numerals in a string, the lazy and most straightforward solution is to put them into an array and use indexing.
+
+[source,java]
+----
+ 1. public class RomansTrivial implements Romans {
+ 2.
+ 3.     private static final String[] ROMANS = {
+ 4.             //<editor-fold desc="omnibus romanis numeris a I = i ad MMMCMXCIX in linea ordinata">
+ 5.             "I",
+ 6.             "II",
+ 7.             "III",
+ 8.             "IV",
+4001.             "MMMCMXCVII",
+4002.             "MMMCMXCVIII",
+4003.             "MMMCMXCIX"
+4004.             //</editor-fold>
+4005.     };
+4006.
+4007.     public String toRoman(int value) {
+4008.         Romans.assertRange(value);
+4009.         return ROMANS[value - I];
+4010.     }
+4011. }
+
+----
+
+NOTE: Again, we have omitted some lines from the output.
+
+The following approach is to be a bit more complex.
+Storing 3999 numbers in an array may be simple, but somehow, it is not elegant.
+We are programmers, solving problems with algorithms and not simply listing all the results.
+
+=== 2.4. Simple Solution
+
+The more complex approach still uses a string array.
+After all, the selection of the letters representing Roman numerals was arbitrary at the time.
+The Roman scholars did not consult their 2000 years descendants to find out the best way to represent the numbers aligning with modern computer technology like ASCII codes and Unicode.
+We have to list the numbers and the corresponding Roman numerals in the same order, either in a data structure or the code.
+
+[source,java]
+----
+ 1. public class RomansSimple implements Romans {
+ 2.     int [] places = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+ 3.     String [] numerals = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+ 4.
+ 5.     public String toRoman(int value) {
+ 6.         Romans.assertRange(value);
+ 7.         final var s = new StringBuilder();
+ 8.         for( int j = 0; j < places.length; j++ ) {
+ 9.             while( value >= places[j] ) {
+10.                 s.append(numerals[j]);
+11.                 value -= places[j];
+12.             }
+13.         }
+14.         return s.toString();
+15.     }
+16. }
+
+----
+
+We look at the number; if it is larger than 1000, it will start with `M`.
+If it is larger than 3000, it will start with `MMM`; if it is larger than 2000, it will start with `MM`; and if it is larger than 1000, it will start with one `M`.
+Roman numerals are the sum of the letters, except for the subtraction rule.
+However, we can look at `CM`, `CD`, `XC`, `XL`, `IX`, and `IV` as individual symbols.
+They are two letters, but the algorithm never relies on the fact that the other values are represented with single letters.
+That way, we can go on with all elements, from large to smaller ones.
+When the value is larger than the actual number, we add the symbol to the output string and remove the number from the value.
+
+I suspect that this is the solution that fits most of the developers.
+Simple and does not require the excessive list of the roman numerals.
+
+=== 2.5. Complex Solution
+
+A real developer, however, does not like a solution that implements logic in the data structure.
+The rule that a symbol representing a smaller number than the subsequent one is subtracted from the subsequent one is something that can be programmed.
+It does not need a data structure.
+The data structure is redundant, and any redundancy in the code is against maintainability.
+
+Or not.
+Mind my words; we will revisit it in the following main section.
+
+The code for the solution that does not use an excessive data structure is the following:
+
+[source,java]
+----
+ 1. public class RomansComplex implements Romans {
+ 2.     private static final char[] NUMERI = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+ 3.
+ 4.     /**
+ 5.      * Haec methodus datam rationem ad numeros Romanos convertit. Modulus "id" solum nuntium errorem componere pro casu
+ 6.      * cum numerus affirmativus vel nimius non est.
+ 7.      * Hunc codicem legamus in honorem Octaviani imperatoris nostri, qui numerum octonarium induxit.
+ 8.      *
+ 9.      * @param valorem ad valorem convertendi
+10.      * @return Romano numero quasi filum
+11.      */
+12.     public String toRoman(int valorem) {
+13.         Romans.assertRange(valorem);
+14.         var lineaAedificator = new StringBuilder();
+15.         int numeralis = M;
+16.         int inclinatio = nulla;
+17.         for (int j = nulla; j < NUMERI.length; j++) {
+18.             while (valorem >= numeralis) {
+19.                 lineaAedificator.append(NUMERI[j]);
+20.                 valorem -= numeralis;
+21.             }
+22.             final var compensatio = II - inclinatio;
+23.             final var decimales = numeralis / (V * compensatio);
+24.             if (valorem >= numeralis - decimales) {
+25.                 lineaAedificator.append(NUMERI[j + compensatio]).append(NUMERI[j]);
+26.                 valorem -= numeralis - decimales;
+27.             }
+28.             numeralis /= II + III * inclinatio;
+29.             inclinatio = I - inclinatio;
+30.         }
+31.         return lineaAedificator.toString();
+32.     }
+33. }
+
+----
+
+It is a real geek implementation with a minimal data structure and all logic in the code.
+The source of this was a stone tablet found in the ruins of the ancient Roman Empire.
+As such, it can be treated as a reference implementation, and it does not need explanation.
+The code is evident.
+
+== 3. Selecting a Solution
+
+We have seen three different solutions.
+Two were extreme in pushing the scale from minimal code maximum data to maximum code minimum data.
+The simple solution was a solution in the middle of the scale.
+Which one should we use in a professional application?
+
+Now, think about it, and have an opinion.
+When you have that, then think about the reason.
+Why would you select that solution?
+
+Now read on.
+
+When we create a professional solution, we usually follow engineering practices.
+One of these is to avoid code redundancy.
+But at the same time, we also hate data redundancy.
+The reason is that any redundancy in the code or data is a potential source of errors.
+In the case of code, we call these errors bugs.
+In the case of data, we call these errors data errors or data corruption.
+We do not like either of them.
+
+I do not want to be rude, but who cares what we like or hate?
+The client certainly does not.
+What matters is client satisfaction.
+What the client cares about in a business environment is money.
+In this case, the money they spend on the solution and the money they gain using the software.
+
+Let's have a look at it for this specific example.
+It may seem intriguing, and it is.
+The example is too simple to be a real-world problem.
+However, this simplicity makes it pure and a prime and hopefully entertaining example for the demonstration.
+
+Is there any difference in what the client can earn depending on the solution we choose?
+In this case, barely.
+The speed may be a differentiating factor.
+Functionality is not.
+Functionality is the same in all three cases.
+
+When one solution is significantly faster than the other, then it should be considered.
+
+But what is significant in this case?
+Is 10% significant?
+Or a 100 times speed up?
+
+=== 3.1. Speed Difference
+
+The speed difference is significant if the client can earn more money with the faster solution.
+
+==== 3.1.1. Execution Speed
+
+The client uses a server application starting once every month once.
+The startup of the application takes 1 second.
+We can invest some effort to speed up this startup time to be under 10ms.
+It probably does not matter.
+This 100 times speed up is not significant.
+
+The client uses an application that does a geology calculation.
+The geo engineer uses the result, and based on that, he starts a new calculation.
+In this iterative way, he finds the optimal solution for ... whatever.
+
+The calculation takes 8 hours and 30 minutes.
+They start it every time before going home, and they have the result the next morning.
+This way, they can do one iteration per day.
+They are very strict about not doing overtime or overwork.
+They are not German.
+
+Optimizing the application and speeding it up 10% so that it finishes in 7 hours and 39 minutes does not seem, at first sight, to be significant.
+However, such a speed-up means the geo-engineer can do two iterations daily.
+Starting one in the morning, looking at the result, and starting the next one in the afternoon before they leave for their __repas du soir__.
+
+The bottom line is the money, precisely the client's money.
+In the example of converting numbers to roman numerals, it is hard to say without knowing the specific business application in which one creates more money for the client.
+
+==== 3.1.2. Development Speed
+
+The other speed difference is the speed of development.
+It is significant if one solution can be finished sooner and can start earning money for the client.
+The money the client gains this way has to be put into the equation.
+
+Many years ago, I was working on a project where the client was managing debts.
+The company got a CSV file of 10,000 debtors.
+The people were calling them, texting them, writing emails, and so on.
+Every contact was recorded into the Excell file.
+At the end of the month, they sent the csv, including the transactions, back to the lenders' aggregator.
+The following month they started with 10,000 different debtors.
+
+The company's added value was the knowledge of how to convince the debtors to pay.
+I had known the owners for a long time; I knew they did not do anything illegal or unethical.
+
+One day the aggregator asked them if they could scale up to handle 100,000 debtors every month.
+They could hire more people, but that amount of records was already beyond the technical capability of the Excel-based solution.
+
+They asked for a quote to create an application to handle the 100,000 debtors.
+There were two offers.
+My company, which I had back in 2007, offered a solution based on Jira with plugins.
+We guaranteed to deliver a working version for the import in two weeks, and at the end of the first month, the version capable of exporting.
+
+The other company offered a solution developed from scratch using Delphi.
+Their development time was six months.
+The significant advantage of their proposed solution was that it was to be fine-tuned for the specific business application.
+Calling one client after the other, the administrator did not need to click three or more times from one issue to the other, like in the case of a Jira-based solution.
+It was explained as a click, click, enter, done workflow.
+
+The client ordered both solutions.
+We delivered in two weeks and finished a rudimentary but usable working solution in six weeks.
+They used this solution for the next 13 months until the other solution became ready.
+
+The bottom line is the money, specifically the client's money.
+In converting numbers to roman numerals, the trivial solution was five minutes, including the unit tests.
+The simple solution was 30 minutes.
+The complex solution was 2 hours, except it was already available since the Roman ages; we just had to copy the characters from the stone tablet.
+
+==== 3.1.3. Development Speed Again
+
+The development speed is critical not only for the client but also for the developer.
+The more time you spend developing a feature, the more your cost is.
+The client pays for the feature, but the developer pays for the time spent.
+The market determines the price and is only vaguely coupled with the cost.
+
+It is already the cost side of the equation.
+
+==== 3.1.4. Maintenance
+
+The following cost factor is the cost of maintenance.
+Developing an application is not the end of the story.
+The application has to be maintained.
+
+The requirements of the client may change in the future.
+The market and environment change and the client must respond to these business changes.
+It will require a change in the application.
+
+There may be bugs in the application discovered only after the application is in production.
+These also need a change in the application.
+
+In the case of bugs, it is evident that the maintenance cost is the developer's burden.
+In the case of new features, it is not so evident, but it is.
+Just as in the case of the original development, the client pays for the feature.
+They do not care and do not even know what the cost of the development is.
+
+The development cost is discussed with the client often during the sales negotiation.
+It, however, is a sales issue.
+The client wants to pay the lowest price, and the salesperson wants to sell the highest.
+Neither is interested; however, pushing the price to a range will make the other party stand up from the table and leave now or in the future.
+That is why the costs are mentioned at all.
+It is all sales negotiation.
+The cost is on the production side.
+
+Look at the three examples:
+
+* the trivial solution with a vast data set,
+* the simple solution with a small set, and
+* the complex solution with a non-redundant data set.
+
+You have to estimate the cost of the maintenance of the different parts.
+What is the probability that a discovered bug or a new feature will need a code change or data change?
+What is the cost of such a change?
+
+The fun in this example is that there is barely any imaginable possibility for a change request.
+Roman numerals have been with us for thousands of years, they are literally carved in stone.
+They are not going to change.
+
+I selected this example not only because it was a coding kata a few days ago at the company where I work but also because recently, I had a change request in one of my open-source projects.
+Jamal, you can reach https://github.com/verhas/jamal, has a counter that can format the counter value as roman numerals.
+Created, done, tested, and released a few years back.
+What change could you imagine?
+
+Well, I could not imagine any, either.
+Until someone asked me if it would be possible to format the counter value as `IIII` for four.
+It is an alternate format for `IV` in some cases.
+I remember my grandmother had a clock with roman numerals, with `IIII` for four.
+It was hand-painted.
+
+== 4. Summary
+
+We had a little fun with the Roman numerals.
+Do not take all the sentences in this article as facts, especially not the ones written in Latin.
+Or about the Latins.
+
+We discussed code and data complexity a bit, though I mainly left it to your imagination.
+What we discussed, however, is the base of any professional development decision.
+
+We follow object-oriented programming principles.
+We do functional programming.
+We avoid copy-paste.
+
+Why?
+Because, in most cases, it is the right thing to do.
+Because, in most cases, it is the practice that will result in the lowest cost for us.
+Because in most of the cases...
+
+The emphasis in this article is on the __"in most of the cases"__ part.
+There can be exceptions, and as a true professional, you have to be able to recognize them.
+There is only one single thing that you MUST NOT do: use this article as an excuse for wanting to be lazy.
+It is not about that.
