@@ -62,7 +62,7 @@ The tests are straightforward:
 
 The actual method that does the testing calls the converter for all possible values:
 
-{%#range lines="1..13,4010..5000"
+{%#range lines="1..13,4010..infinity"
 {%java testRomanFormatAll%}
 %}
 
@@ -187,7 +187,7 @@ They are very strict about not doing overtime or overwork.
 They are not German.
 
 Optimizing the application and speeding it up 10% so that it finishes in 7 hours and 39 minutes does not seem, at first sight, to be significant.
-However, such a speed-up means the geoengineer can do two iterations daily.
+However, such a speed-up means the geo-engineer can do two iterations daily.
 Starting one in the morning, looking at the result, and starting the next one in the afternoon before they leave for their __repas du soir__.
 
 The bottom line is the money, precisely the client's money.
