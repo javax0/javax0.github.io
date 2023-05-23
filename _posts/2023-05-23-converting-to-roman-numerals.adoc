@@ -13,8 +13,8 @@ comments: on
 [%collapsible,title=Article Management Technical Details]
 ====
 ****
-* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-03-29-converting-to-roman-numerals[https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-03-29-converting-to-roman-numerals]
-* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-03-29-converting-to-roman-numerals.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-03-29-converting-to-roman-numerals.adoc.jam]
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-05-23-converting-to-roman-numerals[https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-05-23-converting-to-roman-numerals]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-05-23-converting-to-roman-numerals.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-05-23-converting-to-roman-numerals.adoc.jam]
 ****
 ====
 
