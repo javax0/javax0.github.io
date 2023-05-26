@@ -1,4 +1,280 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-05-24T10:31:08+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Rearrange and array in place</title><link href="https://javax0.github.io/2023/05/24/inplace-rearrange.html" rel="alternate" type="text/html" title="Rearrange and array in place" /><published>2023-05-24T00:00:00+02:00</published><updated>2023-05-24T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/24/inplace-rearrange</id><content type="html" xml:base="https://javax0.github.io/2023/05/24/inplace-rearrange.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-05-26T11:14:18+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article is a rant about the questions that are posted on the Linked In Java Developers Community.
+I see many times questions that are not well formulated, and the answers are not well thought through.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is some good in it.
+Being brave to go ahead and publish may be a good thing, but there is also some bad in it.
+I face candidates during Java technical interviews many times giving &quot;typical&quot; wrong answers to some questions.
+The source of that is the spread of these false and half, easy to misunderstand information.
+One forum for them is LinkedIn Java Developers Community.
+Presumably, there are other platforms.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What makes me really sad is that this community is moderated.
+Still, questions of questionable quality are published.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;My aim with this article is to raise awareness in the vain hope that this will change.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-examples&quot;&gt;1. Examples&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this section, I will display and discuss two examples.
+After that I will write a few words of conclusion.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-1-example-1&quot;&gt;1.1. Example 1&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The very first question that I faced recently is the following:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Which one of the following loop cannot be used to change the value of any element in an array variable&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The While Loop&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The ForEach Loop&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The For Loop&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+A simple grammar checker could also help a bit, but that is not an issue worth mentioning.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/linked-in-question-example-1.png&quot; alt=&quot;linked in question example 1&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I can understand the intention of the question.
+The author really wanted to draw attention to the fact that a simple for-each loop cannot be used to modify the array elements it is looping through in a naive way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.     void testForEachLoop0() {
+2.         int[] array = {0, 0, 0, 0, 0, 0};
+3.         for (int a : array) {
+4.             a = 55; // does nothing
+5.         }
+6.         Assertions.assertArrayEquals(new int[]{0, 0, 0, 0, 0, 0}, array);
+7.     }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As clearly demonstrated by the above example, when we loop over an array using a for-each loop, the loop variable is NOT the array element.
+It is the value of the array element.
+In the case of a primitive value, this is a copy of the value.
+In the case of an object array, this is a copy of the reference to the object.
+Which, indeed, in some sense is the copy of the value but not the copy of the object, rather the reference.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What we can do is to modify the object that the reference points to.
+I can even say that if the value is an object (reference), then we can modify the object, hence the value.
+For example,&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.     void testForEachLoop1() {
+ 2.         class X {
+ 3.             int value;
+ 4.
+ 5.             X(int value) {
+ 6.                 this.value = value;
+ 7.             }
+ 8.
+ 9.             @Override
+10.             public boolean equals(Object o) {
+11.                 return ((X) o).value == value;
+12.             }
+13.         }
+14.         final var array = new X[]{new X(0), new X(0), new X(0)};
+15.         for (final var a : array) {
+16.             a.value = 55;
+17.         }
+18.         Assertions.assertArrayEquals(new X[]{new X(55), new X(55), new X(55)}, array);
+19.     }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;will modify the field &lt;code&gt;value&lt;/code&gt; in the object array.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Just for the shake of brevity I created an overly simplistic &lt;code&gt;equals&lt;/code&gt; method.
+Don&amp;#8217;t do that in production code.
+Don&amp;#8217;t do that even in test code.
+Creating a &lt;code&gt;equals()&lt;/code&gt; method without a matching &lt;code&gt;hashCode()&lt;/code&gt; is a deadly sin.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can say that blaming the author on the language and the precision is nitpicking.
+Do not forget, however, that these questions are targeting Java juniors, who can be confused by the imprecise language very easily.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And as a bonus, here is another example that modifies the original array.
+If you look at it, you may realize that this is the same as the previous example, just overcomplicated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.     void testForEachLoop() {
+2.         int[] array = {0, 0, 0, 0, 0, 0};
+3.         for (int[] j : IntStream.range(0, array.length).mapToObj(i -&amp;gt; array).toArray(int[][]::new)) {
+4.             j[j[0]] = j[0];
+5.             j[0]++;
+6.         }
+7.         Assertions.assertArrayEquals(new int[]{6, 1, 2, 3, 4, 5}, array);
+8.     }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-2-example-2&quot;&gt;1.2. Example 2&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next question is the following:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;What is the access modifier for an interface in Java?&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;public&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;private&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;protected&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No modifier&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At least in this question, there is no grammar error.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/linked-in-question-example-2.png&quot; alt=&quot;linked in question example 2&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Even if I do not know too much about Java, the question is fishy.
+A modifier is something that modifies something.
+Java is a well-designed language.
+There is some clutter in it.
+It could cut some things shorter, like writing &lt;code&gt;public static void&lt;/code&gt; in front of &lt;code&gt;main&lt;/code&gt; and decorating it with a whole class surrounding it.
+However, if something is not needed, it is not there.
+There is nothing like mandatory modifiers that you HAVE TO write.
+There is no &quot;general and universal&quot; access modifier for an interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Some answers pointed out that an interface can be public, private, protected or package-private.
+Not any of the interfaces though, because only nested interfaces can be private or protected, and only inside a class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What the author wanted to ask, I assume, was the default visibility of the members in an interface.
+That is public.
+From the votes, as depicted below, it seems that three quarters of the people answered the question according to the intention of the author.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/linked-in-question-example-3.png&quot; alt=&quot;linked in question example 3&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, a significant number of people said that there is no need for a modifier, which is also true.
+By default, the members are public, and for a long time in the history of Java that was the only option.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-conclusion&quot;&gt;2. Conclusion&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Asking questions is a good thing.
+Usually, people ask questions because they want to learn.
+StackOverflow is an excellent platform for that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;These questions, however, more like exams.
+Professors ask such questions.
+It is a profession.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To ask an &quot;exam&quot; question, you have to be an expert in the field.
+But that is not enough.
+You also have to be precise and know what and how to ask.
+You have to understand what the readers will learn from your question.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I feel that many of these authors evaluate this latter assuming that all the readers will read the questions and also the answers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First of all: there is no answer.
+People vote and hardly ever go back when the voting finishes.
+The answer is simply the result, but no explanation for the details.
+The explanation is in the comments.
+Many times there are some good comments but also many misleading.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It reminds me of a Peter Bruegel painting from 1568, &quot;The Blind Leading the Blind&quot;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/%D0%9F%D1%80%D0%B8%D1%82%D1%87%D0%B0_%D0%BE_%D1%81%D0%BB%D0%B5%D0%BF%D1%8B%D1%85.jpeg/2560px-%D0%9F%D1%80%D0%B8%D1%82%D1%87%D0%B0_%D0%BE_%D1%81%D0%BB%D0%B5%D0%BF%D1%8B%D1%85.jpeg&quot; alt=&quot;2560px %D0%9F%D1%80%D0%B8%D1%82%D1%87%D0%B0 %D0%BE %D1%81%D0%BB%D0%B5%D0%BF%D1%8B%D1%85&quot; width=&quot;600&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to ask a question: do it.
+However, do it right.
+Before publishing it for thousands of people, ask a few friends to read it.
+If more than one misunderstands it, then you have to rephrase it.
+If some of them give a wrong answer and then seeing the right one, they start to argue about the question and the correctness: the question is wrong.
+You may believe that they are wrong and not the question, but you cannot change your audience.
+You can change your question.
+Your question can hypothetically be correct, but wrong for the given audience.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">This article is a rant about the questions that are posted on the Linked In Java Developers Community. I see many times questions that are not well formulated, and the answers are not well thought through.</summary></entry><entry><title type="html">Rearrange and array in place</title><link href="https://javax0.github.io/2023/05/24/inplace-rearrange.html" rel="alternate" type="text/html" title="Rearrange and array in place" /><published>2023-05-24T00:00:00+02:00</published><updated>2023-05-24T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/24/inplace-rearrange</id><content type="html" xml:base="https://javax0.github.io/2023/05/24/inplace-rearrange.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article is about an algorithmic problem.
@@ -1486,7 +1762,7 @@ I drew a picture of an elephant showing the developer side:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://javax0.github.io/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -4285,214 +4561,6 @@ assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Lambda and Final Parameters</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html" rel="alternate" type="text/html" title="Lambda and Final Parameters" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-parameters</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-parameters.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lambda expressions can use the variables in the scope of the lambda expression, but only if they are final or effectively final. What is the reason for that? Why is that? It is an interesting question because the answer is not apparent and opinionated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is only one ultimate answer, though: because that is what the Java Language Specification says. But saying that is boring. True, but boring. I prefer the answer that says lambdas can only use final and effectively final local variables because lambdas are not closures.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following, I will discuss what final and effectively final mean, the differences between closures and lambdas, and finally, how we can create closures in Java using lambda expressions. I am not advocating the creation of lambda expression-based closures in Java, nor the abandonment of the idea.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-final-and-effectively-final&quot;&gt;2. &lt;code&gt;final&lt;/code&gt; and effectively final&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When declaring it, a local variable is final if we use the &lt;code&gt;final&lt;/code&gt; keyword. The compiler will also require that the variable get a value only once. This value assignment may happen at the location of the declaration but can be a bit later. There can be multiple lines that assign value to the final variable so long as long only one of them can execute for each method invocation. The typical case is when you declare a final variable without assigning value to it, and then you have an &lt;code&gt;if&lt;/code&gt; statement giving different values in the &quot;then&quot; and the &quot;else&quot; branch.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Needless to say that the variable has to be initialized before the lambda expression is created.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A variable is effectively final if not final, but it could be. It gets an assigned value at the declaration or can get a given value only once.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-life-of-a-lambda&quot;&gt;3. Life of a Lambda&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A lambda expression is a kind of anonymous class. The JVM handles it differently, and it is more efficient than an anonymous class, not to mention that it is more readable. However, from our point of view, we can think of it as an inner class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Anon {
-
-    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer(final int step) {
-        return (Integer i) -&amp;amp;gt; i + step;
-    }
-    public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; anonIncrementer(final int step) {
-        return new Function&amp;amp;lt;Integer, Integer&amp;amp;gt;() {
-            @Override
-            public Integer apply(Integer i) {
-                return i + step;
-            }
-        };
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the lambda expression is created, the JVM makes an instance of the lambda class that implements the &lt;code&gt;Function&lt;/code&gt; interface.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var inc = Anon.incrementer(5);
-assertThat(inc.getClass().getName()).startsWith(&quot;javax0.blog.lambdas.Anon$$Lambda$&quot;);
-assertThat(inc.getClass().getSuperclass().getName()).isEqualTo(&quot;java.lang.Object&quot;);
-assertThat(inc.getClass().getInterfaces()).hasSize(1);
-assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Function.class);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The JVM will place this object on the heap. In some cases, the compiler may realize that the object cannot get out of the method&amp;#8217;s scope, and in this case, it may store it in the stack. It is called local variable escape analysis, which can just put any object on the stack, which cannot escape from the method and may die together with the method return. However, for our discussion, we can forget this advanced feature of the Java environment.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The lambda is created in the method and stored in the heap. It is alive so long as long there is a hard reference to this object and is not collected. If a lambda expression could reference and use a local variable, which lives in the stack, it would need access to something gone after the method returns. It is not possible.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are two solutions to overcome this discrepancy. One is what Java follows, creating a copy of the variable&amp;#8217;s value. The other one is creating a closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-closure-and-groovy&quot;&gt;4. Closure and Groovy&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will look at Groovy examples when talking about closures. The reason to select Groovy is that it is very close to Java. We will look at some Groovy examples, and for the matter of demonstration, we will use Java-style as much as possible. Groovy is more or less compatible with Java; any Java code can be compiled as a Groovy source. The actual semantic may, however, be different slightly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Groovy solved the issue of local variable accessibility creating closures. The closure closes the functionality and the environment into a single object. For example, the following Groovy code:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class MyClosure {
-    static incrementer() {
-        Integer z = 0
-        return { Integer x -&amp;amp;gt; z++; x + z }
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;creates a closure, similar to our lambda expression, but it also uses the local variable &lt;code&gt;z&lt;/code&gt;. This local variable is not final and not effectively final. What happens here is that the compiler creates a new class that contains a field for each local variable used in the closure. A new local variable references an instance of this new class, and the local variable uses all references to this object and its fields. This object, along with the &quot;lambda expression&quot; code, is the closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since the object is on the heap, it stays alive as long as there is a hard reference. The object, which holds the described function has one, so this object will be available so long as long the closure is alive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def inc = MyClosure.incrementer();
-assert inc(1) == 2
-assert inc(1) == 3
-assert inc(1) == 4&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is clearly shown in the test execution where the closure increases the &lt;code&gt;z&lt;/code&gt; amount at each execution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Closures are lambdas with state.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-lambda-in-java&quot;&gt;5. Lambda in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java approaches this problem differently. Instead of creating a new synthetic object to hold the referenced local variables, it simply uses the values of the variables. Lambdas seem to use the variables, but they don&amp;#8217;t. They use only constants copying the value of the variables.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing lambdas, there were two options. I was not part of the team making the decisions, so what I write here is only my opinion, guessing, but it may help you understand why the decision was made. One option could be to copy the variable&amp;#8217;s value when the lambda is created, not caring about the later value change of the local variable. Could it work? Inevitably. Would it be readable? In many cases, it would not be. What if the variable changes later? Will the lambda use the changed value? No, it will use the copied, frozen value. It is different from how variables work usually.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java requires the variable to be final or effectively final to solve this discrepancy. The disturbing case having the different variable value when the lambda is used is avoided.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing language elements, there are always tradeoffs. On one end, some constructs provide great power to the hands of the developers. However, great power requires great responsibility. Most of the developers are not mature enough to take on the responsibility.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other side of the scale are the simple constructs providing less functionality. It may not solve some problems so elegantly, but you also cannot create unreadable code so easily. Java is usually going this way. There has been an obfuscated C contest almost since the language C started. Who can write less readable code in that programming language? Since then, almost all languages started the contest, except two. Java and Perl. In the case of Java, the contest would be dull, as you cannot write obfuscated code in Java. In the case of Perl, the contest is pointless.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-closure-in-java&quot;&gt;6. Closure in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to have a closure in Java, you can create one yourself. The good old way is to use anonymous, or for that matter, regular classes. The other is to mimic the behavior of the Groovy compiler and create a class that encapsulates the closure data.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The Groovy compiler creates the class for you to enclose the local variables, but nothing stops you from making it manually if you want it in Java. You have to do the same thing. Move every local variable that the closure uses into a class as an instance field.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
-    AtomicInteger z = new AtomicInteger(0);
-    return x -&amp;amp;gt; {
-        z.set(z.get() + 1);
-        return x + z.get();
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We only had one local variable, &lt;code&gt;int z&lt;/code&gt;, in our example. We need a class that can hold an int. The class for that is &lt;code&gt;AtomicInteger&lt;/code&gt;. It does many other things, and it is usually used when concurrent execution is an issue. Because of that, some overhead may slightly affect the performance, which I abjectly ignore for now.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If there are more than one local variables, we need to craft a class for them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;amp;lt;Integer, Integer&amp;amp;gt; incrementer() {
-    class DataHolder{int z; int m;}
-    final var dh = new DataHolder();
-    return x -&amp;amp;gt; {
-        dh.z++;
-        dh.m++;
-        return x + dh.z*dh.m;
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you can see in this example, we can declare a class even inside the method, and for the cohesion of the code, it is the right place. Eventually, it is easy to see that this approach is working.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final var inc = LambdaComplexClosure.incrementer();
-assertThat(inc.apply(1)).isEqualTo(2);
-assertThat(inc.apply(1)).isEqualTo(5);
-assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is, however, questionable if you want to use this approach. Lambdas generally should be stateless. When you need a state that a lambda uses, in other words, when you need a closure, which the language does not directly support, you should use a class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-summary&quot;&gt;7. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;This article discussed why a lambda expression can access only final and effectively final local variables.* We also discussed the reason and how different languages approach this issue.* Finally, we looked at a Groovy example and how Java can mimic this.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Therefore, if anyone asks you the interview question, why a lambda expression can access only final and effectively final local variables, you will know the answer. Because the Java Language Specification says so. Everything else is speculation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You an find the code for this article along with the article text source code at &lt;a href=&quot;https://github.com/verhas/demo/tree/master/LambdaFinal&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/demo/tree/master/LambdaFinal&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>
