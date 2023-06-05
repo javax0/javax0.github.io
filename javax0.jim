@@ -15,7 +15,10 @@ define the 'section', 'subsection' and 'subsubsection' macros that number the in
 {@define liquid($x)={@escape* `liquid`{`liquid`} $x {@escape* `liquid`}`liquid`}}
 {@define raw($x)={liquid raw}$x{liquid endraw}}
 
-{@define png($x,...$Y)=image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/$x.png[$Y]}
+{@define IMAGE_LOCATION=image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/}
+{#define png($x,...$Y)={IMAGE_LOCATION}$x.png[$Y]}
+{#define svg($x,...$Y)={IMAGE_LOCATION}$x.svg[$Y]}
+{#define jpg($x,...$Y)={IMAGE_LOCATION}$x.jpg[$Y]}
 
 {@define java($X)=[source,java]
 ----
