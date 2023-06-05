@@ -1,4 +1,698 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-05-26T11:14:18+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-06-05T15:02:49+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Mermaid is a trendy diagramming tool.
+A year ago, it was integrated into the Markdown rendering of Github.
+(see &lt;a href=&quot;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&quot; class=&quot;bare&quot;&gt;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&lt;/a&gt;)
+It is also integrated into several editors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What can you do, however, if you use a different editor?
+What if you want to use your Markdown document in an environment that does not integrate Mermaid yet?
+What can you do if the diagram is not Mermaid but PlantUML, Graphviz, or any other diagramming tool?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article will show how you can integrate ANY diagram-as-code tool into your documents.
+The technique works for Markdown, Asciidoc, APT, or any other text-based markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, before anything else, here is a demonstration image, which was created the way I will describe in this article.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When documenting some systems, it is often necessary to include diagrams.
+Keeping diagrams in separate files has advantages but also disadvantages.
+It is easier to keep the consistency of the documentation when the different parts are close together.
+The more distanced the two corresponding and related parts are, the more likely that one or the other becomes stale when the other is updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is also a good idea if you can parameterize the diagram, and you could avoid copy-pasting diagram parameters from the document, the documented code, or the other way around.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To solve these problems, more and more markup languages support selected diagramming tool markups to embed in the text.
+You can include Mermaid in Markdown documents if you target GitHub hosting for your document.
+You can include PlantUML diagrams in Asciidoc documents.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What happens, however, if you want to include Mermaid in Asciidoc?
+What if you need PlantUML in Markdown?
+How do you solve the issue if you want to host your Markdown elsewhere besides GitHub?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can abandon your ideas, stick to the available tools or wait for a solution.
+The latter approach, however, will always remain an issue.
+There will always be a new tool you want to use, and you will have to wait for the support of that tool in your favorite markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The principal reason for this is an architectural mismatch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Document markup languages must be responsible only for document structure and content and nothing else.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Embedding a diagramming tool into the markup language must not be implemented in these languages.
+It is a separate concern with the document&amp;#8217;s programmability ensuring document consistency automation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution is to use a meta markup above the document markup.
+This meta markup can be document markup agnostic and support all the diagramming tools you want to use.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-ideas-and-approach-to-solve-the-problem&quot;&gt;2. Ideas and Approach to Solve the problem&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The basic idea is not new: separation of concerns.
+The document markup language should be responsible for the document structure and content.
+The diagramming tool should be responsible for the diagramming.
+The meta markup should be responsible for the integration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since the meta markup is language agnostic, it can be used with any existing and future document markup languages.
+There is no need to wait for the support of the diagramming tool in the document markup language.
+The only question is the integration of the meta markup into the document markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The simplest and loosest way to integrate the meta markup is to use a preprocessor.
+Processing the meta markup, we read and generate a text file.
+The document markup processing tool catches where the meta markup has left off.
+It has no idea that a program generates the document markup and is not manually edited.
+Strictly speaking, when you edit a document markup, then the editor is the program that generates the file.
+Technically, there is no difference.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are other possibilities.
+Most document markups support different editors to deliver some form of WYSIWYG editing.
+The meta markup preprocessor can be integrated into these editors.
+That way, the document markup enriched with the meta markup can seamlessly be edited in the WYSIWYG editor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The proposed meta markup and the implementing tool, Jamal, follow both approaches.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-suggested-solution-tools&quot;&gt;3. Suggested Solution, Tools&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The suggested solution is to use Jamal as the meta markup.
+Jamal is a general-purpose macro processor.
+There are other meta markup processing tools, like &lt;a href=&quot;https://facelessuser.github.io/pymdown-extensions/&quot;&gt;PyMdown&lt;/a&gt;.
+These tools usually target a specific document markup and a specific purpose.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal is a general-purpose, turning complete macro processor with more than 200 macros for different purposes.
+These macros make your documents programmable to automate manual document maintenance tasks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The general saying is: if you could give a task to an assistant to do, then you can automate it with Jamal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal has a PlantUML module.
+PlantUML is written in Java, the development language I used to create Jamal.
+It makes the integration of PlantUML into Jamal easy, and PlantUML diagrams embedded into the documentation can be converted in the process.
+Jamal, however, is not limited to using only tools written in Java.
+To demonstrate it, we will use the Mermaid diagramming tool, written in JavaScript and running with node.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since Mermaid is not a Java program, it cannot be executed inside the JVM.
+We will create our documentation to execute Mermaid as a separate process.
+Other diagramming tools can be integrated similarly if executed on the document processing machine.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-1-install-mermaid&quot;&gt;3.1. Install Mermaid&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first step is to install Mermaid.
+The steps are documented on the &lt;a href=&quot;https://mermaid.sj.org&quot;&gt;Mermaid site&lt;/a&gt;.
+I will not repeat the steps here because I do not want to create a document that gets outdated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On my machine, the installation creates the  &lt;code&gt;/usr/local/bin/mmdc&lt;/code&gt; executable.
+This file is a JavaScript script that starts the Mermaid diagramming tool.
+While executing from Jamal, I realized the process has a different environment than my login script.
+To deal with that, I had to edit the file.
+Instead of using the &lt;code&gt;env&lt;/code&gt; command to find the node interpreter, I specified the full path to the node executable.
+Other installations may be different, and it does not affect the rest of the article.
+It is a technical detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-install-jamal&quot;&gt;3.2. Install Jamal&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will use Jamal as the meta markup processor.
+The installation is detailed in the &lt;a href=&quot;https://github.com/verhas/jamal&quot;&gt;documentation of Jamal&lt;/a&gt;.
+You can start it from the command line, as a Maven plugin, using Jbang and many other ways.
+I recommend using it as a preprocessor integrated into the IntelliJ Asciidoctor plugin.
+It will provide you with WYSIWYG editing of your document in Markdown and Asciidoc enriched with Jamal macros.
+Also, the installation is nothing more than executing the command line&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;mvn com.javax0.jamal:jamal-maven-plugin:2.1.0:jamalize&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;which will download the version 2.1.0 we use in this article by the time pre-release and copy all the needed files into your project&amp;#8217;s &lt;code&gt;.asciidoctor/lib&lt;/code&gt; directory.
+It will make the macros available for the Asciidoctor plugin.
+What needs manual work is configuring IntelliJ to treat all &lt;code&gt;.jam&lt;/code&gt; files as Asciidoc files.
+That way, the editor will invoke the Asciidoctor plugin and use the Jamal preprocessor.
+It is the setup that I also use to write the articles.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-3-create-the-macros-for-mermaid&quot;&gt;3.3. Create the macros for Mermaid&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To have a mermaid document inside the document, we should do three things using macros:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Save the Mermaid text into a file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Execute the Mermaid tool to convert the text into an SVG file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Reference the SVG file as an image in the document.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Later, we will see how to save on Mermaid processing, executing it only when the Mermaid text changes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will use the &lt;code&gt;io:write&lt;/code&gt; macro to save the Mermaid text into a file.
+This macro is in a package that is not loaded by default.
+We have to load it explicitly.
+To do that, we use the &lt;code&gt;maven:load&lt;/code&gt; macro.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{@maven:load com.javax0.jamal:jamal-io:2.1.0}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This macro package has to be configured as safe for the document in the &lt;code&gt;.jamal/settings.properties&lt;/code&gt; file as it is documented.
+The macros in this package can read and write files and execute commands configured.
+To use a macro package like that from an untrusted source is a security risk.
+For this reason, every package loaded by the &lt;code&gt;maven:load&lt;/code&gt; macro has to be configured as safe.
+The configuration specifies the package and the documents where it can be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the same time, the io package also needs configuration to be able to execute the &lt;code&gt;mmdc&lt;/code&gt; command.
+To do that, the configuration file contains a&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;mermaid=/usr/local/bin/mmdc&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;line assigning a symbolic name to the actual command.
+The &lt;code&gt;io:exec&lt;/code&gt; macro will use this symbolic name to find the command to execute.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the macro package is loaded, we can use the &lt;code&gt;io:write&lt;/code&gt; macro as in the following sample:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define CHART=flowchart TD
+A[Christmas] --&amp;gt;|Get money| B(Go shopping)
+B --&amp;gt; C{Let me think}
+C --&amp;gt;|One| D[Laptop]
+C --&amp;gt;|Two| E[iPhone]
+C --&amp;gt;|Three| F[fa:fa-car Care]
+}
+{#io:write (output=&quot;aaa.mmd&quot;) {CHART}}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the file is created, we can execute the Mermaid tool to convert it into an SVG file, as the following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#io:exec command=&quot;&quot;&quot;mermaid
+-i
+aaa.mmd
+-o
+aaa.svg
+&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By that, we have the file.
+Whenever the Mermaid text changes, the SVG file will be recreated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As a matter of fact, whenever the document changes, the SVG file will be recreated.
+It wastes resources when the diagram remains the same and the processing runs interactively.
+To help with that, we can use the &lt;code&gt;hashCode&lt;/code&gt; macro.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The macro &lt;code&gt;hashCode&lt;/code&gt; calculates the hash code of the text.
+We will use the hash code to name the file.
+Whenever the diagram changes, the file&amp;#8217;s name changes.
+Also, if the file exists, it should contain the diagram for the current text.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To check that the file exists, we include it in the document.
+Because we do not want the SVG text in the document, we surround the &lt;code&gt;include&lt;/code&gt; with the &lt;code&gt;block&lt;/code&gt; macro.
+If the file does not exist, then an error will occur.
+The macro &lt;code&gt;try&lt;/code&gt; will handle this error, and the execution will continue.
+However, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;true&lt;/code&gt; in this case.
+If there is no error, when the file already exists, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;if&lt;/code&gt; macro will check the value of the macro &lt;code&gt;CREATE&lt;/code&gt;.
+If it is &lt;code&gt;true&lt;/code&gt;, it will execute the &lt;code&gt;io:write&lt;/code&gt; and &lt;code&gt;io:exec&lt;/code&gt; macros to create the file.
+If it is &lt;code&gt;false,&lt;/code&gt; then it will do nothing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define KEY={#hashCode {CHART}}}{@define CREATE=true}
+{@try {#block{#include images/{KEY}.svg}}{@define CREATE=false}}
+{#if `//`{CREATE}//
+{#io:write (mkdir output=&quot;images/aaa.mmd&quot;) {CHART}}
+{#io:exec command=&quot;&quot;&quot;mermaid
+-i
+images/aaa.mmd
+-o
+images/{KEY}.svg
+&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
+}//}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For more details using these macros, please refer to the documentation.
+If you intend to use multiple diagrams, you may want to create a macro that does all the steps above.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-summary-and-takeaway&quot;&gt;4. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article discussed integrating Mermaid diagrams into your Asciidoc, Markdown, or any other markup document.
+We selected Mermaid for two reasons.
+First, usually, this is the tool people ask for.
+Second, this is an excellent example of a non-Java tool that can be integrated into document processing.
+The described way can be applied to any external tool capable of running as a process.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The samples also demonstrate a complex structure of macros showing the power of the Jamal macro processor.
+Such complexity is rarely needed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition to the technology, I discussed, though only briefly, the separation of concerns for document handling and how the document formatting markup should be separated from the processing meta markup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to have diagrams in your documentation, download Jamal, and start enhancing your documents.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/01/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-01T00:00:00+02:00</published><updated>2023-06-01T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/01/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/01/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Mermaid is a trendy diagramming tool.
+A year ago, it was integrated into the Markdown rendering of Github.
+(see &lt;a href=&quot;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&quot; class=&quot;bare&quot;&gt;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&lt;/a&gt;)
+It is also integrated into several editors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What can you do, however, if you use a different editor?
+What if you want to use your Markdown document in an environment that does not integrate Mermaid yet?
+What can you do if the diagram is not Mermaid but PlantUML, Graphviz, or any other diagramming tool?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article will show how you can integrate ANY diagram-as-code tool into your documents.
+The technique works for Markdown, Asciidoc, APT, or any other text-based markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, before anything else, here is a demonstration image, which was created the way I will describe in this article.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When documenting some systems, it is often necessary to include diagrams.
+Keeping diagrams in separate files has advantages but also disadvantages.
+It is easier to keep the consistency of the documentation when the different parts are close together.
+The more distanced the two corresponding and related parts are, the more likely that one or the other becomes stale when the other is updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is also a good idea if you can parameterize the diagram, and you could avoid copy-pasting diagram parameters from the document, the documented code, or the other way around.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To solve these problems, more and more markup languages support selected diagramming tool markups to embed in the text.
+You can include Mermaid in Markdown documents if you target GitHub hosting for your document.
+You can include PlantUML diagrams in Asciidoc documents.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What happens, however, if you want to include Mermaid in Asciidoc?
+What if you need PlantUML in Markdown?
+How do you solve the issue if you want to host your Markdown elsewhere besides GitHub?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can abandon your ideas, stick to the available tools or wait for a solution.
+The latter approach, however, will always remain an issue.
+There will always be a new tool you want to use, and you will have to wait for the support of that tool in your favorite markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The principal reason for this is an architectural mismatch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Document markup languages must be responsible only for document structure and content and nothing else.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Embedding a diagramming tool into the markup language must not be implemented in these languages.
+It is a separate concern with the document&amp;#8217;s programmability ensuring document consistency automation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution is to use a meta markup above the document markup.
+This meta markup can be document markup agnostic and support all the diagramming tools you want to use.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-ideas-and-approach-to-solve-the-problem&quot;&gt;2. Ideas and Approach to Solve the problem&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The basic idea is not new: separation of concerns.
+The document markup language should be responsible for the document structure and content.
+The diagramming tool should be responsible for the diagramming.
+The meta markup should be responsible for the integration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since the meta markup is language agnostic, it can be used with any existing and future document markup languages.
+There is no need to wait for the support of the diagramming tool in the document markup language.
+The only question is the integration of the meta markup into the document markup language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The simplest and loosest way to integrate the meta markup is to use a preprocessor.
+Processing the meta markup, we read and generate a text file.
+The document markup processing tool catches where the meta markup has left off.
+It has no idea that a program generates the document markup and is not manually edited.
+Strictly speaking, when you edit a document markup, then the editor is the program that generates the file.
+Technically, there is no difference.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are other possibilities.
+Most document markups support different editors to deliver some form of WYSIWYG editing.
+The meta markup preprocessor can be integrated into these editors.
+That way, the document markup enriched with the meta markup can seamlessly be edited in the WYSIWYG editor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The proposed meta markup and the implementing tool, Jamal, follow both approaches.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-suggested-solution-tools&quot;&gt;3. Suggested Solution, Tools&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The suggested solution is to use Jamal as the meta markup.
+Jamal is a general-purpose macro processor.
+There are other meta markup processing tools, like &lt;a href=&quot;https://facelessuser.github.io/pymdown-extensions/&quot;&gt;PyMdown&lt;/a&gt;.
+These tools usually target a specific document markup and a specific purpose.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal is a general-purpose, turning complete macro processor with more than 200 macros for different purposes.
+These macros make your documents programmable to automate manual document maintenance tasks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The general saying is: if you could give a task to an assistant to do, then you can automate it with Jamal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal has a PlantUML module.
+PlantUML is written in Java, the development language I used to create Jamal.
+It makes the integration of PlantUML into Jamal easy, and PlantUML diagrams embedded into the documentation can be converted in the process.
+Jamal, however, is not limited to using only tools written in Java.
+To demonstrate it, we will use the Mermaid diagramming tool, written in JavaScript and running with node.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since Mermaid is not a Java program, it cannot be executed inside the JVM.
+We will create our documentation to execute Mermaid as a separate process.
+Other diagramming tools can be integrated similarly if executed on the document processing machine.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-1-install-mermaid&quot;&gt;3.1. Install Mermaid&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first step is to install Mermaid.
+The steps are documented on the &lt;a href=&quot;https://mermaid.sj.org&quot;&gt;Mermaid site&lt;/a&gt;.
+I will not repeat the steps here because I do not want to create a document that gets outdated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On my machine, the installation creates the  &lt;code&gt;/usr/local/bin/mmdc&lt;/code&gt; executable.
+This file is a JavaScript script that starts the Mermaid diagramming tool.
+While executing from Jamal, I realized the process has a different environment than my login script.
+To deal with that, I had to edit the file.
+Instead of using the &lt;code&gt;env&lt;/code&gt; command to find the node interpreter, I specified the full path to the node executable.
+Other installations may be different, and it does not affect the rest of the article.
+It is a technical detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-install-jamal&quot;&gt;3.2. Install Jamal&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will use Jamal as the meta markup processor.
+The installation is detailed in the &lt;a href=&quot;https://github.com/verhas/jamal&quot;&gt;documentation of Jamal&lt;/a&gt;.
+You can start it from the command line, as a Maven plugin, using Jbang and many other ways.
+I recommend using it as a preprocessor integrated into the IntelliJ Asciidoctor plugin.
+It will provide you with WYSIWYG editing of your document in Markdown and Asciidoc enriched with Jamal macros.
+Also, the installation is nothing more than executing the command line&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;mvn com.javax0.jamal:jamal-maven-plugin:2.1.0:jamalize&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;which will download the version 2.1.0 we use in this article by the time pre-release and copy all the needed files into your project&amp;#8217;s &lt;code&gt;.asciidoctor/lib&lt;/code&gt; directory.
+It will make the macros available for the Asciidoctor plugin.
+What needs manual work is configuring IntelliJ to treat all &lt;code&gt;.jam&lt;/code&gt; files as Asciidoc files.
+That way, the editor will invoke the Asciidoctor plugin and use the Jamal preprocessor.
+It is the setup that I also use to write the articles.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-3-create-the-macros-for-mermaid&quot;&gt;3.3. Create the macros for Mermaid&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To have a mermaid document inside the document, we should do three things using macros:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Save the Mermaid text into a file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Execute the Mermaid tool to convert the text into an SVG file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Reference the SVG file as an image in the document.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Later, we will see how to save on Mermaid processing, executing it only when the Mermaid text changes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will use the &lt;code&gt;io:write&lt;/code&gt; macro to save the Mermaid text into a file.
+This macro is in a package that is not loaded by default.
+We have to load it explicitly.
+To do that, we use the &lt;code&gt;maven:load&lt;/code&gt; macro.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{@maven:load com.javax0.jamal:jamal-io:2.1.0}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This macro package has to be configured as safe for the document in the &lt;code&gt;.jamal/settings.properties&lt;/code&gt; file as it is documented.
+The macros in this package can read and write files and execute commands configured.
+To use a macro package like that from an untrusted source is a security risk.
+For this reason, every package loaded by the &lt;code&gt;maven:load&lt;/code&gt; macro has to be configured as safe.
+The configuration specifies the package and the documents where it can be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the same time, the io package also needs configuration to be able to execute the &lt;code&gt;mmdc&lt;/code&gt; command.
+To do that, the configuration file contains a&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;mermaid=/usr/local/bin/mmdc&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;line assigning a symbolic name to the actual command.
+The &lt;code&gt;io:exec&lt;/code&gt; macro will use this symbolic name to find the command to execute.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the macro package is loaded, we can use the &lt;code&gt;io:write&lt;/code&gt; macro as in the following sample:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define CHART=flowchart TD
+A[Christmas] --&amp;gt;|Get money| B(Go shopping)
+B --&amp;gt; C{Let me think}
+C --&amp;gt;|One| D[Laptop]
+C --&amp;gt;|Two| E[iPhone]
+C --&amp;gt;|Three| F[fa:fa-car Care]
+}
+{#io:write (output=&quot;aaa.mmd&quot;) {CHART}}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the file is created, we can execute the Mermaid tool to convert it into an SVG file, as the following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#io:exec command=&quot;&quot;&quot;mermaid
+-i
+aaa.mmd
+-o
+aaa.svg
+&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By that, we have the file.
+Whenever the Mermaid text changes, the SVG file will be recreated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As a matter of fact, whenever the document changes, the SVG file will be recreated.
+It wastes resources when the diagram remains the same and the processing runs interactively.
+To help with that, we can use the &lt;code&gt;hashCode&lt;/code&gt; macro.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The macro &lt;code&gt;hashCode&lt;/code&gt; calculates the hash code of the text.
+We will use the hash code to name the file.
+Whenever the diagram changes, the file&amp;#8217;s name changes.
+Also, if the file exists, it should contain the diagram for the current text.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To check that the file exists, we include it in the document.
+Because we do not want the SVG text in the document, we surround the &lt;code&gt;include&lt;/code&gt; with the &lt;code&gt;block&lt;/code&gt; macro.
+If the file does not exist, then an error will occur.
+The macro &lt;code&gt;try&lt;/code&gt; will handle this error, and the execution will continue.
+However, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;true&lt;/code&gt; in this case.
+If there is no error, when the file already exists, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;if&lt;/code&gt; macro will check the value of the macro &lt;code&gt;CREATE&lt;/code&gt;.
+If it is &lt;code&gt;true&lt;/code&gt;, it will execute the &lt;code&gt;io:write&lt;/code&gt; and &lt;code&gt;io:exec&lt;/code&gt; macros to create the file.
+If it is &lt;code&gt;false,&lt;/code&gt; then it will do nothing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define KEY={#hashCode {CHART}}}{@define CREATE=true}
+{@try {#block{#include images/{KEY}.svg}}{@define CREATE=false}}
+{#if `//`{CREATE}//
+{#io:write (mkdir output=&quot;images/aaa.mmd&quot;) {CHART}}
+{#io:exec command=&quot;&quot;&quot;mermaid
+-i
+images/aaa.mmd
+-o
+images/{KEY}.svg
+&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
+}//}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For more details using these macros, please refer to the documentation.
+If you intend to use multiple diagrams, you may want to create a macro that does all the steps above.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-summary-and-takeaway&quot;&gt;4. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article discussed integrating Mermaid diagrams into your Asciidoc, Markdown, or any other markup document.
+We selected Mermaid for two reasons.
+First, usually, this is the tool people ask for.
+Second, this is an excellent example of a non-Java tool that can be integrated into document processing.
+The described way can be applied to any external tool capable of running as a process.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The samples also demonstrate a complex structure of macros showing the power of the Jamal macro processor.
+Such complexity is rarely needed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition to the technology, I discussed, though only briefly, the separation of concerns for document handling and how the document formatting markup should be separated from the processing meta markup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to have diagrams in your documentation, download Jamal, and start enhancing your documents.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article is a rant about the questions that are posted on the Linked In Java Developers Community.
@@ -1762,7 +2456,7 @@ I drew a picture of an elephant showing the developer side:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
+&lt;img src=&quot;https://javax0.github.io/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -4095,472 +4789,6 @@ At least, I am less likely to end up in some articles with &lt;code&gt;&amp;amp;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This type of blogging using Asciidoc, Jekyll, and Jamal is more a Doc as a Code that I advocate heavily.
 We will see how it will work.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Docs as Code is not enough</title><link href="https://javax0.github.io/2022/05/24/docs-as-code.html" rel="alternate" type="text/html" title="Docs as Code is not enough" /><published>2022-05-24T00:00:00+02:00</published><updated>2022-05-24T00:00:00+02:00</updated><id>https://javax0.github.io/2022/05/24/docs-as-code</id><content type="html" xml:base="https://javax0.github.io/2022/05/24/docs-as-code.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-docs-as-code&quot;&gt;1. Docs as Code&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-1-it-is-the-first-step-to-the-right-direction&quot;&gt;1.1. it is the first step to the right direction&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The approach to treating your documentation the same way as program code is a step in the right direction, but it is far from state-of-the-art. The practice is detailed on many websites that advocate the use of docs-as-code (DAC). For example the &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Write the Docs&lt;/a&gt; community has a great article on docs-as-code. The article lists&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Issue Trackers&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Version Control (Git)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Plain Text Markup (Markdown, reStructuredText, Asciidoc)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Code Reviews&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Automated Tests&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;as required tools to this approach. Another example is &lt;a href=&quot;https://docs-as-co.de/&quot;&gt;docs-as-code&lt;/a&gt;, which is a toolset for documentation maintenance. They write&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With docs-as-code, you treat your documentation the same way as your code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You use…&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;your IDE to write it
-your version control system to store and version it
-your test-runner to test it
-your build system to build and deploy it&quot;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is very much the same as the approach of &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Write the Docs&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-3.svg&quot; alt=&quot;docs as code 3&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You have to have your documents in a format supported by the DAC tools. Use version control, document review, automated build, issue tracker, and automated tests. It is very much the same approach we use in code development.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Essentially it is a copy of the professional software development process&apos; coding part. Documentation, however, is not coding. While it is a good idea to reuse some parts of the coding methodology technics, there is more to it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-4.svg&quot; alt=&quot;docs as code 4&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-what-docs-as-code-ignores&quot;&gt;2. What docs-as-code Ignores&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Coding is a transformation process converting documentation, namely the requirement documentation, into code. The requirement documentation may not be documentation in the classical sense. It may be some note, a list of wishes on a jot of paper. Still, the essence is to convert some human affine into machine affine. Some techniques try to support this process, but most of these techniques die when in production. For example, creating the documentation as UML and making it so precise that the code generation is automatic afterward is not feasible. You could do it in principle, but the cost of the effort is too high. It is cheaper to create the code than documentation that defines the functionality with mathematical precision.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Documenting an application is precisely the opposite direction.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-5.svg&quot; alt=&quot;docs as code 5&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Something that failed in one direction does not necessarily fail when we try to go the other direction. You may not be able to jump from the river to the bridge, but the other way is very much possible.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When creating the program documentation, our source is precisely describing the functionality we want to document. After all, the code is the most precise documentation of the application functionality. We already have the precision, which was not feasible to have for the other way around.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The docs-as-code approach, as described by most articles, ignores it. However, it can be amended, and it should be. We can look at it as the next step in the docs-as-code evolution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;2-1-the-next-step&quot;&gt;2.1. The next step&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We can categorize documentation into two categories.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Explanatory, and&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Reference&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Sometimes a document belongs to one of the categories, but documents are a mix of the two most of the time. It may even happen that you cannot even tell if a sentence in a document belongs to one category or the other.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Creating an explanatory style text cannot be automated. It needs human effort to create sentences that are clear and easily understandable. The importance is demonstrated by the lack of them in this article, as you may have noticed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However, creating the reference text is more or less a mechanical task. The documentarian (a term from write-the-docs) copies the key&amp;#8217;s name to explain how to configure the system and writes a sentence around it. Copies some sample code from the unit tests into a code segment into the Asciidoc documentation and adds explanation. The reference is taken from the code verbatim in these examples, and the explanatory part is added.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-1.svg&quot; alt=&quot;docs as code 1&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can automate the copy of the reference information. Most of the time, it is not automated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The catch is that automation, just as in the case of tests, is more expensive than doing manual work once. It pays back when the actual operation (copy and paste) happens many times.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And it usually does. To be more precise, it is supposed to happen. However, the documentation maintenance misses the task in practice, and the document becomes stale. It is where the docs-as-code automated test may help. In principle, it is possible to create a test checking the documentation and find discrepancies between the names in the code and the documentation. It can be heuristic, or it can be exact. To do it the exact way, the documentation and/or the code needs meta-information helping the test to perform the consistency check.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Such a test can signal that the documentation may be outdated and need change. For example, it may give a warning, like&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&quot;The name of the field XYZ is not the same as in the documentation ZZZ. Change ZZZ in the documentation to XYZ&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a foolish and outrageous error message. I immediately know that the program architecture is messed up when I see such an error message. If the test can tell me what to do with such precision, it could fix the problem with the same effort.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is much better if we let the automated build copy the actual name instead of checking that the human did it correctly. To do that, the documentarian should put the meta-information into the documentation instead of the copied value. The meta-information is read by the automated build tool, and using that; it copies the actual value or values.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If the value changes, the build process will automatically change it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Another advantage is the lesser possibility for error. If the documentarian makes a mistake copying the field&amp;#8217;s name, the text will not complain. If he writes XXY instead of XYZ, the documentation will contain the wrong name unless some human review process discovers and fixes the bug. If the documentarian inserts the meta information and makes a mistake, the build process will likely fail. If instead of XYZ, I have to write &lt;code&gt;{java:field com.javax0.jamal.api#XYZ}&lt;/code&gt; any simple typo will be detected. If there is a field  &lt;code&gt;com.javax0.jamal.api#XYZ&lt;/code&gt; it is unlikely to have also &lt;code&gt;com.javax0.jamal.api#XXY&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/articleimages/docs-as-code-2.svg&quot; alt=&quot;docs as code 2&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With this approach, the docs-as-code workflow is extended. The documentation&amp;#8217;s &quot; source code &quot; starts behaving as a source code. The automated build is no longer simply formatting and executing language checks. The goal is to automate everything that you can automate. It may not be cheaper than doing the work manually, but certainly less error-prone.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-tools&quot;&gt;3. Tools&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;All the above theory is pleasant and attractive but worth nothing unless there are tools to implement them. My motivation writing this article is partly to advocate the use of the open-source tool &lt;a href=&quot;https://github.com/verhas/jamal&quot;&gt;Jamal&lt;/a&gt;. Although Jamal is a general-purpose macro language and can be used in many areas, its primary purpose is document maintenance support. It is a simple to write, non-intrusive macro language. Using it, you can insert meta-information into the documentation to be processed by the automated build. You can use it with any plain text document format, like Asciidoc, markdown, apt, etc. The latest releases also support the DOCX format to use it even with Microsoft Word.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The set of the macros is quite extensive, and it is easy to add your own. The documentation support module can gather information from the application&amp;#8217;s source code as snippets. Snippets can then be transformed, extracted, and inserted into the documentation. Information from the code can be extracted using text tools using the source code text. However, in the case of Java applications, the document transformation may also collect information using reflection. It can be done because Jamal itself is a Java application.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It can be started on the command line as a maven plugin and a maven extension. It is also embedded as a doclet and a taglet to allow Jamal macros in the JavaDoc documentation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can use macros to check the consistency of the documentation and the code. You can mark some part of the code as a snippet, and the documentation related to the specific region may contain the hash code of the piece. When the part changes in the source code, the macro evaluation will automatically signal an error.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The application of Jamal is independent of build automation. It can be antora, jBake, or simply a maven project with different plugins. The application of Jamal is also independent of the documentation format. It can be Asciidoc, markdown, apt, etc., as long as the documentation format is text. Using the Word extension included in the command line version, it can even be Microsoft DOCX Word format.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-conclusion&quot;&gt;4. Conclusion&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Treating documentation as source code is a good idea and a good start. It can, and should, however, be extended to include more features. When you treat your documentation as a source code, you should not stop simply using built automation, automated testing, review processes, and versioning. You should also apply techniques like Don&amp;#8217;t Repeat Yourself (DRY). Extra tools exist and seamlessly integrate with the already existing build and formatting tools to do that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;comments-imported-from-wordpress&quot;&gt;Comments imported from Wordpress&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Docs as Code is not enough - Java Code Geeks - R4 News&lt;/strong&gt; 2022-04-04 05:02:00&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Docs as Code is not enough [&amp;#8230;]&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Docs as Code</summary></entry><entry><title type="html">Lambda and final variables</title><link href="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html" rel="alternate" type="text/html" title="Lambda and final variables" /><published>2021-12-08T00:00:00+01:00</published><updated>2021-12-08T00:00:00+01:00</updated><id>https://javax0.github.io/2021/12/08/lambda-and-final-variables</id><content type="html" xml:base="https://javax0.github.io/2021/12/08/lambda-and-final-variables.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lambda expressions can use the variables in the scope of the lambda expression, but only if they are final or effectively final. What is the reason for that? Why is that? It is an interesting question because the answer is not apparent and opinionated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is only one ultimate answer, though: because that is what the Java Language Specification says. But saying that is boring. True, but boring. I prefer the answer that says lambdas can only use final and effectively final local variables because lambdas are not closures.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following, I will discuss what final and effectively final mean, the differences between closures and lambdas, and finally, how we can create closures in Java using lambda expressions. I am not advocating the creation of lambda expression-based closures in Java, nor the abandonment of the idea.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-final-and-effectively-final&quot;&gt;2. &lt;code&gt;final&lt;/code&gt; and effectively final&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When declaring it, a local variable is final if we use the &lt;code&gt;final&lt;/code&gt; keyword. The compiler will also require that the variable get a value only once. This value assignment may happen at the location of the declaration but can be a bit later. There can be multiple lines that assign value to the final variable so long as long only one of them can execute for each method invocation. The typical case is when you declare a final variable without assigning value to it, and then you have an &lt;code&gt;if&lt;/code&gt; statement giving different values in the &quot;then&quot; and the &quot;else&quot; branch.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Needless to say that the variable has to be initialized before the lambda expression is created.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A variable is effectively final if not final, but it could be. It gets an assigned value at the declaration or can get a given value only once.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-life-of-a-lambda&quot;&gt;3. Life of a Lambda&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A lambda expression is a kind of anonymous class. The JVM handles it differently, and it is more efficient than an anonymous class, not to mention that it is more readable. However, from our point of view, we can think of it as an inner class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Anon {
-
-    public static Function&amp;lt;Integer, Integer&amp;gt; incrementer(final int step) {
-        return (Integer i) -&amp;gt; i + step;
-    }
-    public static Function&amp;lt;Integer, Integer&amp;gt; anonIncrementer(final int step) {
-        return new Function&amp;lt;Integer, Integer&amp;gt;() {
-            @Override
-            public Integer apply(Integer i) {
-                return i + step;
-            }
-        };
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the lambda expression is created, the JVM makes an instance of the lambda class that implements the &lt;code&gt;Function&lt;/code&gt; interface.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var inc = Anon.incrementer(5);
-assertThat(inc.getClass().getName()).startsWith(&quot;javax0.blog.lambdas.Anon$$Lambda$&quot;);
-assertThat(inc.getClass().getSuperclass().getName()).isEqualTo(&quot;java.lang.Object&quot;);
-assertThat(inc.getClass().getInterfaces()).hasSize(1);
-assertThat(inc.getClass().getInterfaces()[0]).isEqualTo(java.util.function.Function.class);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The JVM will place this object on the heap. In some cases, the compiler may realize that the object cannot get out of the method&amp;#8217;s scope, and in this case, it may store it in the stack. It is called local variable escape analysis, which can just put any object on the stack, which cannot escape from the method and may die together with the method return. However, for our discussion, we can forget this advanced feature of the Java environment.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The lambda is created in the method and stored in the heap. It is alive so long as long there is a hard reference to this object and is not collected. If a lambda expression could reference and use a local variable, which lives in the stack, it would need access to something gone after the method returns. It is not possible.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are two solutions to overcome this discrepancy. One is what Java follows, creating a copy of the variable&amp;#8217;s value. The other one is creating a closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-closure-and-groovy&quot;&gt;4. Closure and Groovy&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will look at Groovy examples when talking about closures. The reason to select Groovy is that it is very close to Java. We will look at some Groovy examples, and for the matter of demonstration, we will use Java-style as much as possible. Groovy is more or less compatible with Java; any Java code can be compiled as a Groovy source. The actual semantic may, however, be different slightly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Groovy solved the issue of local variable accessibility creating closures. The closure closes the functionality and the environment into a single object. For example, the following Groovy code:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class MyClosure {
-    static incrementer() {
-        Integer z = 0
-        return { Integer x -&amp;gt; z++; x + z }
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;creates a closure, similar to our lambda expression, but it also uses the local variable &lt;code&gt;z&lt;/code&gt;. This local variable is not final and not effectively final. What happens here is that the compiler creates a new class that contains a field for each local variable used in the closure. A new local variable references an instance of this new class, and the local variable uses all references to this object and its fields. This object, along with the &quot;lambda expression&quot; code, is the closure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since the object is on the heap, it stays alive as long as there is a hard reference. The object, which holds the described function has one, so this object will be available so long as long the closure is alive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def inc = MyClosure.incrementer();
-assert inc(1) == 2
-assert inc(1) == 3
-assert inc(1) == 4&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is clearly shown in the test execution where the closure increases the &lt;code&gt;z&lt;/code&gt; amount at each execution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Closures are lambdas with state.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-lambda-in-java&quot;&gt;5. Lambda in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java approaches this problem differently. Instead of creating a new synthetic object to hold the referenced local variables, it simply uses the values of the variables. Lambdas seem to use the variables, but they don&amp;#8217;t. They use only constants copying the value of the variables.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing lambdas, there were two options. I was not part of the team making the decisions, so what I write here is only my opinion, guessing, but it may help you understand why the decision was made. One option could be to copy the variable&amp;#8217;s value when the lambda is created, not caring about the later value change of the local variable. Could it work? Inevitably. Would it be readable? In many cases, it would not be. What if the variable changes later? Will the lambda use the changed value? No, it will use the copied, frozen value. It is different from how variables work usually.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java requires the variable to be final or effectively final to solve this discrepancy. The disturbing case having the different variable value when the lambda is used is avoided.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When designing language elements, there are always tradeoffs. On one end, some constructs provide great power to the hands of the developers. However, great power requires great responsibility. Most of the developers are not mature enough to take on the responsibility.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other side of the scale are the simple constructs providing less functionality. It may not solve some problems so elegantly, but you also cannot create unreadable code so easily. Java is usually going this way. There has been an obfuscated C contest almost since the language C started. Who can write less readable code in that programming language? Since then, almost all languages started the contest, except two. Java and Perl. In the case of Java, the contest would be dull, as you cannot write obfuscated code in Java. In the case of Perl, the contest is pointless.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-closure-in-java&quot;&gt;6. Closure in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to have a closure in Java, you can create one yourself. The good old way is to use anonymous, or for that matter, regular classes. The other is to mimic the behavior of the Groovy compiler and create a class that encapsulates the closure data.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The Groovy compiler creates the class for you to enclose the local variables, but nothing stops you from making it manually if you want it in Java. You have to do the same thing. Move every local variable that the closure uses into a class as an instance field.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;lt;Integer, Integer&amp;gt; incrementer() {
-    AtomicInteger z = new AtomicInteger(0);
-    return x -&amp;gt; {
-        z.set(z.get() + 1);
-        return x + z.get();
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We only had one local variable, &lt;code&gt;int z&lt;/code&gt;, in our example. We need a class that can hold an int. The class for that is &lt;code&gt;AtomicInteger&lt;/code&gt;. It does many other things, and it is usually used when concurrent execution is an issue. Because of that, some overhead may slightly affect the performance, which I abjectly ignore for now.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If there are more than one local variables, we need to craft a class for them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public static Function&amp;lt;Integer, Integer&amp;gt; incrementer() {
-    class DataHolder{int z; int m;}
-    final var dh = new DataHolder();
-    return x -&amp;gt; {
-        dh.z++;
-        dh.m++;
-        return x + dh.z*dh.m;
-    };
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you can see in this example, we can declare a class even inside the method, and for the cohesion of the code, it is the right place. Eventually, it is easy to see that this approach is working.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final var inc = LambdaComplexClosure.incrementer();
-assertThat(inc.apply(1)).isEqualTo(2);
-assertThat(inc.apply(1)).isEqualTo(5);
-assertThat(inc.apply(1)).isEqualTo(10);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is, however, questionable if you want to use this approach. Lambdas generally should be stateless. When you need a state that a lambda uses, in other words, when you need a closure, which the language does not directly support, you should use a class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-summary&quot;&gt;7. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;This article discussed why a lambda expression can access only final and effectively final local variables.* We also discussed the reason and how different languages approach this issue.* Finally, we looked at a Groovy example and how Java can mimic this.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Therefore, if anyone asks you the interview question, why a lambda expression can access only final and effectively final local variables, you will know the answer. Because the Java Language Specification says so. Everything else is speculation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You an find the code for this article along with the article text source code at &lt;a href=&quot;https://github.com/verhas/demo/tree/master/LambdaFinal&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/demo/tree/master/LambdaFinal&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;comments-imported-from-wordpress&quot;&gt;Comments imported from Wordpress&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Peter Verhas&lt;/strong&gt; 2021-12-30 21:49:42&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Good catch! I fixed that sentence. It has to be &quot;The JVM will place this object on the heap.&quot;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Thanks.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Filip&lt;/strong&gt; 2021-12-30 20:46:14&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Is lambda stored on heap or on stack? In paragraph four of &quot;Life of lambda&quot; it is said that lambda is created on a stack, but description is suggesting that it is created on a heap.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Lambda and final variables - Java Code Geeks - R4 News&lt;/strong&gt; 2021-12-19 14:24:08&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;[&amp;#8230;] Posted on Java Code Geeks with the permission of Peter Verhas, partner of our JCG program. See the original article here: Lambda and final variables [&amp;#8230;]&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Lambda and final variables &amp;#8211; Java Code Geeks &amp;#8211; Munaf Sheikh&lt;/strong&gt; 2021-12-19 14:30:58&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Lambda and final variables [&amp;#8230;]&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;strong&gt;Lambda and final variables – Java Code Geeks &amp;#8211; Munaf Sheikh&lt;/strong&gt; 2021-12-19 17:35:51&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;[&amp;#8230;] Published on Java Code Geeks with permission by Peter Verhas, partner at our JCG program. See the original article here: Lambda and final variables [&amp;#8230;]&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>
