@@ -11,7 +11,7 @@ comments: on
 = Adding Mermaid Diagrams to Markdown Documents
 
 〔@maven:load com.javax0.jamal:jamal-io:2.1.0-SNAPSHOT〕
-
+〔@comment
 〔#define CHART=flowchart TD
 A[Christmas] -->|Get money| B(Go shopping)
 B --> C{Let me think}
@@ -30,8 +30,7 @@ images/aaa.mmd
 images/〔KEY〕.svg
 """ cwd="." error="convert.err.txt" output="convert.out.txt"
 〕//〕
-
-image::images/〔KEY〕.svg[]
+〕
 
 Mermaid is a trendy diagramming tool.
 A year ago, it was integrated into the Markdown rendering of Github.
