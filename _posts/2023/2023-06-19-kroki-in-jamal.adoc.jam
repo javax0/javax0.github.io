@@ -1,0 +1,114 @@
+---
+{%@define title=Adding Diagrams to Markdown Documents%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%@sep 〔〕%}
+= 〔title〕
+
+A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document.
+In this document, I will extend that technology and explain how you can add
+
+ BlockDiag  BPMN️  Bytefield️  SeqDiag  ActDiag  NwDiag  PacketDiag  RackDiag
+ C4 with PlantUML  D2  DBML  Ditaa  Erd Excalidraw️  GraphViz  Mermaid  Nomnoml
+ Pikchr️  PlantUML  Structurizr  Svgbob  TikZ  UMlet  Vega  Vega-Lite  WaveDrom
+ WireViz
+
+To your markdown, Asciidoc, or any other document.
+
+〔section Problem Statement〕
+
+The problem statement is the same as in the previous article.
+You want to have diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
+It is an architectural problem and cannot be solved until we try to mix the different responsibilities: formatting and information content management.
+
+〔section Approach to Solve the problem〕
+
+The approach is the same again, after all, I am talking about the same tool.
+
+The basic idea is again: separation of concerns.
+The document markup language should be responsible for the document structure and content.
+The diagramming tool should be responsible for the diagramming.
+The meta markup should be responsible for the integration of the two.
+I will not repeat here all the arguments why this is a good idea.
+
+〔section Suggested Solution, Tools〕
+
+The suggested solution is to use Jamal as the meta markup.
+However, this time we will not use Mermaid as a diagramming tool locally.
+Instead, we will enjoy the services of the diagramming tool Kroki.
+
+〔subsection What is Kroki〕
+
+Kroki is a simple tool, and it is as genial as simple the idea is.
+It is nothing else than a web service implementing one `GET` endpoint to execute 27 different diagramming tools.
+If you
+
+. create your diagram text
+. convert the text to base64 encoded
+. open the URL `https://kroki.io/<tool>/<format>/<base64 encoded text>`
+
+then you will get the diagram in the format you requested.
+
+Brilliant.
+
+If you develop something for open source, you can use Kroki for free.
+If you develop something secret, afraid that your secret gets out to the internet, you can start up Kroki on premise.
+Kroki is available as a docker image, and also other modes.
+I recommend docker if you do not trust the public service.
+
+Why do we need Jamal?
+
+Well, what happens if the service is temporarily not available?
+Why should you pull the image all the time from the internet?
+
+〔subsection Need for Jamal〕
+
+After the first few iterations of editing the diagram file and converting it to base64 and opening the URL, you will realize that it is simple, but repetitive work.
+Exactly the type of wor that should be automatized.
+And that is what Jamal is for.
+
+The next release of Jamal 2.3.0 will come a new macro include file that you can import as
+
+[source,jamal]
+----
+{@import res:kroki.jim}
+----
+
+It defines a macro `kroki` that you can use to include the diagram in your document.
+
+The beauty of this solution is that the implementation did not need any Kroki specific Java code.
+It was all already there.
+The macros used in that file are available from link:https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim[github]:
+
+[source,jamal]
+----
+〔@include [verbatim] https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim〕
+----
+
+The macros check that the including file is `md.jam` (Markdown) or not, and based on that it generates a Markdown image reference or Asciidoc.
+It also checks if the diagram is already downloaded and if it has been changed since the last time the diagram was edited.
+It downloads the diagram only if it has changed since the last time it was generated.
+To do that it uses the general purpose `memoize`, `download`, `file` and `hashCode` macros.
+
+This tooling also allows you to use variables in the diagram text.
+It does not matter if the diagram itself supports any arithmetical operations, macro or string operations.
+It is provided by Jamal before the diagram text is sent to Kroki.
+
+If you want to see some nice examples, please visit the sample pages
+
+* https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.md.jam
+* https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.adoc.jam
+
+Use the URL without the `.jam` at the end to see the GitHub rendered versions.
+
+
+〔section Summary and Takeaway〕
+
+This article discussed integrating 27 diagram types into your Asciidoc, Markdown, or any other markup document.
+There is no excuse any more for any outdated diagram.
