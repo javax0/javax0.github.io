@@ -11,7 +11,7 @@ comments: on
 {%@sep 〔〕%}
 = 〔title〕
 
-A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document.
+A few weeks back, I wrote an article about how you can add Mermaid diagrams to your Markdown document.
 In this document, I will extend that technology and explain how you can add
 
  BlockDiag  BPMN️  Bytefield️  SeqDiag  ActDiag  NwDiag  PacketDiag  RackDiag
@@ -24,14 +24,14 @@ To your markdown, Asciidoc, or any other document.
 〔section Problem Statement〕
 
 The problem statement is the same as in the previous article.
-You want to have diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
-It is an architectural problem and cannot be solved until we try to mix the different responsibilities: formatting and information content management.
+You want diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
+It is an architectural problem that cannot be solved until we combine the different responsibilities: formatting and information content management.
 
 〔section Approach to Solve the problem〕
 
-The approach is the same again, after all, I am talking about the same tool.
+The approach is the same again; I am talking about the same tool.
 
-The basic idea is again: separation of concerns.
+The basic idea is, again: the separation of concerns.
 The document markup language should be responsible for the document structure and content.
 The diagramming tool should be responsible for the diagramming.
 The meta markup should be responsible for the integration of the two.
@@ -45,7 +45,7 @@ Instead, we will enjoy the services of the diagramming tool Kroki.
 
 〔subsection What is Kroki〕
 
-Kroki is a simple tool, and it is as genial as simple the idea is.
+Kroki is a simple tool, and it is as genial as simple as the idea is.
 It is nothing else than a web service implementing one `GET` endpoint to execute 27 different diagramming tools.
 If you
 
@@ -58,9 +58,9 @@ then you will get the diagram in the format you requested.
 Brilliant.
 
 If you develop something for open source, you can use Kroki for free.
-If you develop something secret, afraid that your secret gets out to the internet, you can start up Kroki on premise.
-Kroki is available as a docker image, and also other modes.
-I recommend docker if you do not trust the public service.
+If you develop something secret, afraid that your secret gets out to the internet, you can start Kroki on-premise.
+Kroki is available as a docker image and also in other modes.
+I recommend Docker if you do not trust the public service.
 
 Why do we need Jamal?
 
@@ -69,11 +69,11 @@ Why should you pull the image all the time from the internet?
 
 〔subsection Need for Jamal〕
 
-After the first few iterations of editing the diagram file and converting it to base64 and opening the URL, you will realize that it is simple, but repetitive work.
-Exactly the type of wor that should be automatized.
+After the first few iterations of editing the diagram file, converting it to base64, and opening the URL, you will realize that it is simple but repetitive work.
+Precisely the type of work that should be automatized.
 And that is what Jamal is for.
 
-The next release of Jamal 2.3.0 will come a new macro include file that you can import as
+The next release of Jamal 2.3.0 will come with a new macro, including a file that you can import as
 
 [source,jamal]
 ----
@@ -82,7 +82,7 @@ The next release of Jamal 2.3.0 will come a new macro include file that you can 
 
 It defines a macro `kroki` that you can use to include the diagram in your document.
 
-The beauty of this solution is that the implementation did not need any Kroki specific Java code.
+The beauty of this solution is that the implementation did not need any Kroki-specific Java code.
 It was all already there.
 The macros used in that file are available from link:https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim[github]:
 
@@ -91,24 +91,24 @@ The macros used in that file are available from link:https://raw.githubuserconte
 〔@include [verbatim] https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim〕
 ----
 
-The macros check that the including file is `md.jam` (Markdown) or not, and based on that it generates a Markdown image reference or Asciidoc.
-It also checks if the diagram is already downloaded and if it has been changed since the last time the diagram was edited.
+The macros check whether the included file is `md.jam` (Markdown) or not; based on that, it generates a Markdown image reference or Asciidoc.
+It also checks if the diagram has been downloaded and changed since the last time it was edited.
 It downloads the diagram only if it has changed since the last time it was generated.
-To do that it uses the general purpose `memoize`, `download`, `file` and `hashCode` macros.
+To do that, it uses the general purpose `memoize`, `download`, `file`, and `hashCode` macros.
 
 This tooling also allows you to use variables in the diagram text.
-It does not matter if the diagram itself supports any arithmetical operations, macro or string operations.
-It is provided by Jamal before the diagram text is sent to Kroki.
+Whether the diagram supports arithmetical, macro, or string operations does not matter.
+Jamal provides it before the diagram text is sent to Kroki.
 
-If you want to see some nice examples, please visit the sample pages
+If you want to see some excellent examples, please visit the sample pages.
 
 * https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.md.jam
 * https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.adoc.jam
 
-Use the URL without the `.jam` at the end to see the GitHub rendered versions.
+Use the URL without the `.jam` at the end to see the GitHub-rendered versions.
 
 
 〔section Summary and Takeaway〕
 
 This article discussed integrating 27 diagram types into your Asciidoc, Markdown, or any other markup document.
-There is no excuse any more for any outdated diagram.
+There is no excuse anymore for any outdated diagram.
