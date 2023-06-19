@@ -1,27 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-06-05T15:26:44+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-06-19T21:35:52+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Adding Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/19/kroki-in-jamal.html" rel="alternate" type="text/html" title="Adding Diagrams to Markdown Documents" /><published>2023-06-19T00:00:00+02:00</published><updated>2023-06-19T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/19/kroki-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/19/kroki-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Mermaid is a trendy diagramming tool.
-A year ago, it was integrated into the Markdown rendering of Github.
-(see &lt;a href=&quot;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&quot; class=&quot;bare&quot;&gt;https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/&lt;/a&gt;)
-It is also integrated into several editors.&lt;/p&gt;
+&lt;p&gt;A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document.
+In this document, I will extend that technology and explain how you can add&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What can you do, however, if you use a different editor?
-What if you want to use your Markdown document in an environment that does not integrate Mermaid yet?
-What can you do if the diagram is not Mermaid but PlantUML, Graphviz, or any other diagramming tool?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article will show how you can integrate ANY diagram-as-code tool into your documents.
-The technique works for Markdown, Asciidoc, APT, or any other text-based markup language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However, before anything else, here is a demonstration image, which was created the way I will describe in this article.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
+&lt;pre&gt;BlockDiag  BPMN️  Bytefield️  SeqDiag  ActDiag  NwDiag  PacketDiag  RackDiag
+C4 with PlantUML  D2  DBML  Ditaa  Erd Excalidraw️  GraphViz  Mermaid  Nomnoml
+Pikchr️  PlantUML  Structurizr  Svgbob  TikZ  UMlet  Vega  Vega-Lite  WaveDrom
+WireViz&lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To your markdown, Asciidoc, or any other document.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -29,79 +21,24 @@ The technique works for Markdown, Asciidoc, APT, or any other text-based markup 
 &lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When documenting some systems, it is often necessary to include diagrams.
-Keeping diagrams in separate files has advantages but also disadvantages.
-It is easier to keep the consistency of the documentation when the different parts are close together.
-The more distanced the two corresponding and related parts are, the more likely that one or the other becomes stale when the other is updated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is also a good idea if you can parameterize the diagram, and you could avoid copy-pasting diagram parameters from the document, the documented code, or the other way around.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To solve these problems, more and more markup languages support selected diagramming tool markups to embed in the text.
-You can include Mermaid in Markdown documents if you target GitHub hosting for your document.
-You can include PlantUML diagrams in Asciidoc documents.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What happens, however, if you want to include Mermaid in Asciidoc?
-What if you need PlantUML in Markdown?
-How do you solve the issue if you want to host your Markdown elsewhere besides GitHub?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can abandon your ideas, stick to the available tools or wait for a solution.
-The latter approach, however, will always remain an issue.
-There will always be a new tool you want to use, and you will have to wait for the support of that tool in your favorite markup language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The principal reason for this is an architectural mismatch.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Document markup languages must be responsible only for document structure and content and nothing else.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Embedding a diagramming tool into the markup language must not be implemented in these languages.
-It is a separate concern with the document&amp;#8217;s programmability ensuring document consistency automation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The solution is to use a meta markup above the document markup.
-This meta markup can be document markup agnostic and support all the diagramming tools you want to use.&lt;/p&gt;
+&lt;p&gt;The problem statement is the same as in the previous article.
+You want to have diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
+It is an architectural problem and cannot be solved until we try to mix the different responsibilities: formatting and information content management.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-ideas-and-approach-to-solve-the-problem&quot;&gt;2. Ideas and Approach to Solve the problem&lt;/h2&gt;
+&lt;h2 id=&quot;2-approach-to-solve-the-problem&quot;&gt;2. Approach to Solve the problem&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The basic idea is not new: separation of concerns.
+&lt;p&gt;The approach is the same again, after all, I am talking about the same tool.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The basic idea is again: separation of concerns.
 The document markup language should be responsible for the document structure and content.
 The diagramming tool should be responsible for the diagramming.
-The meta markup should be responsible for the integration.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since the meta markup is language agnostic, it can be used with any existing and future document markup languages.
-There is no need to wait for the support of the diagramming tool in the document markup language.
-The only question is the integration of the meta markup into the document markup language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The simplest and loosest way to integrate the meta markup is to use a preprocessor.
-Processing the meta markup, we read and generate a text file.
-The document markup processing tool catches where the meta markup has left off.
-It has no idea that a program generates the document markup and is not manually edited.
-Strictly speaking, when you edit a document markup, then the editor is the program that generates the file.
-Technically, there is no difference.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are other possibilities.
-Most document markups support different editors to deliver some form of WYSIWYG editing.
-The meta markup preprocessor can be integrated into these editors.
-That way, the document markup enriched with the meta markup can seamlessly be edited in the WYSIWYG editor.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The proposed meta markup and the implementing tool, Jamal, follow both approaches.&lt;/p&gt;
+The meta markup should be responsible for the integration of the two.
+I will not repeat here all the arguments why this is a good idea.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -110,211 +47,112 @@ That way, the document markup enriched with the meta markup can seamlessly be ed
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The suggested solution is to use Jamal as the meta markup.
-Jamal is a general-purpose macro processor.
-There are other meta markup processing tools, like &lt;a href=&quot;https://facelessuser.github.io/pymdown-extensions/&quot;&gt;PyMdown&lt;/a&gt;.
-These tools usually target a specific document markup and a specific purpose.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Jamal is a general-purpose, turning complete macro processor with more than 200 macros for different purposes.
-These macros make your documents programmable to automate manual document maintenance tasks.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The general saying is: if you could give a task to an assistant to do, then you can automate it with Jamal.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Jamal has a PlantUML module.
-PlantUML is written in Java, the development language I used to create Jamal.
-It makes the integration of PlantUML into Jamal easy, and PlantUML diagrams embedded into the documentation can be converted in the process.
-Jamal, however, is not limited to using only tools written in Java.
-To demonstrate it, we will use the Mermaid diagramming tool, written in JavaScript and running with node.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since Mermaid is not a Java program, it cannot be executed inside the JVM.
-We will create our documentation to execute Mermaid as a separate process.
-Other diagramming tools can be integrated similarly if executed on the document processing machine.&lt;/p&gt;
+However, this time we will not use Mermaid as a diagramming tool locally.
+Instead, we will enjoy the services of the diagramming tool Kroki.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-1-install-mermaid&quot;&gt;3.1. Install Mermaid&lt;/h3&gt;
+&lt;h3 id=&quot;3-1-what-is-kroki&quot;&gt;3.1. What is Kroki&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The first step is to install Mermaid.
-The steps are documented on the &lt;a href=&quot;https://mermaid.sj.org&quot;&gt;Mermaid site&lt;/a&gt;.
-I will not repeat the steps here because I do not want to create a document that gets outdated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On my machine, the installation creates the  &lt;code&gt;/usr/local/bin/mmdc&lt;/code&gt; executable.
-This file is a JavaScript script that starts the Mermaid diagramming tool.
-While executing from Jamal, I realized the process has a different environment than my login script.
-To deal with that, I had to edit the file.
-Instead of using the &lt;code&gt;env&lt;/code&gt; command to find the node interpreter, I specified the full path to the node executable.
-Other installations may be different, and it does not affect the rest of the article.
-It is a technical detail.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-2-install-jamal&quot;&gt;3.2. Install Jamal&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will use Jamal as the meta markup processor.
-The installation is detailed in the &lt;a href=&quot;https://github.com/verhas/jamal&quot;&gt;documentation of Jamal&lt;/a&gt;.
-You can start it from the command line, as a Maven plugin, using Jbang and many other ways.
-I recommend using it as a preprocessor integrated into the IntelliJ Asciidoctor plugin.
-It will provide you with WYSIWYG editing of your document in Markdown and Asciidoc enriched with Jamal macros.
-Also, the installation is nothing more than executing the command line&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;literalblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;mvn com.javax0.jamal:jamal-maven-plugin:2.1.0:jamalize&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;which will download the version 2.1.0 we use in this article by the time pre-release and copy all the needed files into your project&amp;#8217;s &lt;code&gt;.asciidoctor/lib&lt;/code&gt; directory.
-It will make the macros available for the Asciidoctor plugin.
-What needs manual work is configuring IntelliJ to treat all &lt;code&gt;.jam&lt;/code&gt; files as Asciidoc files.
-That way, the editor will invoke the Asciidoctor plugin and use the Jamal preprocessor.
-It is the setup that I also use to write the articles.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-3-create-the-macros-for-mermaid&quot;&gt;3.3. Create the macros for Mermaid&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To have a mermaid document inside the document, we should do three things using macros:&lt;/p&gt;
+&lt;p&gt;Kroki is a simple tool, and it is as genial as simple the idea is.
+It is nothing else than a web service implementing one &lt;code&gt;GET&lt;/code&gt; endpoint to execute 27 different diagramming tools.
+If you&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;olist arabic&quot;&gt;
 &lt;ol class=&quot;arabic&quot;&gt;
 &lt;li&gt;
-&lt;p&gt;Save the Mermaid text into a file.&lt;/p&gt;
+&lt;p&gt;create your diagram text&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Execute the Mermaid tool to convert the text into an SVG file.&lt;/p&gt;
+&lt;p&gt;convert the text to base64 encoded&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Reference the SVG file as an image in the document.&lt;/p&gt;
+&lt;p&gt;open the URL &lt;code&gt;&lt;a href=&quot;https://kroki.io/&amp;lt;tool&amp;gt;/&amp;lt;format&amp;gt;/&amp;lt;base64&quot; class=&quot;bare&quot;&gt;https://kroki.io/&amp;lt;tool&amp;gt;/&amp;lt;format&amp;gt;/&amp;lt;base64&lt;/a&gt; encoded text&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Later, we will see how to save on Mermaid processing, executing it only when the Mermaid text changes.&lt;/p&gt;
+&lt;p&gt;then you will get the diagram in the format you requested.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will use the &lt;code&gt;io:write&lt;/code&gt; macro to save the Mermaid text into a file.
-This macro is in a package that is not loaded by default.
-We have to load it explicitly.
-To do that, we use the &lt;code&gt;maven:load&lt;/code&gt; macro.&lt;/p&gt;
+&lt;p&gt;Brilliant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you develop something for open source, you can use Kroki for free.
+If you develop something secret, afraid that your secret gets out to the internet, you can start up Kroki on premise.
+Kroki is available as a docker image, and also other modes.
+I recommend docker if you do not trust the public service.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Why do we need Jamal?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Well, what happens if the service is temporarily not available?
+Why should you pull the image all the time from the internet?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-need-for-jamal&quot;&gt;3.2. Need for Jamal&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After the first few iterations of editing the diagram file and converting it to base64 and opening the URL, you will realize that it is simple, but repetitive work.
+Exactly the type of wor that should be automatized.
+And that is what Jamal is for.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next release of Jamal 2.3.0 will come a new macro include file that you can import as&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{@maven:load com.javax0.jamal:jamal-io:2.1.0}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This macro package has to be configured as safe for the document in the &lt;code&gt;.jamal/settings.properties&lt;/code&gt; file as it is documented.
-The macros in this package can read and write files and execute commands configured.
-To use a macro package like that from an untrusted source is a security risk.
-For this reason, every package loaded by the &lt;code&gt;maven:load&lt;/code&gt; macro has to be configured as safe.
-The configuration specifies the package and the documents where it can be used.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At the same time, the io package also needs configuration to be able to execute the &lt;code&gt;mmdc&lt;/code&gt; command.
-To do that, the configuration file contains a&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;literalblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;mermaid=/usr/local/bin/mmdc&lt;/pre&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{@import res:kroki.jim}&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;line assigning a symbolic name to the actual command.
-The &lt;code&gt;io:exec&lt;/code&gt; macro will use this symbolic name to find the command to execute.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
+&lt;p&gt;It defines a macro &lt;code&gt;kroki&lt;/code&gt; that you can use to include the diagram in your document.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the macro package is loaded, we can use the &lt;code&gt;io:write&lt;/code&gt; macro as in the following sample:&lt;/p&gt;
+&lt;p&gt;The beauty of this solution is that the implementation did not need any Kroki specific Java code.
+It was all already there.
+The macros used in that file are available from &lt;a href=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim&quot;&gt;github&lt;/a&gt;:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define CHART=flowchart TD
-A[Christmas] --&amp;gt;|Get money| B(Go shopping)
-B --&amp;gt; C{Let me think}
-C --&amp;gt;|One| D[Laptop]
-C --&amp;gt;|Two| E[iPhone]
-C --&amp;gt;|Three| F[fa:fa-car Care]
-}
-{#io:write (output=&quot;aaa.mmd&quot;) {CHART}}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{@comment }
+define the macro kroki to download the image from kroki.io and reference it either Asciidoc or Markdown syntax
+
+{@define [tail] kroki($name,$dt,$ft,$x)={#if /{#string:equals/md.jam/{#file (format=&quot;$extension2&quot;) {@pos (top format=%f)}}}/![]({kroki:download |$name|$dt|$ft|$x})/image::{kroki:download |$name|$dt|$ft|$x}[]}}
+
+{@define kroki:download($name,$dt,$ft,$x)={#define URL={kroki:url|$dt|$ft|$x}}\
+{#memoize (file=&quot;$name.$ft&quot; hashFile=&quot;$name.$ft.hash&quot; hashCode=&quot;{#hashCode {URL}}&quot;)
+{@ident {#download (file=&quot;$name.$ft&quot;) {URL}}}}$name.$ft}
+
+{@define kroki:url($dt,$ft,$x)=https://kroki.io/$dt/$ft/{@base64 (compress url)$x}}&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the file is created, we can execute the Mermaid tool to convert it into an SVG file, as the following&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#io:exec command=&quot;&quot;&quot;mermaid
--i
-aaa.mmd
--o
-aaa.svg
-&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;The macros check that the including file is &lt;code&gt;md.jam&lt;/code&gt; (Markdown) or not, and based on that it generates a Markdown image reference or Asciidoc.
+It also checks if the diagram is already downloaded and if it has been changed since the last time the diagram was edited.
+It downloads the diagram only if it has changed since the last time it was generated.
+To do that it uses the general purpose &lt;code&gt;memoize&lt;/code&gt;, &lt;code&gt;download&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt; and &lt;code&gt;hashCode&lt;/code&gt; macros.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;By that, we have the file.
-Whenever the Mermaid text changes, the SVG file will be recreated.&lt;/p&gt;
+&lt;p&gt;This tooling also allows you to use variables in the diagram text.
+It does not matter if the diagram itself supports any arithmetical operations, macro or string operations.
+It is provided by Jamal before the diagram text is sent to Kroki.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As a matter of fact, whenever the document changes, the SVG file will be recreated.
-It wastes resources when the diagram remains the same and the processing runs interactively.
-To help with that, we can use the &lt;code&gt;hashCode&lt;/code&gt; macro.&lt;/p&gt;
+&lt;p&gt;If you want to see some nice examples, please visit the sample pages&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.md.jam&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.md.jam&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.adoc.jam&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.adoc.jam&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The macro &lt;code&gt;hashCode&lt;/code&gt; calculates the hash code of the text.
-We will use the hash code to name the file.
-Whenever the diagram changes, the file&amp;#8217;s name changes.
-Also, if the file exists, it should contain the diagram for the current text.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To check that the file exists, we include it in the document.
-Because we do not want the SVG text in the document, we surround the &lt;code&gt;include&lt;/code&gt; with the &lt;code&gt;block&lt;/code&gt; macro.
-If the file does not exist, then an error will occur.
-The macro &lt;code&gt;try&lt;/code&gt; will handle this error, and the execution will continue.
-However, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;true&lt;/code&gt; in this case.
-If there is no error, when the file already exists, the macro &lt;code&gt;CREATE&lt;/code&gt; will be set to &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The &lt;code&gt;if&lt;/code&gt; macro will check the value of the macro &lt;code&gt;CREATE&lt;/code&gt;.
-If it is &lt;code&gt;true&lt;/code&gt;, it will execute the &lt;code&gt;io:write&lt;/code&gt; and &lt;code&gt;io:exec&lt;/code&gt; macros to create the file.
-If it is &lt;code&gt;false,&lt;/code&gt; then it will do nothing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-jamal&quot; data-lang=&quot;jamal&quot;&gt;{#define KEY={#hashCode {CHART}}}{@define CREATE=true}
-{@try {#block{#include images/{KEY}.svg}}{@define CREATE=false}}
-{#if `//`{CREATE}//
-{#io:write (mkdir output=&quot;images/aaa.mmd&quot;) {CHART}}
-{#io:exec command=&quot;&quot;&quot;mermaid
--i
-images/aaa.mmd
--o
-images/{KEY}.svg
-&quot;&quot;&quot; cwd=&quot;.&quot; error=&quot;convert.err.txt&quot; output=&quot;convert.out.txt&quot;
-}//}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For more details using these macros, please refer to the documentation.
-If you intend to use multiple diagrams, you may want to create a macro that does all the steps above.&lt;/p&gt;
+&lt;p&gt;Use the URL without the &lt;code&gt;.jam&lt;/code&gt; at the end to see the GitHub rendered versions.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -323,30 +161,12 @@ If you intend to use multiple diagrams, you may want to create a macro that does
 &lt;h2 id=&quot;4-summary-and-takeaway&quot;&gt;4. Summary and Takeaway&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article discussed integrating Mermaid diagrams into your Asciidoc, Markdown, or any other markup document.
-We selected Mermaid for two reasons.
-First, usually, this is the tool people ask for.
-Second, this is an excellent example of a non-Java tool that can be integrated into document processing.
-The described way can be applied to any external tool capable of running as a process.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The samples also demonstrate a complex structure of macros showing the power of the Jamal macro processor.
-Such complexity is rarely needed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In addition to the technology, I discussed, though only briefly, the separation of concerns for document handling and how the document formatting markup should be separated from the processing meta markup.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to have diagrams in your documentation, download Jamal, and start enhancing your documents.&lt;/p&gt;
+&lt;p&gt;This article discussed integrating 27 diagram types into your Asciidoc, Markdown, or any other markup document.
+There is no excuse any more for any outdated diagram.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/01/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-01T00:00:00+02:00</published><updated>2023-06-01T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/01/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/01/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document. In this document, I will extend that technology and explain how you can add</summary></entry><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;images/e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5.svg&quot; alt=&quot;e8a96c341e35bf3594a44f6a47e198b17c60affc393db847a4e26f7ed05708b5&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Mermaid is a trendy diagramming tool.
 A year ago, it was integrated into the Markdown rendering of Github.
