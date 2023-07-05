@@ -62,7 +62,7 @@ The industry is mainly interested in the fertilizing output that comes out of th
 I stay more at the other end of the elephant, at the trunk and the mouth that feeds the animal.
 I drew a picture of an elephant showing the developer side:
 
-image::https://javax0.github.io/assets/images/elephant.png[width=500px]
+image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png[width=500px]
 
 When we create open-source software, we usually do it for fun.
 It is why I was drawing the elephant.
