@@ -1,7 +1,316 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-06-19T21:35:52+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Adding Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/19/kroki-in-jamal.html" rel="alternate" type="text/html" title="Adding Diagrams to Markdown Documents" /><published>2023-06-19T00:00:00+02:00</published><updated>2023-06-19T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/19/kroki-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/19/kroki-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-07-05T13:11:12+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Managing IntelliJ Live templates</title><link href="https://javax0.github.io/2023/07/05/live-templates.html" rel="alternate" type="text/html" title="Managing IntelliJ Live templates" /><published>2023-07-05T00:00:00+02:00</published><updated>2023-07-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/07/05/live-templates</id><content type="html" xml:base="https://javax0.github.io/2023/07/05/live-templates.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document.
+&lt;p&gt;I primarily use IntelliJ for the majority of my work nowadays.
+This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature.
+I have chosen to assist Jamal with the implementation of live templates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Within this article, I will elucidate the methodology I have devised for editing and maintaining the live templates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;IntelliJ supports the editing of live templates.
+It is designed to make the creation of live templates easier for beginners rather than being highly effective for power users.
+Solutions and usability can always be designed to prioritize ease of use for beginners or effectiveness for power users.
+Typically, these two aspects are mutually exclusive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the case of IntelliJ and live templates, it appears that the decision was made to prioritize the initial version.
+To edit the live templates, you can navigate to the menu &lt;code&gt;Settings&lt;/code&gt; &amp;#8594; &lt;code&gt;Live Templates&lt;/code&gt;.
+The templates are organized by the language they are used in, and by selecting one or clicking on the plus sign to add a new template, you will be presented with a form to edit the different parts of the template.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2023-07-05-11-40-53-991.png&quot; alt=&quot;image 2023 07 05 11 40 53 991&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You have the ability to edit several aspects of the live templates:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Abbreviation: This is the text you type in the editor to trigger the template.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Description: A short text that appears in the popup when you type the abbreviation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Template text: The actual content that gets inserted into the editor when the template is triggered.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Context: Specifies where the template can be triggered.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Variables: Parts of the template that can be edited when the template is triggered.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To save a template, you can click on either &quot;Apply&quot; or &quot;OK,&quot; and then proceed to add a new one.
+However, when dealing with a large number of templates, such as the initial release that Jamal is working on, editing them can involve a significant number of clicks and mouse navigation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is not the only challenge, though.
+Maintaining the templates poses additional concerns.
+Live templates are stored in ZIP files, and uploading them to a repository makes them accessible to users.
+However, editing the templates and keeping track of changes can be tricky.
+How can you efficiently make modifications to the templates?
+How do you track and compare changes between different versions?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Programmers have become accustomed to tools that support them in maintaining program code, which is essentially text-based.
+Similarly, we desire the same level of support when it comes to maintaining live templates.
+How shall we reach that?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-approach-to-solve-the-problem&quot;&gt;2. Approach to Solve the problem&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The live templates are stored as XML files within a ZIP file.
+It is possible to import a ZIP file containing live templates, which will add the templates to the existing ones.
+Each group of templates is stored in a separate XML file.
+If a group with the same name already exists in the editor, it will be overwritten by the imported group.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;One approach to editing the templates involves exporting them, modifying the XML files, and then importing them back.
+By keeping the expanded files in a version control system, changes can be tracked.
+The build process can generate the ZIP file from the expanded files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, this process is not ideal.
+Editing XML files is not preferred, as it can be cumbersome and unintuitive.
+Nobody wants to spend their time editing XML files, especially when there are other enjoyable activities to pursue, such as going to the gym, swimming pool, enjoying an apéritif, or having a barbecue, or spending time with their children.
+&quot;I am going to edit some XML files, what a joy!&quot; is not a phrase commonly heard (not to mention YAML!).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What we need is a better solution.
+We require a Domain-Specific Language (DSL).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the following section, I will describe the approach I took to create a DSL specifically for this purpose and how I utilized it effectively.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-suggested-solution-tools&quot;&gt;3. Suggested Solution, Tools&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Creating a DSL can be approached in various ways.
+The most well-known option is to use Groovy, which is frequently used for this purpose.
+However, Kotlin is also a viable choice.
+Notably, Groovy includes an XML builder structure that facilitates the creation of XML files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this particular case, I opted for a different approach, driven by several reasons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The primary reason is that the live templates I developed are specifically for Jamal.
+Jamal can serve as a DSL and supports multiple integrations.
+One such integration involves running Jamal interactively while editing an Asciidoc file in IntelliJ using the Asciidoctor plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With this setup, you can also edit XML files.
+IntelliJ and the Asciidoctor plugin will recognize the file as an Asciidoctor file, but Jamal will identify it as both a Jamal and XML file.
+When editing a file with the &lt;code&gt;.xml.jam&lt;/code&gt; extension in IntelliJ, Jamal will save the processed XML into a file while simultaneously sending an Asciidoc document containing the XML as a fenced code block to the Asciidoctor plugin.
+This allows you to edit the enhanced XML with macros in the left pane of the editor while observing the final, syntax-highlighted XML in the right pane.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no separate compilation phase involved.
+When you edit the &lt;code&gt;.xml.jam&lt;/code&gt; file, you are simultaneously modifying the XML file.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Creating the DSL is remarkably simple.
+You only need to define a few Jamal macros.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{%@sep {! !} %}
+{!@define asciidoc:output=live-templates/templates/Jamal.xml!}
+{!@comment This is a definition for the Jamal live macro templates for IntelliJ!}
+{!@define template($name,$content,$desc,$variables)=
+&amp;lt;template name=&quot;jm-$name&quot; value=&quot;{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;amp;#10;!}%}&quot; description=&quot;$desc&quot; toReformat=&quot;false&quot; toShortenFQNames=&quot;true&quot;&amp;gt;
+$variables
+&amp;lt;context&amp;gt;
+&amp;lt;option name=&quot;AsciiDoc&quot; value=&quot;true&quot; /&amp;gt;
+&amp;lt;/context&amp;gt;
+&amp;lt;/template&amp;gt;
+!}
+{!@define variable($name,$default)=&amp;lt;variable name=&quot;$name&quot; expression=&quot;{!@replace `///`$default///&quot;///&amp;amp;quot;!}&quot; alwaysStopAt=&quot;true&quot; /&amp;gt;!}\&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To prevent conflicts with the Jamal plugin in Asciidoctor, the first line in the DSL sets the macro start and end strings to &lt;code&gt;{!&lt;/code&gt; and &lt;code&gt;!}&lt;/code&gt; respectively. By using these distinct macro delimiters, any potential clashes with the default &lt;code&gt;{%&lt;/code&gt; and &lt;code&gt;%}&lt;/code&gt; delimiters used by the Jamal plugin can be avoided. This ensures a smooth integration and usage of both the DSL and the Jamal plugin within Asciidoctor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To clarify the process further, the &lt;code&gt;asciidoc:output&lt;/code&gt; macro is used to specify the output file in the DSL.
+Without this definition, the conversion from &lt;code&gt;.xml.jam&lt;/code&gt; to &lt;code&gt;.xml&lt;/code&gt; would create a file in the same location as the source file.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition to the &lt;code&gt;asciidoc:output&lt;/code&gt; macro, two macros are used to define the template:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;template&lt;/code&gt;: This macro is utilized to define the structure and content of the template.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;variable&lt;/code&gt;: This macro is used to specify the variables within the template that can be customized when the template is triggered.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;These macros, namely &lt;code&gt;template&lt;/code&gt; and &lt;code&gt;variable&lt;/code&gt;, play a crucial role in creating and customizing the live templates within the DSL.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is important to note that the abbreviation (name) of the live templates always begins with the letters &lt;code&gt;jm-&lt;/code&gt;, which stands for Jamal Macro.
+This prefix is used to avoid conflicts with existing live templates and follows the same practice as the Asciidoctor plugin, which uses &lt;code&gt;ad-&lt;/code&gt; as a prefix for their live templates (where &lt;code&gt;ad&lt;/code&gt; stands for Asciidoctor).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To simplify the editing process and reduce the risk of errors, it is undesirable to manually insert this prefix every time when working with the templates.
+Doing so would be a tedious and error-prone task.
+Therefore, the DSL provides a macro that handles this automatically.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;value&lt;/code&gt; attribute of the &lt;code&gt;template&lt;/code&gt; element stores the text that will be inserted into the editor when the template is triggered.
+The macro processing the content parameter is the following:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;amp;#10;!}%}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the Asciidoc file, macros will begin with the &lt;code&gt;{%&lt;/code&gt; delimiter.
+However, just like the &lt;code&gt;jm-&lt;/code&gt; prefix for live templates, we don&amp;#8217;t want to type this delimiter every time.
+Since these macros are not user-defined macros, they can be invoked using the &lt;code&gt;@&lt;/code&gt; or &lt;code&gt;#&lt;/code&gt; prefix.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;@&lt;/code&gt; prefix is used when there is no need to evaluate the content of the macro before the macro itself is evaluated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;#&lt;/code&gt; prefix is used when the content of the macro needs to be evaluated before the macro is evaluated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Typically, the &lt;code&gt;@&lt;/code&gt; prefix is used to optimize computing power and for aesthetic reasons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+This notation was not taken from JavaDoc.
+Jamal&amp;#8217;s first version, with this syntax, was designed in the mid-1990s, before or around the same time as Java was born.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To avoid typing the &lt;code&gt;@&lt;/code&gt; prefix every time, a macro is implemented to automatically handle it.
+However, in cases where the &lt;code&gt;#&lt;/code&gt; prefix is needed, we want to be able to use it.
+To handle this, the content is checked within the macro.
+If the content starts with &lt;code&gt;#&lt;/code&gt;, the &lt;code&gt;@&lt;/code&gt; prefix is not prepended.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Another macro called &lt;code&gt;replace&lt;/code&gt; is used to replace escaped new line characters with their XML equivalents.
+This feature was not part of the initial version but was developed to simplify editing multi-line templates, as it proved to be a handy addition.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Finally, the macro string closing &lt;code&gt;%}&lt;/code&gt; is added to the template value to ensure proper syntax completion.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After defining these macros, the templates will have the following structure:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;templateSet group=&quot;Jamal&quot;&amp;gt;
+{!template |begin|begin $M$|mark the beginning of a named or anonymous block|
+  {!variable |M|&quot;[marker]&quot;!}
+!}
+...
+{!template |platUml|plantUml ($O$) $I$ \n $C$|create a PlantUml diagram|
+  {!variable |O|&quot;folder=... format=... template=...&quot;!}
+  {!variable |I|&quot;xyz.svg&quot;!}
+  {!variable |C|&quot;...&quot;!}
+!}
+&amp;lt;/templateSet&amp;gt;
+{!@xmlFormat!}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the end of the DSL, the &lt;code&gt;xmlFormat&lt;/code&gt; macro is used to format the resulting XML and also check for any errors.
+With this macro, there is no need for a separate compilation phase to identify mistakes.
+Any errors will be promptly displayed in the right editor pane, providing immediate feedback on the validity of the generated XML.
+Additionally, the &lt;code&gt;xmlFormat&lt;/code&gt; macro ensures that the XML output is properly formatted, enhancing readability and ensuring a well-structured final result.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the editing process is ready, can zip the DSL, publish to the repository or import it into IntelliJ directly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-summary-and-takeaway&quot;&gt;4. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I have outlined a method for managing IntelliJ live templates using a DSL.
+While it may not be worth the effort if you only need to edit a few templates, it becomes more valuable when dealing with a larger number of them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The key takeaway from this article is that the concept and approach demonstrated here can be applied to other applications as well.
+Whether you have a binary or text-based dataset that is difficult to edit directly, you can create a DSL using Jamal to simplify the editing process.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By utilizing a DSL, you can enhance productivity and streamline the editing of complex templates or datasets, making it easier to maintain and update them efficiently.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal is an excellent tool for it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-references&quot;&gt;5. References&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I maintain the Jamal sources and documentation on GitHub:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/jamal&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/jamal&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The documentation for the Asciidoctor Jamal plugin can be found at:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/jamal/blob/master/jamal-asciidoc/README.adoc&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/jamal/blob/master/jamal-asciidoc/README.adoc&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This documentation provides instructions on how to install Jamal after installing Asciidoctor, as well as where to download the live templates.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">I primarily use IntelliJ for the majority of my work nowadays. This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature. I have chosen to assist Jamal with the implementation of live templates.</summary></entry><entry><title type="html">Adding Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/19/kroki-in-jamal.html" rel="alternate" type="text/html" title="Adding Diagrams to Markdown Documents" /><published>2023-06-19T00:00:00+02:00</published><updated>2023-06-19T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/19/kroki-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/19/kroki-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A few weeks back, I wrote an article about how you can add Mermaid diagrams to your Markdown document.
 In this document, I will extend that technology and explain how you can add&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;literalblock&quot;&gt;
@@ -22,8 +331,8 @@ WireViz&lt;/pre&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The problem statement is the same as in the previous article.
-You want to have diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
-It is an architectural problem and cannot be solved until we try to mix the different responsibilities: formatting and information content management.&lt;/p&gt;
+You want diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
+It is an architectural problem that cannot be solved until we combine the different responsibilities: formatting and information content management.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -31,10 +340,10 @@ It is an architectural problem and cannot be solved until we try to mix the diff
 &lt;h2 id=&quot;2-approach-to-solve-the-problem&quot;&gt;2. Approach to Solve the problem&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The approach is the same again, after all, I am talking about the same tool.&lt;/p&gt;
+&lt;p&gt;The approach is the same again; I am talking about the same tool.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The basic idea is again: separation of concerns.
+&lt;p&gt;The basic idea is, again: the separation of concerns.
 The document markup language should be responsible for the document structure and content.
 The diagramming tool should be responsible for the diagramming.
 The meta markup should be responsible for the integration of the two.
@@ -53,7 +362,7 @@ Instead, we will enjoy the services of the diagramming tool Kroki.&lt;/p&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;3-1-what-is-kroki&quot;&gt;3.1. What is Kroki&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Kroki is a simple tool, and it is as genial as simple the idea is.
+&lt;p&gt;Kroki is a simple tool, and it is as genial as simple as the idea is.
 It is nothing else than a web service implementing one &lt;code&gt;GET&lt;/code&gt; endpoint to execute 27 different diagramming tools.
 If you&lt;/p&gt;
 &lt;/div&gt;
@@ -78,9 +387,9 @@ If you&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;If you develop something for open source, you can use Kroki for free.
-If you develop something secret, afraid that your secret gets out to the internet, you can start up Kroki on premise.
-Kroki is available as a docker image, and also other modes.
-I recommend docker if you do not trust the public service.&lt;/p&gt;
+If you develop something secret, afraid that your secret gets out to the internet, you can start Kroki on-premise.
+Kroki is available as a docker image and also in other modes.
+I recommend Docker if you do not trust the public service.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Why do we need Jamal?&lt;/p&gt;
@@ -93,12 +402,12 @@ Why should you pull the image all the time from the internet?&lt;/p&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;3-2-need-for-jamal&quot;&gt;3.2. Need for Jamal&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After the first few iterations of editing the diagram file and converting it to base64 and opening the URL, you will realize that it is simple, but repetitive work.
-Exactly the type of wor that should be automatized.
+&lt;p&gt;After the first few iterations of editing the diagram file, converting it to base64, and opening the URL, you will realize that it is simple but repetitive work.
+Precisely the type of work that should be automatized.
 And that is what Jamal is for.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The next release of Jamal 2.3.0 will come a new macro include file that you can import as&lt;/p&gt;
+&lt;p&gt;The next release of Jamal 2.3.0 will come with a new macro, including a file that you can import as&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
@@ -109,7 +418,7 @@ And that is what Jamal is for.&lt;/p&gt;
 &lt;p&gt;It defines a macro &lt;code&gt;kroki&lt;/code&gt; that you can use to include the diagram in your document.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The beauty of this solution is that the implementation did not need any Kroki specific Java code.
+&lt;p&gt;The beauty of this solution is that the implementation did not need any Kroki-specific Java code.
 It was all already there.
 The macros used in that file are available from &lt;a href=&quot;https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim&quot;&gt;github&lt;/a&gt;:&lt;/p&gt;
 &lt;/div&gt;
@@ -128,18 +437,18 @@ define the macro kroki to download the image from kroki.io and reference it eith
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The macros check that the including file is &lt;code&gt;md.jam&lt;/code&gt; (Markdown) or not, and based on that it generates a Markdown image reference or Asciidoc.
-It also checks if the diagram is already downloaded and if it has been changed since the last time the diagram was edited.
+&lt;p&gt;The macros check whether the included file is &lt;code&gt;md.jam&lt;/code&gt; (Markdown) or not; based on that, it generates a Markdown image reference or Asciidoc.
+It also checks if the diagram has been downloaded and changed since the last time it was edited.
 It downloads the diagram only if it has changed since the last time it was generated.
-To do that it uses the general purpose &lt;code&gt;memoize&lt;/code&gt;, &lt;code&gt;download&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt; and &lt;code&gt;hashCode&lt;/code&gt; macros.&lt;/p&gt;
+To do that, it uses the general purpose &lt;code&gt;memoize&lt;/code&gt;, &lt;code&gt;download&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt;, and &lt;code&gt;hashCode&lt;/code&gt; macros.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This tooling also allows you to use variables in the diagram text.
-It does not matter if the diagram itself supports any arithmetical operations, macro or string operations.
-It is provided by Jamal before the diagram text is sent to Kroki.&lt;/p&gt;
+Whether the diagram supports arithmetical, macro, or string operations does not matter.
+Jamal provides it before the diagram text is sent to Kroki.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to see some nice examples, please visit the sample pages&lt;/p&gt;
+&lt;p&gt;If you want to see some excellent examples, please visit the sample pages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
@@ -152,7 +461,7 @@ It is provided by Jamal before the diagram text is sent to Kroki.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Use the URL without the &lt;code&gt;.jam&lt;/code&gt; at the end to see the GitHub rendered versions.&lt;/p&gt;
+&lt;p&gt;Use the URL without the &lt;code&gt;.jam&lt;/code&gt; at the end to see the GitHub-rendered versions.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -162,10 +471,10 @@ It is provided by Jamal before the diagram text is sent to Kroki.&lt;/p&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article discussed integrating 27 diagram types into your Asciidoc, Markdown, or any other markup document.
-There is no excuse any more for any outdated diagram.&lt;/p&gt;
+There is no excuse anymore for any outdated diagram.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">A few backs I wrote an article about how you can add Mermaid diagrams to your Markdown document. In this document, I will extend that technology and explain how you can add</summary></entry><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">A few weeks back, I wrote an article about how you can add Mermaid diagrams to your Markdown document. In this document, I will extend that technology and explain how you can add</summary></entry><entry><title type="html">Adding Mermaid Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html" rel="alternate" type="text/html" title="Adding Mermaid Diagrams to Markdown Documents" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/mermaid-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/mermaid-in-jamal.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Mermaid is a trendy diagramming tool.
@@ -507,7 +816,249 @@ Such complexity is rarely needed.&lt;/p&gt;
 &lt;p&gt;If you want to have diagrams in your documentation, download Jamal, and start enhancing your documents.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Will AI Wipe off Humanity?</title><link href="https://javax0.github.io/2023/06/05/ai-doomsday.html" rel="alternate" type="text/html" title="Will AI Wipe off Humanity?" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/ai-doomsday</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/ai-doomsday.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First of all, I want to frighten you.
+The &lt;a href=&quot;https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines&quot;&gt;Betteridge&amp;#8217;s law of headlines&lt;/a&gt; does not apply.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This law states that any headline ending with a question mark can be answered with &quot;No.&quot; Now, you might become alarmed, unless you are acquainted with formal logic and understand that if the response to a question is not &quot;No,&quot; it does not necessarily imply that the answer is &quot;Yes.&quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2023-06-13-11-48-14-678.png&quot; alt=&quot;image 2023 06 13 11 48 14 678&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We may feel compelled to believe frightening news, and AI tools can be intimidating due to their novelty and complexity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In short, the answer can be both yes and no simultaneously.
+The world is constantly evolving, as it has always done.
+Let&amp;#8217;s not adhere to the beliefs of Kohelet (Ecclesiastes) or Shakespeare:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In Sonnet 59, Shakespeare wrote:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If there be nothing new, but that which is&lt;br&gt;
+Hath been before,&quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are periods when change happens slowly, and there are times when it occurs rapidly.
+During slow-changing periods, people may fail to notice and may believe, like King David, that there is nothing new under the sun.
+However, there are moments when change happens swiftly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Rapid changes often lead to the end of certain things.
+Some aspects of our lives will never be the same again.
+This can be frightening, causing us to feel a loss of control and a sense that everything is coming to an end.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Not everything is going to end just because things change fast and the word is changing even when things go slow.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Step back, take a deep breath and try to think rationally suppressing emotions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I will try to give some ideas to think about when seeing the question in the title.
+I will not give an answer.
+I have my own answers, but there are questions that you have to answer yourself.
+As a matter of fact: the difference between the wise and the fool is the ability to tell the important from the non-important.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You have to answer the important questions yourself for yourself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is interesting that many times when you can ask the important questions, you may realize that you do not need the answers.
+Reading this article may help you see the title question calm, rational, and without fear.
+It may also not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-1-why-to-fear&quot;&gt;1.1. Why to Fear?&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We, humans know that we are mortals.
+Everybody who has been born will die.
+The problem with this is that we do not want to die.
+We have instincts that make us want to live.
+It is biology.
+It is evolution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If we did not mind dying, then we eventually would not mind.
+Tautology.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But evolution itself is the ultimate tautology in the history of science.
+It selected the species that want to live.
+In humans this is driven by bad feelings, like fear of death that repels us from dangerous things, like suicide.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the same time, we also have an instinct called survival of the species.
+This leads to sex, which is associated with rewarding feelings.
+It also leads to nepotism, and to a certain extent one can blame racism on it.
+This would lead too far and off-rail of our topic.
+In short:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We want to live, and we want humanity to survive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-2-what-do-we-fear&quot;&gt;1.2. What do we Fear?&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Currently, there are two major topics in this field.
+One is the fear of human extinction.
+I will talk about it in the next section.
+The other is losing your job.
+Let&amp;#8217;s take these in their order of importance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-3-the-killing-animal&quot;&gt;1.3. The Killing Animal&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We are animals.
+A special kind of animals, but animals.
+Animals kill other animals of different species and many times the same species.
+We kill animals for food, for their skin, bones, etc.
+We also kill animals to protect ourselves.
+Sometimes these animals are the same species as we are, although cannibalism is not very common these days luckily, but using human skin for lamp shades is not so far back in history.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During the history of civilization, there were numerous events where some group of humans killed other humans in large amounts.
+We usually refer to these events as wars.
+Driven by the instincts, we developed tools to enhance our daily activities, including the killing of other humans.
+By the XX. century we developed tools that could kill all humans.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have learned that we, humanity are capable of developing tools that can lead to the extinction of humanity.
+We are capable of committing suicide as a specie.
+Such capability is unique in the history.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Individual animals can die by suicide, especially when they are humans.
+Some insects show altruistic behavior sacrificing their individual lives protecting colonies.
+Some animals grieve and stop eating.
+Scientists debate if these acts are suicidal or not, but without any doubt: none of the species except humans can eradicate all life on this planet.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We also have learned that there is no wiring in the human race guaranteeing to stop doing it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I have a Doberman, and I can see how easily she can chew up the cow&amp;#8217;s tibia I used to cook in a soup.
+But I am not afraid to play with her when she playfully mimics biting on my hands.
+There is an instinct that stops the dog biting on my arm and to cause harm.
+I would not play the same game with a hydraulic press.
+Not even if controlled by AI.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Nuclear weapons are not dogs.
+They are more like hydraulic presses.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Broken Arrow incidents also taught us that these tools could kill us all by mistake, even if no one intended that.
+Now we created something that we barely understand and fear.
+Will it be the next invention capable of wiping off humanity from the face of the earth?
+Maybe it will.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-4-losing-jobs&quot;&gt;1.4. Losing Jobs&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Losing your job after we discussed the human extinction may not seem important anymore, does it.
+Still, one is a serious and important future thing.
+The other may affect your personal life in a few years.
+This latter one is much more specific, and you may stop worrying about the future generations when you have nothing to eat.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We know from history that economy changes restructure the work structure.
+Jobs disappear and new jobs get created.
+Today nobody faces the problem of not being employed as a horse rider or sword fighter.
+You may worry about losing your job as a software developer, and you should.
+It will help you agile, learn new things and find a different occupation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you lose your job because AI can do the task better, it means that your job does not produce value anymore.
+You cannot compete on the cost of an AI.
+You will find some other profession, or better the aspects of your professions that AI cannot do.
+If you were a developer creating assembly code, you may program higher level and let an AI convert your commands into assembly.
+You will become a &quot;prompt engineer&quot; talking to an AI, like a subordinate to do the job.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Currently, AI cannot write programs.
+It looks like if it could, but the reality is that it does not.
+It simply analyzes the task description and creates some program code that would be the most probable response from a developer.
+The response and selection probability value are collected from millions of samples, but it does not produce anything that is not there.
+Luckily, a huge majority of the development tasks do not need programming.
+It only needs AI doable code generation.
+It is an intelligent copy and paste.
+Shockingly intelligent.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you cannot do something that is real programming the AI cannot do, then you have never been a programmer/developer.
+You were a coder.
+Become a programmer or find some other profession!
+Adapt.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are people who cannot adapt.
+I have seen a lot of people in Hungary after the communist regime fell apart and a lot of state guaranteed jobs diminished.
+After losing their jobs, they could not find another profession.
+These people were usually in their forties and fifties.
+They lived their remaining one or two decade-long life jobless many times abusing alcohol.
+(Drogs were expensive and were not so common in the early 90-ies.)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We can expect similar&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;1-5-should-we-fear&quot;&gt;1.5. Should we Fear?&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before answering that question, let me tell you that in my opinion, this fear is greatly emphasized by the media.
+The media is a business.
+They want to sell.
+Fear sells through fight or flight instinct.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When in fear, the brain focuses on a narrow set of things which we see as threats.
+We, animals are molded this way by the great tautology: evolution.
+If your focus narrows and focus on a small set of the surrounding reality, you are more likely to survive.
+At the same time, if that narrow focus is pointed to something artificially fabricated, you can be manipulated easier in other aspects.
+This is a major principle of politics, including religion and media in their tool box.
+Media uses this to make you focus on their topic and consume more.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Some fear is okay.
+It helps us keep attention on important and dangerous things and to avoid the danger.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-summary-and-takeaway&quot;&gt;2. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">First of all, I want to frighten you. The Betteridge&amp;#8217;s law of headlines does not apply.</summary></entry><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article is a rant about the questions that are posted on the Linked In Java Developers Community.
@@ -2271,7 +2822,7 @@ I drew a picture of an elephant showing the developer side:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://javax0.github.io/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -3256,1354 +3807,4 @@ I tried to be precise, and I could not resist including some information that ma
 &lt;p&gt;If you know any other more or less useless facts about Java, please write them down in the comments.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam</summary></entry><entry><title type="html">Hidden Classes in Java 15</title><link href="https://javax0.github.io/2023/01/05/hidden-classes.html" rel="alternate" type="text/html" title="Hidden Classes in Java 15" /><published>2023-01-05T00:00:00+01:00</published><updated>2023-01-05T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/05/hidden-classes</id><content type="html" xml:base="https://javax0.github.io/2023/01/05/hidden-classes.html">&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-05-hidden-classes&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-05-hidden-classes&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-05-hidden-classes.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-05-hidden-classes.adoc.jam&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java can have anonymous classes from the very start.
-(Well, actually, they came in version 1.1 only.)
-However, anonymous classes were not anonymous.
-You did not need to name them, but under the hood, they were named by the Java compiler.
-If you are familiar with the command &lt;code&gt;javap&lt;/code&gt;, you can &quot;disassemble&quot; a JAR file and see the name of the compiler generated for the anonymous classes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java 15 introduced hidden classes, which do not have a name.
-Almost, as you will see.
-It is not part of the language but part of the JDK.
-There is no language element to create hidden classes, but JDK methods and classes come to the rescue.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, we will discuss&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;what hidden classes are, and what is the reason to have them,&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;how you can use hidden classes,&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;how to load hidden classes using the JDK methods and, finally&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;how to easily create and load hidden classes using &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I created SourceBuddy, an Apache v2.0 licensed open-source program.
-While creating the code, I learned a few things about hidden classes I wanted to share with you.
-You may also look at this article as a SourceBuddy promotion, which is ok if you do that.
-Nevertheless, I hope to successfully add extra value to this article so that this is not simply a promo.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-what-are-hidden-classes&quot;&gt;2. What are hidden classes?&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is an easy-to-read &lt;a href=&quot;https://www.baeldung.com/java-hidden-classes&quot;&gt;introductory article&lt;/a&gt; about hidden classes on Baeldung.
-If you are impatient and do not care about some intricate details, go there and read that article.
-Baeldung articles are always short, focusing on the most important and correct.
-They give a good starting point, which there would be no reason to repeat.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Hidden classes were proposed in the &lt;a href=&quot;https://openjdk.org/jeps/371&quot;&gt;JEP371&lt;/a&gt;, and it reads:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;hidden &amp;#8230;&amp;#8203; classes that cannot be used directly by the bytecode of other classes&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a bit short and may not be easy to understand.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A hidden class is loaded into the JVM.
-When a class is in source code format or byte code, it cannot be &quot;hidden&quot;.
-This term can refer only to loaded classes.
-Calling them secretly loaded classes could be more appropriate.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A class gets hidden when it is loaded in a particular way so that it remains secret in front of other code parts.
-Remaining hidden does not mean that other codes cannot use this class.
-They can so long as long they &quot;know&quot; about the secret.
-The big difference is that this class is not &quot;advertised&quot; because you cannot find it using the name.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you load a class the hidden way creating a hidden class, you will have a reference to this class.
-Using the reflective methods, you can instantiate the class many times, and then you can invoke methods, set, and get fields.
-If the class implements an interface or extends a class, you can cast the instance reference to the interface and class and invoke the methods without reflection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The class is hidden for two reasons:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;it does not have a name other classes could reference, and&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;there is no reference from the class loader to the class.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you call &lt;code&gt;getName()&lt;/code&gt; or &lt;code&gt;getSimpleName()&lt;/code&gt; on a variable referencing a hidden class, you will get some string.
-These are names for messages for humans and are irrelevant for the other classes.
-When a class refers to another class it needs the canonical name.
-&lt;code&gt;getCanonicalName()&lt;/code&gt; returns &lt;code&gt;null&lt;/code&gt;.
-The canonical name is the actual name of the class, which is non-existent in the case of hidden classes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since the class cannot be found through the class loader without the canonical name, there is no reason for the loader to keep a reference to the class.
-Why would it keep a reference when it cannot give the class to anyone?
-Keeping a reference would have only one side effect: preventing the GC from unloading the class so long as the class loader is alive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Since there is no reference from the class loader, the GC can unload the class object as soon as it is out of use.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-what-is-the-use-of-hidden-classes&quot;&gt;3. What is the use of hidden classes?&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The &lt;a href=&quot;https://openjdk.org/jeps/371&quot;&gt;JEP371&lt;/a&gt; describes the reason for hidden classes.
-It says&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Allow frameworks to define classes as non-discoverable implementation details of the framework so that they cannot be linked against other classes nor discovered through reflection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Many frameworks use dynamically created classes.
-They are proxy classes in most cases.
-A proxy class implements an interface or extends another class, and when invoked, it calls an instance of the interface or the original class.
-It usually does something extra as well, or else there would be no reason for the proxy class and instance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;An example is the Spring framework when your code requires injecting a request bean into a session bean.
-(Or any other shorter lifecycle bean into a longer one.)
-Several threads can serve different requests at the same time, all belonging to the same session.
-All these threads will see the same session bean, but they magically will see their request beans.
-The magic is a proxy object extending the request bean&amp;#8217;s class.
-When you call a method on the request bean, you invoke the proxy instance.
-It checks the thread and the request it serves and forwards the call to the appropriate request bean.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Another example is JPA lazy loading.
-You can have an SQL table where each row references the previous one.
-When you try to load the last record, it will automatically load the previous one, which indeed will load the one before.
-It will load the whole table.
-It happens unless you annotate the field as lazy.
-It means that the actual data from the database has to be loaded only when it is needed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you load the record, you get a proxy object.
-This proxy object knows which record it refers to and will load the record from the database only when a method is called.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The same mechanism is used for Aspect Oriented Programming and many other cases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can create a proxy class using only the JDK reflection API so long as the target class implements the interface you want to proxy.
-You can use the &lt;a href=&quot;https://bytebuddy.net/&quot;&gt;ByteBuddy&lt;/a&gt; library if there is no such interface.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The &lt;a href=&quot;https://github.com/cglib/cglib&quot;&gt;cglib&lt;/a&gt; library is widely used and well-known in many frameworks, but it has been deprecated recently.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you create such classes, you do not need any name for these classes.
-You get the reference to the class and the reference to the instance.
-The framework injects the reference to the field it has to, and then the code uses them as any object.
-It does not need to know the name of the class.
-All it needs to know is that it is an instance of the target class or interface.
-However, some codes may discover the name.
-These classes have some names that reflection can discover.
-Some &quot;clever&quot; junior may discover it and play some neat trick that you may have later issues maintaining.
-Would it be better if there was no name at all?
-Probably yes, it would be cleaner.
-Hence: hidden classes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The proxy classes may also cause issues when you implement the &lt;code&gt;equals(Object other)&lt;/code&gt; method.
-The usual implementation of the &lt;a href=&quot;https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)&quot;&gt;equals&lt;/a&gt; method compares the &lt;code&gt;other&lt;/code&gt; object&amp;#8217;s class to the actual class.
-It will eventually be &lt;code&gt;false&lt;/code&gt; when the other object is a proxy instance.
-What the &lt;code&gt;equals()&lt;/code&gt; method should check is the assignability whenever there is a possibility that the &lt;code&gt;other&lt;/code&gt; object is a proxy.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In addition to that, there is another reason to have hidden classes.
-As soon as a class has a name, it is possible to discover it by the name.
-The class loader has to keep the class alive to keep it discoverable.
-The class loader has a reference to the loaded classes.
-It means the garbage collector will not be able to collect the class, even when it is no longer in use.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If a class has no name, the class loader does not need to keep a reference to this class.
-Class loaders do not keep references to hidden classes unless you explicitly instruct them to do so.
-When all instances of a hidden class are collected, and there is no reference to the class, the garbage collector will recognize it as garbage.
-The class loader will not keep the class in memory.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;That way, the frameworks will not over-consume memory when a long-running code creates a lot of classes.
-Better frameworks that collect unused classes do not need to create separate class loaders for these ephemeral classes.
-There is no need to create a short-living, disposable class loader to make the class also disposable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Support extending an access control nest with non-discoverable classes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is the second bullet point in the list of goals in the &lt;a href=&quot;https://openjdk.org/jeps/371&quot;&gt;JEP371&lt;/a&gt;.
-JVM can load hidden classes in a way that they become a member of a nest.
-What is a nest?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you know what a nesting host is and are impatient, jump to the following quote.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Well, it is a long story, but since it is Christmas time, I am on holiday, and the press will not print this article on the paper wasting tree, here it goes.
-(I wrote this article for weeks. It is still not published, and already next year, January.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Once upon a time, Java version 1.0 did not have inner classes.
-Now, you better stop reading it here if you ask me what inner classes are.
-Then Java version 1.1 introduced inner classes but did not change the JVM structure.
-The JVM did not know anything about inner classes.
-The Java compiler created regular (almost) top-level classes from the inner classes.
-It invented some funny names, like &lt;code&gt;A$B&lt;/code&gt; when there was a class &lt;code&gt;B&lt;/code&gt; inside &lt;code&gt;A&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-You can try to define an &lt;code&gt;A$B&lt;/code&gt; top-level class in the same package where the class &lt;code&gt;A&lt;/code&gt; containing the class &lt;code&gt;B&lt;/code&gt; is.
-&lt;code&gt;A$B&lt;/code&gt; is a valid name.
-You will see what the compiler does.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There was some hacking with the visibility though.
-An inner class has the same visibility as the top-level class.
-Anything private inside one compilation unit (file) is visible.
-Visibility, however, is also enforced by the JVM.
-But the JVM sees two top-level classes.
-The compiler generated bridge methods in the classes wherever needed to overcome this issue.
-They are package level for the JVM, and when called, they pass on the call to the private method.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Then came Java 11 something like 25 years later and &lt;a href=&quot;https://openjdk.org/jeps/181&quot;&gt;introduced the nest control&lt;/a&gt;.
-Since Java 11, every class has a relation to another class or to itself, which is the nest host of the class.
-Classes having the same nest host can see each other&amp;#8217;s, private members.
-The JVM does not need the bridge methods anymore.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you load a class hidden, you can specify it to become a member of the same nest (having the same nest host) as the class that created the lookup object.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-We have not yet discussed what a lookup object is and how to load a class hidden.
-It will come.
-As for now: a lookup object is something that can load a byte array as a hidden class into the JVM memory.
-When a lookup object is created from inside a method of a class, the lookup object will belong to that class.
-When a class is loaded as hidden using the lookup object, it is possible to pass an option to make the new hidden class belong to the nest in which the code created the lookup object.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Without the hidden class functionality, I do not know any other possibility to load a class that will belong to an already existing nest.
-If you know of any possibility, write it in a comment.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The following bullet point reads:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Support aggressive unloading of non-discoverable classes, so that frameworks have the flexibility to define as many as they need.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is an important point.
-When you create a class, it remains in the memory so long as the classloader is alive.
-Classloaders keep references to all the classes they loaded.
-These references say that some code may ask the classloader to return the loaded class object by the name.
-The application logic may long forget the class; nobody will ever need it.
-Still, the garbage collector cannot collect it because there is a reference in the class loader.
-A solution is to create a new class loader for every new non-hidden dynamically created class, but that is overkill.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Classloaders loading hidden classes do not keep a reference to the hidden class by default.
-As with the nesting host, it is possible to provide an option to differ.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I do not see any reason.
-There is no name, not discoverable, but keep an extra reference so the GC cannot throw it away.
-If you see any reasonable use case, again: comment.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Deprecate the non-standard API sun.misc.Unsafe::defineAnonymousClass, with the intent to deprecate it for removal in a future release.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Very well.
-Yes.
-Absolutely.
-Separate articles and many of them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Do not change the Java programming language in any way.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Nice point. Sure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With these, we discussed what hidden classes are.
-You should have a firm understanding of their nature and why they are essential.
-We also derailed a bit to nest hosting or host nesting, nesting hosting&amp;#8230;&amp;#8203; whatever.
-I hope it was of some value.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following, I will discuss how we create hidden classes using the JDK API and then using &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-creating-hidden-classes&quot;&gt;4. Creating Hidden Classes&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Articles and tutorials showing how to load hidden classes use precompiled Java classes.
-These are usually part of the running application.
-The tutorial calculates the path to the &lt;code&gt;.class&lt;/code&gt; file and reads the byte code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Technically this is correct but does not demonstrate the basic need for hidden class loading: load dynamically created classes hidden.
-These classes are not dynamically created and could be loaded the usual way.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, we will create a class from text, Java source on the fly&amp;#8201;&amp;#8212;&amp;#8201;during run-time&amp;#8201;&amp;#8212;&amp;#8201;and then load the resulting byte code as a hidden class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Code Sample Disclaimer&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The code samples are available on GitHub in the &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects&quot;&gt;project directory&lt;/a&gt;.
-Each article has a project directory named &lt;code&gt;YYYY-MM-DD-article-title&lt;/code&gt; where the project code files are.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For this article it is &lt;code&gt;2023-01-05-hidden-classes&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The samples are automatically copied from the project directory to the article using Jamal.
-No manual copy, no outdated stale samples.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The sample project for this article contains only unit test files.
-The class is &lt;code&gt;TestHiddenClassLoader&lt;/code&gt;.
-We have the source code for the hidden class stored in a field variable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.     private static final String CODE1 = &quot;&quot;&quot;
- 2.             package com.javax0.blog.hiddenclasses;
- 3.
- 4.             public class MySpecialClass implements TestHiddenClassLoader.Hello {
- 5.
- 6.                 @Override
- 7.                 public void hello() {
- 8.                     System.out.println(&quot;Hello, from the hidden class.&quot;);
- 9.                 }
-10.             }
-11.             &quot;&quot;&quot;;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The interface is also inside the same class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.     interface Hello {
-2.         void hello();
-3.     }
-4.&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The following code is from one of the unit tests:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var byteCode = Compiler.java().from(CODE1).compile().get();
-2.         final var lookup = MethodHandles.lookup();
-3.         final var classLookup = lookup.defineHiddenClass(byteCode, true);
-4.         final var helloClass = (Class&amp;lt;Hello&amp;gt;) classLookup.lookupClass();
-5.
-6.         final var hello = helloClass.getConstructor().newInstance();
-7.         hello.hello();&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We use the &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; library in this code to compile the Java source to byte code.
-The first line of the sample does that.
-We use &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; version 2.1.0.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We need a lookup object to load the compiled byte code as a hidden class.
-This object is created on the second line.
-The lookup object is used on the third and fourth lines to load the class hidden.
-Line 3 defines the class loading it into the JVM.
-The second argument, &lt;code&gt;true&lt;/code&gt;, initializes the class.
-That is when the &lt;code&gt;static{}&lt;/code&gt; blocks execute.
-The last line invokes the interface-defined method &lt;code&gt;hello()&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Now the local variable &lt;code&gt;hello&lt;/code&gt; is an instance of an object, a hidden class.
-What are a hidden class&amp;#8217;s name, simple name, and canonical name?
-Let&amp;#8217;s print it out.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         System.out.println(&quot;1. &quot; + hello.getClass());
-2.         System.out.println(&quot;2. &quot; + hello.getClass().getClassLoader());
-3.         System.out.println(&quot;3. &quot; + this.getClass().getClassLoader());
-4.         System.out.println(&quot;4. &quot; + hello.getClass().getSimpleName());
-5.         System.out.println(&quot;5. &quot; + hello.getClass().getName());
-6.         System.out.println(&quot;6. &quot; + hello.getClass().getCanonicalName());
-7.         System.out.println(&quot;7. &quot; + lookup.getClass());
-8.         System.out.println(&quot;8. &quot; + lookup.getClass().getClassLoader());&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Output Disclaimer&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-The output in the unit tests is redirected calling &lt;code&gt;System.setOut()&lt;/code&gt;.
-The output is collected to a file and then this file is included calling &lt;code&gt;include [verbatim]&lt;/code&gt; Jamal macro into the article.
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hello, from the hidden class.
-1. class com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b0c00
-2. jdk.internal.loader.ClassLoaders$AppClassLoader@5b37e0d2
-3. jdk.internal.loader.ClassLoaders$AppClassLoader@5b37e0d2
-4. MySpecialClass/0x00000008011b0c00
-5. com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b0c00
-6. null
-7. class java.lang.invoke.MethodHandles$Lookup
-8. null&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can see the output from calling &lt;code&gt;hello()&lt;/code&gt; and then the name as printed from the implicit &lt;code&gt;toString()&lt;/code&gt; from the class object, the class loader that loaded the hidden class, the simple name, the name, and in the last line the canonical name.
-This last one is interesting as it is &lt;code&gt;null&lt;/code&gt;, showing no class name.
-It is hidden.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The class, although hidden, has a reference to the class loader that loaded it.
-It is needed when there is anything to resolve during the execution of the code.
-The difference is that the class loader does not have a reference to the class.
-One direction from the class to the loader exists, but the other direction from the loader to the class does not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The class loader is the same as the one that loaded the class calling &lt;code&gt;MethodHandles.lookup()&lt;/code&gt;.
-You can see that since we printed out the class loader of the &lt;code&gt;this&lt;/code&gt; object in the test.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Finally, we also print out the class of the lookup object and the class loader.
-The latter is &lt;code&gt;null&lt;/code&gt;, which means the bootstrap class loader loaded it. (For more information on class loaders, I can recommend reading the article &lt;a href=&quot;https://www.baeldung.com/java-classloaders&quot;&gt;class loaders&lt;/a&gt; from the Baeldung blog.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You should also note that the interface &lt;code&gt;hello&lt;/code&gt; is package private.
-It is still visible for the dynamically created code because it is in the same package and module.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Starting with Java 9, there is a module system in Java.
-Many developers I meet say they are not interested in JPMS; they do not need to use it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The fact is that you DO use it, whether you want it or not.
-It is the same as concurrent programming.
-Java is concurrent; at least there are three threads in a JVM, so your code runs in a concurrent environment, whether you want it or not.
-You may not have trouble understanding the details for a long time.
-However, when you start digging deeper and creating code that uses some &quot;tricks&quot; or does something special, you almost certainly face some weird errors.
-You must know and understand the underlying theory to understand the errors, handle them, mitigate the cause, and fix the bug.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Loading hidden classes dynamically created is precisely such a trick.
-You should learn Java Modules.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the hidden class is loaded, it is in the same package as the one where the interface is defined.
-It is not enough, however, as we will see an example in the next section.
-It is also a requirement that the same class loader loads the interface and the hidden class.
-That way, the interface, and the hidden class are in the same module, in this case, the same unnamed module.
-The different class loaders load classes into different modules; thus, when you load a class using a different class loader, it may not see the package fields, methods, interfaces, etc., even if they are in the same package.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is not the only requirement that the lookup object is from the same module.
-It is also a requirement that it is from the same package as the class to be loaded.
-We must stop here to clarify things, to be painfully precise, because it is easy to confuse things at this point.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The lookup object is an instance of a class in the &lt;code&gt;java.lang.invoke&lt;/code&gt; package.
-The class loader loaded this class is &lt;code&gt;null&lt;/code&gt; as shown in the output.
-It means the bootstrap class loader.
-The bootstrap class loader is implemented in C/C++ and not in Java.
-No corresponding Java object represents this class loader; thus, there cannot be a reference to it.
-It is solved by returning &lt;code&gt;null&lt;/code&gt; from &lt;code&gt;getClassloader()&lt;/code&gt;.
-There is a module, package, and class that &quot;belongs&quot; to the lookup object.
-The code&amp;#8217;s module, package, and class were called the &lt;code&gt;MethodHandles.lookup()&lt;/code&gt; method.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You cannot create a hidden class from one package for another.
-If you try that, like in the following sample code:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         try {
-2.             final var byteCode = Compiler.java()
-3.                     .from(&quot;package B; class A{}&quot;).compile().get();
-4.             MethodHandles.lookup().defineHiddenClass(byteCode, true);
-5.         } catch (Throwable t) {
-6.             System.out.println(t);
-7.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;still from the test class &lt;code&gt;com.javax0.blog.hiddenclasses.TestHiddenClassLoader&lt;/code&gt;.
-The class to be loaded is NOT in the same package as the caller for &lt;code&gt;MethodHandles.lookup()&lt;/code&gt;.
-It will result in the printout:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.IllegalArgumentException: B.A not in same package as lookup class&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-creating-hidden-classes-the-easy-way&quot;&gt;5. Creating hidden classes the easy way&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the previous section, we created a new class dynamically and loaded the new class hidden.
-The loading was done using lookup objects we acquired from the &lt;code&gt;MethodHandles&lt;/code&gt; class.
-In this section, we will see how we can do the same by calling the fluent API of &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The code creating a class saying hello is the following:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var hello = Compiler.java()
-2.                 .from(CODE1.replaceAll(&quot;\\.Hello&quot;, &quot;.PublicHello&quot;)).hidden()
-3.                 .compile().load().newInstance(PublicHello.class);
-4.         hello.hello();&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this code, we replaced the interface from &lt;code&gt;Hello&lt;/code&gt; to &lt;code&gt;PublicHello&lt;/code&gt;, which you may guess:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.     public interface PublicHello {
-2.         void hello();
-3.     }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is essentially the same as the previous interface but is &lt;code&gt;public&lt;/code&gt;.
-The process is much more straightforward than before.
-We specify the source code; we declare that it is a hidden class calling &lt;code&gt;hidden()&lt;/code&gt;, and we compile, load, and ask for an instance cast to &lt;code&gt;PublicHello&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we want to use the package-private interface, like (not replacing &lt;code&gt;Hello&lt;/code&gt; to &lt;code&gt;PublicHello&lt;/code&gt;):&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         Assertions.assertThrows(IllegalAccessError.class, () -&amp;gt;
-2.                 Compiler.java().from(CODE1).hidden().compile().load().newInstance(PublicHello.class));&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;we will get an error.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.IllegalAccessError: class com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b1c00 cannot access its superinterface com.javax0.blog.hiddenclasses.TestHiddenClassLoader$Hello (com.javax0.blog.hiddenclasses.MySpecialClass/0x00000008011b1c00 is in unnamed module of loader com.javax0.sourcebuddy.ByteClassLoader @4e5ed836; com.javax0.blog.hiddenclasses.TestHiddenClassLoader$Hello is in unnamed module of loader &apos;app&apos;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The reason is explained clearly in the error message.
-The interface and the class implementing it are in two different modules.
-Both are unnamed modules, but they are not the same.
-In Java, starting with Java 9, there are modules, and when the application does not use modules, it essentially creates pseudo modules putting the classes there.
-The JDK classes are still in modules, like &lt;code&gt;java.base&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The hidden class creation, as created above, uses a separate class loader to load the dynamically written Java class.
-The separate class loader loads classes to its module.
-Code in different modules cannot see classes from other modules unless they are public.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Although &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; does a little trick to load a class hidden, it cannot overcome this restriction.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Loading a hidden class needs a lookup object.
-The application usually provides this object.
-The calls above do not specify any lookup object, but &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; still needs one.
-To have one, it creates one.
-The lookup object remembers the class called &lt;code&gt;MethodHandles.lookup()&lt;/code&gt; to create one.
-When loading a class hidden, it is required that the lookup object &quot;belongs&quot; to the class&amp;#8217;s package.
-The lookup object was created, calling for it from a class, which is &lt;strong&gt;in&lt;/strong&gt; that package.
-The lookup object will &quot;belong&quot; to that class and hence to the class&amp;#8217;s package.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To have a lookup object that comes from a class from a specific package we need a class in that package that can give us one.
-If there is none in the code, we must create one dynamically.
-&lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; does that exactly.
-It creates the Java source code for the class, compiles it and loads it, instantiates it, and calls the  &lt;code&gt;Supplier&amp;lt;MethodHandles.Lookup&amp;gt;&lt;/code&gt; defined &lt;code&gt;get()&lt;/code&gt; method the class implements.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a kind of trick that seems to violate the access control built-in to Java.
-We seem to get a new hidden class in a package that was not prepared for it.
-A package is protected from external access in Java (trivial).
-Only public and protected members and classes can be used from outside the package.
-The package can be accessed using reflection from the outside, but only in the same module, or the module has to be opened explicitly.
-Similarly, an object loaded using a lookup object should be in the same package and access the package&amp;#8217;s internal members and whatnot if a class in the package provided that lookup.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As we can see from the error message, it only seems to be the package.
-In reality, the new hidden class is in a package with the same name but in a different module.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to have a hidden class in the same package and not only a package with the same name, you need a lookup object from that package.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In our example, it is simple.
-Our &lt;code&gt;Hello&lt;/code&gt; interface is in the same package as the test code so that we can create the lookup object ourselves:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var hi = Compiler.java().from(CODE1).hidden(MethodHandles.lookup()).compile()
-2.                 .load().newInstance(Hello.class);
-3.         hi.hello();&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Access to a lookup object may be a bit more complex in real-life examples.
-When the code calling &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; is in a different package than the code generated, the lookup object creation cannot be in the &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; calling code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following example, we will see how that will be done.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We have a class &lt;code&gt;OuterClass&lt;/code&gt; in the package &lt;code&gt;com.javax0.blog.hiddenclasses.otherpackage&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1. package com.javax0.blog.hiddenclasses.otherpackage;
- 2.
- 3. import java.lang.invoke.MethodHandles;
- 4.
- 5. public class OuterClass {
- 6.
-14.     public static MethodHandles.Lookup lookup() {
-15.         return MethodHandles.lookup();
-16.     }
-17. }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-Some lines are skipped from the class. We will use those later.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This class has a method, &lt;code&gt;lookup()&lt;/code&gt;.
-It creates a lookup object and returns it.
-We will have a proper lookup object if we call this method from our code.
-Note that this class is in a different package and not the same as our test code.
-Our test code is in &lt;code&gt;com.javax0.blog.hiddenclasses&lt;/code&gt;, and &lt;code&gt;OuterClass&lt;/code&gt; is a package deeper.
-Essentially in a different package.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We also have another class for the demonstration.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1. package com.javax0.blog.hiddenclasses.otherpackage;
-2.
-3. class MyPackagePrivateClass {
-4.
-5.     void sayHello(){
-6.         System.out.println(&quot;Hello from package private.&quot;);
-7.     }
-8.
-9. }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a package-private class with a package-private method in it.
-If we dynamically create a hidden class, as in the following example:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var hidden = Compiler.java().from(&quot;&quot;&quot;
- 2.                 package com.javax0.blog.hiddenclasses.otherpackage;
- 3.
- 4.                 public class AnyName_ItWillBeDropped_Anyway {
- 5.                     public void hi(){
- 6.                         new MyPackagePrivateClass().sayHello();
- 7.                     }
- 8.                 }&quot;&quot;&quot;).hidden(OuterClass.lookup()).compile().load().newInstance();
- 9.         final var hi = hidden.getClass().getDeclaredMethod(&quot;hi&quot;);
-10.         hi.invoke(hidden);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It will work.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is one topic that we have not touched on.
-It is how to create a nestmate.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you have a binary class file, you can load it as a nestmate to a class that provides a lookup object.
-The JVM does not care how that class was created.
-When we compile Java sources, we only have one possibility.
-The class has to be an inner class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you use &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt;, you have to provide your source code as an inner class to the one you want the hidden to be nest mate with.
-The source code and the class was already provided when you compiled your code.
-It is not possible to insert into THAT source code any new inner class.
-We have to fool the compiler.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We provide a class having the same name as the one we want to insert our inner class later.
-When the compilation is done, we have the outer class and the inner class as well.
-We tell the class loading to forget the outer and only to load the inner one, hidden.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is what we will do.
-This time we display here the whole outer class that we use for demonstration including the skipped lines.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1. package com.javax0.blog.hiddenclasses.otherpackage;
- 2.
- 3. import java.lang.invoke.MethodHandles;
- 4.
- 5. public class OuterClass {
- 6.
- 7.     // skip lines
- 8.     private int z = 55;
- 9.
-10.     public int getZ() {
-11.         return z;
-12.     }
-13.     // end skip
-14.     public static MethodHandles.Lookup lookup() {
-15.         return MethodHandles.lookup();
-16.     }
-17. }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you will see, it has a private field and a getter to test the changed value effectively.
-It also has the before-mentioned &lt;code&gt;lookup()&lt;/code&gt; method.
-The code dynamically creating an inner class is the following:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var inner = Compiler.java().from(&quot;&quot;&quot;
- 2.                         package com.javax0.blog.hiddenclasses.otherpackage;
- 3.
- 4.                         public class OuterClass
- 5.                                                 {
- 6.                             private int z;
- 7.
- 8.                             public static class StaticInner {
- 9.                                public OuterClass a(){
-10.                                  final var outer = new OuterClass();
-11.                                  outer.z++;
-12.                                  return outer;
-13.                                }
-14.                             }
-15.
-16.                         }&quot;&quot;&quot;).nest(MethodHandles.Lookup.ClassOption.NESTMATE).compile().load()
-17.                 .newInstance(&quot;StaticInner&quot;);
-18.         final var m = inner.getClass().getDeclaredMethod(&quot;a&quot;);
-19.         final var outer = (OuterClass)m.invoke(inner);
-20.         Assertions.assertEquals(56, outer.getZ());&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is an &lt;code&gt;OuterClass&lt;/code&gt; in the source, but it is only to help the compilation and to tell &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; the name of the nesting host.
-When we call the method &lt;code&gt;nest()&lt;/code&gt; with the option &lt;code&gt;NESTMATE&lt;/code&gt;, it knows that the class &lt;code&gt;OuterClass&lt;/code&gt; is the nesting host.
-It also marks the class not to be loaded by the class loader ever.
-The inner class compiles to a different byte code, and when it is loaded, it becomes a nestmate of &lt;code&gt;OuterClass&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you pay attention to the intricate details of Java access control discussed in this article, you will notice that we do not provide a lookup object.
-And the example above still works.
-How is it possible?
-There is no magic.
-When you call &lt;code&gt;nest()&lt;/code&gt;, &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; looks for the already loaded version of &lt;code&gt;OuterClass&lt;/code&gt; and fetches the lookup object using reflection.
-To do that the outer class has to have a static field or method of type &lt;code&gt;MethodHandles.Lookup&lt;/code&gt;.
-&lt;code&gt;OuterClass&lt;/code&gt; has a method, so &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt; calls this method to get the lookup object.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The example above creates a static inner class.
-You can create the same way a non-static inner class as well.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The difference between static and non-static inner classes in Java is that non-static inner class instances have a reference to an outer class instance.
-Static inner classes do not.
-It is where the name comes from.
-Static inner class instances belong to the class.
-Non-static belongs to an instance of the outer class.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To get the reference to the outer class instance, the inner class&amp;#8217;s constructor is modified.
-When you specify a constructor for an inner class, the compiled adds an extra parameter in front of the other parameters specified in the Java source code.
-This extra first parameter is the reference to the outer class instance.
-This reference is stored in a field not available at the source level but used by the code to access the fields and methods of the outer instance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The creation of a non-static inner class looks very much the same as the creation of a static inner class:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var outer = new OuterClass();
- 2.         final var inner = Compiler.java().from(&quot;&quot;&quot;
- 3.                         package com.javax0.blog.hiddenclasses.otherpackage;
- 4.
- 5.                         public class OuterClass {
- 6.                             private int z;
- 7.
- 8.                             public class Inner {
- 9.                                public void a(){
-10.                                  z++;
-11.                                }
-12.                             }
-13.
-14.                         }&quot;&quot;&quot;).nest(MethodHandles.Lookup.ClassOption.NESTMATE).compile().load()
-15.                 .newInstance(&quot;Inner&quot;, classes(OuterClass.class), args(outer));
-16.         final var m = inner.getClass().getDeclaredMethod(&quot;a&quot;);
-17.         m.invoke(inner);
-18.         Assertions.assertEquals(56, outer.getZ());&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We need an instance of the outer class to instantiate the inner class.
-It is the variable &lt;code&gt;outer&lt;/code&gt;.
-We must pass this variable to the constructor through the &lt;code&gt;newInstance()&lt;/code&gt; API of &lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot;&gt;SourceBuddy&lt;/a&gt;.
-This method call has a version that accepts a &lt;code&gt;Class[]&lt;/code&gt; and an &lt;code&gt;Object[]&lt;/code&gt; array specifying the constructor argument types and values.
-In the case of an inner class, it is the outer class and an instance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-summary&quot;&gt;6. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article discussed some details of the hidden classes introduced in Java 15.
-We went a little deeper than the usual introductory articles.
-Now you understand how hidden classes work and how to use them in your projects.&lt;/p&gt;
-&lt;/div&gt;
-&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;How to Comment&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Use the Disqus commenting possibility to comment.
-If you find any incorrectness in the article, you are welcome to mention it.
-You can also access the source code of the article on github at&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-05-hidden-classes.adoc.jam&quot;&gt;&lt;code&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-05-hidden-classes.adoc.jam&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You are welcome to create a &lt;a href=&quot;https://github.com/javax0/javax0.github.io/issues/new&quot;&gt;ticket&lt;/a&gt;, create a  &lt;a href=&quot;https://github.com/javax0/javax0.github.io/fork&quot;&gt;fork&lt;/a&gt;, suggest modification via pull requests.
-Note that this repository also contains the demonstration sample source code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For other aspects of commenting read the &lt;a href=&quot;https://javax0.github.io/about/&quot;&gt;ABOUT&lt;/a&gt; page of this blog.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-05-hidden-classes Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-05-hidden-classes.adoc.jam 1. Introduction</summary></entry><entry><title type="html">Technology behind this post</title><link href="https://javax0.github.io/2022/12/07/blog-posting.html" rel="alternate" type="text/html" title="Technology behind this post" /><published>2022-12-07T00:00:00+01:00</published><updated>2022-12-07T00:00:00+01:00</updated><id>https://javax0.github.io/2022/12/07/blog-posting</id><content type="html" xml:base="https://javax0.github.io/2022/12/07/blog-posting.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;/Users/verhasp/github/javax0.github.io/_posts&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at &lt;a href=&quot;https://javax0.wordpress.com&quot;&gt;javax0.wordpress.com&lt;/a&gt;.
-The technology, the hosting, and all were okay by that time, but times changed.
-This blog post describes why I changed the blog technology and what technology I use here to write these blog posts.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-problems-with-wordpress&quot;&gt;2. Problems with WordPress&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;First, I have to state that I am not saying or implying that WordPress would not be an excellent platform.
-It is a well-established and a kind of one of its kind, de-facto number-one blogging forum.
-The problems are specific to my particular needs for this blog.
-These needs may not be specific to my person, but a bit more general: technical blogging.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is like Opel, Toyota, VW, or any other average, workhorse car type.
-Opel is a good car; it runs, is reliable, and is reasonably priced.
-However, if I am a farmer and need to plow my fields, I will probably choose a tractor instead.
-In this analogy, the farmer is a &lt;em&gt;technical&lt;/em&gt; blogger.
-Emphasis is on &lt;em&gt;technical&lt;/em&gt;.
-For anybody else: WordPress is an excellent choice.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let&amp;#8217;s have a look at the issues that I had.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;2-1-markup&quot;&gt;2.1. Markup&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When I write anything, I like to edit some markup.
-I can use Word or LibreOffice.
-I was using DEC Write in the early 1990-is if you are old enough to know what that is but not too old to forget things and still remember.
-Even at that time, I preferred markups, which at that time were TeX and LaTeX.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I even wrote a hyphenation preprocessor for Tex for the Hungarian language, and it became a standard part of some Linux distributions.
-Since they installed Linux on  Mars Rovers, sometimes I entertain myself with the idea that some of my code got as far as planet Mars.
-Please let me have this fantasy, and do not correct me if I am wrong.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We could use other markups, like APT, Markdown, Asciidoc, and many others over the years.
-These days two of those are used mainly, Markdown and Asciidoc.
-WordPress hosted site supported or still supports Markdown, but I started to prefer Asciidoc for these blogs.
-The only problem was that I could not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;2-2-code-samples&quot;&gt;2.2. Code Samples&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When I write some technical blogs, I include code samples.
-I develop the code first, and then I write the article.
-That is the principle.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However, the practice is that after I started to write the article, I realized that the code was not perfect.
-So I changed the code and copied the relevant part to the article sample displays.
-Unless I forget to update some of those after a few iterations.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It was also the case when I wrote my first book, and I have sworn that it will never happen again.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;2-3-version-control&quot;&gt;2.3. Version Control&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Editing on WordPress works, and you can look at the different versions.
-But it is not comparable with the possibilities provided by a Git repository.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-the-new-blog-technology&quot;&gt;3. The New Blog Technology&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-1-github-pages-and-jekyll&quot;&gt;3.1. Github Pages and Jekyll&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The new technology stack for blogging is based on GitHub pages.
-It is not unique, and it has support for Jekyll, which is a static blogging engine.
-Setting up a Jekyll-based blog is pretty straightforward.
-I already had the organization name &lt;code&gt;javax0&lt;/code&gt; on GitHub.
-It only seemed logical to use this as &lt;code&gt;javax0.github.io&lt;/code&gt; for blogging.
-Later I may use the &lt;code&gt;javax0.com&lt;/code&gt; domain that I also keep.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Installing Jekyll on my MacBook was a bit tricky.
-First, I had to install the newest Ruby.
-An old version of Ruby comes preinstalled on every macOS.
-This old version is not suitable for running Jekyll.
-I used brew, but it failed, complaining that I was not on the sudoer list.
-It took a while until I realized that, for some reason, two &lt;code&gt;sudo&lt;/code&gt; programs were installed on my machine.
-The brew installer used a different one than what I reached from the command line.
-I had to add myself to the other sudoer&amp;#8217;s list as well.
-The last trick was to tweak the &lt;code&gt;PATH&lt;/code&gt; so Jekyll would use the newest Ruby version.
-After that, there was still some problem when I configured Jekyll to run locally and on GitHub.
-It was executing some commands following some StackOverflow page suggestions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Sometimes I had no idea what I was doing.
-I can only hope that I did not install malware during the process.
-You, AsciiDoc, Jekyll, and other tool developers have all my trust.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I integrated JRuby into Jamal, but I do not program in Ruby.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-2-jekyll-asciidoc-plugin&quot;&gt;3.2. Jekyll Asciidoc Plugin&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In addition to Jekyll, I also installed the Asciidoc plugin for Jekyll.
-Since both Asciidoctor and Jekyll are written in Ruby, it was nothing more than issuing a few commands.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-3-jamal&quot;&gt;3.3. Jamal&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The extra part, which is not a standard Asciidoc-boosted Jekyll installation, is my use of Jamal.
-The main reason to use Jamal is to include the code samples in the blog posts, but it does much more than that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I wrote above that I struggled with maintaining the code samples when writing my books.
-I created the pyama tool in Python for the second book I wrote.
-It copies the code snippets into the text file that I edited.
-Later I developed the snippet module for Jamal, which revolves around this concept.
-Keep the source in the code files, have only a reference in the document, and copy it in the CI/CD process.
-I hesitated to use Jamal and the snipped module myself for a long time.
-It is easier to edit a file showing some code when the code is there a few lines above.
-Pyama was copying the code into the edited file.
-Jamal does not do that.
-Jamal can also do that, but I do not recommend using that feature.
-A source file is a source file.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When I created the Asciidoctor Jamal plugin that can plug Jamal functionality into Asciidoctor and delivers Jamal WYSIWYG editing in IntelliJ, the situation changed drastically.
-There was no reason more to use something like pyama.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-Pyama is still available in my GitHub, but there are much better tools for the purpose.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Using Jamal, I can include code snippets and delete or keep some lines by selecting regular expressions or line numbers.
-I can number the lines, and I can still use all the Asciidoctor formatting features at the same time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-4-installing-jamal&quot;&gt;3.4. Installing Jamal&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Installing Jamal to use in IntelliJ is very simple.
-All it takes to download a ZIP file and extract the content into the projects &lt;code&gt;.asciidoctor/lib&lt;/code&gt; directory.
-You should open IntelliJ settings and associate the &lt;code&gt;.jam&lt;/code&gt; extension with the Asciidoctor plugin (in addition to the other default extensions already there).
-Restart IntelliJ, and you can start editing your first Jamal-enabled Asciidoc file.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As you edit the file on the left pane, you see the formatted text on the right pane.
-It is how the plugin works, but you can also use Jamal macros now.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://javax0.github.io/assets/images/image-2022-12-09-16-47-43-394.png&quot; alt=&quot;image 2022 12 09 16 47 43 394&quot; width=&quot;500&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-5-blogging-macros&quot;&gt;3.5. Blogging Macros&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are not too many specific macros that differ from other documentation macros.
-Most of the macros I use in Jamal are snippet macros and built-in core ones.
-Some macros help scan the snippets following the directory naming conventions of the site.
-There are some macros to reference one article from another easily.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;3-6-deploying-the-site&quot;&gt;3.6. Deploying the Site&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Deployment of the site is simply a git push.
-Almost.
-The site has to be built before.
-There is a simple build script:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;#!/bin/sh
-./build
-git add --all docs
-git commit -m &quot;deploy&quot;
-git push
-open https://javax0.github.io&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This script builds the site, adds all the new and modified generated files, and then pushes it to the git server.
-It also opens the web page, so I can immediately see the blog&amp;#8217;s opening page after it is deployed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I tried to let GitHub pages do the building of the Jekyll site.
-After all, it supports Jekyll.
-The problem is that GitHub does not support the Jekyll Asciidoc plugin.
-It is a bit strange: Asciidoc is natively supported by GitHub, and any readme or other files can be Asciidoc.
-Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-building-the-site&quot;&gt;4. Building the site&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;update at 2023-01-25&lt;/div&gt;
-&lt;p&gt;Building the site was first was a simple &lt;code&gt;Makefile&lt;/code&gt; starting Jamal via &lt;code&gt;jbang&lt;/code&gt; to convert all the &lt;code&gt;.adoc.jam&lt;/code&gt; files to &lt;code&gt;.adoc&lt;/code&gt; from the directory &lt;code&gt;_posts&lt;/code&gt;.
-This, however, resulted almost 400 files in the directory.
-During the course of the last ten years I wrote 180 articles.
-All their &lt;code&gt;.adoc.jam&lt;/code&gt; and the generated &lt;code&gt;.adoc&lt;/code&gt; files got into one flat directory.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To mitigate this situation I decided to group the articles into subdirectories by years.
-It means eleven subdirectories now and 15 to 20 more in my lifetime.
-It is manageable.
-The problem was I did not know how to write a general &lt;code&gt;make&lt;/code&gt; rule that says &lt;code&gt;.adoc.jam&lt;/code&gt; files in the subdirectories should be compiled to &lt;code&gt;.adoc&lt;/code&gt; files in the &lt;code&gt;_posts&lt;/code&gt; directory.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I used Jamal to the rescue.
-What else?
-I created a &lt;code&gt;Makefile.jam&lt;/code&gt; with the following content:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;{@sep [% %] }[%@import tab.jim%]\
-all:  [%!@for [evalist] $file in `//` [%@listDir (pattern=&quot;\\.adoc\\.jam$&quot;) _posts%]`//` =[%@comment%]\
- _posts/[%@file (format=$naked1)$file%]%]\
-
-[%!!#for $dir in ([%@listDir (maxDepth=1 pattern=&quot;/\\d{4}$&quot;)_posts%])=[%@comment%]\
-  [%@ident
-    [%@for [evalist] $file in `//` [%@listDir (maxDepth=1 pattern=&quot;\\.adoc\\.jam$&quot;) $dir%]`//` =[%@comment%]\
-    [%#define YYYY=[%#replace (regex)|$dir|.*/_posts/||%]%]\
-    [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
-    [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
-[%TARGET%] : [%SOURCE%]
-[%HT%]jbang jamal@verhas -open=&apos;{%&apos; -close=&apos;%}&apos; [%SOURCE%] [%TARGET%]
-    %]%]%]&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I do not expect you to understand this structure.
-It is fairly complex,but it shows the power of Jamal in some way.
-You should not feel intimidated.
-If you decide to use Jamal only for 10% of what it can do, it is fine.
-It is a tool to provide value and not something you need to master.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This Jamal code lists all the files and generates &lt;code&gt;Makefile&lt;/code&gt; rules for each &lt;code&gt;.adoc.jam&lt;/code&gt; article.
-I struggled a bit with spaces and tabs.
-IntelliJ does not preserve the tabs, except when it is a &lt;code&gt;Makefile&lt;/code&gt;.
-However, &lt;code&gt;Makefile.jam&lt;/code&gt; is NOT &lt;code&gt;Makefile&lt;/code&gt;.
-As a workaround I created a &lt;code&gt;tab.jim&lt;/code&gt; file:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;{@define HT=	} &amp;lt;- this is a tab character
-A simple tab character.
-
-This file is not to be edited other than vi.
-Other editors may replace the TAB character with spaces.
-Files can import this file and use {HT} in Makefiles.
-To exit vi press the escape key and then capital Z twice.
-Without saving: escsape and then :q!&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The comment in the file says it all, I wil not repeat here.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I may later move the &lt;code&gt;YYYY&lt;/code&gt; yearly subdirectories from &lt;code&gt;_posts&lt;/code&gt; to make the &lt;code&gt;_posts&lt;/code&gt; directory something that I never need to open in the editor.
-Look at the GitHub repo to see if I did that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-what-will-be-missing&quot;&gt;5. What will be Missing&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;WordPress very neatly showed the statistics of the site.
-I do not know if I can get such statistics here.
-Probably not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other hand, most of the readers for my articles came from the republishing sites DZone and Java Code Geeks.
-I will keep them.
-(Note to myself: I have to inform them about the blog&amp;#8217;s new location officially.)
-They automatically fetch the blog posts.
-So I do not need to do anything.
-They select from the published articles.
-They only repost the good ones.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you know any other aggregator I should contact, give me some advice. I am open.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-summary&quot;&gt;6. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I hope blogging using this toolset will be much more fun than the old technology.
-At least, I am less likely to end up in some articles with &lt;code&gt;&amp;amp;lt;&lt;/code&gt; and &lt;code&gt;&amp;amp;gt;&lt;/code&gt; infested source codes.
-(I had to apply a unique trick to get them here.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This type of blogging using Asciidoc, Jekyll, and Jamal is more a Doc as a Code that I advocate heavily.
-We will see how it will work.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam</summary></entry></feed>
