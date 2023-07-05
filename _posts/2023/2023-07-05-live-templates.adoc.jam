@@ -28,7 +28,7 @@ In the case of IntelliJ and live templates, it appears that the decision was mad
 To edit the live templates, you can navigate to the menu `Settings` -> `Live Templates`.
 The templates are organized by the language they are used in, and by selecting one or clicking on the plus sign to add a new template, you will be presented with a form to edit the different parts of the template.
 
-image::../../assets/images/image-2023-07-05-11-40-53-991.png[]
+〔png |image-2023-07-05-11-40-53-991〕
 
 You have the ability to edit several aspects of the live templates:
 
