@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-08T18:36:04+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Do not stop threads</title><link href="https://javax0.github.io/2023/08/07/do-not-stop-thread.html" rel="alternate" type="text/html" title="Do not stop threads" /><published>2023-08-07T00:00:00+02:00</published><updated>2023-08-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/07/do-not-stop-thread</id><content type="html" xml:base="https://javax0.github.io/2023/08/07/do-not-stop-thread.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-08T18:39:06+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Do not stop threads</title><link href="https://javax0.github.io/2023/08/07/do-not-stop-thread.html" rel="alternate" type="text/html" title="Do not stop threads" /><published>2023-08-07T00:00:00+02:00</published><updated>2023-08-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/07/do-not-stop-thread</id><content type="html" xml:base="https://javax0.github.io/2023/08/07/do-not-stop-thread.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;&lt;em&gt;I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary.
@@ -370,140 +370,7 @@ I have many similar stories, and if you liked this one then leave a comment, giv
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary. He plays a significant role in this story as he was the one who made the decision to cancel our contract. I must acknowledge that he made the right call, and it was the correct course of action.</summary></entry><entry><title type="html">Will AI take your job?</title><link href="https://javax0.github.io/2023/07/07/ai-will-take-your-job.html" rel="alternate" type="text/html" title="Will AI take your job?" /><published>2023-07-07T00:00:00+02:00</published><updated>2023-07-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/07/07/ai-will-take-your-job</id><content type="html" xml:base="https://javax0.github.io/2023/07/07/ai-will-take-your-job.html">&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are numerous articles on the internet attempting to predict the future of AI, with many forecasting the disappearance of numerous jobs, leading to significant changes in the world.
-In this article, I aim to explore an aspect of the economy that has yet to be extensively discussed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-what-are-you-afraid-of&quot;&gt;1. What are you afraid of?&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When individuals express concerns about AI taking their jobs, their worry stems not from the work itself, but rather from the potential impact on their income and the life they can lead.
-This includes meeting basic needs as well as the ability to have a comfortable home, relax, spend time with loved ones, and pursue personal fulfillment—needs driven by our fundamental human instincts.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Hence, the crucial question to ask is not whether AI will take your job, but rather how AI will transform our lives.
-Even when we acknowledge that it&amp;#8217;s not solely about the job, the question remains ambiguous.
-We can consider both the near future and the distant future: How will AI affect our lives in the next few years, and how will it impact our lives in the next few decades?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/OIG.e07ooq5PbXIziXNWuToB.jpg&quot; alt=&quot;OIG.e07ooq5PbXIziXNWuToB&quot; width=&quot;500px&quot;&gt;
-&lt;/div&gt;
-&lt;div class=&quot;title&quot;&gt;Figure 1. Image generated by AI (Paint me a picture of a software developer who looks said, and he is looking at some program printout, which is machine code, hexa codes, and there is an AI machine nearby that emits a lot of such code in electronic format stylized as clouds.)&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following section, we will delve into these two timeframes, attempting to imagine what may unfold by reflecting on the past and considering previous instances of significant change.
-It&amp;#8217;s worth noting that similar transformative shifts have occurred before, and the current one is not the first, though it may be vastly different from its predecessors.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-short-term&quot;&gt;2. Short Term&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the short term, AI will not take away your job, though determining the exact duration of this &quot;short term&quot; is uncertain.
-AI is still in a developmental stage and can be seen as a sort of toy, but many individuals, including those in control of resources, recognize its potential to reshape the world.
-While it has its flaws and limitations, such as generating images of programmers with three hands, it continues to improve.
-Funding is readily available, and money drives the technological advancements.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What you will observe is that AI will initially change the nature of your job, particularly in terms of how you communicate with others.
-It will assist you in performing your tasks, thereby increasing your effectiveness.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This brings us to the point where your job may be at risk.
-If a task previously required 10 individuals but can now be accomplished by just 2 people using AI, then either the business can expand or 8 people may lose their jobs, or perhaps a combination of the two.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;AI itself doesn&amp;#8217;t take away jobs; rather, those individuals who can effectively utilize AI and enhance their productivity will thrive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Numerous articles mention various professions that are deemed to be in danger.
-Is your job among them?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Pose yourself the following question: &quot;How much time do you spend on tasks that feel routine?&quot; If the majority of your time is spent on such routine activities, AI will likely eliminate these parts and enable you to be more productive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For instance, in my case, when writing articles like the ones I have composed over the past decade, I encountered a great deal of repetitive work.
-Checking spelling, grammar, and style proved to be a tedious task since English is not my native language.
-When I authored books for Packt four years ago, considerable effort was invested by editors to improve my English, followed by my own revisions to the text.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A few years later, I embarked on writing another book, (although I only completed the first chapter, with the rest left unfinished).
-This time, I employed an AI-enhanced grammar checker.
-The language editor made only one alteration to the entire chapter.
-Nevertheless, as a native speaker, one can still discern that English is not my first language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To improve that, I write this article, I request ChatGPT to assist me by saying, &quot;Please rewrite the following paragraph in proper English.&quot; And it does.
-In this case, there is no job at risk, as I have never had the luxury of having an editor review my articles.
-Nonetheless, I hope the quality has improved.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Writing articles is indeed one area where AI can assist in eliminating routine tasks, and another example worth considering is the field of law.
-There has been recent hype suggesting that AI could replace lawyers, with claims that ChatGPT could even pass the bar exam.
-However, it is essential to reevaluate the definition of a lawyer in light of technological advancements.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Previously, a lawyer could be defined as someone who passed the bar exam and practiced law.
-This definition was as valid as saying &quot;everything that flies is a bird&quot; until airplanes were invented.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Now, it is crucial to reconsider that definition.
-Traditionally, a significant part of a lawyer&amp;#8217;s work involved knowledge of the law, finding relevant cases for references, and similar tasks.
-However, this aspect of the work was not the primary source of value added.
-Such tasks could be performed by assistants or paralegals.
-The true value lies elsewhere.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As a non-lawyer, I cannot pinpoint exactly where this value lies within the legal profession.
-Nonetheless, I am confident that the most critical aspect of their work is human communication.
-This element cannot be replaced by AI because AI is not human and never will be.
-While we can interact with AI and may not even notice the difference, most people would not trust an AI to be their lawyer, doctor, or any other profession where high stakes are involved.
-Any potential change in this regard would be gradual and slow, as it depends on people&amp;#8217;s perception rather than technological advancements.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In summary, it is evident that short-term changes are inevitable.
-There will be shifts in the way we work, and certain jobs will gradually disappear.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Moving forward, let&amp;#8217;s now shift our focus to the long term.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-long-term&quot;&gt;3. Long Term&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the long term, AI is expected to become significantly more powerful.
-Presently, we have standalone AI tools that possess various limitations.
-However, as time progresses, many of these limitations are likely to diminish, and integration of AI applications will become more prevalent.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Currently, I engage in a process where I copy and paste my basic sentences into ChatGPT for rewriting, and then transfer them back to my text editor.
-I already have two AI tools, Co-Pilot (a code completion tool) and Grazie (a grammar checker), integrated into my text editor.
-Looking ahead, it is foreseeable that I will be able to write directly within ChatGPT, with seamless integration into my text editor.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What will be the consequences of the AI development considering jobs?
-Let&amp;#8217;s imagine a future, where AI is an advancement and can do 90% of what humans can do.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When such technology changes happened in the past, the eliminated professions were replaced by new ones.
-We started agriculture and there was no need for hunters.
-Instead, we needed farmers.
-We invented the steam engine and there was no need for horses.
-Instead, we needed engineers.
-We invented the computer and there was no need for typists.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">There are numerous articles on the internet attempting to predict the future of AI, with many forecasting the disappearance of numerous jobs, leading to significant changes in the world. In this article, I aim to explore an aspect of the economy that has yet to be extensively discussed.</summary></entry><entry><title type="html">Managing IntelliJ Live templates</title><link href="https://javax0.github.io/2023/07/05/live-templates.html" rel="alternate" type="text/html" title="Managing IntelliJ Live templates" /><published>2023-07-05T00:00:00+02:00</published><updated>2023-07-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/07/05/live-templates</id><content type="html" xml:base="https://javax0.github.io/2023/07/05/live-templates.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary. He plays a significant role in this story as he was the one who made the decision to cancel our contract. I must acknowledge that he made the right call, and it was the correct course of action.</summary></entry><entry><title type="html">Managing IntelliJ Live templates</title><link href="https://javax0.github.io/2023/07/05/live-templates.html" rel="alternate" type="text/html" title="Managing IntelliJ Live templates" /><published>2023-07-05T00:00:00+02:00</published><updated>2023-07-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/07/05/live-templates</id><content type="html" xml:base="https://javax0.github.io/2023/07/05/live-templates.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I primarily use IntelliJ for the majority of my work nowadays.
@@ -1321,249 +1188,7 @@ Such complexity is rarely needed.&lt;/p&gt;
 &lt;p&gt;If you want to have diagrams in your documentation, download Jamal, and start enhancing your documents.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Will AI Wipe off Humanity?</title><link href="https://javax0.github.io/2023/06/05/ai-doomsday.html" rel="alternate" type="text/html" title="Will AI Wipe off Humanity?" /><published>2023-06-05T00:00:00+02:00</published><updated>2023-06-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/05/ai-doomsday</id><content type="html" xml:base="https://javax0.github.io/2023/06/05/ai-doomsday.html">&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;First of all, I want to frighten you.
-The &lt;a href=&quot;https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines&quot;&gt;Betteridge&amp;#8217;s law of headlines&lt;/a&gt; does not apply.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This law states that any headline ending with a question mark can be answered with &quot;No.&quot; Now, you might become alarmed, unless you are acquainted with formal logic and understand that if the response to a question is not &quot;No,&quot; it does not necessarily imply that the answer is &quot;Yes.&quot;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2023-06-13-11-48-14-678.png&quot; alt=&quot;image 2023 06 13 11 48 14 678&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We may feel compelled to believe frightening news, and AI tools can be intimidating due to their novelty and complexity.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In short, the answer can be both yes and no simultaneously.
-The world is constantly evolving, as it has always done.
-Let&amp;#8217;s not adhere to the beliefs of Kohelet (Ecclesiastes) or Shakespeare:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In Sonnet 59, Shakespeare wrote:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If there be nothing new, but that which is&lt;br&gt;
-Hath been before,&quot;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are periods when change happens slowly, and there are times when it occurs rapidly.
-During slow-changing periods, people may fail to notice and may believe, like King David, that there is nothing new under the sun.
-However, there are moments when change happens swiftly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rapid changes often lead to the end of certain things.
-Some aspects of our lives will never be the same again.
-This can be frightening, causing us to feel a loss of control and a sense that everything is coming to an end.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;Not everything is going to end just because things change fast and the word is changing even when things go slow.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Step back, take a deep breath and try to think rationally suppressing emotions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, I will try to give some ideas to think about when seeing the question in the title.
-I will not give an answer.
-I have my own answers, but there are questions that you have to answer yourself.
-As a matter of fact: the difference between the wise and the fool is the ability to tell the important from the non-important.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You have to answer the important questions yourself for yourself.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is interesting that many times when you can ask the important questions, you may realize that you do not need the answers.
-Reading this article may help you see the title question calm, rational, and without fear.
-It may also not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-problem-statement&quot;&gt;1. Problem Statement&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-1-why-to-fear&quot;&gt;1.1. Why to Fear?&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We, humans know that we are mortals.
-Everybody who has been born will die.
-The problem with this is that we do not want to die.
-We have instincts that make us want to live.
-It is biology.
-It is evolution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we did not mind dying, then we eventually would not mind.
-Tautology.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;But evolution itself is the ultimate tautology in the history of science.
-It selected the species that want to live.
-In humans this is driven by bad feelings, like fear of death that repels us from dangerous things, like suicide.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At the same time, we also have an instinct called survival of the species.
-This leads to sex, which is associated with rewarding feelings.
-It also leads to nepotism, and to a certain extent one can blame racism on it.
-This would lead too far and off-rail of our topic.
-In short:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We want to live, and we want humanity to survive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-2-what-do-we-fear&quot;&gt;1.2. What do we Fear?&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Currently, there are two major topics in this field.
-One is the fear of human extinction.
-I will talk about it in the next section.
-The other is losing your job.
-Let&amp;#8217;s take these in their order of importance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-3-the-killing-animal&quot;&gt;1.3. The Killing Animal&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We are animals.
-A special kind of animals, but animals.
-Animals kill other animals of different species and many times the same species.
-We kill animals for food, for their skin, bones, etc.
-We also kill animals to protect ourselves.
-Sometimes these animals are the same species as we are, although cannibalism is not very common these days luckily, but using human skin for lamp shades is not so far back in history.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;During the history of civilization, there were numerous events where some group of humans killed other humans in large amounts.
-We usually refer to these events as wars.
-Driven by the instincts, we developed tools to enhance our daily activities, including the killing of other humans.
-By the XX. century we developed tools that could kill all humans.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We have learned that we, humanity are capable of developing tools that can lead to the extinction of humanity.
-We are capable of committing suicide as a specie.
-Such capability is unique in the history.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Individual animals can die by suicide, especially when they are humans.
-Some insects show altruistic behavior sacrificing their individual lives protecting colonies.
-Some animals grieve and stop eating.
-Scientists debate if these acts are suicidal or not, but without any doubt: none of the species except humans can eradicate all life on this planet.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We also have learned that there is no wiring in the human race guaranteeing to stop doing it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I have a Doberman, and I can see how easily she can chew up the cow&amp;#8217;s tibia I used to cook in a soup.
-But I am not afraid to play with her when she playfully mimics biting on my hands.
-There is an instinct that stops the dog biting on my arm and to cause harm.
-I would not play the same game with a hydraulic press.
-Not even if controlled by AI.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Nuclear weapons are not dogs.
-They are more like hydraulic presses.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Broken Arrow incidents also taught us that these tools could kill us all by mistake, even if no one intended that.
-Now we created something that we barely understand and fear.
-Will it be the next invention capable of wiping off humanity from the face of the earth?
-Maybe it will.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-4-losing-jobs&quot;&gt;1.4. Losing Jobs&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Losing your job after we discussed the human extinction may not seem important anymore, does it.
-Still, one is a serious and important future thing.
-The other may affect your personal life in a few years.
-This latter one is much more specific, and you may stop worrying about the future generations when you have nothing to eat.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We know from history that economy changes restructure the work structure.
-Jobs disappear and new jobs get created.
-Today nobody faces the problem of not being employed as a horse rider or sword fighter.
-You may worry about losing your job as a software developer, and you should.
-It will help you agile, learn new things and find a different occupation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you lose your job because AI can do the task better, it means that your job does not produce value anymore.
-You cannot compete on the cost of an AI.
-You will find some other profession, or better the aspects of your professions that AI cannot do.
-If you were a developer creating assembly code, you may program higher level and let an AI convert your commands into assembly.
-You will become a &quot;prompt engineer&quot; talking to an AI, like a subordinate to do the job.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Currently, AI cannot write programs.
-It looks like if it could, but the reality is that it does not.
-It simply analyzes the task description and creates some program code that would be the most probable response from a developer.
-The response and selection probability value are collected from millions of samples, but it does not produce anything that is not there.
-Luckily, a huge majority of the development tasks do not need programming.
-It only needs AI doable code generation.
-It is an intelligent copy and paste.
-Shockingly intelligent.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you cannot do something that is real programming the AI cannot do, then you have never been a programmer/developer.
-You were a coder.
-Become a programmer or find some other profession!
-Adapt.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are people who cannot adapt.
-I have seen a lot of people in Hungary after the communist regime fell apart and a lot of state guaranteed jobs diminished.
-After losing their jobs, they could not find another profession.
-These people were usually in their forties and fifties.
-They lived their remaining one or two decade-long life jobless many times abusing alcohol.
-(Drogs were expensive and were not so common in the early 90-ies.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We can expect similar&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;1-5-should-we-fear&quot;&gt;1.5. Should we Fear?&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Before answering that question, let me tell you that in my opinion, this fear is greatly emphasized by the media.
-The media is a business.
-They want to sell.
-Fear sells through fight or flight instinct.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When in fear, the brain focuses on a narrow set of things which we see as threats.
-We, animals are molded this way by the great tautology: evolution.
-If your focus narrows and focus on a small set of the surrounding reality, you are more likely to survive.
-At the same time, if that narrow focus is pointed to something artificially fabricated, you can be manipulated easier in other aspects.
-This is a major principle of politics, including religion and media in their tool box.
-Media uses this to make you focus on their topic and consume more.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Some fear is okay.
-It helps us keep attention on important and dangerous things and to avoid the danger.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-summary-and-takeaway&quot;&gt;2. Summary and Takeaway&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">First of all, I want to frighten you. The Betteridge&amp;#8217;s law of headlines does not apply.</summary></entry><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">About the Questions on Linked In Java Developers Community</title><link href="https://javax0.github.io/2023/05/26/questions-on-linkedin.html" rel="alternate" type="text/html" title="About the Questions on Linked In Java Developers Community" /><published>2023-05-26T00:00:00+02:00</published><updated>2023-05-26T00:00:00+02:00</updated><id>https://javax0.github.io/2023/05/26/questions-on-linkedin</id><content type="html" xml:base="https://javax0.github.io/2023/05/26/questions-on-linkedin.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This article is a rant about the questions that are posted on the Linked In Java Developers Community.
@@ -3227,4 +2852,1089 @@ The people who contributed to the text with comments before the publishing date 
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry></feed>
+&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Open Source Blog</title><link href="https://javax0.github.io/2023/01/31/opensource-blog.html" rel="alternate" type="text/html" title="Open Source Blog" /><published>2023-01-31T00:00:00+01:00</published><updated>2023-01-31T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/31/opensource-blog</id><content type="html" xml:base="https://javax0.github.io/2023/01/31/opensource-blog.html">&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article is about the philosophy behind creating an open-source blog.
+The article will discuss&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;what an open-source blog means&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-what-is-an-open-source-blog&quot;&gt;2. What is an Open-Source Blog?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We know what open-source software (OSS) is.
+It is many things.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OSS is free to redistribute.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Source code is included.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The license allows modification.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Supports the integrity of the author&amp;#8217;s code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No discrimination against persons or groups.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No discrimination against fields of endeavor.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Distribution of license.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not be specific to a product.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not restrict other software.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must be technology-neutral.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;(source &lt;a href=&quot;https://en.wikipedia.org/wiki/The_Open_Source_Definition&quot;&gt;Wikipedia, Open Source Definition&lt;/a&gt;])&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The initiative of OSS was extended to documentation, for example, the GNU Free Documentation License.
+The most well-known licensing scheme is the &lt;a href=&quot;https://en.wikipedia.org/wiki/Creative_Commons_license&quot;&gt;Creative Commons License&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;These mainly focus on the rights and the way the product is used.
+It is imperative, and there is a good reason that most approaches look at this side of OSS and documentation.
+This side regulates the use and how OSS creates value in the economy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For me, as a developer, the other side is more important.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let me use the well-known parable &lt;a href=&quot;https://en.wikipedia.org/wiki/Blind_men_and_an_elephant&quot;&gt;about the blind men and the elephant&lt;/a&gt;.
+Everybody touches a different part of the elephant and has a different opinion about what an elephant is.
+The industry is mainly interested in the fertilizing output that comes out of the OSS ecosystem.
+I stay more at the other end of the elephant, at the trunk and the mouth that feeds the animal.
+I drew a picture of an elephant showing the developer side:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When we create open-source software, we usually do it for fun.
+It is why I was drawing the elephant.
+It is fun.
+In a commercial project, you never do that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Also, open source, for me, is cooperation.
+We do it together.
+There is a  team of developers, and we develop the software together.
+Other people use the software, and few start to complain.&lt;/p&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Four Levels of OSS Developer Success (click to open)&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;You create a project, and no one notices.
+It is always how it starts, but even this is fun.
+Creating software is fun.
+If it is not fun, then don&amp;#8217;t do it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some people have started to use your software.
+You do not know about it because they do not give you feedback.
+You google your project name and may see it mentioned, appearing at places.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;People start asking stupid and annoying questions.
+It is the real success.
+People believe your software is so good that they invest effort in asking when they cannot get along.
+Your users are introverted developers.
+From their side, asking is a considerable effort.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;There are hate posts about your software.
+It is the ultimate success.
+Some people write about why no one should not use your software.
+I could never reach this level with any of my projects.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is when you start your OSS project.
+When you join an already-running OSS project, it is different.
+In that case, you jump on an already running train&amp;#8230;&amp;#8203; sorry: elephant.
+Your name gets to the list of developers, and you can be proud that your tiny but essential change was added to the project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What about blogs?
+What will make this blog to be open source?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It is open for collaboration.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Source code is included.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Blog content is free to redistribute.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The license allows modification.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Supports the integrity of the author&amp;#8217;s code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No discrimination against persons or groups.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No discrimination against fields of endeavor.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Distribution of license.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not be specific to a product.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not restrict other software.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must be technology-neutral.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the following sections, I will look at these aspects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no separate section in this article for&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The license allows modification&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Distribution of license&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not be specific to a product&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must not restrict other software&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;License must be technology-neutral&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are provided by the CC-BY license governing the content of the blog.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-it-is-open-for-collaboration&quot;&gt;3. It is open for collaboration&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is the most critical aspect of open-source blogging.
+You can use the content of this blog according to the CC-BY license terms.
+It allows practically any use, even commercial, so long you attribute the source.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But that is the rear end of the elephant.
+We are interested in feeding the elephant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This blog is maintained in a &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Doc as Code&lt;/a&gt; style.
+The blog is edited using markup.
+The selected markup is Asciidoc, and I also use the Jamal preprocessor.
+The article source files are &lt;code&gt;.adoc.jam&lt;/code&gt; files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The source is maintained on GitHub in a public repository.
+It means that you can look at any article.
+Not only those which are already published but also the articles which are under construction.
+You can also have a look at the history of article editing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Articles are created and edited for days, sometimes for weeks.
+It is similar to program features.
+Not to interfere with the already released article set, these article sources are maintained in separate branches.
+GitHub allows you to list all these branches and look at what is cooking.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition, you can fork the repository, create new articles, and suggest modifications to any article creating a pull request.
+True to the open-source philosophy, I will consider every pull request.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-source-code-is-included&quot;&gt;4. Source code is included&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is almost evident in the case of documentation or blogs.
+The source is the text itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Usually, it is, but that is a mistake.
+It is like programming in machine code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you code in machine code, the binary is the source code.
+We don&amp;#8217;t do that.
+The reason: it isn&amp;#8217;t easy and involves a lot of mechanical work that computers can do.
+We program in high-level languages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When we document, we still create the documentation in &quot;machine code&quot; to some extent.
+Maybe, the level we are in is not machine code.
+After all, you do not edit a PDF binary.
+What we usually do is assembly level.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The better approach is to use tools to write the documentation at a high level.
+Do NOT copy and paste the information from the documented system.
+Write code that will do the copy-pasting, reformatting, extracting, and transformation needed for the documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal does it for this blog, and Jamal source of the blog articles are available in a public Git repository:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/javax0/javax0.github.io&quot;&gt;https://github.com/javax0/javax0.github.io&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition to the source of the articles, the source for the build environment is also in the repository.
+You can use them to start your blog if you like.
+Their license is Apache 2.0, as denoted by the &lt;code&gt;LICENSE&lt;/code&gt; file in the repo root.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-blog-content-is-free-to-redistribute&quot;&gt;5. Blog content is free to redistribute&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no technical blocker since the code is available as open source.
+The license is reasonably permissive, CC-BY.
+I even encourage redistribution.
+As you can see on the opening page, I have an agreement for many years with DZone and JCG.
+I also discussed with Baeldung, but their policy does not fit redistribution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can find articles from the blog on Chinese, Russian, and Hindi sites.
+You can also feel free to copy, modify, and translate as long you follow attribution CC-BY.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-supports-the-integrity-of-the-authors-code&quot;&gt;6. Supports the integrity of the author&amp;#8217;s code&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the article is modified, you have to note it in the attribution so that the readers will know that it is a derivative.
+They can easily see the difference between the original and the derived work using backlinking.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-no-discrimination-against-persons-or-groups&quot;&gt;7. No discrimination against persons or groups&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I am not racist.
+There is no need to say more about it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;8-no-discrimination-against-fields-of-endeavor&quot;&gt;8. No discrimination against fields of endeavor&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is the part that makes me a bit uncomfortable, but what can I do?
+If you use the content of my articles to destroy the universe, I must be OK with it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-summary&quot;&gt;9. Summary&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Use the blog!
+Do not only READ it!
+Be part of this blog!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Reading is fine.
+First step.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Commenting is welcome.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Suggesting modifications and writing articles to be published here is the ultimate goal of being an open-source blog.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction</summary></entry><entry><title type="html">Ten Useless Things You Did Not Know About Java</title><link href="https://javax0.github.io/2023/01/23/ten-java.html" rel="alternate" type="text/html" title="Ten Useless Things You Did Not Know About Java" /><published>2023-01-23T00:00:00+01:00</published><updated>2023-01-23T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/23/ten-java</id><content type="html" xml:base="https://javax0.github.io/2023/01/23/ten-java.html">&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
+In this article, we will look at ten such Java language features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-java-has-labels&quot;&gt;1. Java Has Labels&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can have labels in your Java code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         LABEL1:
+ 2.         for (int i = 0; i &amp;lt; 10; i++) {
+ 3.             for (int j = 0; j &amp;lt; 10; j++) {
+ 4.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break LABEL1;
+ 5.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+ 6.             }
+ 7.             System.out.println();
+ 8.         }
+ 9.         System.out.println();
+10.         System.out.println();
+11.         LABEL2:
+12.         for (int i = 0; i &amp;lt; 10; i++) {
+13.             for (int j = 0; j &amp;lt; 10; j++) {
+14.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
+15.                     System.out.println();
+16.                     continue LABEL2;
+17.                 }
+18.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+19.             }
+20.             System.out.println();
+21.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Like you could have them in assembly.
+Or when you were programming BASIC numbering the lines.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To interrupt an outer loop, you can reference these labels in the &lt;code&gt;break&lt;/code&gt; or &lt;code&gt;continue&lt;/code&gt; command.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output of the above program is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+3,0 3,1 3,2 3,3 3,4 3,5
+4,0 4,1 4,2 4,3
+5,0 5,1 5,2 5,3
+6,0 6,1 6,2
+7,0 7,1 7,2 7,3
+8,0 8,1
+9,0 9,1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to compare, here is the version without the labels:&lt;/p&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;Click to open the version without labels&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 0; i &amp;lt; 10; i++) {
+ 2.             for (int j = 0; j &amp;lt; 10; j++) {
+ 3.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break;
+ 4.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+ 5.             }
+ 6.             System.out.println();
+ 7.         }
+ 8.         System.out.println();
+ 9.         System.out.println();
+10.         for (int i = 0; i &amp;lt; 10; i++) {
+11.             for (int j = 0; j &amp;lt; 10; j++) {
+12.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
+13.                     System.out.println();
+14.                     continue;
+15.                 }
+16.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
+17.             }
+18.             System.out.println();
+19.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;and the output&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+3,0 3,1 3,2 3,3 3,4 3,5
+4,0 4,1 4,2 4,3
+5,0 5,1 5,2 5,3
+6,0 6,1 6,2
+7,0 7,1 7,2 7,3
+8,0 8,1
+9,0 9,1
+
+
+0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
+1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
+2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
+
+
+3,0 3,1 3,2 3,3 3,4 3,5
+3,7
+3,9
+4,0 4,1 4,2 4,3
+
+
+
+
+
+
+5,0 5,1 5,2 5,3
+5,5
+5,7
+5,9
+6,0 6,1 6,2
+
+
+
+
+
+
+
+7,0 7,1 7,2 7,3
+7,5
+7,7
+7,9
+8,0 8,1
+
+
+
+
+
+
+
+
+9,0 9,1
+9,3
+9,5
+9,7
+9,9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-you-can-break-from-a-block&quot;&gt;2. You can &lt;code&gt;break&lt;/code&gt; from a Block&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Labels make it possible to break from a block.
+It does not need to be a loop.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 1; i &amp;lt;= 15; i++) {
+ 2.             FIZZ:
+ 3.             {
+ 4.                 System.out.printf(&quot;%d &quot;, i);
+ 5.                 if (i % 3 != 0) break FIZZ;
+ 6.                 System.out.print(&quot;fiz&quot;);
+ 7.             }
+ 8.             BUZZ:
+ 9.             {
+10.                 if (i % 5 != 0) break BUZZ;
+11.                 System.out.print(&quot;buzz&quot;);
+12.             }
+13.             System.out.println();
+14.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It will print&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
+2
+3 fiz
+4
+5 buzz
+6 fiz
+7
+8
+9 fiz
+10 buzz
+11
+12 fiz
+13
+14
+15 fizbuzz&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-static-methods-can-also-be-final&quot;&gt;3. &lt;code&gt;static&lt;/code&gt; Methods can also be &lt;code&gt;final&lt;/code&gt;&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When a method is final in a class, you cannot redefine it in a child class.
+Static methods, however, are not virtual.
+They cannot be redefined.
+A static method in the child class of the same signature has nothing to do with the method in the parent class.
+Or does it?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Actually, it does.
+If the static method is &lt;code&gt;final&lt;/code&gt;, then the child class cannot have a method with the same signature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To demonstrate this, we compile the test classes dynamically.
+We do not want any syntax errors in our demo project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var FIZZ = &quot;&quot;&quot;
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 public class Fizz {
+ 4.                     static void fizzy(){
+ 5.                     }
+ 6.                 }
+ 7.                 &quot;&quot;&quot;;
+ 8.         final var BUZZ = &quot;&quot;&quot;
+ 9.                 package com.javax0.blog.tenjava;
+10.                 public class Buzz extends Fizz {
+11.                     static void fizzy(){
+12.                     }
+13.                 }
+14.                 &quot;&quot;&quot;;
+15.         final var testSet1 = Compiler.java().from(
+16.                 FIZZ
+17.         ).from(BUZZ).compile().load();
+18.         testSet1.get(&quot;Buzz&quot;);
+19.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(
+20.                 FIZZ.replaceAll(&quot;static void&quot;, &quot;final static void&quot;)
+21.         ).from(BUZZ).compile());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We compile FIZZ and BUZZ.
+Both classes have a method named &lt;code&gt;fizzy()&lt;/code&gt;.
+No problem.
+Then we change the method in the class &lt;code&gt;Fizz&lt;/code&gt; to &lt;code&gt;final&lt;/code&gt;.
+Now the compilation fails.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You cannot &quot;override&quot; the final method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-goto-is-a-reserved-word&quot;&gt;4. &lt;code&gt;goto&lt;/code&gt; is a reserved word&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no &lt;code&gt;goto&lt;/code&gt; in Java; still, &apos; goto` is a keyword.
+The designers of the language thought it to be a good idea.
+Future versions of Java may have a &lt;code&gt;goto&lt;/code&gt; statement.
+Let&amp;#8217;s reserve this as a keyword.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         Compiler.java().from(&quot;&quot;&quot;
+ 2.                 package com.javax0.blog.tenjava;
+ 3.                 class NoGotoPlease{
+ 4.                   public void _goto(){
+ 5.                   }
+ 6.                 }
+ 7.                 &quot;&quot;&quot;
+ 8.         ).compile();
+ 9.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(&quot;&quot;&quot;
+10.                 package com.javax0.blog.tenjava;
+11.                 class NoGotoPlease{
+12.                   public void goto(){
+13.                   }
+14.                 }
+15.                 &quot;&quot;&quot;
+16.         ).compile());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If we name the method &lt;code&gt;_goto&lt;/code&gt;, it is okay.
+Using it without an underscore in the front: it is a keyword.
+It does not compile.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you consider that &lt;code&gt;var&lt;/code&gt;, on the other hand, is NOT a keyword&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-var-is-not-a-keyword-in-java&quot;&gt;5. &lt;code&gt;var&lt;/code&gt; is not a keyword in Java&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java 10  introduced &lt;code&gt;var&lt;/code&gt;.
+There are a lot of articles about how you can use &lt;code&gt;var&lt;/code&gt; and why &lt;code&gt;var&lt;/code&gt; is not syntactic sugar.
+However, &lt;code&gt;var&lt;/code&gt; is also not a keyword.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If it was a keyword, we could have a program, like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1. public class VarNotKeyword {
+ 2.     final int var = 13;
+ 3.
+ 4.     void myMethod() {
+ 5.         int var = var().var;
+ 6.     }
+ 7.
+ 8.     VarNotKeyword var() {
+ 9.         return new VarNotKeyword();
+10.     }
+11.
+12. }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;which was a valid code before Java 10.
+It still is because &lt;code&gt;var&lt;/code&gt; is not a keyword, but it would be ruined if it was.
+Luckily, it is not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You cannot name a class to be &lt;code&gt;var&lt;/code&gt;.
+This means that even though &lt;code&gt;var&lt;/code&gt; is not a keyword, we may still have some incompatibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-stream-operations-are-mutating&quot;&gt;6. Stream operations are mutating&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is also a Java secret, but at least this knowledge is not useless.
+After all, who would like to read an article full of useless things?
+As a matter of fact, there was a question on a Java interview, so it may even be essential to know.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you chain the stream methods, they transform streams.
+There is no operation happening until the final terminal operation is chained up and starts to execute.
+The stream operations without the terminal operation only build up the operation chain.
+They transform one stream into a new stream.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Not only!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stream operations, like &lt;code&gt;map&lt;/code&gt;, also modify the stream they are attached to.
+The stream will remember that an operation was already attached to it and will throw an exception if you try to form a stream.
+The following code demonstrates this:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Stream&amp;lt;Object&amp;gt; stream = Stream.of(&quot;a&quot;, 2, 3, new Object[2]);
+2.         final var stringStream1 = stream.map(Object::toString);
+3.         try {
+4.             final var stream2 = stream.map(obj -&amp;gt; &quot; &quot; + obj);
+5.         } catch (IllegalStateException e) {
+6.             System.out.println(e);
+7.         }
+8.         final var string = stringStream1.collect(Collectors.joining(&quot;\n&quot;));&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output of this is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.IllegalStateException: stream has already been operated upon or closed&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-streams-do-not-always-run&quot;&gt;7. Streams do not always run&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You know that the intermediary operations on a stream do not run if there is no terminal operation.
+The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
+However, not all terminal operations run the whole chain.
+It may lead to surprises in some cases.
+To see that, let&amp;#8217;s use &lt;code&gt;peek()&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;peek()&lt;/code&gt; is a stream intermediary method that does not modify the stream.
+The Javadoc of the method in the official JDK documentation says:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The same Javadoc then gives a sample that uses &lt;code&gt;System.out.println&lt;/code&gt; to print values from a stream in different stages.
+We will do the same&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var w = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
+2.                 .peek(System.out::println).toArray();
+3.         System.out.println(w.length);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This sample goes through the elements of the stream.
+It prints the elements of the stream and then the number of the elements as we have collected them to an &lt;code&gt;Object[]&lt;/code&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
+2
+3
+4
+5
+apple
+bird
+3.1415926
+8&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is nice and dandy.
+What if we do not collect the elements?
+In the example above, we are only interested in the number of elements; there is no reason to collect them into an array.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final long z = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
+2.                 .peek(System.out::println).count();
+3.         System.out.println(z);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We expect to get the same output as before.
+The reality, however, is that the output this time is:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;8&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Where did the elements go?
+Why &lt;code&gt;peek&lt;/code&gt; does not print the elements?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not execute the stream pipeline.
+Therefore, the &lt;code&gt;peek()&lt;/code&gt; action is not invoked.
+There is no magic or secret in it.
+The JavaDoc of &lt;code&gt;count()&lt;/code&gt; explains it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;An implementation may choose to not execute the stream pipeline &amp;#8230;&amp;#8203; if it is capable of computing the count directly from the stream source.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In some cases, like the one in the example above, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not need to iterate through the stream to know the number of elements.
+So it does not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Even the documentation of &lt;code&gt;peek()&lt;/code&gt; has a link to this fact.
+Nobody reads documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;8-strictfp-is-a-modifier&quot;&gt;8. &lt;code&gt;strictfp&lt;/code&gt; is a modifier&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Once upon a time, there was a keyword called &lt;code&gt;strictfp&lt;/code&gt;.
+It was introduced in Java 1.2 and required the floating point calculations to be performed differently.
+Floating point calculations traditionally used the format IEEE 754 standard defined.
+The early x86 processors with the x87 floating point coprocessor worked differently.
+The coprocessor used a longer format, allowing more precision.
+The &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; values were 64bit, but the generated code stored the intermediate values on more bits during a calculation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before Java 1.2, the compiler generated machine code modifying the result of every intermediate value to 64bit.
+This required extra machine code operations and slowed the calculation down.
+It was not only slower but more error-prone to overflow errors.
+A calculation result could be okay with the 64-bit precision while some intermediate values overflowed.
+Using more precision provided by the hardware could lead to the correct value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; was introduced to let the compiler generate a more effective floating-point code.
+With 1.2 and later till Java 17, the compiler generates code using the extra precision unless the class or method is &lt;code&gt;strictfp&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;just kidding&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; means that the floating calculation will result in the exact wrong result on all platforms.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Times change.
+Pentium 4 in 2001 allows the compiler to avoid the extra code for strict floating point.
+Java could generate the strict floating point effectively.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java 17 came 20 years later, and Java changed again.
+Java 17 later uses strict arithmetic even when &lt;code&gt;strictfp&lt;/code&gt; is not specified.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can still use it, and reflectively query its existence on a class, interface, or non-abstract method, but the Java compiler does not use it anymore.
+Maybe, the Java compiler was the only one using &lt;code&gt;strictfp&lt;/code&gt; even in the past.
+At least, I have never met anyone who needed that and used it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-there-are-multiple-arraylist-implementations-in-the-jdk&quot;&gt;9. There are multiple &lt;code&gt;ArrayList&lt;/code&gt; implementations in the JDK&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you have programmed Java for a long time, you know that you can easily create a list of elements calling &lt;code&gt;Array.asList()&lt;/code&gt;.
+If you look at the implementation of this static method, you can see that it is simply:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;    @SafeVarargs
+    @SuppressWarnings(&quot;varargs&quot;)
+    public static &amp;lt;T&amp;gt; List&amp;lt;T&amp;gt; asList(T... a) {
+        return new ArrayList&amp;lt;&amp;gt;(a);
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;in the class &lt;code&gt;java.util.Arrays&lt;/code&gt;.
+Although the method&amp;#8217;s return type is the interface &lt;code&gt;List&lt;/code&gt;, the documentation guarantees that the return type is &lt;code&gt;ArrayList&lt;/code&gt;.
+It says&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Returns a fixed-size list backed by the specified array.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So it is an &lt;code&gt;ArrayList&lt;/code&gt;.
+Yes and no.
+Let&amp;#8217;s try the following program:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         try {
+2.             final ArrayList&amp;lt;Integer&amp;gt; x = (ArrayList) Arrays.asList(1, 2, 3, 4);
+3.         } catch (ClassCastException cce) {
+4.             System.out.println(cce);
+5.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The output will be&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.ClassCastException: class java.util.Arrays$ArrayList cannot be cast to class java.util.ArrayList (java.util.Arrays$ArrayList and java.util.ArrayList are in module java.base of loader &apos;bootstrap&apos;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The returned list is an &lt;code&gt;ArrayList&lt;/code&gt;, but it is a &lt;code&gt;java.util.Arrays$ArrayList&lt;/code&gt; and not &lt;code&gt;java.util.ArrayList&lt;/code&gt;.
+These are two different classes and are not compatible.
+One cannot be converted to the other; only the simple name is the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Two classes are the same if their &lt;em&gt;canonical name&lt;/em&gt; is the same and were loaded by one class loader.
+The simple name being the same is not enough.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Why did the implementors of &lt;code&gt;asList()&lt;/code&gt; create a new &lt;code&gt;ArrayList&lt;/code&gt; class?
+Probably they wanted to create optimized code.
+The list this method returns is backed up by an array just like the &lt;code&gt;java.util&lt;/code&gt; one.
+However, this array cannot be resized.
+It is the same array that you provided as an argument.
+It is not copied or cloned.
+It remains in its place and is used by the list implementation.
+You can see that in the following code sample:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Integer[] w = {1, 2, 3};
+2.         final var wl = Arrays.asList(w);
+3.         Assertions.assertEquals(1, wl.get(0));
+4.         w[0] = 55;
+5.         wl.set(1, 66);
+6.         Assertions.assertEquals(55, wl.get(0));
+7.         Assertions.assertEquals(66, w[1]);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the code modifies the array, the list also gets modified.
+When the list is modified, the array also gets modified.
+That is because they are one and the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;10-something-something&quot;&gt;10. something != something&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Recently a friend (Istvan Kovács) posted a puzzle on &lt;a href=&quot;https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/&quot;&gt;Linked-in&lt;/a&gt;.
+What should you write to the place of &lt;code&gt;???&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = ???;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The question was: what should you write into the place of the &lt;code&gt;???&lt;/code&gt; characters?
+Unless you want to have a failing test, you need something which is not equal to itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It cannot be an object, because &lt;code&gt;==&lt;/code&gt; compares the reference &quot;address&quot;, therefore an object is always &lt;code&gt;==&lt;/code&gt; to itself.
+It can only be a primitive value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution comes from the &lt;a href=&quot;https://ieeexplore.ieee.org/document/30711&quot;&gt;IEEE 754&lt;/a&gt; standard.
+It has the sentence:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
+infinite or finite number x but reverse if x is Not a Number ( NaN )&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Although it talks about the C language, Java has inherited a lot from it.
+Java implements the standard as we have already discussed related to the &lt;code&gt;strictfp&lt;/code&gt; keyword.
+That way the code sample is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Float.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Double.NaN;
+2.         if( variable == variable ){
+3.             Assertions.fail(&quot;variable is == to variable&quot;);
+4.         }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;11-summary&quot;&gt;11. Summary&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We have visited ten Java features.
+These are not important.
+Writing about these was fun, and I hope reading them was also fun.
+I tried to be precise, and I could not resist including some information that may also be useful despite the article title.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you know any other more or less useless facts about Java, please write them down in the comments.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam</summary></entry></feed>
