@@ -1,0 +1,82 @@
+---
+{%@define title=Unit test future versions%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}
+{%@sep 〔〕%}
+= 〔title〕
+
+〔section Introduction〕
+
+Recently I modified a feature in Jamal.
+I kept the original functionality for backward compatibility, but I added a new feature.
+However, the use of the old feature is deprecated, and it will be removed in the next version.
+I also wrote in the document that version 3.0.0, which is somewhere in the future, will not support the old feature.
+
+How can I ensure that the feature gets deleted in that release?
+
+In this article, I describe what I did.
+It may not be the best solution.
+You may come up with better ideas, and you are very much welcome to do that in the comment section.
+
+In the following chapters, I will dig a bit into what I changed, to give some background and then the tests I created.
+In the end, I will also tell you what I do not like in this solution.
+
+〔section The feature〕
+
+Jamal uses macros.
+After all, Jamal is a meta markup language with built-in and user defined macros, so that is a core feature.
+The macros are identified by a name, that contains `[$_:a-zA-Z0-9]` characters not starting with a number.
+This is fairly standard.
+
+Some solutions import text from some source where the natural name of the source does not comform to this rule.
+To overcome this, there is a macro named `macro` that returns a temporary alias for the macro named irregularly.
+That way, instead of the syntactically incorrect
+
+  {this.cannot.be.a.macro}
+
+can be used as
+
+  {{@macro [alias]this.cannot.be.a.macro}}
+
+The macro `macro` can create aliases for user defined as well as for built-in macros.
+To get an alias for a built-in macro the option `builtin` has to be used.
+
+  {@{@macro [builtin alias]this.cannot.be.a.macro}}
+
+The old version used a different format
+
+  {@{@macro [type="builtin" alias]this.cannot.be.a.macro}}
+
+defining the type of the macro as a string.
+As Jamal was developed the parameter options can now be Java `enum` values.
+When you can select `builtin` or `userdefined` this is a better choice than using a string.
+The part `type=` is only noise with no extra information.
+It is evident what `builtin` or the default `userdefined` means.
+
+The parameter option `type` will be deprecated in the next release (2.5.0), but should not be deleted.
+It will be removed in the release 3.0.0.
+Backward incompatibility has to be kept to minimal and is usually not allowed for minor version increase.
+
+〔section Problem Statement〕
+
+I wrote in the documentation:
+
+****
+NOTE: The parop `type` with string parameters is supported for compatibility reasons only and is deprecated.
+It will be removed in release 3.0.0
+****
+
+How can I ensure that the feature gets deleted in that release?
+When we need something to be ensured, the best way is that we write a test about it.
+The tests run automatically for each build, and if the test fails, the build fails.
+It is more or less a trivial idea to have a test for the feature.
+
+I have written in the past tests for many non-function tests, like document consistency checks.
+These are not the usual unit tests that come to some
