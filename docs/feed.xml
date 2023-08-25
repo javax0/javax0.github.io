@@ -1,4 +1,350 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-08T18:39:06+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Do not stop threads</title><link href="https://javax0.github.io/2023/08/07/do-not-stop-thread.html" rel="alternate" type="text/html" title="Do not stop threads" /><published>2023-08-07T00:00:00+02:00</published><updated>2023-08-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/07/do-not-stop-thread</id><content type="html" xml:base="https://javax0.github.io/2023/08/07/do-not-stop-thread.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-25T15:59:22+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Unit test future versions</title><link href="https://javax0.github.io/2023/08/25/unit-test-the-future.html" rel="alternate" type="text/html" title="Unit test future versions" /><published>2023-08-25T00:00:00+02:00</published><updated>2023-08-25T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/25/unit-test-the-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/25/unit-test-the-future.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Recently I modified a feature in Jamal.
+I kept the original functionality for backward compatibility, but I added a new feature.
+However, the use of the old feature is deprecated, and it will be removed in the next version.
+I also wrote in the document that version 3.0.0, which is somewhere in the future, will not support the old feature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;How can I ensure that the feature gets deleted in that release?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I describe what I did.
+It may not be the best solution.
+You may come up with better ideas, and you are very much welcome to do that in the comment section.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the following chapters, I will dig a bit into what I changed, to give some background and then the tests I created.
+In the end, I will also tell you what I do not like in this solution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During this way I will also reiterate the most important features of unit tests, which surely is discussed in many other places, but it does not hurt to repeat.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-the-feature&quot;&gt;2. The feature&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal uses macros.
+After all, Jamal is a meta markup language with built-in and user defined macros, so that is a core feature.
+The macros are identified by a name, that contains &lt;code&gt;[$_:a-zA-Z0-9]&lt;/code&gt; characters not starting with a number.
+This is fairly standard.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Some solutions import text from some source where the natural name of the source does not comform to this rule.
+To overcome this, there is a macro named &lt;code&gt;macro&lt;/code&gt; that returns a temporary alias for the macro named irregularly.
+That way, instead of the syntactically incorrect&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;{this.cannot.be.a.macro}&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;can be used as&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;{{@macro [alias]this.cannot.be.a.macro}}&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The macro &lt;code&gt;macro&lt;/code&gt; can create aliases for user defined as well as for built-in macros.
+To get an alias for a built-in macro the option &lt;code&gt;builtin&lt;/code&gt; has to be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;{@{@macro [builtin alias]this.cannot.be.a.macro}}&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The old version used a different format&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;{@{@macro [type=&quot;builtin&quot; alias]this.cannot.be.a.macro}}&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;defining the type of the macro as a string.
+As Jamal was developed the parameter options can now be Java &lt;code&gt;enum&lt;/code&gt; values.
+When you can select &lt;code&gt;builtin&lt;/code&gt; or &lt;code&gt;userdefined&lt;/code&gt; this is a better choice than using a string.
+The part &lt;code&gt;type=&lt;/code&gt; is only noise with no extra information.
+It is evident what &lt;code&gt;builtin&lt;/code&gt; or the default &lt;code&gt;userdefined&lt;/code&gt; means.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The parameter option &lt;code&gt;type&lt;/code&gt; will be deprecated in the next release (2.5.0), but should not be deleted.
+It will be removed in the release 3.0.0.
+Backward incompatibility has to be kept to minimal and is usually not allowed for minor version increase.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-problem-statement&quot;&gt;3. Problem Statement&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I wrote in the documentation:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+The parop &lt;code&gt;type&lt;/code&gt; with string parameters is supported for compatibility reasons only and is deprecated.
+It will be removed in release 3.0.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;How can I ensure that the feature gets deleted in that release?
+When we need something to be ensured, the best way is that we write a test about it.
+The tests run automatically for each build, and if the test fails, the build fails.
+It is more or less a trivial idea to have a test for the feature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-designing-the-test&quot;&gt;4. Designing the Test&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The functionality of the test is fairly simple.
+It has to check the version of the Jamal library and if it &lt;code&gt;3.0.0&lt;/code&gt; or higher than it has to check that the &lt;code&gt;type&lt;/code&gt; parameter is not supported.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To do that it is simple: we have to process a &lt;code&gt;macro&lt;/code&gt; with the &lt;code&gt;type&lt;/code&gt; parop, and it has to throw an exception.
+Since Jama has a support library, you can easily write:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;TestThat.theInput(
+  &quot;{@define a=yayy}{#ident {@define a=value of a}&quot; +
+  &quot;{@macro [global type=\&quot;user defined\&quot;]a}}&quot;).throwsBadSyntax();&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jamal can also provide the running instance version calling &lt;code&gt;Processor.jamalVersionString()&lt;/code&gt;, therefore, it is also not an issue.
+The whole test is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;@Test
+@DisplayName(&quot;Macro parop &apos;type&apos; is deprecated and has to be removed in version 3 and later&quot;)
+void testDeprecation() throws Exception {
+    final var v = Processor.jamalVersionString();
+    if (!v.startsWith(&quot;2&quot;)) {
+          TestThat.theInput(
+            &quot;{@define a=yayy}{#ident {@define a=value of a}&quot; +
+            &quot;{@macro [global type=\&quot;user defined\&quot;]a}}&quot;).throwsBadSyntax();
+    }
+}&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That is the technical part, but I also want this unit test to be a &quot;real&quot; unit test.
+Is it possible?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unit tests have to be
+&lt;em&gt;descriptive, fast, isolated, repeatable, small, self-validating,
+maintainable, trustable, focused, thorough&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;to name a few of the qualities.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Descriptive&lt;/em&gt; means that reading the code of the unit test makes it evident what the test does.
+Many times this feature is mentioned as &lt;em&gt;readable&lt;/em&gt;.
+In the case of JUnit it is supported by the &lt;code&gt;DisplayName&lt;/code&gt; annotation.
+Looking at the unit test above this is hardly a problem.
+We can tick this check box.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Fast&lt;/em&gt; means that the unit test should bot take too much time.
+This should also not be a problem.
+The macro processing does not use any io, it is as fast as it can be.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Isolated&lt;/em&gt; means that the test runs fine even if there is some bug in some part of the code the test is not responsible for.
+If this test is isolated or not is debatable.
+It is not isolated as it uses the test support library of Jamal, which indeed uses the processor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;One can argue that when this test runs, the processor is not under test and has to be considered as trusted code the same way as the mock library is trusted.
+This is very much true when we test a macro library, which is independent of the core Jamal is tested.
+A bit less when we run macros that are part of the Jamal library.
+In this case, there can also be bugs in the processor affecting this test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is a rare case, and the simplicity provided by avoiding the mock setup balances the cost of the possible bug in the processor.
+It is how Jamal is designed and how it supports macro unit testing.
+Also, this is a general engineering compromise between isolation and simplicity and has nothing to do with the fact that the problem is to test a future version.
+Let&amp;#8217;s discuss this further sometimes in the future in a different article.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Repeatable&lt;/em&gt; means that the test should run the same way no matter how we execute it.
+It is isolated from the environment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Small&lt;/em&gt; means that the unit test is short. It is very much related to the &lt;em&gt;descriptive&lt;/em&gt; and &lt;em&gt;maintainable&lt;/em&gt; quality.
+If a unit test is large, contains many lines, it is hardly readable and usually not easy to maintain.
+In that case, it is also a code smell that there is something wrong.
+Either the unit test is wrong in some sense or the code itself needing some refactoring to be testable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case, the unit test is small.
+It is three lines of code, or five adjusted to printing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Self-validating&lt;/em&gt; means that there is no need to check the output of the test manually.
+There can be no debate if the test passed or failed.
+The output of the test is either green or red.
+If it is red, then it can still be failed test or an error, which is also a kind of failure needing attending.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Maintainable&lt;/em&gt; means that whenever the code changes and the code in the unit test becomes invalid, it is easy to change.
+Let&amp;#8217;s assume no matter how absurd it is that the syntax of the macro &lt;code&gt;define&lt;/code&gt; changes.
+This macro is used in the unit test.
+If the change is so, then the unit test will fail, but not related to the tested feature.
+It also shows that this unit test is not properly isolated, but I already discussed that and I will in detail in a further article.
+The test, however, is maintainable because it is extremely easy to follow the imagined change in the syntax.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Of course, the syntax of such a centerpiece macro like &lt;code&gt;define&lt;/code&gt; will not change backward incompatible.
+That would be bad product management, but let&amp;#8217;s not derail: it was only a hypothetical example.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Trustable&lt;/em&gt; means that the test either passes or fails all the time independent of external conditions.
+It does not matter if it is a hot summer, or cold winter, it is sunny or rainy, the operating system patched to the latest security patch, replaced by the marketing department from Linux to Windows: the test will pass or fail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are cases when tests sometimes pass, and sometimes fail.
+There is a popular extension of the JUnit framework in the JUnit Pioneer project that allows you to run the same test multiple times till it does not fail.
+This is a totally wrong approach, and instead of being okay with having a test, sometimes passing, the developer should thrive for trustable test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Do not take it wrong.
+A test that sometimes fails and sometimes passes can prove that the code is ok.
+It depends on the code, the feature tested and the test itself.
+For example, you can have a method that returns prime number to the number of seconds in current time modulo ten.
+A test can check that the method returns 5 and repeats every half second till it gets it.
+It is highly questionable what it proves when it passes, but failure does not mean that the code is wrong.
+The test has to be improved, but if it cannot, then it may be better to have it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This test, I believe, is trustable.
+Can you prove that it is trustable?
+Questionable.
+I will discuss this issue in this article.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Focused&lt;/em&gt; means that the test checks one feature.
+If the test fails, it proves that one feature is faulty.
+Beginners many times put multiple features in one test.
+This makes it more difficult to see what feature is faulty when a test fails.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Being focused is also expressed many times saying that one test should have one assertion only.
+This is misinterpreted many times as one test should have one line of assertion code only.
+This is not the meaning of the &quot;one assertion&quot; rule.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can check in an assertion statement the length of a list, then in the next assertions the individual elements.
+Technically, these are several assertion statements, but they compose one complex assertions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The above test is focused.
+Do not mistake the two conditions.
+One is not an assertion, rather a prerequisite of the test.
+Other than that the test checks if the feature &lt;code&gt;type&lt;/code&gt; is deprecated and removed in the future version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Thorough&lt;/em&gt; means that the set of unit tests cover all relevant cases.
+A single unit test cannot prove that the code functions as expected.
+It can only prove that the code does not function as expected.
+On the other hand, the full set of unit tests gives a fairly good approach and approximation of the correctness of the code.
+It does not prove strictly to speak.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Looking at this single unit test as a set, I can say that it covers all relevant cases.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-trustability&quot;&gt;5. Trustability&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As we said, the trustability of the example test is questionable.
+So here we question and answer that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Turstability is a tricky feature of tests.
+If you are a QA person, you know that nothing is tursted unless it is tested.
+Testing the test is a great idea, after all that is your bread and butter, that is what you earn your money.
+Unfortunately, or not so &quot;un&quot; fortunately that is also a cost of testing.
+Testing the test is recursive and something having a cost attached to it must not run away.
+Therefore, we usually stop there and do not test the tests with other tests.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What developers do&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I do not know what developers do.
+I know what I do.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When I create a test for a feature, I run the test before developing the feature.
+Then I develop the feature and then the test passes.
+This is some basic form of TDD, and I am not always that disciplined.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If some strange way the feature is already there when I develop the test, then I just remove the feature to see that the test fails.
+This is a manual test of the test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;How can we do that in our case?
+We have a test that checks that the &lt;code&gt;type&lt;/code&gt; parameter is removed and a precondition.
+The issue is that the precondition needs a future release, which is not there yet.
+It will be there as soon as the release will be created or when time travel is invented, whichever comes first.
+,n of the Jamal library to a future version and run the test.
+And that is exactly what I did.
+And it failed as it should.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Hurray&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-takeaway&quot;&gt;6. Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We discussed a simple problem and a simple technique to solve it.
+It would not deserve much conclusion.
+A simple trick.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, if I look at it as an example of some out-of-the-box thinking, we can learn from it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unit test is a tool.
+There are some rules on how to use it, but these rules are not strict.
+They are not the ten commandments.
+They are there to help us and must not be followed dogmatically.
+We should understand why a unit test has to be descriptive, fast, isolated, repeatable, small, and so on.
+If we understand the reasons we can judge better if our tests conform to the rule and also when to make an exception, when is it acceptable to break some of the rules.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Do not stop threads</title><link href="https://javax0.github.io/2023/08/07/do-not-stop-thread.html" rel="alternate" type="text/html" title="Do not stop threads" /><published>2023-08-07T00:00:00+02:00</published><updated>2023-08-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/07/do-not-stop-thread</id><content type="html" xml:base="https://javax0.github.io/2023/08/07/do-not-stop-thread.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;&lt;em&gt;I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary.
@@ -3216,725 +3562,4 @@ First step.&lt;/p&gt;
 &lt;p&gt;Suggesting modifications and writing articles to be published here is the ultimate goal of being an open-source blog.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction</summary></entry><entry><title type="html">Ten Useless Things You Did Not Know About Java</title><link href="https://javax0.github.io/2023/01/23/ten-java.html" rel="alternate" type="text/html" title="Ten Useless Things You Did Not Know About Java" /><published>2023-01-23T00:00:00+01:00</published><updated>2023-01-23T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/23/ten-java</id><content type="html" xml:base="https://javax0.github.io/2023/01/23/ten-java.html">&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java is a complex language, and some features that initially seemed a good idea turned out to be useless.
-In this article, we will look at ten such Java language features.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-java-has-labels&quot;&gt;1. Java Has Labels&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can have labels in your Java code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         LABEL1:
- 2.         for (int i = 0; i &amp;lt; 10; i++) {
- 3.             for (int j = 0; j &amp;lt; 10; j++) {
- 4.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break LABEL1;
- 5.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
- 6.             }
- 7.             System.out.println();
- 8.         }
- 9.         System.out.println();
-10.         System.out.println();
-11.         LABEL2:
-12.         for (int i = 0; i &amp;lt; 10; i++) {
-13.             for (int j = 0; j &amp;lt; 10; j++) {
-14.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
-15.                     System.out.println();
-16.                     continue LABEL2;
-17.                 }
-18.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
-19.             }
-20.             System.out.println();
-21.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Like you could have them in assembly.
-Or when you were programming BASIC numbering the lines.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To interrupt an outer loop, you can reference these labels in the &lt;code&gt;break&lt;/code&gt; or &lt;code&gt;continue&lt;/code&gt; command.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The output of the above program is:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
-1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
-2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
-
-0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
-1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
-2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
-3,0 3,1 3,2 3,3 3,4 3,5
-4,0 4,1 4,2 4,3
-5,0 5,1 5,2 5,3
-6,0 6,1 6,2
-7,0 7,1 7,2 7,3
-8,0 8,1
-9,0 9,1&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you want to compare, here is the version without the labels:&lt;/p&gt;
-&lt;/div&gt;
-&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Click to open the version without labels&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 0; i &amp;lt; 10; i++) {
- 2.             for (int j = 0; j &amp;lt; 10; j++) {
- 3.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) break;
- 4.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
- 5.             }
- 6.             System.out.println();
- 7.         }
- 8.         System.out.println();
- 9.         System.out.println();
-10.         for (int i = 0; i &amp;lt; 10; i++) {
-11.             for (int j = 0; j &amp;lt; 10; j++) {
-12.                 if (i * j &amp;gt; 15 &amp;amp;&amp;amp; (i * j) % 2 == 0) {
-13.                     System.out.println();
-14.                     continue;
-15.                 }
-16.                 System.out.print(&quot;%d,%d &quot;.formatted(i, j));
-17.             }
-18.             System.out.println();
-19.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;and the output&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
-1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
-2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
-3,0 3,1 3,2 3,3 3,4 3,5
-4,0 4,1 4,2 4,3
-5,0 5,1 5,2 5,3
-6,0 6,1 6,2
-7,0 7,1 7,2 7,3
-8,0 8,1
-9,0 9,1
-
-
-0,0 0,1 0,2 0,3 0,4 0,5 0,6 0,7 0,8 0,9
-1,0 1,1 1,2 1,3 1,4 1,5 1,6 1,7 1,8 1,9
-2,0 2,1 2,2 2,3 2,4 2,5 2,6 2,7
-
-
-3,0 3,1 3,2 3,3 3,4 3,5
-3,7
-3,9
-4,0 4,1 4,2 4,3
-
-
-
-
-
-
-5,0 5,1 5,2 5,3
-5,5
-5,7
-5,9
-6,0 6,1 6,2
-
-
-
-
-
-
-
-7,0 7,1 7,2 7,3
-7,5
-7,7
-7,9
-8,0 8,1
-
-
-
-
-
-
-
-
-9,0 9,1
-9,3
-9,5
-9,7
-9,9&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-you-can-break-from-a-block&quot;&gt;2. You can &lt;code&gt;break&lt;/code&gt; from a Block&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Labels make it possible to break from a block.
-It does not need to be a loop.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         for (int i = 1; i &amp;lt;= 15; i++) {
- 2.             FIZZ:
- 3.             {
- 4.                 System.out.printf(&quot;%d &quot;, i);
- 5.                 if (i % 3 != 0) break FIZZ;
- 6.                 System.out.print(&quot;fiz&quot;);
- 7.             }
- 8.             BUZZ:
- 9.             {
-10.                 if (i % 5 != 0) break BUZZ;
-11.                 System.out.print(&quot;buzz&quot;);
-12.             }
-13.             System.out.println();
-14.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It will print&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
-2
-3 fiz
-4
-5 buzz
-6 fiz
-7
-8
-9 fiz
-10 buzz
-11
-12 fiz
-13
-14
-15 fizbuzz&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-static-methods-can-also-be-final&quot;&gt;3. &lt;code&gt;static&lt;/code&gt; Methods can also be &lt;code&gt;final&lt;/code&gt;&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When a method is final in a class, you cannot redefine it in a child class.
-Static methods, however, are not virtual.
-They cannot be redefined.
-A static method in the child class of the same signature has nothing to do with the method in the parent class.
-Or does it?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Actually, it does.
-If the static method is &lt;code&gt;final&lt;/code&gt;, then the child class cannot have a method with the same signature.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To demonstrate this, we compile the test classes dynamically.
-We do not want any syntax errors in our demo project.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         final var FIZZ = &quot;&quot;&quot;
- 2.                 package com.javax0.blog.tenjava;
- 3.                 public class Fizz {
- 4.                     static void fizzy(){
- 5.                     }
- 6.                 }
- 7.                 &quot;&quot;&quot;;
- 8.         final var BUZZ = &quot;&quot;&quot;
- 9.                 package com.javax0.blog.tenjava;
-10.                 public class Buzz extends Fizz {
-11.                     static void fizzy(){
-12.                     }
-13.                 }
-14.                 &quot;&quot;&quot;;
-15.         final var testSet1 = Compiler.java().from(
-16.                 FIZZ
-17.         ).from(BUZZ).compile().load();
-18.         testSet1.get(&quot;Buzz&quot;);
-19.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(
-20.                 FIZZ.replaceAll(&quot;static void&quot;, &quot;final static void&quot;)
-21.         ).from(BUZZ).compile());&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We compile FIZZ and BUZZ.
-Both classes have a method named &lt;code&gt;fizzy()&lt;/code&gt;.
-No problem.
-Then we change the method in the class &lt;code&gt;Fizz&lt;/code&gt; to &lt;code&gt;final&lt;/code&gt;.
-Now the compilation fails.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You cannot &quot;override&quot; the final method.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-goto-is-a-reserved-word&quot;&gt;4. &lt;code&gt;goto&lt;/code&gt; is a reserved word&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is no &lt;code&gt;goto&lt;/code&gt; in Java; still, &apos; goto` is a keyword.
-The designers of the language thought it to be a good idea.
-Future versions of Java may have a &lt;code&gt;goto&lt;/code&gt; statement.
-Let&amp;#8217;s reserve this as a keyword.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1.         Compiler.java().from(&quot;&quot;&quot;
- 2.                 package com.javax0.blog.tenjava;
- 3.                 class NoGotoPlease{
- 4.                   public void _goto(){
- 5.                   }
- 6.                 }
- 7.                 &quot;&quot;&quot;
- 8.         ).compile();
- 9.         Assertions.assertThrows(Compiler.CompileException.class, () -&amp;gt; Compiler.java().from(&quot;&quot;&quot;
-10.                 package com.javax0.blog.tenjava;
-11.                 class NoGotoPlease{
-12.                   public void goto(){
-13.                   }
-14.                 }
-15.                 &quot;&quot;&quot;
-16.         ).compile());&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we name the method &lt;code&gt;_goto&lt;/code&gt;, it is okay.
-Using it without an underscore in the front: it is a keyword.
-It does not compile.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you consider that &lt;code&gt;var&lt;/code&gt;, on the other hand, is NOT a keyword&amp;#8230;&amp;#8203;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-var-is-not-a-keyword-in-java&quot;&gt;5. &lt;code&gt;var&lt;/code&gt; is not a keyword in Java&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java 10  introduced &lt;code&gt;var&lt;/code&gt;.
-There are a lot of articles about how you can use &lt;code&gt;var&lt;/code&gt; and why &lt;code&gt;var&lt;/code&gt; is not syntactic sugar.
-However, &lt;code&gt;var&lt;/code&gt; is also not a keyword.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If it was a keyword, we could have a program, like&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt; 1. public class VarNotKeyword {
- 2.     final int var = 13;
- 3.
- 4.     void myMethod() {
- 5.         int var = var().var;
- 6.     }
- 7.
- 8.     VarNotKeyword var() {
- 9.         return new VarNotKeyword();
-10.     }
-11.
-12. }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;which was a valid code before Java 10.
-It still is because &lt;code&gt;var&lt;/code&gt; is not a keyword, but it would be ruined if it was.
-Luckily, it is not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You cannot name a class to be &lt;code&gt;var&lt;/code&gt;.
-This means that even though &lt;code&gt;var&lt;/code&gt; is not a keyword, we may still have some incompatibility.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-stream-operations-are-mutating&quot;&gt;6. Stream operations are mutating&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is also a Java secret, but at least this knowledge is not useless.
-After all, who would like to read an article full of useless things?
-As a matter of fact, there was a question on a Java interview, so it may even be essential to know.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you chain the stream methods, they transform streams.
-There is no operation happening until the final terminal operation is chained up and starts to execute.
-The stream operations without the terminal operation only build up the operation chain.
-They transform one stream into a new stream.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Not only!&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Stream operations, like &lt;code&gt;map&lt;/code&gt;, also modify the stream they are attached to.
-The stream will remember that an operation was already attached to it and will throw an exception if you try to form a stream.
-The following code demonstrates this:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Stream&amp;lt;Object&amp;gt; stream = Stream.of(&quot;a&quot;, 2, 3, new Object[2]);
-2.         final var stringStream1 = stream.map(Object::toString);
-3.         try {
-4.             final var stream2 = stream.map(obj -&amp;gt; &quot; &quot; + obj);
-5.         } catch (IllegalStateException e) {
-6.             System.out.println(e);
-7.         }
-8.         final var string = stringStream1.collect(Collectors.joining(&quot;\n&quot;));&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The output of this is:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.IllegalStateException: stream has already been operated upon or closed&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-streams-do-not-always-run&quot;&gt;7. Streams do not always run&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You know that the intermediary operations on a stream do not run if there is no terminal operation.
-The terminal operation is the one that runs the streams invoking all the intermediary ones for the elements.
-However, not all terminal operations run the whole chain.
-It may lead to surprises in some cases.
-To see that, let&amp;#8217;s use &lt;code&gt;peek()&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;peek()&lt;/code&gt; is a stream intermediary method that does not modify the stream.
-The Javadoc of the method in the official JDK documentation says:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point in a pipeline.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The same Javadoc then gives a sample that uses &lt;code&gt;System.out.println&lt;/code&gt; to print values from a stream in different stages.
-We will do the same&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var w = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
-2.                 .peek(System.out::println).toArray();
-3.         System.out.println(w.length);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This sample goes through the elements of the stream.
-It prints the elements of the stream and then the number of the elements as we have collected them to an &lt;code&gt;Object[]&lt;/code&gt;:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1
-2
-3
-4
-5
-apple
-bird
-3.1415926
-8&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is nice and dandy.
-What if we do not collect the elements?
-In the example above, we are only interested in the number of elements; there is no reason to collect them into an array.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final long z = Stream.of(1, 2, 3, 4, 5, &quot;apple&quot;, &quot;bird&quot;, 3.1415926)
-2.                 .peek(System.out::println).count();
-3.         System.out.println(z);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We expect to get the same output as before.
-The reality, however, is that the output this time is:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;8&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Where did the elements go?
-Why &lt;code&gt;peek&lt;/code&gt; does not print the elements?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this case, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not execute the stream pipeline.
-Therefore, the &lt;code&gt;peek()&lt;/code&gt; action is not invoked.
-There is no magic or secret in it.
-The JavaDoc of &lt;code&gt;count()&lt;/code&gt; explains it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;An implementation may choose to not execute the stream pipeline &amp;#8230;&amp;#8203; if it is capable of computing the count directly from the stream source.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In some cases, like the one in the example above, the terminal operation &lt;code&gt;count()&lt;/code&gt; does not need to iterate through the stream to know the number of elements.
-So it does not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Even the documentation of &lt;code&gt;peek()&lt;/code&gt; has a link to this fact.
-Nobody reads documentation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-strictfp-is-a-modifier&quot;&gt;8. &lt;code&gt;strictfp&lt;/code&gt; is a modifier&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Once upon a time, there was a keyword called &lt;code&gt;strictfp&lt;/code&gt;.
-It was introduced in Java 1.2 and required the floating point calculations to be performed differently.
-Floating point calculations traditionally used the format IEEE 754 standard defined.
-The early x86 processors with the x87 floating point coprocessor worked differently.
-The coprocessor used a longer format, allowing more precision.
-The &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; values were 64bit, but the generated code stored the intermediate values on more bits during a calculation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Before Java 1.2, the compiler generated machine code modifying the result of every intermediate value to 64bit.
-This required extra machine code operations and slowed the calculation down.
-It was not only slower but more error-prone to overflow errors.
-A calculation result could be okay with the 64-bit precision while some intermediate values overflowed.
-Using more precision provided by the hardware could lead to the correct value.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; was introduced to let the compiler generate a more effective floating-point code.
-With 1.2 and later till Java 17, the compiler generates code using the extra precision unless the class or method is &lt;code&gt;strictfp&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;just kidding&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;strictfp&lt;/code&gt; means that the floating calculation will result in the exact wrong result on all platforms.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Times change.
-Pentium 4 in 2001 allows the compiler to avoid the extra code for strict floating point.
-Java could generate the strict floating point effectively.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java 17 came 20 years later, and Java changed again.
-Java 17 later uses strict arithmetic even when &lt;code&gt;strictfp&lt;/code&gt; is not specified.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can still use it, and reflectively query its existence on a class, interface, or non-abstract method, but the Java compiler does not use it anymore.
-Maybe, the Java compiler was the only one using &lt;code&gt;strictfp&lt;/code&gt; even in the past.
-At least, I have never met anyone who needed that and used it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-there-are-multiple-arraylist-implementations-in-the-jdk&quot;&gt;9. There are multiple &lt;code&gt;ArrayList&lt;/code&gt; implementations in the JDK&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you have programmed Java for a long time, you know that you can easily create a list of elements calling &lt;code&gt;Array.asList()&lt;/code&gt;.
-If you look at the implementation of this static method, you can see that it is simply:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;    @SafeVarargs
-    @SuppressWarnings(&quot;varargs&quot;)
-    public static &amp;lt;T&amp;gt; List&amp;lt;T&amp;gt; asList(T... a) {
-        return new ArrayList&amp;lt;&amp;gt;(a);
-    }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;in the class &lt;code&gt;java.util.Arrays&lt;/code&gt;.
-Although the method&amp;#8217;s return type is the interface &lt;code&gt;List&lt;/code&gt;, the documentation guarantees that the return type is &lt;code&gt;ArrayList&lt;/code&gt;.
-It says&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Returns a fixed-size list backed by the specified array.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;So it is an &lt;code&gt;ArrayList&lt;/code&gt;.
-Yes and no.
-Let&amp;#8217;s try the following program:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         try {
-2.             final ArrayList&amp;lt;Integer&amp;gt; x = (ArrayList) Arrays.asList(1, 2, 3, 4);
-3.         } catch (ClassCastException cce) {
-4.             System.out.println(cce);
-5.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The output will be&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;java.lang.ClassCastException: class java.util.Arrays$ArrayList cannot be cast to class java.util.ArrayList (java.util.Arrays$ArrayList and java.util.ArrayList are in module java.base of loader &apos;bootstrap&apos;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The returned list is an &lt;code&gt;ArrayList&lt;/code&gt;, but it is a &lt;code&gt;java.util.Arrays$ArrayList&lt;/code&gt; and not &lt;code&gt;java.util.ArrayList&lt;/code&gt;.
-These are two different classes and are not compatible.
-One cannot be converted to the other; only the simple name is the same.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-Two classes are the same if their &lt;em&gt;canonical name&lt;/em&gt; is the same and were loaded by one class loader.
-The simple name being the same is not enough.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Why did the implementors of &lt;code&gt;asList()&lt;/code&gt; create a new &lt;code&gt;ArrayList&lt;/code&gt; class?
-Probably they wanted to create optimized code.
-The list this method returns is backed up by an array just like the &lt;code&gt;java.util&lt;/code&gt; one.
-However, this array cannot be resized.
-It is the same array that you provided as an argument.
-It is not copied or cloned.
-It remains in its place and is used by the list implementation.
-You can see that in the following code sample:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final Integer[] w = {1, 2, 3};
-2.         final var wl = Arrays.asList(w);
-3.         Assertions.assertEquals(1, wl.get(0));
-4.         w[0] = 55;
-5.         wl.set(1, 66);
-6.         Assertions.assertEquals(55, wl.get(0));
-7.         Assertions.assertEquals(66, w[1]);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the code modifies the array, the list also gets modified.
-When the list is modified, the array also gets modified.
-That is because they are one and the same.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-something-something&quot;&gt;10. something != something&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Recently a friend (Istvan Kovács) posted a puzzle on &lt;a href=&quot;https://www.linkedin.com/feed/update/urn:li:activity:7022233914991640576/&quot;&gt;Linked-in&lt;/a&gt;.
-What should you write to the place of &lt;code&gt;???&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = ???;
-2.         if( variable == variable ){
-3.             Assertions.fail(&quot;variable is == to variable&quot;);
-4.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The question was: what should you write into the place of the &lt;code&gt;???&lt;/code&gt; characters?
-Unless you want to have a failing test, you need something which is not equal to itself.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It cannot be an object, because &lt;code&gt;==&lt;/code&gt; compares the reference &quot;address&quot;, therefore an object is always &lt;code&gt;==&lt;/code&gt; to itself.
-It can only be a primitive value.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The solution comes from the &lt;a href=&quot;https://ieeexplore.ieee.org/document/30711&quot;&gt;IEEE 754&lt;/a&gt; standard.
-It has the sentence:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The exceptions are C predicates “ x == x ” and “ x != x ”, which are respectively 1 and 0 for every
-infinite or finite number x but reverse if x is Not a Number ( NaN )&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Although it talks about the C language, Java has inherited a lot from it.
-Java implements the standard as we have already discussed related to the &lt;code&gt;strictfp&lt;/code&gt; keyword.
-That way the code sample is&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Float.NaN;
-2.         if( variable == variable ){
-3.             Assertions.fail(&quot;variable is == to variable&quot;);
-4.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;or&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;1.         final var variable = Double.NaN;
-2.         if( variable == variable ){
-3.             Assertions.fail(&quot;variable is == to variable&quot;);
-4.         }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-summary&quot;&gt;11. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We have visited ten Java features.
-These are not important.
-Writing about these was fun, and I hope reading them was also fun.
-I tried to be precise, and I could not resist including some information that may also be useful despite the article title.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you know any other more or less useless facts about Java, please write them down in the comments.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-23-ten-java Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-23-ten-java.adoc.jam</summary></entry></feed>
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction</summary></entry></feed>
