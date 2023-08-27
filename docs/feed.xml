@@ -1,4 +1,364 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-25T15:59:22+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Unit test future versions</title><link href="https://javax0.github.io/2023/08/25/unit-test-the-future.html" rel="alternate" type="text/html" title="Unit test future versions" /><published>2023-08-25T00:00:00+02:00</published><updated>2023-08-25T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/25/unit-test-the-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/25/unit-test-the-future.html">&lt;div class=&quot;sect1&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-27T19:51:56+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Virtual and Augmented Reality is Here</title><link href="https://javax0.github.io/2023/08/27/vr-future.html" rel="alternate" type="text/html" title="Virtual and Augmented Reality is Here" /><published>2023-08-27T00:00:00+02:00</published><updated>2023-08-27T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/27/vr-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/27/vr-future.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Virtual reality is a technology when you wear some device projecting a non-existing world into your senses.
+This way you partially or completely lose the connection to the real world, and you are immersed into the virtual world.
+Current technology does not allow complete loss of connection to the real world, and the senses are mostly limited to vision and hearing.
+Usually two LCD devices with special optics are mounted on your head and different sensors track your head movement.
+The computers display pictures on the LCDs that change as you move your head showing a static or dynamic virtual reality around you.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I will write a bit about the history of virtual reality and how I got my fingers wet.
+I will also write about what I experienced recently with the my newly bought Meta Quest Pro and how I see the future of virtual reality.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-history&quot;&gt;2. History&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first virtual reality device was the first loudspeaker headset limited to audio senses, but the term was not used for that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first virtual reality device that was called virtual reality was the Sensorama built by Morton Heilig in 1962.
+I personally had a set on my head in 1995 at an exhibition IFABO in Budapest.
+I was working for Digital Equipment Corporation at that time, and we had a stand there.
+My task was show the visitors the virtual reality headset that DEC create with cooperation with Kubota.
+If you google the term &lt;em&gt;&quot;Kubota Denali VR&quot;&lt;/em&gt; you may find interesting traces of history.
+I did not have much time to try it on and to play with it, but I was impressed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I was convinced that VR is the future, and it is going to be here as soon as 2000, so in five years.
+I remember this because I was young and &quot;brave&quot; enough to express this prediction publicly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-derail-prediction-and-braveness&quot;&gt;2.1. Derail: Prediction and Braveness&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you are an expert, you can predict the future with a certain precision.
+If you tell others how you see the future, and you are right, then you are a visionary.
+If you are wrong, then you are a fool.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you are young and at an early stage of your Dunnig-Kruger curve, you are brave enough to express your predictions.
+So I was brave enough to say that VR is going to be here in five years.
+I stated it in a forum not smaller than the main central state running radio stating Kossuth Radio in Hungary.
+Nobody remembered it after five years, so it was not a big shame, but in the year 2015, twenty years later the same guy invited me again to the radio to review my predictions.
+It was interesting.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had some good predictions, like telling that mobile phone ill be ubiquitous and be a personal computing device connected to the internet.
+But my VR prediction was off the rail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Why is it important to mention this other than it gives you credibility when you admit your past mistakes in an article?
+Because now I see what I did not see that time and why VR did not sweep the board.
+In this article, I will repeat my mistake I made almost thirty years go and will predict the future of VR again.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Why am I so &lt;em&gt;&quot;brave&quot;&lt;/em&gt; to do that?
+Because I am old enough to be brave again.
+Young people are brave enough to predict the future because they do not understand that their prediction may bite back.
+Old people know that when the prediction bites back, they will not be there to be bitten.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sidebarblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Never trust the prediction of a young or and old expert.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-current-experiences&quot;&gt;3. Current Experiences&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I bought my first VR headset in 2017.
+It was a Sony Playstation VR.
+It was a birthday present from myself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At that time, I saw the state of VR as mainly a play thing.
+Gaming and entertainment.
+I had some play with fruit ninja, and beat saber.
+I tried some other games, but I got dizzy very soon, and I realized why I was wrong in 1995.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The technology for the VR headset was not good enough.
+It lacked resolution, it was too expensive and it needed improvement in the tracking of the head movement and lag of screen refresh.
+Lag is very important.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizont horizontal again, then you get dizzy.
+The lag is the time between the movement of your head and the movement of the picture on the screen.
+The lag does not even need to be large enough to consciously recognizable, and it may still make you dizzy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the virtual word is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
+You see the car and the world around you running, but you are stationary.
+That what makes you really vomit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Parts of these problems can be solved, others not.
+In 1995 even in a static environment I got easily dizzy.
+Today it is much better, and (jumping a bit ahead) I can spend hours working in VR watching virtual screens in a virtual cafe.
+As a matter of fact, I write this article with a Meta Quest Pro on my head and I am sitting i n a virtual cafe in Immersed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I knew that this is not my last VR set, and I will have a next one suitable for work.
+I was following the news about the huge investments of Meta and Facebook into VR.
+However, I was waiting for Apple to come up with the next generation of VR.
+I use a lot of Apple products.
+They have great usability, and a hefty price tag.
+On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages, kid raised cannot afford the overpriced products, then who can?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized that I will not wait for Apple.
+I could, but I do not want to pay that amount of money for something 1.0 and experimental.
+I also could read between the lines of the marketing videos to know that this headset may be better than the competition, but it is still experimental.
+It is not Apple&amp;#8217;s fault.
+Although I expected a working version, I can see that this expectation was unrealistic.
+It is not Apple Vision Pro that is experimental, it is the whole VR field even after 30 years.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The reason, as I see now after experimenting with the Meta Quest Pro, is not technology.
+Technology developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking and optics.
+It is the software, which is immature, and it is in a special way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you think about immature software, you usually think of software that has bugs.
+Although the Meta Quest Pro certainly has bugs, it is not the main reason I say it is immature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Currently, there is no best practice on how we can and will use VR for work.
+To develop that knowledge will need a lot of work.
+It includes those early experimenters who are willing to invest their time an effort working with this immature technology.
+It also needs a lot of money from companies like Facebook to develop the software.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There will be a lot of software developed today thrown away in a few years.
+Not because they are buggy or low quality, but because they implement use case scenarios that are not usable.
+Nobody knows what is usable.
+Do we want to navigate in a three-dimensional space with boxes and spheres representing different files?
+Should we represent directories as boxes, and we zoom into them to see the files or the files will be lined up behind them?
+Should we imitate kinematics of real objects in a gravitational field like it is in our every-day earthly environment?
+Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, relationships between these objects?
+We will try, some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When I ordered my Meta Quest Pro, I was not sure what I will use it for.
+I did not expect ot to be ready for work.
+I was hoping, but I realized that it may not be.
+I imagined different use cases.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Work in a virtual environment with virtual screens, using Immersed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Play games.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Play some games, which are workout.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-meta-quest-pro-first-steps&quot;&gt;4. Meta Quest Pro First Steps&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had mixed feeling when I got the Meta Quest Pro.
+First of all, I had to wait a month till it arrived.
+While I was waiting, I watched a lot of Youtube videos about the device and the programs, so I was hiked.
+Clearly a mistake.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After I started soon once it got frozen and I had to restart it.
+But it did not happen ever again.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had to install an app on my iPad/iPhone to use the headset.
+It is okay, but the app I had to google, because the QR code on the printed users&apos; manual was leading to a 404 page.
+I descerve a seamless start for a 1000$.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It does not have a good tutorial.
+It has a tutorial, but this is like someone had to write one to tick it off from the todo list than one written for the user.
+I am spoiled by the usability and the guidance of Apple products.
+For example, there is a mirror in the virtual environment which is your desktop.
+I did not get any information from the tutorial, or from any documentation that it has a use.
+I gave seen there the reflection of my avatar, but nobody told me that I can customize my avatar if I click there with the virtual laser beam.
+Later, I also found the menu system to setup the avatar.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After five hours of use I still could not figure out the different use of the different buttons.
+After a few weeks I know why: because there is no convention.
+Different applications use thw different buttons differently.
+There are X,Y as well as A,B buttons, but there is no unified meaning or use for them.
+The only more or less fixed convention is that the shooting button for your index finger is shooting, and the trigger button for your thumb is grabbing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I had some early bad experiences with the power and speaker loudness buttons.
+A few times as I was moving the headset on and off I accidentally pressed these buttons.
+I had to learn and muscle memory to grab the headset a different was from what I first felt natural.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;THe hand tracking feature is amazing, but not usable.
+It is amazing because it works, but I had to switch it off when working in a virtual environment.
+When I type, the controllers are not in my hand.
+The headset recognizes this and all my typing movement it tries to interpret as hand gestures.
+Bizarre results.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The screen resolution for the virtual screens is usable, but they cannot compete with my two display 5k each setup.
+I can see the pixels, and I can see the difference between the virtual and the real screens.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The keyboard use is also a pain point.
+There are two ways to use the keyboard.
+One is a so-called portal.
+It is a shape, fixed in the virtual space that shows the real word behind the shape.
+It is like a window to the real world from the virtual world.
+You can open a portal for the keyboard, and see your keyboard blurry.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The problem probably comes from the fact that the cameras were designed for tracking and not for showing the real world.
+I can see my keyboard, but I have to adjust the light and the picture waves a bit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The other possibility is to use a so-called tracked keyboard.
+In this case the software identifies the keyboard ny its shape and draws a virtual keyboard where the real keyboard is.
+At the same time it also draws your hands in real time, so you see your hands and keys in a virtual environment.
+It works as a labor experiment.
+There are only a few keyboards supported: some Logitech model, Apple Magic keyboard and Macbook Pro amd Air keyboard.
+Lucky I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
+Virtual keyboards support only US layout.
+Not even Y and Z swapped for many European keyboards.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To use virtual displays you must have a very fast connection between the PC/MacBook and the headset.
+To have that I configured my MacBook to use my iPhone interned via a tethered connection.
+The Wi-Fi uses the 5GHz band and provides a dedicated hotspot for the headset.
+With this setup, the lag between the computer and the headset is 6m, that should be enough.
+Because I still could feel a little lag in the mouse movement I ordered a USB-C to USB-C Oculus cable.
+I feel ashamed to admit how much I paid for it, but it moved the latency tp 2ms.
+Mouse is still lagging.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I also had to switch ot dark mode with IntelliJ to get better visibility on the virtual screens.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Watching movies is amazing.
+And I did not mean the &lt;a href=&quot;https://www.youtube.com/watch?v=h8srG_iKh5Y&quot;&gt;special movies&lt;/a&gt;.
+Just a good old boring Netflix, Disney, Amazon, etc. movies.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-apps-i-used&quot;&gt;5. Apps I Used&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I tried a few applications and other than a few games, that I already used before I categorize each and every application as experimental.
+The most mature application is Immersed.
+There are a lot of problems with it, but I am using it every day for a few hours.
+It proves it is usable, but to be honest I am not absolutely sure if I use it because&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;I really like it in spite of the drawbacks, or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I have a buyers remorse and I have to convince myself that I did not waste my money.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What I have experienced though, that meeting people in a virtual environment is much more natural than I expected.
+When I do a video conference, I see the faces of the people I talk to.
+When I do a virtual meeting, I can only see the avatars.
+I expected it to be less natural, but somehow it felt more in presence.
+You are visually in the same space as the other people&amp;#8217;s avatar, you talk to them, your hands are tracked and showed as well as your facial expression.
+I also experienced that we needed less &quot;who talks when&quot; protocol than in a video conference.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I also tried a mind mapping application, called Noda.
+I do not use mind mapping a lot, but I wanted to see how it works.
+I was surprised.
+Using spatial representation of the mind map is much more natural than the flat one.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I also tried some 3D drawing and I am still behind my plans with CAD for 3D printing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-future-apps&quot;&gt;6. Future Apps&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And this is the chapter, where I am going to make a fool of myself.
+Let&amp;#8217;s hope that I live long enough to see it.
+I will not give exact year numbers when will something come.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There will be a lot of technical development in the next few years, but that is something out of my experience.
+Regarding the software, applications and development, I expect a lot of steps forward.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Right now we have different applications that present virtual worlds and something in it.
+Immersed does two things: 1. provides a space where people and their avatars are visible and can interact, and 2. provides virtual screens.
+Noda, the mind mapping application also provides 1. a virtual space and 2. a virtual mind map.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is somehow analogous with the MS-DOS times, when you could run only one application on the screen at a time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I expect that the virtual space to become the desktop.
+It has to be provided by the operating system, and the different applications will be able to use it placing and moving different virtual objects in it.
+I have not read articles that envision this model, nut I am sure this is the way VR architects at the big companies envision the future.
+What do we miss there?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We miss the copy/paste and the drag and drop functionality.
+I do not mean literally.
+I do not think that we should have a virtual clipboard, and we should drag and drop virtual objects.
+But we need a way where we can use different applications in the same virtual space and to make them interact.
+What we miss is the act, which is the most natural way of interaction between applications like drag and drop and copy/paste on the desktop.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With that, I am sure that we soon will forget the desktop and the windows and virtual windows.
+Tethering a MacBook to a headset is like tethering a horse to a railway car.
+It was needed for a short time to provide the continuity of the culture development, but we will forget it.
+We will have a VR version of programming IDEs, we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation and so on.
+These will run on the headset, and we will not need to embed the 2D desktop into our 3D virtual world.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-conclusion&quot;&gt;7. Conclusion&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article is not about software development, but sine most of my articles are about that, I expect that most of my readers are.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What should you do as a developer?
+What is the message?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First of all, you must not ignore VR technology anymore.
+The headsets become better and cheaper and the software will develop.
+Immerse, for one, can be a good excuse to buy a headset, if you need an excuse.
+You should get acquainted with the technology, what is available, what can be developed.
+Expect new operating system features supporting VR and new APIs and tools.
+There will be a lot of opportunities in the coming years around this technology.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Unit test future versions</title><link href="https://javax0.github.io/2023/08/25/unit-test-the-future.html" rel="alternate" type="text/html" title="Unit test future versions" /><published>2023-08-25T00:00:00+02:00</published><updated>2023-08-25T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/25/unit-test-the-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/25/unit-test-the-future.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -3198,368 +3558,4 @@ The people who contributed to the text with comments before the publishing date 
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">Open Source Blog</title><link href="https://javax0.github.io/2023/01/31/opensource-blog.html" rel="alternate" type="text/html" title="Open Source Blog" /><published>2023-01-31T00:00:00+01:00</published><updated>2023-01-31T00:00:00+01:00</updated><id>https://javax0.github.io/2023/01/31/opensource-blog</id><content type="html" xml:base="https://javax0.github.io/2023/01/31/opensource-blog.html">&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Article Management Technical Details&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Code &lt;a href=&quot;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog&quot;&gt;https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Article source &lt;a href=&quot;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam&quot;&gt;https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is about the philosophy behind creating an open-source blog.
-The article will discuss&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;what an open-source blog means&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-what-is-an-open-source-blog&quot;&gt;2. What is an Open-Source Blog?&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We know what open-source software (OSS) is.
-It is many things.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;OSS is free to redistribute.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Source code is included.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The license allows modification.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Supports the integrity of the author&amp;#8217;s code.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;No discrimination against persons or groups.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;No discrimination against fields of endeavor.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Distribution of license.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not be specific to a product.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not restrict other software.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must be technology-neutral.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;(source &lt;a href=&quot;https://en.wikipedia.org/wiki/The_Open_Source_Definition&quot;&gt;Wikipedia, Open Source Definition&lt;/a&gt;])&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The initiative of OSS was extended to documentation, for example, the GNU Free Documentation License.
-The most well-known licensing scheme is the &lt;a href=&quot;https://en.wikipedia.org/wiki/Creative_Commons_license&quot;&gt;Creative Commons License&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;These mainly focus on the rights and the way the product is used.
-It is imperative, and there is a good reason that most approaches look at this side of OSS and documentation.
-This side regulates the use and how OSS creates value in the economy.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For me, as a developer, the other side is more important.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Let me use the well-known parable &lt;a href=&quot;https://en.wikipedia.org/wiki/Blind_men_and_an_elephant&quot;&gt;about the blind men and the elephant&lt;/a&gt;.
-Everybody touches a different part of the elephant and has a different opinion about what an elephant is.
-The industry is mainly interested in the fertilizing output that comes out of the OSS ecosystem.
-I stay more at the other end of the elephant, at the trunk and the mouth that feeds the animal.
-I drew a picture of an elephant showing the developer side:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png&quot; alt=&quot;elephant&quot; width=&quot;500px&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When we create open-source software, we usually do it for fun.
-It is why I was drawing the elephant.
-It is fun.
-In a commercial project, you never do that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Also, open source, for me, is cooperation.
-We do it together.
-There is a  team of developers, and we develop the software together.
-Other people use the software, and few start to complain.&lt;/p&gt;
-&lt;/div&gt;
-&lt;details&gt;
-&lt;summary class=&quot;title&quot;&gt;Four Levels of OSS Developer Success (click to open)&lt;/summary&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;olist arabic&quot;&gt;
-&lt;ol class=&quot;arabic&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;You create a project, and no one notices.
-It is always how it starts, but even this is fun.
-Creating software is fun.
-If it is not fun, then don&amp;#8217;t do it.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Some people have started to use your software.
-You do not know about it because they do not give you feedback.
-You google your project name and may see it mentioned, appearing at places.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;People start asking stupid and annoying questions.
-It is the real success.
-People believe your software is so good that they invest effort in asking when they cannot get along.
-Your users are introverted developers.
-From their side, asking is a considerable effort.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;There are hate posts about your software.
-It is the ultimate success.
-Some people write about why no one should not use your software.
-I could never reach this level with any of my projects.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is when you start your OSS project.
-When you join an already-running OSS project, it is different.
-In that case, you jump on an already running train&amp;#8230;&amp;#8203; sorry: elephant.
-Your name gets to the list of developers, and you can be proud that your tiny but essential change was added to the project.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/details&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What about blogs?
-What will make this blog to be open source?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;It is open for collaboration.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Source code is included.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Blog content is free to redistribute.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The license allows modification.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Supports the integrity of the author&amp;#8217;s code.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;No discrimination against persons or groups.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;No discrimination against fields of endeavor.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Distribution of license.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not be specific to a product.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not restrict other software.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must be technology-neutral.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In the following sections, I will look at these aspects.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is no separate section in this article for&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;The license allows modification&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Distribution of license&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not be specific to a product&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must not restrict other software&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;License must be technology-neutral&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are provided by the CC-BY license governing the content of the blog.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-it-is-open-for-collaboration&quot;&gt;3. It is open for collaboration&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is the most critical aspect of open-source blogging.
-You can use the content of this blog according to the CC-BY license terms.
-It allows practically any use, even commercial, so long you attribute the source.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;But that is the rear end of the elephant.
-We are interested in feeding the elephant.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This blog is maintained in a &lt;a href=&quot;https://www.writethedocs.org/guide/docs-as-code/&quot;&gt;Doc as Code&lt;/a&gt; style.
-The blog is edited using markup.
-The selected markup is Asciidoc, and I also use the Jamal preprocessor.
-The article source files are &lt;code&gt;.adoc.jam&lt;/code&gt; files.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The source is maintained on GitHub in a public repository.
-It means that you can look at any article.
-Not only those which are already published but also the articles which are under construction.
-You can also have a look at the history of article editing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Articles are created and edited for days, sometimes for weeks.
-It is similar to program features.
-Not to interfere with the already released article set, these article sources are maintained in separate branches.
-GitHub allows you to list all these branches and look at what is cooking.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In addition, you can fork the repository, create new articles, and suggest modifications to any article creating a pull request.
-True to the open-source philosophy, I will consider every pull request.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-source-code-is-included&quot;&gt;4. Source code is included&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is almost evident in the case of documentation or blogs.
-The source is the text itself.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Usually, it is, but that is a mistake.
-It is like programming in machine code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you code in machine code, the binary is the source code.
-We don&amp;#8217;t do that.
-The reason: it isn&amp;#8217;t easy and involves a lot of mechanical work that computers can do.
-We program in high-level languages.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When we document, we still create the documentation in &quot;machine code&quot; to some extent.
-Maybe, the level we are in is not machine code.
-After all, you do not edit a PDF binary.
-What we usually do is assembly level.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The better approach is to use tools to write the documentation at a high level.
-Do NOT copy and paste the information from the documented system.
-Write code that will do the copy-pasting, reformatting, extracting, and transformation needed for the documentation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Jamal does it for this blog, and Jamal source of the blog articles are available in a public Git repository:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/javax0/javax0.github.io&quot;&gt;https://github.com/javax0/javax0.github.io&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In addition to the source of the articles, the source for the build environment is also in the repository.
-You can use them to start your blog if you like.
-Their license is Apache 2.0, as denoted by the &lt;code&gt;LICENSE&lt;/code&gt; file in the repo root.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-blog-content-is-free-to-redistribute&quot;&gt;5. Blog content is free to redistribute&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There is no technical blocker since the code is available as open source.
-The license is reasonably permissive, CC-BY.
-I even encourage redistribution.
-As you can see on the opening page, I have an agreement for many years with DZone and JCG.
-I also discussed with Baeldung, but their policy does not fit redistribution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can find articles from the blog on Chinese, Russian, and Hindi sites.
-You can also feel free to copy, modify, and translate as long you follow attribution CC-BY.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-supports-the-integrity-of-the-authors-code&quot;&gt;6. Supports the integrity of the author&amp;#8217;s code&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the article is modified, you have to note it in the attribution so that the readers will know that it is a derivative.
-They can easily see the difference between the original and the derived work using backlinking.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-no-discrimination-against-persons-or-groups&quot;&gt;7. No discrimination against persons or groups&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I am not racist.
-There is no need to say more about it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-no-discrimination-against-fields-of-endeavor&quot;&gt;8. No discrimination against fields of endeavor&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is the part that makes me a bit uncomfortable, but what can I do?
-If you use the content of my articles to destroy the universe, I must be OK with it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-summary&quot;&gt;9. Summary&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Use the blog!
-Do not only READ it!
-Be part of this blog!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Reading is fine.
-First step.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Commenting is welcome.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Suggesting modifications and writing articles to be published here is the ultimate goal of being an open-source blog.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction</summary></entry></feed>
+&lt;/div&gt;</content><author><name></name></author></entry></feed>
