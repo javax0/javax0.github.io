@@ -1,16 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-28T19:13:34+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Virtual and Augmented Reality is Here</title><link href="https://javax0.github.io/2023/08/27/vr-future.html" rel="alternate" type="text/html" title="Virtual and Augmented Reality is Here" /><published>2023-08-27T00:00:00+02:00</published><updated>2023-08-27T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/27/vr-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/27/vr-future.html">&lt;div class=&quot;sect1&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2023-08-28T19:24:44+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Programming with AI</title><link href="https://javax0.github.io/2023/08/28/ai-programming.html" rel="alternate" type="text/html" title="Programming with AI" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/28/ai-programming</id><content type="html" xml:base="https://javax0.github.io/2023/08/28/ai-programming.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Virtual reality is a technology when you wear some device projecting a non-existing world into your senses.
-This way you partially or completely lose the connection to the real world, and you are immersed into the virtual world.
-Current technology does not allow complete loss of connection to the real world, and the senses are mostly limited to vision and hearing.
-Usually two LCD devices with special optics are mounted on your head and different sensors track your head movement.
-The computers display pictures on the LCDs that change as you move your head showing a static or dynamic virtual reality around you.&lt;/p&gt;
+&lt;p&gt;I recently discussed how we use Co-Pilot and ChatGPT for programming with some of my senior colleagues.
+We discussed our experiences, how and when it helps, and what to expect from it in the future.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, I will write a bit about the history of virtual reality and how I got my fingers wet.
-I will also write about what I experienced recently with the my newly bought Meta Quest Pro and how I see the future of virtual reality.&lt;/p&gt;
+&lt;p&gt;In this article, I will shortly write about what I imagine the future of programming with AI will be.
+This is not about what AI will do in programming in the future.
+I have no idea about that, and based on my mood, I either look forward amazed or in fear.
+This article is more about how we, programmers, will do our work in the future.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-the-past&quot;&gt;2. The past&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To predict the future, we have to understand the past.
+If you know only the current state, you cannot reliably extrapolate.
+Extrapolation needs at least two points and knowledge about the speed of change in the future (maximum and minimum of the derivative function).
+So, here we go, looking a bit at the past, focusing on the aspects that I feel are mainly important to predict how we will work in the future with AI in programming.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-machine-code&quot;&gt;2.1. Machine Code&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When computers were first introduced, we programmed them in machine code.
+This sentence should read, &quot;your father/mother programmed them in machine code&quot;, for most of you.
+I had the luck to program a Polish clone of the PDP-11 in machine code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To create a program, we used assembly language.
+We wrote that on a piece of checkerboard paper(and then we typed it in).
+No.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+As I write this article, Co-Pilot is switched on, suggesting the sentences&apos; ends.
+In 10% of the cases, I accept the suggestion.
+Co-Pilot suggested the part between ( and ) in the last sentence.
+It&amp;#8217;s funny that even Co-Pilot cannot imagine a system where we did not have an assembler.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We wrote the assembly on the left side of the paper and the machine code on the right.
+We used printed code tables to look up the machine codes, and we had to calculate the addresses.
+After that, we entered the code.
+This was also a cumbersome process.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There were switches on the front panel of the computer.
+There were 11 switches for the address (as far as I remember) and eight switches for the data.
+A switch flipped up meant a bit with a value of 1, and a switch flipped down meant a bit with a value of 0.
+We set the address and the desired value, and then we had to push a button to write the value into the memory.
+The memory consisted of ferrite rings that kept their value even after the power was switched off.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-2-assembly&quot;&gt;2.2. Assembly&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It was a relief when we got the assembler.
+It was already on a different machine and a different processor.
+We looked at the machine code that the assembler generated a few times, but not many times.
+The mapping between the assembly and the machine code was strictly one-to-one mapping.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next step was higher-level languages, like C.
+I wrote a lot of C code as a hobby before I started my second professional career as a programmer at 40.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-3-close-to-the-metal&quot;&gt;2.3. Close to the Metal&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The mapping from C to machine code is not one-to-one.
+There is room for optimization, and different compiler versions may create different code.
+Still, the functionality of the generated code is very much guaranteed.
+You do not need to look at the machine code to understand what the program does.
+I can recall that I only did it a few times.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;One of those times, we found a bug in the Sun C compiler (1987, while I was on a summer program at TU Delft).
+It was my mistake the other time, and I had to modify my C code.
+The compiler knew better than I did what the C construct I wrote meant.
+I do not have a recollection of the specifics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We do not need to look at the generated code; we write on a high level and debug on a high level.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-4-high-level&quot;&gt;2.4. High Level&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As we advance in time, we have Java.
+Java uses a two-level compilation.
+It compiles the Java code to byte code, which the Java Virtual Machine, JIT technology interprets.
+I looked at the generated byte code only once to learn the intricacies of the ternary operator type casting rules, and never the machine code generated.
+The first case could be avoided by reading the language spec, but who reads manuals?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The same is true here: we step to higher levels of abstraction and do not need to look at the generated code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-5-dsl-and-generated-code&quot;&gt;2.5. DSL and Generated Code&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Even as we advance towards higher levels, we can have Domain Specific Languages (DSLs).
+DSLs are&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;interpreted,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;generate high-level code, or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;generate byte code and machine code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The third case is rare because generating low-level code is expensive, requires much work, and is not worth the effort.
+Generating high-level code is more common.
+As an example, we can take Java::Geci fluent API generator.
+It reads a regular expression like the definition of the fluent API, creates a finite state machine from it, and generates the Java code containing all the interfaces and classes that implement the fluent API.
+The Java compiler then compiles the generated code, and the JVM interprets the resulting byte code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Should we look at the generated code?
+Usually not.
+I actually did a lot because I wrote the generator, and so I had to debug it, but that is an exception.
+The generated code should perform as the definition says.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-the-present-and-the-future&quot;&gt;3. The Present and the Future&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next step is AI languages.
+This is where we are now, and it starts now.
+We use AI to write code based on some natural language description.
+The code is generated, and we have to look at it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is different from any earlier steps in the evolution of programming languages.
+The reason is that the language AI interprets is not definite the same way as Java, C, or any DSL.
+It can be ambiguous.
+It is a human language, usually English.
+Or something resembling English when non-native speakers like me write it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-1-syntax-free&quot;&gt;3.1. Syntax-free&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is the advantage of AI programming.
+I do not need to remember the actual syntax.
+I can program in a language I rarely use and forget the exact syntax.
+I vaguely remember it, but it is not in my muscle memory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-library-free&quot;&gt;3.2. Library-free&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It can also help me with my usual programming tasks.
+Something that was written by other people many times before.
+It has it in its memory, and it can help me.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The conventional programming languages have it, but with a limited scope.
+There are language constructs for the usual data structures and algorithms.
+There are libraries for the usual tasks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The problem is that you have to remember the one to use it.
+Sometimes, writing a few lines is easier than finding the library and the function that does it.
+It is the same philosophy as the Unix command line versus VMS.
+(You may not know VMS. It was the OS of the VAX VMS and Alpha machines from DEC.)
+If you needed to do something in VMS, there was a command for it.
+In Unix, you had simpler commands, but you could combine them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With AI programming, you can write down what you want using natural language, and the AI will find the code fragments in its memory that fit the best and adapt it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-3-ai-language&quot;&gt;3.3. AI Language&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today, AI is generating and helping to write the code.
+In the future, we will tell the AI what to do, and it will execute it for us.
+We may not need to care about the data structure it stores the data or algorithms it applies to manage those.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today, we think of databases when we talk about structured data.
+That is because databases are the tools to support the limited functionality a computer can manage.
+Before the computers, we just told the accountant to calculate the last year, whatever profit, balance sheet, whatnot, and they did.
+The data was on paper, and the managers did not care how they were organized.
+It was expensive because accountants are expensive.
+The intelligence they applied, extracting data from the different paper-based documents, was their strong point; calculation was just a mechanical task.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Computers came, and they were strong doing the calculations.
+They were weak in extracting data from the documents.
+The solution was to organize the data into databases.
+It needed more processing on the input, but it was still cheaper than having accountants do the calculations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With AI, computers can do calculations and extract data from documents.
+If it can be done cheaply, there is no reason any more to keep the data in a structured way.
+It can get structured when we need them for a calculation on the fly.
+The advantage is that we can do any calculation, and we may not face the issue that the data structure is unsuitable for the calculation we need.
+We just tell the AI program using natural language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Is there a new patient coming to the practice?
+Just tell the program all the data, and it will remember like an assistant with unlimited memory who never forgets.
+Do you want to know when a patient last visited?
+Just ask the program.
+You do not need to care how the artificial simulated neurons store the information.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It certainly will use more computing power and energy than a well-tuned database, but on the other hand, it will have higher flexibility, and the development cost will be significantly lower.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is when we will talk to the computers, which will help us universally.
+I am not shy about predicting this future because it will come when I will not be around anymore.
+But what should we expect in the near future?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-4-the-near-future&quot;&gt;3.4. The near future&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Now, AI tools are interactive.
+We write some comments or code, and the AI generates the code for us, which is the story&amp;#8217;s end.
+From that point on, our &quot;source code&quot; is the generated code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can feel from the previous sentence the contradiction.
+It is like if we would write the code in Java once, then compile it into byte code, and then use the byte code to maintain it.
+We do not do that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Source code is what we write.
+Generated code is never source code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I expect meta-programming tools for various existing languages to extend them.
+You insert some meta-code (presumably into comments) into your application, and the tool will generate the code for you.
+However, the generated code is generated and not the source.
+You do not touch it.
+If you need to maintain the application, modify the comment, and the tool will generate the code again.
+It will be similar to what Java::Geci is doing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You insert some comments into your code, and the code generator inserts the generated code into the editor-fold block following the comment.
+Java::Geci currently does not have an AI-based code generator, or at least I do not know about any.
+It is an open-source framework for code generators; anyone could write a code generator utilizing AI tools.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Later languages will include the possibility from the start.
+These languages will be some kind of hybrid solution.
+There will be some code described by human language, probably describing business logic, and some technical parts more like a conventional programming language.
+It is similar to how we apply DSL today, with the difference that the DSL will be AI-processed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As time goes forward, the AI part will grow, and the conventional programming part will shrink to the point when it will disappear from the application code.
+However, it will remain in the frameworks and AI tools, just like today&amp;#8217;s machine code and assembly.
+Nobody codes in assembly anymore, but wait?
+There are still people who do.
+Those who write the code generators.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And those who will still maintain 200 years from now in the future the IBM mainframe assembly and COBOL programs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-conclusion-and-takeaway&quot;&gt;4. Conclusion and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I usually write a conclusion and a takeaway at the end of the article.
+So I do it now.
+That is all, folks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Virtual and Augmented Reality is Here</title><link href="https://javax0.github.io/2023/08/27/vr-future.html" rel="alternate" type="text/html" title="Virtual and Augmented Reality is Here" /><published>2023-08-27T00:00:00+02:00</published><updated>2023-08-27T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/27/vr-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/27/vr-future.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Virtual reality is a technology when you wear some device projecting a non-existent world into your senses.
+This way, you partially or completely lose the connection to the real world and are immersed in the virtual world.
+Current technology does not allow a complete loss of connection to the real world, and the senses are mainly limited to vision and hearing.
+Usually, two LCD devices with special optics are mounted on your head, and different sensors track your head movement.
+The computers display pictures on the LCDs that change as you move your head, showing a static or dynamic virtual reality around you.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I will write about the history of virtual reality and how I got my fingers wet.
+I will also write about what I experienced recently with my newly bought Meta Quest Pro and how I see the future of virtual reality.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -21,50 +316,50 @@ I will also write about what I experienced recently with the my newly bought Met
 &lt;p&gt;The first virtual reality device was the first loudspeaker headset limited to audio senses, but the term was not used for that.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The first virtual reality device that was called virtual reality was the Sensorama built by Morton Heilig in 1962.
-I personally had a set on my head in 1995 at an exhibition IFABO in Budapest.
-I was working for Digital Equipment Corporation at that time, and we had a stand there.
-My task was show the visitors the virtual reality headset that DEC create with cooperation with Kubota.
-If you google the term &lt;em&gt;&quot;Kubota Denali VR&quot;&lt;/em&gt; you may find interesting traces of history.
-I did not have much time to try it on and to play with it, but I was impressed.&lt;/p&gt;
+&lt;p&gt;The first virtual reality device, called virtual reality, was the Sensorama, built by Morton Heilig in 1962.
+I had a set on my head in 1995 at an exhibition IFABO in Budapest.
+I worked for Digital Equipment Corporation then, and we had a stand there.
+My task was to show the visitors the virtual reality headset that DEC created in cooperation with Kubota.
+If you Google the term &lt;em&gt;&quot;Kubota Denali VR&quot;&lt;/em&gt; you may find interesting traces of history.
+I had little time to try and play with it, but I was impressed.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I was convinced that VR is the future, and it is going to be here as soon as 2000, so in five years.
+&lt;p&gt;I was convinced that VR is the future and will be here as soon as 2000 in five years.
 I remember this because I was young and &quot;brave&quot; enough to express this prediction publicly.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;2-1-derail-prediction-and-braveness&quot;&gt;2.1. Derail: Prediction and Braveness&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;When you are an expert, you can predict the future with a certain precision.
-If you tell others how you see the future, and you are right, then you are a visionary.
+You are a visionary if you tell others how you see the future and are correct.
 If you are wrong, then you are a fool.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;When you are young and at an early stage of your Dunnig-Kruger curve, you are brave enough to express your predictions.
-So I was brave enough to say that VR is going to be here in five years.
-I stated it in a forum not smaller than the main central state running radio stating Kossuth Radio in Hungary.
-Nobody remembered it after five years, so it was not a big shame, but in the year 2015, twenty years later the same guy invited me again to the radio to review my predictions.
+So, I was brave enough to say that VR will be here in five years.
+I stated it in a forum not smaller than the main central state-running radio stating Kossuth Radio in Hungary.
+Nobody remembered it after five years, so it was not a big shame, but in 2015, twenty years later, the same guy invited me again to the radio to review my predictions.
 It was interesting.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had some good predictions, like telling that mobile phone ill be ubiquitous and be a personal computing device connected to the internet.
-But my VR prediction was off the rail.&lt;/p&gt;
+&lt;p&gt;I had some good predictions, like saying that mobile phones will be ubiquitous and be a personal computing device connected to the internet.
+But my VR prediction was off the rails.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Why is it important to mention this other than it gives you credibility when you admit your past mistakes in an article?
-Because now I see what I did not see that time and why VR did not sweep the board.
-In this article, I will repeat my mistake I made almost thirty years go and will predict the future of VR again.&lt;/p&gt;
+Now I see what I did not see then and why VR did not sweep the board.
+In this article, I will repeat the mistake I made almost thirty years ago and predict VR&amp;#8217;s future again.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Why am I so &lt;em&gt;&quot;brave&quot;&lt;/em&gt; to do that?
 Because I am old enough to be brave again.
-Young people are brave enough to predict the future because they do not understand that their prediction may bite back.
+Young people are brave enough to predict the future because they do not understand that their predictions may bite back.
 Old people know that when the prediction bites back, they will not be there to be bitten.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sidebarblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Never trust the prediction of a young or and old expert.&lt;/p&gt;
+&lt;p&gt;Never trust the prediction of a young or an old expert.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -77,79 +372,79 @@ Old people know that when the prediction bites back, they will not be there to b
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I bought my first VR headset in 2017.
 It was a Sony Playstation VR.
-It was a birthday present from myself.&lt;/p&gt;
+It was a birthday present from me.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At that time, I saw the state of VR as mainly a play thing.
+&lt;p&gt;At that time, I saw the state of VR as mainly a plaything.
 Gaming and entertainment.
-I had some play with fruit ninja, and beat saber.
-I tried some other games, but I got dizzy very soon, and I realized why I was wrong in 1995.&lt;/p&gt;
+I had some play with Fruit Ninja and Beat Saber.
+I tried some other games but got dizzy very soon, and I realized why I was wrong in 1995.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The technology for the VR headset was not good enough.
-It lacked resolution, it was too expensive and it needed improvement in the tracking of the head movement and lag of screen refresh.
+It lacked resolution, was too expensive, and needed improvement in tracking the head movement and lag of screen refresh.
 Lag is very important.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizont horizontal again, then you get dizzy.
-The lag is the time between the movement of your head and the movement of the picture on the screen.
-The lag does not even need to be large enough to consciously recognizable, and it may still make you dizzy.&lt;/p&gt;
+&lt;p&gt;When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizon horizontal again, you get dizzy.
+The lag is the time between your head&amp;#8217;s movement and the picture on the screen.
+The lag does not need to be large enough to be consciously recognizable, and it may still make you dizzy.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the virtual word is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
+&lt;p&gt;When the virtual world is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
 You see the car and the world around you running, but you are stationary.
-That what makes you really vomit.&lt;/p&gt;
+That is what makes you really vomit.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Parts of these problems can be solved, others not.
-In 1995 even in a static environment I got easily dizzy.
-Today it is much better, and (jumping a bit ahead) I can spend hours working in VR watching virtual screens in a virtual cafe.
-As a matter of fact, I write this article with a Meta Quest Pro on my head and I am sitting i n a virtual cafe in Immersed.&lt;/p&gt;
+In 1995, even in a static environment, I got easily dizzy.
+Today, it is much better, and (jumping a bit ahead) I can spend hours working in VR, watching virtual screens in a virtual café.
+As a matter of fact, I write this article with a Meta Quest Pro on my head, and I am sitting in a virtual café in Immersed.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I knew that this is not my last VR set, and I will have a next one suitable for work.
-I was following the news about the huge investments of Meta and Facebook into VR.
+&lt;p&gt;I knew this was not my last VR set, and I will have a next one suitable for work.
+I was following the news about the vast investments of Meta and Facebook into VR.
 However, I was waiting for Apple to come up with the next generation of VR.
 I use a lot of Apple products.
-They have great usability, and a hefty price tag.
-On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages, kid raised cannot afford the overpriced products, then who can?&lt;/p&gt;
+They have superb usability and a hefty price tag.
+On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages raised cannot afford the overpriced products, then who can?&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized that I will not wait for Apple.
-I could, but I do not want to pay that amount of money for something 1.0 and experimental.
-I also could read between the lines of the marketing videos to know that this headset may be better than the competition, but it is still experimental.
+&lt;p&gt;When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized I would not wait for Apple.
+I could, but I do not want to pay that amount for something 1.0 and experimental.
+I could also read between the marketing videos&apos; lines to know that this headset may be better than the competition, but it is still experimental.
 It is not Apple&amp;#8217;s fault.
 Although I expected a working version, I can see that this expectation was unrealistic.
-It is not Apple Vision Pro that is experimental, it is the whole VR field even after 30 years.&lt;/p&gt;
+It is not Apple Vision Pro that is experimental; it is the whole VR field, even after 30 years.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The reason, as I see now after experimenting with the Meta Quest Pro, is not technology.
-Technology developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking and optics.
-It is the software, which is immature, and it is in a special way.&lt;/p&gt;
+Technology has developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking, and optics.
+It is the software that is immature, and it is in a unique way.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;When you think about immature software, you usually think of software that has bugs.
-Although the Meta Quest Pro certainly has bugs, it is not the main reason I say it is immature.&lt;/p&gt;
+Although the Meta Quest Pro certainly has bugs, that is not why I say it is immature.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Currently, there is no best practice on how we can and will use VR for work.
-To develop that knowledge will need a lot of work.
-It includes those early experimenters who are willing to invest their time an effort working with this immature technology.
+To develop that knowledge will need much work.
+It includes those early experimenters willing to invest their time and effort in working with this immature technology.
 It also needs a lot of money from companies like Facebook to develop the software.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There will be a lot of software developed today thrown away in a few years.
-Not because they are buggy or low quality, but because they implement use case scenarios that are not usable.
+&lt;p&gt;Many software developed today will be thrown away in a few years.
+Not because they are buggy or low quality but because they implement unusable use-case scenarios.
 Nobody knows what is usable.
 Do we want to navigate in a three-dimensional space with boxes and spheres representing different files?
-Should we represent directories as boxes, and we zoom into them to see the files or the files will be lined up behind them?
-Should we imitate kinematics of real objects in a gravitational field like it is in our every-day earthly environment?
-Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, relationships between these objects?
-We will try, some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.&lt;/p&gt;
+Should we represent directories as boxes and zoom into them to see the files, or will they be lined up behind them?
+Should we imitate the kinematics of natural objects in a gravitational field like in our everyday earthly environment?
+Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, and relationships between these objects?
+We will try; some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When I ordered my Meta Quest Pro, I was not sure what I will use it for.
-I did not expect ot to be ready for work.
+&lt;p&gt;When I ordered my Meta Quest Pro, I was unsure what I would use it for.
+I did not expect it to be ready for work.
 I was hoping, but I realized that it may not be.
 I imagined different use cases.&lt;/p&gt;
 &lt;/div&gt;
@@ -162,7 +457,7 @@ I imagined different use cases.&lt;/p&gt;
 &lt;p&gt;Play games.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Play some games, which are workout.&lt;/p&gt;
+&lt;p&gt;Play some games, which are a workout.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -172,88 +467,88 @@ I imagined different use cases.&lt;/p&gt;
 &lt;h2 id=&quot;4-meta-quest-pro-first-steps&quot;&gt;4. Meta Quest Pro First Steps&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had mixed feeling when I got the Meta Quest Pro.
+&lt;p&gt;I had mixed feelings when I got the Meta Quest Pro.
 First of all, I had to wait a month till it arrived.
-While I was waiting, I watched a lot of Youtube videos about the device and the programs, so I was hiked.
-Clearly a mistake.&lt;/p&gt;
+While waiting, I watched many YouTube videos about the device and the programs, so I was hiked.
+Clearly, it was a mistake.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After I started soon once it got frozen and I had to restart it.
+&lt;p&gt;After I started, it froze, and I had to restart it.
 But it did not happen ever again.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I had to install an app on my iPad/iPhone to use the headset.
-It is okay, but the app I had to google, because the QR code on the printed users&apos; manual was leading to a 404 page.
-I descerve a seamless start for a 1000$.&lt;/p&gt;
+It is okay, but I had to Google it because the QR code on the printed users&apos; manual led to a 404 page.
+I deserve a seamless start for a 1000$.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;It does not have a good tutorial.
-It has a tutorial, but this is like someone had to write one to tick it off from the todo list than one written for the user.
-I am spoiled by the usability and the guidance of Apple products.
-For example, there is a mirror in the virtual environment which is your desktop.
-I did not get any information from the tutorial, or from any documentation that it has a use.
-I gave seen there the reflection of my avatar, but nobody told me that I can customize my avatar if I click there with the virtual laser beam.
-Later, I also found the menu system to setup the avatar.&lt;/p&gt;
+It has a tutorial, but it is like someone had to write one to tick it off from the to-do list rather than one written for the user.
+The usability and the guidance of Apple products spoiled me.
+For example, there is a mirror in the virtual environment, which shows your avatar.
+I did not get any information from the tutorial or documentation that it has a use.
+I saw my avatar&amp;#8217;s reflection, but nobody told me that I could customize my avatar if I clicked there with the virtual laser beam.
+Later, I also found the menu system to set up the avatar.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After five hours of use I still could not figure out the different use of the different buttons.
-After a few weeks I know why: because there is no convention.
-Different applications use thw different buttons differently.
-There are X,Y as well as A,B buttons, but there is no unified meaning or use for them.
+&lt;p&gt;After five hours of use, I still could not figure out the different uses of the buttons.
+After a few weeks, I know why: there is no convention.
+Different applications use the different buttons differently.
+There are X  and Y and A  and B buttons, but they have no unified meaning or use.
 The only more or less fixed convention is that the shooting button for your index finger is shooting, and the trigger button for your thumb is grabbing.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;I had some early bad experiences with the power and speaker loudness buttons.
-A few times as I was moving the headset on and off I accidentally pressed these buttons.
-I had to learn and muscle memory to grab the headset a different was from what I first felt natural.&lt;/p&gt;
+As I was moving the headset on and off a few times, I accidentally pressed these buttons.
+I had to learn muscle memory to grab the headset, a different way from what I first felt natural.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;THe hand tracking feature is amazing, but not usable.
+&lt;p&gt;The hand-tracking feature is amazing but not usable.
 It is amazing because it works, but I had to switch it off when working in a virtual environment.
 When I type, the controllers are not in my hand.
-The headset recognizes this and all my typing movement it tries to interpret as hand gestures.
+The headset recognizes this, and all my typing movements it tries to interpret as hand gestures.
 Bizarre results.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The screen resolution for the virtual screens is usable, but they cannot compete with my two display 5k each setup.
-I can see the pixels, and I can see the difference between the virtual and the real screens.&lt;/p&gt;
+&lt;p&gt;The screen resolution for the virtual screens is usable, but they cannot compete with my two displays, 5k each setup.
+I can see the pixels and the difference between the virtual and the actual screens.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The keyboard use is also a pain point.
 There are two ways to use the keyboard.
 One is a so-called portal.
-It is a shape, fixed in the virtual space that shows the real word behind the shape.
+It is a shape fixed in the virtual space that shows the real world behind the shape.
 It is like a window to the real world from the virtual world.
-You can open a portal for the keyboard, and see your keyboard blurry.&lt;/p&gt;
+You can open a portal for the keyboard and see your keyboard blurry.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The problem probably comes from the fact that the cameras were designed for tracking and not for showing the real world.
-I can see my keyboard, but I have to adjust the light and the picture waves a bit.&lt;/p&gt;
+&lt;p&gt;The problem probably comes from the fact that the cameras were designed for tracking, not showing the real world.
+I can see my keyboard but must adjust the light, and the picture waves slightly.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;The other possibility is to use a so-called tracked keyboard.
-In this case the software identifies the keyboard ny its shape and draws a virtual keyboard where the real keyboard is.
-At the same time it also draws your hands in real time, so you see your hands and keys in a virtual environment.
+In this case, the software identifies the keyboard by its shape and draws a virtual keyboard where the actual keyboard is.
+At the same time, it draws your hands in real-time, so you see your hands and keys in a virtual environment.
 It works as a labor experiment.
-There are only a few keyboards supported: some Logitech model, Apple Magic keyboard and Macbook Pro amd Air keyboard.
-Lucky I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
+Only a few keyboards are supported: some Logitech models, Apple Magic keyboards, and Macbook Pro and Air keyboards.
+Luckily, I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
 Virtual keyboards support only US layout.
 Not even Y and Z swapped for many European keyboards.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To use virtual displays you must have a very fast connection between the PC/MacBook and the headset.
-To have that I configured my MacBook to use my iPhone interned via a tethered connection.
+&lt;p&gt;You must have a high-speed connection between the PC/MacBook and the headset to use virtual displays.
+To have that, I configured my MacBook to use my iPhone interned via a tethered connection.
 The Wi-Fi uses the 5GHz band and provides a dedicated hotspot for the headset.
-With this setup, the lag between the computer and the headset is 6m, that should be enough.
-Because I still could feel a little lag in the mouse movement I ordered a USB-C to USB-C Oculus cable.
-I feel ashamed to admit how much I paid for it, but it moved the latency tp 2ms.
-Mouse is still lagging.&lt;/p&gt;
+With this setup, the lag between the computer and the headset is 6m; that should be enough.
+Because I still could feel a little lag in the mouse movement, I ordered a USB-C to USB-C Oculus cable.
+I feel ashamed to admit how much I paid for it, but it moved the latency to 2ms.
+The mouse is still lagging.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also had to switch ot dark mode with IntelliJ to get better visibility on the virtual screens.&lt;/p&gt;
+&lt;p&gt;I also had to switch to dark mode with IntelliJ for better visibility on the virtual screens.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Watching movies is amazing.
+&lt;p&gt;Watching movies is impressive.
 And I did not mean the &lt;a href=&quot;https://www.youtube.com/watch?v=h8srG_iKh5Y&quot;&gt;special movies&lt;/a&gt;.
 Just a good old boring Netflix, Disney, Amazon, etc. movies.&lt;/p&gt;
 &lt;/div&gt;
@@ -263,37 +558,37 @@ Just a good old boring Netflix, Disney, Amazon, etc. movies.&lt;/p&gt;
 &lt;h2 id=&quot;5-apps-i-used&quot;&gt;5. Apps I Used&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I tried a few applications and other than a few games, that I already used before I categorize each and every application as experimental.
+&lt;p&gt;I tried a few applications, and other than a few games I already used before, I categorize each application as experimental.
 The most mature application is Immersed.
-There are a lot of problems with it, but I am using it every day for a few hours.
-It proves it is usable, but to be honest I am not absolutely sure if I use it because&lt;/p&gt;
+There are a lot of problems with it, but I use it every day for a few hours.
+It proves it is usable, but to be honest, I am not absolutely sure if I use it because&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;I really like it in spite of the drawbacks, or&lt;/p&gt;
+&lt;p&gt;I really like it despite the drawbacks or&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;I have a buyers remorse and I have to convince myself that I did not waste my money.&lt;/p&gt;
+&lt;p&gt;I have buyer&amp;#8217;s remorse and must convince myself that I did not waste my money.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What I have experienced though, that meeting people in a virtual environment is much more natural than I expected.
+&lt;p&gt;What I have experienced, though, is that meeting people in a virtual environment is much more natural than I expected.
 When I do a video conference, I see the faces of the people I talk to.
 When I do a virtual meeting, I can only see the avatars.
-I expected it to be less natural, but somehow it felt more in presence.
-You are visually in the same space as the other people&amp;#8217;s avatar, you talk to them, your hands are tracked and showed as well as your facial expression.
+I expected it to be less natural, but somehow, it felt more in the present.
+You are visually in the same space as the other people&amp;#8217;s avatars; you talk to them, and your hands are tracked and shown, as well as your facial expression.
 I also experienced that we needed less &quot;who talks when&quot; protocol than in a video conference.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also tried a mind mapping application, called Noda.
-I do not use mind mapping a lot, but I wanted to see how it works.
+&lt;p&gt;I also tried a mind-mapping application called Noda.
+I do not use mind mapping often, but I wanted to see how it works.
 I was surprised.
 Using spatial representation of the mind map is much more natural than the flat one.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also tried some 3D drawing and I am still behind my plans with CAD for 3D printing.&lt;/p&gt;
+&lt;p&gt;I also tried some 3D drawing, and I am still behind my plans with CAD for 3D printing.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -301,40 +596,40 @@ Using spatial representation of the mind map is much more natural than the flat 
 &lt;h2 id=&quot;6-future-apps&quot;&gt;6. Future Apps&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And this is the chapter, where I am going to make a fool of myself.
+&lt;p&gt;And this is the chapter where I will make a fool of myself.
 Let&amp;#8217;s hope that I live long enough to see it.
-I will not give exact year numbers when will something come.&lt;/p&gt;
+I will not give exact year numbers when something will come.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;There will be a lot of technical development in the next few years, but that is something out of my experience.
-Regarding the software, applications and development, I expect a lot of steps forward.&lt;/p&gt;
+I expect many steps forward regarding the software, applications, and development.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Right now we have different applications that present virtual worlds and something in it.
+&lt;p&gt;Right now, we have different applications that present virtual worlds and something in it.
 Immersed does two things: 1. provides a space where people and their avatars are visible and can interact, and 2. provides virtual screens.
-Noda, the mind mapping application also provides 1. a virtual space and 2. a virtual mind map.&lt;/p&gt;
+Noda, the mind mapping application, also provides 1. a virtual space and 2. a virtual mind map.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is somehow analogous with the MS-DOS times, when you could run only one application on the screen at a time.&lt;/p&gt;
+&lt;p&gt;It is somehow analogous to the MS-DOS times when you could run only one application on the screen simultaneously.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I expect that the virtual space to become the desktop.
-It has to be provided by the operating system, and the different applications will be able to use it placing and moving different virtual objects in it.
-I have not read articles that envision this model, nut I am sure this is the way VR architects at the big companies envision the future.
+&lt;p&gt;I expect the virtual space to become the desktop.
+It has to be provided by the operating system, and the different applications will be able to use it, placing and moving different virtual objects in it.
+I have not read articles that envision this model, but I am sure this is how VR architects at big companies envision the future.
 What do we miss there?&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We miss the copy/paste and the drag and drop functionality.
+&lt;p&gt;We miss the copy/paste and the drag-and-drop functionality.
 I do not mean literally.
-I do not think that we should have a virtual clipboard, and we should drag and drop virtual objects.
-But we need a way where we can use different applications in the same virtual space and to make them interact.
+I do not think we should have a virtual clipboard and drag-and-drop virtual objects.
+But we need a way to use different applications in the same virtual space and make them interact.
 What we miss is the act, which is the most natural way of interaction between applications like drag and drop and copy/paste on the desktop.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With that, I am sure that we soon will forget the desktop and the windows and virtual windows.
+&lt;p&gt;With that, I am sure we will soon forget the desktop and the windows and virtual windows.
 Tethering a MacBook to a headset is like tethering a horse to a railway car.
-It was needed for a short time to provide the continuity of the culture development, but we will forget it.
-We will have a VR version of programming IDEs, we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation and so on.
+It was needed briefly to provide the continuity of cultural development, but we will forget it.
+We will have a VR version of programming IDEs; we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation, and so on.
 These will run on the headset, and we will not need to embed the 2D desktop into our 3D virtual world.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -343,7 +638,7 @@ These will run on the headset, and we will not need to embed the 2D desktop into
 &lt;h2 id=&quot;7-conclusion&quot;&gt;7. Conclusion&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is not about software development, but sine most of my articles are about that, I expect that most of my readers are.&lt;/p&gt;
+&lt;p&gt;This article is not about software development, but since most of my articles are about that, I expect that most of my readers are.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;What should you do as a developer?
@@ -351,11 +646,11 @@ What is the message?&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;First of all, you must not ignore VR technology anymore.
-The headsets become better and cheaper and the software will develop.
-Immerse, for one, can be a good excuse to buy a headset, if you need an excuse.
-You should get acquainted with the technology, what is available, what can be developed.
+The headsets become better and cheaper, and the software will develop.
+Immerse, for one, can be a good excuse to buy a headset if you need an excuse.
+You should get acquainted with the technology, what is available, and what can be developed.
 Expect new operating system features supporting VR and new APIs and tools.
-There will be a lot of opportunities in the coming years around this technology.&lt;/p&gt;
+There will be many opportunities in the coming years around this technology.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Unit test future versions</title><link href="https://javax0.github.io/2023/08/25/unit-test-the-future.html" rel="alternate" type="text/html" title="Unit test future versions" /><published>2023-08-25T00:00:00+02:00</published><updated>2023-08-25T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/25/unit-test-the-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/25/unit-test-the-future.html">&lt;div class=&quot;sect1&quot;&gt;
@@ -3074,488 +3369,6 @@ Because in most of the cases&amp;#8230;&amp;#8203;&lt;/p&gt;
 There can be exceptions, and as a true professional, you have to be able to recognize them.
 There is only one single thing that you MUST NOT do: use this article as an excuse for wanting to be lazy.
 It is not about that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">About Rust</title><link href="https://javax0.github.io/2023/02/13/about-rust.html" rel="alternate" type="text/html" title="About Rust" /><published>2023-02-13T00:00:00+01:00</published><updated>2023-02-13T00:00:00+01:00</updated><id>https://javax0.github.io/2023/02/13/about-rust</id><content type="html" xml:base="https://javax0.github.io/2023/02/13/about-rust.html">&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is for developers and managers who have heard about Rust but do not know much about it.
-It is not a tutorial.
-I write what I see and give some unsolicited&amp;#8201;&amp;#8212;&amp;#8201;or assuming you read it not by accident, then solicited&amp;#8201;&amp;#8212;&amp;#8201;advice.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is a few words about Rust.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust is a ten-year-old programming language.
-In my opinion this language will shape the industry in the future comparable to the impact of Java.
-Time will tell.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;New programming languages arise all the time, and then they get forgotten.
-I remember when Roger Lang told me in 1997 about Java that it was a paper tiger.
-We worked for Digital Equipment Corporation in the Hungarian subsidiary, and Java was relatively new.
-The expression &quot;paper tiger&quot; references the Chinese proverb, &quot;The tiger that is paper is not a tiger&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;He failed.&lt;br&gt;
-Java did not.&lt;br&gt;
-Java was a tiger, though an infant.&lt;br&gt;
-Some believed it even then, but nobody could &quot;know&quot;.&lt;br&gt;
-The future of Java was not sure.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The same is with Rust now.&lt;br&gt;
-Although it is a ten-year-old language, it is still an infant.&lt;br&gt;
-Technically it is not.
-There are many solutions in the language and in the whole infrastructure architecture that are mature and brilliant.
-What is still missing is community and industry acceptance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;My prediction is that&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust will step over the industry acceptance threshold in 2023, becoming a player in the industry; you can be confident it will not fade and be forgotten soon.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Before going on with the rest of the article, I have to make a statement:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;exampleblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I am not a Rust expert. I have recently started learning the language and am still a beginner.
-I have written more than a simple &quot;Hello,World!&quot; but that is it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other hand, I have more than 40 years of programming experience if we start counting from my first program line, which was executed by a processor (TI-59 calculator) in 1980.
-I programmed in FORTRAN, BASIC, Pascal, C, C++, Java, JavaScript, Python, and many other languages.
-Java, as you can see from the topic of the blog, is my main charter for now.
-May Rust be the future.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, I will write a few words about Rust.
-I will not teach you Rust.
-(After the disclaimer, this should be evident.)
-I will write down some of the features that I felt were important and interesting.
-I try to focus on the essential features from the commercial point of view.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The reason is that they are the features that will make Rust a success or a failure.
-You, as a developer, may like some features.
-You may say, &quot;how cool Rust is because of&quot; this or that feature.
-But if the feature is not essential for the industry, or the managers, then it is not crucial for Rust.
-A language is not a hobby project.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is about what I have seen so far and what I imply from it for the future of the language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-rust-is-a-systems-programming-language&quot;&gt;2. Rust is a systems programming language&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Being a Java developer, I do not feel threatened by Rust.
-Rust is a system programming language like C or C++.
-It is a robust language, and I believe writing enterprise applications in it is possible, but not now.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust compiles to machine code or WebAssembly.
-There is no virtual machine and no garbage collection.
-It means that the performance is comparable to C and C.
-I would not write it is faster than Java because even C and C are slower than Java in some particular cases.
-The important thing is that there are no hiccups in the performance during garbage collection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I acknowledge that Java has dramatically improved and has a highly optimized garbage collector.
-Still, it collects the garbage and then releases it in batches, affecting performance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Google&amp;#8217;s Golang garbage collector is also fast.
-However, comparing it to any other GC, you should remember that it does not compact the heap.
-It simply can not because the language uses pointers, and as such, it is prone to memory fragmentation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;By the way: using pointers also makes Rust prone to this problem.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-memory-safety&quot;&gt;3. Memory Safety&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is a technical section in this article.
-If you are a manager and impatient, here it is in one sentence:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust uses a memory management approach, which delivers the same level of safety as Java without the garbage collection overhead.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;(Managers can skip to the next section.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Memory safety is the feature that makes Rust outstanding and unique.
-C trusts the developer not to make mistakes.
-It is a wrong choice.
-Developers make mistakes, Rust does not.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Developers have to know when the code is not using an allocated memory chunk anymore, and they have to free it.
-This is something that a compiler could do.
-In principle, a compiler could identify the memory chunks not used anymore and generate code to free them.
-They don&amp;#8217;t do that because the task is computationally expensive.
-In short, the compiler cannot identify when to free the memory.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On the other end of the scale, Java safeguards everything using the garbage collector.
-In this case, the run-time keeps track of all the references and frees the memory when it is not referenced anymore.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust language developers did not accept the statement that the compiler could not do it.
-They approached the problem again, and they found a solution.
-The solution is called &quot;ownership&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The reference to a memory location is either owning the resource or borrowing it.
-There can be only one resource owner, just like in real life.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At first, it is a bit hard to grasp the concept and needs a bit of different thinking than C or Java development.
-However, it is a brilliant solution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-application-management&quot;&gt;4. Application Management&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust does not have built-in application management.
-The reason for it is that Rust is a systems programming language.
-When you have a JVM process, you can attach a debugger, query the memory and thread parameters, and make a memory dump.
-With Rust, all you can do is what the operating system lets you do.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you run an enterprise application that runs for several months between two maintenance stops for the ubiquitous version update, you need information about the running system to know how well it performs.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust may have and certainly will have libraries and tools in the future addressing this issue, but it is not part of the ecosystem and the default run-time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-ease-of-learning&quot;&gt;5. Ease of Learning&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is a critical point.
-Rust is not easy to learn.
-Writing the first &quot;Hello, World!&quot; and having it up and running took a few days.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I feel the weight of the language and the ecosystem.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This is good news for the developers.
-If you know Rust, you have little competition.
-Rust developers are expensive.
-For the managers, it is bad news.
-Rust developers are expensive.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-language-features&quot;&gt;6. Language Features&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are many great features in Rust that developers can like.
-The code, after you learn the language, can be very readable.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However, it can also be very unreadable.
-There are Rust quizzes on the net that I do not understand after a month of learning the language.
-Not being able to solve it would be natural, but I often do not understand the explanation.
-It is partially my age; 40 years of experience does not come young, but it is also the complexity of the language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I usually say that the important question is not&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;BAD QUESTION: How readable code can someone write in a language?&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;rather&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;quoteblock&quot;&gt;
-&lt;blockquote&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;GOOD QUESTION: How unreadable code can a junior developer, who thinks they mastered it all, write?&lt;/p&gt;
-&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this regard, Rust is guilty.
-The language is open for the developers to be extended.
-The developers can write macros, which are part of the language.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is similar to the C preprocessor, but macros run during instead of before the compilation.
-The input for the macros is the lexical tokens, and the output is the lexical tokens.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To be precise, the macros work on a lexical token tree, not a stream.
-It simply means that the paired symbols, like &lt;code&gt;(&lt;/code&gt; and &lt;code&gt;)&lt;/code&gt;, should be in pairs, or else the compiler will complain before passing the lexical tree to the macro.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java, for example, says that such a &quot;preprocessor&quot; or &quot;macro&quot; is counterintuitive.
-The language is powerful enough.
-If you need any macro to write your code readable, you have done something wrong; you must learn to use the language better.
-Developers, on the other hand, welcome such a possibility.
-We love to use the tool and not to &quot;learn it more&quot;.
-This is the main reason why projects like Lombok are so hated and loved at the same time.
-(In addition to the fact that Lombok is using undocumented API.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust is on the other end of the scale.
-It provides not only macro processing but also allows the developers to interpret the token tree in Rust.
-A code written in Rust will start during the compilation and transform part of the lexical tree to another.
-Using this possibility, you can significantly alter the language by giving different meanings and semantics to some constructs.
-Eventually, you should not do that; it was never intended to introduce procedural macros.
-A &quot;clever&quot; junior, however, could.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-backward-compatibility&quot;&gt;7. Backward Compatibility&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Backward compatibility is a critical issue.
-Pulling an old 8mm magnetic tape zip archive with some Java 1.0 code will compile and run with the newest Java version.
-You can compile with the latest C compiler code written in 1970.
-(Most of the cases.)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;However, as we can see in the case of Java, this hinders language development.
-My favorite example is &lt;code&gt;final&lt;/code&gt;.
-By the time Java was introduced, the obvious and reasonable choice was to make everything non &lt;code&gt;final&lt;/code&gt; by default.
-Hence, we have the &lt;code&gt;final&lt;/code&gt; keyword in Java and do not have something like &lt;code&gt;nonfinal&lt;/code&gt;.
-Today most of us feel that &lt;code&gt;final&lt;/code&gt; would be a better default, but it is too late to change it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust cuts this Gordian knot.
-Rust introduces the edition mechanism.
-There are different editions of Rust, which are essentially language versions.
-Inside an edition, a new version is always backward compatible.
-Some old conventions can be thrown away when a new edition comes out.
-The new compiler, however, can still work with the old code.
-It just has to know which edition it is, and the edition is stated in the project&amp;#8217;s &lt;code&gt;Cargo.toml&lt;/code&gt; file.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Overall, the use of editions in Rust is an innovative approach to address backward compatibility.
-Its effectiveness and impact depends on how it is adopted and used by the Rust developers&apos; community.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-libraries&quot;&gt;8. Libraries&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Libraries are also vital parts of the ecosystem.
-There are libraries for Rust, but not as wast as for Java.
-It clearly shows that mainly enthusiasts support Rust.
-Most of the libraries look like well-designed open-source hobby projects.
-Documented, but not excessively, covers most use cases, but sometimes not all of them.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are rooms for library development.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-tooling&quot;&gt;9. Tooling&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust tooling is excellent.
-Eventually not as good as Java, but it is getting there.
-I tried to develop a Rust application using IntelliJ IDEA and CLion.
-It works; you can also debug the language interactively.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I compiled my sample codes on an Apple M1 machine and coded to generate code for Intel Linux, Intel Windows, and WebAssembly.
-Cross-compilation is a strong point of Rust.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There are two comments, however, that I got from &lt;a href=&quot;https://github.com/KristofSzabados&quot;&gt;Kristof Szabados&lt;/a&gt; and &lt;a href=&quot;https://github.com/scirin&quot;&gt;Irine Kokilashvili&lt;/a&gt;.
-One is that you should avoid cross-compilation if possible.
-It is not Rust specific.
-Cross compilation, setting up the environment contains many pitfalls that target architecture compilation does not have.
-Cross compilation is usually a practice for embedded systems.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The other comment is that Rust compilation using LLVM targets only the those provided by LLVM.
-C language using GCC has a wider breath.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-implications&quot;&gt;10. Implications&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust is an important language that we have to pay attention to.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;10-1-use-rust&quot;&gt;10.1. Use Rust?&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The big question is: should you use Rust?
-When should you use Rust?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you are a developer, allocate time to learn it.
-You will need devotion because it is not trivial.
-Find some hobby projects or libraries that you will develop in Rust.
-Keep Rust in your toolset; it will pay back sooner or later.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you are a manager, know about it.
-Encourage your developers to learn it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If your actual project is low-level, more or less a systems programming project, then Rust must be considered.
-I do not advocate selecting Rust, but it must be considered.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The decision has to be made based on non-technical requirements.
-Rust is mature enough to do anything that C can do.
-If there is something prohibited by compile time memory safety, you can still use &lt;code&gt;unsafe&lt;/code&gt; code as a last resort.
-Technical requirements make no difference in this case.
-The questions you have to ask are&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;How long will the project run? How long will you need to maintain it?&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;How many developers will work on the project? Can you afford to have a Rust developer? Can you educate&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Using Rust at the moment is a significant investment.
-Rust developers are not available in the market significant amount.
-It is a good choice if you can afford to educate your developers to learn Rust.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;10-2-what-will-rust-do&quot;&gt;10.2. What will Rust do ?&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;My opinion is that Rust will be used in many areas.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect3&quot;&gt;
-&lt;h4 id=&quot;10-2-1-systems-programming&quot;&gt;10.2.1. Systems Programming&lt;/h4&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For low-level systems programming, it will definitely be a significant player.
-The promise to create a memory-safe, &quot;unhackable&quot; program is strong.
-There is no general guarantee for the resulting code 100% secure, but a significant share of the security issues use exploits based on memory safety problems.
-It is also something that I genuinely believe Rust delivers.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect3&quot;&gt;
-&lt;h4 id=&quot;10-2-2-application-programming&quot;&gt;10.2.2. Application Programming&lt;/h4&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;But this is not the whole story.
-Rust has the potential to be a significant player in enterprise application development.
-It has to evolve to have more commercial-grade libraries and a non-niche developer base to get there.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect3&quot;&gt;
-&lt;h4 id=&quot;10-2-3-web-ui-development&quot;&gt;10.2.3. Web UI Development&lt;/h4&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also see the possibility of it being a player in Web UI development.
-The reason for the possibility is WebAssembly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Compiling the code to run in the browser is a prerequisite, but not enough.
-The main reason, strangely, is the complexity of Rust.
-The needed and delivered code quality of UI projects reflecting the experience of the average UI developer is usually low.
-UI developers are usually young and less experienced.
-This also means an issue when you have a project that needs more experience.
-Finding a senior UI developer may be difficult in the swarm of young developers.
-On the other hand, when you find a developer who can program in Rust, you are more likely to find someone who is a senior developer.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-summary-and-conclusion&quot;&gt;11. Summary and Conclusion&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust is a language that we have to pay attention to.
-It is technically mature, and it will become commercially mature in the future.
-2023 is the year (my opinion) when it will pass the tipping point.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As a developer, you should learn it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As a manager, you should know about it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock note&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article as a source code was available on GitHub since the start of writing.
-The people who contributed to the text with comments before the publishing date are:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Juriy&quot;&gt;Iurii Bura&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/KristofSzabados&quot;&gt;Kristof Szabados&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/scirin&quot;&gt;Irine Kokilashvili&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author></entry></feed>
