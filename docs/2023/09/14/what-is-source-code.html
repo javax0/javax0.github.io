@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>What is source code? | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.1" />
+<meta property="og:title" content="What is source code?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
+<link rel="canonical" href="https://javax0.github.io/2023/09/14/what-is-source-code.html" />
+<meta property="og:url" content="https://javax0.github.io/2023/09/14/what-is-source-code.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-09-14T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="What is source code?" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-09-14T00:00:00+02:00","datePublished":"2023-09-14T00:00:00+02:00","description":"1. Introduction","headline":"What is source code?","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2023/09/14/what-is-source-code.html"},"url":"https://javax0.github.io/2023/09/14/what-is-source-code.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">What is source code?</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-09-14T00:00:00+02:00" itemprop="datePublished">Sep 14, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This article is about the definition of source code.
+Usually, this is straightforward, and there is no need for contemplating on this topic.
+Everybody knows what source code is.
+In some special cases, however, we may get confused and knowing what we are really doing may help avoid mistake.
+This is not a philosophical article.
+There is merit in knowing and understanding some of the rules we follow and to know when we deliberately break these rules and face the consequences.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-the-story-behind-the-issue">2. The story behind the issue</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a project, we started to use GitLab and the CI/CD features of it.
+The description of the tasks should be given in a YAML file <code>.gitlab-ci.yml</code>.
+We realized that the task descriptions, managing versions are redundant.
+They may appear elsewhere in the project, and we have to keep them in sync.</p>
+</div>
+<div class="paragraph">
+<p>I suggested to the team that we should use a single source of truth.
+To do that, we could use a Kotlin DSL file and use Gradle build to generate the YAML file.</p>
+</div>
+<div class="paragraph">
+<p>This solution would work, but it is not a clean solution.
+What is the problem with it?</p>
+</div>
+<div class="paragraph">
+<p>The problem is that it generates a file that describes the process, which indeed includes the generation of this description file.
+It is like a snake biting its tail.</p>
+</div>
+<div class="paragraph">
+<p>In practice, it works.
+You can run the build on the developer machine, generate the YAML file, and then commit it to the repository along with the other source files.
+In this case, however, there is a mandatory part of the build running on the developer machine.
+It is against the idea of CI/CD that the build in its entirety should be run on the CI/CD server.</p>
+</div>
+<div class="paragraph">
+<p>The compromise I also applied in the Java::Geci project is that the</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the tool is treated as a "personal productivity tool", like an editor running on the developer machine, and</p>
+</li>
+<li>
+<p>the same tool is used as a "test tool" that is run on the CI/CD server.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When running on the developer machine as a standalone tool or as part of the build process, it will generate the CI/CD YAML.
+When running on the CI/CD server, it will check that the YAML file is up-to-date.
+If the build life cycle contains the regeneration and comparison of the CI/CD YAML during the test phase, the standard test failure signals can be used to fail and stop a build.
+If the generated Yaml file is the same as the one already there, the build is dandy.
+If it is different, the build fails.</p>
+</div>
+<div class="paragraph">
+<p>On the developer machine, the build can interactively be restarted.
+On the CI/CD server, the failure is a hard failure.
+This way the generated code is partially treated as source code.</p>
+</div>
+<div class="paragraph">
+<p>Is this a clean solution?
+No, it is not.
+It violates the principle that the build should be the same on the developer machine and on the CI/CD server.
+It also violates the principle that the testing and the tested system should be separated.
+A system cannot test itself, or some part of it.
+Since the CI/CD YAML is part of the system, it should not run a test on itself.
+If the test fails, it is a clear signal of some error.
+On the other hand, if there is no error, it may mean</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>we are dandy, or</p>
+</li>
+<li>
+<p>there is an error in the testing system, which is also the tested system.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is a workaround making the build process more complicated.
+Is it worth doing it?
+One should decide on a case-by-case basis.</p>
+</div>
+<div class="paragraph">
+<p>What would be the clean solution?
+I will answer that question at the end of this article in the takeaway section, but to get there and to understand the reasoning behind it, we have to go through some almost philosophical contemplation.</p>
+</div>
+<div class="paragraph">
+<p>What we have to answer is the following:</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-what-is-source-code">3. What is source code?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The problem with this question is that it is too simple.
+We all know what source code is.</p>
+</div>
+<div class="paragraph">
+<p>It is like asking about the sun.
+What is the sun?
+Everybody knows what the sun is, and still, researchers are investigating it every day with huge budgets.</p>
+</div>
+<div class="paragraph">
+<p>The same is true for source code.
+We work with source code every day.
+It rises from the keyboard at the start of the day and sets in the compiler after commit.
+It is the text file we edit, send to the compiler, store in version control databases, and so on.</p>
+</div>
+<div class="paragraph">
+<p>What the source code does not usually do is controlling the execution of something.
+It goes to the compiler, and the compiler generates the executable.</p>
+</div>
+<div class="paragraph">
+<p><code>.gitlab-ci.yml</code> however does.
+It is a source code and "executable" at the same time.
+It is edited by the developer, stored in the version control.
+It behaves like a source code, therefore, it is source code.
+It is used to control the execution of the CI/CD process.
+It behaves as a (non-machine code) executable, therefore, it is executable.</p>
+</div>
+<div class="paragraph">
+<p>This dual nature of the file is the reason for the issue.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-reason">4. Reason</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What is the reason for the issue?</p>
+</div>
+<div class="paragraph">
+<p>I cannot be absolutely certain, because I did not design the architecture of the GitLab pipeline engine.
+My guess is that the engineers considered different approaches and selected one that is the most efficient.</p>
+</div>
+<div class="paragraph">
+<p>The clean solution would be to have the definition of the build process somewhere else and not in the source repository.
+For the build process, this description is an executable, therefore, it has nothing to do with the source repository.
+Where could it be stored?
+It could be stored in a separate "data store".
+Reading the previous sentence again considering that in this case, the "data store" can be anything, it is clear that the obvious choice is a repository.
+It can be something like a Maven repository, Ivy repository, or any other repository that stores artifacts.
+It can even be a Git repository, which would be an obvious choice for GitLab.</p>
+</div>
+<div class="paragraph">
+<p>One could maintain the build describing <code>.gitlab-ci.yml</code> file in one repository as a source code.
+If it is maintained using a DSL, then the DLS file is the source code, and this repo has its own, presumably much simpler <code>.gitlab-ci.yml</code>.
+The build process described in it would generate the target <code>.gitlab-ci.yml</code> and the last step would release and deploy it to the repository from where the CI/CD engine of the "real" project would read it.</p>
+</div>
+<div class="paragraph">
+<p>Why don&#8217;t we have this clean solution?
+Because it is way too complex.
+People can go long miles manually editing redundant text file before deciding to insert another step into the development process.</p>
+</div>
+<div class="paragraph">
+<p>Every step is an abstraction, a layer of indirection, and a new script and process to maintain.
+99% of the cases, it is not worth it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-conclusion-and-takeaway">5. Conclusion and Takeaway</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2023/09/14/what-is-source-code.html';
+            this.page.identifier = '/2023/09/14/what-is-source-code.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2023/09/14/what-is-source-code.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
