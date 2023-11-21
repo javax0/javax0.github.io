@@ -179,5 +179,47 @@ This situation can lead to a loss of economic welfare.
 
 〔section What is the price?〕
 
+After we have discussed how we should look at the price, the only thing is to know the price.
+And it is not simple.
+It is not like going into the grocery shop looking at the price tag.
+The price of a cloud service is made up by many components.
+You usually pay initial costs, monthly fees, and usage fees.
+There are usage fees differently for network, storage, data transfer between sites, CPU, memory and so on.
 
+There are two reasons for this overwhelming complexity.
 
+One is marketing.
+The cloud providers want to make the price look as low as possible and be as high as possible at the same time.
+When you have a complex pricing structure suggesting alternatives, you usually select one that is not the cheapest fitting your needs.
+The reason for this is the psychological reason: longing for safety.
+You will select a structure that guarantees a certain price limit based on your perception of your future use of the resources.
+Your perception is usually overestimate.
+
+I personally pay 100usd for GSM mobile use, giving me unlimited call, sms and data connection on the mobile and 40GB data in roaming.
+I exhausted this limit twice in the last 5 years even though this quota is shared with my wife using a second device.
+Providing alternatives to the customers is a great customer tool.
+
+In the early 2000 years, the Hungarian T-Mobile had a few thousand different price packages.
+You could not select from all of them all the time, but if you purchased one you could keep that forever.
+While I was working there, we had a project to estimate the marketing value of these packages.
+We selected 10,000 random clients anonymized and calculated the revenue loss if we offered them the cheapest package that would have been sufficient for them.
+The result was that the revenue loss would have been 30%.
+
+At the same time, 1,000 out of this 10,000 were asked which one they would select if they could do so from all the packages.
+The result was that the revenue gain would be 30%.
+People tend to choose a package that is more expensive, but feel safe with.
+The same is true for cloud services.
+
+The other reason is, on the other hand, very rational.
+The core value provision of cloud services is optimization.
+The cloud providers optimize their infrastructure all the time continuously.
+This optimization cuts their costs while providing the same value for the clients.
+
+What they cannot optimize is your application.
+If you cut your application resource consumption 10% they are happy to give you 10% discount from some part of the price.
+You will not get all the cost cut they save, but it is still a win-win situation.
+Their income may decrease, but their profit increases.
+While the cloud provides are in the constantly growing phase, when more and more clients jump on the bandwagon, they are happy to give you a discount if you help them save on their costs.
+
+These days it is usually a sound investment to analyze your cloud use and optimize it.
+It may be an overkill in some corner cases, but in general, it is a good idea.
