@@ -1,0 +1,156 @@
+---
+{%@define title=Cloud Solutions are Expensive, or are they?%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}
+{%@sep 〔〕%}
+= 〔title〕
+
+〔section Introduction〕
+
+Cloud solutions get more and more widespread.
+I find cloud applications working for companies that were very conservative in the past.
+No data could leave the company premises, and all applications were running in data centers behind 2m wide steel enforced concrete walls.
+Now these companies explore and start to use cloud solutions, and the same time they start to realize the real cost of cloud computing.
+
+In this article, I will discuss the price you have to pay for cloud solutions.
+This is not a technical article, although it does not hurt if you have basic understanding of cloud computing.
+Not too detailed, just bird's eye view.
+
+On the other hand, you will also benefit from understanding what I am talking about if you have some economy background.
+After all, we are talking about costs and prices and the structures that drive them.
+
+The author of this article works as a senior software architect, but he also has an MBA degree and a little understanding of economics.
+
+〔section The price of cloud〕
+
+Companies who feel that the cloud solution is expensive are right.
+Using the cloud has its price, and since the pricing is usage based, it can easily become significant.
+If you have servers on your company premises or hosted in a data center, you may get a cheaper solution staying there.
+
+There are certain situations when you should not use cloud because of the price.
+At the same time, there are situations where you absolutely win using a cloud solution.
+
+At first, let's look at one example of these.
+
+〔subsection Architecture test〕
+
+We had a project where we proposed a special solution utilizing a JDBC proxy for a customer.
+The JDBC proxy was a special application behaving like a database server, but instead of storing the data, it was forwarding the SQL to multiple database servers.
+The application required that the data gets inserted into different databases during the period of a multi-year database migration.
+The client wanted a proof of concept, and we had to provide a test environment.
+The test environment needed six Linux servers we had to rent.
+It was not only a significant cost, but also living in a small country in Central Europe, it was not obvious how to rent servers.
+Buying was a standard business, but having servers for a few days was a very special need.
+
+Finally, we found a company where we knew the director.
+We had a "lunch" meeting with them, that happened something like this.
+
+- We need six servers for a few days. I know you always ship servers to your customers. Can we rent them for a few days?
+- We do not rent servers. We sell them. Also, our delivery line is always on pressure, as soon as the servers come in, we install them and ship them out.
+- Do you ship them also during the weekends?
+- No, of course not, our client offices are closed.
+- So if you have six servers that arrive on Friday, you will not ship them until Monday?
+- Yes. That is correct. To be more precise, we will ship them only on Tuesday, because we have to install them on Monday.
+- How about we take them for the weekend, we do the testing, and you get them back installed early Monday?
+
+This was a win-win situation, a special solution, but without the nexus and the use of the business network, we would end up with a significant cost.
+
+What would be the solution today?
+
+You describe the hardware you need using YAML format, register at a cloud provider, start up a K8s cluster, upload the objects, and you have the servers.
+Oh, I missed the containers and the applications in it.
+Negligible part.
+
+My estimation is that the total cost for that setup would be around or less than 50USD.
+As far as I remember, the official quote we got from a big company for the six servers weekend rental was around 3000USD that time.
+
+This is a clear win for the cloud.
+
+〔section The economy of the cloud〕
+
+There are special costs affecting the price of a cloud solution.
+The cloud provider has to pay for the hardware, the electricity, the cooling, the network, the data center, the people who install and maintain the hardware, and the people who develop the software that runs the cloud.
+
+What people think, is that "all these costs are included in the price you pay for the cloud".
+This sentence between the quotes was suggested by GitHub Copilot.
+It clearly shows what most people think.
+I also face this concept on social media in very different groups.
+
+> The price does not come from the costs.
+
+The price is limited by the costs, as we will see immediately, but it is not driven by it.
+Price is driven by the demand and the supply and nothing else.
+Clients pay the price that is worth paying for the service or product.
+
+If the price, the customers are willing to pay is lower than the cost, the supplier will not supply the product or service.
+
+If you start to learn economics, you will learn that this is the most simplistic model of the market.
+In practice, you see that the price is usually calculated considering the costs.
+You have your car repaired, and you get an itemized bill including the cost of the parts and the cost of the work.
+If you learn the economy, you will understand that such a bill is a lie.
+The price coves the real costs and the profit.
+What you see on the invoice as cost of work and parts contains an "uplift" to cover other costs and the profit.
+It is just how we communicate and play the game.
+If you play cards, and you cheat, you are not an ethical person.
+If the other party also cheats, neither of you is ethical.
+If you both know that the other party cheats, and you both cheat, it is a fair game.
+You could get an invoice with the real costs or car parts and labour plus items, like office heating, electricity, bribe paid to the security inspector and so on.
+And, not to forget the last item: profit, which can also be considered as the cost of the money invested.
+
+When you see prices driven by the cost, the reason is that the market is competitive.
+Even in this case, the rule given above it true, but at the same time there is a feedback loop on the market that alters the supply.
+If there is a service or good that can be sold with high profit, everybody who can will jump on the wagon and start to sell it.
+That will increase the demand until the profit is reduced to the level that covers the cost of investment on the market.
+
+Jumping  on the wagon, however, is not always possible and takes time.
+While this happens, the suppliers already on the market are in a monopolistic or oligopolistic situation.
+This also means that they can set their price to the level, where the profit is the highest.
+
+This is the situation of the cloud providers.
+Cloud providers are in an oligopolistic situation.
+There are a few big players, and they can set the price.
+
+〔section Is the price right for you?〕
+
+The real question is if the price is right for you.
+Is it worth for you or not?
+If it is, then it is, by definition, not expensive.
+
+To decide, you should consider many things comparing the on-prem solution vs. cloud.
+
+The money you pay for the cloud is operating expense (OPEX).
+If you buy hardware and deploy it in your data center, it is capital expenditure (CAPEX).
+Do you want to optimize your expenditure for the company value evaluation or for the tax?
+The company financial situation may affect the decitions greatly.
+
+These are also other things.
+
+You should also consider the flexibility you gain using the cloud solution.
+If you have a cloud solution, you can scale up and down dynamically.
+If you have your own data center, you buy the hardware for the peak load.
+
+Using cloud, you will save on operational, and personnel costs running and maintaining the local setup.
+It will be covered by the cloud service.
+
+* If you pay more than what you would set it up locally, it is not because you are so lucky or skilled.
+It is because of the extra profit of the cloud provider.
+
+* They set up virtual machines and containers and configure them so that the machines are shared between many clients.
+It is certainly more cost-effective than all clients having their own hardware.
+
+* The cloud provider employs experts who develop, maintain and operate the cloud software.
+Their cost is shared by all clients.
+Again, something that is more cost-effective than having your own team, even if you can employ cheaper eastern European or Indian developers.
+
+* They share facility location costs, cooling, physical security and so on, for all the clients.
+
+If you cannot afford the price of the cloud solution, when you can get a solution cheaper, then you and the cloud provider both lose money.
+It is a business that the cloud provider could do, but rather it does not to keep the price higher and harvest the extra profit from those clients that can afford it.
+It is a loss of economic welfare.
