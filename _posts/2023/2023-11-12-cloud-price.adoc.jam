@@ -1,5 +1,4 @@
 ---
-
 {%@define title=Cloud Solutions are Expensive, or are they?%} title: {%title%} layout: posta comments: on ---
 {%@import javax0.jim%}
 {%@comment
@@ -160,7 +159,8 @@ In contrast, with an on-premises data center, you have to invest in hardware cap
 2. **Operational and Personnel Cost Savings:** Opting for a cloud service can lead to savings in operational and personnel costs associated with running and maintaining a local setup.
 These expenses are typically absorbed by the cloud service provider.
 
-3. **Costs vs. Skills:** Paying more for a cloud service than what it would cost to set up locally isn't necessarily a reflection of your luck or skill.
+3. **Costs vs.
+Skills:** Paying more for a cloud service than what it would cost to set up locally isn't necessarily a reflection of your luck or skill.
 It does not mean you do it better than the cloud provider.
 Your price includes the additional profit margin of the cloud provider.
 They probably can also do it cheaper, just do not give it to you at that price.
@@ -179,16 +179,21 @@ This situation can lead to a loss of economic welfare.
 
 〔section Can I get it cheaper?〕
 
-As always, the price advertised publicly is not always the final price.
-Do not think as an individual.
-If you personally want to buy some cloud services, you will pay the price that is advertised.
-You can ask for a discount, but the answer most probably will be a polite no.
+It's important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
+The approach to pricing can differ significantly depending on whether you are an individual or a company.
 
-However, if you are a company, you can negotiate.
-Many of you work as a consultant, senior expert, or architect for a company.
-If it is a large company, it would be a mistake making your cost estimation for a cloud project based on the advertised prices.
-Reach out to the cloud providers and ask them to help you.
-They will be happy to do so, and based on the size, position of the company you work for, you may get a surprising discount.
+As an individual seeking to purchase cloud services, you're likely to pay the listed price.
+While you can request a discount, the response is typically a polite refusal.
+
+However, the situation changes if you represent a company.
+Many professionals, such as consultants, senior experts, or architects, work for organizations where negotiating prices is standard practice.
+If you're involved in estimating costs for a cloud project within a large company, it would be unwise to base your calculations solely on the advertised prices.
+Instead, engage directly with cloud providers.
+They are often willing to assist and, depending on the size and stature of your company, might offer substantial discounts.
+
+Additionally, cloud providers have the most comprehensive understanding of their pricing structures.
+It's beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
+This approach not only potentially reduces costs but also ensures that you're getting the most value out of your investment in their services.
 
 〔section What is the price?〕
 
@@ -236,3 +241,10 @@ Nowadays, it's typically a wise decision to analyze and optimize your cloud usag
 While there might be some exceptional cases where this isn't necessary, generally speaking, it's a beneficial practice.
 Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.
 
+〔section Summary and Takeaway〕
+
+The cloud is undeniably here.
+You should consider cloud as an alternative to your on-premises solution.
+It is not a blind choice.
+Generally nothing is.
+You should evaluate the costs and benefits considering your specific situation, negotiating position, optimization potential, and other factors.
