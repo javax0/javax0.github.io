@@ -1,18 +1,15 @@
 ---
-{%@define title=Cloud Solutions are Expensive, or are they?%}
-title: {%title%}
+
+title: Cloud Solutions are Expensive, or are they?
 layout: posta
 comments: on
 ---
-{%@import javax0.jim%}
-{%@comment
 
-=========================================================================================
-%}
-{%@sep 〔〕%}
-= 〔title〕
 
-〔section Introduction〕
+
+= Cloud Solutions are Expensive, or are they?
+
+== 1. Introduction
 
 Cloud solutions are becoming increasingly prevalent.
 I've observed their adoption even among companies that were traditionally very conservative.
@@ -26,7 +23,7 @@ Additionally, those with a background in economics might find this discussion pa
 
 As the author of this article, I bring a unique perspective, combining my experience as a senior software architect with my educational background, holding an MBA degree and possessing a foundational understanding of economics.
 
-〔section The price of cloud〕
+== 2. The price of cloud
 
 Companies that perceive cloud solutions as expensive have valid concerns.
 Utilizing cloud services comes with a cost, and given that pricing is typically based on usage, expenses can escalate quickly.
@@ -37,7 +34,7 @@ Conversely, there are also situations where opting for a cloud solution can be h
 
 Let's examine an example to illustrate this point.
 
-〔subsection Architecture test〕
+=== 2.1. Architecture test
 
 In a project we undertook, we proposed a unique solution involving a JDBC proxy for a client.
 This JDBC proxy was a special application that acted like a database server.
@@ -76,7 +73,7 @@ My estimate is that the total cost for this modern setup would be around or less
 
 This scenario clearly demonstrates the cost-effectiveness and convenience of cloud solutions.
 
-〔section The economy of the cloud〕
+== 3. The economy of the cloud
 
 There are indeed specific costs that influence the pricing of cloud solutions.
 A cloud provider incurs expenses for hardware, electricity, cooling systems, network infrastructure, data center facilities, as well as salaries for personnel who install, maintain the hardware, and develop the software that operates the cloud.
@@ -129,7 +126,7 @@ In my opinion, cloud providers are in an oligopolistic situation.
 The market is dominated by a few major players, and their significant presence and control allow them to influence pricing.
 This oligopolistic market structure enables these providers to set prices that are not just cost-driven but also strategically aligned with maximizing their profits, considering the competitive landscape and the value they offer to their customers.
 
-〔section Is the price right for you?〕
+== 4. Is the price right for you?
 
 The crucial question regarding cloud solutions is whether the price is right for you and your organization.
 The company financial situation may affect the decisions greatly.
@@ -182,7 +179,7 @@ If the cost of a cloud solution is unaffordable, and a cheaper alternative, stil
 It's a missed business opportunity for the provider, who chooses not to lower prices to capture this segment of the market, thereby maintaining higher profit margins from clients who can afford their services.
 This situation can lead to a loss of economic welfare.
 
-〔section Can I get it cheaper?〕
+== 5. Can I get it cheaper?
 
 It's important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
 The approach to pricing can differ significantly depending on whether you are an individual or a company.
@@ -200,7 +197,7 @@ Additionally, cloud providers have the most comprehensive understanding of their
 It's beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
 This approach not only potentially reduces costs but also ensures that you're getting the most value out of your investment in their services.
 
-〔section What is the price?〕
+== 6. What is the price?
 
 After exploring how to evaluate pricing, the next step is understanding the actual cost of cloud services, which is not straightforward.
 Unlike visiting a grocery store where you can simply look at price tags, the pricing structure of cloud services is composed of multiple components.
@@ -246,7 +243,7 @@ Nowadays, it's typically a wise decision to analyze and optimize your cloud usag
 While there might be some exceptional cases where this isn't necessary, generally speaking, it's a beneficial practice.
 Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.
 
-〔section Summary and Takeaway〕
+== 7. Summary and Takeaway
 
 The cloud is an undeniable presence in today's technology landscape.
 It's important to consider cloud solutions as an alternative to your on-premises setup.
