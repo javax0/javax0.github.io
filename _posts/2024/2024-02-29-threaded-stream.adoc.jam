@@ -1,0 +1,268 @@
+---
+{%@define title=Threaded streams%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}{%@sep 〔〕%}
+
+= 〔title〕
+
+〔section Introduction〕
+
+In the landscape of software development, efficiently processing large datasets has become paramount, especially with the advent of multicore processors.
+The Java Stream interface provided a leap forward by enabling sequential and parallel operations on collections.
+However, fully exploiting modern processors' capabilities while retaining the Stream API's simplicity posed a challenge.
+
+Responding to this, I created an open-source library aimed at experimenting with a new method of parallelizing stream operations.
+This library diverges from traditional batching methods by processing each stream element in its own virtual thread, offering a more refined level of parallelism.
+
+In this article, I will talk about the library, and its design.
+It is more detail than you need simply to use the library.
+
+The library is available on GitHub at https://github.com/verhas/vtstream and also as a dependency in Maven Central.
+
+  <dependency>
+      <groupId>com.github.verhas</groupId>
+      <artifactId>vtstream</artifactId>
+      <version>1.0.1</version>
+  </dependency>
+
+Check out the actual version number on the Maven Central site or on GitHub.
+This article is based on the version 1.0.1 of the library.
+
+〔section Parallel Computing〕
+
+Parallel computing is not a new thing.
+It has been around for decades.
+The first computers were executing tasks in batches, hence in a serial way, but soon the idea of time-sharing came into picture.
+
+The first time-sharing computer system was installed in 1961 at the Massachusetts Institute of Technology (MIT).
+This system, known as the Compatible Time-Sharing System (CTSS), allowed multiple users to log into a mainframe computer simultaneously, working in what appeared to be a private session.
+CTSS was a groundbreaking development in computer science, laying the foundation for modern operating systems and computing environments that support multitasking and multi-user operations.
+
+This  was not a parallel computing system, per se.
+CTSS was designed to run on a single mainframe computer, the IBM 7094, at MIT.
+It has one CPU, thus the code was executed in a serial way.
+
+Today we have multicore processors and multiple processors in a single computer.
+I edit this article on a computer that has 10 processor cores.
+
+To execute tasks concurrently, there are two plus one approaches:
+
+* define the algorithm in a concurrent way, for example, reactive programming, or
+* define the algorithm the good old sequential way and let some program decide on the concurrency, or
+* mix the two.
+
+When we're programming some reactive algorithm, or defined streams as in Java 8 stream, we help the application to execute the tasks concurrently.
+We define small parts and their interdependence so that the environment can decide which parts can be executed concurrently.
+The actual execution is done by the framework and when we are using
+
+* virtual threads, or
+* threads (perhaps processes)
+
+the difference is in the scheduler.
+Who makes the decision which processor should execute which task the next moment.
+In the case of threads or processes, the executor is the operating system.
+The difference between the thread and process execution is that threads belonging to the same process share the same memory space.
+Processes have their own memory space.
+Similarly, virtual threads belonging to the same operating system thread share the same stack.
+
+Coming from processes towards virtual threads, we have fewer and fewer things shared and that way overhead.
+The result is that the virtual threads are much cheaper than threads.
+You can have thousands of threads and processes on a machine, but you can have millions of virtual threads.
+
+When you define a task using streams, you essentially define a series of tasks to be executed for multiple elements.
+When they can be executed concurrently, the framework will or will not do that.
+However, `Strem` in Java is a high-level interface and nothing can stop us to implement a version it that executes the tasks concurrently.
+
+〔section Implementing Streams in Threads〕
+
+The library has two classes in the main directory.
+These are
+
+* `ThreadedStream` and
+* `Command`.
+
+`ThreadedStream` is the class that implements the `Stream` interface.
+
+[source]
+----
+〔@include [lines=12] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+`Command` is a class containing nested classes implementing the functionality for the stream operations:
+
+[source]
+----
+〔@include [lines=93,115,136,145,155,163,178,191,205] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/Command.java〕
+----
+
+These are all intermediary operators.
+The terminal operators are implemented by the `ThreadedStream` class converting the threaded stream to a regular stream and then calling the terminal operator on that stream.
+For example, the implementation of the `collect` method is:
+
+[source]
+----
+〔@include [lines=381..384] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+The source for the elements is also a stream.
+That way, the threading is built on top of the existing stream implementation.
+We already have streams to get the data from and also have streams to feed the processed data into.
+The threading is done in between executing the intermediary commands parallel.
+
+Thus, the actual implementation and the interesting part is how the structure is created and then how it is executed.
+
+First we will look at how the stream data structure looks and then how the class executes the operations using virtual threads.
+
+〔subsection Stream Data Structure〕
+
+The data for the `ThreadedStream` is defined by the following lines:
+
+[source]
+----
+〔@include [lines=22,26,32,39,51] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+* `command` is the `Command` object executed on the data.
+It may be `NoOp` or `null` if there is no command to execute.
+
+* `downstream` is the previous `ThreadedStream` in the chain.
+A `ThreadedStream` executing gets the data from the previous `ThreadedStream` in the chain, or from the `source` if there is no previous `ThreadedStream`.
+
+* `source` is the stream that provides the data.
+This is defined even when the `downstream` is also defined.
+In that case, the source is the same as the `downstream`'s source.
+
+* `limit` is the maximum number of elements to process.
+The implementation of limit is a bit of "hack", because the executions of the stream elements are initiated at the start and not "pulled" by the terminal operation.
+This is also the reason we cannot have infinite streams feeding a `ThreadedStream`.
+
+* `chained` is a simple flag to indicate that the stream is chained.
+When a `ThreadedStream` is chained, there is a next element using the output.
+This is to prevent the execution of the stream when there is a forking in the processing.
+This is analogous to how it is implemented in the JVM stream implementations.
+
+〔subsection Stream Build〕
+
+The stream data structure is built while we are chaining the intermediary operations.
+The start element is always created from a stream calling the static method `threaded`.
+The following line shows an example from the unit tests:
+
+[source]
+----
+〔@include [lines=485] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/test/java/javax0/vtstream/TestThreadedStream.java〕
+----
+
+This creates a `ThreadedStream` object that has the source stream `Stream.of(1, 2, 3, 4)`.
+
+When an intermediary operation is chained it creates a new `ThreadedStream` object that has the previous `ThreadedStream` as the `downstream` and the source stream is the same as the source stream of the previous `ThreadedStream`.
+
+For example, when we call
+
+[source]
+----
+〔@include [lines=486] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/test/java/javax0/vtstream/TestThreadedStream.java〕
+----
+
+the `map` method is called, which is
+
+[source]
+----
+〔@include [lines=265..268] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+It creates a new `ThreadedStream` object that has the previous `ThreadedStream` as the `downstream` and the command is a new instance of the class `Command` with the given mapper.
+
+This way a linked list of `ThreadedStream` objects is created.
+It is used when the stream is executed calling one of the terminal operations.
+
+〔subsection Stream Execution〕
+
+We have discussed that the stream execution starts when we call a terminal operation.
+These terminal operations are implemented by converting the threaded stream to a conventional stream and then calling the terminal operation on that stream.
+
+We have seen the example of `collect` above, and here it is repeated.
+
+[source]
+----
+〔@include [lines=381..384] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+There is a call to the method `toStream()` which is the actual implementation and the most important part of the library.
+When this method is invoked, it starts the execution of the stream creating a new virtual thread for each element of the source stream.
+
+There are two implementations for this process, the methods
+
+* `toUnorderedStream()` and
+* `toOrderedStream()`.
+
+`toStream()` calls one of these methods depending on the value of the `isParallel()` method of the source stream.
+
+Note that it may also make sense to execute an ordered stream in parallel.
+We can get the results unordered, but since the processing is parallel, it is faster.
+In the end, however, we have to pay attention to collect the result in an ordered way.
+The unordered case can be even more effective.
+As soon as an element is ready, it can be passed to the resulting stream.
+There is no need to wait for the previous element to be ready.
+
+Note, that implementation of `toStream()` does not collect the elements more than necessary.
+When an elements can be passed to the resulting stream, it is passed.
+In the case of unordered streams, it is passed as soon as it is ready.
+In the case of ordered streams, it is passed when the previous element is passed and the element is ready.
+
+In the following two chapters, we will look at the implementations of these two approaches.
+
+〔subsection Unordered Stream Execution〕
+
+The unordered execution gathers and passes the results on as soon as they are ready.
+The implementation maintains a concurrent list to store the results.
+The threads put the results into this list, and the target stream gets the results from the list.
+Since the two processes happen concurrently, the list does not grow extremely large.
+
+The source stream is iterated, and for each element, a new virtual thread is created.
+If there is a limit, then this is enforced on the source stream.
+This is different from the original stream implementation where `limit` is a real intermediate operation.
+
+The implementation of the unordered stream execution is as follows:
+
+[source]
+----
+〔@include [lines=145..168] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+The counter `n` counts the number of threads started.
+The resulting stream created using this counter and mapping the numbers 0...``n``-1 to the ready elements of the concurrent list.
+If there are no elements in the least, then we wait for the next one.
+This is done in a loop that contains a `yield` call not to consume the CPU looping unnecessarily.
+
+〔subsection Ordered Stream Execution〕
+
+The ordered stream execution is a bit more complicated.
+It defines a local class `Task` that can wait for a specific thread to be ready.
+The method uses a concurrent list similarly to the unordered stream execution.
+This time, however, the list elements contain the tasks.
+This list is filled by the code creating the threads and not the threads themselves.
+Also, because we have this list full, when the last thread is scheduled, there is no need for a counter.
+The code simply waits for the individual threads one after the other and passes them to the target thread one by one.
+
+[source]
+----
+〔@include [lines=171..209] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
+----
+
+〔section Summary and Takeaway〕
+
+You have seen an implementation that allows you to execute stream operations in parallel.
+You can use the library if you like it being open source.
+You can also use the library as a reference to implement your own version.
+I explained the design and the implementation in detail.
+
+I did not test the library extensively.
+It was reviewed by Istvan Kovacs, who definitely has more experience in concurrent programming than I do, but it is not a guarantee that the library is bug-free.
+Use it at your own risk.
+
