@@ -1,11 +1,9 @@
 ---
-{%@define title=Threaded streams%}
-title: {%title%}
-layout: posta
-comments: on
----
+
+{%@define title=Threaded streams%} title: {%title%} layout: posta comments: on ---
 {%@import javax0.jim%}
 {%@comment
+
 =========================================================================================
 %}{%@sep 〔〕%}
 
@@ -44,7 +42,7 @@ The first time-sharing computer system was installed in 1961 at the Massachusett
 This system, known as the Compatible Time-Sharing System (CTSS), allowed multiple users to log into a mainframe computer simultaneously, working in what appeared to be a private session.
 CTSS was a groundbreaking development in computer science, laying the foundation for modern operating systems and computing environments that support multitasking and multi-user operations.
 
-This  was not a parallel computing system, per se.
+This was not a parallel computing system, per se.
 CTSS was designed to run on a single mainframe computer, the IBM 7094, at MIT.
 It has one CPU, thus the code was executed in a serial way.
 
@@ -71,96 +69,98 @@ The difference between the thread and process execution is that threads belongin
 Processes have their own memory space.
 Similarly, virtual threads belonging to the same operating system thread share the same stack.
 
-Coming from processes towards virtual threads, we have fewer and fewer things shared and that way overhead.
-The result is that the virtual threads are much cheaper than threads.
-You can have thousands of threads and processes on a machine, but you can have millions of virtual threads.
+Transitioning from processes to virtual threads, we encounter a reduction in shared resources and, consequently, overhead.
+This makes virtual threads significantly less costly compared to traditional threads.
+While a machine might support thousands of threads and processes, it can accommodate millions of virtual threads.
 
-When you define a task using streams, you essentially define a series of tasks to be executed for multiple elements.
-When they can be executed concurrently, the framework will or will not do that.
-However, `Strem` in Java is a high-level interface and nothing can stop us to implement a version it that executes the tasks concurrently.
+In defining a task with streams, you are essentially outlining a series of operations to be performed on multiple elements.
+The decision to execute these operations concurrently rests with the framework, which may or may not choose to do so.
+However, `Stream` in Java serves as a high-level interface, offering us the flexibility to implement a version that facilitates concurrent execution of tasks.
 
 〔section Implementing Streams in Threads〕
 
-The library has two classes in the main directory.
-These are
+The library contains two primary classes located in the main directory, namely:
 
-* `ThreadedStream` and
-* `Command`.
+- `ThreadedStream`
+- `Command`
 
-`ThreadedStream` is the class that implements the `Stream` interface.
+`ThreadedStream` is the class responsible for implementing the `Stream` interface.
 
 [source]
 ----
 〔@include [lines=12] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-`Command` is a class containing nested classes implementing the functionality for the stream operations:
+The `Command` class encompasses nested classes that implement functionality for stream operations.
 
 [source]
 ----
 〔@include [lines=93,115,136,145,155,163,178,191,205] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/Command.java〕
 ----
 
-These are all intermediary operators.
-The terminal operators are implemented by the `ThreadedStream` class converting the threaded stream to a regular stream and then calling the terminal operator on that stream.
-For example, the implementation of the `collect` method is:
+All the mentioned operators are intermediary.
+The terminal operators are implemented within the `ThreadedStream` class, which converts the threaded stream into a regular stream before invoking the terminal operator on this stream.
+An example of this approach is the implementation of the `collect` method.
 
 [source]
 ----
 〔@include [lines=381..384] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-The source for the elements is also a stream.
-That way, the threading is built on top of the existing stream implementation.
-We already have streams to get the data from and also have streams to feed the processed data into.
-The threading is done in between executing the intermediary commands parallel.
+The source of the elements is also a stream, which means that the threading functionality is layered atop the existing stream implementation.
+This setup allows for the utilization of streams both as data sources and as destinations for processed data.
+Threading occurs in the interim, facilitating the parallel execution of intermediary commands.
 
-Thus, the actual implementation and the interesting part is how the structure is created and then how it is executed.
+Therefore, the core of the implementation—and its most intriguing aspect—lies in the construction of the structure and its subsequent execution.
 
-First we will look at how the stream data structure looks and then how the class executes the operations using virtual threads.
+We will first examine the structure of the stream data and then explore how the class executes operations utilizing virtual threads.
 
 〔subsection Stream Data Structure〕
 
-The data for the `ThreadedStream` is defined by the following lines:
+The `+ThreadedStream+` class maintains its data through the following member variables:
 
 [source]
 ----
 〔@include [lines=22,26,32,39,51] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-* `command` is the `Command` object executed on the data.
-It may be `NoOp` or `null` if there is no command to execute.
+* `command` represents the `+Command+` object to be executed on the data.
+It might be a no-operation (NoOp) command or `+null+` if there is no specific command to execute.
 
-* `downstream` is the previous `ThreadedStream` in the chain.
-A `ThreadedStream` executing gets the data from the previous `ThreadedStream` in the chain, or from the `source` if there is no previous `ThreadedStream`.
 
-* `source` is the stream that provides the data.
-This is defined even when the `downstream` is also defined.
-In that case, the source is the same as the `downstream`'s source.
+* `downstream` variable points to the preceding `+ThreadedStream+` in the processing chain.
+A `+ThreadedStream+` retrieves data either from the immediate `+downstream+` stream, if available, or directly from the `+source+` if it's the initial in the chain.
 
-* `limit` is the maximum number of elements to process.
-The implementation of limit is a bit of "hack", because the executions of the stream elements are initiated at the start and not "pulled" by the terminal operation.
-This is also the reason we cannot have infinite streams feeding a `ThreadedStream`.
+* `source` is the initial data stream.
+It remains defined even when a `+downstream+` is specified, in which scenario the `+source+` for both streams remains identical.
 
-* `chained` is a simple flag to indicate that the stream is chained.
-When a `ThreadedStream` is chained, there is a next element using the output.
-This is to prevent the execution of the stream when there is a forking in the processing.
-This is analogous to how it is implemented in the JVM stream implementations.
+* `limit` specifies the maximum number of elements this stream is configured to process.
+Implementing a limit requires a workaround, as stream element processing starts immediately rather than being "pulled" by the terminal operation.
+Consequently, infinite streams cannot feed into a `+ThreadedStream+`.
+
+* `chained` is a boolean flag indicating whether the stream is part of a processing chain.
+When `+true+`, it signifies that there is a subsequent stream dependent on this one's output, preventing execution in cases of processing forks.
+This mechanism mirrors the approach found in JVM's standard stream implementations.
+
 
 〔subsection Stream Build〕
 
-The stream data structure is built while we are chaining the intermediary operations.
-The start element is always created from a stream calling the static method `threaded`.
-The following line shows an example from the unit tests:
+The stream data structure is constructed dynamically as intermediary operations are chained together.
+The initiation of this process begins with the creation of a starting element, achieved by invoking the static method `+threaded+` on the `+ThreadedStream+` class.
+An exemplary line from the unit tests illustrates this initiation:
 
 [source]
 ----
 〔@include [lines=485] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/test/java/javax0/vtstream/TestThreadedStream.java〕
 ----
 
-This creates a `ThreadedStream` object that has the source stream `Stream.of(1, 2, 3, 4)`.
+This line demonstrates the creation of a `+ThreadedStream+` instance named `+k+`, initialized with a source stream consisting of the elements 1, 2, and 3.
+The `+threaded+` method serves as the entry point for transforming a regular stream into a `+ThreadedStream+`, setting the stage for further operations that can leverage virtual threads for concurrent execution.
 
-When an intermediary operation is chained it creates a new `ThreadedStream` object that has the previous `ThreadedStream` as the `downstream` and the source stream is the same as the source stream of the previous `ThreadedStream`.
+When an intermediary operation is appended, it results in the creation of a new `+ThreadedStream+` instance.
+This new instance designates the preceding `+ThreadedStream+` as its `+downstream+`.
+Moreover, the source stream for this newly formed `+ThreadedStream+` remains identical to the source stream of its predecessor.
+This design ensures a seamless flow of data through the chain of operations, facilitating efficient processing in a concurrent environment.
 
 For example, when we call
 
@@ -176,57 +176,57 @@ the `map` method is called, which is
 〔@include [lines=265..268] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-It creates a new `ThreadedStream` object that has the previous `ThreadedStream` as the `downstream` and the command is a new instance of the class `Command` with the given mapper.
+It generates a new `ThreadedStream` object wherein the preceding `ThreadedStream` acts as the `downstream`.
+Additionally, the `command` field is populated with a new instance of the `Command` class, configured with the specified mapper function.
 
-This way a linked list of `ThreadedStream` objects is created.
-It is used when the stream is executed calling one of the terminal operations.
+This process effectively constructs a linked list composed of `ThreadedStream` objects.
+This linked structure comes into play during the execution phase, triggered by invoking one of the terminal operations on the stream.
+This method ensures that each `ThreadedStream` in the sequence can process data in a manner that supports concurrent execution, leveraging the capabilities of virtual threads for efficient data processing.
+
+It's crucial to understand that the `ThreadedStream` class refrains from performing any operations on the data until a terminal operation is called.
+Once execution commences, it proceeds concurrently.
+To facilitate independent execution of these operations, `ThreadedStream` instances are designed to be immutable.
+They are instantiated during the setup phase and undergo a single mutation when they are linked together.
+During execution, these instances serve as a read-only data structure, guiding the flow of operation execution.
+This immutability ensures thread safety and consistency throughout concurrent processing, allowing for efficient and reliable stream handling.
 
 〔subsection Stream Execution〕
 
-We have discussed that the stream execution starts when we call a terminal operation.
-These terminal operations are implemented by converting the threaded stream to a conventional stream and then calling the terminal operation on that stream.
+The commencement of stream execution is triggered by invoking a terminal operation.
+These terminal operations are executed by first transforming the threaded stream back into a conventional stream, upon which the terminal operation is then performed.
 
-We have seen the example of `collect` above, and here it is repeated.
+The `collect` method serves as a prime example of this process, as previously mentioned.
+This method is emblematic of how terminal operations are seamlessly integrated within the `ThreadedStream` framework, bridging the gap between concurrent execution facilitated by virtual threads and the conventional stream processing model of Java.
+By converting the `ThreadedStream` into a standard `Stream`, it leverages the rich ecosystem of terminal operations already available in Java, ensuring compatibility and extending functionality with minimal overhead.
 
 [source]
 ----
 〔@include [lines=381..384] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-There is a call to the method `toStream()` which is the actual implementation and the most important part of the library.
-When this method is invoked, it starts the execution of the stream creating a new virtual thread for each element of the source stream.
+The `toStream()` method represents the core functionality of the library, marking the commencement of stream execution by initiating a new virtual thread for each element in the source stream.
+This method differentiates between ordered and unordered execution through two distinct implementations:
 
-There are two implementations for this process, the methods
+- `toUnorderedStream()`
+- `toOrderedStream()`
 
-* `toUnorderedStream()` and
-* `toOrderedStream()`.
+The choice between these methods is determined by the `isParallel()` status of the source stream.
+It's worth noting that executing an ordered stream in parallel can be advantageous.
+Although the results may be produced out of order, parallel processing accelerates the operation.
+Ultimately, care must be taken to collect the results in a sequential manner, despite the unordered processing potentially yielding higher efficiency by allowing elements to be passed to the resulting stream as soon as they become available, eliminating the need to wait for the preceding elements.
 
-`toStream()` calls one of these methods depending on the value of the `isParallel()` method of the source stream.
+The implementation of `toStream()` is designed to minimize an unnecessary collection of elements.
+Elements are forwarded to the resulting stream immediately upon readiness in the case of unordered streams, and in sequence upon the readiness and previous element's forwarding in ordered streams.
 
-Note that it may also make sense to execute an ordered stream in parallel.
-We can get the results unordered, but since the processing is parallel, it is faster.
-In the end, however, we have to pay attention to collect the result in an ordered way.
-The unordered case can be even more effective.
-As soon as an element is ready, it can be passed to the resulting stream.
-There is no need to wait for the previous element to be ready.
-
-Note, that implementation of `toStream()` does not collect the elements more than necessary.
-When an elements can be passed to the resulting stream, it is passed.
-In the case of unordered streams, it is passed as soon as it is ready.
-In the case of ordered streams, it is passed when the previous element is passed and the element is ready.
-
-In the following two chapters, we will look at the implementations of these two approaches.
+In subsequent sections, we delve into the specifics of these two execution methodologies.
 
 〔subsection Unordered Stream Execution〕
 
-The unordered execution gathers and passes the results on as soon as they are ready.
-The implementation maintains a concurrent list to store the results.
-The threads put the results into this list, and the target stream gets the results from the list.
-Since the two processes happen concurrently, the list does not grow extremely large.
+Unordered execution promptly forwards results as they become prepared.
+This approach employs a concurrent list for result storage, facilitating simultaneous result deposition by threads and retrieval by the target stream, preventing excessive list growth.
 
-The source stream is iterated, and for each element, a new virtual thread is created.
-If there is a limit, then this is enforced on the source stream.
-This is different from the original stream implementation where `limit` is a real intermediate operation.
+The iteration over the source stream initiates the creation of a new virtual thread for each element.
+When a limit is imposed, it's applied directly on the source stream, diverging from traditional stream implementations where `limit` acts as a genuine intermediary operation.
 
 The implementation of the unordered stream execution is as follows:
 
@@ -235,20 +235,22 @@ The implementation of the unordered stream execution is as follows:
 〔@include [lines=145..168] https://raw.githubusercontent.com/verhas/vtstream/1.0.1/src/main/java/javax0/vtstream/ThreadedStream.java〕
 ----
 
-The counter `n` counts the number of threads started.
-The resulting stream created using this counter and mapping the numbers 0...``n``-1 to the ready elements of the concurrent list.
-If there are no elements in the least, then we wait for the next one.
-This is done in a loop that contains a `yield` call not to consume the CPU looping unnecessarily.
+The counter `n` is utilized to tally the number of threads initiated.
+The resulting stream is constructed using this counter by mapping the numbers 0 to `n`-1 to the elements of the concurrent list as they become ready.
+If the list lacks elements at any point, the process pauses, awaiting the availability of the next element.
+This waiting mechanism is implemented within a loop that incorporates a `yield` call to prevent unnecessary CPU consumption by halting the loop's execution until it's necessary to proceed.
+This efficient use of resources ensures that the system remains responsive and minimizes the potential for performance degradation during the execution of parallel tasks.
 
 〔subsection Ordered Stream Execution〕
 
-The ordered stream execution is a bit more complicated.
-It defines a local class `Task` that can wait for a specific thread to be ready.
-The method uses a concurrent list similarly to the unordered stream execution.
-This time, however, the list elements contain the tasks.
-This list is filled by the code creating the threads and not the threads themselves.
-Also, because we have this list full, when the last thread is scheduled, there is no need for a counter.
-The code simply waits for the individual threads one after the other and passes them to the target thread one by one.
+Ordered stream execution introduces a more nuanced approach compared to its unordered counterpart.
+It incorporates a local class named `Task`, designed specifically to await the readiness of a particular thread.
+Similar to the unordered execution, a concurrent list is utilized, but with a key distinction: the elements of this list are the tasks themselves, rather than the results.
+
+This list is populated by the code responsible for thread creation, rather than by the threads themselves.
+The presence of a fully populated list eliminates the need for a separate counter to track thread initiation.
+Consequently, the process transitions to sequentially waiting on each thread as dictated by their order in the list, thereby ensuring that each thread's output is relayed to the target stream in a sequential manner.
+This method meticulously maintains the ordered integrity of the stream's elements, despite the concurrent nature of their processing, by aligning the execution flow with the sequence of the original stream.
 
 [source]
 ----
@@ -257,12 +259,12 @@ The code simply waits for the individual threads one after the other and passes 
 
 〔section Summary and Takeaway〕
 
-You have seen an implementation that allows you to execute stream operations in parallel.
-You can use the library if you like it being open source.
-You can also use the library as a reference to implement your own version.
-I explained the design and the implementation in detail.
+Having explored an implementation that facilitates the parallel execution of stream operations, it's noteworthy that this library is open source, offering you the flexibility to either utilize it as is or reference its design and implementation to craft your own version.
+The detailed exposition provided here aims to shed light on both the conceptual underpinnings and practical aspects of the library's construction.
 
-I did not test the library extensively.
-It was reviewed by Istvan Kovacs, who definitely has more experience in concurrent programming than I do, but it is not a guarantee that the library is bug-free.
-Use it at your own risk.
+However, it's important to acknowledge that the library has not undergone extensive testing.
+It received a review from Istvan Kovacs, a figure with considerable expertise in concurrent programming.
+Despite this, his review does not serve as an absolute assurance of the library's reliability and absence of bugs.
+Consequently, should you decide to integrate this library into your projects, it's advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
+The library is provided "as is," with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.
 
