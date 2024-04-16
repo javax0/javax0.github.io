@@ -352,7 +352,10 @@ Having explored an implementation that facilitates the parallel execution of str
 The detailed exposition provided here aims to shed light on both the conceptual underpinnings and practical aspects of the library's construction.
 
 However, it's important to acknowledge that the library has not undergone extensive testing.
-It received a review from Istvan Kovacs, a figure with considerable expertise in concurrent programming.
+It received a review from some experienced experts though.
+To be exact, one expert, who has many years of professional experience developing concurrent Java applications.
 Despite this, his review does not serve as an absolute assurance of the library's reliability and absence of bugs.
 Consequently, should you decide to integrate this library into your projects, it's advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
 The library is provided "as is," with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.
+
+On the other hand, its code can be a good starting point for your own implementation of similar approaches for your own experiments.
