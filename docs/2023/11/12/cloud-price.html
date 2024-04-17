@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Cloud Solutions are Expensive, or are they? | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Cloud Solutions are Expensive, or are they?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
+<link rel="canonical" href="http://localhost:4000/2023/11/12/cloud-price.html" />
+<meta property="og:url" content="http://localhost:4000/2023/11/12/cloud-price.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-12T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cloud Solutions are Expensive, or are they?" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-11-12T00:00:00+01:00","datePublished":"2023-11-12T00:00:00+01:00","description":"1. Introduction","headline":"Cloud Solutions are Expensive, or are they?","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/11/12/cloud-price.html"},"url":"http://localhost:4000/2023/11/12/cloud-price.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Cloud Solutions are Expensive, or are they?</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-11-12T00:00:00+01:00" itemprop="datePublished">Nov 12, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cloud solutions are becoming increasingly prevalent.
+I&#8217;ve observed their adoption even among companies that were traditionally very conservative.
+Previously, these organizations insisted that no data leave their premises, operating all applications within data centers safeguarded by two-meter-thick, steel-reinforced concrete walls.
+However, these companies are now beginning to explore and adopt cloud solutions, simultaneously becoming aware of the true costs associated with cloud computing.</p>
+</div>
+<div class="paragraph">
+<p>In this article, I will delve into the costs associated with cloud solutions.
+While this is not a technical piece, a basic understanding of cloud computing might be beneficial, though I will aim to provide an overview rather than delve into technical specifics.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, those with a background in economics might find this discussion particularly insightful, as we will be exploring the costs, prices, and the underlying structures that influence them.</p>
+</div>
+<div class="paragraph">
+<p>As the author of this article, I bring a unique perspective, combining my experience as a senior software architect with my educational background, holding an MBA degree and possessing a foundational understanding of economics.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-the-price-of-cloud">2. The price of cloud</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Companies that perceive cloud solutions as expensive have valid concerns.
+Utilizing cloud services comes with a cost, and given that pricing is typically based on usage, expenses can escalate quickly.
+If your company already possesses servers on-premises or hosted in a data center, maintaining these setups might be more cost-effective than transitioning to the cloud.</p>
+</div>
+<div class="paragraph">
+<p>There are specific scenarios where the cost factor makes cloud usage less favorable.
+Conversely, there are also situations where opting for a cloud solution can be highly advantageous.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s examine an example to illustrate this point.</p>
+</div>
+<div class="sect2">
+<h3 id="2-1-architecture-test">2.1. Architecture test</h3>
+<div class="paragraph">
+<p>In a project we undertook, we proposed a unique solution involving a JDBC proxy for a client.
+This JDBC proxy was a special application that acted like a database server.
+However, instead of storing data itself, it forwarded SQL queries to multiple, different database servers.
+This setup was necessary because the application required data to be inserted into different databases during a multi-year database migration.
+The client requested a proof of concept, necessitating a test environment with six Linux servers.</p>
+</div>
+<div class="paragraph">
+<p>Renting these servers was not only costly but also challenging, given our location in a small country in Central Europe.
+While purchasing servers was standard, acquiring them for just a few days was an unusual requirement.</p>
+</div>
+<div class="paragraph">
+<p>Eventually, we approached a company where we knew the director and proposed a unique arrangement during a "lunch" meeting:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We need six servers for a few days.
+I know you always ship servers to your customers.
+Can we rent them for a few days?</p>
+</li>
+<li>
+<p>We do not rent servers.
+We sell them.
+Also, our delivery line is always on pressure, as soon as the servers come in, we install them and ship them out.</p>
+</li>
+<li>
+<p>Do you ship them also during the weekends?</p>
+</li>
+<li>
+<p>No, of course not, our client offices are closed.</p>
+</li>
+<li>
+<p>So if you have six servers that arrive on Friday, you will not ship them until Monday?</p>
+</li>
+<li>
+<p>Yes.
+That is correct.
+To be more precise, we will ship them only on Tuesday, because we have to install them on Monday.</p>
+</li>
+<li>
+<p>How about we take them for the weekend, we do the testing, and you get them back installed early Monday?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This arrangement was a win-win, but it relied heavily on our business network and negotiating skills.
+Without this connection, we would have faced significant costs.</p>
+</div>
+<div class="paragraph">
+<p>Today the solution would be much simpler and cost-effective:</p>
+</div>
+<div class="paragraph">
+<p>You would specify the required hardware using YAML format, register with a cloud provider, start up a Kubernetes (K8s) cluster, upload the objects, and have your servers ready.
+This overlooks the minor details of containers and applications, but these are relatively straightforward.</p>
+</div>
+<div class="paragraph">
+<p>My estimate is that the total cost for this modern setup would be around or less than $50. In contrast, the official quote we received for a weekend rental of six servers from a large company at that time was around $3,000.</p>
+</div>
+<div class="paragraph">
+<p>This scenario clearly demonstrates the cost-effectiveness and convenience of cloud solutions.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-the-economy-of-the-cloud">3. The economy of the cloud</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are indeed specific costs that influence the pricing of cloud solutions.
+A cloud provider incurs expenses for hardware, electricity, cooling systems, network infrastructure, data center facilities, as well as salaries for personnel who install, maintain the hardware, and develop the software that operates the cloud.</p>
+</div>
+<div class="paragraph">
+<p>The notion that "all these costs are included in the price you pay for the cloud" encapsulates a common perception.
+This sentence between the quotes was suggested by GitHub Copilot.
+This fact, the suggestion reflects what many people believe about costs.
+I have encountered this mindset frequently across various social media platforms and in diverse groups.
+It underscores a general misunderstanding that the fees paid depend on the underlying expenses associated with providing the services.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The price does not come from the costs.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The pricing of products and services, including cloud solutions, is indeed influenced by costs, but it is not solely determined by them.
+Costs limit the price, as we will see shortly.
+The primary drivers of price are demand and supply.
+Essentially, clients are willing to pay a price that they deem worthwhile for the service or product they receive.</p>
+</div>
+<div class="paragraph">
+<p>If the price that customers are willing to pay falls below the cost of providing the service or product, suppliers typically will not offer it.
+This economic principle highlights the balance that must be struck in the market: prices need to be high enough to cover costs and generate a profit for suppliers, yet remain low enough to be acceptable to consumers.
+This dynamic equilibrium is a fundamental aspect of market economics and is particularly relevant in the context of cloud computing.</p>
+</div>
+<div class="paragraph">
+<p>When you begin studying economics, you&#8217;re introduced to a basic market model where price is often viewed as a function of supply and demand.
+However, in practical scenarios, pricing is commonly calculated with consideration to costs.
+For instance, when you have your car repaired, the bill typically itemizes the costs of parts and labor.
+Yet, in economic terms, such a bill doesn&#8217;t fully represent the truth.</p>
+</div>
+<div class="paragraph">
+<p>The prices listed for parts and labor often include an "uplift" – a markup that covers additional expenses and profit.
+This markup is a standard practice in business; it&#8217;s a way of communicating and playing the game within the market.
+The invoice you receive doesn&#8217;t usually break down every cost component, such as office heating, electricity, or even indirect costs like a bribe paid to a security inspector.
+Moreover, the profit margin, which can be seen as the cost of the money invested, is also embedded in these prices.</p>
+</div>
+<div class="paragraph">
+<p>This practice is akin to a card game where all players understand that some level of strategy – or "cheating," in this metaphor – is part of the game.
+If everyone is aware of and engages in these strategies, it becomes a level playing field.
+Similarly, in business, while the invoice might not explicitly list every cost or the exact profit margin, there&#8217;s an understanding that these elements are inherently included in the prices charged.
+This system of pricing, while not always transparent, is a fundamental aspect of how businesses operate and cover their costs while earning a profit.</p>
+</div>
+<div class="paragraph">
+<p>When prices in a market are heavily influenced by costs, it typically indicates a highly competitive environment.
+However, the fundamental economic principle of price being driven by supply and demand still holds true.
+In such markets, there&#8217;s often a dynamic feedback loop that affects supply.</p>
+</div>
+<div class="paragraph">
+<p>If a particular service or product can be sold with a high profit margin, it naturally attracts more suppliers who want to capitalize on this opportunity.
+This influx of suppliers increases the supply, which, over time, can lead to a decrease in prices until the profit margin aligns more closely with the cost of market entry and investment.</p>
+</div>
+<div class="paragraph">
+<p>However, entering a market isn&#8217;t always straightforward or quick.
+During the period it takes for new suppliers to establish themselves, existing suppliers may enjoy a monopolistic or oligopolistic position.
+In such scenarios, these incumbent suppliers have the leverage to set prices at a level that maximizes their profits.</p>
+</div>
+<div class="paragraph">
+<p>This is notably evident in the cloud computing industry.
+In my opinion, cloud providers are in an oligopolistic situation.
+The market is dominated by a few major players, and their significant presence and control allow them to influence pricing.
+This oligopolistic market structure enables these providers to set prices that are not just cost-driven but also strategically aligned with maximizing their profits, considering the competitive landscape and the value they offer to their customers.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-is-the-price-right-for-you">4. Is the price right for you?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The crucial question regarding cloud solutions is whether the price is right for you and your organization.
+The company financial situation may affect the decisions greatly.
+Is the investment in cloud services worth it for your specific needs and circumstances?
+If the answer is yes, then by definition, the service is not expensive for you.</p>
+</div>
+<div class="paragraph">
+<p>When making this decision, it&#8217;s important to weigh numerous factors in comparing on-premises solutions to cloud-based ones.
+One key consideration is the nature of the expenditure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Operating Expense (OPEX):</strong> When you use cloud services, the costs are typically classified as operating expenses.
+This means you pay for the cloud services as you use them, which can be beneficial for cash flow and can often be deducted as expenses in the fiscal year they are incurred.</p>
+</li>
+<li>
+<p><strong>Capital Expenditure (CAPEX):</strong> On the other hand, investing in hardware and setting up your own data center involves capital expenditure.
+This means a significant upfront investment, which is then depreciated over several years.
+CAPEX can have different tax and financial implications compared to OPEX.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Your decision might also be influenced by how you want to manage your company&#8217;s finances.
+Are you looking to optimize your expenditures for company valuation or for tax purposes?
+The financial situation of your company can greatly impact this decision.
+For instance, if preserving cash is crucial, OPEX might be more attractive.
+Conversely, if long-term investment and asset building are priorities, CAPEX could be the better route.</p>
+</div>
+<div class="paragraph">
+<p>Ultimately, the decision between cloud services and on-premises solutions isn&#8217;t just about the technology.
+It&#8217;s also deeply rooted in the financial strategy and goals of your organization.</p>
+</div>
+<div class="paragraph">
+<p>There are several other factors to consider when evaluating cloud solutions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Flexibility:</strong> Cloud solutions offer significant flexibility.
+With a cloud service, you can dynamically scale your resources up or down based on demand.
+In contrast, with an on-premises data center, you have to invest in hardware capable of handling peak loads, which may not always be efficient.</p>
+</li>
+<li>
+<p><strong>Operational and Personnel Cost Savings:</strong> Opting for a cloud service can lead to savings in operational and personnel costs associated with running and maintaining a local setup.
+These expenses are typically absorbed by the cloud service provider.</p>
+</li>
+<li>
+<p><strong>Costs vs.
+Skills:</strong> Paying more for a cloud service than what it would cost to set up locally isn&#8217;t necessarily a reflection of your luck or skill.
+It does not mean you do it better than the cloud provider.
+Your price includes the additional profit margin of the cloud provider.
+They probably can also do it cheaper, just do not give it to you at that price.</p>
+</li>
+<li>
+<p><strong>Resource Sharing:</strong> Cloud providers utilize virtual machines and containers configured to share resources among multiple clients.
+This approach is generally more cost-effective than each client maintaining their own hardware.</p>
+</li>
+<li>
+<p><strong>Expertise and Shared Costs:</strong> Cloud providers employ experts to develop, maintain, and operate their software.
+The cost of this expertise is distributed across all clients, making it more economical than maintaining an in-house team, even with the option of hiring less expensive developers from regions like Eastern Europe or India.</p>
+</li>
+<li>
+<p><strong>Shared Facility Costs:</strong> Costs related to facility location, cooling, and physical security are shared among all clients of the cloud provider, contributing to overall cost-effectiveness.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If the cost of a cloud solution is unaffordable, and a cheaper alternative, still above the cost of the provider is available, both you and the cloud provider lose out.
+It&#8217;s a missed business opportunity for the provider, who chooses not to lower prices to capture this segment of the market, thereby maintaining higher profit margins from clients who can afford their services.
+This situation can lead to a loss of economic welfare.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-can-i-get-it-cheaper">5. Can I get it cheaper?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It&#8217;s important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
+The approach to pricing can differ significantly depending on whether you are an individual or a company.</p>
+</div>
+<div class="paragraph">
+<p>As an individual seeking to purchase cloud services, you&#8217;re likely to pay the listed price.
+While you can request a discount, the response is typically a polite refusal.</p>
+</div>
+<div class="paragraph">
+<p>However, the situation changes if you represent a company.
+Many professionals, such as consultants, senior experts, or architects, work for organizations where negotiating prices is standard practice.
+If you&#8217;re involved in estimating costs for a cloud project within a large company, it would be unwise to base your calculations solely on the advertised prices.
+Instead, engage directly with cloud providers.
+They are often willing to assist and, depending on the size and stature of your company, might offer substantial discounts.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, cloud providers have the most comprehensive understanding of their pricing structures.
+It&#8217;s beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
+This approach not only potentially reduces costs but also ensures that you&#8217;re getting the most value out of your investment in their services.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-what-is-the-price">6. What is the price?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After exploring how to evaluate pricing, the next step is understanding the actual cost of cloud services, which is not straightforward.
+Unlike visiting a grocery store where you can simply look at price tags, the pricing structure of cloud services is composed of multiple components.
+Typically, you might encounter initial setup costs, monthly fees, and various usage-based charges.
+These usage fees can vary and are often categorized separately for network usage, storage, data transfer between locations, CPU usage, memory, and other resources.</p>
+</div>
+<div class="paragraph">
+<p>The overwhelming complexity of cloud service pricing can be attributed to two main reasons.</p>
+</div>
+<div class="paragraph">
+<p>Firstly, there&#8217;s a marketing strategy at play.
+Cloud providers aim to present their prices as attractively low while simultaneously maximizing their revenue.
+A complex pricing structure, offering various alternatives, often leads customers to choose options that aren&#8217;t the most cost-effective for their needs.
+This choice is influenced by a psychological desire for security; customers tend to opt for a pricing plan that offers a perceived safety net, based on their estimation of future resource usage.
+However, this estimation is often an overestimation.</p>
+</div>
+<div class="paragraph">
+<p>For example, I personally pay $100 for a GSM mobile plan that includes unlimited calls, SMS, and data, plus 40GB of roaming data, which is shared with my wife on a second device.
+In the past five years, I&#8217;ve only exceeded this limit twice.
+Offering a range of alternatives is an effective customer engagement tool, as it caters to different needs and perceived usage patterns.</p>
+</div>
+<div class="paragraph">
+<p>In the early 2000s, Hungarian T-Mobile offered thousands of different pricing packages.
+Customers couldn&#8217;t choose from all these options at any given time, but once they selected a package, they could keep it indefinitely.
+During my tenure there, we conducted a project to assess the marketing value of these packages.
+We randomly selected 10,000 anonymized clients and calculated the potential revenue loss if we had offered them the cheapest package that would have met their needs.
+The findings indicated that such a change would result in a 30% revenue loss.</p>
+</div>
+<div class="paragraph">
+<p>Concurrently, we surveyed 1,000 of these 10,000 clients, asking which package they would choose if they had the option to select from all available packages.
+Surprisingly, the results showed that the potential revenue gain would be 30%.
+This suggests that people often opt for a more expensive package because it offers a sense of security.
+This tendency is also observable in the realm of cloud services, where customers frequently select higher-priced options for the perceived safety they offer.</p>
+</div>
+<div class="paragraph">
+<p>The second reason for the complex pricing of cloud services is, on the other hand, quite rational.
+The fundamental value proposition of cloud services lies in optimization.
+Cloud providers continuously work on optimizing their infrastructure.
+This ongoing process of optimization helps reduce their costs while still delivering the same value to their clients.</p>
+</div>
+<div class="paragraph">
+<p>Cloud providers, while adept at optimizing their infrastructure, cannot directly optimize your application.
+If you manage to reduce your application&#8217;s resource consumption by 10%, they are often willing to offer a discount on a portion of your bill.
+You might not receive the full extent of the cost savings they achieve, but it still creates a win-win situation.
+Their revenue might decrease slightly, but their profit margin can increase.</p>
+</div>
+<div class="paragraph">
+<p>In the current phase where cloud providers are experiencing growth and attracting more clients, they are generally open to providing discounts if your optimizations help reduce their operational costs.</p>
+</div>
+<div class="paragraph">
+<p>Nowadays, it&#8217;s typically a wise decision to analyze and optimize your cloud usage.
+While there might be some exceptional cases where this isn&#8217;t necessary, generally speaking, it&#8217;s a beneficial practice.
+Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-summary-and-takeaway">7. Summary and Takeaway</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The cloud is an undeniable presence in today&#8217;s technology landscape.
+It&#8217;s important to consider cloud solutions as an alternative to your on-premises setup.
+This decision shouldn&#8217;t be made blindly – as is the case with most decisions.
+You need to carefully evaluate the costs and benefits, taking into account your specific situation, negotiating position, potential for optimization, and other relevant factors.</p>
+</div>
+<div class="paragraph">
+<p>(This article was republished by <a href="https://dzone.com/articles/cloud-solutions-are-expensive-or-are-they">DZONE</a>)</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'http://localhost:4000/2023/11/12/cloud-price.html';
+            this.page.identifier = '/2023/11/12/cloud-price.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2023/11/12/cloud-price.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

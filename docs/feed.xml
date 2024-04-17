@@ -1,0 +1,2143 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-04-17T17:04:19+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Threaded Stream</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded Stream" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">---
+
+ title: Threaded streams layout: posta comments: on ---
+
+
+
+= Threaded streams
+
+== 1. Introduction
+
+In the landscape of software development, efficiently processing large datasets has become paramount, especially with the advent of multicore processors.
+The Java Stream interface provided a leap forward by enabling sequential and parallel operations on collections.
+However, fully exploiting modern processors&apos; capabilities while retaining the Stream API&apos;s simplicity posed a challenge.
+
+Responding to this, I created an open-source library aimed at experimenting with a new method of parallelizing stream operations.
+This library diverges from traditional batching methods by processing each stream element in its own virtual thread, offering a more refined level of parallelism.
+
+In this article, I will talk about the library, and its design.
+It is more detail than you need simply to use the library.
+
+The library is available on GitHub at https://github.com/verhas/vtstream and also as a dependency in Maven Central.
+
+  &lt;dependency&gt;
+      &lt;groupId&gt;com.github.verhas&lt;/groupId&gt;
+      &lt;artifactId&gt;vtstream&lt;/artifactId&gt;
+      &lt;version&gt;1.0.1&lt;/version&gt;
+  &lt;/dependency&gt;
+
+Check out the actual version number on the Maven Central site or on GitHub.
+This article is based on the version 1.0.1 of the library.
+
+== 2. Parallel Computing
+
+Parallel computing is not a new thing.
+It has been around for decades.
+The first computers were executing tasks in batches, hence in a serial way, but soon the idea of time-sharing came into picture.
+
+The first time-sharing computer system was installed in 1961 at the Massachusetts Institute of Technology (MIT).
+This system, known as the Compatible Time-Sharing System (CTSS), allowed multiple users to log into a mainframe computer simultaneously, working in what appeared to be a private session.
+CTSS was a groundbreaking development in computer science, laying the foundation for modern operating systems and computing environments that support multitasking and multi-user operations.
+
+This was not a parallel computing system, per se.
+CTSS was designed to run on a single mainframe computer, the IBM 7094, at MIT.
+It has one CPU, thus the code was executed in a serial way.
+
+Today we have multicore processors and multiple processors in a single computer.
+I edit this article on a computer that has 10 processor cores.
+
+To execute tasks concurrently, there are two plus one approaches:
+
+* define the algorithm in a concurrent way, for example, reactive programming, or
+* define the algorithm the good old sequential way and let some program decide on the concurrency, or
+* mix the two.
+
+When we&apos;re programming some reactive algorithm, or defined streams as in Java 8 stream, we help the application to execute the tasks concurrently.
+We define small parts and their interdependence so that the environment can decide which parts can be executed concurrently.
+The actual execution is done by the framework and when we are using
+
+* virtual threads, or
+* threads (perhaps processes)
+
+the difference is in the scheduler.
+Who makes the decision which processor should execute which task the next moment.
+In the case of threads or processes, the executor is the operating system.
+The difference between the thread and process execution is that threads belonging to the same process share the same memory space.
+Processes have their own memory space.
+Similarly, virtual threads belonging to the same operating system thread share the same stack.
+
+Transitioning from processes to virtual threads, we encounter a reduction in shared resources and, consequently, overhead.
+This makes virtual threads significantly less costly compared to traditional threads.
+While a machine might support thousands of threads and processes, it can accommodate millions of virtual threads.
+
+In defining a task with streams, you are essentially outlining a series of operations to be performed on multiple elements.
+The decision to execute these operations concurrently rests with the framework, which may or may not choose to do so.
+However, `Stream` in Java serves as a high-level interface, offering us the flexibility to implement a version that facilitates concurrent execution of tasks.
+
+== 3. Implementing Streams in Threads
+
+The library contains two primary classes located in the main directory, namely:
+
+- `ThreadedStream`
+- `Command`
+
+`ThreadedStream` is the class responsible for implementing the `Stream` interface.
+
+[source]
+----
+public class ThreadedStream&lt;T&gt; implements Stream&lt;T&gt; {
+
+----
+
+The `Command` class encompasses nested classes that implement functionality for stream operations.
+
+[source]
+----
+    public static class Filter&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class AnyMatch&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class FindFirst&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class FindAny&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class NoOp&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class Distinct&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class Skip&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class Peek&lt;T&gt; extends Command&lt;T, T&gt; {
+    public static class Map&lt;T, R&gt; extends Command&lt;T, R&gt; {
+
+----
+
+All the mentioned operators are intermediary.
+The terminal operators are implemented within the `ThreadedStream` class, which converts the threaded stream into a regular stream before invoking the terminal operator on this stream.
+An example of this approach is the implementation of the `collect` method.
+
+[source]
+----
+    @Override
+    public &lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R, ? super T&gt; accumulator, BiConsumer&lt;R, R&gt; combiner) {
+        return toStream().collect(supplier, accumulator, combiner);
+    }
+
+----
+
+The source of the elements is also a stream, which means that the threading functionality is layered atop the existing stream implementation.
+This setup allows for the utilization of streams both as data sources and as destinations for processed data.
+Threading occurs in the interim, facilitating the parallel execution of intermediary commands.
+
+Therefore, the core of the implementation—and its most intriguing aspect—lies in the construction of the structure and its subsequent execution.
+
+We will first examine the structure of the stream data and then explore how the class executes operations utilizing virtual threads.
+
+=== 3.1. Stream Data Structure
+
+The `+ThreadedStream+` class maintains its data through the following member variables:
+
+[source]
+----
+    private final Command&lt;Object, T&gt; command;
+    private final ThreadedStream&lt;?&gt; downstream;
+    private final Stream&lt;?&gt; source;
+    private long limit = -1;
+    private boolean chained = false;
+
+----
+
+* `command` represents the `+Command+` object to be executed on the data.
+It might be a no-operation (NoOp) command or `+null+` if there is no specific command to execute.
+
+
+* `downstream` variable points to the preceding `+ThreadedStream+` in the processing chain.
+A `+ThreadedStream+` retrieves data either from the immediate `+downstream+` stream, if available, or directly from the `+source+` if it&apos;s the initial in the chain.
+
+* `source` is the initial data stream.
+It remains defined even when a `+downstream+` is specified, in which scenario the `+source+` for both streams remains identical.
+
+* `limit` specifies the maximum number of elements this stream is configured to process.
+Implementing a limit requires a workaround, as stream element processing starts immediately rather than being &quot;pulled&quot; by the terminal operation.
+Consequently, infinite streams cannot feed into a `+ThreadedStream+`.
+
+* `chained` is a boolean flag indicating whether the stream is part of a processing chain.
+When `+true+`, it signifies that there is a subsequent stream dependent on this one&apos;s output, preventing execution in cases of processing forks.
+This mechanism mirrors the approach found in JVM&apos;s standard stream implementations.
+
+
+=== 3.2. Stream Build
+
+The stream data structure is constructed dynamically as intermediary operations are chained together.
+The initiation of this process begins with the creation of a starting element, achieved by invoking the static method `+threaded+` on the `+ThreadedStream+` class.
+An exemplary line from the unit tests illustrates this initiation:
+
+[source]
+----
+        final var k = ThreadedStream.threaded(Stream.of(1, 2, 3));
+
+----
+
+This line demonstrates the creation of a `+ThreadedStream+` instance named `+k+`, initialized with a source stream consisting of the elements 1, 2, and 3.
+The `+threaded+` method serves as the entry point for transforming a regular stream into a `+ThreadedStream+`, setting the stage for further operations that can leverage virtual threads for concurrent execution.
+
+When an intermediary operation is appended, it results in the creation of a new `+ThreadedStream+` instance.
+This new instance designates the preceding `+ThreadedStream+` as its `+downstream+`.
+Moreover, the source stream for this newly formed `+ThreadedStream+` remains identical to the source stream of its predecessor.
+This design ensures a seamless flow of data through the chain of operations, facilitating efficient processing in a concurrent environment.
+
+For example, when we call
+
+[source]
+----
+        final var t = k.map(x -&gt; x * 2);
+
+----
+
+the `map` method is called, which is
+
+[source]
+----
+    public &lt;R&gt; ThreadedStream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper) {
+        return new ThreadedStream&lt;&gt;(new Command.Map&lt;&gt;(mapper), this);
+    }
+
+
+----
+
+It generates a new `ThreadedStream` object wherein the preceding `ThreadedStream` acts as the `downstream`.
+Additionally, the `command` field is populated with a new instance of the `Command` class, configured with the specified mapper function.
+
+This process effectively constructs a linked list composed of `ThreadedStream` objects.
+This linked structure comes into play during the execution phase, triggered by invoking one of the terminal operations on the stream.
+This method ensures that each `ThreadedStream` in the sequence can process data in a manner that supports concurrent execution, leveraging the capabilities of virtual threads for efficient data processing.
+
+It&apos;s crucial to understand that the `ThreadedStream` class refrains from performing any operations on the data until a terminal operation is called.
+Once execution commences, it proceeds concurrently.
+To facilitate independent execution of these operations, `ThreadedStream` instances are designed to be immutable.
+They are instantiated during the setup phase and undergo a single mutation when they are linked together.
+During execution, these instances serve as a read-only data structure, guiding the flow of operation execution.
+This immutability ensures thread safety and consistency throughout concurrent processing, allowing for efficient and reliable stream handling.
+
+=== 3.3. Stream Execution
+
+The commencement of stream execution is triggered by invoking a terminal operation.
+These terminal operations are executed by first transforming the threaded stream back into a conventional stream, upon which the terminal operation is then performed.
+
+The `collect` method serves as a prime example of this process, as previously mentioned.
+This method is emblematic of how terminal operations are seamlessly integrated within the `ThreadedStream` framework, bridging the gap between concurrent execution facilitated by virtual threads and the conventional stream processing model of Java.
+By converting the `ThreadedStream` into a standard `Stream`, it leverages the rich ecosystem of terminal operations already available in Java, ensuring compatibility and extending functionality with minimal overhead.
+
+[source]
+----
+    @Override
+    public &lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R, ? super T&gt; accumulator, BiConsumer&lt;R, R&gt; combiner) {
+        return toStream().collect(supplier, accumulator, combiner);
+    }
+
+----
+
+The `toStream()` method represents the core functionality of the library, marking the commencement of stream execution by initiating a new virtual thread for each element in the source stream.
+This method differentiates between ordered and unordered execution through two distinct implementations:
+
+- `toUnorderedStream()`
+- `toOrderedStream()`
+
+The choice between these methods is determined by the `isParallel()` status of the source stream.
+It&apos;s worth noting that executing an ordered stream in parallel can be advantageous.
+Although the results may be produced out of order, parallel processing accelerates the operation.
+Ultimately, care must be taken to collect the results in a sequential manner, despite the unordered processing potentially yielding higher efficiency by allowing elements to be passed to the resulting stream as soon as they become available, eliminating the need to wait for the preceding elements.
+
+The implementation of `toStream()` is designed to minimize an unnecessary collection of elements.
+Elements are forwarded to the resulting stream immediately upon readiness in the case of unordered streams, and in sequence upon the readiness and previous element&apos;s forwarding in ordered streams.
+
+In subsequent sections, we delve into the specifics of these two execution methodologies.
+
+=== 3.4. Unordered Stream Execution
+
+Unordered execution promptly forwards results as they become prepared.
+This approach employs a concurrent list for result storage, facilitating simultaneous result deposition by threads and retrieval by the target stream, preventing excessive list growth.
+
+The iteration over the source stream initiates the creation of a new virtual thread for each element.
+When a limit is imposed, it&apos;s applied directly on the source stream, diverging from traditional stream implementations where `limit` acts as a genuine intermediary operation.
+
+The implementation of the unordered stream execution is as follows:
+
+[source]
+----
+    private Stream&lt;T&gt; toUnorderedStream() {
+        final var result = Collections.synchronizedList(new LinkedList&lt;Command.Result&lt;T&gt;&gt;());
+        final AtomicInteger n = new AtomicInteger(0);
+        final Stream&lt;?&gt; limitedSource = limit &gt;= 0 ? source.limit(limit) : source;
+        limitedSource.forEach(
+                t -&gt; {
+                    Thread.startVirtualThread(() -&gt; result.add(calculate(t)));
+                    n.incrementAndGet();
+                });
+        return IntStream.range(0, n.get())
+                .mapToObj(i -&gt; {
+                    while (result.isEmpty()) {
+                        Thread.yield();
+                    }
+                    return result.removeFirst();
+                })
+                .filter(f -&gt; !f.isDeleted())
+                .peek(r -&gt; {
+                    if (r.exception() != null) {
+                        throw new ThreadExecutionException(r.exception());
+                    }
+                })
+                .map(Command.Result::result);
+    }
+
+----
+
+The counter `n` is utilized to tally the number of threads initiated.
+The resulting stream is constructed using this counter by mapping the numbers 0 to `n`-1 to the elements of the concurrent list as they become ready.
+If the list lacks elements at any point, the process pauses, awaiting the availability of the next element.
+This waiting mechanism is implemented within a loop that incorporates a `yield` call to prevent unnecessary CPU consumption by halting the loop&apos;s execution until it&apos;s necessary to proceed.
+This efficient use of resources ensures that the system remains responsive and minimizes the potential for performance degradation during the execution of parallel tasks.
+
+=== 3.5. Ordered Stream Execution
+
+Ordered stream execution introduces a more nuanced approach compared to its unordered counterpart.
+It incorporates a local class named `Task`, designed specifically to await the readiness of a particular thread.
+Similar to the unordered execution, a concurrent list is utilized, but with a key distinction: the elements of this list are the tasks themselves, rather than the results.
+
+This list is populated by the code responsible for thread creation, rather than by the threads themselves.
+The presence of a fully populated list eliminates the need for a separate counter to track thread initiation.
+Consequently, the process transitions to sequentially waiting on each thread as dictated by their order in the list, thereby ensuring that each thread&apos;s output is relayed to the target stream in a sequential manner.
+This method meticulously maintains the ordered integrity of the stream&apos;s elements, despite the concurrent nature of their processing, by aligning the execution flow with the sequence of the original stream.
+
+[source]
+----
+    private Stream&lt;T&gt; toOrderedStream() {
+        class Task {
+            Thread workerThread;
+            volatile Command.Result&lt;T&gt; result;
+
+            /**
+             * Wait for the thread calculating the result of the task to be finished. This method is blocking.
+             * @param task the task to wait for
+             */
+            static void waitForResult(Task task) {
+                try {
+                    task.workerThread.join();
+                } catch (InterruptedException e) {
+                    task.result = deleted();
+                }
+            }
+        }
+        final var tasks = Collections.synchronizedList(new LinkedList&lt;Task&gt;());
+
+        final Stream&lt;?&gt; limitedSource = limit &gt;= 0 ? source.limit(limit) : source;
+        limitedSource.forEach(
+                sourceItem -&gt; {
+                    Task task = new Task();
+                    tasks.add(task);
+                    task.workerThread = Thread.startVirtualThread(() -&gt; task.result = calculate(sourceItem));
+                }
+        );
+
+        return tasks.stream()
+                .peek(Task::waitForResult)
+                .map(f -&gt; f.result)
+                .peek(r -&gt; {
+                            if (r.exception() != null) {
+                                throw new ThreadExecutionException(r.exception());
+                            }
+                        }
+                )
+                .filter(r -&gt; !r.isDeleted()).map(Command.Result::result);
+    }
+
+----
+
+== 4. Summary and Takeaway
+
+Having explored an implementation that facilitates the parallel execution of stream operations, it&apos;s noteworthy that this library is open source, offering you the flexibility to either utilize it as is or reference its design and implementation to craft your own version.
+The detailed exposition provided here aims to shed light on both the conceptual underpinnings and practical aspects of the library&apos;s construction.
+
+However, it&apos;s important to acknowledge that the library has not undergone extensive testing.
+It received a review from Istvan Kovacs, a figure with considerable expertise in concurrent programming.
+Despite this, his review does not serve as an absolute assurance of the library&apos;s reliability and absence of bugs.
+Consequently, should you decide to integrate this library into your projects, it&apos;s advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
+The library is provided &quot;as is,&quot; with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Computers Will Take Away Our Jobs</title><link href="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html" rel="alternate" type="text/html" title="Computers Will Take Away Our Jobs" /><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/14/computers-take-our-jobs</id><content type="html" xml:base="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html">= Computers Will Take Away Our Jobs
+
+== 1. Introduction
+
+In the 2016 film _Hidden Figures_, directed by Theodore Melfi, an often-overlooked aspect of history is brought to light: in the 1950s, &quot;computers&quot; were not machines, but people performing complex calculations. This movie (link:https://www.imdb.com/title/tt4846340/[_Hidden Figures_]) delves into the stories of those who were integral to the success of NASA&apos;s space missions, at a time when the advent of mechanical computing began to stir fears of job displacement among them.
+
+This historical context mirrors today&apos;s apprehensions surrounding artificial intelligence (AI) and its potential to usurp human roles in various sectors. In this article, I aim to take a step back to provide a broader perspective, ensuring we don&apos;t miss the forest for the trees in the ongoing discourse about AI&apos;s impact on employment.
+
+== 2. Unpacking the True Fear Behind Job Loss
+
+Let&apos;s delve deeper into what we&apos;re truly afraid of.
+
+Do you fear losing the routine of your daily job? Or is it the loss of income, the prestige associated with your role, or the purpose your work provides that worries you? While the conversation often centers on job loss, the root of our anxiety usually lies deeper. It&apos;s not just about losing a job but about losing our means of sustenance.
+
+However, there&apos;s a more profound fear that many of us overlook: the fear of our inability to adapt. We mistake our dread for the loss of familiar structures, not recognizing that the essence of our fear is our doubt in our own adaptability. The world is in flux, jobs evolve, and lifestyles transform. Just as society moved beyond the wooden plow without mourning the specific task of plowing, the real challenge we face is not the change itself but our capacity to keep pace with it.
+
+The pace of change has accelerated, making the stakes feel higher. But the core fear remains the same: It&apos;s not about the job losses per se but about questioning whether we can adapt to a new world order. Recognizing this can shift our focus from what&apos;s being lost to how we can develop the resilience and skills needed for what lies ahead.
+
+== 3. Motivation
+
+Why did we, people invent AI?
+For the same reason, we invented the steel plow replacing the wooden one.
+We try to make our lives easier and more comfortable.
+
+Did computer make our lives better?
+It all started with that FORTRAN calculating machine depicted in the film, and now you have smartwatches, phones, tablets everywhere, not to mention the computers in traffic, medical, and industrial control systems.
+Looking at all those, I definitely say that they did.
+
+
+== 4. Summary and Takeaway</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Make things simpler</title><link href="https://javax0.github.io/2023/11/30/jamal-variations.html" rel="alternate" type="text/html" title="Make things simpler" /><published>2023-11-30T00:00:00+01:00</published><updated>2023-11-30T00:00:00+01:00</updated><id>https://javax0.github.io/2023/11/30/jamal-variations</id><content type="html" xml:base="https://javax0.github.io/2023/11/30/jamal-variations.html">= Make things simpler
+
+== 1. Introduction
+
+Recently, I had the opportunity to discuss Jamal at a JUG conference in Luzerne, presenting to an intimate audience.
+Their engagement was evident—they listened intently and participated actively, posing several questions.
+Some inquiries were particularly challenging, prompting me to confront the reasons why my pet project, Jamal, hasn&apos;t achieved the momentum I had anticipated.
+In this article, I will share the insights gained from this experience.&quot;
+
+
+=== 1.1. Background Story
+
+Before diving into the main narrative and the lessons learned, allow me to share a related side story.
+Although it&apos;s not directly connected, it provides valuable context.
+
+In the 1990s, I was employed by Digital Equipment Corporation (DEC), during a time when the internet was still in its nascent stages.
+Home connections were primarily made through dial-up modems, typically operating at speeds of 28.8 kbps.
+To put that in perspective, downloading a 2GB movie could take upwards of 50 days.
+
+DEC was developing a product capable of transferring data via the coaxial cables used for TV signals.
+These cables, with their 6MHz bandwidth, were not only capable of carrying TV broadcasts but could also facilitate data transfer.
+This method was significantly faster than the traditional dial-up modem.
+
+In December 1995, we showcased this product in Budapest, in collaboration with the cable TV company owned by the municipal government of district V.
+Despite initial challenges with cable quality and noise interference, we managed to set up the system for demonstration.
+Our goal was to highlight the impressive data transfer speed of 5Mbps.
+
+For the demonstration, we chose to download a movie from one server to another, in front of an audience comprised of technical journalists and experts.
+The presentation and demonstration focused on showcasing the speed of data transfer by streaming video.
+We were pleased with the outcome until we encountered the first question:
+
+&gt; So you can transfer video over the cable TV?
+Isn&apos;t that precisely what cable TVs are designed for?
+What exactly is the innovation here?
+
+
+That question felt like a metaphorical truck hit us.
+In our pursuit of technical excellence, we had overlooked the importance of articulating the business value.
+Moreover, our choice of demonstration, while technically impressive, was easily misunderstood as redundant.
+
+This experience was a profound learning moment, one that parallels my journey with Jamal.
+
+
+== 2. What is Jamal
+
+Before diving deeper into the story, let me briefly introduce Jamal.
+
+Jamal is a software tool designed to keep your documents up to date, especially useful for technical documentation.
+It automates the process of updating documents with references to the system being documented, allowing you to fetch many of these references directly from the system itself.
+Essentially, Jamal eliminates the manual task of copying information from the system to the document.
+
+At its core, Jamal is a meta-markup language.
+You use this language to specify:
+
+* The source of the information,
+* The method for extracting it,
+* The insertion point in the document, and
+* The formatting guidelines.
+
+The information source could be a file, database, webpage, or even a web service, though it is typically a file.
+
+A common use case is inserting a code sample from the source code into a document.
+You define the file containing the code sample, specify the start and end points, and set the formatting.
+This ensures that when your source code changes—whether during application development or documentation updates—you can refresh the document with a single command.
+This method guarantees accuracy, eliminating the risk of missing dependent changes when copying modifications manually.
+For example, if you rename or refactor a method for clarity, any related code in different parts of the document is automatically updated.
+
+Jamal is compatible with any markup language of your choice, being entirely opaque to the markup.
+It has been tested with AsciiDoc, Markdown, and reStructuredText, and is even compatible with DOCX files.
+
+For those editing in Markdown or AsciiDoc, the preview feature of your editor allows you to see the results in real-time.
+For instance, IntelliJ IDEA users can benefit from a plugin that renders AsciiDoc, with Jamal integrated to work interactively.
+Changes in the code are reflected immediately when you switch back to the document.
+
+Moreover, Jamal integrates seamlessly with Maven, both as a plugin and an extension, and can be included in your JavaDoc.
+It supports over 200 macros for various data sources and formatting options and features an interactive debugger to troubleshoot your meta-markup.
+
+I have personally used Jamal to write my books and maintain this blog.
+
+In summary, Jamal is a technically robust, versatile, and invaluable tool.
+Despite its utility, it has not yet achieved the visibility or momentum I had anticipated.
+Let&apos;s explore the current state of its momentum.
+
+== 3. Momentum of Jamal
+
+Receiving feedback while developing an open-source tool can be a rare occurrence.
+Users might extensively utilize the tool or ignore it entirely, often without providing any feedback.
+Most of the input comes from users who encounter difficulties or are initially unsure how to leverage the tool effectively.
+Ironically, if you&apos;re seeking abundant feedback, creating simple software riddled with bugs seems to be a surefire strategy.
+
+Another metric for gauging interest and recognition is the number of stars a project receives on GitHub.
+For instance, https://github.com/verhas/jamal[Jamal] has garnered 53 stars.
+In contrast, https://github.com/verhas/License3j[License3j], a much older yet simpler project of mine, has achieved 531 stars.
+License3j is essentially a library for managing electronically signed key-value pairs that represent software licenses.
+
+When considering a more recent project, https://github.com/sourcebuddy/sourcebuddy[SourceBuddy] has collected 138 stars.
+It serves as a convenient front-end for the Java compiler API, illustrating its utility despite its simplicity.
+
+It&apos;s important to note that these comparisons are made within the context of my own projects.
+Drawing comparisons to behemoths like JUnit or Spring would be impractical, as Jamal operates in a completely different league and category from these widely recognized projects.
+
+The disparity in stars suggests that while there is a need for tools like License3j and SourceBuddy, and they are indeed used, Jamal has not yet found its footing or widespread appeal among its intended audience.
+
+Why does the limited traction of Jamal weigh so heavily on me?
+The answer lies in the considerable effort and expectation I&apos;ve invested in it.
+Jamal was crafted to streamline the management of technical documents, a solution born from my own needs and challenges.
+It simplified my workflow significantly and enhanced the quality of the documents I produced.
+Naturally, I anticipated it would offer similar benefits to others.
+
+The apparent lack of momentum for Jamal has become a source of frustration, prompting me to delve into the potential reasons behind it.
+One hypothesis is the inherent complexity of Jamal.
+Utilizing Jamal requires an initial investment of effort beyond that of traditional documentation processes.
+Its advantages become most apparent in the long term, particularly during document maintenance when changes become necessary.
+However, it seems that many projects settle for less-than-ideal documentation quality, a reality that is equally troubling.
+
+This observation is not just a personal grievance.
+The industry at large recognizes the importance of high-quality documentation, yet often falls short in practice.
+I am not alone in my concerns.
+There is a growing movement within the technical community, as highlighted by https://www.writethedocs.org/[Write the Docs], advocating for a &quot;documentation as code&quot; approach.
+This methodology favors markup languages over traditional WYSIWYG editors and integrates documentation processes into the software build cycle, aligning closely with the philosophy behind Jamal.
+
+Beyond the personal disappointment, the scant usage and feedback for Jamal present a pragmatic challenge.
+Without user input, my ability to discern and respond to the actual needs of the users is significantly diminished.
+This lack of interaction restricts my opportunity to refine and evolve Jamal in ways that would make it more valuable and user-friendly for its intended audience.
+
+
+== 4. The Demo Session in Luzerne
+
+During a recent demonstration in Luzern, I had the opportunity to present Jamal to a group of technical professionals, primarily Java developers, some of whom I had met on previous occasions.
+
+I began by showcasing the simplicity of installing Jamal for users of IntelliJ IDEA, followed by a tour of its capabilities.
+I demonstrated how Jamal could seamlessly integrate a code snippet from a file into an AsciiDoc document, automate the numbering of chapters, lines, and pictures, and facilitate the repetition of text with variations through macros.
+I even highlighted the PROG macro module, which introduces programming functionality into documents via a safe BASIC interpreter, effectively illustrating Jamal&apos;s limitless potential.
+Essentially, I positioned Jamal as a Turing complete programming language tailored for document creation.
+
+The audience, comprising Swiss and German individuals, is part of a culture I deeply respect for its directness.
+While some might perceive this communication style as blunt, I find it incredibly efficient.
+It&apos;s a reminder that their straightforwardness isn&apos;t intended as an offense but as a means to offer clear and honest feedback.
+
+And clear, honest feedback was precisely what I received.
+
+One German attendee candidly shared his view that Jamal, despite its innovative approach and technical sophistication, was too complex for his liking.
+He acknowledged understanding the philosophy, the technical solutions, the syntax, and its optimization for document handling.
+Yet, he concluded that its complexity was a barrier to adoption for his projects.
+
+Standing there, absorbing his feedback, was not easy, but I found myself in agreement.
+This interaction, challenging as it was, aligned with the modest number of stars on GitHub, underscoring a coherent message about Jamal&apos;s reception in the community.
+
+== 5. What to Do?
+
+Faced with the candid feedback about Jamal&apos;s complexity, I stand at a crossroads.
+Abandoning the project is an option, yet the very act of writing this article signifies my unwillingness to take that path.
+The alternative?
+To double down on marketing efforts to spark further engagement and to leverage the feedback received at the conference to streamline Jamal&apos;s usability.
+
+I remain convinced that the core structure and architecture of Jamal are as streamlined as possible, balancing simplicity with functionality.
+The essence of Jamal, transforming input text into output text instead of modifying the text you edit, embodies the &quot;Write the Doc&quot; philosophy and Jamal&apos;s foundational principles.
+The distinction between human-generated source code, whether for programs or documentation, and computer-generated output is a cornerstone of this philosophy.
+Introducing editorial tools that blur this distinction would diverge from the intended path.
+
+Efforts to enhance Jamal&apos;s user-friendliness have been substantial.
+Features like interactive editing, an integrated debugger, and compatibility with various editors and CI/CD tools were all designed to minimize the learning curve and maximize efficiency.
+
+Yet, there&apos;s always room for improvement, particularly in making macros more accessible.
+Inspired by the conference feedback, I found myself working late into the night upon my return home, developing a https://github.com/verhas/jamal/blob/master/jamal-snippet/README.adoc#variation[new macro] designed for ease of use.
+This initiative is just the beginning, and I plan to delve deeper into this topic in a future article.
+
+With your support, I am committed to evolving Jamal, making it not only a powerful tool but also an accessible one for a broader audience.
+The journey of Jamal is far from over, and your feedback is the beacon guiding its course.
+
+
+== 6. Summary and Takeaway
+
+What can you learn about this story?</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Cloud Solutions are Expensive, or are they?</title><link href="https://javax0.github.io/2023/11/12/cloud-price.html" rel="alternate" type="text/html" title="Cloud Solutions are Expensive, or are they?" /><published>2023-11-12T00:00:00+01:00</published><updated>2023-11-12T00:00:00+01:00</updated><id>https://javax0.github.io/2023/11/12/cloud-price</id><content type="html" xml:base="https://javax0.github.io/2023/11/12/cloud-price.html">= Cloud Solutions are Expensive, or are they?
+
+== 1. Introduction
+
+Cloud solutions are becoming increasingly prevalent.
+I&apos;ve observed their adoption even among companies that were traditionally very conservative.
+Previously, these organizations insisted that no data leave their premises, operating all applications within data centers safeguarded by two-meter-thick, steel-reinforced concrete walls.
+However, these companies are now beginning to explore and adopt cloud solutions, simultaneously becoming aware of the true costs associated with cloud computing.
+
+In this article, I will delve into the costs associated with cloud solutions.
+While this is not a technical piece, a basic understanding of cloud computing might be beneficial, though I will aim to provide an overview rather than delve into technical specifics.
+
+Additionally, those with a background in economics might find this discussion particularly insightful, as we will be exploring the costs, prices, and the underlying structures that influence them.
+
+As the author of this article, I bring a unique perspective, combining my experience as a senior software architect with my educational background, holding an MBA degree and possessing a foundational understanding of economics.
+
+== 2. The price of cloud
+
+Companies that perceive cloud solutions as expensive have valid concerns.
+Utilizing cloud services comes with a cost, and given that pricing is typically based on usage, expenses can escalate quickly.
+If your company already possesses servers on-premises or hosted in a data center, maintaining these setups might be more cost-effective than transitioning to the cloud.
+
+There are specific scenarios where the cost factor makes cloud usage less favorable.
+Conversely, there are also situations where opting for a cloud solution can be highly advantageous.
+
+Let&apos;s examine an example to illustrate this point.
+
+=== 2.1. Architecture test
+
+In a project we undertook, we proposed a unique solution involving a JDBC proxy for a client.
+This JDBC proxy was a special application that acted like a database server.
+However, instead of storing data itself, it forwarded SQL queries to multiple, different database servers.
+This setup was necessary because the application required data to be inserted into different databases during a multi-year database migration.
+The client requested a proof of concept, necessitating a test environment with six Linux servers.
+
+Renting these servers was not only costly but also challenging, given our location in a small country in Central Europe.
+While purchasing servers was standard, acquiring them for just a few days was an unusual requirement.
+
+Eventually, we approached a company where we knew the director and proposed a unique arrangement during a &quot;lunch&quot; meeting:
+
+- We need six servers for a few days.
+I know you always ship servers to your customers.
+Can we rent them for a few days?
+- We do not rent servers.
+We sell them.
+Also, our delivery line is always on pressure, as soon as the servers come in, we install them and ship them out.
+- Do you ship them also during the weekends?
+- No, of course not, our client offices are closed.
+- So if you have six servers that arrive on Friday, you will not ship them until Monday?
+- Yes.
+That is correct.
+To be more precise, we will ship them only on Tuesday, because we have to install them on Monday.
+- How about we take them for the weekend, we do the testing, and you get them back installed early Monday?
+
+This arrangement was a win-win, but it relied heavily on our business network and negotiating skills.
+Without this connection, we would have faced significant costs.
+
+Today the solution would be much simpler and cost-effective:
+
+You would specify the required hardware using YAML format, register with a cloud provider, start up a Kubernetes (K8s) cluster, upload the objects, and have your servers ready.
+This overlooks the minor details of containers and applications, but these are relatively straightforward.
+
+My estimate is that the total cost for this modern setup would be around or less than $50. In contrast, the official quote we received for a weekend rental of six servers from a large company at that time was around $3,000.
+
+This scenario clearly demonstrates the cost-effectiveness and convenience of cloud solutions.
+
+== 3. The economy of the cloud
+
+There are indeed specific costs that influence the pricing of cloud solutions.
+A cloud provider incurs expenses for hardware, electricity, cooling systems, network infrastructure, data center facilities, as well as salaries for personnel who install, maintain the hardware, and develop the software that operates the cloud.
+
+The notion that &quot;all these costs are included in the price you pay for the cloud&quot; encapsulates a common perception.
+This sentence between the quotes was suggested by GitHub Copilot.
+This fact, the suggestion reflects what many people believe about costs.
+I have encountered this mindset frequently across various social media platforms and in diverse groups.
+It underscores a general misunderstanding that the fees paid depend on the underlying expenses associated with providing the services.
+
+&gt; The price does not come from the costs.
+
+The pricing of products and services, including cloud solutions, is indeed influenced by costs, but it is not solely determined by them.
+Costs limit the price, as we will see shortly.
+The primary drivers of price are demand and supply.
+Essentially, clients are willing to pay a price that they deem worthwhile for the service or product they receive.
+
+If the price that customers are willing to pay falls below the cost of providing the service or product, suppliers typically will not offer it.
+This economic principle highlights the balance that must be struck in the market: prices need to be high enough to cover costs and generate a profit for suppliers, yet remain low enough to be acceptable to consumers.
+This dynamic equilibrium is a fundamental aspect of market economics and is particularly relevant in the context of cloud computing.
+
+When you begin studying economics, you&apos;re introduced to a basic market model where price is often viewed as a function of supply and demand.
+However, in practical scenarios, pricing is commonly calculated with consideration to costs.
+For instance, when you have your car repaired, the bill typically itemizes the costs of parts and labor.
+Yet, in economic terms, such a bill doesn&apos;t fully represent the truth.
+
+The prices listed for parts and labor often include an &quot;uplift&quot; – a markup that covers additional expenses and profit.
+This markup is a standard practice in business; it&apos;s a way of communicating and playing the game within the market.
+The invoice you receive doesn&apos;t usually break down every cost component, such as office heating, electricity, or even indirect costs like a bribe paid to a security inspector.
+Moreover, the profit margin, which can be seen as the cost of the money invested, is also embedded in these prices.
+
+This practice is akin to a card game where all players understand that some level of strategy – or &quot;cheating,&quot; in this metaphor – is part of the game.
+If everyone is aware of and engages in these strategies, it becomes a level playing field.
+Similarly, in business, while the invoice might not explicitly list every cost or the exact profit margin, there&apos;s an understanding that these elements are inherently included in the prices charged.
+This system of pricing, while not always transparent, is a fundamental aspect of how businesses operate and cover their costs while earning a profit.
+
+When prices in a market are heavily influenced by costs, it typically indicates a highly competitive environment.
+However, the fundamental economic principle of price being driven by supply and demand still holds true.
+In such markets, there&apos;s often a dynamic feedback loop that affects supply.
+
+If a particular service or product can be sold with a high profit margin, it naturally attracts more suppliers who want to capitalize on this opportunity.
+This influx of suppliers increases the supply, which, over time, can lead to a decrease in prices until the profit margin aligns more closely with the cost of market entry and investment.
+
+However, entering a market isn&apos;t always straightforward or quick.
+During the period it takes for new suppliers to establish themselves, existing suppliers may enjoy a monopolistic or oligopolistic position.
+In such scenarios, these incumbent suppliers have the leverage to set prices at a level that maximizes their profits.
+
+This is notably evident in the cloud computing industry.
+In my opinion, cloud providers are in an oligopolistic situation.
+The market is dominated by a few major players, and their significant presence and control allow them to influence pricing.
+This oligopolistic market structure enables these providers to set prices that are not just cost-driven but also strategically aligned with maximizing their profits, considering the competitive landscape and the value they offer to their customers.
+
+== 4. Is the price right for you?
+
+The crucial question regarding cloud solutions is whether the price is right for you and your organization.
+The company financial situation may affect the decisions greatly.
+Is the investment in cloud services worth it for your specific needs and circumstances?
+If the answer is yes, then by definition, the service is not expensive for you.
+
+When making this decision, it&apos;s important to weigh numerous factors in comparing on-premises solutions to cloud-based ones.
+One key consideration is the nature of the expenditure:
+
+1. **Operating Expense (OPEX):** When you use cloud services, the costs are typically classified as operating expenses.
+This means you pay for the cloud services as you use them, which can be beneficial for cash flow and can often be deducted as expenses in the fiscal year they are incurred.
+
+2. **Capital Expenditure (CAPEX):** On the other hand, investing in hardware and setting up your own data center involves capital expenditure.
+This means a significant upfront investment, which is then depreciated over several years.
+CAPEX can have different tax and financial implications compared to OPEX.
+
+Your decision might also be influenced by how you want to manage your company&apos;s finances.
+Are you looking to optimize your expenditures for company valuation or for tax purposes?
+The financial situation of your company can greatly impact this decision.
+For instance, if preserving cash is crucial, OPEX might be more attractive.
+Conversely, if long-term investment and asset building are priorities, CAPEX could be the better route.
+
+Ultimately, the decision between cloud services and on-premises solutions isn&apos;t just about the technology.
+It&apos;s also deeply rooted in the financial strategy and goals of your organization.
+
+There are several other factors to consider when evaluating cloud solutions:
+
+1. **Flexibility:** Cloud solutions offer significant flexibility.
+With a cloud service, you can dynamically scale your resources up or down based on demand.
+In contrast, with an on-premises data center, you have to invest in hardware capable of handling peak loads, which may not always be efficient.
+
+2. **Operational and Personnel Cost Savings:** Opting for a cloud service can lead to savings in operational and personnel costs associated with running and maintaining a local setup.
+These expenses are typically absorbed by the cloud service provider.
+
+3. **Costs vs.
+Skills:** Paying more for a cloud service than what it would cost to set up locally isn&apos;t necessarily a reflection of your luck or skill.
+It does not mean you do it better than the cloud provider.
+Your price includes the additional profit margin of the cloud provider.
+They probably can also do it cheaper, just do not give it to you at that price.
+
+4. **Resource Sharing:** Cloud providers utilize virtual machines and containers configured to share resources among multiple clients.
+This approach is generally more cost-effective than each client maintaining their own hardware.
+
+5. **Expertise and Shared Costs:** Cloud providers employ experts to develop, maintain, and operate their software.
+The cost of this expertise is distributed across all clients, making it more economical than maintaining an in-house team, even with the option of hiring less expensive developers from regions like Eastern Europe or India.
+
+6. **Shared Facility Costs:** Costs related to facility location, cooling, and physical security are shared among all clients of the cloud provider, contributing to overall cost-effectiveness.
+
+If the cost of a cloud solution is unaffordable, and a cheaper alternative, still above the cost of the provider is available, both you and the cloud provider lose out.
+It&apos;s a missed business opportunity for the provider, who chooses not to lower prices to capture this segment of the market, thereby maintaining higher profit margins from clients who can afford their services.
+This situation can lead to a loss of economic welfare.
+
+== 5. Can I get it cheaper?
+
+It&apos;s important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
+The approach to pricing can differ significantly depending on whether you are an individual or a company.
+
+As an individual seeking to purchase cloud services, you&apos;re likely to pay the listed price.
+While you can request a discount, the response is typically a polite refusal.
+
+However, the situation changes if you represent a company.
+Many professionals, such as consultants, senior experts, or architects, work for organizations where negotiating prices is standard practice.
+If you&apos;re involved in estimating costs for a cloud project within a large company, it would be unwise to base your calculations solely on the advertised prices.
+Instead, engage directly with cloud providers.
+They are often willing to assist and, depending on the size and stature of your company, might offer substantial discounts.
+
+Additionally, cloud providers have the most comprehensive understanding of their pricing structures.
+It&apos;s beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
+This approach not only potentially reduces costs but also ensures that you&apos;re getting the most value out of your investment in their services.
+
+== 6. What is the price?
+
+After exploring how to evaluate pricing, the next step is understanding the actual cost of cloud services, which is not straightforward.
+Unlike visiting a grocery store where you can simply look at price tags, the pricing structure of cloud services is composed of multiple components.
+Typically, you might encounter initial setup costs, monthly fees, and various usage-based charges.
+These usage fees can vary and are often categorized separately for network usage, storage, data transfer between locations, CPU usage, memory, and other resources.
+
+The overwhelming complexity of cloud service pricing can be attributed to two main reasons.
+
+Firstly, there&apos;s a marketing strategy at play.
+Cloud providers aim to present their prices as attractively low while simultaneously maximizing their revenue.
+A complex pricing structure, offering various alternatives, often leads customers to choose options that aren&apos;t the most cost-effective for their needs.
+This choice is influenced by a psychological desire for security; customers tend to opt for a pricing plan that offers a perceived safety net, based on their estimation of future resource usage.
+However, this estimation is often an overestimation.
+
+For example, I personally pay $100 for a GSM mobile plan that includes unlimited calls, SMS, and data, plus 40GB of roaming data, which is shared with my wife on a second device.
+In the past five years, I&apos;ve only exceeded this limit twice.
+Offering a range of alternatives is an effective customer engagement tool, as it caters to different needs and perceived usage patterns.
+
+In the early 2000s, Hungarian T-Mobile offered thousands of different pricing packages.
+Customers couldn&apos;t choose from all these options at any given time, but once they selected a package, they could keep it indefinitely.
+During my tenure there, we conducted a project to assess the marketing value of these packages.
+We randomly selected 10,000 anonymized clients and calculated the potential revenue loss if we had offered them the cheapest package that would have met their needs.
+The findings indicated that such a change would result in a 30% revenue loss.
+
+Concurrently, we surveyed 1,000 of these 10,000 clients, asking which package they would choose if they had the option to select from all available packages.
+Surprisingly, the results showed that the potential revenue gain would be 30%.
+This suggests that people often opt for a more expensive package because it offers a sense of security.
+This tendency is also observable in the realm of cloud services, where customers frequently select higher-priced options for the perceived safety they offer.
+
+The second reason for the complex pricing of cloud services is, on the other hand, quite rational.
+The fundamental value proposition of cloud services lies in optimization.
+Cloud providers continuously work on optimizing their infrastructure.
+This ongoing process of optimization helps reduce their costs while still delivering the same value to their clients.
+
+Cloud providers, while adept at optimizing their infrastructure, cannot directly optimize your application.
+If you manage to reduce your application&apos;s resource consumption by 10%, they are often willing to offer a discount on a portion of your bill.
+You might not receive the full extent of the cost savings they achieve, but it still creates a win-win situation.
+Their revenue might decrease slightly, but their profit margin can increase.
+
+In the current phase where cloud providers are experiencing growth and attracting more clients, they are generally open to providing discounts if your optimizations help reduce their operational costs.
+
+Nowadays, it&apos;s typically a wise decision to analyze and optimize your cloud usage.
+While there might be some exceptional cases where this isn&apos;t necessary, generally speaking, it&apos;s a beneficial practice.
+Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.
+
+== 7. Summary and Takeaway
+
+The cloud is an undeniable presence in today&apos;s technology landscape.
+It&apos;s important to consider cloud solutions as an alternative to your on-premises setup.
+This decision shouldn&apos;t be made blindly – as is the case with most decisions.
+You need to carefully evaluate the costs and benefits, taking into account your specific situation, negotiating position, potential for optimization, and other relevant factors.
+
+(This article was republished by link:https://dzone.com/articles/cloud-solutions-are-expensive-or-are-they[DZONE])</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Programming with AI</title><link href="https://javax0.github.io/2023/08/28/ai-programming.html" rel="alternate" type="text/html" title="Programming with AI" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/28/ai-programming</id><content type="html" xml:base="https://javax0.github.io/2023/08/28/ai-programming.html">= Programming with AI
+
+== 1. Introduction
+
+I recently discussed how we use Co-Pilot and ChatGPT for programming with some of my senior colleagues.
+We discussed our experiences, how and when it helps, and what to expect from it in the future.
+
+In this article, I will shortly write about what I imagine the future of programming with AI will be.
+This is not about what AI will do in programming in the future.
+I have no idea about that, and based on my mood, I either look forward amazed or in fear.
+This article is more about how we, programmers, will do our work in the future.
+
+== 2. The past
+
+To predict the future, we have to understand the past.
+If you know only the current state, you cannot reliably extrapolate.
+Extrapolation needs at least two points and knowledge about the speed of change in the future (maximum and minimum of the derivative function).
+So, here we go, looking a bit at the past, focusing on the aspects that I feel are mainly important to predict how we will work in the future with AI in programming.
+
+=== 2.1. Machine Code
+
+When computers were first introduced, we programmed them in machine code.
+This sentence should read, &quot;your father/mother programmed them in machine code&quot;, for most of you.
+I had the luck to program a Polish clone of the PDP-11 in machine code.
+
+To create a program, we used assembly language.
+We wrote that on a piece of checkerboard paper(and then we typed it in).
+No.
+
+NOTE: As I write this article, Co-Pilot is switched on, suggesting the sentences&apos; ends.
+In 10% of the cases, I accept the suggestion.
+Co-Pilot suggested the part between ( and ) in the last sentence.
+It&apos;s funny that even Co-Pilot cannot imagine a system where we did not have an assembler.
+
+We wrote the assembly on the left side of the paper and the machine code on the right.
+We used printed code tables to look up the machine codes, and we had to calculate the addresses.
+After that, we entered the code.
+This was also a cumbersome process.
+
+There were switches on the front panel of the computer.
+There were 11 switches for the address (as far as I remember) and eight switches for the data.
+A switch flipped up meant a bit with a value of 1, and a switch flipped down meant a bit with a value of 0.
+We set the address and the desired value, and then we had to push a button to write the value into the memory.
+The memory consisted of ferrite rings that kept their value even after the power was switched off.
+
+=== 2.2. Assembly
+
+It was a relief when we got the assembler.
+It was already on a different machine and a different processor.
+We looked at the machine code that the assembler generated a few times, but not many times.
+The mapping between the assembly and the machine code was strictly one-to-one mapping.
+
+The next step was higher-level languages, like C.
+I wrote a lot of C code as a hobby before I started my second professional career as a programmer at 40.
+
+=== 2.3. Close to the Metal
+
+The mapping from C to machine code is not one-to-one.
+There is room for optimization, and different compiler versions may create different code.
+Still, the functionality of the generated code is very much guaranteed.
+You do not need to look at the machine code to understand what the program does.
+I can recall that I only did it a few times.
+
+One of those times, we found a bug in the Sun C compiler (1987, while I was on a summer program at TU Delft).
+It was my mistake the other time, and I had to modify my C code.
+The compiler knew better than I did what the C construct I wrote meant.
+I do not have a recollection of the specifics.
+
+We do not need to look at the generated code; we write on a high level and debug on a high level.
+
+=== 2.4. High Level
+
+As we advance in time, we have Java.
+Java uses a two-level compilation.
+It compiles the Java code to byte code, which the Java Virtual Machine, JIT technology interprets.
+I looked at the generated byte code only once to learn the intricacies of the ternary operator type casting rules, and never the machine code generated.
+The first case could be avoided by reading the language spec, but who reads manuals?
+
+The same is true here: we step to higher levels of abstraction and do not need to look at the generated code.
+
+=== 2.5. DSL and Generated Code
+
+Even as we advance towards higher levels, we can have Domain Specific Languages (DSLs).
+DSLs are
+
+* interpreted,
+* generate high-level code, or
+* generate byte code and machine code.
+
+The third case is rare because generating low-level code is expensive, requires much work, and is not worth the effort.
+Generating high-level code is more common.
+As an example, we can take Java::Geci fluent API generator.
+It reads a regular expression like the definition of the fluent API, creates a finite state machine from it, and generates the Java code containing all the interfaces and classes that implement the fluent API.
+The Java compiler then compiles the generated code, and the JVM interprets the resulting byte code.
+
+Should we look at the generated code?
+Usually not.
+I actually did a lot because I wrote the generator, and so I had to debug it, but that is an exception.
+The generated code should perform as the definition says.
+
+== 3. The Present and the Future
+
+The next step is AI languages.
+This is where we are now, and it starts now.
+We use AI to write code based on some natural language description.
+The code is generated, and we have to look at it.
+
+This is different from any earlier steps in the evolution of programming languages.
+The reason is that the language AI interprets is not definite the same way as Java, C, or any DSL.
+It can be ambiguous.
+It is a human language, usually English.
+Or something resembling English when non-native speakers like me write it.
+
+=== 3.1. Syntax-free
+
+This is the advantage of AI programming.
+I do not need to remember the actual syntax.
+I can program in a language I rarely use and forget the exact syntax.
+I vaguely remember it, but it is not in my muscle memory.
+
+=== 3.2. Library-free
+
+It can also help me with my usual programming tasks.
+Something that was written by other people many times before.
+It has it in its memory, and it can help me.
+
+The conventional programming languages have it, but with a limited scope.
+There are language constructs for the usual data structures and algorithms.
+There are libraries for the usual tasks.
+
+The problem is that you have to remember the one to use it.
+Sometimes, writing a few lines is easier than finding the library and the function that does it.
+It is the same philosophy as the Unix command line versus VMS.
+(You may not know VMS. It was the OS of the VAX VMS and Alpha machines from DEC.)
+If you needed to do something in VMS, there was a command for it.
+In Unix, you had simpler commands, but you could combine them.
+
+With AI programming, you can write down what you want using natural language, and the AI will find the code fragments in its memory that fit the best and adapt it.
+
+=== 3.3. AI Language
+
+Today, AI is generating and helping to write the code.
+In the future, we will tell the AI what to do, and it will execute it for us.
+We may not need to care about the data structure it stores the data or algorithms it applies to manage those.
+
+Today, we think of databases when we talk about structured data.
+That is because databases are the tools to support the limited functionality a computer can manage.
+Before the computers, we just told the accountant to calculate the last year, whatever profit, balance sheet, whatnot, and they did.
+The data was on paper, and the managers did not care how they were organized.
+It was expensive because accountants are expensive.
+The intelligence they applied, extracting data from the different paper-based documents, was their strong point; calculation was just a mechanical task.
+
+Computers came, and they were strong doing the calculations.
+They were weak in extracting data from the documents.
+The solution was to organize the data into databases.
+It needed more processing on the input, but it was still cheaper than having accountants do the calculations.
+
+With AI, computers can do calculations and extract data from documents.
+If it can be done cheaply, there is no reason any more to keep the data in a structured way.
+It can get structured when we need them for a calculation on the fly.
+The advantage is that we can do any calculation, and we may not face the issue that the data structure is unsuitable for the calculation we need.
+We just tell the AI program using natural language.
+
+Is there a new patient coming to the practice?
+Just tell the program all the data, and it will remember like an assistant with unlimited memory who never forgets.
+Do you want to know when a patient last visited?
+Just ask the program.
+You do not need to care how the artificial simulated neurons store the information.
+
+It certainly will use more computing power and energy than a well-tuned database, but on the other hand, it will have higher flexibility, and the development cost will be significantly lower.
+
+This is when we will talk to the computers, which will help us universally.
+I am not shy about predicting this future because it will come when I will not be around anymore.
+But what should we expect in the near future?
+
+=== 3.4. The near future
+
+Now, AI tools are interactive.
+We write some comments or code, and the AI generates the code for us, which is the story&apos;s end.
+From that point on, our &quot;source code&quot; is the generated code.
+
+You can feel from the previous sentence the contradiction.
+It is like if we would write the code in Java once, then compile it into byte code, and then use the byte code to maintain it.
+We do not do that.
+
+Source code is what we write.
+Generated code is never source code.
+
+I expect meta-programming tools for various existing languages to extend them.
+You insert some meta-code (presumably into comments) into your application, and the tool will generate the code for you.
+However, the generated code is generated and not the source.
+You do not touch it.
+If you need to maintain the application, modify the comment, and the tool will generate the code again.
+It will be similar to what Java::Geci is doing.
+
+You insert some comments into your code, and the code generator inserts the generated code into the editor-fold block following the comment.
+Java::Geci currently does not have an AI-based code generator, or at least I do not know about any.
+It is an open-source framework for code generators; anyone could write a code generator utilizing AI tools.
+
+Later languages will include the possibility from the start.
+These languages will be some kind of hybrid solution.
+There will be some code described by human language, probably describing business logic, and some technical parts more like a conventional programming language.
+It is similar to how we apply DSL today, with the difference that the DSL will be AI-processed.
+
+As time goes forward, the AI part will grow, and the conventional programming part will shrink to the point when it will disappear from the application code.
+However, it will remain in the frameworks and AI tools, just like today&apos;s machine code and assembly.
+Nobody codes in assembly anymore, but wait?
+There are still people who do.
+Those who write the code generators.
+
+And those who will still maintain 200 years from now in the future the IBM mainframe assembly and COBOL programs.
+
+== 4. Conclusion and Takeaway
+
+I usually write a conclusion and a takeaway at the end of the article.
+So I do it now.
+That is all, folks.</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Virtual and Augmented Reality is Here</title><link href="https://javax0.github.io/2023/08/27/vr-future.html" rel="alternate" type="text/html" title="Virtual and Augmented Reality is Here" /><published>2023-08-27T00:00:00+02:00</published><updated>2023-08-27T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/27/vr-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/27/vr-future.html">= Virtual and Augmented Reality is Here
+
+== 1. Introduction
+
+Virtual reality is a technology when you wear some device projecting a non-existent world into your senses.
+This way, you partially or completely lose the connection to the real world and are immersed in the virtual world.
+Current technology does not allow a complete loss of connection to the real world, and the senses are mainly limited to vision and hearing.
+Usually, two LCD devices with special optics are mounted on your head, and different sensors track your head movement.
+The computers display pictures on the LCDs that change as you move your head, showing a static or dynamic virtual reality around you.
+
+In this article, I will write about the history of virtual reality and how I got my fingers wet.
+I will also write about what I experienced recently with my newly bought Meta Quest Pro and how I see the future of virtual reality.
+
+== 2. History
+
+The first virtual reality device was the first loudspeaker headset limited to audio senses, but the term was not used for that.
+
+The first virtual reality device, called virtual reality, was the Sensorama, built by Morton Heilig in 1962.
+I had a set on my head in 1995 at an exhibition IFABO in Budapest.
+I worked for Digital Equipment Corporation then, and we had a stand there.
+My task was to show the visitors the virtual reality headset that DEC created in cooperation with Kubota.
+If you Google the term __&quot;Kubota Denali VR&quot;__ you may find interesting traces of history.
+I had little time to try and play with it, but I was impressed.
+
+I was convinced that VR is the future and will be here as soon as 2000 in five years.
+I remember this because I was young and &quot;brave&quot; enough to express this prediction publicly.
+
+=== 2.1. Derail: Prediction and Braveness
+
+When you are an expert, you can predict the future with a certain precision.
+You are a visionary if you tell others how you see the future and are correct.
+If you are wrong, then you are a fool.
+
+When you are young and at an early stage of your Dunnig-Kruger curve, you are brave enough to express your predictions.
+So, I was brave enough to say that VR will be here in five years.
+I stated it in a forum not smaller than the main central state-running radio stating Kossuth Radio in Hungary.
+Nobody remembered it after five years, so it was not a big shame, but in 2015, twenty years later, the same guy invited me again to the radio to review my predictions.
+It was interesting.
+
+I had some good predictions, like saying that mobile phones will be ubiquitous and be a personal computing device connected to the internet.
+But my VR prediction was off the rails.
+
+Why is it important to mention this other than it gives you credibility when you admit your past mistakes in an article?
+Now I see what I did not see then and why VR did not sweep the board.
+In this article, I will repeat the mistake I made almost thirty years ago and predict VR&apos;s future again.
+
+Why am I so __&quot;brave&quot;__ to do that?
+Because I am old enough to be brave again.
+Young people are brave enough to predict the future because they do not understand that their predictions may bite back.
+Old people know that when the prediction bites back, they will not be there to be bitten.
+
+****
+Never trust the prediction of a young or an old expert.
+****
+
+== 3. Current Experiences
+
+I bought my first VR headset in 2017.
+It was a Sony Playstation VR.
+It was a birthday present from me.
+
+At that time, I saw the state of VR as mainly a plaything.
+Gaming and entertainment.
+I had some play with Fruit Ninja and Beat Saber.
+I tried some other games but got dizzy very soon, and I realized why I was wrong in 1995.
+
+The technology for the VR headset was not good enough.
+It lacked resolution, was too expensive, and needed improvement in tracking the head movement and lag of screen refresh.
+Lag is very important.
+
+When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizon horizontal again, you get dizzy.
+The lag is the time between your head&apos;s movement and the picture on the screen.
+The lag does not need to be large enough to be consciously recognizable, and it may still make you dizzy.
+
+When the virtual world is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
+You see the car and the world around you running, but you are stationary.
+That is what makes you really vomit.
+
+Parts of these problems can be solved, others not.
+In 1995, even in a static environment, I got easily dizzy.
+Today, it is much better, and (jumping a bit ahead) I can spend hours working in VR, watching virtual screens in a virtual café.
+As a matter of fact, I write this article with a Meta Quest Pro on my head, and I am sitting in a virtual café in Immersed.
+
+I knew this was not my last VR set, and I will have a next one suitable for work.
+I was following the news about the vast investments of Meta and Facebook into VR.
+However, I was waiting for Apple to come up with the next generation of VR.
+I use a lot of Apple products.
+They have superb usability and a hefty price tag.
+On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages raised cannot afford the overpriced products, then who can?
+
+When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized I would not wait for Apple.
+I could, but I do not want to pay that amount for something 1.0 and experimental.
+I could also read between the marketing videos&apos; lines to know that this headset may be better than the competition, but it is still experimental.
+It is not Apple&apos;s fault.
+Although I expected a working version, I can see that this expectation was unrealistic.
+It is not Apple Vision Pro that is experimental; it is the whole VR field, even after 30 years.
+
+The reason, as I see now after experimenting with the Meta Quest Pro, is not technology.
+Technology has developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking, and optics.
+It is the software that is immature, and it is in a unique way.
+
+When you think about immature software, you usually think of software that has bugs.
+Although the Meta Quest Pro certainly has bugs, that is not why I say it is immature.
+
+Currently, there is no best practice on how we can and will use VR for work.
+To develop that knowledge will need much work.
+It includes those early experimenters willing to invest their time and effort in working with this immature technology.
+It also needs a lot of money from companies like Facebook to develop the software.
+
+Many software developed today will be thrown away in a few years.
+Not because they are buggy or low quality but because they implement unusable use-case scenarios.
+Nobody knows what is usable.
+Do we want to navigate in a three-dimensional space with boxes and spheres representing different files?
+Should we represent directories as boxes and zoom into them to see the files, or will they be lined up behind them?
+Should we imitate the kinematics of natural objects in a gravitational field like in our everyday earthly environment?
+Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, and relationships between these objects?
+We will try; some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.
+
+When I ordered my Meta Quest Pro, I was unsure what I would use it for.
+I did not expect it to be ready for work.
+I was hoping, but I realized that it may not be.
+I imagined different use cases.
+
+* Work in a virtual environment with virtual screens, using Immersed.
+* Play games.
+* Play some games, which are a workout.
+
+== 4. Meta Quest Pro First Steps
+
+I had mixed feelings when I got the Meta Quest Pro.
+First of all, I had to wait a month till it arrived.
+While waiting, I watched many YouTube videos about the device and the programs, so I was hiked.
+Clearly, it was a mistake.
+
+After I started, it froze, and I had to restart it.
+But it did not happen ever again.
+
+I had to install an app on my iPad/iPhone to use the headset.
+It is okay, but I had to Google it because the QR code on the printed users&apos; manual led to a 404 page.
+I deserve a seamless start for a 1000$.
+
+It does not have a good tutorial.
+It has a tutorial, but it is like someone had to write one to tick it off from the to-do list rather than one written for the user.
+The usability and the guidance of Apple products spoiled me.
+For example, there is a mirror in the virtual environment, which shows your avatar.
+I did not get any information from the tutorial or documentation that it has a use.
+I saw my avatar&apos;s reflection, but nobody told me that I could customize my avatar if I clicked there with the virtual laser beam.
+Later, I also found the menu system to set up the avatar.
+
+After five hours of use, I still could not figure out the different uses of the buttons.
+After a few weeks, I know why: there is no convention.
+Different applications use the different buttons differently.
+There are X  and Y and A  and B buttons, but they have no unified meaning or use.
+The only more or less fixed convention is that the shooting button for your index finger is shooting, and the trigger button for your thumb is grabbing.
+
+I had some early bad experiences with the power and speaker loudness buttons.
+As I was moving the headset on and off a few times, I accidentally pressed these buttons.
+I had to learn muscle memory to grab the headset, a different way from what I first felt natural.
+
+The hand-tracking feature is amazing but not usable.
+It is amazing because it works, but I had to switch it off when working in a virtual environment.
+When I type, the controllers are not in my hand.
+The headset recognizes this, and all my typing movements it tries to interpret as hand gestures.
+Bizarre results.
+
+The screen resolution for the virtual screens is usable, but they cannot compete with my two displays, 5k each setup.
+I can see the pixels and the difference between the virtual and the actual screens.
+
+The keyboard use is also a pain point.
+There are two ways to use the keyboard.
+One is a so-called portal.
+It is a shape fixed in the virtual space that shows the real world behind the shape.
+It is like a window to the real world from the virtual world.
+You can open a portal for the keyboard and see your keyboard blurry.
+
+The problem probably comes from the fact that the cameras were designed for tracking, not showing the real world.
+I can see my keyboard but must adjust the light, and the picture waves slightly.
+
+The other possibility is to use a so-called tracked keyboard.
+In this case, the software identifies the keyboard by its shape and draws a virtual keyboard where the actual keyboard is.
+At the same time, it draws your hands in real-time, so you see your hands and keys in a virtual environment.
+It works as a labor experiment.
+Only a few keyboards are supported: some Logitech models, Apple Magic keyboards, and Macbook Pro and Air keyboards.
+Luckily, I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
+Virtual keyboards support only US layout.
+Not even Y and Z swapped for many European keyboards.
+
+You must have a high-speed connection between the PC/MacBook and the headset to use virtual displays.
+To have that, I configured my MacBook to use my iPhone interned via a tethered connection.
+The Wi-Fi uses the 5GHz band and provides a dedicated hotspot for the headset.
+With this setup, the lag between the computer and the headset is 6m; that should be enough.
+Because I still could feel a little lag in the mouse movement, I ordered a USB-C to USB-C Oculus cable.
+I feel ashamed to admit how much I paid for it, but it moved the latency to 2ms.
+The mouse is still lagging.
+
+I also had to switch to dark mode with IntelliJ for better visibility on the virtual screens.
+
+Watching movies is impressive.
+And I did not mean the link:https://www.youtube.com/watch?v=h8srG_iKh5Y[special movies].
+Just a good old boring Netflix, Disney, Amazon, etc. movies.
+
+== 5. Apps I Used
+
+I tried a few applications, and other than a few games I already used before, I categorize each application as experimental.
+The most mature application is Immersed.
+There are a lot of problems with it, but I use it every day for a few hours.
+It proves it is usable, but to be honest, I am not absolutely sure if I use it because
+
+* I really like it despite the drawbacks or
+* I have buyer&apos;s remorse and must convince myself that I did not waste my money.
+
+What I have experienced, though, is that meeting people in a virtual environment is much more natural than I expected.
+When I do a video conference, I see the faces of the people I talk to.
+When I do a virtual meeting, I can only see the avatars.
+I expected it to be less natural, but somehow, it felt more in the present.
+You are visually in the same space as the other people&apos;s avatars; you talk to them, and your hands are tracked and shown, as well as your facial expression.
+I also experienced that we needed less &quot;who talks when&quot; protocol than in a video conference.
+
+I also tried a mind-mapping application called Noda.
+I do not use mind mapping often, but I wanted to see how it works.
+I was surprised.
+Using spatial representation of the mind map is much more natural than the flat one.
+
+I also tried some 3D drawing, and I am still behind my plans with CAD for 3D printing.
+
+== 6. Future Apps
+
+And this is the chapter where I will make a fool of myself.
+Let&apos;s hope that I live long enough to see it.
+I will not give exact year numbers when something will come.
+
+There will be a lot of technical development in the next few years, but that is something out of my experience.
+I expect many steps forward regarding the software, applications, and development.
+
+Right now, we have different applications that present virtual worlds and something in it.
+Immersed does two things: 1. provides a space where people and their avatars are visible and can interact, and 2. provides virtual screens.
+Noda, the mind mapping application, also provides 1. a virtual space and 2. a virtual mind map.
+
+It is somehow analogous to the MS-DOS times when you could run only one application on the screen simultaneously.
+
+I expect the virtual space to become the desktop.
+It has to be provided by the operating system, and the different applications will be able to use it, placing and moving different virtual objects in it.
+I have not read articles that envision this model, but I am sure this is how VR architects at big companies envision the future.
+What do we miss there?
+
+We miss the copy/paste and the drag-and-drop functionality.
+I do not mean literally.
+I do not think we should have a virtual clipboard and drag-and-drop virtual objects.
+But we need a way to use different applications in the same virtual space and make them interact.
+What we miss is the act, which is the most natural way of interaction between applications like drag and drop and copy/paste on the desktop.
+
+With that, I am sure we will soon forget the desktop and the windows and virtual windows.
+Tethering a MacBook to a headset is like tethering a horse to a railway car.
+It was needed briefly to provide the continuity of cultural development, but we will forget it.
+We will have a VR version of programming IDEs; we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation, and so on.
+These will run on the headset, and we will not need to embed the 2D desktop into our 3D virtual world.
+
+== 7. Conclusion
+
+This article is not about software development, but since most of my articles are about that, I expect that most of my readers are.
+
+What should you do as a developer?
+What is the message?
+
+First of all, you must not ignore VR technology anymore.
+The headsets become better and cheaper, and the software will develop.
+Immerse, for one, can be a good excuse to buy a headset if you need an excuse.
+You should get acquainted with the technology, what is available, and what can be developed.
+Expect new operating system features supporting VR and new APIs and tools.
+There will be many opportunities in the coming years around this technology.</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Unit test future versions</title><link href="https://javax0.github.io/2023/08/25/unit-test-the-future.html" rel="alternate" type="text/html" title="Unit test future versions" /><published>2023-08-25T00:00:00+02:00</published><updated>2023-08-25T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/25/unit-test-the-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/25/unit-test-the-future.html">= Unit test future versions
+
+== 1. Introduction
+
+Recently I modified a feature in Jamal.
+I kept the original functionality for backward compatibility, but I added a new feature.
+However, the use of the old feature is deprecated, and it will be removed in the next version.
+I also wrote in the document that version 3.0.0, which is somewhere in the future, will not support the old feature.
+
+How can I ensure that the feature gets deleted in that release?
+
+In this article, I describe what I did.
+It may not be the best solution.
+You may come up with better ideas, and you are very much welcome to do that in the comment section.
+
+In the following chapters, I will dig a bit into what I changed, to give some background and then the tests I created.
+In the end, I will also tell you what I do not like in this solution.
+
+During this way I will also reiterate the most important features of unit tests, which surely is discussed in many other places, but it does not hurt to repeat.
+
+== 2. The feature
+
+Jamal uses macros.
+After all, Jamal is a meta markup language with built-in and user defined macros, so that is a core feature.
+The macros are identified by a name, that contains `[$_:a-zA-Z0-9]` characters not starting with a number.
+This is fairly standard.
+
+Some solutions import text from some source where the natural name of the source does not comform to this rule.
+To overcome this, there is a macro named `macro` that returns a temporary alias for the macro named irregularly.
+That way, instead of the syntactically incorrect
+
+  {this.cannot.be.a.macro}
+
+can be used as
+
+  {{@macro [alias]this.cannot.be.a.macro}}
+
+The macro `macro` can create aliases for user defined as well as for built-in macros.
+To get an alias for a built-in macro the option `builtin` has to be used.
+
+  {@{@macro [builtin alias]this.cannot.be.a.macro}}
+
+The old version used a different format
+
+  {@{@macro [type=&quot;builtin&quot; alias]this.cannot.be.a.macro}}
+
+defining the type of the macro as a string.
+As Jamal was developed the parameter options can now be Java `enum` values.
+When you can select `builtin` or `userdefined` this is a better choice than using a string.
+The part `type=` is only noise with no extra information.
+It is evident what `builtin` or the default `userdefined` means.
+
+The parameter option `type` will be deprecated in the next release (2.5.0), but should not be deleted.
+It will be removed in the release 3.0.0.
+Backward incompatibility has to be kept to minimal and is usually not allowed for minor version increase.
+
+== 3. Problem Statement
+
+I wrote in the documentation:
+
+****
+NOTE: The parop `type` with string parameters is supported for compatibility reasons only and is deprecated.
+It will be removed in release 3.0.0
+****
+
+How can I ensure that the feature gets deleted in that release?
+When we need something to be ensured, the best way is that we write a test about it.
+The tests run automatically for each build, and if the test fails, the build fails.
+It is more or less a trivial idea to have a test for the feature.
+
+== 4. Designing the Test
+
+The functionality of the test is fairly simple.
+It has to check the version of the Jamal library and if it `3.0.0` or higher than it has to check that the `type` parameter is not supported.
+
+To do that it is simple: we have to process a `macro` with the `type` parop, and it has to throw an exception.
+Since Jama has a support library, you can easily write:
+
+  TestThat.theInput(
+    &quot;{@define a=yayy}{#ident {@define a=value of a}&quot; +
+    &quot;{@macro [global type=\&quot;user defined\&quot;]a}}&quot;).throwsBadSyntax();
+
+Jamal can also provide the running instance version calling `Processor.jamalVersionString()`, therefore, it is also not an issue.
+The whole test is
+
+    @Test
+    @DisplayName(&quot;Macro parop &apos;type&apos; is deprecated and has to be removed in version 3 and later&quot;)
+    void testDeprecation() throws Exception {
+        final var v = Processor.jamalVersionString();
+        if (!v.startsWith(&quot;2&quot;)) {
+              TestThat.theInput(
+                &quot;{@define a=yayy}{#ident {@define a=value of a}&quot; +
+                &quot;{@macro [global type=\&quot;user defined\&quot;]a}}&quot;).throwsBadSyntax();
+        }
+    }
+
+That is the technical part, but I also want this unit test to be a &quot;real&quot; unit test.
+Is it possible?
+
+Unit tests have to be
+__descriptive, fast, isolated, repeatable, small, self-validating,
+maintainable, trustable, focused, thorough__.
+
+to name a few of the qualities.
+
+__Descriptive__ means that reading the code of the unit test makes it evident what the test does.
+Many times this feature is mentioned as _readable_.
+In the case of JUnit it is supported by the `DisplayName` annotation.
+Looking at the unit test above this is hardly a problem.
+We can tick this check box.
+
+__Fast__ means that the unit test should bot take too much time.
+This should also not be a problem.
+The macro processing does not use any io, it is as fast as it can be.
+
+__Isolated__ means that the test runs fine even if there is some bug in some part of the code the test is not responsible for.
+If this test is isolated or not is debatable.
+It is not isolated as it uses the test support library of Jamal, which indeed uses the processor.
+
+One can argue that when this test runs, the processor is not under test and has to be considered as trusted code the same way as the mock library is trusted.
+This is very much true when we test a macro library, which is independent of the core Jamal is tested.
+A bit less when we run macros that are part of the Jamal library.
+In this case, there can also be bugs in the processor affecting this test.
+
+It is a rare case, and the simplicity provided by avoiding the mock setup balances the cost of the possible bug in the processor.
+It is how Jamal is designed and how it supports macro unit testing.
+Also, this is a general engineering compromise between isolation and simplicity and has nothing to do with the fact that the problem is to test a future version.
+Let&apos;s discuss this further sometimes in the future in a different article.
+
+__Repeatable__ means that the test should run the same way no matter how we execute it.
+It is isolated from the environment.
+
+__Small__ means that the unit test is short. It is very much related to the __descriptive__ and __maintainable__ quality.
+If a unit test is large, contains many lines, it is hardly readable and usually not easy to maintain.
+In that case, it is also a code smell that there is something wrong.
+Either the unit test is wrong in some sense or the code itself needing some refactoring to be testable.
+
+In this case, the unit test is small.
+It is three lines of code, or five adjusted to printing.
+
+__Self-validating__ means that there is no need to check the output of the test manually.
+There can be no debate if the test passed or failed.
+The output of the test is either green or red.
+If it is red, then it can still be failed test or an error, which is also a kind of failure needing attending.
+
+__Maintainable__ means that whenever the code changes and the code in the unit test becomes invalid, it is easy to change.
+Let&apos;s assume no matter how absurd it is that the syntax of the macro `define` changes.
+This macro is used in the unit test.
+If the change is so, then the unit test will fail, but not related to the tested feature.
+It also shows that this unit test is not properly isolated, but I already discussed that and I will in detail in a further article.
+The test, however, is maintainable because it is extremely easy to follow the imagined change in the syntax.
+
+Of course, the syntax of such a centerpiece macro like `define` will not change backward incompatible.
+That would be bad product management, but let&apos;s not derail: it was only a hypothetical example.
+
+__Trustable__ means that the test either passes or fails all the time independent of external conditions.
+It does not matter if it is a hot summer, or cold winter, it is sunny or rainy, the operating system patched to the latest security patch, replaced by the marketing department from Linux to Windows: the test will pass or fail.
+
+There are cases when tests sometimes pass, and sometimes fail.
+There is a popular extension of the JUnit framework in the JUnit Pioneer project that allows you to run the same test multiple times till it does not fail.
+This is a totally wrong approach, and instead of being okay with having a test, sometimes passing, the developer should thrive for trustable test.
+
+Do not take it wrong.
+A test that sometimes fails and sometimes passes can prove that the code is ok.
+It depends on the code, the feature tested and the test itself.
+For example, you can have a method that returns prime number to the number of seconds in current time modulo ten.
+A test can check that the method returns 5 and repeats every half second till it gets it.
+It is highly questionable what it proves when it passes, but failure does not mean that the code is wrong.
+The test has to be improved, but if it cannot, then it may be better to have it.
+
+This test, I believe, is trustable.
+Can you prove that it is trustable?
+Questionable.
+I will discuss this issue in this article.
+
+__Focused__ means that the test checks one feature.
+If the test fails, it proves that one feature is faulty.
+Beginners many times put multiple features in one test.
+This makes it more difficult to see what feature is faulty when a test fails.
+
+Being focused is also expressed many times saying that one test should have one assertion only.
+This is misinterpreted many times as one test should have one line of assertion code only.
+This is not the meaning of the &quot;one assertion&quot; rule.
+
+You can check in an assertion statement the length of a list, then in the next assertions the individual elements.
+Technically, these are several assertion statements, but they compose one complex assertions.
+
+The above test is focused.
+Do not mistake the two conditions.
+One is not an assertion, rather a prerequisite of the test.
+Other than that the test checks if the feature `type` is deprecated and removed in the future version.
+
+__Thorough__ means that the set of unit tests cover all relevant cases.
+A single unit test cannot prove that the code functions as expected.
+It can only prove that the code does not function as expected.
+On the other hand, the full set of unit tests gives a fairly good approach and approximation of the correctness of the code.
+It does not prove strictly to speak.
+
+Looking at this single unit test as a set, I can say that it covers all relevant cases.
+
+== 5. Trustability
+
+As we said, the trustability of the example test is questionable.
+So here we question and answer that.
+
+Turstability is a tricky feature of tests.
+If you are a QA person, you know that nothing is tursted unless it is tested.
+Testing the test is a great idea, after all that is your bread and butter, that is what you earn your money.
+Unfortunately, or not so &quot;un&quot; fortunately that is also a cost of testing.
+Testing the test is recursive and something having a cost attached to it must not run away.
+Therefore, we usually stop there and do not test the tests with other tests.
+
+What developers do...
+
+I do not know what developers do.
+I know what I do.
+
+When I create a test for a feature, I run the test before developing the feature.
+Then I develop the feature and then the test passes.
+This is some basic form of TDD, and I am not always that disciplined.
+
+If some strange way the feature is already there when I develop the test, then I just remove the feature to see that the test fails.
+This is a manual test of the test.
+
+How can we do that in our case?
+We have a test that checks that the `type` parameter is removed and a precondition.
+The issue is that the precondition needs a future release, which is not there yet.
+It will be there as soon as the release will be created or when time travel is invented, whichever comes first.
+,n of the Jamal library to a future version and run the test.
+And that is exactly what I did.
+And it failed as it should.
+
+Hurray...
+
+== 6. Takeaway
+
+We discussed a simple problem and a simple technique to solve it.
+It would not deserve much conclusion.
+A simple trick.
+
+However, if I look at it as an example of some out-of-the-box thinking, we can learn from it.
+
+Unit test is a tool.
+There are some rules on how to use it, but these rules are not strict.
+They are not the ten commandments.
+They are there to help us and must not be followed dogmatically.
+We should understand why a unit test has to be descriptive, fast, isolated, repeatable, small, and so on.
+If we understand the reasons we can judge better if our tests conform to the rule and also when to make an exception, when is it acceptable to break some of the rules.</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Do not stop threads</title><link href="https://javax0.github.io/2023/08/07/do-not-stop-thread.html" rel="alternate" type="text/html" title="Do not stop threads" /><published>2023-08-07T00:00:00+02:00</published><updated>2023-08-07T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/07/do-not-stop-thread</id><content type="html" xml:base="https://javax0.github.io/2023/08/07/do-not-stop-thread.html">= Do not stop threads
+
+__I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary.
+He plays a significant role in this story as he was the one who made the decision to cancel our contract.
+I must acknowledge that he made the right call, and it was the correct course of action.__
+
+__However, I also remember some instances where he seemed less concerned about his health, disregarding his blood pressure and cholesterol levels, despite my concerns, which we discussed a few times.
+Sadly, László passed away in 2017 at the young age of 57 due to a heart attack.
+It&apos;s a stark reminder of the importance of taking care of our well-being and not neglecting warning signs.__
+
+__Now, as I find myself at the same age László was when he left us, it serves as a poignant reminder of the fragility of life and the need to prioritize our health and well-being.__
+
+== 1. Introduction, Topic
+
+I am 57, and I recently made some bad moves, and my back aches.
+I cannot sit for a long time, and I suddenly had ample time at my hand watching YouTube videos.
+
+During my exploration, I stumbled upon an impressive channel called https://www.youtube.com/@ThePrimeTimeagen.
+The creator of this channel is a remarkable young individual who possesses wisdom beyond his years.
+His videos exhibit a profound understanding of technology, which captivates me.
+
+I appreciate how he simply sits and discusses other videos or articles without feeling the need to over-explain things.
+It&apos;s a &quot;take it or leave it&quot; approach.
+Those who comprehend his content gain valuable insights, and those who don&apos;t: sorry.
+
+I very much enjoy when I understand what he says and feel that probably not many do.
+It is a snug but somewhat arrogant feeling that one should be careful.
+
+Also, I could hardly find any of his statements I would strongly disagree.
+Sometimes I feel we could have some discussion, but generally I can agree to, or accept his points.
+Go and watch him!
+
+Recently I saw a video where he was commenting an article that was about a story how someone almost accidentally corrupted PayPal in the early days.
+I will not talk about that, it is here https://www.youtube.com/watch?v=MzescXc5SW0.
+It is a story with lots of technical details you can learn from.
+
+Being 57 does not only mean backache.
+It also means that I have seen and done a few things that sometimes I tell younger people in the office.
+Why not write articles about these?
+So I decided I will write a few articles about things that I have seen and done and that I think are worth sharing.
+
+And here we go.
+
+== 2. Disclaimer
+
+Most of the story is true and based on real events.
+
+== 3. Stopping threads
+
+As I said, I have time to watch YouTube videos.
+I came across the video https://www.youtube.com/shorts/f4fajEBqY0g.
+It is a short video about how to stop a thread, which you should not.
+This is one minute, and it does say you should not, and a sentence why, but one minute is too limited to explain the reasons.
+
+I know why you should not stop a thread and not only what the documentation says.
+It cost me 20,000$ in lost revenue in 2006 when the GDP per capita per year in my country was less than that.
+
+== 4. Background
+
+I started programming in 1980.
+My father was a professor at TU Budapest in Hungary and could access a link:https://en.wikipedia.org/wiki/TI-30[TI-30] calculator.
+It was a programmable calculator.
+I remember I tried to write a program to crack an RSA encoded text published to be cracked.
+Although the prime numbers were only 10 digits long, and the calculator had 1024-step program memory, registers were perhaps 16bit integers, and I had to implement multi precision arithmetic in my code.
+
+I never succeeded with this one, but the exposure to programming &quot;infected&quot; me.
+I was 14.
+Later I programmed the Swedish ABC80, the Hungarian C64 clone, and the Hungarian VT-1080z that resembled the link:https://en.wikipedia.org/wiki/Enterprise_(computer)[Enterprise] computer, ZX Sinclair Spectrum, and many others.
+That time we programmed whatever we could get our hands on.
+My Unix exposure was minimal because the chair I was volunteering had VAX VMS machines.
+
+I finished TU Budapest Electric Engineer and started to work as a sales rep for Digital Equipment Corporation in Hungary in 1991.
+Does not fit a programming carrier, does it.
+That the time paid programming in Hungary was mainly crafting bookkeeping applications in BDase, and it did not pay well.
+I was already married and had a child with the twins on the way, so I needed a respectable wage.
+You can afford to live your hobby as a profession if you can afford it.
+My priorities were different.
+
+I kept programming in C and Perl that time as a hobby.
+I even wrote a small book in Hungarian about perl, which was the first such, and many learned Perl programming that time from my book.
+So much that when link:https://en.wikipedia.org/wiki/Larry_Wall[Larry Wall] visited the Budapest Perl conference in the late 90s, I was invited as a keynote speaker.
+The title of my talk was &quot;Forbid Perl&quot;, and I was talking about how Perl makes you so productive that using Perl eliminates the need of too many other programmers, and therefore it has to be forbidden to be used for real applications.
+I was saying that in front of the father of Perl sitting in the first row.
+I intended that as humor, but after a few decades I see that I was right.
+At the time, I did not see the benefit of professional software development overhead versus hacking something together in Perl.
+It is not the trait of the language per se, but Perl usually was used to script things in a hacky way.
+
+I left DEC in 1999 and joined index.hu as CIO.
+It was a small startup, the first only online news site founded by a few university friends of mine.
+We wanted to make history and get rich.
+We achieved the first one.
+
+I also programmed the advertisement engine of the site, which is a story on its own.
+
+When the dotcom bubble burst, we had to lay off people, restructure the operation from investment oriented growing to sustainable operation.
+There were a lot of things I learned there, but those were management lessons, not programming.
+The last step was to give in my own notice, and I left the company in 2001.
+
+Then I started to work for T-Mobile, but they did not hire me as a programmer.
+I had no prior professional experience and &quot;hobby programming&quot; did not count.
+I was hired as a project manager.
+
+I was working in that position, I even ignited the development of a reformed project management methodology, but this was not my piece of cake.
+Five years later, my brother told me to create our own company.
+He was one sixth owner of a small company that was doing software development, and the other five developers moved towards SQL and stored-procedure direction.
+My brother thought that Java development is more interesting and more prospective, so he wanted to start a new company.
+
+Why we decided to go to the Java direction and not Microsoft is again another topic that deserves an article on its own.
+It was more political/philosophical than a technical decision.
+I will write an article about that later, as well as about why we chose to trade in our old Linux and Windows machines to MacBooks with MacOS.
+These are interesting topics because people approach such decisions based on belief, and it can lead to heated discussions.
+Not now.
+
+We started the company in 2006.
+One of our first clients was T-Mobile.
+We knew the people there, they knew me, and they needed an advertisement engine.
+I wrote the one for index.hu, and it was still in production six years later, delivering millions of HTTP responses per day.
+Not only it was the far largest traffic web server in the country, but it was also the most reliable one.
+
+Much later at a conference, a speaker said that back in the days they checked their Internet connection by pinging the adserver of index.hu.
+Other sites can be down, but if the adserver is not reachable then it is more likely they have a connection problem.
+He did not know I was sitting there in the audience.
+It was a great feeling hearing that.
+That ad server ran for nine years uninterrupted and without any code modification.
+
+== 5. Thread Stopping AdServer
+
+So we got the contract to develop an ad server for T-Mobile.
+The contract size was around 30,000$.
+I did not know any Java that time.
+I had limited OOP experience.
+I was mainly programming in C and Perl and not commercial.
+But I was a good programmer, at least I though so.
+
+We created the application in Java while I was learning it.
+The users were authenticated, and we had a backing database with user data.
+The ad engine had to select the ads based on the mobile subscription, number of used minutes, phone type, and other parameters.
+
+We used PostgreSQL as the database in the dev environment and Hibernate on a Tomcat.
+An advertisement had to be displayed in two seconds.
+If the selection process was running longer, then a default ad was displayed.
+To achieve this, we executed the selection logic in a separate thread using the ExecutorService and waiting on a Future object.
+We also used the database connection pool available from the Hibernate library.
+
+We manually tested the application, and it worked fine.
+We ran some load test and it worked fine.
+But I wanted to deliver perfect software, so I decided to play a bit with the case when the selection times out.
+In that case, the request serving thread sends a response, but the selection thread is still running putting a useless load on an already overloaded system.
+We can call &apos;stop&apos; on the thread.
+
+We tested this scenario, and it worked fine.
+The connection pool realized that the thread was stopped and closed the connection and created a new one in these cases.
+I knew that the production will use ORACLE database and the connection pool will also be the one provided by ORACLE.
+We did not have a test environment with these components, therefore, I decided not to use this performance-saving trick in the production system.
+But I was proud of my code, and I did not want to delete the line stopping the thread.
+Instead, I put it into an if statement that was never true, with a comment something like
+
+[source,java]
+----
+// this &apos;if&apos; is always false but I keep it here to show that I know how to stop a thread
+if( true ){
+    thread.stop();
+}
+----
+
+Now, you already get a clue, especially if you skip over the line reading it not realizing that the ACTUAL value is &apos;true&apos;.
+The code went into production and worked fine.
+It worked fine for a while, except when the load went up.
+
+When the load went up, the application started to deliver the default ad.
+The weird thing was that after the load went down, the application still delivered the default ad.
+Operation had to restart the application to work again.
+We did not have a clue what was going on, and we responded suggesting to increase the hardware capacity.
+It was clearly needed to handle the peak load, but there was another problem eventually.
+We tried to ignore it.
+Being a small company, we were already occupied with the next project.
+Putting new hardware under a service in a large corporation does not happen from one day to the other.
+The service needed to restart a few times every day.
+It went on between us and the project manager till he escalated the issue, and we could not ignore it anymore.
+
+We had the log files, and we started to investigate.
+The log clearly showed that the application allocated connection from the pool when a selection started.
+The log also showed that the connection was returned to the pool when the selection finished even when the selection timed out.
+I strongly believed that this could not be the problem, especially because we did not stop the threads in the case of timeout.
+
+At least that was what I thought.
+
+We added more logging to the code, deployed it to production which essentially made it a bit slower, making the client even less happy, but it was needed.
+There were log items for each request and response, we knew when a request timed out, the connection id, thread id and so on.
+The log was huge, and I wrote Perl scripts to analyze it.
+It took a week and a lot of diagrams until I realized that whenever a thread timed out, that connection ID never appeared later in the log.
+The connection never returned to the pool, even though the library falsely reported that it was.
+But why?
+We did not stop the threads, and the log showed that these threads always stopped a few milliseconds after the selection timed out.
+
+This was the first clue.
+It seemed fishy.
+When the selection using a few SQL selects timed out, why was it always only a little bit late?
+The fact that we first tried to increase the timeout from two seconds to two and a half seconds shows how clueless we were.
+It made the time outing threads to finish in two and a half second plus a few milliseconds.
+Always the timeout time plus a few milliseconds.
+
+&quot;Didn&apos;t you leave the code in that stops the thread?&quot; asked my brother.
+
+&quot;Sure, I didn&apos;t, see, it is in an if statement that is never true.&quot;
+
+&quot;No. That is what the comment says.&quot; -- he replied. -- &quot;But the code is there, and it stops the thread.&quot;
+
+I was looking at that code hundreds of times blindly during those past two weeks.
+I read the comment and skipped the code.
+I read what I wanted to be there and not what really was there.
+
+This time I deleted the line and the comment, and we deployed the code.
+It worked fine, unlike our relationship with the client.
+They canceled our contract for the further development of the ad server.
+We have lost a 20,000$ contract, and we were told that we will never get any contract from them again.
+I could not blame them.
+
+This &quot;never&quot; lasted three years when partnering with another company, we delivered a system they used to electronically sign four million invoices every month.
+Do you remember what my very first program was on that TI-30 calculator?
+That delivery I am not ashamed of.
+I learned a lot during those three years.
+
+== 6. Conclusion
+
+There are many things to learn from this story.
+
+=== 6.1. Don&apos;t stop threads
+
+Even though you technically can stop threads, you MUST not.
+If you MUST not, then why experiment with it?
+You can tell the thread that it can stop if it feels so.
+You can use some shared state for the thread to check periodically and stop when it can do safely.
+Calling `interrupt()` on a thread is a good way to tell the thread that it can stop.
+Documentations list a lot of things that may happen when you call `stop()` on a thread, but reading it is one thing and when it happens to you is another.
+
+Everybody has to burn the hands a few times.
+The cleverer you are, the less you need to burn your hands.
+There are some Mucius Scaevolas out there, not learning from their mistakes.
+Do not be one.
+
+=== 6.2. Logs are only logs
+
+Logs contain the messages that the application writes about what it does and not what really happens.
+Programmers make bugs, including misleading logs.
+Even when you use a high reputation library, you can still face bugs.
+
+=== 6.3. Comments can be dangerous
+
+Comments can be dangerous.
+Comments are in English and no matter how nerd you are, your eyes will read the human text first.
+In this case, non-native English speakers may have a slight advantage.
+If the comment is outdated, misleading or plain wrong, it may lead the maintainers&apos; eyes away from the code.
+
+A good comment does not explain what the code does.
+The code precisely describes that.
+You should explain why it does what it does and how other parts of the code should use, and interface the code.
+
+In this case not having any comment before the `if` statement, or just
+
+[source,java]
+----
+// we can switch experimental thread stopping on and off here
+if( true ){
+    thread.stop();
+}
+----
+
+would have been better.
+My today wisdom says to delete the line and the comment.
+If you want to keep the line as a legacy, do it in a separate branch or tag in the version control system.
+
+=== 6.4. You do not know when you are stupid
+
+At that point, writing my first commercial application, I was at the peak of my Dunner-Kruger curve.
+You do not know when you are there.
+If you feel you are an expert, you know everything, you are the best: be very careful.
+You are probably at that dangerous peek.
+Don&apos;t stay there, climb off on the right side and start to climb up on the peek-less long slope to the right, always with a healthy level of self-doubt.
+
+=== 6.5. Customer is always right
+
+When the customer says that you are wrong, you are wrong.
+They complained that the application does not come back from the overloaded state and our first response was to ask for more hardware.
+Technically, we were right.
+If the system does not ever get into the overloaded state, then there is no problem not getting back to normal from it.
+However, you see how arrogant this standpoint was.
+Probably this was the number one reason we lost the contract.
+
+We learned from this mistake.
+We learned many more mistakes after that, and this is a process that I have not finished yet.
+Learning from mistakes may be the most perpetual thing in my life, and I think it is important for everyone.
+I have many similar stories, and if you liked this one then leave a comment, give some feedback that will make me know that I should write more.</content><author><name></name></author><summary type="html">I dedicate this article to László Fekete, my former boss and director at T-Mobile Hungary. He plays a significant role in this story as he was the one who made the decision to cancel our contract. I must acknowledge that he made the right call, and it was the correct course of action.</summary></entry><entry><title type="html">Managing IntelliJ Live templates</title><link href="https://javax0.github.io/2023/07/05/live-templates.html" rel="alternate" type="text/html" title="Managing IntelliJ Live templates" /><published>2023-07-05T00:00:00+02:00</published><updated>2023-07-05T00:00:00+02:00</updated><id>https://javax0.github.io/2023/07/05/live-templates</id><content type="html" xml:base="https://javax0.github.io/2023/07/05/live-templates.html">= Managing IntelliJ Live templates
+
+I primarily use IntelliJ for the majority of my work nowadays.
+This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature.
+I have chosen to assist Jamal with the implementation of live templates.
+
+Within this article, I will elucidate the methodology I have devised for editing and maintaining the live templates.
+
+== 1. Problem Statement
+
+IntelliJ supports the editing of live templates.
+It is designed to make the creation of live templates easier for beginners rather than being highly effective for power users.
+Solutions and usability can always be designed to prioritize ease of use for beginners or effectiveness for power users.
+Typically, these two aspects are mutually exclusive.
+
+In the case of IntelliJ and live templates, it appears that the decision was made to prioritize the initial version.
+To edit the live templates, you can navigate to the menu `Settings` -&gt; `Live Templates`.
+The templates are organized by the language they are used in, and by selecting one or clicking on the plus sign to add a new template, you will be presented with a form to edit the different parts of the template.
+
+image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2023-07-05-11-40-53-991.png[]
+
+You have the ability to edit several aspects of the live templates:
+
+1. Abbreviation: This is the text you type in the editor to trigger the template.
+2. Description: A short text that appears in the popup when you type the abbreviation.
+3. Template text: The actual content that gets inserted into the editor when the template is triggered.
+4. Context: Specifies where the template can be triggered.
+5. Variables: Parts of the template that can be edited when the template is triggered.
+
+To save a template, you can click on either &quot;Apply&quot; or &quot;OK,&quot; and then proceed to add a new one.
+However, when dealing with a large number of templates, such as the initial release that Jamal is working on, editing them can involve a significant number of clicks and mouse navigation.
+
+This is not the only challenge, though.
+Maintaining the templates poses additional concerns.
+Live templates are stored in ZIP files, and uploading them to a repository makes them accessible to users.
+However, editing the templates and keeping track of changes can be tricky.
+How can you efficiently make modifications to the templates?
+How do you track and compare changes between different versions?
+
+Programmers have become accustomed to tools that support them in maintaining program code, which is essentially text-based.
+Similarly, we desire the same level of support when it comes to maintaining live templates.
+How shall we reach that?
+
+== 2. Approach to Solve the problem
+
+The live templates are stored as XML files within a ZIP file.
+It is possible to import a ZIP file containing live templates, which will add the templates to the existing ones.
+Each group of templates is stored in a separate XML file.
+If a group with the same name already exists in the editor, it will be overwritten by the imported group.
+
+One approach to editing the templates involves exporting them, modifying the XML files, and then importing them back.
+By keeping the expanded files in a version control system, changes can be tracked.
+The build process can generate the ZIP file from the expanded files.
+
+However, this process is not ideal.
+Editing XML files is not preferred, as it can be cumbersome and unintuitive.
+Nobody wants to spend their time editing XML files, especially when there are other enjoyable activities to pursue, such as going to the gym, swimming pool, enjoying an apéritif, or having a barbecue, or spending time with their children.
+&quot;I am going to edit some XML files, what a joy!&quot; is not a phrase commonly heard (not to mention YAML!).
+
+What we need is a better solution.
+We require a Domain-Specific Language (DSL).
+
+In the following section, I will describe the approach I took to create a DSL specifically for this purpose and how I utilized it effectively.
+
+== 3. Suggested Solution, Tools
+
+Creating a DSL can be approached in various ways.
+The most well-known option is to use Groovy, which is frequently used for this purpose.
+However, Kotlin is also a viable choice.
+Notably, Groovy includes an XML builder structure that facilitates the creation of XML files.
+
+In this particular case, I opted for a different approach, driven by several reasons.
+
+The primary reason is that the live templates I developed are specifically for Jamal.
+Jamal can serve as a DSL and supports multiple integrations.
+One such integration involves running Jamal interactively while editing an Asciidoc file in IntelliJ using the Asciidoctor plugin.
+
+With this setup, you can also edit XML files.
+IntelliJ and the Asciidoctor plugin will recognize the file as an Asciidoctor file, but Jamal will identify it as both a Jamal and XML file.
+When editing a file with the `.xml.jam` extension in IntelliJ, Jamal will save the processed XML into a file while simultaneously sending an Asciidoc document containing the XML as a fenced code block to the Asciidoctor plugin.
+This allows you to edit the enhanced XML with macros in the left pane of the editor while observing the final, syntax-highlighted XML in the right pane.
+
+There is no separate compilation phase involved.
+When you edit the `.xml.jam` file, you are simultaneously modifying the XML file.
+
+Creating the DSL is remarkably simple.
+You only need to define a few Jamal macros.
+
+[source]
+----
+{%@sep {! !} %}
+{!@define asciidoc:output=live-templates/templates/Jamal.xml!}
+{!@comment This is a definition for the Jamal live macro templates for IntelliJ!}
+{!@define template($name,$content,$desc,$variables)=
+&lt;template name=&quot;jm-$name&quot; value=&quot;{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;#10;!}%}&quot; description=&quot;$desc&quot; toReformat=&quot;false&quot; toShortenFQNames=&quot;true&quot;&gt;
+$variables
+&lt;context&gt;
+&lt;option name=&quot;AsciiDoc&quot; value=&quot;true&quot; /&gt;
+&lt;/context&gt;
+&lt;/template&gt;
+!}
+{!@define variable($name,$default)=&lt;variable name=&quot;$name&quot; expression=&quot;{!@replace `///`$default///&quot;///&amp;quot;!}&quot; alwaysStopAt=&quot;true&quot; /&gt;!}\
+
+----
+
+To prevent conflicts with the Jamal plugin in Asciidoctor, the first line in the DSL sets the macro start and end strings to `{!` and `!}` respectively. By using these distinct macro delimiters, any potential clashes with the default `{%` and `%}` delimiters used by the Jamal plugin can be avoided. This ensures a smooth integration and usage of both the DSL and the Jamal plugin within Asciidoctor.
+
+To clarify the process further, the `asciidoc:output` macro is used to specify the output file in the DSL.
+Without this definition, the conversion from `.xml.jam` to `.xml` would create a file in the same location as the source file.
+
+In addition to the `asciidoc:output` macro, two macros are used to define the template:
+
+1. `template`: This macro is utilized to define the structure and content of the template.
+2. `variable`: This macro is used to specify the variables within the template that can be customized when the template is triggered.
+
+These macros, namely `template` and `variable`, play a crucial role in creating and customizing the live templates within the DSL.
+
+It is important to note that the abbreviation (name) of the live templates always begins with the letters `jm-`, which stands for Jamal Macro.
+This prefix is used to avoid conflicts with existing live templates and follows the same practice as the Asciidoctor plugin, which uses `ad-` as a prefix for their live templates (where `ad` stands for Asciidoctor).
+
+To simplify the editing process and reduce the risk of errors, it is undesirable to manually insert this prefix every time when working with the templates.
+Doing so would be a tedious and error-prone task.
+Therefore, the DSL provides a macro that handles this automatically.
+
+The `value` attribute of the `template` element stores the text that will be inserted into the editor when the template is triggered.
+The macro processing the content parameter is the following:
+
+[source]
+----
+{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;#10;!}%}
+----
+
+In the Asciidoc file, macros will begin with the `{%` delimiter.
+However, just like the `jm-` prefix for live templates, we don&apos;t want to type this delimiter every time.
+Since these macros are not user-defined macros, they can be invoked using the `@` or `pass:[#]` prefix.
+
+- The `@` prefix is used when there is no need to evaluate the content of the macro before the macro itself is evaluated.
+- The `pass:[#]` prefix is used when the content of the macro needs to be evaluated before the macro is evaluated.
+
+Typically, the `@` prefix is used to optimize computing power and for aesthetic reasons.
+
+NOTE: This notation was not taken from JavaDoc.
+Jamal&apos;s first version, with this syntax, was designed in the mid-1990s, before or around the same time as Java was born.
+
+To avoid typing the `@` prefix every time, a macro is implemented to automatically handle it.
+However, in cases where the `pass:[#]` prefix is needed, we want to be able to use it.
+To handle this, the content is checked within the macro.
+If the content starts with `pass:[#]`, the `@` prefix is not prepended.
+
+Another macro called `replace` is used to replace escaped new line characters with their XML equivalents.
+This feature was not part of the initial version but was developed to simplify editing multi-line templates, as it proved to be a handy addition.
+
+Finally, the macro string closing `%}` is added to the template value to ensure proper syntax completion.
+
+After defining these macros, the templates will have the following structure:
+
+[source]
+----
+&lt;templateSet group=&quot;Jamal&quot;&gt;
+{!template |begin|begin $M$|mark the beginning of a named or anonymous block|
+  {!variable |M|&quot;[marker]&quot;!}
+!}
+...
+{!template |platUml|plantUml ($O$) $I$ \n $C$|create a PlantUml diagram|
+  {!variable |O|&quot;folder=... format=... template=...&quot;!}
+  {!variable |I|&quot;xyz.svg&quot;!}
+  {!variable |C|&quot;...&quot;!}
+!}
+&lt;/templateSet&gt;
+{!@xmlFormat!}
+
+----
+
+At the end of the DSL, the `xmlFormat` macro is used to format the resulting XML and also check for any errors.
+With this macro, there is no need for a separate compilation phase to identify mistakes.
+Any errors will be promptly displayed in the right editor pane, providing immediate feedback on the validity of the generated XML.
+Additionally, the `xmlFormat` macro ensures that the XML output is properly formatted, enhancing readability and ensuring a well-structured final result.
+
+When the editing process is ready, can zip the DSL, publish to the repository or import it into IntelliJ directly.
+
+== 4. Summary and Takeaway
+
+In this article, I have outlined a method for managing IntelliJ live templates using a DSL.
+While it may not be worth the effort if you only need to edit a few templates, it becomes more valuable when dealing with a larger number of them.
+
+The key takeaway from this article is that the concept and approach demonstrated here can be applied to other applications as well.
+Whether you have a binary or text-based dataset that is difficult to edit directly, you can create a DSL using Jamal to simplify the editing process.
+
+By utilizing a DSL, you can enhance productivity and streamline the editing of complex templates or datasets, making it easier to maintain and update them efficiently.
+
+Jamal is an excellent tool for it.
+
+== 5. References
+
+I maintain the Jamal sources and documentation on GitHub:
+
+- https://github.com/verhas/jamal
+
+The documentation for the Asciidoctor Jamal plugin can be found at:
+
+- https://github.com/verhas/jamal/blob/master/jamal-asciidoc/README.adoc
+
+This documentation provides instructions on how to install Jamal after installing Asciidoctor, as well as where to download the live templates.</content><author><name></name></author><summary type="html">I primarily use IntelliJ for the majority of my work nowadays. This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature. I have chosen to assist Jamal with the implementation of live templates.</summary></entry><entry><title type="html">Adding Diagrams to Markdown Documents</title><link href="https://javax0.github.io/2023/06/19/kroki-in-jamal.html" rel="alternate" type="text/html" title="Adding Diagrams to Markdown Documents" /><published>2023-06-19T00:00:00+02:00</published><updated>2023-06-19T00:00:00+02:00</updated><id>https://javax0.github.io/2023/06/19/kroki-in-jamal</id><content type="html" xml:base="https://javax0.github.io/2023/06/19/kroki-in-jamal.html">= Adding Diagrams to Markdown Documents
+
+A few weeks back, I wrote an article about how you can add Mermaid diagrams to your Markdown document.
+In this document, I will extend that technology and explain how you can add
+
+ BlockDiag  BPMN️  Bytefield️  SeqDiag  ActDiag  NwDiag  PacketDiag  RackDiag
+ C4 with PlantUML  D2  DBML  Ditaa  Erd Excalidraw️  GraphViz  Mermaid  Nomnoml
+ Pikchr️  PlantUML  Structurizr  Svgbob  TikZ  UMlet  Vega  Vega-Lite  WaveDrom
+ WireViz
+
+To your markdown, Asciidoc, or any other document.
+
+== 1. Problem Statement
+
+The problem statement is the same as in the previous article.
+You want diagrams in your document, but the formatting tool does not support the diagramming tool you want to use.
+It is an architectural problem that cannot be solved until we combine the different responsibilities: formatting and information content management.
+
+== 2. Approach to Solve the problem
+
+The approach is the same again; I am talking about the same tool.
+
+The basic idea is, again: the separation of concerns.
+The document markup language should be responsible for the document structure and content.
+The diagramming tool should be responsible for the diagramming.
+The meta markup should be responsible for the integration of the two.
+I will not repeat here all the arguments why this is a good idea.
+
+== 3. Suggested Solution, Tools
+
+The suggested solution is to use Jamal as the meta markup.
+However, this time we will not use Mermaid as a diagramming tool locally.
+Instead, we will enjoy the services of the diagramming tool Kroki.
+
+=== 3.1. What is Kroki
+
+Kroki is a simple tool, and it is as genial as simple as the idea is.
+It is nothing else than a web service implementing one `GET` endpoint to execute 27 different diagramming tools.
+If you
+
+. create your diagram text
+. convert the text to base64 encoded
+. open the URL `https://kroki.io/&lt;tool&gt;/&lt;format&gt;/&lt;base64 encoded text&gt;`
+
+then you will get the diagram in the format you requested.
+
+Brilliant.
+
+If you develop something for open source, you can use Kroki for free.
+If you develop something secret, afraid that your secret gets out to the internet, you can start Kroki on-premise.
+Kroki is available as a docker image and also in other modes.
+I recommend Docker if you do not trust the public service.
+
+Why do we need Jamal?
+
+Well, what happens if the service is temporarily not available?
+Why should you pull the image all the time from the internet?
+
+=== 3.2. Need for Jamal
+
+After the first few iterations of editing the diagram file, converting it to base64, and opening the URL, you will realize that it is simple but repetitive work.
+Precisely the type of work that should be automatized.
+And that is what Jamal is for.
+
+The next release of Jamal 2.3.0 will come with a new macro, including a file that you can import as
+
+[source,jamal]
+----
+{@import res:kroki.jim}
+----
+
+It defines a macro `kroki` that you can use to include the diagram in your document.
+
+The beauty of this solution is that the implementation did not need any Kroki-specific Java code.
+It was all already there.
+The macros used in that file are available from link:https://raw.githubusercontent.com/verhas/jamal/master/jamal-snippet/src/main/resources/kroki.jim[github]:
+
+[source,jamal]
+----
+{@comment }
+define the macro kroki to download the image from kroki.io and reference it either Asciidoc or Markdown syntax
+
+{@define [tail] kroki($name,$dt,$ft,$x)={#if /{#string:equals/md.jam/{#file (format=&quot;$extension2&quot;) {@pos (top format=%f)}}}/![]({kroki:download |$name|$dt|$ft|$x})/image::{kroki:download |$name|$dt|$ft|$x}[]}}
+
+{@define kroki:download($name,$dt,$ft,$x)={#define URL={kroki:url|$dt|$ft|$x}}\
+{#memoize (file=&quot;$name.$ft&quot; hashFile=&quot;$name.$ft.hash&quot; hashCode=&quot;{#hashCode {URL}}&quot;)
+{@ident {#download (file=&quot;$name.$ft&quot;) {URL}}}}$name.$ft}
+
+{@define kroki:url($dt,$ft,$x)=https://kroki.io/$dt/$ft/{@base64 (compress url)$x}}
+
+
+
+----
+
+The macros check whether the included file is `md.jam` (Markdown) or not; based on that, it generates a Markdown image reference or Asciidoc.
+It also checks if the diagram has been downloaded and changed since the last time it was edited.
+It downloads the diagram only if it has changed since the last time it was generated.
+To do that, it uses the general purpose `memoize`, `download`, `file`, and `hashCode` macros.
+
+This tooling also allows you to use variables in the diagram text.
+Whether the diagram supports arithmetical, macro, or string operations does not matter.
+Jamal provides it before the diagram text is sent to Kroki.
+
+If you want to see some excellent examples, please visit the sample pages.
+
+* https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.md.jam
+* https://github.com/verhas/jamal/blob/master/jamal-snippet/KROKI.adoc.jam
+
+Use the URL without the `.jam` at the end to see the GitHub-rendered versions.
+
+
+== 4. Summary and Takeaway
+
+This article discussed integrating 27 diagram types into your Asciidoc, Markdown, or any other markup document.
+There is no excuse anymore for any outdated diagram.</content><author><name></name></author><summary type="html">A few weeks back, I wrote an article about how you can add Mermaid diagrams to your Markdown document. In this document, I will extend that technology and explain how you can add</summary></entry></feed>

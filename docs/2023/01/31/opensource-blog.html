@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Open Source Blog | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Open Source Blog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction" />
+<meta property="og:description" content="Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction" />
+<link rel="canonical" href="http://localhost:4000/2023/01/31/opensource-blog.html" />
+<meta property="og:url" content="http://localhost:4000/2023/01/31/opensource-blog.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-31T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Open Source Blog" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-01-31T00:00:00+01:00","datePublished":"2023-01-31T00:00:00+01:00","description":"Article Management Technical Details Code https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog Article source https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam 1. Introduction","headline":"Open Source Blog","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/01/31/opensource-blog.html"},"url":"http://localhost:4000/2023/01/31/opensource-blog.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Open Source Blog</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-01-31T00:00:00+01:00" itemprop="datePublished">Jan 31, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <details>
+<summary class="title">Article Management Technical Details</summary>
+<div class="content">
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Code <a href="https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog">https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog</a></p>
+</li>
+<li>
+<p>Article source <a href="https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam">https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</details>
+<div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This article is about the philosophy behind creating an open-source blog.
+The article will discuss</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>what an open-source blog means</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-what-is-an-open-source-blog">2. What is an Open-Source Blog?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We know what open-source software (OSS) is.
+It is many things.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OSS is free to redistribute.</p>
+</li>
+<li>
+<p>Source code is included.</p>
+</li>
+<li>
+<p>The license allows modification.</p>
+</li>
+<li>
+<p>Supports the integrity of the author&#8217;s code.</p>
+</li>
+<li>
+<p>No discrimination against persons or groups.</p>
+</li>
+<li>
+<p>No discrimination against fields of endeavor.</p>
+</li>
+<li>
+<p>Distribution of license.</p>
+</li>
+<li>
+<p>License must not be specific to a product.</p>
+</li>
+<li>
+<p>License must not restrict other software.</p>
+</li>
+<li>
+<p>License must be technology-neutral.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(source <a href="https://en.wikipedia.org/wiki/The_Open_Source_Definition">Wikipedia, Open Source Definition</a>])</p>
+</div>
+<div class="paragraph">
+<p>The initiative of OSS was extended to documentation, for example, the GNU Free Documentation License.
+The most well-known licensing scheme is the <a href="https://en.wikipedia.org/wiki/Creative_Commons_license">Creative Commons License</a>.</p>
+</div>
+<div class="paragraph">
+<p>These mainly focus on the rights and the way the product is used.
+It is imperative, and there is a good reason that most approaches look at this side of OSS and documentation.
+This side regulates the use and how OSS creates value in the economy.</p>
+</div>
+<div class="paragraph">
+<p>For me, as a developer, the other side is more important.</p>
+</div>
+<div class="paragraph">
+<p>Let me use the well-known parable <a href="https://en.wikipedia.org/wiki/Blind_men_and_an_elephant">about the blind men and the elephant</a>.
+Everybody touches a different part of the elephant and has a different opinion about what an elephant is.
+The industry is mainly interested in the fertilizing output that comes out of the OSS ecosystem.
+I stay more at the other end of the elephant, at the trunk and the mouth that feeds the animal.
+I drew a picture of an elephant showing the developer side:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png" alt="elephant" width="500px">
+</div>
+</div>
+<div class="paragraph">
+<p>When we create open-source software, we usually do it for fun.
+It is why I was drawing the elephant.
+It is fun.
+In a commercial project, you never do that.</p>
+</div>
+<div class="paragraph">
+<p>Also, open source, for me, is cooperation.
+We do it together.
+There is a  team of developers, and we develop the software together.
+Other people use the software, and few start to complain.</p>
+</div>
+<details>
+<summary class="title">Four Levels of OSS Developer Success (click to open)</summary>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You create a project, and no one notices.
+It is always how it starts, but even this is fun.
+Creating software is fun.
+If it is not fun, then don&#8217;t do it.</p>
+</li>
+<li>
+<p>Some people have started to use your software.
+You do not know about it because they do not give you feedback.
+You google your project name and may see it mentioned, appearing at places.</p>
+</li>
+<li>
+<p>People start asking stupid and annoying questions.
+It is the real success.
+People believe your software is so good that they invest effort in asking when they cannot get along.
+Your users are introverted developers.
+From their side, asking is a considerable effort.</p>
+</li>
+<li>
+<p>There are hate posts about your software.
+It is the ultimate success.
+Some people write about why no one should not use your software.
+I could never reach this level with any of my projects.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>It is when you start your OSS project.
+When you join an already-running OSS project, it is different.
+In that case, you jump on an already running train&#8230;&#8203; sorry: elephant.
+Your name gets to the list of developers, and you can be proud that your tiny but essential change was added to the project.</p>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p>What about blogs?
+What will make this blog to be open source?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It is open for collaboration.</p>
+</li>
+<li>
+<p>Source code is included.</p>
+</li>
+<li>
+<p>Blog content is free to redistribute.</p>
+</li>
+<li>
+<p>The license allows modification.</p>
+</li>
+<li>
+<p>Supports the integrity of the author&#8217;s code.</p>
+</li>
+<li>
+<p>No discrimination against persons or groups.</p>
+</li>
+<li>
+<p>No discrimination against fields of endeavor.</p>
+</li>
+<li>
+<p>Distribution of license.</p>
+</li>
+<li>
+<p>License must not be specific to a product.</p>
+</li>
+<li>
+<p>License must not restrict other software.</p>
+</li>
+<li>
+<p>License must be technology-neutral.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the following sections, I will look at these aspects.</p>
+</div>
+<div class="paragraph">
+<p>There is no separate section in this article for</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The license allows modification</p>
+</li>
+<li>
+<p>Distribution of license</p>
+</li>
+<li>
+<p>License must not be specific to a product</p>
+</li>
+<li>
+<p>License must not restrict other software</p>
+</li>
+<li>
+<p>License must be technology-neutral</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There are provided by the CC-BY license governing the content of the blog.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-it-is-open-for-collaboration">3. It is open for collaboration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is the most critical aspect of open-source blogging.
+You can use the content of this blog according to the CC-BY license terms.
+It allows practically any use, even commercial, so long you attribute the source.</p>
+</div>
+<div class="paragraph">
+<p>But that is the rear end of the elephant.
+We are interested in feeding the elephant.</p>
+</div>
+<div class="paragraph">
+<p>This blog is maintained in a <a href="https://www.writethedocs.org/guide/docs-as-code/">Doc as Code</a> style.
+The blog is edited using markup.
+The selected markup is Asciidoc, and I also use the Jamal preprocessor.
+The article source files are <code>.adoc.jam</code> files.</p>
+</div>
+<div class="paragraph">
+<p>The source is maintained on GitHub in a public repository.
+It means that you can look at any article.
+Not only those which are already published but also the articles which are under construction.
+You can also have a look at the history of article editing.</p>
+</div>
+<div class="paragraph">
+<p>Articles are created and edited for days, sometimes for weeks.
+It is similar to program features.
+Not to interfere with the already released article set, these article sources are maintained in separate branches.
+GitHub allows you to list all these branches and look at what is cooking.</p>
+</div>
+<div class="paragraph">
+<p>In addition, you can fork the repository, create new articles, and suggest modifications to any article creating a pull request.
+True to the open-source philosophy, I will consider every pull request.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-source-code-is-included">4. Source code is included</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is almost evident in the case of documentation or blogs.
+The source is the text itself.</p>
+</div>
+<div class="paragraph">
+<p>Usually, it is, but that is a mistake.
+It is like programming in machine code.</p>
+</div>
+<div class="paragraph">
+<p>When you code in machine code, the binary is the source code.
+We don&#8217;t do that.
+The reason: it isn&#8217;t easy and involves a lot of mechanical work that computers can do.
+We program in high-level languages.</p>
+</div>
+<div class="paragraph">
+<p>When we document, we still create the documentation in "machine code" to some extent.
+Maybe, the level we are in is not machine code.
+After all, you do not edit a PDF binary.
+What we usually do is assembly level.</p>
+</div>
+<div class="paragraph">
+<p>The better approach is to use tools to write the documentation at a high level.
+Do NOT copy and paste the information from the documented system.
+Write code that will do the copy-pasting, reformatting, extracting, and transformation needed for the documentation.</p>
+</div>
+<div class="paragraph">
+<p>Jamal does it for this blog, and Jamal source of the blog articles are available in a public Git repository:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/javax0/javax0.github.io">https://github.com/javax0/javax0.github.io</a></p>
+</div>
+<div class="paragraph">
+<p>In addition to the source of the articles, the source for the build environment is also in the repository.
+You can use them to start your blog if you like.
+Their license is Apache 2.0, as denoted by the <code>LICENSE</code> file in the repo root.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-blog-content-is-free-to-redistribute">5. Blog content is free to redistribute</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is no technical blocker since the code is available as open source.
+The license is reasonably permissive, CC-BY.
+I even encourage redistribution.
+As you can see on the opening page, I have an agreement for many years with DZone and JCG.
+I also discussed with Baeldung, but their policy does not fit redistribution.</p>
+</div>
+<div class="paragraph">
+<p>You can find articles from the blog on Chinese, Russian, and Hindi sites.
+You can also feel free to copy, modify, and translate as long you follow attribution CC-BY.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-supports-the-integrity-of-the-authors-code">6. Supports the integrity of the author&#8217;s code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When the article is modified, you have to note it in the attribution so that the readers will know that it is a derivative.
+They can easily see the difference between the original and the derived work using backlinking.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-no-discrimination-against-persons-or-groups">7. No discrimination against persons or groups</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I am not racist.
+There is no need to say more about it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="8-no-discrimination-against-fields-of-endeavor">8. No discrimination against fields of endeavor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is the part that makes me a bit uncomfortable, but what can I do?
+If you use the content of my articles to destroy the universe, I must be OK with it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="9-summary">9. Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the blog!
+Do not only READ it!
+Be part of this blog!</p>
+</div>
+<div class="paragraph">
+<p>Reading is fine.
+First step.</p>
+</div>
+<div class="paragraph">
+<p>Commenting is welcome.</p>
+</div>
+<div class="paragraph">
+<p>Suggesting modifications and writing articles to be published here is the ultimate goal of being an open-source blog.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'http://localhost:4000/2023/01/31/opensource-blog.html';
+            this.page.identifier = '/2023/01/31/opensource-blog.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2023/01/31/opensource-blog.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

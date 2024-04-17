@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Managing IntelliJ Live templates | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Managing IntelliJ Live templates" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I primarily use IntelliJ for the majority of my work nowadays. This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature. I have chosen to assist Jamal with the implementation of live templates." />
+<meta property="og:description" content="I primarily use IntelliJ for the majority of my work nowadays. This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature. I have chosen to assist Jamal with the implementation of live templates." />
+<link rel="canonical" href="http://localhost:4000/2023/07/05/live-templates.html" />
+<meta property="og:url" content="http://localhost:4000/2023/07/05/live-templates.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-07-05T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Managing IntelliJ Live templates" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-07-05T00:00:00+02:00","datePublished":"2023-07-05T00:00:00+02:00","description":"I primarily use IntelliJ for the majority of my work nowadays. This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature. I have chosen to assist Jamal with the implementation of live templates.","headline":"Managing IntelliJ Live templates","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/07/05/live-templates.html"},"url":"http://localhost:4000/2023/07/05/live-templates.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Managing IntelliJ Live templates</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-07-05T00:00:00+02:00" itemprop="datePublished">Jul 5, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>I primarily use IntelliJ for the majority of my work nowadays.
+This integrated editor and development environment offers numerous excellent features, one of which is the live templates feature.
+I have chosen to assist Jamal with the implementation of live templates.</p>
+</div>
+<div class="paragraph">
+<p>Within this article, I will elucidate the methodology I have devised for editing and maintaining the live templates.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="1-problem-statement">1. Problem Statement</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>IntelliJ supports the editing of live templates.
+It is designed to make the creation of live templates easier for beginners rather than being highly effective for power users.
+Solutions and usability can always be designed to prioritize ease of use for beginners or effectiveness for power users.
+Typically, these two aspects are mutually exclusive.</p>
+</div>
+<div class="paragraph">
+<p>In the case of IntelliJ and live templates, it appears that the decision was made to prioritize the initial version.
+To edit the live templates, you can navigate to the menu <code>Settings</code> &#8594; <code>Live Templates</code>.
+The templates are organized by the language they are used in, and by selecting one or clicking on the plus sign to add a new template, you will be presented with a form to edit the different parts of the template.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2023-07-05-11-40-53-991.png" alt="image 2023 07 05 11 40 53 991">
+</div>
+</div>
+<div class="paragraph">
+<p>You have the ability to edit several aspects of the live templates:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Abbreviation: This is the text you type in the editor to trigger the template.</p>
+</li>
+<li>
+<p>Description: A short text that appears in the popup when you type the abbreviation.</p>
+</li>
+<li>
+<p>Template text: The actual content that gets inserted into the editor when the template is triggered.</p>
+</li>
+<li>
+<p>Context: Specifies where the template can be triggered.</p>
+</li>
+<li>
+<p>Variables: Parts of the template that can be edited when the template is triggered.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>To save a template, you can click on either "Apply" or "OK," and then proceed to add a new one.
+However, when dealing with a large number of templates, such as the initial release that Jamal is working on, editing them can involve a significant number of clicks and mouse navigation.</p>
+</div>
+<div class="paragraph">
+<p>This is not the only challenge, though.
+Maintaining the templates poses additional concerns.
+Live templates are stored in ZIP files, and uploading them to a repository makes them accessible to users.
+However, editing the templates and keeping track of changes can be tricky.
+How can you efficiently make modifications to the templates?
+How do you track and compare changes between different versions?</p>
+</div>
+<div class="paragraph">
+<p>Programmers have become accustomed to tools that support them in maintaining program code, which is essentially text-based.
+Similarly, we desire the same level of support when it comes to maintaining live templates.
+How shall we reach that?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-approach-to-solve-the-problem">2. Approach to Solve the problem</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The live templates are stored as XML files within a ZIP file.
+It is possible to import a ZIP file containing live templates, which will add the templates to the existing ones.
+Each group of templates is stored in a separate XML file.
+If a group with the same name already exists in the editor, it will be overwritten by the imported group.</p>
+</div>
+<div class="paragraph">
+<p>One approach to editing the templates involves exporting them, modifying the XML files, and then importing them back.
+By keeping the expanded files in a version control system, changes can be tracked.
+The build process can generate the ZIP file from the expanded files.</p>
+</div>
+<div class="paragraph">
+<p>However, this process is not ideal.
+Editing XML files is not preferred, as it can be cumbersome and unintuitive.
+Nobody wants to spend their time editing XML files, especially when there are other enjoyable activities to pursue, such as going to the gym, swimming pool, enjoying an apéritif, or having a barbecue, or spending time with their children.
+"I am going to edit some XML files, what a joy!" is not a phrase commonly heard (not to mention YAML!).</p>
+</div>
+<div class="paragraph">
+<p>What we need is a better solution.
+We require a Domain-Specific Language (DSL).</p>
+</div>
+<div class="paragraph">
+<p>In the following section, I will describe the approach I took to create a DSL specifically for this purpose and how I utilized it effectively.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-suggested-solution-tools">3. Suggested Solution, Tools</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Creating a DSL can be approached in various ways.
+The most well-known option is to use Groovy, which is frequently used for this purpose.
+However, Kotlin is also a viable choice.
+Notably, Groovy includes an XML builder structure that facilitates the creation of XML files.</p>
+</div>
+<div class="paragraph">
+<p>In this particular case, I opted for a different approach, driven by several reasons.</p>
+</div>
+<div class="paragraph">
+<p>The primary reason is that the live templates I developed are specifically for Jamal.
+Jamal can serve as a DSL and supports multiple integrations.
+One such integration involves running Jamal interactively while editing an Asciidoc file in IntelliJ using the Asciidoctor plugin.</p>
+</div>
+<div class="paragraph">
+<p>With this setup, you can also edit XML files.
+IntelliJ and the Asciidoctor plugin will recognize the file as an Asciidoctor file, but Jamal will identify it as both a Jamal and XML file.
+When editing a file with the <code>.xml.jam</code> extension in IntelliJ, Jamal will save the processed XML into a file while simultaneously sending an Asciidoc document containing the XML as a fenced code block to the Asciidoctor plugin.
+This allows you to edit the enhanced XML with macros in the left pane of the editor while observing the final, syntax-highlighted XML in the right pane.</p>
+</div>
+<div class="paragraph">
+<p>There is no separate compilation phase involved.
+When you edit the <code>.xml.jam</code> file, you are simultaneously modifying the XML file.</p>
+</div>
+<div class="paragraph">
+<p>Creating the DSL is remarkably simple.
+You only need to define a few Jamal macros.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{%@sep {! !} %}
+{!@define asciidoc:output=live-templates/templates/Jamal.xml!}
+{!@comment This is a definition for the Jamal live macro templates for IntelliJ!}
+{!@define template($name,$content,$desc,$variables)=
+&lt;template name="jm-$name" value="{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;#10;!}%}" description="$desc" toReformat="false" toShortenFQNames="true"&gt;
+$variables
+&lt;context&gt;
+&lt;option name="AsciiDoc" value="true" /&gt;
+&lt;/context&gt;
+&lt;/template&gt;
+!}
+{!@define variable($name,$default)=&lt;variable name="$name" expression="{!@replace `///`$default///"///&amp;quot;!}" alwaysStopAt="true" /&gt;!}\</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To prevent conflicts with the Jamal plugin in Asciidoctor, the first line in the DSL sets the macro start and end strings to <code>{!</code> and <code>!}</code> respectively. By using these distinct macro delimiters, any potential clashes with the default <code>{%</code> and <code>%}</code> delimiters used by the Jamal plugin can be avoided. This ensures a smooth integration and usage of both the DSL and the Jamal plugin within Asciidoctor.</p>
+</div>
+<div class="paragraph">
+<p>To clarify the process further, the <code>asciidoc:output</code> macro is used to specify the output file in the DSL.
+Without this definition, the conversion from <code>.xml.jam</code> to <code>.xml</code> would create a file in the same location as the source file.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the <code>asciidoc:output</code> macro, two macros are used to define the template:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>template</code>: This macro is utilized to define the structure and content of the template.</p>
+</li>
+<li>
+<p><code>variable</code>: This macro is used to specify the variables within the template that can be customized when the template is triggered.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>These macros, namely <code>template</code> and <code>variable</code>, play a crucial role in creating and customizing the live templates within the DSL.</p>
+</div>
+<div class="paragraph">
+<p>It is important to note that the abbreviation (name) of the live templates always begins with the letters <code>jm-</code>, which stands for Jamal Macro.
+This prefix is used to avoid conflicts with existing live templates and follows the same practice as the Asciidoctor plugin, which uses <code>ad-</code> as a prefix for their live templates (where <code>ad</code> stands for Asciidoctor).</p>
+</div>
+<div class="paragraph">
+<p>To simplify the editing process and reduce the risk of errors, it is undesirable to manually insert this prefix every time when working with the templates.
+Doing so would be a tedious and error-prone task.
+Therefore, the DSL provides a macro that handles this automatically.</p>
+</div>
+<div class="paragraph">
+<p>The <code>value</code> attribute of the <code>template</code> element stores the text that will be inserted into the editor when the template is triggered.
+The macro processing the content parameter is the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{%{!#if /{!@string:startsWith/$content/#!}//@!}{!@replace /$content/\n/&amp;#10;!}%}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the Asciidoc file, macros will begin with the <code>{%</code> delimiter.
+However, just like the <code>jm-</code> prefix for live templates, we don&#8217;t want to type this delimiter every time.
+Since these macros are not user-defined macros, they can be invoked using the <code>@</code> or <code>#</code> prefix.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>@</code> prefix is used when there is no need to evaluate the content of the macro before the macro itself is evaluated.</p>
+</li>
+<li>
+<p>The <code>#</code> prefix is used when the content of the macro needs to be evaluated before the macro is evaluated.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Typically, the <code>@</code> prefix is used to optimize computing power and for aesthetic reasons.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This notation was not taken from JavaDoc.
+Jamal&#8217;s first version, with this syntax, was designed in the mid-1990s, before or around the same time as Java was born.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To avoid typing the <code>@</code> prefix every time, a macro is implemented to automatically handle it.
+However, in cases where the <code>#</code> prefix is needed, we want to be able to use it.
+To handle this, the content is checked within the macro.
+If the content starts with <code>#</code>, the <code>@</code> prefix is not prepended.</p>
+</div>
+<div class="paragraph">
+<p>Another macro called <code>replace</code> is used to replace escaped new line characters with their XML equivalents.
+This feature was not part of the initial version but was developed to simplify editing multi-line templates, as it proved to be a handy addition.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the macro string closing <code>%}</code> is added to the template value to ensure proper syntax completion.</p>
+</div>
+<div class="paragraph">
+<p>After defining these macros, the templates will have the following structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;templateSet group="Jamal"&gt;
+{!template |begin|begin $M$|mark the beginning of a named or anonymous block|
+  {!variable |M|"[marker]"!}
+!}
+...
+{!template |platUml|plantUml ($O$) $I$ \n $C$|create a PlantUml diagram|
+  {!variable |O|"folder=... format=... template=..."!}
+  {!variable |I|"xyz.svg"!}
+  {!variable |C|"..."!}
+!}
+&lt;/templateSet&gt;
+{!@xmlFormat!}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the end of the DSL, the <code>xmlFormat</code> macro is used to format the resulting XML and also check for any errors.
+With this macro, there is no need for a separate compilation phase to identify mistakes.
+Any errors will be promptly displayed in the right editor pane, providing immediate feedback on the validity of the generated XML.
+Additionally, the <code>xmlFormat</code> macro ensures that the XML output is properly formatted, enhancing readability and ensuring a well-structured final result.</p>
+</div>
+<div class="paragraph">
+<p>When the editing process is ready, can zip the DSL, publish to the repository or import it into IntelliJ directly.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-summary-and-takeaway">4. Summary and Takeaway</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this article, I have outlined a method for managing IntelliJ live templates using a DSL.
+While it may not be worth the effort if you only need to edit a few templates, it becomes more valuable when dealing with a larger number of them.</p>
+</div>
+<div class="paragraph">
+<p>The key takeaway from this article is that the concept and approach demonstrated here can be applied to other applications as well.
+Whether you have a binary or text-based dataset that is difficult to edit directly, you can create a DSL using Jamal to simplify the editing process.</p>
+</div>
+<div class="paragraph">
+<p>By utilizing a DSL, you can enhance productivity and streamline the editing of complex templates or datasets, making it easier to maintain and update them efficiently.</p>
+</div>
+<div class="paragraph">
+<p>Jamal is an excellent tool for it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-references">5. References</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I maintain the Jamal sources and documentation on GitHub:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/verhas/jamal" class="bare">https://github.com/verhas/jamal</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The documentation for the Asciidoctor Jamal plugin can be found at:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/verhas/jamal/blob/master/jamal-asciidoc/README.adoc" class="bare">https://github.com/verhas/jamal/blob/master/jamal-asciidoc/README.adoc</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This documentation provides instructions on how to install Jamal after installing Asciidoctor, as well as where to download the live templates.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'http://localhost:4000/2023/07/05/live-templates.html';
+            this.page.identifier = '/2023/07/05/live-templates.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2023/07/05/live-templates.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
