@@ -5,9 +5,34 @@ The blog is structured using Jekyll site builder.
 The articles are written in Asciidoc, and they use Jamal as a macro language.
 The blog is built locally on the development machine and gets deployed suing GIT.
 
+The build is driven by gradle.
+
+== Gradle Tasks
+
+The following gradle tasks are available each depending on the previous one:
+
+* `jamal` goes through all the `.jam` files in the `_posts` directory and generates the `.adoc` files.
+It processes only the `.jam` files that have no corresponding `.adoc` file or the `.jam` file is newer than the `.adoc` file.
+
+* `build` (`dependsOn jamal`) goes through all the `.adoc` files in the `_posts` directory and generates the `.html` files.
+To generate the html, it uses the Jekyll program.
+
+** `run` (`dependsOn build`) starts the Jekyll server to server the files locally and also opens the browser to see the result.
+
+* `add` adds the new and generated files to the GIT repositry.
+
+* `commit` commits the changes to the GIT repository.
+The commit message is constant and it is `update`.
+
+* `push` pushes the changes to the GIT repository.
+Doing push essentially publishes the changes to the blog.
+
+* `publish` is the same as `push` but also opens the browser windows showing the blog git publishing progress as well as the resulting blog page.
+
+
 == Directories and files
 
-Here is a short description what you can find in the different directories and files.
+Here is a short description of what you can find in the different directories and files.
 This documentation is not complete.
 
 === _posts

@@ -6,11 +6,9 @@ comments: on
 {%@import javax0.jim%}
 {%section Introduction%}
 
-`{%asciidoc:output%}`
-
-This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at https://javax0.wordpress.com[javax0.wordpress.com].
-The technology, the hosting, and all were okay by that time, but times changed.
-This blog post describes why I changed the blog technology and what technology I use here to write these blog posts.
+This blog post is a follow-up to the earlier entry on the javax0 blog, which you can find at https://javax0.wordpress.com/[javax0.wordpress.com].
+While the previous hosting and technology were satisfactory at the time, changes in circumstances necessitated an update.
+In this post, I'll explain why I decided to update the blog's technology and what new technology I'm currently using to create these blog posts.
 
 {%section Problems with WordPress%}
 
@@ -164,15 +162,28 @@ The problem is that GitHub does not support the Jekyll Asciidoc plugin.
 It is a bit strange: Asciidoc is natively supported by GitHub, and any readme or other files can be Asciidoc.
 Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.
 
-.update at 2023-01-25
+.update at 2024-04-17
 {%section Building the site%}
 
+To build the sie the tool gradle is used.
+The `build.gradle-kts` file defines custom-made tasks, some of which executes external tools like `jamal` and `jekyll`.
+Since Gradle is a JVM tool and the build script is written in Kotlin executed by the JVM, it can use Jamal as a library.
+Jekyll, on the other hand, is a Ruby tool, so it is executed by the Gradle task that calls the Ruby interpreter.
+
+.update at 2023-01-25
+{%section Building the site (outdated)%}
+
+.
+
+NOTE: This section is out of date as of 2024-04-17 when the site building was refactored to use gradle.
+That structure and the tools are described in the previous section.
+
 Building the site was first was a simple `Makefile` starting Jamal via `jbang` to convert all the `.adoc.jam` files to `.adoc` from the directory `_posts`.
-This, however, resulted almost 400 files in the directory.
-During the course of the last ten years I wrote 180 articles.
+This, however, resulted in almost 400 files in the directory.
+During the last ten years, I wrote 180 articles.
 All their `.adoc.jam` and the generated `.adoc` files got into one flat directory.
 
-To mitigate this situation I decided to group the articles into subdirectories by years.
+To mitigate this situation, I decided to group the articles into subdirectories by years.
 It means eleven subdirectories now and 15 to 20 more in my lifetime.
 It is manageable.
 The problem was I did not know how to write a general `make` rule that says `.adoc.jam` files in the subdirectories should be compiled to `.adoc` files in the `_posts` directory.
@@ -183,11 +194,24 @@ I created a `Makefile.jam` with the following content:
 
 [source,bash]
 ----
-{%@include [verbatim] ../../Makefile.jam%}
+{@sep [% %] }[%@import tab.jim%]\
+all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _posts%]`//` =[%@comment%]\
+ _posts/[%@file (format=$naked1)$file%]%]\
+
+[%!!#for $dir in ([%@listDir (maxDepth=1 pattern="/\\d{4}$")_posts%])=[%@comment%]\
+  [%@ident
+    [%@for [evalist] $file in `//` [%@listDir (maxDepth=1 pattern="\\.adoc\\.jam$") $dir%]`//` =[%@comment%]\
+    [%#define YYYY=[%#replace (regex)|$dir|.*/_posts/||%]%]\
+    [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
+    [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
+[%TARGET%] : [%SOURCE%]
+[%HT%]jbang jamal@verhas -open='{%%}' -close='%}' [%SOURCE%] [%TARGET%]
+    %]%]%]
+
 ----
 
 I do not expect you to understand this structure.
-It is fairly complex,but it shows the power of Jamal in some way.
+It is fairly complex, but it shows the power of Jamal in some ways.
 You should not feel intimidated.
 If you decide to use Jamal only for 10% of what it can do, it is fine.
 It is a tool to provide value and not something you need to master.

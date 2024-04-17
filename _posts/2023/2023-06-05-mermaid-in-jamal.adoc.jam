@@ -10,7 +10,6 @@ comments: on
 {%@sep 〔〕%}
 = Adding Mermaid Diagrams to Markdown Documents
 
-〔@maven:load com.javax0.jamal:jamal-io:2.1.0-SNAPSHOT〕
 〔@comment
 〔#define CHART=flowchart TD
 A[Christmas] -->|Get money| B(Go shopping)

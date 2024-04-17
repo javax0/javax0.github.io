@@ -1,6 +1,9 @@
 ---
-
-{%@define title=Threaded streams%} title: {%title%} layout: posta comments: on ---
+{%@define title=Threaded streams%}\
+title: {%title%}
+layout: posta
+comments: on
+---
 {%@import javax0.jim%}
 {%@comment
 

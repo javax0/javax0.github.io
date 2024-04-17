@@ -8,7 +8,7 @@ buildscript {
         maven { setUrl("https://jitpack.io") }
     }
     dependencies {
-        classpath("com.javax0.jamal:jamal-all:2.4.0")
+        classpath("com.javax0.jamal:jamal-all:2.5.0")
     }
 }
 
@@ -22,7 +22,7 @@ tasks.register("jamal") {
                 .filter { ".*\\.adoc\\.jam".toRegex().containsMatchIn(it.name) }
                 .forEach {
                     val output = layout.projectDirectory.file("_posts/${it.name.replace(".jam", "")}").asFile
-                    if (output.exists() && (output.lastModified() <= it.lastModified())) {
+                    if (!output.exists() || (output.lastModified() <= it.lastModified())) {
                         val processor = Processor("{%", "%}")
                         val input = Input.makeInput(it.readText(Charsets.UTF_8), Position(it.absolutePath, 0, 0))
                         println("converting ${it.absolutePath} to ${output.absolutePath}")
