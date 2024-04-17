@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Threaded Stream | Java Deep, mostly Java</title>
+<title>Threaded streams | Java Deep, mostly Java</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Threaded Stream" />
+<meta property="og:title" content="Threaded streams" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com" />
-<meta property="og:description" content="javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
 <link rel="canonical" href="https://javax0.github.io/2024/02/29/threaded-stream.html" />
 <meta property="og:url" content="https://javax0.github.io/2024/02/29/threaded-stream.html" />
 <meta property="og:site_name" content="Java Deep, mostly Java" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2024-02-29T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Threaded Stream" />
+<meta property="twitter:title" content="Threaded streams" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-02-29T00:00:00+01:00","datePublished":"2024-02-29T00:00:00+01:00","description":"javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com","headline":"Threaded Stream","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/02/29/threaded-stream.html"},"url":"https://javax0.github.io/2024/02/29/threaded-stream.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-02-29T00:00:00+01:00","datePublished":"2024-02-29T00:00:00+01:00","description":"1. Introduction","headline":"Threaded streams","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/02/29/threaded-stream.html"},"url":"https://javax0.github.io/2024/02/29/threaded-stream.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
 <body><header class="site-header" role="banner">
@@ -40,21 +40,14 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Threaded Stream</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Threaded streams</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2024-02-29T00:00:00+01:00" itemprop="datePublished">Feb 29, 2024
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <hr>
-<div class="literalblock">
-<div class="content">
-<pre>title: Threaded streams layout: posta comments: on ---</pre>
-</div>
-</div>
-<h1 id="threaded-streams" class="sect0">Threaded streams</h1>
-<div class="sect1">
+    <div class="sect1">
 <h2 id="1-introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -488,17 +481,50 @@ The detailed exposition provided here aims to shed light on both the conceptual 
 </div>
 <div class="paragraph">
 <p>However, it&#8217;s important to acknowledge that the library has not undergone extensive testing.
-It received a review from some experienced experts though.
-To be exact, one expert, who has many years of professional experience developing concurrent Java applications.
+It received a review from Istvan Kovacs, a figure with considerable expertise in concurrent programming.
 Despite this, his review does not serve as an absolute assurance of the library&#8217;s reliability and absence of bugs.
 Consequently, should you decide to integrate this library into your projects, it&#8217;s advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
 The library is provided "as is," with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.</p>
 </div>
-<div class="paragraph">
-<p>On the other hand, its code can be a good starting point for your own implementation of similar approaches for your own experiments.</p>
 </div>
 </div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2024/02/29/threaded-stream.html';
+            this.page.identifier = '/2024/02/29/threaded-stream.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+
+
+
+
   </div><a class="u-url" href="/2024/02/29/threaded-stream.html" hidden></a>
 </article>
 
