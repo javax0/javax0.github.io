@@ -1,313 +1,388 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-04-17T17:04:19+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Threaded Stream</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded Stream" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">---
-
- title: Threaded streams layout: posta comments: on ---
-
-
-
-= Threaded streams
-
-== 1. Introduction
-
-In the landscape of software development, efficiently processing large datasets has become paramount, especially with the advent of multicore processors.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-04-17T17:11:17+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Threaded streams</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded streams" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the landscape of software development, efficiently processing large datasets has become paramount, especially with the advent of multicore processors.
 The Java Stream interface provided a leap forward by enabling sequential and parallel operations on collections.
-However, fully exploiting modern processors&apos; capabilities while retaining the Stream API&apos;s simplicity posed a challenge.
-
-Responding to this, I created an open-source library aimed at experimenting with a new method of parallelizing stream operations.
-This library diverges from traditional batching methods by processing each stream element in its own virtual thread, offering a more refined level of parallelism.
-
-In this article, I will talk about the library, and its design.
-It is more detail than you need simply to use the library.
-
-The library is available on GitHub at https://github.com/verhas/vtstream and also as a dependency in Maven Central.
-
-  &lt;dependency&gt;
-      &lt;groupId&gt;com.github.verhas&lt;/groupId&gt;
-      &lt;artifactId&gt;vtstream&lt;/artifactId&gt;
-      &lt;version&gt;1.0.1&lt;/version&gt;
-  &lt;/dependency&gt;
-
-Check out the actual version number on the Maven Central site or on GitHub.
-This article is based on the version 1.0.1 of the library.
-
-== 2. Parallel Computing
-
-Parallel computing is not a new thing.
+However, fully exploiting modern processors&apos; capabilities while retaining the Stream API&amp;#8217;s simplicity posed a challenge.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Responding to this, I created an open-source library aimed at experimenting with a new method of parallelizing stream operations.
+This library diverges from traditional batching methods by processing each stream element in its own virtual thread, offering a more refined level of parallelism.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I will talk about the library, and its design.
+It is more detail than you need simply to use the library.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The library is available on GitHub at &lt;a href=&quot;https://github.com/verhas/vtstream&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/vtstream&lt;/a&gt; and also as a dependency in Maven Central.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;com.github.verhas&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;vtstream&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.0.1&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Check out the actual version number on the Maven Central site or on GitHub.
+This article is based on the version 1.0.1 of the library.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-parallel-computing&quot;&gt;2. Parallel Computing&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Parallel computing is not a new thing.
 It has been around for decades.
-The first computers were executing tasks in batches, hence in a serial way, but soon the idea of time-sharing came into picture.
-
-The first time-sharing computer system was installed in 1961 at the Massachusetts Institute of Technology (MIT).
+The first computers were executing tasks in batches, hence in a serial way, but soon the idea of time-sharing came into picture.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first time-sharing computer system was installed in 1961 at the Massachusetts Institute of Technology (MIT).
 This system, known as the Compatible Time-Sharing System (CTSS), allowed multiple users to log into a mainframe computer simultaneously, working in what appeared to be a private session.
-CTSS was a groundbreaking development in computer science, laying the foundation for modern operating systems and computing environments that support multitasking and multi-user operations.
-
-This was not a parallel computing system, per se.
+CTSS was a groundbreaking development in computer science, laying the foundation for modern operating systems and computing environments that support multitasking and multi-user operations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This was not a parallel computing system, per se.
 CTSS was designed to run on a single mainframe computer, the IBM 7094, at MIT.
-It has one CPU, thus the code was executed in a serial way.
-
-Today we have multicore processors and multiple processors in a single computer.
-I edit this article on a computer that has 10 processor cores.
-
-To execute tasks concurrently, there are two plus one approaches:
-
-* define the algorithm in a concurrent way, for example, reactive programming, or
-* define the algorithm the good old sequential way and let some program decide on the concurrency, or
-* mix the two.
-
-When we&apos;re programming some reactive algorithm, or defined streams as in Java 8 stream, we help the application to execute the tasks concurrently.
+It has one CPU, thus the code was executed in a serial way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today we have multicore processors and multiple processors in a single computer.
+I edit this article on a computer that has 10 processor cores.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To execute tasks concurrently, there are two plus one approaches:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;define the algorithm in a concurrent way, for example, reactive programming, or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;define the algorithm the good old sequential way and let some program decide on the concurrency, or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mix the two.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When we&amp;#8217;re programming some reactive algorithm, or defined streams as in Java 8 stream, we help the application to execute the tasks concurrently.
 We define small parts and their interdependence so that the environment can decide which parts can be executed concurrently.
-The actual execution is done by the framework and when we are using
-
-* virtual threads, or
-* threads (perhaps processes)
-
-the difference is in the scheduler.
+The actual execution is done by the framework and when we are using&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;virtual threads, or&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;threads (perhaps processes)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;the difference is in the scheduler.
 Who makes the decision which processor should execute which task the next moment.
 In the case of threads or processes, the executor is the operating system.
 The difference between the thread and process execution is that threads belonging to the same process share the same memory space.
 Processes have their own memory space.
-Similarly, virtual threads belonging to the same operating system thread share the same stack.
-
-Transitioning from processes to virtual threads, we encounter a reduction in shared resources and, consequently, overhead.
+Similarly, virtual threads belonging to the same operating system thread share the same stack.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Transitioning from processes to virtual threads, we encounter a reduction in shared resources and, consequently, overhead.
 This makes virtual threads significantly less costly compared to traditional threads.
-While a machine might support thousands of threads and processes, it can accommodate millions of virtual threads.
-
-In defining a task with streams, you are essentially outlining a series of operations to be performed on multiple elements.
+While a machine might support thousands of threads and processes, it can accommodate millions of virtual threads.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In defining a task with streams, you are essentially outlining a series of operations to be performed on multiple elements.
 The decision to execute these operations concurrently rests with the framework, which may or may not choose to do so.
-However, `Stream` in Java serves as a high-level interface, offering us the flexibility to implement a version that facilitates concurrent execution of tasks.
-
-== 3. Implementing Streams in Threads
-
-The library contains two primary classes located in the main directory, namely:
-
-- `ThreadedStream`
-- `Command`
-
-`ThreadedStream` is the class responsible for implementing the `Stream` interface.
-
-[source]
-----
-public class ThreadedStream&lt;T&gt; implements Stream&lt;T&gt; {
-
-----
-
-The `Command` class encompasses nested classes that implement functionality for stream operations.
-
-[source]
-----
-    public static class Filter&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class AnyMatch&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class FindFirst&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class FindAny&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class NoOp&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class Distinct&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class Skip&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class Peek&lt;T&gt; extends Command&lt;T, T&gt; {
-    public static class Map&lt;T, R&gt; extends Command&lt;T, R&gt; {
-
-----
-
-All the mentioned operators are intermediary.
-The terminal operators are implemented within the `ThreadedStream` class, which converts the threaded stream into a regular stream before invoking the terminal operator on this stream.
-An example of this approach is the implementation of the `collect` method.
-
-[source]
-----
-    @Override
-    public &lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R, ? super T&gt; accumulator, BiConsumer&lt;R, R&gt; combiner) {
+However, &lt;code&gt;Stream&lt;/code&gt; in Java serves as a high-level interface, offering us the flexibility to implement a version that facilitates concurrent execution of tasks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-implementing-streams-in-threads&quot;&gt;3. Implementing Streams in Threads&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The library contains two primary classes located in the main directory, namely:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;ThreadedStream&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Command&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;ThreadedStream&lt;/code&gt; is the class responsible for implementing the &lt;code&gt;Stream&lt;/code&gt; interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class ThreadedStream&amp;lt;T&amp;gt; implements Stream&amp;lt;T&amp;gt; {&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;Command&lt;/code&gt; class encompasses nested classes that implement functionality for stream operations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    public static class Filter&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class AnyMatch&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class FindFirst&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class FindAny&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class NoOp&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class Distinct&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class Skip&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class Peek&amp;lt;T&amp;gt; extends Command&amp;lt;T, T&amp;gt; {
+    public static class Map&amp;lt;T, R&amp;gt; extends Command&amp;lt;T, R&amp;gt; {&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All the mentioned operators are intermediary.
+The terminal operators are implemented within the &lt;code&gt;ThreadedStream&lt;/code&gt; class, which converts the threaded stream into a regular stream before invoking the terminal operator on this stream.
+An example of this approach is the implementation of the &lt;code&gt;collect&lt;/code&gt; method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Override
+    public &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier, BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator, BiConsumer&amp;lt;R, R&amp;gt; combiner) {
         return toStream().collect(supplier, accumulator, combiner);
-    }
-
-----
-
-The source of the elements is also a stream, which means that the threading functionality is layered atop the existing stream implementation.
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The source of the elements is also a stream, which means that the threading functionality is layered atop the existing stream implementation.
 This setup allows for the utilization of streams both as data sources and as destinations for processed data.
-Threading occurs in the interim, facilitating the parallel execution of intermediary commands.
-
-Therefore, the core of the implementation—and its most intriguing aspect—lies in the construction of the structure and its subsequent execution.
-
-We will first examine the structure of the stream data and then explore how the class executes operations utilizing virtual threads.
-
-=== 3.1. Stream Data Structure
-
-The `+ThreadedStream+` class maintains its data through the following member variables:
-
-[source]
-----
-    private final Command&lt;Object, T&gt; command;
-    private final ThreadedStream&lt;?&gt; downstream;
-    private final Stream&lt;?&gt; source;
+Threading occurs in the interim, facilitating the parallel execution of intermediary commands.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Therefore, the core of the implementation—and its most intriguing aspect—lies in the construction of the structure and its subsequent execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will first examine the structure of the stream data and then explore how the class executes operations utilizing virtual threads.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-1-stream-data-structure&quot;&gt;3.1. Stream Data Structure&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;ThreadedStream&lt;/code&gt; class maintains its data through the following member variables:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    private final Command&amp;lt;Object, T&amp;gt; command;
+    private final ThreadedStream&amp;lt;?&amp;gt; downstream;
+    private final Stream&amp;lt;?&amp;gt; source;
     private long limit = -1;
-    private boolean chained = false;
-
-----
-
-* `command` represents the `+Command+` object to be executed on the data.
-It might be a no-operation (NoOp) command or `+null+` if there is no specific command to execute.
-
-
-* `downstream` variable points to the preceding `+ThreadedStream+` in the processing chain.
-A `+ThreadedStream+` retrieves data either from the immediate `+downstream+` stream, if available, or directly from the `+source+` if it&apos;s the initial in the chain.
-
-* `source` is the initial data stream.
-It remains defined even when a `+downstream+` is specified, in which scenario the `+source+` for both streams remains identical.
-
-* `limit` specifies the maximum number of elements this stream is configured to process.
+    private boolean chained = false;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;command&lt;/code&gt; represents the &lt;code&gt;Command&lt;/code&gt; object to be executed on the data.
+It might be a no-operation (NoOp) command or &lt;code&gt;null&lt;/code&gt; if there is no specific command to execute.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;downstream&lt;/code&gt; variable points to the preceding &lt;code&gt;ThreadedStream&lt;/code&gt; in the processing chain.
+A &lt;code&gt;ThreadedStream&lt;/code&gt; retrieves data either from the immediate &lt;code&gt;downstream&lt;/code&gt; stream, if available, or directly from the &lt;code&gt;source&lt;/code&gt; if it&amp;#8217;s the initial in the chain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt; is the initial data stream.
+It remains defined even when a &lt;code&gt;downstream&lt;/code&gt; is specified, in which scenario the &lt;code&gt;source&lt;/code&gt; for both streams remains identical.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;limit&lt;/code&gt; specifies the maximum number of elements this stream is configured to process.
 Implementing a limit requires a workaround, as stream element processing starts immediately rather than being &quot;pulled&quot; by the terminal operation.
-Consequently, infinite streams cannot feed into a `+ThreadedStream+`.
-
-* `chained` is a boolean flag indicating whether the stream is part of a processing chain.
-When `+true+`, it signifies that there is a subsequent stream dependent on this one&apos;s output, preventing execution in cases of processing forks.
-This mechanism mirrors the approach found in JVM&apos;s standard stream implementations.
-
-
-=== 3.2. Stream Build
-
-The stream data structure is constructed dynamically as intermediary operations are chained together.
-The initiation of this process begins with the creation of a starting element, achieved by invoking the static method `+threaded+` on the `+ThreadedStream+` class.
-An exemplary line from the unit tests illustrates this initiation:
-
-[source]
-----
-        final var k = ThreadedStream.threaded(Stream.of(1, 2, 3));
-
-----
-
-This line demonstrates the creation of a `+ThreadedStream+` instance named `+k+`, initialized with a source stream consisting of the elements 1, 2, and 3.
-The `+threaded+` method serves as the entry point for transforming a regular stream into a `+ThreadedStream+`, setting the stage for further operations that can leverage virtual threads for concurrent execution.
-
-When an intermediary operation is appended, it results in the creation of a new `+ThreadedStream+` instance.
-This new instance designates the preceding `+ThreadedStream+` as its `+downstream+`.
-Moreover, the source stream for this newly formed `+ThreadedStream+` remains identical to the source stream of its predecessor.
-This design ensures a seamless flow of data through the chain of operations, facilitating efficient processing in a concurrent environment.
-
-For example, when we call
-
-[source]
-----
-        final var t = k.map(x -&gt; x * 2);
-
-----
-
-the `map` method is called, which is
-
-[source]
-----
-    public &lt;R&gt; ThreadedStream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper) {
-        return new ThreadedStream&lt;&gt;(new Command.Map&lt;&gt;(mapper), this);
-    }
-
-
-----
-
-It generates a new `ThreadedStream` object wherein the preceding `ThreadedStream` acts as the `downstream`.
-Additionally, the `command` field is populated with a new instance of the `Command` class, configured with the specified mapper function.
-
-This process effectively constructs a linked list composed of `ThreadedStream` objects.
+Consequently, infinite streams cannot feed into a &lt;code&gt;ThreadedStream&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;chained&lt;/code&gt; is a boolean flag indicating whether the stream is part of a processing chain.
+When &lt;code&gt;true&lt;/code&gt;, it signifies that there is a subsequent stream dependent on this one&amp;#8217;s output, preventing execution in cases of processing forks.
+This mechanism mirrors the approach found in JVM&amp;#8217;s standard stream implementations.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-stream-build&quot;&gt;3.2. Stream Build&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The stream data structure is constructed dynamically as intermediary operations are chained together.
+The initiation of this process begins with the creation of a starting element, achieved by invoking the static method &lt;code&gt;threaded&lt;/code&gt; on the &lt;code&gt;ThreadedStream&lt;/code&gt; class.
+An exemplary line from the unit tests illustrates this initiation:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        final var k = ThreadedStream.threaded(Stream.of(1, 2, 3));&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This line demonstrates the creation of a &lt;code&gt;ThreadedStream&lt;/code&gt; instance named &lt;code&gt;k&lt;/code&gt;, initialized with a source stream consisting of the elements 1, 2, and 3.
+The &lt;code&gt;threaded&lt;/code&gt; method serves as the entry point for transforming a regular stream into a &lt;code&gt;ThreadedStream&lt;/code&gt;, setting the stage for further operations that can leverage virtual threads for concurrent execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When an intermediary operation is appended, it results in the creation of a new &lt;code&gt;ThreadedStream&lt;/code&gt; instance.
+This new instance designates the preceding &lt;code&gt;ThreadedStream&lt;/code&gt; as its &lt;code&gt;downstream&lt;/code&gt;.
+Moreover, the source stream for this newly formed &lt;code&gt;ThreadedStream&lt;/code&gt; remains identical to the source stream of its predecessor.
+This design ensures a seamless flow of data through the chain of operations, facilitating efficient processing in a concurrent environment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For example, when we call&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        final var t = k.map(x -&amp;gt; x * 2);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;the &lt;code&gt;map&lt;/code&gt; method is called, which is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    public &amp;lt;R&amp;gt; ThreadedStream&amp;lt;R&amp;gt; map(Function&amp;lt;? super T, ? extends R&amp;gt; mapper) {
+        return new ThreadedStream&amp;lt;&amp;gt;(new Command.Map&amp;lt;&amp;gt;(mapper), this);
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It generates a new &lt;code&gt;ThreadedStream&lt;/code&gt; object wherein the preceding &lt;code&gt;ThreadedStream&lt;/code&gt; acts as the &lt;code&gt;downstream&lt;/code&gt;.
+Additionally, the &lt;code&gt;command&lt;/code&gt; field is populated with a new instance of the &lt;code&gt;Command&lt;/code&gt; class, configured with the specified mapper function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This process effectively constructs a linked list composed of &lt;code&gt;ThreadedStream&lt;/code&gt; objects.
 This linked structure comes into play during the execution phase, triggered by invoking one of the terminal operations on the stream.
-This method ensures that each `ThreadedStream` in the sequence can process data in a manner that supports concurrent execution, leveraging the capabilities of virtual threads for efficient data processing.
-
-It&apos;s crucial to understand that the `ThreadedStream` class refrains from performing any operations on the data until a terminal operation is called.
+This method ensures that each &lt;code&gt;ThreadedStream&lt;/code&gt; in the sequence can process data in a manner that supports concurrent execution, leveraging the capabilities of virtual threads for efficient data processing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s crucial to understand that the &lt;code&gt;ThreadedStream&lt;/code&gt; class refrains from performing any operations on the data until a terminal operation is called.
 Once execution commences, it proceeds concurrently.
-To facilitate independent execution of these operations, `ThreadedStream` instances are designed to be immutable.
+To facilitate independent execution of these operations, &lt;code&gt;ThreadedStream&lt;/code&gt; instances are designed to be immutable.
 They are instantiated during the setup phase and undergo a single mutation when they are linked together.
 During execution, these instances serve as a read-only data structure, guiding the flow of operation execution.
-This immutability ensures thread safety and consistency throughout concurrent processing, allowing for efficient and reliable stream handling.
-
-=== 3.3. Stream Execution
-
-The commencement of stream execution is triggered by invoking a terminal operation.
-These terminal operations are executed by first transforming the threaded stream back into a conventional stream, upon which the terminal operation is then performed.
-
-The `collect` method serves as a prime example of this process, as previously mentioned.
-This method is emblematic of how terminal operations are seamlessly integrated within the `ThreadedStream` framework, bridging the gap between concurrent execution facilitated by virtual threads and the conventional stream processing model of Java.
-By converting the `ThreadedStream` into a standard `Stream`, it leverages the rich ecosystem of terminal operations already available in Java, ensuring compatibility and extending functionality with minimal overhead.
-
-[source]
-----
-    @Override
-    public &lt;R&gt; R collect(Supplier&lt;R&gt; supplier, BiConsumer&lt;R, ? super T&gt; accumulator, BiConsumer&lt;R, R&gt; combiner) {
+This immutability ensures thread safety and consistency throughout concurrent processing, allowing for efficient and reliable stream handling.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-3-stream-execution&quot;&gt;3.3. Stream Execution&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The commencement of stream execution is triggered by invoking a terminal operation.
+These terminal operations are executed by first transforming the threaded stream back into a conventional stream, upon which the terminal operation is then performed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;collect&lt;/code&gt; method serves as a prime example of this process, as previously mentioned.
+This method is emblematic of how terminal operations are seamlessly integrated within the &lt;code&gt;ThreadedStream&lt;/code&gt; framework, bridging the gap between concurrent execution facilitated by virtual threads and the conventional stream processing model of Java.
+By converting the &lt;code&gt;ThreadedStream&lt;/code&gt; into a standard &lt;code&gt;Stream&lt;/code&gt;, it leverages the rich ecosystem of terminal operations already available in Java, ensuring compatibility and extending functionality with minimal overhead.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Override
+    public &amp;lt;R&amp;gt; R collect(Supplier&amp;lt;R&amp;gt; supplier, BiConsumer&amp;lt;R, ? super T&amp;gt; accumulator, BiConsumer&amp;lt;R, R&amp;gt; combiner) {
         return toStream().collect(supplier, accumulator, combiner);
-    }
-
-----
-
-The `toStream()` method represents the core functionality of the library, marking the commencement of stream execution by initiating a new virtual thread for each element in the source stream.
-This method differentiates between ordered and unordered execution through two distinct implementations:
-
-- `toUnorderedStream()`
-- `toOrderedStream()`
-
-The choice between these methods is determined by the `isParallel()` status of the source stream.
-It&apos;s worth noting that executing an ordered stream in parallel can be advantageous.
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;code&gt;toStream()&lt;/code&gt; method represents the core functionality of the library, marking the commencement of stream execution by initiating a new virtual thread for each element in the source stream.
+This method differentiates between ordered and unordered execution through two distinct implementations:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;toUnorderedStream()&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;toOrderedStream()&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The choice between these methods is determined by the &lt;code&gt;isParallel()&lt;/code&gt; status of the source stream.
+It&amp;#8217;s worth noting that executing an ordered stream in parallel can be advantageous.
 Although the results may be produced out of order, parallel processing accelerates the operation.
-Ultimately, care must be taken to collect the results in a sequential manner, despite the unordered processing potentially yielding higher efficiency by allowing elements to be passed to the resulting stream as soon as they become available, eliminating the need to wait for the preceding elements.
-
-The implementation of `toStream()` is designed to minimize an unnecessary collection of elements.
-Elements are forwarded to the resulting stream immediately upon readiness in the case of unordered streams, and in sequence upon the readiness and previous element&apos;s forwarding in ordered streams.
-
-In subsequent sections, we delve into the specifics of these two execution methodologies.
-
-=== 3.4. Unordered Stream Execution
-
-Unordered execution promptly forwards results as they become prepared.
-This approach employs a concurrent list for result storage, facilitating simultaneous result deposition by threads and retrieval by the target stream, preventing excessive list growth.
-
-The iteration over the source stream initiates the creation of a new virtual thread for each element.
-When a limit is imposed, it&apos;s applied directly on the source stream, diverging from traditional stream implementations where `limit` acts as a genuine intermediary operation.
-
-The implementation of the unordered stream execution is as follows:
-
-[source]
-----
-    private Stream&lt;T&gt; toUnorderedStream() {
-        final var result = Collections.synchronizedList(new LinkedList&lt;Command.Result&lt;T&gt;&gt;());
+Ultimately, care must be taken to collect the results in a sequential manner, despite the unordered processing potentially yielding higher efficiency by allowing elements to be passed to the resulting stream as soon as they become available, eliminating the need to wait for the preceding elements.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The implementation of &lt;code&gt;toStream()&lt;/code&gt; is designed to minimize an unnecessary collection of elements.
+Elements are forwarded to the resulting stream immediately upon readiness in the case of unordered streams, and in sequence upon the readiness and previous element&amp;#8217;s forwarding in ordered streams.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In subsequent sections, we delve into the specifics of these two execution methodologies.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-4-unordered-stream-execution&quot;&gt;3.4. Unordered Stream Execution&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unordered execution promptly forwards results as they become prepared.
+This approach employs a concurrent list for result storage, facilitating simultaneous result deposition by threads and retrieval by the target stream, preventing excessive list growth.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The iteration over the source stream initiates the creation of a new virtual thread for each element.
+When a limit is imposed, it&amp;#8217;s applied directly on the source stream, diverging from traditional stream implementations where &lt;code&gt;limit&lt;/code&gt; acts as a genuine intermediary operation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The implementation of the unordered stream execution is as follows:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    private Stream&amp;lt;T&amp;gt; toUnorderedStream() {
+        final var result = Collections.synchronizedList(new LinkedList&amp;lt;Command.Result&amp;lt;T&amp;gt;&amp;gt;());
         final AtomicInteger n = new AtomicInteger(0);
-        final Stream&lt;?&gt; limitedSource = limit &gt;= 0 ? source.limit(limit) : source;
+        final Stream&amp;lt;?&amp;gt; limitedSource = limit &amp;gt;= 0 ? source.limit(limit) : source;
         limitedSource.forEach(
-                t -&gt; {
-                    Thread.startVirtualThread(() -&gt; result.add(calculate(t)));
+                t -&amp;gt; {
+                    Thread.startVirtualThread(() -&amp;gt; result.add(calculate(t)));
                     n.incrementAndGet();
                 });
         return IntStream.range(0, n.get())
-                .mapToObj(i -&gt; {
+                .mapToObj(i -&amp;gt; {
                     while (result.isEmpty()) {
                         Thread.yield();
                     }
                     return result.removeFirst();
                 })
-                .filter(f -&gt; !f.isDeleted())
-                .peek(r -&gt; {
+                .filter(f -&amp;gt; !f.isDeleted())
+                .peek(r -&amp;gt; {
                     if (r.exception() != null) {
                         throw new ThreadExecutionException(r.exception());
                     }
                 })
                 .map(Command.Result::result);
-    }
-
-----
-
-The counter `n` is utilized to tally the number of threads initiated.
-The resulting stream is constructed using this counter by mapping the numbers 0 to `n`-1 to the elements of the concurrent list as they become ready.
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The counter &lt;code&gt;n&lt;/code&gt; is utilized to tally the number of threads initiated.
+The resulting stream is constructed using this counter by mapping the numbers 0 to &lt;code&gt;n&lt;/code&gt;-1 to the elements of the concurrent list as they become ready.
 If the list lacks elements at any point, the process pauses, awaiting the availability of the next element.
-This waiting mechanism is implemented within a loop that incorporates a `yield` call to prevent unnecessary CPU consumption by halting the loop&apos;s execution until it&apos;s necessary to proceed.
-This efficient use of resources ensures that the system remains responsive and minimizes the potential for performance degradation during the execution of parallel tasks.
-
-=== 3.5. Ordered Stream Execution
-
-Ordered stream execution introduces a more nuanced approach compared to its unordered counterpart.
-It incorporates a local class named `Task`, designed specifically to await the readiness of a particular thread.
-Similar to the unordered execution, a concurrent list is utilized, but with a key distinction: the elements of this list are the tasks themselves, rather than the results.
-
-This list is populated by the code responsible for thread creation, rather than by the threads themselves.
+This waiting mechanism is implemented within a loop that incorporates a &lt;code&gt;yield&lt;/code&gt; call to prevent unnecessary CPU consumption by halting the loop&amp;#8217;s execution until it&amp;#8217;s necessary to proceed.
+This efficient use of resources ensures that the system remains responsive and minimizes the potential for performance degradation during the execution of parallel tasks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-5-ordered-stream-execution&quot;&gt;3.5. Ordered Stream Execution&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ordered stream execution introduces a more nuanced approach compared to its unordered counterpart.
+It incorporates a local class named &lt;code&gt;Task&lt;/code&gt;, designed specifically to await the readiness of a particular thread.
+Similar to the unordered execution, a concurrent list is utilized, but with a key distinction: the elements of this list are the tasks themselves, rather than the results.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This list is populated by the code responsible for thread creation, rather than by the threads themselves.
 The presence of a fully populated list eliminates the need for a separate counter to track thread initiation.
-Consequently, the process transitions to sequentially waiting on each thread as dictated by their order in the list, thereby ensuring that each thread&apos;s output is relayed to the target stream in a sequential manner.
-This method meticulously maintains the ordered integrity of the stream&apos;s elements, despite the concurrent nature of their processing, by aligning the execution flow with the sequence of the original stream.
-
-[source]
-----
-    private Stream&lt;T&gt; toOrderedStream() {
+Consequently, the process transitions to sequentially waiting on each thread as dictated by their order in the list, thereby ensuring that each thread&amp;#8217;s output is relayed to the target stream in a sequential manner.
+This method meticulously maintains the ordered integrity of the stream&amp;#8217;s elements, despite the concurrent nature of their processing, by aligning the execution flow with the sequence of the original stream.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    private Stream&amp;lt;T&amp;gt; toOrderedStream() {
         class Task {
             Thread workerThread;
-            volatile Command.Result&lt;T&gt; result;
+            volatile Command.Result&amp;lt;T&amp;gt; result;
 
             /**
              * Wait for the thread calculating the result of the task to be finished. This method is blocking.
@@ -321,41 +396,49 @@ This method meticulously maintains the ordered integrity of the stream&apos;s el
                 }
             }
         }
-        final var tasks = Collections.synchronizedList(new LinkedList&lt;Task&gt;());
+        final var tasks = Collections.synchronizedList(new LinkedList&amp;lt;Task&amp;gt;());
 
-        final Stream&lt;?&gt; limitedSource = limit &gt;= 0 ? source.limit(limit) : source;
+        final Stream&amp;lt;?&amp;gt; limitedSource = limit &amp;gt;= 0 ? source.limit(limit) : source;
         limitedSource.forEach(
-                sourceItem -&gt; {
+                sourceItem -&amp;gt; {
                     Task task = new Task();
                     tasks.add(task);
-                    task.workerThread = Thread.startVirtualThread(() -&gt; task.result = calculate(sourceItem));
+                    task.workerThread = Thread.startVirtualThread(() -&amp;gt; task.result = calculate(sourceItem));
                 }
         );
 
         return tasks.stream()
                 .peek(Task::waitForResult)
-                .map(f -&gt; f.result)
-                .peek(r -&gt; {
+                .map(f -&amp;gt; f.result)
+                .peek(r -&amp;gt; {
                             if (r.exception() != null) {
                                 throw new ThreadExecutionException(r.exception());
                             }
                         }
                 )
-                .filter(r -&gt; !r.isDeleted()).map(Command.Result::result);
-    }
-
-----
-
-== 4. Summary and Takeaway
-
-Having explored an implementation that facilitates the parallel execution of stream operations, it&apos;s noteworthy that this library is open source, offering you the flexibility to either utilize it as is or reference its design and implementation to craft your own version.
-The detailed exposition provided here aims to shed light on both the conceptual underpinnings and practical aspects of the library&apos;s construction.
-
-However, it&apos;s important to acknowledge that the library has not undergone extensive testing.
+                .filter(r -&amp;gt; !r.isDeleted()).map(Command.Result::result);
+    }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-summary-and-takeaway&quot;&gt;4. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Having explored an implementation that facilitates the parallel execution of stream operations, it&amp;#8217;s noteworthy that this library is open source, offering you the flexibility to either utilize it as is or reference its design and implementation to craft your own version.
+The detailed exposition provided here aims to shed light on both the conceptual underpinnings and practical aspects of the library&amp;#8217;s construction.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, it&amp;#8217;s important to acknowledge that the library has not undergone extensive testing.
 It received a review from Istvan Kovacs, a figure with considerable expertise in concurrent programming.
-Despite this, his review does not serve as an absolute assurance of the library&apos;s reliability and absence of bugs.
-Consequently, should you decide to integrate this library into your projects, it&apos;s advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
-The library is provided &quot;as is,&quot; with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Computers Will Take Away Our Jobs</title><link href="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html" rel="alternate" type="text/html" title="Computers Will Take Away Our Jobs" /><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/14/computers-take-our-jobs</id><content type="html" xml:base="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html">= Computers Will Take Away Our Jobs
+Despite this, his review does not serve as an absolute assurance of the library&amp;#8217;s reliability and absence of bugs.
+Consequently, should you decide to integrate this library into your projects, it&amp;#8217;s advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
+The library is provided &quot;as is,&quot; with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Computers Will Take Away Our Jobs</title><link href="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html" rel="alternate" type="text/html" title="Computers Will Take Away Our Jobs" /><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/14/computers-take-our-jobs</id><content type="html" xml:base="https://javax0.github.io/2024/02/14/computers-take-our-jobs.html">= Computers Will Take Away Our Jobs
 
 == 1. Introduction
 
