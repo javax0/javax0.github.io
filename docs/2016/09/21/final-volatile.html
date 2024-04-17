@@ -9,17 +9,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="I was writing my book over the weekend and I was looking for some simple example that could demonstrate the real need of volatile modifier in multi-thread code. Years ago when I last time demonstrated the multi-thread capability Java was still 32-bit, or at least there was 32-bit Java available. On 32 bits you could concurrently increment long variables and because the lower and upper 32 bits were handled in different processor shift there was a chance that two threads garbled some way the non-volatile variable. Now with Java 9 this is not the case. Now Java is 64-bit and I had to demonstrate the need for a volatile on 64-bit before anyone comes up the stupid idea that it was only needed for 32-bit. (I could tell stories, but I try to keep it a professional blog. Not with much success, but still.)" />
 <meta property="og:description" content="I was writing my book over the weekend and I was looking for some simple example that could demonstrate the real need of volatile modifier in multi-thread code. Years ago when I last time demonstrated the multi-thread capability Java was still 32-bit, or at least there was 32-bit Java available. On 32 bits you could concurrently increment long variables and because the lower and upper 32 bits were handled in different processor shift there was a chance that two threads garbled some way the non-volatile variable. Now with Java 9 this is not the case. Now Java is 64-bit and I had to demonstrate the need for a volatile on 64-bit before anyone comes up the stupid idea that it was only needed for 32-bit. (I could tell stories, but I try to keep it a professional blog. Not with much success, but still.)" />
-<link rel="canonical" href="http://localhost:4000/2016/09/21/final-volatile.html" />
-<meta property="og:url" content="http://localhost:4000/2016/09/21/final-volatile.html" />
+<link rel="canonical" href="https://javax0.github.io/2016/09/21/final-volatile.html" />
+<meta property="og:url" content="https://javax0.github.io/2016/09/21/final-volatile.html" />
 <meta property="og:site_name" content="Java Deep, mostly Java" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2016-09-21T00:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Final volatile" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2016-09-21T00:00:00+02:00","datePublished":"2016-09-21T00:00:00+02:00","description":"I was writing my book over the weekend and I was looking for some simple example that could demonstrate the real need of volatile modifier in multi-thread code. Years ago when I last time demonstrated the multi-thread capability Java was still 32-bit, or at least there was 32-bit Java available. On 32 bits you could concurrently increment long variables and because the lower and upper 32 bits were handled in different processor shift there was a chance that two threads garbled some way the non-volatile variable. Now with Java 9 this is not the case. Now Java is 64-bit and I had to demonstrate the need for a volatile on 64-bit before anyone comes up the stupid idea that it was only needed for 32-bit. (I could tell stories, but I try to keep it a professional blog. Not with much success, but still.)","headline":"Final volatile","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2016/09/21/final-volatile.html"},"url":"http://localhost:4000/2016/09/21/final-volatile.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2016-09-21T00:00:00+02:00","datePublished":"2016-09-21T00:00:00+02:00","description":"I was writing my book over the weekend and I was looking for some simple example that could demonstrate the real need of volatile modifier in multi-thread code. Years ago when I last time demonstrated the multi-thread capability Java was still 32-bit, or at least there was 32-bit Java available. On 32 bits you could concurrently increment long variables and because the lower and upper 32 bits were handled in different processor shift there was a chance that two threads garbled some way the non-volatile variable. Now with Java 9 this is not the case. Now Java is 64-bit and I had to demonstrate the need for a volatile on 64-bit before anyone comes up the stupid idea that it was only needed for 32-bit. (I could tell stories, but I try to keep it a professional blog. Not with much success, but still.)","headline":"Final volatile","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2016/09/21/final-volatile.html"},"url":"https://javax0.github.io/2016/09/21/final-volatile.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Java Deep, mostly Java" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
@@ -199,7 +199,7 @@ If for any reason you do not want to leave a comment here, <a href="https://gith
         /* Instead, edit the key `disqus.shortname` in _config.yml */
 
         var disqus_config = function (){
-            this.page.url = 'http://localhost:4000/2016/09/21/final-volatile.html';
+            this.page.url = 'https://javax0.github.io/2016/09/21/final-volatile.html';
             this.page.identifier = '/2016/09/21/final-volatile.html';
         };
 

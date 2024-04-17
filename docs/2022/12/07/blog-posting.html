@@ -9,17 +9,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="1. Introduction" />
 <meta property="og:description" content="1. Introduction" />
-<link rel="canonical" href="http://localhost:4000/2022/12/07/blog-posting.html" />
-<meta property="og:url" content="http://localhost:4000/2022/12/07/blog-posting.html" />
+<link rel="canonical" href="https://javax0.github.io/2022/12/07/blog-posting.html" />
+<meta property="og:url" content="https://javax0.github.io/2022/12/07/blog-posting.html" />
 <meta property="og:site_name" content="Java Deep, mostly Java" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-12-07T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Technology behind this post" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-12-07T00:00:00+01:00","datePublished":"2022-12-07T00:00:00+01:00","description":"1. Introduction","headline":"Technology behind this post","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2022/12/07/blog-posting.html"},"url":"http://localhost:4000/2022/12/07/blog-posting.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-12-07T00:00:00+01:00","datePublished":"2022-12-07T00:00:00+01:00","description":"1. Introduction","headline":"Technology behind this post","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2022/12/07/blog-posting.html"},"url":"https://javax0.github.io/2022/12/07/blog-posting.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Java Deep, mostly Java" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
@@ -51,12 +51,9 @@
 <h2 id="1-introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>/Users/verhasp/github/javax0.github.io/_posts</code></p>
-</div>
-<div class="paragraph">
-<p>This blog is the continuation of the blog post at the WordPress-hosted javax0 blog that was at <a href="https://javax0.wordpress.com">javax0.wordpress.com</a>.
-The technology, the hosting, and all were okay by that time, but times changed.
-This blog post describes why I changed the blog technology and what technology I use here to write these blog posts.</p>
+<p>This blog post is a follow-up to the earlier entry on the javax0 blog, which you can find at <a href="https://javax0.wordpress.com/">javax0.wordpress.com</a>.
+While the previous hosting and technology were satisfactory at the time, changes in circumstances necessitated an update.
+In this post, I&#8217;ll explain why I decided to update the blog&#8217;s technology and what new technology I&#8217;m currently using to create these blog posts.</p>
 </div>
 </div>
 </div>
@@ -232,7 +229,7 @@ It is how the plugin works, but you can also use Jamal macros now.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://javax0.github.io/assets/images/image-2022-12-09-16-47-43-394.png" alt="image 2022 12 09 16 47 43 394" width="500">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2022-12-09-16-47-43-394.png" alt="image 2022 12 09 16 47 43 394" width="500">
 </div>
 </div>
 </div>
@@ -256,11 +253,13 @@ There is a simple build script:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/sh
+rm -rf docs
 ./build
 git add --all docs
 git commit -m "deploy"
 git push
-open https://javax0.github.io</code></pre>
+open https://javax0.github.io
+open https://github.com/javax0/javax0.github.io/actions</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -281,14 +280,42 @@ Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.<
 <h2 id="4-building-the-site">4. Building the site</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<div class="title">update at 2024-04-17</div>
+<p>To build the sie the tool gradle is used.
+The <code>build.gradle-kts</code> file defines custom-made tasks, some of which executes external tools like <code>jamal</code> and <code>jekyll</code>.
+Since Gradle is a JVM tool and the build script is written in Kotlin executed by the JVM, it can use Jamal as a library.
+Jekyll, on the other hand, is a Ruby tool, so it is executed by the Gradle task that calls the Ruby interpreter.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-building-the-site-outdated">5. Building the site (outdated)</h2>
+<div class="sectionbody">
+<div class="paragraph">
 <div class="title">update at 2023-01-25</div>
+<p>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This section is out of date as of 2024-04-17 when the site building was refactored to use gradle.
+That structure and the tools are described in the previous section.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
 <p>Building the site was first was a simple <code>Makefile</code> starting Jamal via <code>jbang</code> to convert all the <code>.adoc.jam</code> files to <code>.adoc</code> from the directory <code>_posts</code>.
-This, however, resulted almost 400 files in the directory.
-During the course of the last ten years I wrote 180 articles.
+This, however, resulted in almost 400 files in the directory.
+During the last ten years, I wrote 180 articles.
 All their <code>.adoc.jam</code> and the generated <code>.adoc</code> files got into one flat directory.</p>
 </div>
 <div class="paragraph">
-<p>To mitigate this situation I decided to group the articles into subdirectories by years.
+<p>To mitigate this situation, I decided to group the articles into subdirectories by years.
 It means eleven subdirectories now and 15 to 20 more in my lifetime.
 It is manageable.
 The problem was I did not know how to write a general <code>make</code> rule that says <code>.adoc.jam</code> files in the subdirectories should be compiled to <code>.adoc</code> files in the <code>_posts</code> directory.</p>
@@ -317,7 +344,7 @@ all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _pos
 </div>
 <div class="paragraph">
 <p>I do not expect you to understand this structure.
-It is fairly complex,but it shows the power of Jamal in some way.
+It is fairly complex, but it shows the power of Jamal in some ways.
 You should not feel intimidated.
 If you decide to use Jamal only for 10% of what it can do, it is fine.
 It is a tool to provide value and not something you need to master.</p>
@@ -351,7 +378,7 @@ Look at the GitHub repo to see if I did that.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="5-what-will-be-missing">5. What will be Missing</h2>
+<h2 id="6-what-will-be-missing">6. What will be Missing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>WordPress very neatly showed the statistics of the site.
@@ -373,7 +400,7 @@ They only repost the good ones.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="6-summary">6. Summary</h2>
+<h2 id="7-summary">7. Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I hope blogging using this toolset will be much more fun than the old technology.
@@ -404,7 +431,7 @@ If for any reason you do not want to leave a comment here, <a href="https://gith
         /* Instead, edit the key `disqus.shortname` in _config.yml */
 
         var disqus_config = function (){
-            this.page.url = 'http://localhost:4000/2022/12/07/blog-posting.html';
+            this.page.url = 'https://javax0.github.io/2022/12/07/blog-posting.html';
             this.page.identifier = '/2022/12/07/blog-posting.html';
         };
 
