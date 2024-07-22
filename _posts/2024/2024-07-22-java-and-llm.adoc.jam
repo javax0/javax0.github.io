@@ -1,0 +1,249 @@
+---
+
+{%@define title=Java and LLM%}\ title: {%title%} layout: posta comments: on ---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}{%@sep 〔〕%}
+
+= 〔title〕
+
+〔section Introduction〕
+
+Recently, I watched a YouTube video by the brilliant Nicolai Parlog.
+He was explaining why Java could be excellent for artificial intelligence applications.
+He mentioned that currently, Java doesn't handle some things like big data and large memory usage very well, which I understand.
+
+This is why Project Valhalla is underway.
+However, I strongly believe that creating an application using artificial intelligence, specifically large language models and Retrieval-Aaugmented Generation (RAG), doesn't require any specific programming language.
+Java is a perfect candidate for this, even with release 21, which is currently the latest version.
+
+I'd like to elaborate on why I think this is the case.
+
+〔section Why Java〕
+
+Why I think that there is no need for the project Valhalla or any other features that makes a little bit difference between other languages and Java.
+Why Java is just as good as any other language to provide LLM applications.
+And it is important to understand that what I'm saying is that I don't think Java is particularly good to write an LLM appliance.
+So something that does the neural network calculation.
+But the other languages like Go language or Rust, Python also doesn't do that.
+
+Even though people are using Python usually or that's the very first choice when going for LLM applications.
+And I think that to understand why Java is just as good as any other language, we have to understand the little differences between the different programming languages.
+So we have to understand how an LLM application works with RAG.
+And then we can understand that we don't need to wait for Java to deliver any future projects like Valhalla or anything else.
+
+We can use it today.
+
+Of course, I'm a Java guy.
+So it's easy to say that I'm very much biased toward Java because that's where my knowledge lays.
+That's where I invested in the last 20 years my expertise.
+
+But to be honest, I don't identify myself as a Java developer.
+I much think of myself as a software developer and architect.
+
+And I have more than 30 years of experience way from before Java existed.
+I programmed in Assembly, Basic, COBOL, FORTRAN, many, many languages.
+And what I would like to compare in this talk as a possible language to develop LLM applications, are Rust, Go language, Java, and Python.
+
+〔section Why Not Python〕
+
+First I was not even thinking about Python for this article.
+Even though Python is the number one programming language that people think about when they are talking about artificial intelligence and LLM.
+I truly think that Python is not really good as an application language for such applications.
+
+It's very good for prototyping or writing applications which are not widely used by many people, and are not enterprise grade.
+
+And when the first large language model applications were developed, then these applications, and still we are a little bit still in this area, these applications are kind of experimental.
+People are playing around it.
+
+If you want to install something Python, it's not a user installation.
+You have to execute PIP commands, which is a Python thing.
+You have to have Python installed.
+
+So it's not just something like that you just download and then click setup and then click, click, click, and then you have everything installed like it's on Windows.
+On a Mac you even just open the DMG file move the application to the Application folder, then everything is done and it runs.
+
+With python it is more complex.
+What is the difference?
+Why is Python so popular?
+
+First of all, because it was very easy to learn for all those people who wanted to play around with LLM, who were developing artificial intelligence, neural network systems.
+It's a very simple language.
+
+I truly believe that if somebody starts to teach languages and programming languages for kids, like in secondary school or towards the end of the primary school, so about like 12, 13, 14 years old, Python is a very good candidate to start understanding what programming is, how to do programming, what is programming, and so on.
+It's very obvious that these people who are more like mathematicians dealing with neural networks and programming is not their core trade.
+Their core value, core knowledge is neural networks.
+
+And on top of that, they program something.
+
+And they were reaching out to Python, especially that Python very easily integrates with libraries which are written in some low-level code, typically in the C programming language.
+Java is a little bit more difficult to integrate with native code.
+
+In the case of Java, maybe it's even better if you start up the application in a separate process, like an application, like an SQL server, and then you communicate over the network with that application from Java.
+And at the end of this talk, we will get to that architecture just to make a little bit of foreshadowing because I think that that's the way how it should be done.
+
+So I think that originally Python was selected because it was easy to use, easy to start with, but for enterprise development, I don't think Python is a good choice.
+There are not many enterprise-grade applications written in Python.
+And the reason for that is because Python is a scripting language, whatever it means with all the details of what it really means, that it's a scripting language.
+If you look at the other examples, or the languages that I chose, Go, Rust, and Java, they are much more fitting the requirements for enterprise development.
+
+〔section Select Your Language〕
+
+And if we look at the development and how we select the programming language, then actually selecting a programming language for an LLM application is not that different than selecting a programming language for any other application.
+
+〔subsection Can it do?〕
+
+And when we select a programming language, then we have to consider several things.
+So the very first thing is the project's requirements.
+Can we do that?
+Can we perform and can we develop a program in the given programming language?
+
+Some yet programming languages may not fit our needs from this point of view, like some very simple scripting languages like BASIC or Lua or something may not even be possible to do that.
+
+〔subsection Performance, speed〕
+
+Then we have to look at the performance requirements.
+I think if we look at Python, that's a problematic thing, by the way, but most of the code in an LLM application is not running in Python, it's running in C. So even saying that Python is the programming language for LLM and neural networks is not really true because more like it is the glue language only.
+
+And if we have an enterprise application which is using LLM and other things, then we can look at Java, performance is fairly good, Go language also fairly good, and Rust, obviously, performance unbeatable, almost unbeatable.
+
+〔subsection Existing code-based compatibility, Developer Culture〕
+
+Existing code-based compatibility we have to look at, but these applications are kind of fairly new, so it's more like a cultural thing within the society that is developing.
+So if you are developing an application within a large organization, an in-house application, then you should pay attention what code base you already have, what knowledge you have, and what people and developers are accessible and capable of performing the task.
+
+And yes, this is also developer availability and expertise and development speed.
+
+These are all very similar things because if the expertise in an enterprise is mainly Java, which is very likely as opposed to Go or Rust unless you are Google, then most probably if you select Java or Kotlin, the development speed will be higher because the people know how to develop in these languages.
+
+〔subsection Maintainability, Ecosysteme〕
+
+Also maintainability, again, is something which is very much related to this community support and ecosystem.
+This is where Rust a little bit is lagging in my opinion because it's fairly new.
+Also if we look at Go, then it's not that big difference between Java and Go in this sense, but my opinion is that Java is definitely leading in community support and ecosystem, even in front of Go.
+
+〔subsection Cost〕
+
+Cost, well, generally these platforms are free of charge.
+You can develop without paying any license fee or investing heavily into software using any of these languages if you consider the investment in hardware, then they are comparable.
+That's just the same hardware you can use to develop Rust, Go or Java programming language.
+
+
+〔subsection Cross-platform compatibility〕
+
+Cross-platform compatibility, Java is practically unbeatable, but there is no big difference with Rust and Go.
+They compile on the two major platforms, which is Intel and also on ARM for most of the operating systems and application, especially enterprise application.
+Usually these days run on Linux systems and the compilers are available, so it's not a problem.
+Application capabilities is very much like ecosystem kind of thing, but also very much depends on what kind of other systems you have in your environment.
+If you have to communicate with some mainframe application or some other legacy application, what interfaces do they have?
+Usually it's most probably TCP/IP that you communicate with.
+In some weird applications, it may be SNA or some other old-style networks, but even in those cases, it's usually embedded already into TCP/IP and most of the services already have.
+And if originally they only had SNA or some other interfaces, today they provide TCP/IP interfaces.
+
+〔subsection Testing and debugging〕
+
+Testing and debugging, no problem with any of these three languages.
+Deployment is practically the same with the cloud operation using cloud technology.
+Java is absolutely usable.
+Go, again, very much usable.
+Rust shouldn't really be a problem.
+Library and framework availability is, again, the ecosystem.
+
+〔subsection Vendor support〕
+
+Vendor support, well, in that case, maybe Java is leading because there are a lot of independent software vendors who provide you with developers, so you can hire developers to program in Java.
+A little bit less in Go and even less in Kotlin.
+
+And that's the reason why Kotlin is so popular these days among developers, because if you learn Kotlin, you might very easily can find a very well-paying job if you are really good in Kotlin, not just average, really good in Kotlin.
+A few years ago, like two years ago, I have seen an advertisement where they said that they are willing to pay $400,000 per year for a financial application for anyone who is ready to risk Go and go there and risk his current position and willing to learn Rust.
+So they didn't even require that you already know Rust.
+I don't know how real the offer really was, but I have seen the offer myself in Switzerland as an advertisement.
+Documentation quality is also something you have to consider, but this is something that these three languages, Rust, Go, and Java are the same.
+
+〔section What is an LLM application with retrieval augmented generation〕
+
+Now let's have a look at what is an LLM application with retrieval augmented generation.
+When you have an LLM system, the interface is usually Rust interface technically, but it can be anything else.
+It's not really important.
+It's a network interface.
+
+〔subsection LLM〕
+
+What you send to this interface is some human text, usually English, but it can be any other language because these LLM systems can handle different languages.
+You ask a question and then the LLM, based on its database, gives you a human-like answer.
+There is no magic in it so far.
+What an application needs to do, what makes it special, because this is a chat application, we don't need to program it.
+It's ready.
+It's available.
+
+
+〔subsection RAG〕
+
+The only thing you need to program is to make it a retrieval augmented generation.
+And the retrieval augmented generation makes it possible to extend the knowledge base of the LLM neural network without changing the already trained neural network.
+So the LLM system has a neural network which is already trained.
+And the weight and the connections in this neural network are frozen.
+They don't change ever.
+
+What we can do is add extra information to it.
+And to do it, we use a technology which is so-called vector databases and embedding.
+And it works using a vector database which contains all the local knowledge that we have and we can add.
+
+So we have something separate knowledge base from the LLM which contains the neural network, and this neural network represents the language model.
+So all the general knowledge which is needed for the LLM to talk to you in a human and generate a human answer.
+
+And when you ask something from the RAG enhanced system, then the first thing before asking this question from the LLM is that the system, this application, takes this request and asks some embedding application to create a vector from it.
+
+Now a vector technically is a series of numbers, a few hundred numbers, floating point numbers, whatever.
+Think about it as an index value that you use in a database.
+So it's not a record, it's the index value itself.
+And in the knowledge base, in the vector database, we have all the index values of the text fragments that we have in our knowledge base.
+
+So when we are feeding our knowledge base into the vector database, then we are splitting up the knowledge base, the sentences in our knowledge base, the documents, if you like that, into some fragments like hundred or thousand character segments.
+We create a vector for each of it and we store it in the vector database, which is an index.
+It's not really a whole database.
+It doesn't contain the data itself.
+It's only the index.
+
+And then we have a question and we ask the vector database that here is the vector of our question.
+Give me the text fragments which were indexed by this vector database during the knowledge base build up, which are the closest in this multidimensional space represented by these embedding vectors to the question.
+Give me three of those.
+Give me seven of those.
+Not more than seven, usually.
+
+And then we send the original prompt or the original request to the LLM and we create a prompt with a context telling the LLM that consider this context and then we put there the text for which the indexes were given us by the vector database.
+So the vector database doesn't contain the text, but it says that, hey, I have these seven vectors and these seven vectors contain the location from where I can retrieve the original text or text segments.
+And from these I create a prompt including the original question and the context and send it to the LLM.
+And the LLM will give me the answer, and because I was giving a lot of information it, it will include this information.
+So it will answer me not just based on the general knowledge, but also that if you tell me that this, this and that, then I already know I don't understand.
+
+A human wouldn't understand why you ask this because if you give him the information, then they already, then you already know it and you can process it just as good as any other human.
+But this is not a human, this is an LLM.
+
+It can very speedily process the information you give them and it will, and it will summarize it and it will give you an answer which reflects the specialty for your knowledge base.
+It doesn't read or work with the whole knowledge base.
+That's the vector database that selects for you a few of those code fragments which fit most your question.
+Now if I think about this as an application, what do we do in an application?
+We are talking to an embedding application which is essentially a REST interface.
+I give it a text, and it will give me back a JSON containing floating point numbers.
+Then I'm asking a vector database, again a REST interface.
+
+I give it a vector and it will give me seven, not the vectors because the vectors themselves are not interesting, but seven parameters, parameters for seven or so text fragments which are the closest to my vector.
+Then I can retrieve from some database, again it's an Excel or something, REST or something.
+I retrieve the text, then I do some text processing, creating the prompt, and then I'm talking to the LLM, sending this prompt to the LLM, getting the answer.
+It's a REST interface again, and then I send it back to the user in some form.
+So I'm talking to different REST services, one after the other in a sequence.
+This is very typical for an enterprise-grade Java application.
+If I want to be a little bit funny, then I could say that no, no, because an enterprise-grade Java application certainly should use SOAP.
+But these days we are using less and less SOAP, even in the large corporations as well.
+So why wouldn't Java be fit for that?
+And if I compare all the other things like developer availability, ecosystem, library availability, integration with existing enterprise applications, then it has to be Java.
+
+〔section Conclusion〕
+
+What else?
+And if you look at, for example, you compare Java with Go or Java with Rust, then if you have to manage large amount of data in memory, then definitely Go and Rust may have an advantage over Java because they have a different memory model, which I will not go into details in this talk.
+But other than that, if you are using the LLM as an appliance, then Java is just as good as any other language, or even better because we usually develop enterprise applications in most of the large clients in Java.
+Thank you.
