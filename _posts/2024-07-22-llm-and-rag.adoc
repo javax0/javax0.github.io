@@ -1,0 +1,145 @@
+---
+title: LLM and RAG technology
+layout: posta
+comments: on
+---
+
+
+
+= LLM and RAG technology
+
+== 1. Introduction
+
+This article is a brief introduction to LLM and RAG technology.
+The article contains many simplifications that laypeople can understand.
+If you're interested in the technology in more detail, this article won't be enough. You may find parts that aren't entirely accurate, although they convey the essence well.
+
+== 2. The essence of RAG technology
+
+RAG is an acronym for Retrieval Augmented Generation.
+It is an English acronym.
+
+This technology tries to complement LLM or Large Language Model applications.
+The goal is to be able to handle knowledge bases and information that are not found in the Large Language Model itself.
+The Large Language Model is a neural network that has been trained somehow.
+They are usually trained with large quantities of data that are freely available online.
+As a result, Large Language Models can communicate in an almost human-like manner.
+If we ask them a question, they can answer it.
+However, they need to learn about what data or information exists within a company, as these are not public data.
+
+== 3. Limitations of LLMs
+
+LLMs cannot be taught this corporate information in their current form.
+Currently, available applications work by developers creating some models.
+Then, they train this model, setting millions or billions of parameters with training data.
+They ask questions, get answers, and then adjust these parameters based on the quality of the answers.
+
+Of course, there are programs and algorithms for this, not by hand.
+Under current conditions, this process takes a few months to complete using the energy requirements of a small city.
+They run this fine-tuning algorithm on thousands of machines.
+
+== 4. Characteristics of LLM models
+
+When done, the model can be downloaded and run on your machine.
+The model itself represents 1-2 GB of data.
+After this, this neural network no longer changes; it doesn't learn new things.
+It can only learn something new if we get a new version.
+
+== 5. Application of RAG technology
+
+Yet we want to use this kind of capability within a company.
+We want this neural network, the LLM model, to give an answer that takes into account our company's internal information when we ask a question.
+We can do this as if we were doing something similar with humans.
+
+If someone comes to the company, and we want to ask them questions about the company, but they don't know anything about our company, we first teach them things and give them information.
+They will put this information into their neural network.
+
+== 6. Operating principle of RAG
+
+We can see if they focus on work and forget everything else when they go home, and they keep this company-specific information in a separate place.
+
+It is the model for LLM and RAG as well.
+We put the information that isn't in the LLM's neural network separately in a separate database.
+If for no other reason, we can't put it into the neural network's database or into its model.
+These are private. We don't know what they look like or how they're structured, and they're not necessarily modifiable in the form they're in the program.
+
+We don't have, we might say, the "source code" of the data - not necessarily the program's source code, but the original form of the data.
+
+== 7. Characteristics of the LLM model
+
+This model becomes 1 GB through several steps and is a relatively small data set.
+It's relative to what's small, but in LLM terms, this is considered small.
+And it's not sure it's still in a state that can be modified.
+
+== 8. Use of vector databases
+
+If we want to put our own information into a separate database, we usually use a vector database.
+A vector database is a special application that can determine the distance between two pieces of text.
+So how much are they about the same thing, and how many are the exact keywords?
+
+== 9. Preparing the knowledge base
+
+We cut up the knowledge base available within the company into pieces of text.
+These pieces of text are typically a thousand characters or a thousand letters long and form individual records.
+There's a little overlap between them, so we don't start the next one where the previous one ended, but a little earlier.
+It is to have context and continuity in the text.
+
+== 10. The embedding algorithm
+
+We put each of these pieces of text into a database and ask an embedding algorithm to assign it a vector.
+The vector is a sequence of numbers.
+
+It is similar to, for example, GPS coordinates.
+
+Essentially, this vector is a spatial coordinate of this text, but this space is not three-dimensional but very multi-dimensional.
+
+== 11. RAG operation for questions
+
+When a user addresses a question to an application developed with RAG technology, we also vectorize this question.
+
+We ask the embedding system to tell us where this question is located in space.
+
+Then, we can ask the vector database, into which we put the vectors belonging to all our text pieces, which text pieces from our knowledge base are closest in space to the question.
+
+== 12. Distance calculation between vectors
+
+It is a distance calculation and indexing.
+If you like, you can calculate the distance with the Pythagorean theorem in an orthogonal vector space.
+Although it sounds complicated, we don't really need to deal with it or know how it works.
+
+== 13. Characteristics of the embedding algorithm
+
+The point is that this embedding algorithm is usually based on a neural network as well.
+There are elementary embedding algorithms, too, but these are practically less usable.
+There are more complex embedding systems based on neural networks that do this, depending on the language.
+
+== 14. Selection of relevant text pieces
+
+The vector database tells us which text pieces from our knowledge base are close to the question, meaning they are relevant to answering the question.
+
+== 15. Assembling the prompt
+
+After this, we ask the LLM for a prompt that is not the original, but we put in front of it those pieces of text we extracted from our own knowledge base.
+We can't fit the whole thing into one question because it would be too much, but we can include a few, five, six, seven, or even ten from the knowledge base.
+
+We write in the prompt that this is a context, and we want to get the answer in this context, then the question itself.
+
+== 16. Summary of the RAG process
+
+Then, we send this to the LLM algorithm, which reads it, does something with it, and answers it.
+
+And this is it.
+The whole RAG is that simple.
+You need a vector database; you need to cut up the text.
+If someone understands programming, they know this is not a big deal.
+
+We need to put the text into a normal database so that we can restore it for prompt generation.
+We put the vectors into the vector database so that we can ask which are the relevant text pieces for a given question.
+Then, we need to be able to ask the LLM questions from a program and program standard interfaces.
+Finally, we need to be able to send the answer back to the client or user who can read it.
+
+== 17. Summary
+
+With this technology, we produced an application that you can chat with just like ChatGPT.
+
+But it knows not only the things of the big world up to a certain point in time when its training was closed but also the things in our special knowledge base.
