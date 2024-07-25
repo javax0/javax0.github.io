@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Az LLM és a RAG technológia | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Az LLM és a RAG technológia" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Bevezetés" />
+<meta property="og:description" content="1. Bevezetés" />
+<link rel="canonical" href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" />
+<meta property="og:url" content="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-22T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Az LLM és a RAG technológia" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-07-22T00:00:00+02:00","datePublished":"2024-07-22T00:00:00+02:00","description":"1. Bevezetés","headline":"Az LLM és a RAG technológia","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/07/22/llm-and-rag-hu.html"},"url":"https://javax0.github.io/2024/07/22/llm-and-rag-hu.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Az LLM és a RAG technológia</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-07-22T00:00:00+02:00" itemprop="datePublished">Jul 22, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-bevezetés">1. Bevezetés</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ez a cikk egy rövid bevezető az LLM és a RAG technológiába.
+A cikk sok egyszerűsítést tartalmaz, a célja, hogy a laikusok számára is érthető legyen.
+Ha részletesebben érdekel a technológia, akkor ez a cikk nem lesz elég, sőt találhatsz benne olyan részeket amik nem teljesen pontosak, bár a lényeget jól átadják.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-a-rag-technológia-lényege">2. A RAG technológia lényege</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Az RAG a Retrieval Augmented Generation rövidítése.
+Ez egy angol betűszó.</p>
+</div>
+<div class="paragraph">
+<p>Ez a technológia próbálja kiegészíteni az LLM, azaz a Large Language Model alkalmazásokat.
+A cél, hogy képesek legyenek kezelni olyan tudásbázist, olyan tudást, amely a Large Language Modelben magában nem található meg.
+A Large Language Model önmagában egy olyan neurális hálózat, amit valamilyen módon tréningeztek.
+Általában olyan adatokkal tréningezik, amelyek szabadon rendelkezésre állnak az interneten, igen nagy mennyiségben.
+Ennek hatására a Large Language Modelek szinte emberi módon képesek kommunikálni.
+Ha valamilyen kérdést felteszünk nekik, akkor erre tudnak válaszolni.
+De fogalmuk sincs arról, milyen adatok vagy információk vannak egy vállalaton belül, hiszen ezek nem publikus adatok.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-az-llm-ek-korlátai">3. Az LLM-ek korlátai</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Az LLM nem tanítható meg a mostani formában ezekre a vállalati információkra.
+A jelenleg rendelkezésre álló alkalmazások úgy működnek, hogy a fejlesztők kialakítanak valamilyen modellt.
+Utána trénelik ezt a modellt, több millió vagy milliárd paramétert állítanak be a tréning adatokkal.
+Kérdéseket tesznek fel neki, jönnek a válaszok, és akkor a válaszok minősége alapján állítgatják ezeket a paramétereket.</p>
+</div>
+<div class="paragraph">
+<p>Természetesen nem kézzel - erre vannak programok és algoritmusok.
+Ez a folyamat néhány hónap alatt készül el a mostani viszonyok között, egy kisebb város energiaigényét felhasználva.
+Sok ezer gépen futtatják ezt a finomhangoló algoritmust.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-az-llm-modellek-jellemzői">4. Az LLM modellek jellemzői</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Amikor ez készen van, a modell letölthető és futtatható egy saját gépen.
+Maga a modell 1-2 GB-nyi adatot jelent.
+Ezután ez a neurális hálózat már nem változik, nem tanul meg új dolgokat.
+Csak akkor tud új dolgot megtanulni, ha kapunk belőle egy új változatot.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-a-rag-technológia-alkalmazása">5. A RAG technológia alkalmazása</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Mégis szeretnénk ezt a fajta lehetőséget egy cégen belül használni.
+Azt szeretnénk, hogy ha egy kérdést felteszünk ennek a neurális hálózatnak, az LLM modellnek, akkor olyan választ adjon, ami figyelembe veszi a saját cégünk belső információit.
+Ezt úgy tudjuk megtenni, mintha egy emberrel is ilyesmit csinálnánk.</p>
+</div>
+<div class="paragraph">
+<p>Ha jön valaki a céghez, és kérdéseket akarunk neki feltenni a céggel kapcsolatban, de nem tud semmit a cégünkről, akkor először megtanítjuk dolgokra, információkat adunk neki.
+Ő ezeket az információkat el fogja tenni a saját neurális hálójába.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-a-rag-működési-elve">6. A RAG működési elve</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Gondolhatjuk úgy, hogy fókuszálva a munkára, amikor hazamegy, minden mást elfelejtett, és ezeket a cégspecifikus információkat egy külön helyre rakja el.</p>
+</div>
+<div class="paragraph">
+<p>Az LLM-nél és a RAG-nál is ez a modell.
+Azokat az információkat, amik nincsenek benne az LLM neurális hálójában, külön rakjuk el egy külön adatbázisba.
+Ha másért nem, azért, mert magának a neurális hálónak az adatbázisába, a modelljébe nem tudjuk beletenni.
+Ezek nem publikusak, nem tudjuk, hogyan néznek ki, hogyan épülnek fel, és nem is feltétlenül módosíthatók már abban a formában, ahogyan a programban benne vannak.</p>
+</div>
+<div class="paragraph">
+<p>Nincs meg, mondhatjuk talán így, hogy az adatok "forráskódja" - nem feltétlenül a program forráskódja, hanem az adatok eredeti formája.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-az-llm-modell-jellemzői">7. Az LLM modell jellemzői</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ez a modell több lépcsőn keresztül lesz végül is egy 1 GB-os, tehát aránylag kicsinek tekinthető adathalmaz.
+Relatív, hogy mi a kicsi, de egy LLM értelemben ez kicsinek tekinthető.
+És nem biztos, hogy ez még olyan állapotban van, ami módosítható.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="8-vektoradatbázisok-használata">8. Vektoradatbázisok használata</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ha egy külön adatbázisba akarjuk betenni azokat az információkat, amik saját információk, akkor erre úgynevezett vektoradatbázist szokás használni.
+A vektoradatbázis egy speciális olyan alkalmazás, ami két szövegdarabról meg tudja mondani, hogy mennyire vannak közel egymáshoz.
+Tehát mennyire szólnak ugyanarról, mennyire ugyanazok a kulcsszavak benne.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="9-a-tudásbázis-előkészítése">9. A tudásbázis előkészítése</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A tudásbázist, ami a cégen belül rendelkezésre áll, felszabdaljuk szövegdarabokra.
+Ezek a szövegdarabok tipikusan ezer karakter, ezer betű hosszúságúak, és ezek képeznek egy-egy rekordot.
+Van közöttük egy kis átfedés, tehát nem ott kezdjük a következőt, ahol az előzőnek vége szakadt, hanem egy kicsit előbb.
+Ez azért van, hogy legyen egyfajta kontextus és folyamatosság a szövegben.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="10-az-embedding-algoritmus">10. Az embedding algoritmus</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Minden egyes ilyen szövegdarabot elteszünk egy adatbázisba, és megkérünk egy úgynevezett embedding algoritmust, hogy a szövegdarabhoz rendeljen hozzá egy úgynevezett vektort.
+A vektor egy számsorozat.</p>
+</div>
+<div class="paragraph">
+<p>Ez hasonló ahhoz, mint például egy GPS koordináta.</p>
+</div>
+<div class="paragraph">
+<p>Tulajdonképpen ez a vektor ennek a darab szövegnek egy térbeli koordinátája, de ez a tér nem háromdimenziós, hanem nagyon sokdimenziós.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="11-a-rag-működése-kérdések-esetén">11. A RAG működése kérdések esetén</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Amikor feltesz egy kérdést a felhasználó a RAG technológiával fejlesztett alkalmazásnak, akkor ezt a kérdést is vektorizáljuk.</p>
+</div>
+<div class="paragraph">
+<p>Megkérjük az embeddings rendszert, hogy mondja meg, hogy a térben hol helyezkedik el ez a kérdés.</p>
+</div>
+<div class="paragraph">
+<p>És utána a vektoradatbázistól, amibe beleraktuk az összes szövegdarabunkhoz tartozó vektorokat, meg tudjuk kérdezni, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek a legközelebb vannak térben a kérdéshez.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="12-a-vektorok-közötti-távolságszámítás">12. A vektorok közötti távolságszámítás</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ez egy távolságszámolás és egyfajta indexelés.
+Ha úgy tetszik, Pitagorasz-tétellel lehet számolni a távolságot egy ortogonális vektor térben.
+Bonyolultnak hangzik, nem is kell vele igazából foglalkozni, nem kell tudnunk, hogy ez hogyan működik.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="13-az-embedding-algoritmus-jellemzői">13. Az embedding algoritmus jellemzői</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A lényeg az, hogy ez az embedding algoritmus, ami amúgy szintén egy neurális hálón szokott alapulni.
+Vannak nagyon egyszerű embedding algoritmusok is, ezek praktikusan kevésbé használhatóak.
+De vannak olyan bonyolultabb neurális hálók, amik ezt megteszik, nyelvtől függően.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="14-a-releváns-szövegdarabok-kiválasztása">14. A releváns szövegdarabok kiválasztása</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A vektoradatbázis megmondja, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek közel vannak a kérdéshez, vagyis relevánsak a kérdés megválaszolásához.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="15-a-prompt-összeállítása">15. A prompt összeállítása</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ezek után az LLM-től mi egy olyan promptot kérdezünk, ami nem az eredeti prompt, hanem elé betesszük azokat a szövegdarabokat, amelyeket kiszedtünk a saját tudásbázisunkból.
+Az egészet nem tehetjük be egy kérdésbe, mert az túl sok lenne, de néhányat, ötöt, hatot, hetet, vagy akár tizet be tudunk tenni a tudásbázisból.</p>
+</div>
+<div class="paragraph">
+<p>Beleírjuk a promptba, hogy ez egy kontextus, és a választ ebben a kontextusban szeretnénk megkapni, majd magát a kérdést.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="16-a-rag-folyamat-összefoglalása">16. A RAG folyamat összefoglalása</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Utána ezt elküldjük az LLM algoritmusnak, ami ezt elolvassa, csinál vele valamit, megválaszolja.</p>
+</div>
+<div class="paragraph">
+<p>És tulajdonképpen ez az egész RAG ennyire egyszerű.
+Kell hozzá egy vektoradatbázis, föl kell darabolnunk a szöveget.
+Ha valaki ért a programozáshoz, az tudja, hogy ez nem egy olyan nagy dolog.</p>
+</div>
+<div class="paragraph">
+<p>Bele kell tenni egy normál adatbázisba magát a szöveget, hogy magát a szöveget a prompt gyártásához vissza tudjuk állítani.
+Beletesszük a vektorokat a vektoradatbázisba, hogy meg tudjuk kérdezni, hogy melyik a releváns szövegdarabok egy adott kérdéshez.
+Utána egy programból föl kell tudnunk tenni a kérdést az LLM-nek, standard interfészeket kell tudni programozni.
+Végül a választ vissza kell tudni küldeni az ügyfélnek, felhasználónak, aki ezt el tudja olvasni.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="17-összegzés">17. Összegzés</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>És ezzel a technológiával elő tudtunk állítani egy olyan alkalmazást, amelyikkel ugyanúgy lehet csetelni, mint a ChatGPT-vel.</p>
+</div>
+<div class="paragraph">
+<p>De nem csak a nagyvilág dolgait tudja egy adott időpillanatig, amikor is lezárták a tréningét, hanem tudja azokat a dolgokat is, amik a mi speciális tudásbázisunkban vannak benne.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2024/07/22/llm-and-rag-hu.html';
+            this.page.identifier = '/2024/07/22/llm-and-rag-hu.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2024/07/22/llm-and-rag-hu.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -8,7 +8,7 @@ buildscript {
         maven { setUrl("https://jitpack.io") }
     }
     dependencies {
-        classpath("com.javax0.jamal:jamal-all:2.5.0")
+        classpath("com.javax0.jamal:jamal-all:2.8.0")
     }
 }
 
@@ -40,7 +40,7 @@ tasks.register("build") {
     doLast {
         exec {
             workingDir = layout.projectDirectory.asFile
-            commandLine = listOf("bundle", "exec", "jekyll", "build", "--incremental")
+            commandLine = listOf("bundle", "exec", "jekyll", "build")
         }
 
     }
@@ -84,7 +84,7 @@ tasks.register("run") {
         }
         exec {
             workingDir = layout.projectDirectory.asFile
-            commandLine = listOf("bundle", "exec", "jekyll", "serve", "--incremental")
+            commandLine = listOf("bundle", "exec", "jekyll", "serve")
         }
     }
 }

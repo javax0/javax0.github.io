@@ -1,0 +1,145 @@
+---
+title: Az LLM és a RAG technológia
+layout: posta
+comments: on
+---
+
+
+
+= Az LLM és a RAG technológia
+
+== 1. Bevezetés
+
+Ez a cikk egy rövid bevezető az LLM és a RAG technológiába.
+A cikk sok egyszerűsítést tartalmaz, a célja, hogy a laikusok számára is érthető legyen.
+Ha részletesebben érdekel a technológia, akkor ez a cikk nem lesz elég, sőt találhatsz benne olyan részeket amik nem teljesen pontosak, bár a lényeget jól átadják.
+
+== 2. A RAG technológia lényege
+
+Az RAG a Retrieval Augmented Generation rövidítése.
+Ez egy angol betűszó.
+
+
+Ez a technológia próbálja kiegészíteni az LLM, azaz a Large Language Model alkalmazásokat.
+A cél, hogy képesek legyenek kezelni olyan tudásbázist, olyan tudást, amely a Large Language Modelben magában nem található meg.
+A Large Language Model önmagában egy olyan neurális hálózat, amit valamilyen módon tréningeztek.
+Általában olyan adatokkal tréningezik, amelyek szabadon rendelkezésre állnak az interneten, igen nagy mennyiségben.
+Ennek hatására a Large Language Modelek szinte emberi módon képesek kommunikálni.
+Ha valamilyen kérdést felteszünk nekik, akkor erre tudnak válaszolni.
+De fogalmuk sincs arról, milyen adatok vagy információk vannak egy vállalaton belül, hiszen ezek nem publikus adatok.
+
+== 3. Az LLM-ek korlátai
+
+Az LLM nem tanítható meg a mostani formában ezekre a vállalati információkra.
+A jelenleg rendelkezésre álló alkalmazások úgy működnek, hogy a fejlesztők kialakítanak valamilyen modellt.
+Utána trénelik ezt a modellt, több millió vagy milliárd paramétert állítanak be a tréning adatokkal.
+Kérdéseket tesznek fel neki, jönnek a válaszok, és akkor a válaszok minősége alapján állítgatják ezeket a paramétereket.
+
+Természetesen nem kézzel - erre vannak programok és algoritmusok.
+Ez a folyamat néhány hónap alatt készül el a mostani viszonyok között, egy kisebb város energiaigényét felhasználva.
+Sok ezer gépen futtatják ezt a finomhangoló algoritmust.
+
+== 4. Az LLM modellek jellemzői
+
+Amikor ez készen van, a modell letölthető és futtatható egy saját gépen.
+Maga a modell 1-2 GB-nyi adatot jelent.
+Ezután ez a neurális hálózat már nem változik, nem tanul meg új dolgokat.
+Csak akkor tud új dolgot megtanulni, ha kapunk belőle egy új változatot.
+
+== 5. A RAG technológia alkalmazása
+
+Mégis szeretnénk ezt a fajta lehetőséget egy cégen belül használni.
+Azt szeretnénk, hogy ha egy kérdést felteszünk ennek a neurális hálózatnak, az LLM modellnek, akkor olyan választ adjon, ami figyelembe veszi a saját cégünk belső információit.
+Ezt úgy tudjuk megtenni, mintha egy emberrel is ilyesmit csinálnánk.
+
+Ha jön valaki a céghez, és kérdéseket akarunk neki feltenni a céggel kapcsolatban, de nem tud semmit a cégünkről, akkor először megtanítjuk dolgokra, információkat adunk neki.
+Ő ezeket az információkat el fogja tenni a saját neurális hálójába.
+
+== 6. A RAG működési elve
+
+Gondolhatjuk úgy, hogy fókuszálva a munkára, amikor hazamegy, minden mást elfelejtett, és ezeket a cégspecifikus információkat egy külön helyre rakja el.
+
+Az LLM-nél és a RAG-nál is ez a modell.
+Azokat az információkat, amik nincsenek benne az LLM neurális hálójában, külön rakjuk el egy külön adatbázisba.
+Ha másért nem, azért, mert magának a neurális hálónak az adatbázisába, a modelljébe nem tudjuk beletenni.
+Ezek nem publikusak, nem tudjuk, hogyan néznek ki, hogyan épülnek fel, és nem is feltétlenül módosíthatók már abban a formában, ahogyan a programban benne vannak.
+
+Nincs meg, mondhatjuk talán így, hogy az adatok "forráskódja" - nem feltétlenül a program forráskódja, hanem az adatok eredeti formája.
+
+== 7. Az LLM modell jellemzői
+
+Ez a modell több lépcsőn keresztül lesz végül is egy 1 GB-os, tehát aránylag kicsinek tekinthető adathalmaz.
+Relatív, hogy mi a kicsi, de egy LLM értelemben ez kicsinek tekinthető.
+És nem biztos, hogy ez még olyan állapotban van, ami módosítható.
+
+== 8. Vektoradatbázisok használata
+
+Ha egy külön adatbázisba akarjuk betenni azokat az információkat, amik saját információk, akkor erre úgynevezett vektoradatbázist szokás használni.
+A vektoradatbázis egy speciális olyan alkalmazás, ami két szövegdarabról meg tudja mondani, hogy mennyire vannak közel egymáshoz.
+Tehát mennyire szólnak ugyanarról, mennyire ugyanazok a kulcsszavak benne.
+
+== 9. A tudásbázis előkészítése
+
+A tudásbázist, ami a cégen belül rendelkezésre áll, felszabdaljuk szövegdarabokra.
+Ezek a szövegdarabok tipikusan ezer karakter, ezer betű hosszúságúak, és ezek képeznek egy-egy rekordot.
+Van közöttük egy kis átfedés, tehát nem ott kezdjük a következőt, ahol az előzőnek vége szakadt, hanem egy kicsit előbb.
+Ez azért van, hogy legyen egyfajta kontextus és folyamatosság a szövegben.
+
+== 10. Az embedding algoritmus
+
+Minden egyes ilyen szövegdarabot elteszünk egy adatbázisba, és megkérünk egy úgynevezett embedding algoritmust, hogy a szövegdarabhoz rendeljen hozzá egy úgynevezett vektort.
+A vektor egy számsorozat.
+
+Ez hasonló ahhoz, mint például egy GPS koordináta.
+
+Tulajdonképpen ez a vektor ennek a darab szövegnek egy térbeli koordinátája, de ez a tér nem háromdimenziós, hanem nagyon sokdimenziós.
+
+== 11. A RAG működése kérdések esetén
+
+Amikor feltesz egy kérdést a felhasználó a RAG technológiával fejlesztett alkalmazásnak, akkor ezt a kérdést is vektorizáljuk.
+
+Megkérjük az embeddings rendszert, hogy mondja meg, hogy a térben hol helyezkedik el ez a kérdés.
+
+És utána a vektoradatbázistól, amibe beleraktuk az összes szövegdarabunkhoz tartozó vektorokat, meg tudjuk kérdezni, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek a legközelebb vannak térben a kérdéshez.
+
+== 12. A vektorok közötti távolságszámítás
+
+Ez egy távolságszámolás és egyfajta indexelés.
+Ha úgy tetszik, Pitagorasz-tétellel lehet számolni a távolságot egy ortogonális vektor térben.
+Bonyolultnak hangzik, nem is kell vele igazából foglalkozni, nem kell tudnunk, hogy ez hogyan működik.
+
+== 13. Az embedding algoritmus jellemzői
+
+A lényeg az, hogy ez az embedding algoritmus, ami amúgy szintén egy neurális hálón szokott alapulni.
+Vannak nagyon egyszerű embedding algoritmusok is, ezek praktikusan kevésbé használhatóak.
+De vannak olyan bonyolultabb neurális hálók, amik ezt megteszik, nyelvtől függően.
+
+== 14. A releváns szövegdarabok kiválasztása
+
+A vektoradatbázis megmondja, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek közel vannak a kérdéshez, vagyis relevánsak a kérdés megválaszolásához.
+
+== 15. A prompt összeállítása
+
+Ezek után az LLM-től mi egy olyan promptot kérdezünk, ami nem az eredeti prompt, hanem elé betesszük azokat a szövegdarabokat, amelyeket kiszedtünk a saját tudásbázisunkból.
+Az egészet nem tehetjük be egy kérdésbe, mert az túl sok lenne, de néhányat, ötöt, hatot, hetet, vagy akár tizet be tudunk tenni a tudásbázisból.
+
+Beleírjuk a promptba, hogy ez egy kontextus, és a választ ebben a kontextusban szeretnénk megkapni, majd magát a kérdést.
+
+== 16. A RAG folyamat összefoglalása
+
+Utána ezt elküldjük az LLM algoritmusnak, ami ezt elolvassa, csinál vele valamit, megválaszolja.
+
+És tulajdonképpen ez az egész RAG ennyire egyszerű.
+Kell hozzá egy vektoradatbázis, föl kell darabolnunk a szöveget.
+Ha valaki ért a programozáshoz, az tudja, hogy ez nem egy olyan nagy dolog.
+
+Bele kell tenni egy normál adatbázisba magát a szöveget, hogy magát a szöveget a prompt gyártásához vissza tudjuk állítani.
+Beletesszük a vektorokat a vektoradatbázisba, hogy meg tudjuk kérdezni, hogy melyik a releváns szövegdarabok egy adott kérdéshez.
+Utána egy programból föl kell tudnunk tenni a kérdést az LLM-nek, standard interfészeket kell tudni programozni.
+Végül a választ vissza kell tudni küldeni az ügyfélnek, felhasználónak, aki ezt el tudja olvasni.
+
+== 17. Összegzés
+
+És ezzel a technológiával elő tudtunk állítani egy olyan alkalmazást, amelyikkel ugyanúgy lehet csetelni, mint a ChatGPT-vel.
+
+De nem csak a nagyvilág dolgait tudja egy adott időpillanatig, amikor is lezárták a tréningét, hanem tudja azokat a dolgokat is, amik a mi speciális tudásbázisunkban vannak benne.

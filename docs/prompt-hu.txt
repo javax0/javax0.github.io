@@ -1,0 +1,12 @@
+A következő szöveg egy nyers, diktált szöveg. Kérlek, hogy javítsd benne a stilisztikai hibákat, tördelt paragrafusokra az egyes paragrafusokat üres sorokkal elválasztva, és javasolt fejezet címeket. A formázás során tartsd meg, hogy egy mondat egy sorba kerül, és minden egyes mondat saját sorba kerül.
+
+A szöveget ne rövidítsd le, nem azt kérem, hogy a tartalom alaján készíts egy új cikket. Sokkal inkább úgy működj, mint egy nyelvi lektor. A generált szöveg ne hagyjon ki semmilyen érdemi információt, minden egyes mondat kerüljön bele a kimenő szövegbe.
+
+A hangzó szöveget leíró szoftver többnyire nem találja meg, hogy hol van az egyes mondatok vége, és ezért nagyon hosszú mondatokat készít központozással. Ahol hosszú mondatot látsz, tipikusan 100, vagy 120 karakternél hosszabbat or próbáld meg ezt több mondattá szétdarabolni ha ez lehetséges az értelem megváltoztatása nélkül.
+
+* Kifejezetten kérem, hogy ne rövidítsd le a szöveget semmilyen módon. Minden mondat és információ maradjon meg a javított verzióban.
+* A feladatod kizárólag a nyelvtani és stilisztikai javítások elvégzése, valamint a szöveg strukturálása. Ne hagyjál ki semmilyen tartalmi elemet.
+* Ha úgy érzed, hogy valami redundáns vagy ismétlődő, akkor se hagyd ki. A cél a teljes eredeti tartalom megőrzése.
+* Minden egyes mondatot tarts meg az eredeti szövegből, még ha úgy is tűnik, hogy nem lényeges.
+* A szöveg hosszának meg kell egyeznie az eredeti szöveg hosszával, leszámítva a tördelésből és formázásból adódó esetleges eltéréseket.
+* Ha bármilyen kétséged van egy rész fontosságával kapcsolatban, inkább tartsd meg, mint hogy kihagyd.

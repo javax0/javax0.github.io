@@ -1,0 +1,149 @@
+---
+{%@define title=LLM- und RAG-Technologie%}\
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}{%@sep 〔〕%}
+
+= 〔title〕
+
+〔section Einleitung〕
+
+Dieser Artikel ist eine kurze Einführung in die LLM- und RAG-Technologie.
+Der Artikel enthält viele Vereinfachungen, die Laien verstehen können.
+Wenn Sie sich für die Technologie im Detail interessieren, wird dieser Artikel nicht ausreichen. Sie werden möglicherweise Teile finden, die nicht ganz genau sind, obwohl sie das Wesentliche gut vermitteln.
+
+〔section Das Wesen der RAG-Technologie〕
+
+RAG ist ein Akronym für Retrieval Augmented Generation.
+Es ist ein englisches Akronym.
+
+Diese Technologie versucht, LLM- oder Large Language Model-Anwendungen zu ergänzen.
+Das Ziel ist es, Wissensdatenbanken und Informationen behandeln zu können, die sich nicht im Large Language Model selbst befinden.
+Das Large Language Model ist ein neuronales Netzwerk, das irgendwie trainiert wurde.
+Sie werden normalerweise mit großen Mengen an Daten trainiert, die online frei verfügbar sind.
+Infolgedessen können Large Language Models auf fast menschenähnliche Weise kommunizieren.
+Wenn wir ihnen eine Frage stellen, können sie diese beantworten.
+Sie müssen jedoch lernen, welche Daten oder Informationen innerhalb eines Unternehmens existieren, da es sich hierbei nicht um öffentliche Daten handelt.
+
+〔section Einschränkungen von LLMs〕
+
+LLMs können diese Unternehmensinformationen in ihrer aktuellen Form nicht erlernen.
+Derzeit funktionieren verfügbare Anwendungen so, dass Entwickler einige Modelle erstellen.
+Dann trainieren sie dieses Modell, indem sie Millionen oder Milliarden von Parametern mit Trainingsdaten festlegen.
+Sie stellen Fragen, erhalten Antworten und passen dann diese Parameter basierend auf der Qualität der Antworten an.
+
+Natürlich gibt es dafür Programme und Algorithmen, nicht von Hand.
+Unter den aktuellen Bedingungen dauert dieser Prozess einige Monate und verbraucht den Energiebedarf einer kleinen Stadt.
+Sie führen diesen Feinabstimmungsalgorithmus auf Tausenden von Maschinen aus.
+
+〔section Eigenschaften von LLM-Modellen〕
+
+Wenn es fertig ist, kann das Modell heruntergeladen und auf Ihrem Rechner ausgeführt werden.
+Das Modell selbst repräsentiert 1-2 GB an Daten.
+Danach ändert sich dieses neuronale Netzwerk nicht mehr; es lernt keine neuen Dinge.
+Es kann nur etwas Neues lernen, wenn wir eine neue Version erhalten.
+
+〔section Anwendung der RAG-Technologie〕
+
+Dennoch möchten wir diese Art von Fähigkeit innerhalb eines Unternehmens nutzen.
+Wir möchten, dass dieses neuronale Netzwerk, das LLM-Modell, eine Antwort gibt, die die internen Informationen unseres Unternehmens berücksichtigt, wenn wir eine Frage stellen.
+Wir können dies tun, als ob wir etwas Ähnliches mit Menschen machen würden.
+
+Wenn jemand in das Unternehmen kommt und wir ihm Fragen über das Unternehmen stellen möchten, er aber nichts über unser Unternehmen weiß, bringen wir ihm zuerst Dinge bei und geben ihm Informationen.
+Sie werden diese Informationen in ihr neuronales Netzwerk einfügen.
+
+〔section Funktionsprinzip von RAG〕
+
+Wir können sehen, ob sie sich auf die Arbeit konzentrieren und alles andere vergessen, wenn sie nach Hause gehen, und sie diese unternehmensspezifischen Informationen an einem separaten Ort aufbewahren.
+
+Es ist das Modell für LLM und RAG gleichermaßen.
+Wir legen die Informationen, die sich nicht in der neuronalen Netzwerkdatenbank des LLM befinden, separat in einer separaten Datenbank ab.
+Wenn aus keinem anderen Grund, können wir es nicht in die Datenbank des neuronalen Netzwerks oder in sein Modell einfügen.
+Diese sind privat. Wir wissen nicht, wie sie aussehen oder wie sie strukturiert sind, und sie sind nicht unbedingt in der Form, in der sie sich im Programm befinden, modifizierbar.
+
+Wir haben, könnte man sagen, nicht den "Quellcode" der Daten - nicht unbedingt den Quellcode des Programms, sondern die ursprüngliche Form der Daten.
+
+〔section Eigenschaften des LLM-Modells〕
+
+Dieses Modell wird durch mehrere Schritte zu 1 GB und ist ein relativ kleiner Datensatz.
+Es ist relativ, was klein ist, aber in LLM-Begriffen wird dies als klein betrachtet.
+Und es ist nicht sicher, ob es sich noch in einem Zustand befindet, der modifiziert werden kann.
+
+〔section Verwendung von Vektordatenbanken〕
+
+Wenn wir unsere eigenen Informationen in eine separate Datenbank einfügen möchten, verwenden wir normalerweise eine Vektordatenbank.
+Eine Vektordatenbank ist eine spezielle Anwendung, die den Abstand zwischen zwei Textstücken bestimmen kann.
+Also wie viel geht es um das Gleiche und wie viele sind die exakten Schlüsselwörter?
+
+〔section Vorbereitung der Wissensbasis〕
+
+Wir zerschneiden die im Unternehmen verfügbare Wissensbasis in Textstücke.
+Diese Textstücke sind typischerweise tausend Zeichen oder tausend Buchstaben lang und bilden einzelne Datensätze.
+Es gibt eine kleine Überlappung zwischen ihnen, sodass wir den nächsten nicht dort beginnen, wo der vorherige endete, sondern etwas früher.
+Dies geschieht, um Kontext und Kontinuität im Text zu haben.
+
+〔section Der Embedding-Algorithmus〕
+
+Wir legen jedes dieser Textstücke in eine Datenbank und bitten einen Embedding-Algorithmus, ihm einen Vektor zuzuweisen.
+Der Vektor ist eine Folge von Zahlen.
+
+Es ist ähnlich wie zum Beispiel GPS-Koordinaten.
+
+Im Wesentlichen ist dieser Vektor eine räumliche Koordinate dieses Textes, aber dieser Raum ist nicht dreidimensional, sondern sehr mehrdimensional.
+
+〔section RAG-Betrieb für Fragen〕
+
+Wenn ein Benutzer eine Frage an eine mit RAG-Technologie entwickelte Anwendung richtet, vektorisieren wir auch diese Frage.
+
+Wir bitten das Embedding-System, uns mitzuteilen, wo sich diese Frage im Raum befindet.
+
+Dann können wir die Vektordatenbank, in die wir die zu allen unseren Textstücken gehörenden Vektoren eingefügt haben, fragen, welche Textstücke aus unserer Wissensbasis im Raum der Frage am nächsten sind.
+
+〔section Distanzberechnung zwischen Vektoren〕
+
+Es handelt sich um eine Distanzberechnung und Indexierung.
+Wenn Sie möchten, können Sie den Abstand mit dem Satz des Pythagoras in einem orthogonalen Vektorraum berechnen.
+Obwohl es kompliziert klingt, müssen wir uns damit nicht wirklich befassen oder wissen, wie es funktioniert.
+
+〔section Eigenschaften des Embedding-Algorithmus〕
+
+Der Punkt ist, dass dieser Embedding-Algorithmus normalerweise auch auf einem neuronalen Netzwerk basiert.
+Es gibt auch elementare Embedding-Algorithmen, aber diese sind praktisch weniger nutzbar.
+Es gibt komplexere Embedding-Systeme, die auf neuronalen Netzwerken basieren und dies je nach Sprache tun.
+
+〔section Auswahl relevanter Textstücke〕
+
+Die Vektordatenbank teilt uns mit, welche Textstücke aus unserer Wissensbasis der Frage nahe sind, was bedeutet, dass sie für die Beantwortung der Frage relevant sind.
+
+〔section Zusammenstellung des Prompts〕
+
+Danach bitten wir das LLM um einen Prompt, der nicht das Original ist, sondern wir stellen ihm die Textstücke voran, die wir aus unserer eigenen Wissensbasis extrahiert haben.
+Wir können nicht das Ganze in eine Frage packen, weil es zu viel wäre, aber wir können einige, fünf, sechs, sieben oder sogar zehn aus der Wissensbasis einbeziehen.
+
+Wir schreiben in den Prompt, dass dies ein Kontext ist, und wir möchten die Antwort in diesem Kontext erhalten, dann die Frage selbst.
+
+〔section Zusammenfassung des RAG-Prozesses〕
+
+Dann senden wir dies an den LLM-Algorithmus, der es liest, etwas damit macht und es beantwortet.
+
+Und das ist es.
+Der ganze RAG ist so einfach.
+Man braucht eine Vektordatenbank; man muss den Text zerschneiden.
+Wenn jemand Programmierung versteht, weiß er, dass dies keine große Sache ist.
+
+Wir müssen den Text in eine normale Datenbank einfügen, damit wir ihn für die Prompt-Generierung wiederherstellen können.
+Wir legen die Vektoren in die Vektordatenbank, damit wir fragen können, welche die relevanten Textstücke für eine bestimmte Frage sind.
+Dann müssen wir in der Lage sein, dem LLM Fragen aus einem Programm zu stellen und Standardschnittstellen zu programmieren.
+Schließlich müssen wir in der Lage sein, die Antwort an den Kunden oder Benutzer zurückzusenden, der sie lesen kann.
+
+〔section Zusammenfassung〕
+
+Mit dieser Technologie haben wir eine Anwendung erstellt, mit der man genauso chatten kann wie mit ChatGPT.
+
+Aber sie kennt nicht nur die Dinge der großen Welt bis zu einem bestimmten Zeitpunkt, als ihr Training abgeschlossen wurde, sondern auch die Dinge in unserer speziellen Wissensbasis.

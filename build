@@ -1,4 +1,0 @@
-#!/bin/bash
-jbang jamal@verhas Makefile.jam Makefile
-make
-bundle exec jekyll build --incremental
