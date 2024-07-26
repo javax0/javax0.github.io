@@ -4,8 +4,11 @@ layout: posta
 comments: on
 ---
 {%@import javax0.jim%}
-image::http://tifyty.files.wordpress.com/2013/01/ax.png?w=300[]Reading the standard of the Java language I found something interesting. Something that implies that `break` can be used without a loop, and not only inside a loop but inside any block. And it does:
-[div]##
+
+= No loop, do break
+
+Reading the standard of the Java language I found something interesting. Something that implies that `break` can be used without a loop, and not only inside a loop but inside any block. And it does:
+
 [source,java]
 ----
 package wierdo;

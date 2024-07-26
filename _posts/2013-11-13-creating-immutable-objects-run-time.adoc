@@ -1,5 +1,5 @@
 ---
-title: "Creating Immutable Objects Run-Time" 
+title: "Creating Immutable Objects Run-Time"
 layout: posta
 comments: on
 ---
@@ -109,6 +109,3 @@ ____
 ____
 [&#8230;] 例如，您可以创建对象的不可变版本。 [&#8230;]
 ____
-
-
-

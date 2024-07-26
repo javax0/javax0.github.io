@@ -1,24 +1,20 @@
 ---
-{%@define title=Tecnología LLM y RAG%}\
-title: {%title%}
+title: Tecnología LLM y RAG
 layout: posta
 comments: on
 ---
-{%@import javax0.jim%}
-{%@comment
 
-=========================================================================================
-%}{%@sep 〔〕%}
 
-= 〔title〕
 
-〔section Introducción〕
+= Tecnología LLM y RAG
+
+== 1. Introducción
 
 Este artículo es una breve introducción a la tecnología LLM y RAG.
 El artículo contiene muchas simplificaciones que las personas no especializadas pueden entender.
 Si estás interesado en la tecnología con más detalle, este artículo no será suficiente. Puedes encontrar partes que no son completamente precisas, aunque transmiten bien la esencia.
 
-〔section La esencia de la tecnología RAG〕
+== 2. La esencia de la tecnología RAG
 
 RAG es un acrónimo de Retrieval Augmented Generation (Generación Aumentada por Recuperación).
 Es un acrónimo en inglés.
@@ -31,7 +27,7 @@ Como resultado, los Modelos de Lenguaje Grande pueden comunicarse de una manera 
 Si les hacemos una pregunta, pueden responderla.
 Sin embargo, necesitan aprender sobre qué datos o información existen dentro de una empresa, ya que estos no son datos públicos.
 
-〔section Limitaciones de los LLM〕
+== 3. Limitaciones de los LLM
 
 Los LLM no pueden ser enseñados esta información corporativa en su forma actual.
 Actualmente, las aplicaciones disponibles funcionan cuando los desarrolladores crean algunos modelos.
@@ -42,14 +38,14 @@ Por supuesto, hay programas y algoritmos para esto, no se hace a mano.
 En las condiciones actuales, este proceso tarda unos meses en completarse utilizando los requisitos energéticos de una pequeña ciudad.
 Ejecutan este algoritmo de ajuste fino en miles de máquinas.
 
-〔section Características de los modelos LLM〕
+== 4. Características de los modelos LLM
 
 Cuando está listo, el modelo se puede descargar y ejecutar en tu máquina.
 El modelo en sí representa 1-2 GB de datos.
 Después de esto, esta red neuronal ya no cambia; no aprende cosas nuevas.
 Solo puede aprender algo nuevo si obtenemos una nueva versión.
 
-〔section Aplicación de la tecnología RAG〕
+== 5. Aplicación de la tecnología RAG
 
 Sin embargo, queremos usar este tipo de capacidad dentro de una empresa.
 Queremos que esta red neuronal, el modelo LLM, dé una respuesta que tenga en cuenta la información interna de nuestra empresa cuando hacemos una pregunta.
@@ -58,7 +54,7 @@ Podemos hacer esto como si estuviéramos haciendo algo similar con humanos.
 Si alguien viene a la empresa, y queremos hacerle preguntas sobre la empresa, pero no saben nada sobre nuestra empresa, primero les enseñamos cosas y les damos información.
 Ellos pondrán esta información en su red neuronal.
 
-〔section Principio de funcionamiento de RAG〕
+== 6. Principio de funcionamiento de RAG
 
 Podemos ver si se enfocan en el trabajo y olvidan todo lo demás cuando se van a casa, y mantienen esta información específica de la empresa en un lugar separado.
 
@@ -69,26 +65,26 @@ Estos son privados. No sabemos cómo se ven o cómo están estructurados, y no n
 
 No tenemos, podríamos decir, el "código fuente" de los datos - no necesariamente el código fuente del programa, sino la forma original de los datos.
 
-〔section Características del modelo LLM〕
+== 7. Características del modelo LLM
 
 Este modelo se convierte en 1 GB a través de varios pasos y es un conjunto de datos relativamente pequeño.
 Es relativo a lo que es pequeño, pero en términos de LLM, esto se considera pequeño.
 Y no es seguro que todavía esté en un estado que pueda ser modificado.
 
-〔section Uso de bases de datos vectoriales〕
+== 8. Uso de bases de datos vectoriales
 
 Si queremos poner nuestra propia información en una base de datos separada, normalmente usamos una base de datos vectorial.
 Una base de datos vectorial es una aplicación especial que puede determinar la distancia entre dos piezas de texto.
 Entonces, ¿cuánto tratan sobre lo mismo y cuántas son las palabras clave exactas?
 
-〔section Preparación de la base de conocimientos〕
+== 9. Preparación de la base de conocimientos
 
 Cortamos la base de conocimientos disponible dentro de la empresa en piezas de texto.
 Estas piezas de texto típicamente tienen mil caracteres o mil letras de largo y forman registros individuales.
 Hay un poco de superposición entre ellos, así que no empezamos el siguiente donde terminó el anterior, sino un poco antes.
 Esto es para tener contexto y continuidad en el texto.
 
-〔section El algoritmo de incrustación〕
+== 10. El algoritmo de incrustación
 
 Ponemos cada una de estas piezas de texto en una base de datos y le pedimos a un algoritmo de incrustación que le asigne un vector.
 El vector es una secuencia de números.
@@ -97,7 +93,7 @@ Es similar a, por ejemplo, coordenadas GPS.
 
 Esencialmente, este vector es una coordenada espacial de este texto, pero este espacio no es tridimensional sino muy multidimensional.
 
-〔section Operación RAG para preguntas〕
+== 11. Operación RAG para preguntas
 
 Cuando un usuario dirige una pregunta a una aplicación desarrollada con tecnología RAG, también vectorizamos esta pregunta.
 
@@ -105,30 +101,30 @@ Le pedimos al sistema de incrustación que nos diga dónde se encuentra esta pre
 
 Luego, podemos preguntarle a la base de datos vectorial, en la que pusimos los vectores pertenecientes a todas nuestras piezas de texto, qué piezas de texto de nuestra base de conocimientos están más cerca en el espacio de la pregunta.
 
-〔section Cálculo de distancia entre vectores〕
+== 12. Cálculo de distancia entre vectores
 
 Es un cálculo de distancia e indexación.
 Si quieres, puedes calcular la distancia con el teorema de Pitágoras en un espacio vectorial ortogonal.
 Aunque suena complicado, realmente no necesitamos ocuparnos de ello o saber cómo funciona.
 
-〔section Características del algoritmo de incrustación〕
+== 13. Características del algoritmo de incrustación
 
 El punto es que este algoritmo de incrustación generalmente también se basa en una red neuronal.
 También hay algoritmos de incrustación elementales, pero estos son prácticamente menos utilizables.
 Hay sistemas de incrustación más complejos basados en redes neuronales que hacen esto, dependiendo del idioma.
 
-〔section Selección de piezas de texto relevantes〕
+== 14. Selección de piezas de texto relevantes
 
 La base de datos vectorial nos dice qué piezas de texto de nuestra base de conocimientos están cerca de la pregunta, lo que significa que son relevantes para responder la pregunta.
 
-〔section Ensamblaje del prompt〕
+== 15. Ensamblaje del prompt
 
 Después de esto, le pedimos al LLM un prompt que no es el original, sino que ponemos delante de él esas piezas de texto que extrajimos de nuestra propia base de conocimientos.
 No podemos encajar todo en una sola pregunta porque sería demasiado, pero podemos incluir algunas, cinco, seis, siete o incluso diez de la base de conocimientos.
 
 Escribimos en el prompt que este es un contexto, y queremos obtener la respuesta en este contexto, luego la pregunta en sí.
 
-〔section Resumen del proceso RAG〕
+== 16. Resumen del proceso RAG
 
 Luego, enviamos esto al algoritmo LLM, que lo lee, hace algo con él y lo responde.
 
@@ -142,7 +138,7 @@ Ponemos los vectores en la base de datos vectorial para poder preguntar cuáles 
 Luego, necesitamos poder hacer preguntas al LLM desde un programa y programar interfaces estándar.
 Finalmente, necesitamos poder enviar la respuesta de vuelta al cliente o usuario que puede leerla.
 
-〔section Resumen〕
+== 17. Resumen
 
 Con esta tecnología, producimos una aplicación con la que puedes chatear igual que con ChatGPT.
 

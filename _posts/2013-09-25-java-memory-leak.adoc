@@ -1,5 +1,5 @@
 ---
-title: "Java memory leak" 
+title: "Java memory leak"
 layout: posta
 comments: on
 ---
@@ -157,6 +157,3 @@ Anyhow, whenever you stumble upon the next leak suspect in your life, you might 
 
 Ivo, the Product guy from Plumbr.
 ____
-
-
-

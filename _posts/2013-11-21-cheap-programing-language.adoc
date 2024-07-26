@@ -1,15 +1,16 @@
 ---
-title: "Cheap programming languages" 
+title: "Cheap programming languages"
 layout: posta
 comments: on
 ---
 
+
+= Cheap programming languages
+
 [quote]
 ____
-
 Twitter: @chesterbr 2012.05.23. 17:24
 Choosing a language because it has cheaper developers is like building your house with Lego so you can hire anyone as a construction worker.
-
 ____
 
 
@@ -41,9 +42,9 @@ Just with a special spice added to it: quality control.
 
 [quote]
 ____
-You're making a case for using building bricks better than legos, but you're almost making the case that it rarely makes sense to hire poorly skilled developers no matter what tool you use.  A small team of highly skilled developers using language X will make something better than any size team of developers with mediocre skill using language Y for most values of X and Y.   
+You're making a case for using building bricks better than legos, but you're almost making the case that it rarely makes sense to hire poorly skilled developers no matter what tool you use.  A small team of highly skilled developers using language X will make something better than any size team of developers with mediocre skill using language Y for most values of X and Y.
 
-I understand that, and I agree with it.  I'm fortunate right now to work with a bunch of brilliant developers and I am pleased to be struggling to keep up because I know it will make me better in the long run.  
+I understand that, and I agree with it.  I'm fortunate right now to work with a bunch of brilliant developers and I am pleased to be struggling to keep up because I know it will make me better in the long run.
 
 On the other hand, it leads to another question - if a company chooses to invest wisely and consistently hires a handful of highly skilled developers instead of two or three times as many moderately skilled ones, then how does the industry newbie get a chance to go from newbie to highly skilled?  Do you have to work at a gas station during the day and post code to github at night for ten years before some employer taps you for a top tier developer team?
 ____
@@ -92,6 +93,3 @@ ____
 ____
 [&#8230;] to be used. This may also be a smell that you wanted to use some niche technology that may require expensive developers in the coming years to maintain the product. You better [&#8230;]
 ____
-
-
-

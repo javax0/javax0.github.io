@@ -1,11 +1,14 @@
 ---
-title: "No loop, do break"
+title: "No loop, do break" 
 layout: posta
 comments: on
 ---
 
-image::http://tifyty.files.wordpress.com/2013/01/ax.png?w=300[]Reading the standard of the Java language I found something interesting. Something that implies that `break` can be used without a loop, and not only inside a loop but inside any block. And it does:
-[div]##
+
+= No loop, do break
+
+Reading the standard of the Java language I found something interesting. Something that implies that `break` can be used without a loop, and not only inside a loop but inside any block. And it does:
+
 [source,java]
 ----
 package wierdo;
@@ -42,3 +45,7 @@ Yeah. That twisted "goto" emulation has proven handy millions of times in my cod
 You can also "jump backwards" using "continue" to leverage the byte-code "goto" instruction:
 http://stackoverflow.com/a/6373262/521799
 ____
+
+
+
+

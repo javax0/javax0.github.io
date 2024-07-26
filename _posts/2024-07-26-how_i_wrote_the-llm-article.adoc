@@ -1,28 +1,34 @@
 ---
-{%@sep 〔〕%}
-〔@define title=Better Writing with AI〕\
-title: 〔title〕
+
+title: Better Writing with AI
 layout: posta
 comments: on
 ---
-〔@import javax0.jim〕
-〔@comment
 
-=========================================================================================
-〕
 
-= 〔title〕
 
-〔section Introduction〕
+= Better Writing with AI
+
+== 1. Introduction
 
 I wrote the https://javax0.github.io/2024/07/22/llm-and-rag.html[previous article] using AI's help.
 In this article, which I write the conventional way, I describe
 
 * what I did
+
 * why I did, and
+
 * what I think about the result.
 
-〔section How I wrote the LLM article〕
+Before goin on, it is important to emphasize:
+
+* I wrote that article, it is not AI-generated.
+
+* AI is used as a tool,; more precisely, there are many tools powered by AI techniques, but
+
+* they do not replace the human actors yet; whatever you create using AI or any other tool, you are responsible.
+
+== 2. How I wrote the LLM article
 
 As a first step, I created some handwritten notes and bullet points about what I wanted to discuss in the article.
 As a very first attempt, I tried to do the article without the structure at hand, but the result was terrible.
@@ -79,7 +85,7 @@ My Russian-speaking colleague told me it reeks a bit of AI, but that should be o
 
 It is okay because... and here comes the next part:
 
-〔section What I wanted to achieve〕
+== 3. What I wanted to achieve
 
 Writing an article is delivering information.
 It takes a lot of time and effort to write one.
@@ -91,7 +97,7 @@ If there is something that a machine can do instead of a human, then let the mac
 To answer the question of how to do it is engineering.
 And I did what I did; here you are.
 
-〔section Conclusion, Feelings〕
+== 4. Conclusion, Feelings
 
 Is the result good?
 Please read the article; I linked it at the top, and you can tell.
