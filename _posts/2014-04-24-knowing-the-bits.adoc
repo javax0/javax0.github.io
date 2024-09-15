@@ -1,5 +1,5 @@
 ---
-title: "Knowing the bits"
+title: "Knowing the bits" 
 layout: posta
 comments: on
 ---
