@@ -1,4 +1,448 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-07-26T09:37:05+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Better Writing with AI</title><link href="https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article.html" rel="alternate" type="text/html" title="Better Writing with AI" /><published>2024-07-26T00:00:00+02:00</published><updated>2024-07-26T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article</id><content type="html" xml:base="https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article.html">&lt;div class=&quot;sect1&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-09-15T23:36:56+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Programming Language with no Syntax?</title><link href="https://javax0.github.io/2024/09/08/ouroboros.html" rel="alternate" type="text/html" title="Programming Language with no Syntax?" /><published>2024-09-08T00:00:00+02:00</published><updated>2024-09-08T00:00:00+02:00</updated><id>https://javax0.github.io/2024/09/08/ouroboros</id><content type="html" xml:base="https://javax0.github.io/2024/09/08/ouroboros.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Is it possible to have a programming language that has no syntax?
+It sounds like a contradiction.
+Programming languages are all about syntax, plus a bit of code generation, optimization, run-time environment, and so on.
+But syntax is the most important part as far as programmers are concerned.
+When encountering a new programming language, it takes time to learn the syntax.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Could we just make the syntax disappear or at least make it as simple as possible?
+Could we also make the syntax arbitrary so that the programmer writing the code can define it for themselves?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ouroboros is a programming language that tries to do just that.
+It has the simplest syntax ever.
+It is so simple that it does not even have a syntax analyzer.
+All it has is a lexical analyzer, which is 20 lines long.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At the same time, you can write complex programs and even expressions with parentheses and operators of different precedence, assuming you write your own syntax for that in the program.
+That way, no syntax also means any syntax.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article is an introduction to Ouroboros, a programming language with no syntax.
+It is a toy, never meant to be used in production, but it is a fun toy to play with, especially if you have ever wanted to create your own programming language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There were programming languages with minimal syntax.
+One of the very first languages was LISP, which used only parentheses to group statements as lists.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are familiar with TCL, you may remember how simple the language is.
+However, it still defines complex expressions and control structures as part of the language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Another simple language to mention is FORTH.
+It is a stack language.
+The syntax is minimal.
+You either put something on the stack or call a function that works with the values on the stack.
+FORTH was also famous for its minimal assembly core and for the fact that the rest of the compiler was written in FORTH itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;These languages inspired the design of Ouroboros.
+LISP is known for the simplest syntax.
+One might say that LISP has the simplest syntax of all programming languages, but it would be a mistake.
+True to its name, it uses parentheses to delimit lists, which can be either data or programming structures.
+As you may know, LISP stands for &quot;Lots of Irritating Superfluous Parentheses.&quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ouroboros does not do that.
+It inherits the use of &lt;code&gt;{&lt;/code&gt; and &lt;code&gt;}&lt;/code&gt; from TCL, but unlike LISP, you are forced to use them only where they are really needed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ouroboros, although being an interpreted language, can compile itself.
+Well, not really compile, but you can define syntax for the language in the language itself.
+However, it is not like in the case of compilers where the compiler is written in the source language.
+One of the first compilers was the PASCAL compiler written by Niklaus Wirth in PASCAL.
+The C compiler was also written in C, and more and more language compilers are written in the language they compile.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the case of an interpreted language, it is a bit different.
+It is not a separate program that reads the source code and generates machine code.
+It is the executing code, the application program itself, that becomes part of the interpreter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That way, you cannot look at it and say: this code is not Ouroboros.
+Any code can be, depending on the syntax you define for it at the start of the code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-the-name-of-the-game&quot;&gt;2. The Name of the Game&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Before diving into what Ouroboros is, let&amp;#8217;s talk about the name itself.
+Ouroboros coils around itself in an endless cycle of creation and recreation.
+The name &quot;Ouroboros&quot; is as multifaceted as the language itself, offering layers of meaning that reflect its unique nature and aspirations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-the-eternal-cycle&quot;&gt;2.1. The Eternal Cycle&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;At its core, Ouroboros draws inspiration from the ancient symbol of a serpent consuming its own tail.
+This powerful image represents the cyclical nature of creation and destruction, perfectly encapsulating our language&amp;#8217;s self-referential definition.
+Just as the serpent feeds upon itself to sustain its existence, Ouroboros the language is defined by its own constructs, creating a closed loop of logic and functionality.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-2-ur-the-essence-of-simplicity&quot;&gt;2.2. UR: The Essence of Simplicity&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Abbreviated as &quot;UR,&quot; Ouroboros embraces the concept of fundamental simplicity.
+In German, &quot;Ur—&quot; signifies something primordial, primitive, or in its most basic form.
+This perfectly encapsulates the design philosophy behind Ouroboros: a language stripped down to its absolute essentials.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By pushing the simplification of syntax to the extreme, Ouroboros aims to be the &quot;ur-language&quot; of programming—a return to the most elemental form of computation.
+Like the basic building blocks of life or the fundamental particles of physics, Ouroboros provides a minimal set of primitives from which complex structures can emerge.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This radical simplicity is not a limitation but a feature.
+It challenges programmers to think at the most fundamental level, fostering a deep understanding of computational processes.
+In Ouroboros, every construct is essential, every symbol significant.
+It&amp;#8217;s programming distilled to its purest form.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-3-our-shared-creation&quot;&gt;2.3. Our Shared Creation&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The name begins with &quot;Our-,&quot; emphasizing the collaborative nature of this language.
+Ouroboros is not just a tool but a shared endeavor that belongs to its community of developers and users.
+It&amp;#8217;s a language crafted by us, for us, evolving through our collective efforts and insights.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-4-hidden-treasures&quot;&gt;2.4. Hidden Treasures&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Delve deeper into the name, and you&amp;#8217;ll uncover more linguistic gems:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&quot;Oro&quot; in many Romance languages means &quot;gold&quot; or &quot;prayer.&quot; Ouroboros can be seen as a golden thread of logic, or a prayer-like mantra of computational thought.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&quot;Ob-&quot; as a prefix often means &quot;toward&quot; or &quot;about,&quot; suggesting that Ouroboros is always oriented toward its own essence, constantly reflecting upon and refining itself.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&quot;Boros&quot; could be playfully interpreted as a variation of &quot;bytes,&quot; hinting at the language&amp;#8217;s digital nature.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Parsing the name as &quot;our-ob-oros&quot; reveals a delightful multilingual wordplay: &quot;our way to the treasure.&quot; This blend of English (&quot;our&quot;), Latin (&quot;ob&quot; meaning &quot;towards&quot;), and Greek (&quot;oros,&quot; which can be associated with &quot;boundaries&quot; or &quot;definitions&quot;) mirrors the language&amp;#8217;s eclectic inspirations.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Just as Ouroboros draws from the diverse traditions of TCL, LISP, and FORTH, its name weaves together linguistic elements from different cultures.
+This multilingual, multi-paradigm approach guides us toward the treasures of computation, defining new boundaries along the way, much like how TCL offers flexibility, LISP promotes expressiveness, and FORTH emphasizes simplicity and extensibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-5-a-name-that-bites-back&quot;&gt;2.5. A Name That Bites Back&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ultimately, Ouroboros is a name that challenges you to think recursively, to see the end in the beginning and the whole in every part.
+It&amp;#8217;s a linguistic puzzle that mirrors the very nature of the programming language it represents—complex, self-referential, and endlessly fascinating.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As you embark on your journey with Ouroboros, remember that you&amp;#8217;re not just writing code; you&amp;#8217;re participating in an ancient cycle of creation, where every end is a new beginning, and every line of code feeds into the greater whole of computational possibility.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-what-is-ouroboros&quot;&gt;3. What is Ouroboros&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ouroboros is a programming language that has no syntax.
+I have already said that, and now comes the moment of truth: it is a &quot;lie.&quot;
+There is no programming language with absolutely no syntax.
+UR has a syntax, and it is defined with this sentence:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;You write the lexical elements of the language one after the other.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-1-syntax&quot;&gt;3.1. Syntax&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;That is all.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the interpreter starts to execute the code, it begins reading the lexical elements one after the other.
+It reads as many elements as it needs to execute some code and not more.
+To be specific, it reads exactly one lexical element before starting execution.
+When the execution triggered by the element is finished, it goes on reading the next element.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The execution itself can trigger more reads if the command needs more elements.
+We will see it in the next example soon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A lexical element can be a number, a string, a symbol, or a word.
+Symbols and words can and should have an associated command to execute.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For example, the command &lt;code&gt;puts&lt;/code&gt; is borrowed shamelessly from TCL and is associated with the command that prints out a string.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;puts &quot;Hello, World!&quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is the simplest program in Ouroboros.
+When the command behind &lt;code&gt;puts&lt;/code&gt; starts to execute, it asks the interpreter to read the next element and evaluate it.
+In this example, it is a constant string, so it is not difficult to calculate.
+The value of a constant string is the string itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The next example is a bit more complex:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;puts add &quot;Hello, &quot; &quot;World!&quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case, the argument to the command &lt;code&gt;puts&lt;/code&gt; is another command: &lt;code&gt;add&lt;/code&gt;.
+When &lt;code&gt;puts&lt;/code&gt; asks the interpreter to get its argument, the interpreter reads the next element and then starts to execute.
+As &lt;code&gt;add&lt;/code&gt; starts to execute, it needs two arguments, which it asks from the interpreter.
+Since these arguments are strings, &lt;code&gt;add&lt;/code&gt; concatenates them and returns the result.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-2-blocks&quot;&gt;3.2. Blocks&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is a special command denoted by the symbol &lt;code&gt;{&lt;/code&gt;.
+The lexical analyzer recognizing this character will ask the interpreter to read the following elements until it finds the closing &lt;code&gt;}&lt;/code&gt;.
+This call is recursive in nature if there are embedded blocks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The resulting command is a block command.
+A block command executes all the commands in it and results in the last result of the commands in the block.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;puts add {&quot;Hello, &quot; &quot;World!&quot;}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If we close the two strings into a block, then the output will be a single &lt;code&gt;World!&lt;/code&gt; without the `Hello, `.
+The block &quot;executes&quot; both strings, but the value of the block is only the second string.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-3-commands&quot;&gt;3.3. Commands&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The commands implemented are documented in the &lt;a href=&quot;https://github.com/verhas/ouroboros/blob/main/README.adoc&quot;&gt;readme&lt;/a&gt; of the project on GitHub.
+The actual set of commands is not fascinating.
+Every language has a set of commands.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The fascinating part is that in UR there is no difference between functions and commands.
+Are &lt;code&gt;puts&lt;/code&gt; or &lt;code&gt;add&lt;/code&gt; commands or functions?
+How about &lt;code&gt;if&lt;/code&gt; and &lt;code&gt;while&lt;/code&gt;?
+They are all commands, and they are not part of the language per se.
+They are part of the implementation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The command &lt;code&gt;if&lt;/code&gt; asks the interpreter to fetch one argument, evaluated.
+It will use this as the condition.
+After this, it will fetch the next two elements without evaluation.
+Based on the boolean interpretation of the condition, it will ask the interpreter to evaluate one of the two arguments.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Similarly, the command &lt;code&gt;while&lt;/code&gt; will fetch two arguments without evaluation.
+It then evaluates the first as a condition, and if it is true, it will evaluate the second and then go back to the condition.
+It fetched the condition unevaluated because it will need to evaluate it again and again.
+In the case of the &lt;code&gt;if&lt;/code&gt; command, the condition is evaluated only once, so we did not need a reference to the unevaluated version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Many commands use the unevaluated version of the arguments.
+This use makes it possible to use the &quot;binary&quot; operators as multi-argument operators.
+If you want to add up three numbers, you can write &lt;code&gt;add add 1 2 3&lt;/code&gt;, or &lt;code&gt;add* 1 2 3 {}&lt;/code&gt;, or &lt;code&gt;{add 1 2 3}&lt;/code&gt;.
+The command &lt;code&gt;add&lt;/code&gt; fetches the first argument unevaluated and sees if it is a &lt;code&gt;*&lt;/code&gt;.
+If it is &lt;code&gt;*&lt;/code&gt;, then it will fetch the arguments until it encounters the end of the arguments or an empty block.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a little syntactic sugar, which should be peculiar in the case of a language that has no syntax.
+It really is there to make the experiment and the playing with the language bearable.
+On the other side, it erodes the purity of the language.
+It is also only a technical detail, and I mention it only because we will need to understand it when we discuss the metamorphic nature of the language.
+It will be needed to understand the use of the first example there.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;3-4-variables&quot;&gt;3.4. Variables&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;UR supports variables.
+Variables are strings with values associated with them.
+The value can be any object.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When the interpreter sees a symbol or a bare word (identifier) to evaluate, it will check the value associated with it.
+If the value is a command, then it will execute the command.
+In other cases, it will return the value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The variables are scoped.
+If you &lt;code&gt;set&lt;/code&gt; a variable in a block, then the variable is visible only in that block.
+If there are variables with the same name in the parent block, then the variable in the child block will shadow the variable in the parent block.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Variable handling and scoping are implementation details and not strictly part of the language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The implementation as it is now supports boolean, long, double, big integer, big decimal, and string primitive values.
+It also supports lists and objects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A list is a list of values, and it can be created with the &lt;code&gt;list&lt;/code&gt; command.
+The argument to the command is a block.
+The command &lt;code&gt;list&lt;/code&gt; will ask the interpreter to fetch the argument unevaluated.
+Afterward, it evaluates the block from the start the same way as the block command does.
+However, instead of throwing away the resulting values and returning the last one, it returns a list of the results.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;An object is a map of values.
+It can be created with the &lt;code&gt;object&lt;/code&gt; command.
+The argument to the command is the parent object.
+The fields of the parent object are copied to the new object.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Objects also have methods.
+They are the fields that have a command as a value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-introspection&quot;&gt;4. Introspection&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The interpreter is open like a cracked safe after a heist.
+Nothing is hard-wired into the language.
+When I wrote that the language interpreter recognizes bare words, symbols, strings, etc., it was only true for the initial setup.
+The lexical analyzers implemented are UR commands, and they can be redefined.
+They are associated with the names &lt;code&gt;$keyword&lt;/code&gt;, &lt;code&gt;$string&lt;/code&gt;, &lt;code&gt;$number&lt;/code&gt;, &lt;code&gt;$space&lt;/code&gt;, &lt;code&gt;$block&lt;/code&gt;, &lt;code&gt;$blockClose&lt;/code&gt;, and &lt;code&gt;$symbol&lt;/code&gt;.
+The interpreter uses the variable structures to find these commands.
+There is another variable named &lt;code&gt;$lex&lt;/code&gt; that is a list of the lexical analyzers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The interpreter uses this list when it needs to read the next lexical element.
+It invokes the first, then the second, and so on until one of them returns a non-null value, a lexical element, which is a command.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you modify this list, then you can change the lexical analyzers, and that way you can change the syntax of the language.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The simplest example is changing the interpretation of the end-of-line character.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You may remember that we can use the binary operators using multiple arguments terminated with an empty block.
+It would be nice if we could omit the block and just write &lt;code&gt;add* 1 2 3&lt;/code&gt; simply adding a new-line at the end.
+We can do that by changing the lexical analyzer that recognizes the end-of-line character, and this is exactly what we are going to do in this example.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;set q add* 3 2
+1 {} puts q
+insert $lex 0 &apos;{
+if { eq at source 0 &quot;\n&quot;}
+   {sets substring 1 length source source &apos;{}}}
+set q add* 3 2
+1 {} puts q&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We insert a new lexical analyzer at the beginning of the list.
+If the very first character of the current state of the source code is a new-line character, then the lexical analyzer eats this character and returns an empty block.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The command &lt;code&gt;source&lt;/code&gt; returns the source code that was not parsed by the interpreter yet.
+The command &lt;code&gt;sets&lt;/code&gt; sets the source code to the string value specified.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The first &lt;code&gt;puts q&lt;/code&gt; will print 6 because at the time of the first calculation, new-lines are just ignored, and that way the value of &lt;code&gt;q&lt;/code&gt; is &lt;code&gt;add* 3 2 1 {}&lt;/code&gt;.
+The second &lt;code&gt;puts q&lt;/code&gt; will print 5 because the new-line is eaten by the lexical analyzer, and the value of &lt;code&gt;q&lt;/code&gt; is &lt;code&gt;add* 3 2 {}&lt;/code&gt;.
+Here, the closing &lt;code&gt;{}&lt;/code&gt; was the result of the lexical analysis of the new-line character.
+The values &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;{}&lt;/code&gt; on the next line are calculated, but they do not have any effect.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a very simple example.
+If you want to see something more complex, the project file &lt;code&gt;src/test/resources/samples/xpression.ur&lt;/code&gt; contains a script that defines a numerical expression parser.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is a special command called &lt;code&gt;fixup&lt;/code&gt;.
+This command forces the interpreter to parse the rest of the source.
+After this point, the lexical analyzers are not used anymore.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Executing this command does not give any performance benefit, and that is not the purpose.
+It is more like a declaration that all the codes that are part of the source code introspection and the metamorphic calculation are done.
+A special implementation of the command can also take the parsed code and generate an executable, turning the interpreter into a compiler.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-technical-considerations&quot;&gt;5. Technical Considerations&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The current version is implemented in Java.
+Ouroboros is not a JVM language, though.
+We do not compile the code to Java byte-code.
+The Java code interprets the source and executes it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The implementation is an MVP focusing on the metamorphic nature of the language.
+It is meant to be an experiment.
+This is the reason why there are no file, network, and other I/O operations except the single &lt;code&gt;puts&lt;/code&gt; command that writes to the standard output.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The Java service loader feature is used to load the commands and to register them with their respective names in the interpreter.
+It means that implementing extra commands is as simple as creating them, writing a class implementing a &lt;code&gt;ContextAgent&lt;/code&gt; to register them (see the source code), and putting them on the classpath.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The whole code is open-source and available on GitHub.
+It is licensed under the Apache License 2.0 (see the license file in the repo).
+It is exactly 100 classes at the time of writing this article.
+It means that the source code is simple, short, and easy to understand.
+If you need some straightforward scripting language in your application, you can use it.
+It was not meant to be for production, though.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-going-further&quot;&gt;6. Going Further&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There is no plan currently to extend the language and include more commands.
+We only plan to create more metamorphic code in the language.
+The reason for that is that we do not see the language as a practical tool as of today.
+If it proves to be useful and gains a user base and utilization, we certainly will incorporate more commands to support I/O, file handling, networking, and so on.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We also have visions of implementing the interpreter in other languages, like in Rust and Go.
+Anyone suggesting or wanting to develop commands for better usability or adding features is welcome.
+It can be a parallel project, or it can be merged into the main project if that makes sense.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-conclusion&quot;&gt;7. Conclusion&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In exploring Ouroboros, we delved into the concept of a programming language that minimizes syntax to the point of almost non-existence.
+This radical approach challenges the conventional understanding of what a programming language should be, presenting a system where syntax is both absent and infinitely customizable.
+By drawing inspiration from languages like LISP, TCL, and FORTH, Ouroboros embodies simplicity and introspection, allowing programmers to define their syntax and commands within the language itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;While Ouroboros is not designed for practical production use, it serves as an intriguing experiment in language design and metaprogramming.
+Its self-referential nature and minimalistic design offer a playground for developers interested in the fundamentals of computation, syntax design, and language interpretation.
+Whether it evolves into a more robust tool or remains a fascinating intellectual exercise, Ouroboros pushes the boundaries of how we think about programming languages, inviting us to consider the possibility of a language where syntax is as mutable and recursive as the Ouroboros serpent itself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Better Writing with AI</title><link href="https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article.html" rel="alternate" type="text/html" title="Better Writing with AI" /><published>2024-07-26T00:00:00+02:00</published><updated>2024-07-26T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article</id><content type="html" xml:base="https://javax0.github.io/2024/07/26/how_i_wrote_the-llm-article.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -15,22 +459,6 @@ In this article, which I write the conventional way, I describe&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;what I think about the result.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Before goin on, it is important to emphasize:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;I wrote that article, it is not AI-generated.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;AI is used as a tool,; more precisely, there are many tools powered by AI techniques, but&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;they do not replace the human actors yet; whatever you create using AI or any other tool, you are responsible.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -143,223 +571,223 @@ Even in the English version, you may feel it was produced using a different meth
 &lt;p&gt;At least it is a good experience playing with the bleeding edge technology.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">LLM and RAG technology</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag.html" rel="alternate" type="text/html" title="LLM and RAG technology" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Эта статья представляет собой краткое введение в технологию LLM и RAG.
-Статья содержит много упрощений, которые могут понять обычные люди.
-Если вы заинтересованы в более детальном изучении технологии, этой статьи будет недостаточно. Вы можете найти части, которые не совсем точны, хотя они хорошо передают суть.&lt;/p&gt;
+&lt;p&gt;This article is a brief introduction to LLM and RAG technology.
+The article contains many simplifications that laypeople can understand.
+If you&amp;#8217;re interested in the technology in more detail, this article won&amp;#8217;t be enough. You may find parts that aren&amp;#8217;t entirely accurate, although they convey the essence well.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
+&lt;h2 id=&quot;2-the-essence-of-rag-technology&quot;&gt;2. The essence of RAG technology&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;RAG - это аббревиатура от Retrieval Augmented Generation.
-Это английская аббревиатура.&lt;/p&gt;
+&lt;p&gt;RAG is an acronym for Retrieval Augmented Generation.
+It is an English acronym.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Эта технология пытается дополнить приложения LLM или Large Language Model.
-Цель состоит в том, чтобы иметь возможность работать с базами знаний и информацией, которых нет в самой модели большого языка.
-Модель большого языка - это нейронная сеть, которая была обучена каким-то образом.
-Обычно их обучают на больших объемах данных, которые находятся в свободном доступе в интернете.
-В результате большие языковые модели могут общаться почти как люди.
-Если мы задаем им вопрос, они могут ответить на него.
-Однако им нужно узнать о том, какие данные или информация существуют внутри компании, так как это не публичные данные.&lt;/p&gt;
+&lt;p&gt;This technology tries to complement LLM or Large Language Model applications.
+The goal is to be able to handle knowledge bases and information that are not found in the Large Language Model itself.
+The Large Language Model is a neural network that has been trained somehow.
+They are usually trained with large quantities of data that are freely available online.
+As a result, Large Language Models can communicate in an almost human-like manner.
+If we ask them a question, they can answer it.
+However, they need to learn about what data or information exists within a company, as these are not public data.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
+&lt;h2 id=&quot;3-limitations-of-llms&quot;&gt;3. Limitations of LLMs&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;LLM нельзя научить этой корпоративной информации в их текущем виде.
-В настоящее время доступные приложения работают так, что разработчики создают некоторые модели.
-Затем они обучают эту модель, устанавливая миллионы или миллиарды параметров с помощью обучающих данных.
-Они задают вопросы, получают ответы, а затем корректируют эти параметры на основе качества ответов.&lt;/p&gt;
+&lt;p&gt;LLMs cannot be taught this corporate information in their current form.
+Currently, available applications work by developers creating some models.
+Then, they train this model, setting millions or billions of parameters with training data.
+They ask questions, get answers, and then adjust these parameters based on the quality of the answers.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Конечно, для этого существуют программы и алгоритмы, а не делается вручную.
-В текущих условиях этот процесс занимает несколько месяцев, используя энергию, необходимую небольшому городу.
-Они запускают этот алгоритм тонкой настройки на тысячах машин.&lt;/p&gt;
+&lt;p&gt;Of course, there are programs and algorithms for this, not by hand.
+Under current conditions, this process takes a few months to complete using the energy requirements of a small city.
+They run this fine-tuning algorithm on thousands of machines.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
+&lt;h2 id=&quot;4-characteristics-of-llm-models&quot;&gt;4. Characteristics of LLM models&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Когда это сделано, модель можно скачать и запустить на своей машине.
-Сама модель представляет собой 1-2 ГБ данных.
-После этого эта нейронная сеть больше не меняется; она не учится новому.
-Она может научиться чему-то новому только если мы получим новую версию.&lt;/p&gt;
+&lt;p&gt;When done, the model can be downloaded and run on your machine.
+The model itself represents 1-2 GB of data.
+After this, this neural network no longer changes; it doesn&amp;#8217;t learn new things.
+It can only learn something new if we get a new version.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
+&lt;h2 id=&quot;5-application-of-rag-technology&quot;&gt;5. Application of RAG technology&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Тем не менее, мы хотим использовать такие возможности внутри компании.
-Мы хотим, чтобы эта нейронная сеть, модель LLM, давала ответ, учитывающий внутреннюю информацию нашей компании, когда мы задаем вопрос.
-Мы можем сделать это так, как если бы мы делали что-то подобное с людьми.&lt;/p&gt;
+&lt;p&gt;Yet we want to use this kind of capability within a company.
+We want this neural network, the LLM model, to give an answer that takes into account our company&amp;#8217;s internal information when we ask a question.
+We can do this as if we were doing something similar with humans.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Если кто-то приходит в компанию, и мы хотим задать им вопросы о компании, но они ничего не знают о нашей компании, мы сначала обучаем их и даем им информацию.
-Они поместят эту информацию в свою нейронную сеть.&lt;/p&gt;
+&lt;p&gt;If someone comes to the company, and we want to ask them questions about the company, but they don&amp;#8217;t know anything about our company, we first teach them things and give them information.
+They will put this information into their neural network.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
+&lt;h2 id=&quot;6-operating-principle-of-rag&quot;&gt;6. Operating principle of RAG&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы можем видеть, если они сосредоточены на работе и забывают все остальное, когда идут домой, и хранят эту специфическую для компании информацию в отдельном месте.&lt;/p&gt;
+&lt;p&gt;We can see if they focus on work and forget everything else when they go home, and they keep this company-specific information in a separate place.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Это модель для LLM и RAG также.
-Мы помещаем информацию, которой нет в нейронной сети LLM, отдельно в отдельную базу данных.
-Если не по другой причине, мы не можем поместить ее в базу данных нейронной сети или в ее модель.
-Это частная информация. Мы не знаем, как они выглядят или как они структурированы, и они не обязательно могут быть изменены в том виде, в котором они находятся в программе.&lt;/p&gt;
+&lt;p&gt;It is the model for LLM and RAG as well.
+We put the information that isn&amp;#8217;t in the LLM&amp;#8217;s neural network separately in a separate database.
+If for no other reason, we can&amp;#8217;t put it into the neural network&amp;#8217;s database or into its model.
+These are private. We don&amp;#8217;t know what they look like or how they&amp;#8217;re structured, and they&amp;#8217;re not necessarily modifiable in the form they&amp;#8217;re in the program.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;У нас нет, можно сказать, &quot;исходного кода&quot; данных - не обязательно исходного кода программы, но оригинальной формы данных.&lt;/p&gt;
+&lt;p&gt;We don&amp;#8217;t have, we might say, the &quot;source code&quot; of the data - not necessarily the program&amp;#8217;s source code, but the original form of the data.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
+&lt;h2 id=&quot;7-characteristics-of-the-llm-model&quot;&gt;7. Characteristics of the LLM model&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Эта модель становится 1 ГБ через несколько шагов и представляет собой относительно небольшой набор данных.
-Относительно чего это мало, но в терминах LLM это считается небольшим.
-И не факт, что она все еще в состоянии, которое можно изменить.&lt;/p&gt;
+&lt;p&gt;This model becomes 1 GB through several steps and is a relatively small data set.
+It&amp;#8217;s relative to what&amp;#8217;s small, but in LLM terms, this is considered small.
+And it&amp;#8217;s not sure it&amp;#8217;s still in a state that can be modified.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
+&lt;h2 id=&quot;8-use-of-vector-databases&quot;&gt;8. Use of vector databases&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Если мы хотим поместить свою собственную информацию в отдельную базу данных, мы обычно используем векторную базу данных.
-Векторная база данных - это специальное приложение, которое может определить расстояние между двумя фрагментами текста.
-То есть, насколько они об одном и том же, и сколько у них точных ключевых слов?&lt;/p&gt;
+&lt;p&gt;If we want to put our own information into a separate database, we usually use a vector database.
+A vector database is a special application that can determine the distance between two pieces of text.
+So how much are they about the same thing, and how many are the exact keywords?&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
+&lt;h2 id=&quot;9-preparing-the-knowledge-base&quot;&gt;9. Preparing the knowledge base&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы разрезаем доступную в компании базу знаний на куски текста.
-Эти куски текста обычно длиной в тысячу символов или тысячу букв и образуют отдельные записи.
-Между ними есть небольшое перекрытие, поэтому мы начинаем следующий не там, где закончился предыдущий, а немного раньше.
-Это для того, чтобы иметь контекст и непрерывность в тексте.&lt;/p&gt;
+&lt;p&gt;We cut up the knowledge base available within the company into pieces of text.
+These pieces of text are typically a thousand characters or a thousand letters long and form individual records.
+There&amp;#8217;s a little overlap between them, so we don&amp;#8217;t start the next one where the previous one ended, but a little earlier.
+It is to have context and continuity in the text.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
+&lt;h2 id=&quot;10-the-embedding-algorithm&quot;&gt;10. The embedding algorithm&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы помещаем каждый из этих кусков текста в базу данных и просим алгоритм встраивания присвоить ему вектор.
-Вектор - это последовательность чисел.&lt;/p&gt;
+&lt;p&gt;We put each of these pieces of text into a database and ask an embedding algorithm to assign it a vector.
+The vector is a sequence of numbers.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Это похоже, например, на GPS-координаты.&lt;/p&gt;
+&lt;p&gt;It is similar to, for example, GPS coordinates.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;По сути, этот вектор - это пространственная координата этого текста, но это пространство не трехмерное, а очень многомерное.&lt;/p&gt;
+&lt;p&gt;Essentially, this vector is a spatial coordinate of this text, but this space is not three-dimensional but very multi-dimensional.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
+&lt;h2 id=&quot;11-rag-operation-for-questions&quot;&gt;11. RAG operation for questions&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с технологией RAG, мы также векторизуем этот вопрос.&lt;/p&gt;
+&lt;p&gt;When a user addresses a question to an application developed with RAG technology, we also vectorize this question.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы просим систему встраивания сказать нам, где этот вопрос находится в пространстве.&lt;/p&gt;
+&lt;p&gt;We ask the embedding system to tell us where this question is located in space.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы можем спросить у векторной базы данных, в которую мы поместили векторы, принадлежащие всем нашим кускам текста, какие куски текста из нашей базы знаний находятся ближе всего в пространстве к вопросу.&lt;/p&gt;
+&lt;p&gt;Then, we can ask the vector database, into which we put the vectors belonging to all our text pieces, which text pieces from our knowledge base are closest in space to the question.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
+&lt;h2 id=&quot;12-distance-calculation-between-vectors&quot;&gt;12. Distance calculation between vectors&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Это расчет расстояния и индексирование.
-Если хотите, можете рассчитать расстояние по теореме Пифагора в ортогональном векторном пространстве.
-Хотя это звучит сложно, нам на самом деле не нужно с этим разбираться или знать, как это работает.&lt;/p&gt;
+&lt;p&gt;It is a distance calculation and indexing.
+If you like, you can calculate the distance with the Pythagorean theorem in an orthogonal vector space.
+Although it sounds complicated, we don&amp;#8217;t really need to deal with it or know how it works.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
+&lt;h2 id=&quot;13-characteristics-of-the-embedding-algorithm&quot;&gt;13. Characteristics of the embedding algorithm&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Суть в том, что этот алгоритм встраивания обычно также основан на нейронной сети.
-Есть и элементарные алгоритмы встраивания, но они практически менее применимы.
-Существуют более сложные системы встраивания, основанные на нейронных сетях, которые делают это в зависимости от языка.&lt;/p&gt;
+&lt;p&gt;The point is that this embedding algorithm is usually based on a neural network as well.
+There are elementary embedding algorithms, too, but these are practically less usable.
+There are more complex embedding systems based on neural networks that do this, depending on the language.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
+&lt;h2 id=&quot;14-selection-of-relevant-text-pieces&quot;&gt;14. Selection of relevant text pieces&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Векторная база данных сообщает нам, какие куски текста из нашей базы знаний близки к вопросу, то есть релевантны для ответа на вопрос.&lt;/p&gt;
+&lt;p&gt;The vector database tells us which text pieces from our knowledge base are close to the question, meaning they are relevant to answering the question.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
+&lt;h2 id=&quot;15-assembling-the-prompt&quot;&gt;15. Assembling the prompt&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После этого мы задаем LLM промпт, который не является оригинальным, а мы помещаем перед ним те куски текста, которые мы извлекли из нашей собственной базы знаний.
-Мы не можем поместить все это в один вопрос, потому что это было бы слишком много, но мы можем включить несколько, пять, шесть, семь или даже десять из базы знаний.&lt;/p&gt;
+&lt;p&gt;After this, we ask the LLM for a prompt that is not the original, but we put in front of it those pieces of text we extracted from our own knowledge base.
+We can&amp;#8217;t fit the whole thing into one question because it would be too much, but we can include a few, five, six, seven, or even ten from the knowledge base.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы пишем в промпте, что это контекст, и мы хотим получить ответ в этом контексте, затем сам вопрос.&lt;/p&gt;
+&lt;p&gt;We write in the prompt that this is a context, and we want to get the answer in this context, then the question itself.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
+&lt;h2 id=&quot;16-summary-of-the-rag-process&quot;&gt;16. Summary of the RAG process&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы отправляем это алгоритму LLM, который читает его, делает с ним что-то и отвечает на него.&lt;/p&gt;
+&lt;p&gt;Then, we send this to the LLM algorithm, which reads it, does something with it, and answers it.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;И это все.
-Весь RAG настолько прост.
-Вам нужна векторная база данных; вам нужно разрезать текст.
-Если кто-то понимает программирование, они знают, что это не большое дело.&lt;/p&gt;
+&lt;p&gt;And this is it.
+The whole RAG is that simple.
+You need a vector database; you need to cut up the text.
+If someone understands programming, they know this is not a big deal.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Нам нужно поместить текст в обычную базу данных, чтобы мы могли восстановить его для генерации промпта.
-Мы помещаем векторы в векторную базу данных, чтобы мы могли спросить, какие куски текста релевантны для данного вопроса.
-Затем нам нужно уметь задавать вопросы LLM из программы и программировать стандартные интерфейсы.
-Наконец, нам нужно уметь отправлять ответ обратно клиенту или пользователю, который может его прочитать.&lt;/p&gt;
+&lt;p&gt;We need to put the text into a normal database so that we can restore it for prompt generation.
+We put the vectors into the vector database so that we can ask which are the relevant text pieces for a given question.
+Then, we need to be able to ask the LLM questions from a program and program standard interfaces.
+Finally, we need to be able to send the answer back to the client or user who can read it.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
+&lt;h2 id=&quot;17-summary&quot;&gt;17. Summary&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;С помощью этой технологии мы создали приложение, с которым можно общаться точно так же, как с ChatGPT.&lt;/p&gt;
+&lt;p&gt;With this technology, we produced an application that you can chat with just like ChatGPT.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Но оно знает не только вещи большого мира до определенного момента времени, когда его обучение было завершено, но и вещи из нашей специальной базы знаний.&lt;/p&gt;
+&lt;p&gt;But it knows not only the things of the big world up to a certain point in time when its training was closed but also the things in our special knowledge base.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry><entry><title type="html">Az LLM és a RAG technológia</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" rel="alternate" type="text/html" title="Az LLM és a RAG technológia" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-hu</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Az LLM és a RAG technológia</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" rel="alternate" type="text/html" title="Az LLM és a RAG technológia" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-hu</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-bevezetés&quot;&gt;1. Bevezetés&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -1006,223 +1434,222 @@ Schließlich müssen wir in der Lage sein, die Antwort an den Kunden oder Benutz
 &lt;p&gt;Aber sie kennt nicht nur die Dinge der großen Welt bis zu einem bestimmten Zeitpunkt, als ihr Training abgeschlossen wurde, sondern auch die Dinge in unserer speziellen Wissensbasis.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Einleitung</summary></entry><entry><title type="html">LLM and RAG technology</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag.html" rel="alternate" type="text/html" title="LLM and RAG technology" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Einleitung</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is a brief introduction to LLM and RAG technology.
-The article contains many simplifications that laypeople can understand.
-If you&amp;#8217;re interested in the technology in more detail, this article won&amp;#8217;t be enough. You may find parts that aren&amp;#8217;t entirely accurate, although they convey the essence well.&lt;/p&gt;
+&lt;p&gt;Эта статья представляет собой краткое введение в технологии LLM и RAG.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Текст содержит упрощения, которые позволяют лучше понять материал широкому кругу читателей. Однако, если вы заинтересованы в глубоком изучении этих технологий, данная статья может оказаться недостаточной.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Некоторые моменты могут быть изложены не совсем точно, хотя в целом они хорошо передают основную идею.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-the-essence-of-rag-technology&quot;&gt;2. The essence of RAG technology&lt;/h2&gt;
+&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;RAG is an acronym for Retrieval Augmented Generation.
-It is an English acronym.&lt;/p&gt;
+&lt;p&gt;RAG — это аббревиатура от английского Retrieval Augmented Generation.
+Эта технология дополняет приложения на основе больших языковых моделей (LLM, Large Language Model).&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This technology tries to complement LLM or Large Language Model applications.
-The goal is to be able to handle knowledge bases and information that are not found in the Large Language Model itself.
-The Large Language Model is a neural network that has been trained somehow.
-They are usually trained with large quantities of data that are freely available online.
-As a result, Large Language Models can communicate in an almost human-like manner.
-If we ask them a question, they can answer it.
-However, they need to learn about what data or information exists within a company, as these are not public data.&lt;/p&gt;
+&lt;p&gt;Цель RAG — предоставить возможность работать с базами знаний и информацией, которой нет в самой языковой модели.
+Большая языковая модель представляет собой нейронную сеть, обученную на больших объемах данных, которые обычно доступны в интернете.
+Благодаря этому, такие модели могут общаться почти как люди и отвечать на вопросы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Однако, для работы с внутренними данными компании, которые не являются публичными, RAG позволяет моделям получать доступ к внешним источникам информации, дополняя свои ответы актуальными данными.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-limitations-of-llms&quot;&gt;3. Limitations of LLMs&lt;/h2&gt;
+&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;LLMs cannot be taught this corporate information in their current form.
-Currently, available applications work by developers creating some models.
-Then, they train this model, setting millions or billions of parameters with training data.
-They ask questions, get answers, and then adjust these parameters based on the quality of the answers.&lt;/p&gt;
+&lt;p&gt;На текущем этапе развития LLM невозможно напрямую обучить модель корпоративной информации.
+Современные приложения работают следующим образом: разработчики создают языковые модели, затем обучают их, настраивая миллионы или даже миллиарды параметров с помощью обучающих данных.
+Этот процесс включает задавание вопросов модели, получение ответов и последующую корректировку параметров на основе качества ответов.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Of course, there are programs and algorithms for this, not by hand.
-Under current conditions, this process takes a few months to complete using the energy requirements of a small city.
-They run this fine-tuning algorithm on thousands of machines.&lt;/p&gt;
+&lt;p&gt;Конечно, всё это осуществляется с помощью программ и алгоритмов, а не вручную.
+В нынешних условиях этот процесс может занимать несколько месяцев и требует огромных энергетических ресурсов, сопоставимых с энергопотреблением небольшого города.
+Для выполнения тонкой настройки используются тысячи машин, работающих параллельно.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-characteristics-of-llm-models&quot;&gt;4. Characteristics of LLM models&lt;/h2&gt;
+&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When done, the model can be downloaded and run on your machine.
-The model itself represents 1-2 GB of data.
-After this, this neural network no longer changes; it doesn&amp;#8217;t learn new things.
-It can only learn something new if we get a new version.&lt;/p&gt;
+&lt;p&gt;После завершения обучения модель можно скачать и запустить на своей машине.
+Сама модель обычно занимает 1-2 ГБ данных.
+После этого нейронная сеть больше не изменяется и не обучается новому.
+Чтобы модель усвоила что-то новое, необходимо выпустить её обновлённую версию.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-application-of-rag-technology&quot;&gt;5. Application of RAG technology&lt;/h2&gt;
+&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Yet we want to use this kind of capability within a company.
-We want this neural network, the LLM model, to give an answer that takes into account our company&amp;#8217;s internal information when we ask a question.
-We can do this as if we were doing something similar with humans.&lt;/p&gt;
+&lt;p&gt;Тем не менее, мы хотим использовать возможности LLM внутри компании.
+Наша цель — чтобы эта нейронная сеть могла давать ответы, учитывая внутреннюю информацию компании, когда мы задаем вопросы.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If someone comes to the company, and we want to ask them questions about the company, but they don&amp;#8217;t know anything about our company, we first teach them things and give them information.
-They will put this information into their neural network.&lt;/p&gt;
+&lt;p&gt;Представьте, что в компанию приходит новый сотрудник, который ничего о ней не знает.
+Прежде чем задавать ему вопросы о компании, мы сначала обучаем его, предоставляя необходимую информацию.
+Этот сотрудник усваивает её, и она становится частью его знаний.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-operating-principle-of-rag&quot;&gt;6. Operating principle of RAG&lt;/h2&gt;
+&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We can see if they focus on work and forget everything else when they go home, and they keep this company-specific information in a separate place.&lt;/p&gt;
+&lt;p&gt;Представьте, что человек сосредотачивается на работе, забывая обо всём остальном, когда идёт домой, и хранит специфическую для компании информацию отдельно.
+Аналогично работает модель LLM и технология RAG.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is the model for LLM and RAG as well.
-We put the information that isn&amp;#8217;t in the LLM&amp;#8217;s neural network separately in a separate database.
-If for no other reason, we can&amp;#8217;t put it into the neural network&amp;#8217;s database or into its model.
-These are private. We don&amp;#8217;t know what they look like or how they&amp;#8217;re structured, and they&amp;#8217;re not necessarily modifiable in the form they&amp;#8217;re in the program.&lt;/p&gt;
+&lt;p&gt;Мы сохраняем информацию, которой нет в нейронной сети LLM, в отдельной базе данных.
+Причина проста: эту информацию нельзя интегрировать напрямую в нейронную сеть или её модель, поскольку она является частной и конфиденциальной.
+Мы не всегда знаем, как эти данные структурированы, и они не обязательно могут быть изменены в текущем виде программы.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We don&amp;#8217;t have, we might say, the &quot;source code&quot; of the data - not necessarily the program&amp;#8217;s source code, but the original form of the data.&lt;/p&gt;
+&lt;p&gt;Можно сказать, что у нас нет &quot;исходного кода&quot; этих данных — не в смысле программного кода, а оригинальной формы этих данных.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-characteristics-of-the-llm-model&quot;&gt;7. Characteristics of the LLM model&lt;/h2&gt;
+&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This model becomes 1 GB through several steps and is a relatively small data set.
-It&amp;#8217;s relative to what&amp;#8217;s small, but in LLM terms, this is considered small.
-And it&amp;#8217;s not sure it&amp;#8217;s still in a state that can be modified.&lt;/p&gt;
+&lt;p&gt;После нескольких этапов обработки модель становится относительно небольшим набором данных объёмом около 1 ГБ.
+Хотя этот размер может показаться небольшим по сравнению с другими данными, для LLM это считается компактным.
+Однако на этом этапе модель, скорее всего, уже не подлежит изменениям.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-use-of-vector-databases&quot;&gt;8. Use of vector databases&lt;/h2&gt;
+&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we want to put our own information into a separate database, we usually use a vector database.
-A vector database is a special application that can determine the distance between two pieces of text.
-So how much are they about the same thing, and how many are the exact keywords?&lt;/p&gt;
+&lt;p&gt;Если мы хотим сохранить собственную информацию в отдельной базе данных, обычно используем векторные базы данных.
+Векторная база данных — это специализированное приложение, которое способно определять расстояние между двумя фрагментами текста.
+Оно оценивает, насколько эти тексты связаны по смыслу и сколько у них общих ключевых слов.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-preparing-the-knowledge-base&quot;&gt;9. Preparing the knowledge base&lt;/h2&gt;
+&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We cut up the knowledge base available within the company into pieces of text.
-These pieces of text are typically a thousand characters or a thousand letters long and form individual records.
-There&amp;#8217;s a little overlap between them, so we don&amp;#8217;t start the next one where the previous one ended, but a little earlier.
-It is to have context and continuity in the text.&lt;/p&gt;
+&lt;p&gt;Мы разбиваем базу знаний, доступную в компании, на небольшие фрагменты текста.
+Обычно эти фрагменты составляют около тысячи символов и формируют отдельные записи.
+Между ними предусмотрено небольшое перекрытие: каждый следующий фрагмент начинается немного раньше окончания предыдущего.
+Это помогает сохранить контекст и непрерывность в тексте.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-the-embedding-algorithm&quot;&gt;10. The embedding algorithm&lt;/h2&gt;
+&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We put each of these pieces of text into a database and ask an embedding algorithm to assign it a vector.
-The vector is a sequence of numbers.&lt;/p&gt;
+&lt;p&gt;Мы помещаем каждый из этих текстовых фрагментов в базу данных и используем алгоритм встраивания, чтобы присвоить им векторы.
+Вектор — это последовательность чисел, аналогичная GPS-координатам.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is similar to, for example, GPS coordinates.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Essentially, this vector is a spatial coordinate of this text, but this space is not three-dimensional but very multi-dimensional.&lt;/p&gt;
+&lt;p&gt;По сути, этот вектор представляет собой пространственную координату текста, но это пространство многомерное, а не трёхмерное.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-rag-operation-for-questions&quot;&gt;11. RAG operation for questions&lt;/h2&gt;
+&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When a user addresses a question to an application developed with RAG technology, we also vectorize this question.&lt;/p&gt;
+&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с использованием технологии RAG, этот вопрос также преобразуется в вектор.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We ask the embedding system to tell us where this question is located in space.&lt;/p&gt;
+&lt;p&gt;Система встраивания определяет положение этого вопроса в многомерном пространстве.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Then, we can ask the vector database, into which we put the vectors belonging to all our text pieces, which text pieces from our knowledge base are closest in space to the question.&lt;/p&gt;
+&lt;p&gt;Затем мы обращаемся к векторной базе данных, в которой хранятся векторы всех наших текстовых фрагментов, чтобы выяснить, какие из них находятся ближе всего к заданному вопросу в этом пространстве.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;12-distance-calculation-between-vectors&quot;&gt;12. Distance calculation between vectors&lt;/h2&gt;
+&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is a distance calculation and indexing.
-If you like, you can calculate the distance with the Pythagorean theorem in an orthogonal vector space.
-Although it sounds complicated, we don&amp;#8217;t really need to deal with it or know how it works.&lt;/p&gt;
+&lt;p&gt;Этот процесс включает вычисление расстояния и индексирование.
+Если представить, это похоже на расчёт расстояния по теореме Пифагора в ортогональном векторном пространстве.
+Хотя это может звучать сложно, нам не обязательно разбираться в деталях или знать, как это работает на уровне формул.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;13-characteristics-of-the-embedding-algorithm&quot;&gt;13. Characteristics of the embedding algorithm&lt;/h2&gt;
+&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The point is that this embedding algorithm is usually based on a neural network as well.
-There are elementary embedding algorithms, too, but these are practically less usable.
-There are more complex embedding systems based on neural networks that do this, depending on the language.&lt;/p&gt;
+&lt;p&gt;Основная идея заключается в том, что алгоритм встраивания обычно также основан на нейронной сети.
+Существуют более простые алгоритмы встраивания, но они менее эффективны на практике.
+Более сложные алгоритмы встраивания, основанные на нейронных сетях, выполняют эту задачу с учётом особенностей языка.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;14-selection-of-relevant-text-pieces&quot;&gt;14. Selection of relevant text pieces&lt;/h2&gt;
+&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The vector database tells us which text pieces from our knowledge base are close to the question, meaning they are relevant to answering the question.&lt;/p&gt;
+&lt;p&gt;Векторная база данных определяет, какие фрагменты текста из нашей базы знаний наиболее близки к вопросу и, следовательно, являются релевантными для ответа.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;15-assembling-the-prompt&quot;&gt;15. Assembling the prompt&lt;/h2&gt;
+&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After this, we ask the LLM for a prompt that is not the original, but we put in front of it those pieces of text we extracted from our own knowledge base.
-We can&amp;#8217;t fit the whole thing into one question because it would be too much, but we can include a few, five, six, seven, or even ten from the knowledge base.&lt;/p&gt;
+&lt;p&gt;После этого мы формируем промпт для LLM, добавляя перед основным вопросом те фрагменты текста, которые были извлечены из нашей базы знаний.
+Весь текст сразу включить невозможно, так как это было бы слишком много, но мы можем добавить несколько фрагментов — пять, шесть, семь или даже десять.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We write in the prompt that this is a context, and we want to get the answer in this context, then the question itself.&lt;/p&gt;
+&lt;p&gt;В промпте указываем, что это контекст, в рамках которого мы хотим получить ответ, а затем задаём сам вопрос.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;16-summary-of-the-rag-process&quot;&gt;16. Summary of the RAG process&lt;/h2&gt;
+&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Then, we send this to the LLM algorithm, which reads it, does something with it, and answers it.&lt;/p&gt;
+&lt;p&gt;Затем мы передаем сформированный промпт алгоритму LLM, который его обрабатывает и генерирует ответ.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And this is it.
-The whole RAG is that simple.
-You need a vector database; you need to cut up the text.
-If someone understands programming, they know this is not a big deal.&lt;/p&gt;
+&lt;p&gt;Вот и всё.
+Процесс RAG настолько прост.
+Вам нужна векторная база данных, и нужно разделить текст на фрагменты.
+Для тех, кто знаком с программированием, это не представляет большой сложности.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We need to put the text into a normal database so that we can restore it for prompt generation.
-We put the vectors into the vector database so that we can ask which are the relevant text pieces for a given question.
-Then, we need to be able to ask the LLM questions from a program and program standard interfaces.
-Finally, we need to be able to send the answer back to the client or user who can read it.&lt;/p&gt;
+&lt;p&gt;Текст следует сохранить в обычной базе данных, чтобы его можно было извлечь для создания промпта.
+Векторы сохраняются в векторной базе данных, чтобы определить, какие фрагменты текста релевантны для конкретного вопроса.
+Также нужно уметь задавать вопросы LLM из программы и использовать стандартные интерфейсы для этого.
+В заключение, необходимо отправить полученный ответ обратно клиенту или пользователю, чтобы он мог его прочитать.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;17-summary&quot;&gt;17. Summary&lt;/h2&gt;
+&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With this technology, we produced an application that you can chat with just like ChatGPT.&lt;/p&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;	С помощью этой технологии мы создали приложение, с которым можно взаимодействовать так же, как с ChatGPT.
+Однако оно обладает дополнительным преимуществом: помимо знаний о мире, полученных на момент завершения обучения, оно также включает информацию из нашей специальной базы знаний.&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;But it knows not only the things of the big world up to a certain point in time when its training was closed but also the things in our special knowledge base.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Threaded streams</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded streams" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry><entry><title type="html">Threaded streams</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded streams" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -2305,366 +2732,6 @@ Those who write the code generators.&lt;/p&gt;
 &lt;p&gt;I usually write a conclusion and a takeaway at the end of the article.
 So I do it now.
 That is all, folks.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Virtual and Augmented Reality is Here</title><link href="https://javax0.github.io/2023/08/27/vr-future.html" rel="alternate" type="text/html" title="Virtual and Augmented Reality is Here" /><published>2023-08-27T00:00:00+02:00</published><updated>2023-08-27T00:00:00+02:00</updated><id>https://javax0.github.io/2023/08/27/vr-future</id><content type="html" xml:base="https://javax0.github.io/2023/08/27/vr-future.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Virtual reality is a technology when you wear some device projecting a non-existent world into your senses.
-This way, you partially or completely lose the connection to the real world and are immersed in the virtual world.
-Current technology does not allow a complete loss of connection to the real world, and the senses are mainly limited to vision and hearing.
-Usually, two LCD devices with special optics are mounted on your head, and different sensors track your head movement.
-The computers display pictures on the LCDs that change as you move your head, showing a static or dynamic virtual reality around you.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In this article, I will write about the history of virtual reality and how I got my fingers wet.
-I will also write about what I experienced recently with my newly bought Meta Quest Pro and how I see the future of virtual reality.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-history&quot;&gt;2. History&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The first virtual reality device was the first loudspeaker headset limited to audio senses, but the term was not used for that.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The first virtual reality device, called virtual reality, was the Sensorama, built by Morton Heilig in 1962.
-I had a set on my head in 1995 at an exhibition IFABO in Budapest.
-I worked for Digital Equipment Corporation then, and we had a stand there.
-My task was to show the visitors the virtual reality headset that DEC created in cooperation with Kubota.
-If you Google the term &lt;em&gt;&quot;Kubota Denali VR&quot;&lt;/em&gt; you may find interesting traces of history.
-I had little time to try and play with it, but I was impressed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I was convinced that VR is the future and will be here as soon as 2000 in five years.
-I remember this because I was young and &quot;brave&quot; enough to express this prediction publicly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;2-1-derail-prediction-and-braveness&quot;&gt;2.1. Derail: Prediction and Braveness&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you are an expert, you can predict the future with a certain precision.
-You are a visionary if you tell others how you see the future and are correct.
-If you are wrong, then you are a fool.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you are young and at an early stage of your Dunnig-Kruger curve, you are brave enough to express your predictions.
-So, I was brave enough to say that VR will be here in five years.
-I stated it in a forum not smaller than the main central state-running radio stating Kossuth Radio in Hungary.
-Nobody remembered it after five years, so it was not a big shame, but in 2015, twenty years later, the same guy invited me again to the radio to review my predictions.
-It was interesting.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had some good predictions, like saying that mobile phones will be ubiquitous and be a personal computing device connected to the internet.
-But my VR prediction was off the rails.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Why is it important to mention this other than it gives you credibility when you admit your past mistakes in an article?
-Now I see what I did not see then and why VR did not sweep the board.
-In this article, I will repeat the mistake I made almost thirty years ago and predict VR&amp;#8217;s future again.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Why am I so &lt;em&gt;&quot;brave&quot;&lt;/em&gt; to do that?
-Because I am old enough to be brave again.
-Young people are brave enough to predict the future because they do not understand that their predictions may bite back.
-Old people know that when the prediction bites back, they will not be there to be bitten.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sidebarblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Never trust the prediction of a young or an old expert.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-current-experiences&quot;&gt;3. Current Experiences&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I bought my first VR headset in 2017.
-It was a Sony Playstation VR.
-It was a birthday present from me.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;At that time, I saw the state of VR as mainly a plaything.
-Gaming and entertainment.
-I had some play with Fruit Ninja and Beat Saber.
-I tried some other games but got dizzy very soon, and I realized why I was wrong in 1995.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The technology for the VR headset was not good enough.
-It lacked resolution, was too expensive, and needed improvement in tracking the head movement and lag of screen refresh.
-Lag is very important.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizon horizontal again, you get dizzy.
-The lag is the time between your head&amp;#8217;s movement and the picture on the screen.
-The lag does not need to be large enough to be consciously recognizable, and it may still make you dizzy.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the virtual world is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
-You see the car and the world around you running, but you are stationary.
-That is what makes you really vomit.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Parts of these problems can be solved, others not.
-In 1995, even in a static environment, I got easily dizzy.
-Today, it is much better, and (jumping a bit ahead) I can spend hours working in VR, watching virtual screens in a virtual café.
-As a matter of fact, I write this article with a Meta Quest Pro on my head, and I am sitting in a virtual café in Immersed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I knew this was not my last VR set, and I will have a next one suitable for work.
-I was following the news about the vast investments of Meta and Facebook into VR.
-However, I was waiting for Apple to come up with the next generation of VR.
-I use a lot of Apple products.
-They have superb usability and a hefty price tag.
-On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages raised cannot afford the overpriced products, then who can?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized I would not wait for Apple.
-I could, but I do not want to pay that amount for something 1.0 and experimental.
-I could also read between the marketing videos&apos; lines to know that this headset may be better than the competition, but it is still experimental.
-It is not Apple&amp;#8217;s fault.
-Although I expected a working version, I can see that this expectation was unrealistic.
-It is not Apple Vision Pro that is experimental; it is the whole VR field, even after 30 years.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The reason, as I see now after experimenting with the Meta Quest Pro, is not technology.
-Technology has developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking, and optics.
-It is the software that is immature, and it is in a unique way.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When you think about immature software, you usually think of software that has bugs.
-Although the Meta Quest Pro certainly has bugs, that is not why I say it is immature.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Currently, there is no best practice on how we can and will use VR for work.
-To develop that knowledge will need much work.
-It includes those early experimenters willing to invest their time and effort in working with this immature technology.
-It also needs a lot of money from companies like Facebook to develop the software.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Many software developed today will be thrown away in a few years.
-Not because they are buggy or low quality but because they implement unusable use-case scenarios.
-Nobody knows what is usable.
-Do we want to navigate in a three-dimensional space with boxes and spheres representing different files?
-Should we represent directories as boxes and zoom into them to see the files, or will they be lined up behind them?
-Should we imitate the kinematics of natural objects in a gravitational field like in our everyday earthly environment?
-Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, and relationships between these objects?
-We will try; some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;When I ordered my Meta Quest Pro, I was unsure what I would use it for.
-I did not expect it to be ready for work.
-I was hoping, but I realized that it may not be.
-I imagined different use cases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Work in a virtual environment with virtual screens, using Immersed.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Play games.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Play some games, which are a workout.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-meta-quest-pro-first-steps&quot;&gt;4. Meta Quest Pro First Steps&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had mixed feelings when I got the Meta Quest Pro.
-First of all, I had to wait a month till it arrived.
-While waiting, I watched many YouTube videos about the device and the programs, so I was hiked.
-Clearly, it was a mistake.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After I started, it froze, and I had to restart it.
-But it did not happen ever again.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had to install an app on my iPad/iPhone to use the headset.
-It is okay, but I had to Google it because the QR code on the printed users&apos; manual led to a 404 page.
-I deserve a seamless start for a 1000$.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It does not have a good tutorial.
-It has a tutorial, but it is like someone had to write one to tick it off from the to-do list rather than one written for the user.
-The usability and the guidance of Apple products spoiled me.
-For example, there is a mirror in the virtual environment, which shows your avatar.
-I did not get any information from the tutorial or documentation that it has a use.
-I saw my avatar&amp;#8217;s reflection, but nobody told me that I could customize my avatar if I clicked there with the virtual laser beam.
-Later, I also found the menu system to set up the avatar.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;After five hours of use, I still could not figure out the different uses of the buttons.
-After a few weeks, I know why: there is no convention.
-Different applications use the different buttons differently.
-There are X  and Y and A  and B buttons, but they have no unified meaning or use.
-The only more or less fixed convention is that the shooting button for your index finger is shooting, and the trigger button for your thumb is grabbing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I had some early bad experiences with the power and speaker loudness buttons.
-As I was moving the headset on and off a few times, I accidentally pressed these buttons.
-I had to learn muscle memory to grab the headset, a different way from what I first felt natural.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The hand-tracking feature is amazing but not usable.
-It is amazing because it works, but I had to switch it off when working in a virtual environment.
-When I type, the controllers are not in my hand.
-The headset recognizes this, and all my typing movements it tries to interpret as hand gestures.
-Bizarre results.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The screen resolution for the virtual screens is usable, but they cannot compete with my two displays, 5k each setup.
-I can see the pixels and the difference between the virtual and the actual screens.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The keyboard use is also a pain point.
-There are two ways to use the keyboard.
-One is a so-called portal.
-It is a shape fixed in the virtual space that shows the real world behind the shape.
-It is like a window to the real world from the virtual world.
-You can open a portal for the keyboard and see your keyboard blurry.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The problem probably comes from the fact that the cameras were designed for tracking, not showing the real world.
-I can see my keyboard but must adjust the light, and the picture waves slightly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The other possibility is to use a so-called tracked keyboard.
-In this case, the software identifies the keyboard by its shape and draws a virtual keyboard where the actual keyboard is.
-At the same time, it draws your hands in real-time, so you see your hands and keys in a virtual environment.
-It works as a labor experiment.
-Only a few keyboards are supported: some Logitech models, Apple Magic keyboards, and Macbook Pro and Air keyboards.
-Luckily, I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
-Virtual keyboards support only US layout.
-Not even Y and Z swapped for many European keyboards.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You must have a high-speed connection between the PC/MacBook and the headset to use virtual displays.
-To have that, I configured my MacBook to use my iPhone interned via a tethered connection.
-The Wi-Fi uses the 5GHz band and provides a dedicated hotspot for the headset.
-With this setup, the lag between the computer and the headset is 6m; that should be enough.
-Because I still could feel a little lag in the mouse movement, I ordered a USB-C to USB-C Oculus cable.
-I feel ashamed to admit how much I paid for it, but it moved the latency to 2ms.
-The mouse is still lagging.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also had to switch to dark mode with IntelliJ for better visibility on the virtual screens.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Watching movies is impressive.
-And I did not mean the &lt;a href=&quot;https://www.youtube.com/watch?v=h8srG_iKh5Y&quot;&gt;special movies&lt;/a&gt;.
-Just a good old boring Netflix, Disney, Amazon, etc. movies.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-apps-i-used&quot;&gt;5. Apps I Used&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I tried a few applications, and other than a few games I already used before, I categorize each application as experimental.
-The most mature application is Immersed.
-There are a lot of problems with it, but I use it every day for a few hours.
-It proves it is usable, but to be honest, I am not absolutely sure if I use it because&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;I really like it despite the drawbacks or&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;I have buyer&amp;#8217;s remorse and must convince myself that I did not waste my money.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What I have experienced, though, is that meeting people in a virtual environment is much more natural than I expected.
-When I do a video conference, I see the faces of the people I talk to.
-When I do a virtual meeting, I can only see the avatars.
-I expected it to be less natural, but somehow, it felt more in the present.
-You are visually in the same space as the other people&amp;#8217;s avatars; you talk to them, and your hands are tracked and shown, as well as your facial expression.
-I also experienced that we needed less &quot;who talks when&quot; protocol than in a video conference.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also tried a mind-mapping application called Noda.
-I do not use mind mapping often, but I wanted to see how it works.
-I was surprised.
-Using spatial representation of the mind map is much more natural than the flat one.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I also tried some 3D drawing, and I am still behind my plans with CAD for 3D printing.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-future-apps&quot;&gt;6. Future Apps&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And this is the chapter where I will make a fool of myself.
-Let&amp;#8217;s hope that I live long enough to see it.
-I will not give exact year numbers when something will come.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;There will be a lot of technical development in the next few years, but that is something out of my experience.
-I expect many steps forward regarding the software, applications, and development.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Right now, we have different applications that present virtual worlds and something in it.
-Immersed does two things: 1. provides a space where people and their avatars are visible and can interact, and 2. provides virtual screens.
-Noda, the mind mapping application, also provides 1. a virtual space and 2. a virtual mind map.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;It is somehow analogous to the MS-DOS times when you could run only one application on the screen simultaneously.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I expect the virtual space to become the desktop.
-It has to be provided by the operating system, and the different applications will be able to use it, placing and moving different virtual objects in it.
-I have not read articles that envision this model, but I am sure this is how VR architects at big companies envision the future.
-What do we miss there?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We miss the copy/paste and the drag-and-drop functionality.
-I do not mean literally.
-I do not think we should have a virtual clipboard and drag-and-drop virtual objects.
-But we need a way to use different applications in the same virtual space and make them interact.
-What we miss is the act, which is the most natural way of interaction between applications like drag and drop and copy/paste on the desktop.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With that, I am sure we will soon forget the desktop and the windows and virtual windows.
-Tethering a MacBook to a headset is like tethering a horse to a railway car.
-It was needed briefly to provide the continuity of cultural development, but we will forget it.
-We will have a VR version of programming IDEs; we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation, and so on.
-These will run on the headset, and we will not need to embed the 2D desktop into our 3D virtual world.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-conclusion&quot;&gt;7. Conclusion&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This article is not about software development, but since most of my articles are about that, I expect that most of my readers are.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What should you do as a developer?
-What is the message?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;First of all, you must not ignore VR technology anymore.
-The headsets become better and cheaper, and the software will develop.
-Immerse, for one, can be a good excuse to buy a headset if you need an excuse.
-You should get acquainted with the technology, what is available, and what can be developed.
-Expect new operating system features supporting VR and new APIs and tools.
-There will be many opportunities in the coming years around this technology.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>
