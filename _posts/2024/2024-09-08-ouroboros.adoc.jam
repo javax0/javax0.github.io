@@ -1,0 +1,348 @@
+---
+{%@define title=Programming Language with no Syntax?%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}{%@sep 〔〕%}
+
+= 〔title〕
+
+〔section Introduction〕
+
+Is it possible to have a programming language that has no syntax?
+It sounds like a contradiction.
+Programming languages are all about syntax, plus a bit of code generation, optimization, run-time environment, and so on.
+But syntax is the most important part as far as programmers are concerned.
+When encountering a new programming language, it takes time to learn the syntax.
+
+Could we just make the syntax disappear or at least make it as simple as possible?
+Could we also make the syntax arbitrary so that the programmer writing the code can define it for themselves?
+
+Ouroboros is a programming language that tries to do just that.
+It has the simplest syntax ever.
+It is so simple that it does not even have a syntax analyzer.
+All it has is a lexical analyzer, which is 20 lines long.
+
+At the same time, you can write complex programs and even expressions with parentheses and operators of different precedence, assuming you write your own syntax for that in the program.
+That way, no syntax also means any syntax.
+
+This article is an introduction to Ouroboros, a programming language with no syntax.
+It is a toy, never meant to be used in production, but it is a fun toy to play with, especially if you have ever wanted to create your own programming language.
+
+There were programming languages with minimal syntax.
+One of the very first languages was LISP, which used only parentheses to group statements as lists.
+
+If you are familiar with TCL, you may remember how simple the language is.
+However, it still defines complex expressions and control structures as part of the language.
+
+Another simple language to mention is FORTH.
+It is a stack language.
+The syntax is minimal.
+You either put something on the stack or call a function that works with the values on the stack.
+FORTH was also famous for its minimal assembly core and for the fact that the rest of the compiler was written in FORTH itself.
+
+These languages inspired the design of Ouroboros.
+LISP is known for the simplest syntax.
+One might say that LISP has the simplest syntax of all programming languages, but it would be a mistake.
+True to its name, it uses parentheses to delimit lists, which can be either data or programming structures.
+As you may know, LISP stands for "Lots of Irritating Superfluous Parentheses."
+
+Ouroboros does not do that.
+It inherits the use of `{` and `}` from TCL, but unlike LISP, you are forced to use them only where they are really needed.
+
+Ouroboros, although being an interpreted language, can compile itself.
+Well, not really compile, but you can define syntax for the language in the language itself.
+However, it is not like in the case of compilers where the compiler is written in the source language.
+One of the first compilers was the PASCAL compiler written by Niklaus Wirth in PASCAL.
+The C compiler was also written in C, and more and more language compilers are written in the language they compile.
+
+In the case of an interpreted language, it is a bit different.
+It is not a separate program that reads the source code and generates machine code.
+It is the executing code, the application program itself, that becomes part of the interpreter.
+
+That way, you cannot look at it and say: this code is not Ouroboros.
+Any code can be, depending on the syntax you define for it at the start of the code.
+
+〔section The Name of the Game〕
+
+Before diving into what Ouroboros is, let's talk about the name itself.
+Ouroboros coils around itself in an endless cycle of creation and recreation.
+The name "Ouroboros" is as multifaceted as the language itself, offering layers of meaning that reflect its unique nature and aspirations.
+
+〔subsection The Eternal Cycle〕
+
+At its core, Ouroboros draws inspiration from the ancient symbol of a serpent consuming its own tail.
+This powerful image represents the cyclical nature of creation and destruction, perfectly encapsulating our language's self-referential definition.
+Just as the serpent feeds upon itself to sustain its existence, Ouroboros the language is defined by its own constructs, creating a closed loop of logic and functionality.
+
+〔subsection UR: The Essence of Simplicity〕
+
+Abbreviated as "UR," Ouroboros embraces the concept of fundamental simplicity.
+In German, "Ur—" signifies something primordial, primitive, or in its most basic form.
+This perfectly encapsulates the design philosophy behind Ouroboros: a language stripped down to its absolute essentials.
+
+By pushing the simplification of syntax to the extreme, Ouroboros aims to be the "ur-language" of programming—a return to the most elemental form of computation.
+Like the basic building blocks of life or the fundamental particles of physics, Ouroboros provides a minimal set of primitives from which complex structures can emerge.
+
+This radical simplicity is not a limitation but a feature.
+It challenges programmers to think at the most fundamental level, fostering a deep understanding of computational processes.
+In Ouroboros, every construct is essential, every symbol significant.
+It's programming distilled to its purest form.
+
+〔subsection Our Shared Creation〕
+
+The name begins with "Our-," emphasizing the collaborative nature of this language.
+Ouroboros is not just a tool but a shared endeavor that belongs to its community of developers and users.
+It's a language crafted by us, for us, evolving through our collective efforts and insights.
+
+〔subsection Hidden Treasures〕
+
+Delve deeper into the name, and you'll uncover more linguistic gems:
+
+* "Oro" in many Romance languages means "gold" or "prayer." Ouroboros can be seen as a golden thread of logic, or a prayer-like mantra of computational thought.
+* "Ob-" as a prefix often means "toward" or "about," suggesting that Ouroboros is always oriented toward its own essence, constantly reflecting upon and refining itself.
+* "Boros" could be playfully interpreted as a variation of "bytes," hinting at the language's digital nature.
+* Parsing the name as "our-ob-oros" reveals a delightful multilingual wordplay: "our way to the treasure." This blend of English ("our"), Latin ("ob" meaning "towards"), and Greek ("oros," which can be associated with "boundaries" or "definitions") mirrors the language's eclectic inspirations.
+
+Just as Ouroboros draws from the diverse traditions of TCL, LISP, and FORTH, its name weaves together linguistic elements from different cultures.
+This multilingual, multi-paradigm approach guides us toward the treasures of computation, defining new boundaries along the way, much like how TCL offers flexibility, LISP promotes expressiveness, and FORTH emphasizes simplicity and extensibility.
+
+〔subsection A Name That Bites Back〕
+
+Ultimately, Ouroboros is a name that challenges you to think recursively, to see the end in the beginning and the whole in every part.
+It's a linguistic puzzle that mirrors the very nature of the programming language it represents—complex, self-referential, and endlessly fascinating.
+
+As you embark on your journey with Ouroboros, remember that you're not just writing code; you're participating in an ancient cycle of creation, where every end is a new beginning, and every line of code feeds into the greater whole of computational possibility.
+
+〔section What is Ouroboros〕
+
+Ouroboros is a programming language that has no syntax.
+I have already said that, and now comes the moment of truth: it is a "lie."
+There is no programming language with absolutely no syntax.
+UR has a syntax, and it is defined with this sentence:
+
+__You write the lexical elements of the language one after the other.__
+
+〔subsection Syntax〕
+
+That is all.
+
+When the interpreter starts to execute the code, it begins reading the lexical elements one after the other.
+It reads as many elements as it needs to execute some code and not more.
+To be specific, it reads exactly one lexical element before starting execution.
+When the execution triggered by the element is finished, it goes on reading the next element.
+
+The execution itself can trigger more reads if the command needs more elements.
+We will see it in the next example soon.
+
+A lexical element can be a number, a string, a symbol, or a word.
+Symbols and words can and should have an associated command to execute.
+
+For example, the command `puts` is borrowed shamelessly from TCL and is associated with the command that prints out a string.
+
+[source]
+----
+puts "Hello, World!"
+----
+
+It is the simplest program in Ouroboros.
+When the command behind `puts` starts to execute, it asks the interpreter to read the next element and evaluate it.
+In this example, it is a constant string, so it is not difficult to calculate.
+The value of a constant string is the string itself.
+
+The next example is a bit more complex:
+
+[source]
+----
+puts add "Hello, " "World!"
+----
+
+In this case, the argument to the command `puts` is another command: `add`.
+When `puts` asks the interpreter to get its argument, the interpreter reads the next element and then starts to execute.
+As `add` starts to execute, it needs two arguments, which it asks from the interpreter.
+Since these arguments are strings, `add` concatenates them and returns the result.
+
+〔subsection Blocks〕
+
+There is a special command denoted by the symbol `{`.
+The lexical analyzer recognizing this character will ask the interpreter to read the following elements until it finds the closing `}`.
+This call is recursive in nature if there are embedded blocks.
+
+The resulting command is a block command.
+A block command executes all the commands in it and results in the last result of the commands in the block.
+
+[source]
+----
+puts add {"Hello, " "World!"}
+----
+
+If we close the two strings into a block, then the output will be a single `World!` without the `Hello, `.
+The block "executes" both strings, but the value of the block is only the second string.
+
+〔subsection Commands〕
+
+The commands implemented are documented in the https://github.com/verhas/ouroboros/blob/main/README.adoc[readme] of the project on GitHub.
+The actual set of commands is not fascinating.
+Every language has a set of commands.
+
+The fascinating part is that in UR there is no difference between functions and commands.
+Are `puts` or `add` commands or functions?
+How about `if` and `while`?
+They are all commands, and they are not part of the language per se.
+They are part of the implementation.
+
+The command `if` asks the interpreter to fetch one argument, evaluated.
+It will use this as the condition.
+After this, it will fetch the next two elements without evaluation.
+Based on the boolean interpretation of the condition, it will ask the interpreter to evaluate one of the two arguments.
+
+Similarly, the command `while` will fetch two arguments without evaluation.
+It then evaluates the first as a condition, and if it is true, it will evaluate the second and then go back to the condition.
+It fetched the condition unevaluated because it will need to evaluate it again and again.
+In the case of the `if` command, the condition is evaluated only once, so we did not need a reference to the unevaluated version.
+
+Many commands use the unevaluated version of the arguments.
+This use makes it possible to use the "binary" operators as multi-argument operators.
+If you want to add up three numbers, you can write `add add 1 2 3`, or `add* 1 2 3 {}`, or `{add 1 2 3}`.
+The command `add` fetches the first argument unevaluated and sees if it is a `pass:[*]`.
+If it is `*`, then it will fetch the arguments until it encounters the end of the arguments or an empty block.
+
+This is a little syntactic sugar, which should be peculiar in the case of a language that has no syntax.
+It really is there to make the experiment and the playing with the language bearable.
+On the other side, it erodes the purity of the language.
+It is also only a technical detail, and I mention it only because we will need to understand it when we discuss the metamorphic nature of the language.
+It will be needed to understand the use of the first example there.
+
+〔subsection Variables〕
+
+UR supports variables.
+Variables are strings with values associated with them.
+The value can be any object.
+
+When the interpreter sees a symbol or a bare word (identifier) to evaluate, it will check the value associated with it.
+If the value is a command, then it will execute the command.
+In other cases, it will return the value.
+
+The variables are scoped.
+If you `set` a variable in a block, then the variable is visible only in that block.
+If there are variables with the same name in the parent block, then the variable in the child block will shadow the variable in the parent block.
+
+Variable handling and scoping are implementation details and not strictly part of the language.
+
+The implementation as it is now supports boolean, long, double, big integer, big decimal, and string primitive values.
+It also supports lists and objects.
+
+A list is a list of values, and it can be created with the `list` command.
+The argument to the command is a block.
+The command `list` will ask the interpreter to fetch the argument unevaluated.
+Afterward, it evaluates the block from the start the same way as the block command does.
+However, instead of throwing away the resulting values and returning the last one, it returns a list of the results.
+
+An object is a map of values.
+It can be created with the `object` command.
+The argument to the command is the parent object.
+The fields of the parent object are copied to the new object.
+
+Objects also have methods.
+They are the fields that have a command as a value.
+
+〔section Introspection〕
+
+The interpreter is open like a cracked safe after a heist.
+Nothing is hard-wired into the language.
+When I wrote that the language interpreter recognizes bare words, symbols, strings, etc., it was only true for the initial setup.
+The lexical analyzers implemented are UR commands, and they can be redefined.
+They are associated with the names `$keyword`, `$string`, `$number`, `$space`, `$block`, `$blockClose`, and `$symbol`.
+The interpreter uses the variable structures to find these commands.
+There is another variable named `$lex` that is a list of the lexical analyzers.
+
+The interpreter uses this list when it needs to read the next lexical element.
+It invokes the first, then the second, and so on until one of them returns a non-null value, a lexical element, which is a command.
+
+If you modify this list, then you can change the lexical analyzers, and that way you can change the syntax of the language.
+
+The simplest example is changing the interpretation of the end-of-line character.
+
+You may remember that we can use the binary operators using multiple arguments terminated with an empty block.
+It would be nice if we could omit the block and just write `add* 1 2 3` simply adding a new-line at the end.
+We can do that by changing the lexical analyzer that recognizes the end-of-line character, and this is exactly what we are going to do in this example.
+
+[source]
+----
+set q add* 3 2
+1 {} puts q
+insert $lex 0 '{
+if { eq at source 0 "\n"}
+   {sets substring 1 length source source '{}}}
+set q add* 3 2
+1 {} puts q
+----
+
+We insert a new lexical analyzer at the beginning of the list.
+If the very first character of the current state of the source code is a new-line character, then the lexical analyzer eats this character and returns an empty block.
+
+The command `source` returns the source code that was not parsed by the interpreter yet.
+The command `sets` sets the source code to the string value specified.
+
+The first `puts q` will print 6 because at the time of the first calculation, new-lines are just ignored, and that way the value of `q` is `add* 3 2 1 {}`.
+The second `puts q` will print 5 because the new-line is eaten by the lexical analyzer, and the value of `q` is `add* 3 2 {}`.
+Here, the closing `{}` was the result of the lexical analysis of the new-line character.
+The values `1` and `{}` on the next line are calculated, but they do not have any effect.
+
+This is a very simple example.
+If you want to see something more complex, the project file `src/test/resources/samples/xpression.ur` contains a script that defines a numerical expression parser.
+
+There is a special command called `fixup`.
+This command forces the interpreter to parse the rest of the source.
+After this point, the lexical analyzers are not used anymore.
+
+Executing this command does not give any performance benefit, and that is not the purpose.
+It is more like a declaration that all the codes that are part of the source code introspection and the metamorphic calculation are done.
+A special implementation of the command can also take the parsed code and generate an executable, turning the interpreter into a compiler.
+
+〔section Technical Considerations〕
+
+The current version is implemented in Java.
+Ouroboros is not a JVM language, though.
+We do not compile the code to Java byte-code.
+The Java code interprets the source and executes it.
+
+The implementation is an MVP focusing on the metamorphic nature of the language.
+It is meant to be an experiment.
+This is the reason why there are no file, network, and other I/O operations except the single `puts` command that writes to the standard output.
+
+The Java service loader feature is used to load the commands and to register them with their respective names in the interpreter.
+It means that implementing extra commands is as simple as creating them, writing a class implementing a `ContextAgent` to register them (see the source code), and putting them on the classpath.
+
+The whole code is open-source and available on GitHub.
+It is licensed under the Apache License 2.0 (see the license file in the repo).
+It is exactly 100 classes at the time of writing this article.
+It means that the source code is simple, short, and easy to understand.
+If you need some straightforward scripting language in your application, you can use it.
+It was not meant to be for production, though.
+
+〔section Going Further〕
+
+There is no plan currently to extend the language and include more commands.
+We only plan to create more metamorphic code in the language.
+The reason for that is that we do not see the language as a practical tool as of today.
+If it proves to be useful and gains a user base and utilization, we certainly will incorporate more commands to support I/O, file handling, networking, and so on.
+
+We also have visions of implementing the interpreter in other languages, like in Rust and Go.
+Anyone suggesting or wanting to develop commands for better usability or adding features is welcome.
+It can be a parallel project, or it can be merged into the main project if that makes sense.
+
+〔section Conclusion〕
+
+In exploring Ouroboros, we delved into the concept of a programming language that minimizes syntax to the point of almost non-existence.
+This radical approach challenges the conventional understanding of what a programming language should be, presenting a system where syntax is both absent and infinitely customizable.
+By drawing inspiration from languages like LISP, TCL, and FORTH, Ouroboros embodies simplicity and introspection, allowing programmers to define their syntax and commands within the language itself.
+
+While Ouroboros is not designed for practical production use, it serves as an intriguing experiment in language design and metaprogramming.
+Its self-referential nature and minimalistic design offer a playground for developers interested in the fundamentals of computation, syntax design, and language interpretation.
+Whether it evolves into a more robust tool or remains a fascinating intellectual exercise, Ouroboros pushes the boundaries of how we think about programming languages, inviting us to consider the possibility of a language where syntax is as mutable and recursive as the Ouroboros serpent itself.

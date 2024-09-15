@@ -15,18 +15,8 @@ I wrote the https://javax0.github.io/2024/07/22/llm-and-rag.html[previous articl
 In this article, which I write the conventional way, I describe
 
 * what I did
-
 * why I did, and
-
 * what I think about the result.
-
-Before goin on, it is important to emphasize:
-
-* I wrote that article, it is not AI-generated.
-
-* AI is used as a tool,; more precisely, there are many tools powered by AI techniques, but
-
-* they do not replace the human actors yet; whatever you create using AI or any other tool, you are responsible.
 
 == 2. How I wrote the LLM article
 
