@@ -1,16 +1,20 @@
+[WARNING]
+--
+* Cannot read file '../../deploy' from any of the directories:  at /Users/verhasp/github/javax0.github.io/_posts/2022/2022-12-07-blog-posting.adoc.jam/152:11
+--
 ---
 title: Technology behind this post
 layout: posta
 comments: on
 ---
-
-== 1. Introduction
+{%@import javax0.jim%}
+{%section Introduction%}
 
 This blog post is a follow-up to the earlier entry on the javax0 blog, which you can find at https://javax0.wordpress.com/[javax0.wordpress.com].
 While the previous hosting and technology were satisfactory at the time, changes in circumstances necessitated an update.
 In this post, I'll explain why I decided to update the blog's technology and what new technology I'm currently using to create these blog posts.
 
-== 2. Problems with WordPress
+{%section Problems with WordPress%}
 
 First, I have to state that I am not saying or implying that WordPress would not be an excellent platform.
 It is a well-established and a kind of one of its kind, de-facto number-one blogging forum.
@@ -26,7 +30,7 @@ For anybody else: WordPress is an excellent choice.
 
 Let's have a look at the issues that I had.
 
-=== 2.1. Markup
+{%subsection Markup%}
 
 When I write anything, I like to edit some markup.
 I can use Word or LibreOffice.
@@ -45,7 +49,7 @@ These days two of those are used mainly, Markdown and Asciidoc.
 WordPress hosted site supported or still supports Markdown, but I started to prefer Asciidoc for these blogs.
 The only problem was that I could not.
 
-=== 2.2. Code Samples
+{%subsection Code Samples%}
 
 When I write some technical blogs, I include code samples.
 I develop the code first, and then I write the article.
@@ -57,14 +61,14 @@ Unless I forget to update some of those after a few iterations.
 
 It was also the case when I wrote my first book, and I have sworn that it will never happen again.
 
-=== 2.3. Version Control
+{%subsection Version Control%}
 
 Editing on WordPress works, and you can look at the different versions.
 But it is not comparable with the possibilities provided by a Git repository.
 
-== 3. The New Blog Technology
+{%section The New Blog Technology%}
 
-=== 3.1. Github Pages and Jekyll
+{%subsection Github Pages and Jekyll%}
 
 The new technology stack for blogging is based on GitHub pages.
 It is not unique, and it has support for Jekyll, which is a static blogging engine.
@@ -91,12 +95,12 @@ You, AsciiDoc, Jekyll, and other tool developers have all my trust.
 
 I integrated JRuby into Jamal, but I do not program in Ruby.
 
-=== 3.2. Jekyll Asciidoc Plugin
+{%subsection Jekyll Asciidoc Plugin%}
 
 In addition to Jekyll, I also installed the Asciidoc plugin for Jekyll.
 Since both Asciidoctor and Jekyll are written in Ruby, it was nothing more than issuing a few commands.
 
-=== 3.3. Jamal
+{%subsection Jamal%}
 
 The extra part, which is not a standard Asciidoc-boosted Jekyll installation, is my use of Jamal.
 The main reason to use Jamal is to include the code samples in the blog posts, but it does much more than that.
@@ -121,7 +125,7 @@ NOTE: Pyama is still available in my GitHub, but there are much better tools for
 Using Jamal, I can include code snippets and delete or keep some lines by selecting regular expressions or line numbers.
 I can number the lines, and I can still use all the Asciidoctor formatting features at the same time.
 
-=== 3.4. Installing Jamal
+{%subsection Installing Jamal%}
 
 Installing Jamal to use in IntelliJ is very simple.
 All it takes to download a ZIP file and extract the content into the projects `.asciidoctor/lib` directory.
@@ -131,16 +135,16 @@ Restart IntelliJ, and you can start editing your first Jamal-enabled Asciidoc fi
 As you edit the file on the left pane, you see the formatted text on the right pane.
 It is how the plugin works, but you can also use Jamal macros now.
 
-image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/image-2022-12-09-16-47-43-394.png[width=500]
+{%png |image-2022-12-09-16-47-43-394|width=500%}
 
-=== 3.5. Blogging Macros
+{%subsection Blogging Macros%}
 
 There are not too many specific macros that differ from other documentation macros.
 Most of the macros I use in Jamal are snippet macros and built-in core ones.
 Some macros help scan the snippets following the directory naming conventions of the site.
 There are some macros to reference one article from another easily.
 
-=== 3.6. Deploying the Site
+{%subsection Deploying the Site%}
 
 Deployment of the site is simply a git push.
 Almost.
@@ -150,14 +154,11 @@ There is a simple build script:
 
 [source,bash]
 ----
-#!/bin/sh
-rm -rf docs
-./build
-git add --all docs
-git commit -m "deploy"
-git push
-open https://javax0.github.io
-open https://github.com/javax0/javax0.github.io/actions
+[WARNING]
+--
+* Cannot read file '../../deploy' from any of the directories:  at /Users/verhasp/github/javax0.github.io/_posts/2022/2022-12-07-blog-posting.adoc.jam/152:11
+--
+{%@include [verbatim] ../../deploy%}
 ----
 
 This script builds the site, adds all the new and modified generated files, and then pushes it to the git server.
@@ -170,7 +171,7 @@ It is a bit strange: Asciidoc is natively supported by GitHub, and any readme or
 Still, GitHub Sites cannot be, except if they are built and deployed elsewhere.
 
 .update at 2024-04-17
-== 4. Building the site
+{%section Building the site%}
 
 To build the sie the tool gradle is used.
 The `build.gradle-kts` file defines custom-made tasks, some of which executes external tools like `jamal` and `jekyll`.
@@ -178,7 +179,7 @@ Since Gradle is a JVM tool and the build script is written in Kotlin executed by
 Jekyll, on the other hand, is a Ruby tool, so it is executed by the Gradle task that calls the Ruby interpreter.
 
 .update at 2023-01-25
-== 5. Building the site (outdated)
+{%section Building the site (outdated)%}
 
 .
 
@@ -212,7 +213,7 @@ all:  [%!@for [evalist] $file in `//` [%@listDir (pattern="\\.adoc\\.jam$") _pos
     [%#define SOURCE=_posts/[%YYYY%]/[%#file (format=$simpleName)$file%]%]\
     [%#define TARGET=_posts/[%@file (format=$naked1)$file%]%]
 [%TARGET%] : [%SOURCE%]
-[%HT%]jbang jamal@verhas -open='{%' -close='%}' [%SOURCE%] [%TARGET%]
+[%HT%]jbang jamal@verhas -open='{%%}' -close='%}' [%SOURCE%] [%TARGET%]
     %]%]%]
 
 ----
@@ -231,15 +232,7 @@ As a workaround I created a `tab.jim` file:
 
 [source,bash]
 ----
-{@define HT=	} <- this is a tab character
-A simple tab character.
-
-This file is not to be edited other than vi.
-Other editors may replace the TAB character with spaces.
-Files can import this file and use {HT} in Makefiles.
-To exit vi press the escape key and then capital Z twice.
-Without saving: escsape and then :q!
-
+{%@include [verbatim] ../../tab.jim%}
 ----
 
 The comment in the file says it all, I wil not repeat here.
@@ -247,7 +240,7 @@ The comment in the file says it all, I wil not repeat here.
 I may later move the `YYYY` yearly subdirectories from `_posts` to make the `_posts` directory something that I never need to open in the editor.
 Look at the GitHub repo to see if I did that.
 
-== 6. What will be Missing
+{%section What will be Missing%}
 
 WordPress very neatly showed the statistics of the site.
 I do not know if I can get such statistics here.
@@ -263,7 +256,7 @@ They only repost the good ones.
 
 If you know any other aggregator I should contact, give me some advice. I am open.
 
-== 7. Summary
+{%section Summary%}
 
 I hope blogging using this toolset will be much more fun than the old technology.
 At least, I am less likely to end up in some articles with `&amp;lt;` and `&amp;gt;` infested source codes.
@@ -271,3 +264,80 @@ At least, I am less likely to end up in some articles with `&amp;lt;` and `&amp;
 
 This type of blogging using Asciidoc, Jekyll, and Jamal is more a Doc as a Code that I advocate heavily.
 We will see how it will work.
+[WARNING]
+--
+* Cannot read file '../../deploy' from any of the directories:  at /Users/verhasp/github/javax0.github.io/_posts/2022/2022-12-07-blog-posting.adoc.jam/152:11
+--
+[source]
+----
+Cannot read file '../../deploy' from any of the directories:  at /Users/verhasp/github/javax0.github.io/_posts/2022/2022-12-07-blog-posting.adoc.jam/152:11
+	javax0.jamal.tools.FileTools(getInput:119)
+	javax0.jamal.builtins.Include(getInputOptional:98)
+	javax0.jamal.builtins.Include(evaluate:65)
+	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
+	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
+	javax0.jamal.engine.Processor(safeEvaluate:466)
+	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
+	javax0.jamal.engine.Processor(evalMacro:412)
+	javax0.jamal.engine.Processor(processMacro:325)
+	javax0.jamal.engine.Processor(process:202)
+	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
+	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
+	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
+	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
+Suppressed exceptions:
+Cannot get the content of the file '/Users/verhasp/github/javax0.github.io/deploy'	javax0.jamal.tools.FileTools(getFileContent:201)
+	javax0.jamal.tools.FileTools(getInput:134)
+	javax0.jamal.tools.FileTools(getInput:113)
+	javax0.jamal.builtins.Include(getInputOptional:98)
+	javax0.jamal.builtins.Include(evaluate:65)
+	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
+	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
+	javax0.jamal.engine.Processor(safeEvaluate:466)
+	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
+	javax0.jamal.engine.Processor(evalMacro:412)
+	javax0.jamal.engine.Processor(processMacro:325)
+	javax0.jamal.engine.Processor(process:202)
+	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
+	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
+	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
+	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
+Causing Exception:
+java.nio.file.NoSuchFileException: /Users/verhasp/github/javax0.github.io/deploy	javax0.jamal.tools.FileTools(lambda$getFileContent$5:194)
+	javax0.jamal.tools.FileTools(getFileContent:190)
+	javax0.jamal.tools.FileTools(getInput:134)
+	javax0.jamal.tools.FileTools(getInput:113)
+	javax0.jamal.builtins.Include(getInputOptional:98)
+	javax0.jamal.builtins.Include(evaluate:65)
+	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
+	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
+	javax0.jamal.engine.Processor(safeEvaluate:466)
+	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
+	javax0.jamal.engine.Processor(evalMacro:412)
+	javax0.jamal.engine.Processor(processMacro:325)
+	javax0.jamal.engine.Processor(process:202)
+	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
+	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
+	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
+	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
+Causing Exception:
+/Users/verhasp/github/javax0.github.io/deploy	javax0.jamal.tools.FileInput(getInput:20)
+	javax0.jamal.tools.FileTools(lambda$getFileContent$5:192)
+	javax0.jamal.tools.FileTools(getFileContent:190)
+	javax0.jamal.tools.FileTools(getInput:134)
+	javax0.jamal.tools.FileTools(getInput:113)
+	javax0.jamal.builtins.Include(getInputOptional:98)
+	javax0.jamal.builtins.Include(evaluate:65)
+	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
+	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
+	javax0.jamal.engine.Processor(safeEvaluate:466)
+	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
+	javax0.jamal.engine.Processor(evalMacro:412)
+	javax0.jamal.engine.Processor(processMacro:325)
+	javax0.jamal.engine.Processor(process:202)
+	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
+	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
+	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
+	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
+sed -i.bak  '' /Users/verhasp/github/javax0.github.io/_posts/2022/2022-12-07-blog-posting.adoc.jam
+----
