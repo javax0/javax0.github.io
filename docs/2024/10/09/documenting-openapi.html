@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Documenting REST APIs | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Documenting REST APIs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
+<link rel="canonical" href="https://javax0.github.io/2024/10/09/documenting-openapi.html" />
+<meta property="og:url" content="https://javax0.github.io/2024/10/09/documenting-openapi.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-09T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Documenting REST APIs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T00:00:00+02:00","datePublished":"2024-10-09T00:00:00+02:00","description":"1. Introduction","headline":"Documenting REST APIs","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/10/09/documenting-openapi.html"},"url":"https://javax0.github.io/2024/10/09/documenting-openapi.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Documenting REST APIs</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-10-09T00:00:00+02:00" itemprop="datePublished">Oct 9, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is an ongoing debate among people focusing on software documentation about the best way to document an API.
+One approach suggests that you create the document first, and then the developers develop the code to implement the definitions.
+The other approach proposes using the source code as documentation by extending it with special comments used to generate human-readable documentation.</p>
+</div>
+<div class="paragraph">
+<p>In this article, I will discuss the pros and cons of both approaches, and then I will suggest a middle ground, allowing you to move as many documentation fragments into the code as you prefer.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-should-apis-be-documented-with-code">2. Should APIs be documented with code?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When we talk about embedding documentation in the code, we refer to text used to generate the product.
+A software product is a set of text files that undergo different transformations, resulting in:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>an executable environment, and</p>
+</li>
+<li>
+<p>human-consumable documentation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The first one includes the machine code, the configuration of the environment, and generally everything technically needed to have functioning software.
+The second is necessary to empower users to utilize the software.</p>
+</div>
+<div class="sect2">
+<h3 id="2-1-separate-documentation-and-source">2.1. Separate Documentation and Source</h3>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/2024-10-09-01.png" alt="2024 10 09 01" width="60%">
+</div>
+<div class="title">Figure 1. Separate Documentation and Source</div>
+</div>
+<div class="paragraph">
+<p>Some of the text files in the software product are used to generate the executable environment, while others are part of the documentation.
+Historically, these two sets have been separate and maintained by different people: software developers and documentarians.
+The text files used to create the executable are called program source code, or source for short, while the others are called documentation.
+These two types of files have different traits.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Source code is formal, usually written in a programming language, consumed by programs, and it must be precise.</p>
+</li>
+<li>
+<p>Documentation is written for human readers, using natural language, and it must focus on clarity, simplicity, and usability more than precision.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>One could say that documentation is the code executed by human "processors" to operate and use the code executed by machine processors.</p>
+</div>
+<div class="paragraph">
+<p>Humans can handle errors in their input and interpret the documentation intelligently.
+If there is a typo, slight inconsistency, or deviation from the actual product, the documentation may still be usable.
+Humans can interpret, understand, and use imperfect documentation.
+This does not mean that documentation with errors is acceptable.
+It simply means that, while it may be usable with some errors, you should still strive to avoid errors, of course.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-2-mixing-documentation-and-source">2.2. Mixing Documentation and Source</h3>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/2024-10-09-02.png" alt="2024 10 09 02" width="60%">
+</div>
+<div class="title">Figure 2. Mixed Documentation and Source</div>
+</div>
+<div class="paragraph">
+<p>Modern applications mix documentation with the source to some extent.
+There are clear advantages to doing this.</p>
+</div>
+<div class="paragraph">
+<p>The source contains information that the documentation can rely on.
+Why manually write something into a separate document, risking inconsistency when it is already in the source?
+Automatically extracting the information from the source code and transforming it into a human-readable document should be cheaper than manually following changes in the source and mirroring them in the documentation.</p>
+</div>
+<div class="paragraph">
+<p>Part of the documentation is strongly tied to the code and is maintained by the developers.
+It is logical to tie the documentation to the code by placing them in the same text file.
+It is less likely that you will skip updating the related document for a changing code when the document text is in the same place, in the same file.</p>
+</div>
+<div class="paragraph">
+<p>There are also drawbacks to mixing documentation with the source code.
+Documentarians are not necessarily developers.
+It may be a barrier to edit a text within a source file, as this is part of the code.
+It may require specialized skills and privileges to modify the source code, even if only the documentation part is being changed.</p>
+</div>
+<div class="paragraph">
+<p>It also introduces a new possibility for documentation processing: failure.</p>
+</div>
+<div class="paragraph">
+<p>Conventional documentation is a simple conversion process that rarely fails.
+You export the document to PDF or another output format.</p>
+</div>
+<div class="paragraph">
+<p>When using a textual document, the conversion may signal an error if there are errors in the markup.
+Luckily, documentarians have become accustomed to markup languages and to the possibility of such errors.
+Using markup instead of WYSIWYG editors is becoming a no-brainer.</p>
+</div>
+<div class="paragraph">
+<p>When the document is partially in the source code, the situation becomes more complex.
+The conversion may fail due to inconsistencies between the documentation and the code.
+The documentarian must understand the code to fix the documentation.</p>
+</div>
+<div class="paragraph">
+<p>While this can be a barrier to overcome, you can also view it as an advantage.
+It can provide a semantic check on the documentation, which was previously only possible through manual reviews.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-3-mixed-parts">2.3. Mixed Parts</h3>
+<div class="paragraph">
+<p>When we talk about source code as part of the documentation, we can separate three different parts of the text.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>One part is pure documentation included in the source code, denoted in blue in the diagram <em>"Mixed Documentation and Source."</em>
+If there is any change in this text, typically a comment, the code will still produce the same executable.</p>
+</li>
+<li>
+<p>The second part is actual source code used by the documentation.
+It is denoted in red.
+This part is the actual code that gets into the executable but also affects the documentation.</p>
+</li>
+<li>
+<p>The third part is represented by the blue striped area, representing the source affecting the documentation but not the executable.
+This part of the documentation is meta-information that helps the documentation generator create the human-readable documentation from the source code.
+It is usually a comment from the program&#8217;s point of view.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-4-simple-examples-of-mixing">2.4. Simple Examples of Mixing</h3>
+<div class="paragraph">
+<p>The most well-known examples of mixing documentation and source code are JavaDoc and Doxygen.
+Less known, but the earliest such application I found was Perl POD documentation from 1989.
+Newer technologies include GoDoc, RDoc, PHPDoc, XML Comments in C#, and many others, including the already mentioned JavaDoc and Doxygen.</p>
+</div>
+<div class="paragraph">
+<p>Another example is Swagger/OpenAPI.
+The Swagger specification usually uses YAML to describe the API.
+This description contains technical parameters (source) and human-readable descriptions (documentation).
+The documentation is useful for maintainers when they write the code implementing the API.
+At the same time, the generated documentation is useful for the API&#8217;s users.</p>
+</div>
+<div class="paragraph">
+<p>However, API users need additional information.
+The application API is only an interface to an application that may itself be complex.
+The documentation must explain the application&#8217;s purpose, usage, different use cases, and so on.
+This information is not part of the Swagger specification.
+Technically, you can include it in the Swagger specification, but it is not the best place for it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-5-modern-way-of-mixing">2.5. Modern Way of Mixing</h3>
+<div class="paragraph">
+<p>The modern way of mixing documentation and source code is to use a tool that can combine documentation markup with information from the code.
+There are many different tools that can do this.
+Most of these tools support textual, markup-formatted documents, extending the basic markup language.
+The actual execution can occur as a preprocessor or by modifying the markup processor.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/2024-10-09-03.png" alt="2024 10 09 03" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>Using the extra meta-markup language has some drawbacks.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It is an extra language to learn.</p>
+</li>
+<li>
+<p>It is simpler to copy something like a configuration parameter name into the documentation than to add meta-information to the code and reference it from the documentation.</p>
+</li>
+<li>
+<p>Receiving warnings or errors about inconsistencies between the documentation and the code can be annoying.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>At the same time, these can also be advantages, except perhaps the first one.</p>
+</div>
+<div class="paragraph">
+<p>If you reference a configuration name instead of copying it, the documentation will remain consistent when the developer changes it.
+Warnings about inconsistencies can be beneficial.
+While receiving a warning may be annoying, it is better than having unnoticed inconsistencies in the documentation.</p>
+</div>
+<div class="paragraph">
+<p>In the following section, I will show a few examples of how to handle these situations using the Jamal meta-markup document processor.
+It is only fair to mention that I am the author of Jamal.
+There are other tools you can use, and you should choose the one that best fits your needs.
+In my non-humble opinion, Jamal is the best tool for documentation purposes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-6-examples-using-jamal">2.6. Examples Using Jamal</h3>
+<div class="paragraph">
+<p>Jamal is a general-purpose meta-markup processor.
+It is a Java application, but this should be the last thing you worry about.
+It works on Linux, macOS, and Windows.
+The installation is simple.
+You download the installation kit for your architecture, start it, click a few times on "continue," and you&#8217;re all set.</p>
+</div>
+<div class="paragraph">
+<p>The homepage for Jamal is <a href="https://github.com/verhas/jamal" class="bare">https://github.com/verhas/jamal</a></p>
+</div>
+<div class="paragraph">
+<p>The conversion can be done from the command line, but it is also integrated into the IntelliJ Asciidoctor plugin and AsciidocFX editor.
+In these cases, you can edit Asciidoc and Markdown documents WYSIWYG, including the Jamal meta-markup commands, and the conversion happens automatically.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+When you edit a Markdown document, the meta-markup preprocessor will convert it to Asciidoc in the memory of the editor, and the editor will think you are editing an Asciidoc document, displaying it formatted.
+This is a little workaround needed because the Markdown plugin for IntelliJ does not support preprocessor integration.
+Similarly, you can edit XML and other formats with Jamal meta-markup, and they will be displayed through the Asciidoctor plugin.
+There are video tutorials installing and configuring Jamal: <a href="https://www.youtube.com/watch?v=b6uBseiZlQg" class="bare">https://www.youtube.com/watch?v=b6uBseiZlQg</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="2-6-1-consistency-check">2.6.1. Consistency Check</h4>
+<div class="paragraph">
+<p>The simplest example is a consistency check.</p>
+</div>
+<div class="paragraph">
+<p>Some segments of the documentation are closely related to specific parts of the source code.
+In that case, it would be helpful to receive a warning if the part of the source code has changed since the documentation was updated.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at an example!</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The URLs in this article point to a specific commit in the repositories so that the examples remain stable.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The source code for the documentation of the Jamal IO package at line 290:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c96d64674defb8c86d0000083f5649292ba2853c/jamal-io/README.adoc.jam#L290" class="bare">https://github.com/verhas/jamal/blob/c96d64674defb8c86d0000083f5649292ba2853c/jamal-io/README.adoc.jam#L290</a></p>
+</div>
+<div class="paragraph">
+<p>contains the following line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">{%@snip:check id=java_echo_version hashCode=5dd285e7%}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Java code <code>TestExec.java</code> at line 24:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c96d64674defb8c86d0000083f5649292ba2853c/jamal-io/src/test/java/javax0/jamal/io/TestExec.java#L24" class="bare">https://github.com/verhas/jamal/blob/c96d64674defb8c86d0000083f5649292ba2853c/jamal-io/src/test/java/javax0/jamal/io/TestExec.java#L24</a></p>
+</div>
+<div class="paragraph">
+<p>contains the following lines:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // tag::java_echo_version[]
+        System.setProperty("exec", "java");
+        // end::java_echo_version[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The documentation includes these lines verbatim as a demonstration.
+It also explains what the code does.
+What happens when the code changes and the explanation becomes inconsistent with the new code?
+There is no way (currently) to update the document without manual human work, but at least we can detect the possible inconsistency.
+The <code>snip:check</code> meta-markup calculates the actual hash code of the snippet and compares it to the hash code stored in the meta-markup.
+If it is different, the processing of the document will issue a warning, giving the documentarian a chance to update the document, make it consistent with the actual version of the code, and then update the hash code.
+(The error message contains the correct hash code and even a <code>sed</code> command to update the document with a single command.)</p>
+</div>
+<div class="paragraph">
+<p>The meta-markup can check against the hash code or the number of lines in a snippet or a whole file, increasing the coupling between the documentation and the code, resulting in better consistency.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="2-6-2-include-code-in-documentation">2.6.2. Include Code in Documentation</h4>
+<div class="paragraph">
+<p>The next example is when the documentation includes part of the actual code, but not as a code sample.
+The Jamal meta-markup processor has many modules, including one that implements a simple BASIC-like programming language.
+This programming language has keywords.
+The keywords are defined in a Java source file called <code>Lexer.java</code> at line 16:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-prog/src/main/java/javax0/jamal/prog/analyzer/Lexer.java#L16" class="bare">https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-prog/src/main/java/javax0/jamal/prog/analyzer/Lexer.java#L16</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">final static private Set&lt;String&gt; RESERVED = Set.of(
+        //snipline KEYWORDS
+        "if", "else", "elseif", "then", "endif", "while", "wend", "for", "next", "do", "until", "and", "or", "not", "to", "step", "end"
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The documentation:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-prog/README.adoc.jam#L438" class="bare">https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-prog/README.adoc.jam#L438</a></p>
+</div>
+<div class="paragraph">
+<p>includes the list of keywords with the line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">The keywords are {%#replace (regex) /{%@snip KEYWORDS%}/"/`/%}.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Java comment <code>snipline</code> signals to the processor that the next line is a snippet that will or may be included in the documentation with the name <code>KEYWORDS</code>.
+The documentation includes the snippet with the <code>snip</code> meta-markup and also transforms it, replacing the double quotes with backticks.
+This will essentially list the keywords found in the code without copying them into the documentation manually.
+The "copy" will be done by the meta-markup processing.
+If the list of keywords in the code ever changes, the documentation will be updated automatically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="2-6-3-fetch-version-number">2.6.3. Fetch Version Number</h4>
+<div class="paragraph">
+<p>Another example is fetching version numbers from the <code>pom.xml</code> file.
+Documentations often refer to the "latest version" in sample code or other places when talking about the current version.
+Why ask the reader to look at the release history or the <code>pom.xml</code> file while reading the documentation?
+Reading the documentation should be frictionless, without requiring the reader to search elsewhere.
+Getting version information from another source is not the reader&#8217;s task.
+It can be done by the documentation generator.</p>
+</div>
+<div class="paragraph">
+<p>The same <code>README.adoc.jam</code> file we used in the previous example contains the following lines:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">{%@snip:xml pom=pom.xml%}\
+{%#define VERSION={%pom /project/version/text()%}%}\
+
+[source,xml]
+----
+&lt;dependency&gt;
+&lt;groupId&gt;com.javax0.jamal&lt;/groupId&gt;
+&lt;artifactId&gt;{%pom /project/artifactId/text()%}&lt;/artifactId&gt;
+&lt;version&gt;{%VERSION%}&lt;/version&gt;
+&lt;/dependency&gt;
+----</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This fetches the version number from the <code>pom.xml</code> file and uses it in the documentation.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="2-6-4-documentation-in-the-code">2.6.4. Documentation in the Code</h4>
+<div class="paragraph">
+<p>Sometimes it makes sense to include part of the documentation inside the source code.
+An example of this is the documentation of the parameter options for the <code>for</code> meta-markup command.</p>
+</div>
+<div class="paragraph">
+<p>The source code that implements the parameter option handling is:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-core/src/main/java/javax0/jamal/builtins/ForState.java#L30" class="bare">https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/jamal-core/src/main/java/javax0/jamal/builtins/ForState.java#L30</a></p>
+</div>
+<div class="paragraph">
+<p>and it contains the following code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public ForState(Scanner.ScannerObject scanner, Processor processor) {
+    this.processor = processor;
+    // snippet parops_for
+    separator = scanner.str("$forsep", "separator", "sep").defaultValue(",");
+    // can define the separator if it is different from the default, which is `,` comma.
+    // The value is used as a regular expression, providing very versatile possibilities.
+    subSeparator = scanner.str("$forsubsep", "subseparator", "subsep").defaultValue("\\|");
+    // can define the subseparator if it is different from the default, which is `|` pipe.
+    // It is used when there are multiple variables in the loop.
+    // Similarly to the separator, the value is used as a regular expression.
+    trim = scanner.bool("trimForValues", "trim");
+    // is a boolean parameter.
+    // If present and `true`, the values are trimmed, removing spaces from the beginning and end.
+    skipEmpty = scanner.bool("skipForEmpty", "skipEmpty");
+    // is a boolean parameter.
+    // If present and `true`, empty values are skipped.
+    lenient = scanner.bool("lenient");
+    // is a boolean parameter.
+    // If present and `true`, the number of values in the list is not checked against the number of variables.
+    evalValueList = scanner.bool("evaluateValueList", "evalist");
+    // is a boolean parameter.
+    // If present and `true`, the value list is evaluated as a macro before splitting it into values.
+    join = scanner.str("$forjoin", "join").defaultValue("");
+    // is used to join the values together.
+    // The default is the empty string.
+    // end snippet
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is the code defining the parameter options, and each line declaring a parameter option programmatically is followed by one or more comment lines describing the option.
+What the processing will need is to include this information, with some text transformation, into the documentation.</p>
+</div>
+<div class="paragraph">
+<p>The Asciidoc document incorporating the documentation from these lines is:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/documentation/macros/for.adoc.jam#L74" class="bare">https://github.com/verhas/jamal/blob/c8486d51f622fb4bda80d5b12b0d150582637646/documentation/macros/for.adoc.jam#L74</a></p>
+</div>
+<div class="paragraph">
+<p>with the following code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">The options are
+{%@snip:collect from=../../jamal-core/src/main/%}
+{%#replaceLines replace="/.*?scanner\\.\\w+\\((.*?)\\).*/* $1/" replace="/\"/`/" replace=|^\s*//|
+{%@snip parops_for%}
+%}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>snip:collect</code> meta-tag instructs the processor to collect snippets from the source directory.
+The following lines reference the snippet named <code>parops_for</code> and transform it with three regular expression search-and-replace actions.
+First, it looks for the string <code>scanner</code> and transforms the program line into a list bullet with the strings, which are the alternative names of the options.
+Next, it replaces double quotes with backticks.
+Finally, the last step removes the <code>//</code> from the start of the comment lines.</p>
+</div>
+<div class="paragraph">
+<p>This results in an itemized list of the options in the documentation.
+If any new option is inserted or one is deleted, the list will automatically update.
+The developer is less likely to forget to add the documentation because it is right there, following the declaration of the parameter option.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="2-6-5-mixing-swagger-yaml-with-documentation">2.6.5. Mixing Swagger YAML with Documentation</h4>
+<div class="paragraph">
+<p>The last example is mixing the documentation included in the Swagger YAML file with the main documentation.
+OpenAPI YAML files define the API of a REST service, and they can contain the documentation of the API.
+However, the documentation of the API is different from the documentation of the application.
+The latter can, and usually should, include the first one.</p>
+</div>
+<div class="paragraph">
+<p>The example is the OpenAPI YAML file of the AxsessGard application:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/serverless-u/AxsessGard/blob/d7bee0fc4ac17e23da3c07ef6b5cb83ed6b5800a/src/main/resources/openapi.yaml" class="bare">https://github.com/serverless-u/AxsessGard/blob/d7bee0fc4ac17e23da3c07ef6b5cb83ed6b5800a/src/main/resources/openapi.yaml</a></p>
+</div>
+<div class="paragraph">
+<p>There is nothing special about this file.
+It is structured, and since Jamal supports reading YAML structures, there is no need to add snippet markers to the file.</p>
+</div>
+<div class="paragraph">
+<p>The Asciidoc documentation using the information from the YAML file is:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/serverless-u/AxsessGard/blob/d7bee0fc4ac17e23da3c07ef6b5cb83ed6b5800a/README.adoc.jam#L127" class="bare">https://github.com/serverless-u/AxsessGard/blob/d7bee0fc4ac17e23da3c07ef6b5cb83ed6b5800a/README.adoc.jam#L127</a></p>
+</div>
+<div class="paragraph">
+<p>and it contains the following lines:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">{%#yaml:
+
+define api={%@include [verbatim] src/main/resources/openapi.yaml%}%}
+{%@yaml:format prettyFlow flowStyle=BLOCK%}
+
+{%@yaml:set paths=/api.paths%}
+
+{%!@for $path from paths=
+{%!@for $METHOD in (get,post,put)=
+{%#if|{%@yaml:get (from=api) (paths['$path'].$METHOD != null)%}|
+=== {%@case:upper $METHOD%} `$path`
+
+{%@yaml:get (from=api) (paths['$path'].$METHOD.description)%}
+%}
+%}%}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This code:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>reads the YAML file while processing the documentation,</p>
+</li>
+<li>
+<p>loops through the list of paths in an outer loop,</p>
+</li>
+<li>
+<p>loops through each existing method in an inner loop, and</p>
+</li>
+<li>
+<p>creates a section for each method in each path, including the description of the method.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This last one is a fairly complex example, using very advanced features of the Jamal meta-markup processor.
+The result is a documentation that contains both the application documentation and the API documentation in one place.
+If the API documentation changes, it will automatically be included in the application documentation.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-conclusion-and-summary">3. Conclusion and Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this article, we discussed the structure of software documentation, how it is created separately in documentation files, and how it can be partly embedded in the source code.
+We explored how information in the source code can be used to help generate the documentation.
+While integrating information from the source code has its challenges, it also offers advantages.
+In my opinion, the disadvantages stem from:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Human reluctance to adopt any new technology that must be learned.</p>
+</li>
+<li>
+<p>The increased complexity of the documentation process, which</p>
+<div class="ulist">
+<ul>
+<li>
+<p>is unavoidable if you want better automation supporting consistency and better, automated documentation updates,</p>
+</li>
+<li>
+<p>partially arises from the immaturity of currently used tools.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, the advantages balance these drawbacks by following the DRY (Don&#8217;t Repeat Yourself) principle, which has been applied in programming for over half a century.
+I also demonstrated the use of a tool that is universal and supports any documentation format.
+It presents the opportunity to mix documentation and source code in a way that best suits documentarians.</p>
+</div>
+<div class="paragraph">
+<p>There are tools available.
+There are no excuses to manually update documentation when automation could handle it.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2024/10/09/documenting-openapi.html';
+            this.page.identifier = '/2024/10/09/documenting-openapi.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2024/10/09/documenting-openapi.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

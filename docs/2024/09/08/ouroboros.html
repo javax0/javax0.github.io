@@ -309,7 +309,7 @@ In the case of the <code>if</code> command, the condition is evaluated only once
 <div class="paragraph">
 <p>Many commands use the unevaluated version of the arguments.
 This use makes it possible to use the "binary" operators as multi-argument operators.
-If you want to add up three numbers, you can write <code>add add 1 2 3</code>, or <code>add* 1 2 3 {}</code>, or <code>{add 1 2 3}</code>.
+If you want to add up three numbers, you can write <code>add add 1 2 3</code>, or <code>add* 1 2 3 {}</code>, or <code>{add* 1 2 3}</code>.
 The command <code>add</code> fetches the first argument unevaluated and sees if it is a <code>*</code>.
 If it is <code>*</code>, then it will fetch the arguments until it encounters the end of the arguments or an empty block.</p>
 </div>
