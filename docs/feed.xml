@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-10-21T14:01:04+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Documenting REST APIs</title><link href="https://javax0.github.io/2024/10/09/documenting-openapi.html" rel="alternate" type="text/html" title="Documenting REST APIs" /><published>2024-10-09T00:00:00+02:00</published><updated>2024-10-09T00:00:00+02:00</updated><id>https://javax0.github.io/2024/10/09/documenting-openapi</id><content type="html" xml:base="https://javax0.github.io/2024/10/09/documenting-openapi.html">&lt;div class=&quot;sect1&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2024-10-21T14:16:13+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Documenting REST APIs</title><link href="https://javax0.github.io/2024/10/09/documenting-openapi.html" rel="alternate" type="text/html" title="Documenting REST APIs" /><published>2024-10-09T00:00:00+02:00</published><updated>2024-10-09T00:00:00+02:00</updated><id>https://javax0.github.io/2024/10/09/documenting-openapi</id><content type="html" xml:base="https://javax0.github.io/2024/10/09/documenting-openapi.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -572,443 +572,7 @@ It presents the opportunity to mix documentation and source code in a way that b
 There are no excuses to manually update documentation when automation could handle it.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">String Interning</title><link href="https://javax0.github.io/2024/09/16/string-interning.html" rel="alternate" type="text/html" title="String Interning" /><published>2024-09-16T00:00:00+02:00</published><updated>2024-09-16T00:00:00+02:00</updated><id>https://javax0.github.io/2024/09/16/string-interning</id><content type="html" xml:base="https://javax0.github.io/2024/09/16/string-interning.html">&lt;div class=&quot;admonitionblock warning&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Warning&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;There were 3 syntax errors processing the Jamal input:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock warning&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Warning&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;There were 3 syntax errors processing the Jamal input:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;hr&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;{%@define title=Comparing Strings and String Interning%}
-title: {%title%}
-layout: posta
-comments: on
----
-{%@import javax0.jim%}
-{%@comment&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;exampleblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;%}{%@sep 〔〕%}&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;= 〔title〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Introduction〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I see a lot of posts on Java Developer Community on LinkedIn asking simple questions.
-This is a good way practicing and learning, but there are also some issues.
-Asking educational questions needs knowldege of two different areas.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;The subject, in this case Java&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Pedagogy.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Unfortunately, I see many questions that seem the person setting the question lacks one or both of these skills.
-In this article I will examine one of such questions and the answer to it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;You can learn a bit of Java, a specific area, which may not really be important but interesting if you are a language enthusiast.
-You can also learn a bit of pedagogy, how to ask questions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I am an expert in Java, but I am not a teacher, so yiu should take with caution my advice on the pedagogy topic.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section The Question at Hand〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I copy here the question as a text and also the screen capture.
-As you can see, there is no actual question in the post.
-It is a code snippet, and the author asks the reader to guess the output.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;exampleblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;String str1 = &quot;Hello&quot;; String str2 = str1 + &quot; World&quot;; String str3 = &quot;Hello World&quot;; System.out.println(str2 == str3);&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;true&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;false&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;NullPointerException&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Compilation Error&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔png|image-2024-09-16-09-07-55-890|width=400〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Explanation〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The question is about the comparison of two strings.
-There are several levels of understanding you need to answer this question.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The question wants to draw your attention to the difference between &lt;code&gt;==&lt;/code&gt; and &lt;code&gt;equals&lt;/code&gt; when comparing strings.
-The &lt;code&gt;==&lt;/code&gt; operator compares the references of the objects, while the &lt;code&gt;equals&lt;/code&gt; method compares the content of the strings.
-That way the concatenated string is not the same instance as the one that is created as a literal.
-It implies that the result is &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you know only this much, you can answer the question.
-However, there is more to it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If you have heard about string interning in Java, you may realize that Java &lt;em&gt;may&lt;/em&gt; intern the two strings, and if they are identical during the compilation, then Java will use the same instance for both strings.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&quot;Hello World&quot; == &quot;Hello World&quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;is always true.
-Not because the &lt;code&gt;==&lt;/code&gt; operator compares the content of the strings, but because Java interns the strings during compilation.
-These two string literals in the JVM become one single string object.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section String Interning〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In layman&amp;#8217;s term interning means that if the string is moved to a pool of strings maintained by the string class.
-If there is a string that is equal to the one to be interned then the one already in the interned pool is used.
-That way if two strings equal and they are interned then they will be the same object, meaning that the method &lt;code&gt;==&lt;/code&gt; will also return &lt;code&gt;true&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java calculates the value of constant expressions (JLS  during compilation, and if the result is a string, these strings will be interned automatically. (Java 22 JLS 3.10.5)
-It means that the correct answer can also be &lt;code&gt;true&lt;/code&gt; in some cases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Constant Expression〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What is a constant expression?
-There is a formal definition in the Java Language Specification, which simplifies to the following:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;A literal is a constant expression.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A reference to a constant variable is a constant expression.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A constant expression can be a combination of constant expressions using operators.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The result of a constant expression is a constant value.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;And, as we discussed, contant string values are interned during compilation.
-The remaining question is: what are constant variables?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Constant Variables〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&quot;Constant variables&quot; in programming languages represent a glaring contradiction in terms. This phrase commits a egregious assault on linguistic logic - a variable, by definition, is meant to vary, while a constant is inherently unchanging. The juxtaposition of these opposing concepts in a single term is a prime example of how technical jargon can sometimes defy common sense.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This linguistic paradox is far from unique in the tech world. Consider &quot;serverless computing,&quot; another term that appears to contradict itself. Despite its name, serverless architecture still relies on servers; it merely abstracts them away from the developer&amp;#8217;s immediate concern.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Having said that, we can focus on the real meaning.
-The JLS defines &lt;em&gt;&quot;a constant variable is a final variable of primitive type or type String that is initialized with a constant expression.&quot;&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Problems with this Question〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Knowing all the topics we discussed above, there are several issues with the question.
-We can assume that the code example is a single continuous text in the Java application.
-We must assume that there is something before and after it, or else it would not compile.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;With that statement, as a side note, we have found a reasoning for the answer &quot;Compilation Error&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;If we assume that the code is one continuous part, then the variables are local variables.
-The code sample does not show any use of the &lt;code&gt;final&lt;/code&gt; keyword, therefore, they are not constant variables.
-If they are not constant variables, then the expressions using them are not constant expressions, and hence the resulting strings are not constants and not interned during compilation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This reasoning needs a lot of assumptions.
-Now, as for the question: do we want to test the Java knowledge of the person or the dediction skills?
-Can we tell from the answer that the person knows Java or can there be other reasons someone gives a wrong answer?&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The good answer quality and the knowledge in this question looks very much like the Dunning-Kruger
-curve.
-You can get a good answer from people who are at the top of the &quot;Mount of Stupidity&quot;.
-It is not informative.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;imageblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;../../assets/images/image-2024-09-16-12-13-01-055.png&quot; alt=&quot;image 2024 09 16 12 13 01 055&quot; width=&quot;500&quot;&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I do not like this question.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Full Example〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To have a look at the full example, you can check the demonstration code:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔@snip:collect from=&quot;../../_projects/2024-09-16-string-interning/src/main/java&quot;〕
-〔java/StringInterning〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The code checks the compile time calculation using fields as well as local variables.
-The fields are &lt;code&gt;static&lt;/code&gt; and/or &lt;code&gt;final&lt;/code&gt;, local variables are either &lt;code&gt;final&lt;/code&gt; or not.
-The code checks object identity, and the result will show (you should run it yourself) that the result is &lt;code&gt;true&lt;/code&gt; when the variables are &quot;constant&quot;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Should You Know It All?〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The question is not a good one.
-It does not reliably test the knowledge of the person answering it.
-It tries to ask a question, which is important, but it is easy to answer it wrong with more knowledge.
-To be 100% sure needs a lot of technical details, which are &quot;worthless&quot; to know.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;em&gt;Should you know all the details of the Java language, what constant expressions really are, how interning works and all these extras?&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To be an average Java developer: not really.
-It is enough if you understand the practice not to use &lt;code&gt;==&lt;/code&gt; to compare strings.
-Then you are safe.
-To answer the question of why is not that important.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Even ChatGPT says that there is no semantic difference between final and effectively final local variables.
-(&lt;a href=&quot;https://chatgpt.com/share/66e7f7e5-e7e0-8009-8d3b-02ad3913386d&quot;&gt;ChatGPT session discussing the topic.&lt;/a&gt;)
-However, you can get the correct answer&amp;#8201;&amp;#8212;&amp;#8201;as you can see&amp;#8201;&amp;#8212;&amp;#8201;if you ask correctly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The detailed knowledge may come in handy when you debug something that does not work.
-If you want to be perfect in your profession, and you have pride knowing the tools you use.
-If you want to be a professional Java developer.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;To do the everyday programmign job, you do not need to know it all.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;〔section Conclusion〕&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We got to the end of this useless article detailing subtleties of the Java language.
-If you got that far, you may have enjoyed it.
-If not, then I do not know why you read it so far.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Anyway, next time you see such a question on LinkedIn, &amp;#8230;&amp;#8203; just ignore it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;admonitionblock warning&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Warning&lt;/div&gt;
-&lt;/td&gt;
-&lt;td class=&quot;content&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;There were 3 syntax errors processing the Jamal input:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;There were 3 syntax errors processing the Jamal input:
-1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35
-2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15
-3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7
-
-	javax0.jamal.engine.Processor(closeProcess:998)
-	javax0.jamal.engine.Processor(closeProcessWithExceptionHandling:238)
-	javax0.jamal.engine.Processor(process:219)
-	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
-	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
-	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
-	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
-Suppressed exceptions:
-The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35	javax0.jamal.api.BadSyntaxAt(when:112)
-	javax0.jamal.snippet.FilesMacro$FileMacro(evaluate:130)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:322)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.engine.Processor(getMacroPreProcessed:359)
-	javax0.jamal.engine.Processor(processMacro:312)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.builtins.Import(evaluate:125)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:325)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.builtins.Import(evaluate:122)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:325)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
-	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
-	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
-	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
-There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15	javax0.jamal.snippet.Collect(evaluate:164)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:322)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
-	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
-	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
-	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
-Causing Exception:
-/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java	javax0.jamal.snippet.Collect(files:472)
-	javax0.jamal.snippet.Collect(evaluate:128)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:322)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
-	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
-	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
-	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
-Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7	javax0.jamal.snippet.SnippetStore(fetchSnippet:206)
-	javax0.jamal.snippet.SnippetStore(snippet:168)
-	javax0.jamal.snippet.Snip(evaluate:42)
-	javax0.jamal.engine.Processor(evaluateBuiltinMacro:514)
-	javax0.jamal.engine.Processor(lambda$evaluateBuiltInMacro$6:457)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateBuiltInMacro:457)
-	javax0.jamal.engine.Processor(evalMacro:412)
-	javax0.jamal.engine.Processor(processMacro:325)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.engine.Processor(lambda$evaluateUserDefinedMacro$5:448)
-	javax0.jamal.engine.Processor(safeEvaluate:466)
-	javax0.jamal.engine.Processor(evaluateUserDefinedMacro:448)
-	javax0.jamal.engine.Processor(evalMacro:436)
-	javax0.jamal.engine.Processor(processMacro:327)
-	javax0.jamal.engine.Processor(process:202)
-	javax0.jamal.asciidoc.JamalPreprocessor(processJamal:457)
-	javax0.jamal.asciidoc.JamalPreprocessor(runJamalInProcess:294)
-	javax0.jamal.asciidoc.JamalPreprocessor(process:215)
-	javax0.jamal.asciidoc258.Asciidoctor2XXCompatibilityProxy(process:63)
-sed -i.bak  &apos;&apos; /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Warning There were 3 syntax errors processing the Jamal input: 1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35 2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15 3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7 Warning There were 3 syntax errors processing the Jamal input: 1. The file &apos;/Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam&apos; does not exist. at /Users/verhasp/github/javax0.github.io/javax0.jim/11:35 2. There is some problem collecting snippets from files under &apos;/Users/verhasp/github/javax0.github.io/_projects/2024-09-16-string-interning/src/main/java&apos; at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/141:15 3. Snippet &apos;StringInterning&apos; is not defined at /Users/verhasp/github/javax0.github.io/_posts/2024/2024-09-16-string-interning.adoc.jam/144:7</summary></entry><entry><title type="html">Programming Language with no Syntax?</title><link href="https://javax0.github.io/2024/09/08/ouroboros.html" rel="alternate" type="text/html" title="Programming Language with no Syntax?" /><published>2024-09-08T00:00:00+02:00</published><updated>2024-09-08T00:00:00+02:00</updated><id>https://javax0.github.io/2024/09/08/ouroboros</id><content type="html" xml:base="https://javax0.github.io/2024/09/08/ouroboros.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Programming Language with no Syntax?</title><link href="https://javax0.github.io/2024/09/08/ouroboros.html" rel="alternate" type="text/html" title="Programming Language with no Syntax?" /><published>2024-09-08T00:00:00+02:00</published><updated>2024-09-08T00:00:00+02:00</updated><id>https://javax0.github.io/2024/09/08/ouroboros</id><content type="html" xml:base="https://javax0.github.io/2024/09/08/ouroboros.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -1581,7 +1145,222 @@ Even in the English version, you may feel it was produced using a different meth
 &lt;p&gt;At least it is a good experience playing with the bleeding edge technology.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Az LLM és a RAG technológia</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" rel="alternate" type="text/html" title="Az LLM és a RAG technológia" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-hu</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Эта статья представляет собой краткое введение в технологии LLM и RAG.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Текст содержит упрощения, которые позволяют лучше понять материал широкому кругу читателей. Однако, если вы заинтересованы в глубоком изучении этих технологий, данная статья может оказаться недостаточной.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Некоторые моменты могут быть изложены не совсем точно, хотя в целом они хорошо передают основную идею.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;RAG — это аббревиатура от английского Retrieval Augmented Generation.
+Эта технология дополняет приложения на основе больших языковых моделей (LLM, Large Language Model).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Цель RAG — предоставить возможность работать с базами знаний и информацией, которой нет в самой языковой модели.
+Большая языковая модель представляет собой нейронную сеть, обученную на больших объемах данных, которые обычно доступны в интернете.
+Благодаря этому, такие модели могут общаться почти как люди и отвечать на вопросы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Однако, для работы с внутренними данными компании, которые не являются публичными, RAG позволяет моделям получать доступ к внешним источникам информации, дополняя свои ответы актуальными данными.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;На текущем этапе развития LLM невозможно напрямую обучить модель корпоративной информации.
+Современные приложения работают следующим образом: разработчики создают языковые модели, затем обучают их, настраивая миллионы или даже миллиарды параметров с помощью обучающих данных.
+Этот процесс включает задавание вопросов модели, получение ответов и последующую корректировку параметров на основе качества ответов.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Конечно, всё это осуществляется с помощью программ и алгоритмов, а не вручную.
+В нынешних условиях этот процесс может занимать несколько месяцев и требует огромных энергетических ресурсов, сопоставимых с энергопотреблением небольшого города.
+Для выполнения тонкой настройки используются тысячи машин, работающих параллельно.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После завершения обучения модель можно скачать и запустить на своей машине.
+Сама модель обычно занимает 1-2 ГБ данных.
+После этого нейронная сеть больше не изменяется и не обучается новому.
+Чтобы модель усвоила что-то новое, необходимо выпустить её обновлённую версию.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Тем не менее, мы хотим использовать возможности LLM внутри компании.
+Наша цель — чтобы эта нейронная сеть могла давать ответы, учитывая внутреннюю информацию компании, когда мы задаем вопросы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Представьте, что в компанию приходит новый сотрудник, который ничего о ней не знает.
+Прежде чем задавать ему вопросы о компании, мы сначала обучаем его, предоставляя необходимую информацию.
+Этот сотрудник усваивает её, и она становится частью его знаний.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Представьте, что человек сосредотачивается на работе, забывая обо всём остальном, когда идёт домой, и хранит специфическую для компании информацию отдельно.
+Аналогично работает модель LLM и технология RAG.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы сохраняем информацию, которой нет в нейронной сети LLM, в отдельной базе данных.
+Причина проста: эту информацию нельзя интегрировать напрямую в нейронную сеть или её модель, поскольку она является частной и конфиденциальной.
+Мы не всегда знаем, как эти данные структурированы, и они не обязательно могут быть изменены в текущем виде программы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Можно сказать, что у нас нет &quot;исходного кода&quot; этих данных — не в смысле программного кода, а оригинальной формы этих данных.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После нескольких этапов обработки модель становится относительно небольшим набором данных объёмом около 1 ГБ.
+Хотя этот размер может показаться небольшим по сравнению с другими данными, для LLM это считается компактным.
+Однако на этом этапе модель, скорее всего, уже не подлежит изменениям.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Если мы хотим сохранить собственную информацию в отдельной базе данных, обычно используем векторные базы данных.
+Векторная база данных — это специализированное приложение, которое способно определять расстояние между двумя фрагментами текста.
+Оно оценивает, насколько эти тексты связаны по смыслу и сколько у них общих ключевых слов.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы разбиваем базу знаний, доступную в компании, на небольшие фрагменты текста.
+Обычно эти фрагменты составляют около тысячи символов и формируют отдельные записи.
+Между ними предусмотрено небольшое перекрытие: каждый следующий фрагмент начинается немного раньше окончания предыдущего.
+Это помогает сохранить контекст и непрерывность в тексте.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы помещаем каждый из этих текстовых фрагментов в базу данных и используем алгоритм встраивания, чтобы присвоить им векторы.
+Вектор — это последовательность чисел, аналогичная GPS-координатам.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;По сути, этот вектор представляет собой пространственную координату текста, но это пространство многомерное, а не трёхмерное.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с использованием технологии RAG, этот вопрос также преобразуется в вектор.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Система встраивания определяет положение этого вопроса в многомерном пространстве.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Затем мы обращаемся к векторной базе данных, в которой хранятся векторы всех наших текстовых фрагментов, чтобы выяснить, какие из них находятся ближе всего к заданному вопросу в этом пространстве.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Этот процесс включает вычисление расстояния и индексирование.
+Если представить, это похоже на расчёт расстояния по теореме Пифагора в ортогональном векторном пространстве.
+Хотя это может звучать сложно, нам не обязательно разбираться в деталях или знать, как это работает на уровне формул.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Основная идея заключается в том, что алгоритм встраивания обычно также основан на нейронной сети.
+Существуют более простые алгоритмы встраивания, но они менее эффективны на практике.
+Более сложные алгоритмы встраивания, основанные на нейронных сетях, выполняют эту задачу с учётом особенностей языка.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Векторная база данных определяет, какие фрагменты текста из нашей базы знаний наиболее близки к вопросу и, следовательно, являются релевантными для ответа.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После этого мы формируем промпт для LLM, добавляя перед основным вопросом те фрагменты текста, которые были извлечены из нашей базы знаний.
+Весь текст сразу включить невозможно, так как это было бы слишком много, но мы можем добавить несколько фрагментов — пять, шесть, семь или даже десять.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;В промпте указываем, что это контекст, в рамках которого мы хотим получить ответ, а затем задаём сам вопрос.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Затем мы передаем сформированный промпт алгоритму LLM, который его обрабатывает и генерирует ответ.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Вот и всё.
+Процесс RAG настолько прост.
+Вам нужна векторная база данных, и нужно разделить текст на фрагменты.
+Для тех, кто знаком с программированием, это не представляет большой сложности.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Текст следует сохранить в обычной базе данных, чтобы его можно было извлечь для создания промпта.
+Векторы сохраняются в векторной базе данных, чтобы определить, какие фрагменты текста релевантны для конкретного вопроса.
+Также нужно уметь задавать вопросы LLM из программы и использовать стандартные интерфейсы для этого.
+В заключение, необходимо отправить полученный ответ обратно клиенту или пользователю, чтобы он мог его прочитать.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;	С помощью этой технологии мы создали приложение, с которым можно взаимодействовать так же, как с ChatGPT.
+Однако оно обладает дополнительным преимуществом: помимо знаний о мире, полученных на момент завершения обучения, оно также включает информацию из нашей специальной базы знаний.&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry><entry><title type="html">Az LLM és a RAG technológia</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" rel="alternate" type="text/html" title="Az LLM és a RAG technológia" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-hu</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-bevezetés&quot;&gt;1. Bevezetés&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -2444,222 +2223,7 @@ Finally, we need to be able to send the answer back to the client or user who ca
 &lt;p&gt;But it knows not only the things of the big world up to a certain point in time when its training was closed but also the things in our special knowledge base.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Эта статья представляет собой краткое введение в технологии LLM и RAG.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Текст содержит упрощения, которые позволяют лучше понять материал широкому кругу читателей. Однако, если вы заинтересованы в глубоком изучении этих технологий, данная статья может оказаться недостаточной.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Некоторые моменты могут быть изложены не совсем точно, хотя в целом они хорошо передают основную идею.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;RAG — это аббревиатура от английского Retrieval Augmented Generation.
-Эта технология дополняет приложения на основе больших языковых моделей (LLM, Large Language Model).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Цель RAG — предоставить возможность работать с базами знаний и информацией, которой нет в самой языковой модели.
-Большая языковая модель представляет собой нейронную сеть, обученную на больших объемах данных, которые обычно доступны в интернете.
-Благодаря этому, такие модели могут общаться почти как люди и отвечать на вопросы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Однако, для работы с внутренними данными компании, которые не являются публичными, RAG позволяет моделям получать доступ к внешним источникам информации, дополняя свои ответы актуальными данными.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;На текущем этапе развития LLM невозможно напрямую обучить модель корпоративной информации.
-Современные приложения работают следующим образом: разработчики создают языковые модели, затем обучают их, настраивая миллионы или даже миллиарды параметров с помощью обучающих данных.
-Этот процесс включает задавание вопросов модели, получение ответов и последующую корректировку параметров на основе качества ответов.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Конечно, всё это осуществляется с помощью программ и алгоритмов, а не вручную.
-В нынешних условиях этот процесс может занимать несколько месяцев и требует огромных энергетических ресурсов, сопоставимых с энергопотреблением небольшого города.
-Для выполнения тонкой настройки используются тысячи машин, работающих параллельно.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После завершения обучения модель можно скачать и запустить на своей машине.
-Сама модель обычно занимает 1-2 ГБ данных.
-После этого нейронная сеть больше не изменяется и не обучается новому.
-Чтобы модель усвоила что-то новое, необходимо выпустить её обновлённую версию.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Тем не менее, мы хотим использовать возможности LLM внутри компании.
-Наша цель — чтобы эта нейронная сеть могла давать ответы, учитывая внутреннюю информацию компании, когда мы задаем вопросы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Представьте, что в компанию приходит новый сотрудник, который ничего о ней не знает.
-Прежде чем задавать ему вопросы о компании, мы сначала обучаем его, предоставляя необходимую информацию.
-Этот сотрудник усваивает её, и она становится частью его знаний.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Представьте, что человек сосредотачивается на работе, забывая обо всём остальном, когда идёт домой, и хранит специфическую для компании информацию отдельно.
-Аналогично работает модель LLM и технология RAG.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы сохраняем информацию, которой нет в нейронной сети LLM, в отдельной базе данных.
-Причина проста: эту информацию нельзя интегрировать напрямую в нейронную сеть или её модель, поскольку она является частной и конфиденциальной.
-Мы не всегда знаем, как эти данные структурированы, и они не обязательно могут быть изменены в текущем виде программы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Можно сказать, что у нас нет &quot;исходного кода&quot; этих данных — не в смысле программного кода, а оригинальной формы этих данных.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После нескольких этапов обработки модель становится относительно небольшим набором данных объёмом около 1 ГБ.
-Хотя этот размер может показаться небольшим по сравнению с другими данными, для LLM это считается компактным.
-Однако на этом этапе модель, скорее всего, уже не подлежит изменениям.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Если мы хотим сохранить собственную информацию в отдельной базе данных, обычно используем векторные базы данных.
-Векторная база данных — это специализированное приложение, которое способно определять расстояние между двумя фрагментами текста.
-Оно оценивает, насколько эти тексты связаны по смыслу и сколько у них общих ключевых слов.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы разбиваем базу знаний, доступную в компании, на небольшие фрагменты текста.
-Обычно эти фрагменты составляют около тысячи символов и формируют отдельные записи.
-Между ними предусмотрено небольшое перекрытие: каждый следующий фрагмент начинается немного раньше окончания предыдущего.
-Это помогает сохранить контекст и непрерывность в тексте.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы помещаем каждый из этих текстовых фрагментов в базу данных и используем алгоритм встраивания, чтобы присвоить им векторы.
-Вектор — это последовательность чисел, аналогичная GPS-координатам.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;По сути, этот вектор представляет собой пространственную координату текста, но это пространство многомерное, а не трёхмерное.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с использованием технологии RAG, этот вопрос также преобразуется в вектор.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Система встраивания определяет положение этого вопроса в многомерном пространстве.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы обращаемся к векторной базе данных, в которой хранятся векторы всех наших текстовых фрагментов, чтобы выяснить, какие из них находятся ближе всего к заданному вопросу в этом пространстве.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Этот процесс включает вычисление расстояния и индексирование.
-Если представить, это похоже на расчёт расстояния по теореме Пифагора в ортогональном векторном пространстве.
-Хотя это может звучать сложно, нам не обязательно разбираться в деталях или знать, как это работает на уровне формул.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Основная идея заключается в том, что алгоритм встраивания обычно также основан на нейронной сети.
-Существуют более простые алгоритмы встраивания, но они менее эффективны на практике.
-Более сложные алгоритмы встраивания, основанные на нейронных сетях, выполняют эту задачу с учётом особенностей языка.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Векторная база данных определяет, какие фрагменты текста из нашей базы знаний наиболее близки к вопросу и, следовательно, являются релевантными для ответа.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После этого мы формируем промпт для LLM, добавляя перед основным вопросом те фрагменты текста, которые были извлечены из нашей базы знаний.
-Весь текст сразу включить невозможно, так как это было бы слишком много, но мы можем добавить несколько фрагментов — пять, шесть, семь или даже десять.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;В промпте указываем, что это контекст, в рамках которого мы хотим получить ответ, а затем задаём сам вопрос.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы передаем сформированный промпт алгоритму LLM, который его обрабатывает и генерирует ответ.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Вот и всё.
-Процесс RAG настолько прост.
-Вам нужна векторная база данных, и нужно разделить текст на фрагменты.
-Для тех, кто знаком с программированием, это не представляет большой сложности.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Текст следует сохранить в обычной базе данных, чтобы его можно было извлечь для создания промпта.
-Векторы сохраняются в векторной базе данных, чтобы определить, какие фрагменты текста релевантны для конкретного вопроса.
-Также нужно уметь задавать вопросы LLM из программы и использовать стандартные интерфейсы для этого.
-В заключение, необходимо отправить полученный ответ обратно клиенту или пользователю, чтобы он мог его прочитать.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;literalblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;	С помощью этой технологии мы создали приложение, с которым можно взаимодействовать так же, как с ChatGPT.
-Однако оно обладает дополнительным преимуществом: помимо знаний о мире, полученных на момент завершения обучения, оно также включает информацию из нашей специальной базы знаний.&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry><entry><title type="html">Threaded streams</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded streams" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Threaded streams</title><link href="https://javax0.github.io/2024/02/29/threaded-stream.html" rel="alternate" type="text/html" title="Threaded streams" /><published>2024-02-29T00:00:00+01:00</published><updated>2024-02-29T00:00:00+01:00</updated><id>https://javax0.github.io/2024/02/29/threaded-stream</id><content type="html" xml:base="https://javax0.github.io/2024/02/29/threaded-stream.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -3097,6 +2661,356 @@ It received a review from Istvan Kovacs, a figure with considerable expertise in
 Despite this, his review does not serve as an absolute assurance of the library&amp;#8217;s reliability and absence of bugs.
 Consequently, should you decide to integrate this library into your projects, it&amp;#8217;s advised to proceed with caution and conduct thorough testing to ensure it meets your requirements and standards.
 The library is provided &quot;as is,&quot; with the understanding that users adopt it at their own risk, underpinning the importance of due diligence in its deployment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Cloud Solutions are Expensive, or are they?</title><link href="https://javax0.github.io/2023/11/12/cloud-price.html" rel="alternate" type="text/html" title="Cloud Solutions are Expensive, or are they?" /><published>2023-11-12T00:00:00+01:00</published><updated>2023-11-12T00:00:00+01:00</updated><id>https://javax0.github.io/2023/11/12/cloud-price</id><content type="html" xml:base="https://javax0.github.io/2023/11/12/cloud-price.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Cloud solutions are becoming increasingly prevalent.
+I&amp;#8217;ve observed their adoption even among companies that were traditionally very conservative.
+Previously, these organizations insisted that no data leave their premises, operating all applications within data centers safeguarded by two-meter-thick, steel-reinforced concrete walls.
+However, these companies are now beginning to explore and adopt cloud solutions, simultaneously becoming aware of the true costs associated with cloud computing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I will delve into the costs associated with cloud solutions.
+While this is not a technical piece, a basic understanding of cloud computing might be beneficial, though I will aim to provide an overview rather than delve into technical specifics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Additionally, those with a background in economics might find this discussion particularly insightful, as we will be exploring the costs, prices, and the underlying structures that influence them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As the author of this article, I bring a unique perspective, combining my experience as a senior software architect with my educational background, holding an MBA degree and possessing a foundational understanding of economics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-the-price-of-cloud&quot;&gt;2. The price of cloud&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Companies that perceive cloud solutions as expensive have valid concerns.
+Utilizing cloud services comes with a cost, and given that pricing is typically based on usage, expenses can escalate quickly.
+If your company already possesses servers on-premises or hosted in a data center, maintaining these setups might be more cost-effective than transitioning to the cloud.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are specific scenarios where the cost factor makes cloud usage less favorable.
+Conversely, there are also situations where opting for a cloud solution can be highly advantageous.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s examine an example to illustrate this point.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-architecture-test&quot;&gt;2.1. Architecture test&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In a project we undertook, we proposed a unique solution involving a JDBC proxy for a client.
+This JDBC proxy was a special application that acted like a database server.
+However, instead of storing data itself, it forwarded SQL queries to multiple, different database servers.
+This setup was necessary because the application required data to be inserted into different databases during a multi-year database migration.
+The client requested a proof of concept, necessitating a test environment with six Linux servers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Renting these servers was not only costly but also challenging, given our location in a small country in Central Europe.
+While purchasing servers was standard, acquiring them for just a few days was an unusual requirement.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Eventually, we approached a company where we knew the director and proposed a unique arrangement during a &quot;lunch&quot; meeting:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;We need six servers for a few days.
+I know you always ship servers to your customers.
+Can we rent them for a few days?&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We do not rent servers.
+We sell them.
+Also, our delivery line is always on pressure, as soon as the servers come in, we install them and ship them out.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Do you ship them also during the weekends?&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No, of course not, our client offices are closed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;So if you have six servers that arrive on Friday, you will not ship them until Monday?&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Yes.
+That is correct.
+To be more precise, we will ship them only on Tuesday, because we have to install them on Monday.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;How about we take them for the weekend, we do the testing, and you get them back installed early Monday?&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This arrangement was a win-win, but it relied heavily on our business network and negotiating skills.
+Without this connection, we would have faced significant costs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today the solution would be much simpler and cost-effective:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You would specify the required hardware using YAML format, register with a cloud provider, start up a Kubernetes (K8s) cluster, upload the objects, and have your servers ready.
+This overlooks the minor details of containers and applications, but these are relatively straightforward.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;My estimate is that the total cost for this modern setup would be around or less than $50. In contrast, the official quote we received for a weekend rental of six servers from a large company at that time was around $3,000.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This scenario clearly demonstrates the cost-effectiveness and convenience of cloud solutions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-the-economy-of-the-cloud&quot;&gt;3. The economy of the cloud&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are indeed specific costs that influence the pricing of cloud solutions.
+A cloud provider incurs expenses for hardware, electricity, cooling systems, network infrastructure, data center facilities, as well as salaries for personnel who install, maintain the hardware, and develop the software that operates the cloud.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The notion that &quot;all these costs are included in the price you pay for the cloud&quot; encapsulates a common perception.
+This sentence between the quotes was suggested by GitHub Copilot.
+This fact, the suggestion reflects what many people believe about costs.
+I have encountered this mindset frequently across various social media platforms and in diverse groups.
+It underscores a general misunderstanding that the fees paid depend on the underlying expenses associated with providing the services.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The price does not come from the costs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The pricing of products and services, including cloud solutions, is indeed influenced by costs, but it is not solely determined by them.
+Costs limit the price, as we will see shortly.
+The primary drivers of price are demand and supply.
+Essentially, clients are willing to pay a price that they deem worthwhile for the service or product they receive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If the price that customers are willing to pay falls below the cost of providing the service or product, suppliers typically will not offer it.
+This economic principle highlights the balance that must be struck in the market: prices need to be high enough to cover costs and generate a profit for suppliers, yet remain low enough to be acceptable to consumers.
+This dynamic equilibrium is a fundamental aspect of market economics and is particularly relevant in the context of cloud computing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you begin studying economics, you&amp;#8217;re introduced to a basic market model where price is often viewed as a function of supply and demand.
+However, in practical scenarios, pricing is commonly calculated with consideration to costs.
+For instance, when you have your car repaired, the bill typically itemizes the costs of parts and labor.
+Yet, in economic terms, such a bill doesn&amp;#8217;t fully represent the truth.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The prices listed for parts and labor often include an &quot;uplift&quot; – a markup that covers additional expenses and profit.
+This markup is a standard practice in business; it&amp;#8217;s a way of communicating and playing the game within the market.
+The invoice you receive doesn&amp;#8217;t usually break down every cost component, such as office heating, electricity, or even indirect costs like a bribe paid to a security inspector.
+Moreover, the profit margin, which can be seen as the cost of the money invested, is also embedded in these prices.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This practice is akin to a card game where all players understand that some level of strategy – or &quot;cheating,&quot; in this metaphor – is part of the game.
+If everyone is aware of and engages in these strategies, it becomes a level playing field.
+Similarly, in business, while the invoice might not explicitly list every cost or the exact profit margin, there&amp;#8217;s an understanding that these elements are inherently included in the prices charged.
+This system of pricing, while not always transparent, is a fundamental aspect of how businesses operate and cover their costs while earning a profit.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When prices in a market are heavily influenced by costs, it typically indicates a highly competitive environment.
+However, the fundamental economic principle of price being driven by supply and demand still holds true.
+In such markets, there&amp;#8217;s often a dynamic feedback loop that affects supply.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If a particular service or product can be sold with a high profit margin, it naturally attracts more suppliers who want to capitalize on this opportunity.
+This influx of suppliers increases the supply, which, over time, can lead to a decrease in prices until the profit margin aligns more closely with the cost of market entry and investment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, entering a market isn&amp;#8217;t always straightforward or quick.
+During the period it takes for new suppliers to establish themselves, existing suppliers may enjoy a monopolistic or oligopolistic position.
+In such scenarios, these incumbent suppliers have the leverage to set prices at a level that maximizes their profits.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is notably evident in the cloud computing industry.
+In my opinion, cloud providers are in an oligopolistic situation.
+The market is dominated by a few major players, and their significant presence and control allow them to influence pricing.
+This oligopolistic market structure enables these providers to set prices that are not just cost-driven but also strategically aligned with maximizing their profits, considering the competitive landscape and the value they offer to their customers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-is-the-price-right-for-you&quot;&gt;4. Is the price right for you?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The crucial question regarding cloud solutions is whether the price is right for you and your organization.
+The company financial situation may affect the decisions greatly.
+Is the investment in cloud services worth it for your specific needs and circumstances?
+If the answer is yes, then by definition, the service is not expensive for you.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When making this decision, it&amp;#8217;s important to weigh numerous factors in comparing on-premises solutions to cloud-based ones.
+One key consideration is the nature of the expenditure:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Operating Expense (OPEX):&lt;/strong&gt; When you use cloud services, the costs are typically classified as operating expenses.
+This means you pay for the cloud services as you use them, which can be beneficial for cash flow and can often be deducted as expenses in the fiscal year they are incurred.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Capital Expenditure (CAPEX):&lt;/strong&gt; On the other hand, investing in hardware and setting up your own data center involves capital expenditure.
+This means a significant upfront investment, which is then depreciated over several years.
+CAPEX can have different tax and financial implications compared to OPEX.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Your decision might also be influenced by how you want to manage your company&amp;#8217;s finances.
+Are you looking to optimize your expenditures for company valuation or for tax purposes?
+The financial situation of your company can greatly impact this decision.
+For instance, if preserving cash is crucial, OPEX might be more attractive.
+Conversely, if long-term investment and asset building are priorities, CAPEX could be the better route.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Ultimately, the decision between cloud services and on-premises solutions isn&amp;#8217;t just about the technology.
+It&amp;#8217;s also deeply rooted in the financial strategy and goals of your organization.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There are several other factors to consider when evaluating cloud solutions:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Flexibility:&lt;/strong&gt; Cloud solutions offer significant flexibility.
+With a cloud service, you can dynamically scale your resources up or down based on demand.
+In contrast, with an on-premises data center, you have to invest in hardware capable of handling peak loads, which may not always be efficient.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Operational and Personnel Cost Savings:&lt;/strong&gt; Opting for a cloud service can lead to savings in operational and personnel costs associated with running and maintaining a local setup.
+These expenses are typically absorbed by the cloud service provider.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Costs vs.
+Skills:&lt;/strong&gt; Paying more for a cloud service than what it would cost to set up locally isn&amp;#8217;t necessarily a reflection of your luck or skill.
+It does not mean you do it better than the cloud provider.
+Your price includes the additional profit margin of the cloud provider.
+They probably can also do it cheaper, just do not give it to you at that price.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Resource Sharing:&lt;/strong&gt; Cloud providers utilize virtual machines and containers configured to share resources among multiple clients.
+This approach is generally more cost-effective than each client maintaining their own hardware.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Expertise and Shared Costs:&lt;/strong&gt; Cloud providers employ experts to develop, maintain, and operate their software.
+The cost of this expertise is distributed across all clients, making it more economical than maintaining an in-house team, even with the option of hiring less expensive developers from regions like Eastern Europe or India.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Shared Facility Costs:&lt;/strong&gt; Costs related to facility location, cooling, and physical security are shared among all clients of the cloud provider, contributing to overall cost-effectiveness.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If the cost of a cloud solution is unaffordable, and a cheaper alternative, still above the cost of the provider is available, both you and the cloud provider lose out.
+It&amp;#8217;s a missed business opportunity for the provider, who chooses not to lower prices to capture this segment of the market, thereby maintaining higher profit margins from clients who can afford their services.
+This situation can lead to a loss of economic welfare.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-can-i-get-it-cheaper&quot;&gt;5. Can I get it cheaper?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
+The approach to pricing can differ significantly depending on whether you are an individual or a company.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As an individual seeking to purchase cloud services, you&amp;#8217;re likely to pay the listed price.
+While you can request a discount, the response is typically a polite refusal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, the situation changes if you represent a company.
+Many professionals, such as consultants, senior experts, or architects, work for organizations where negotiating prices is standard practice.
+If you&amp;#8217;re involved in estimating costs for a cloud project within a large company, it would be unwise to base your calculations solely on the advertised prices.
+Instead, engage directly with cloud providers.
+They are often willing to assist and, depending on the size and stature of your company, might offer substantial discounts.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Additionally, cloud providers have the most comprehensive understanding of their pricing structures.
+It&amp;#8217;s beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
+This approach not only potentially reduces costs but also ensures that you&amp;#8217;re getting the most value out of your investment in their services.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-what-is-the-price&quot;&gt;6. What is the price?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After exploring how to evaluate pricing, the next step is understanding the actual cost of cloud services, which is not straightforward.
+Unlike visiting a grocery store where you can simply look at price tags, the pricing structure of cloud services is composed of multiple components.
+Typically, you might encounter initial setup costs, monthly fees, and various usage-based charges.
+These usage fees can vary and are often categorized separately for network usage, storage, data transfer between locations, CPU usage, memory, and other resources.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The overwhelming complexity of cloud service pricing can be attributed to two main reasons.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Firstly, there&amp;#8217;s a marketing strategy at play.
+Cloud providers aim to present their prices as attractively low while simultaneously maximizing their revenue.
+A complex pricing structure, offering various alternatives, often leads customers to choose options that aren&amp;#8217;t the most cost-effective for their needs.
+This choice is influenced by a psychological desire for security; customers tend to opt for a pricing plan that offers a perceived safety net, based on their estimation of future resource usage.
+However, this estimation is often an overestimation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For example, I personally pay $100 for a GSM mobile plan that includes unlimited calls, SMS, and data, plus 40GB of roaming data, which is shared with my wife on a second device.
+In the past five years, I&amp;#8217;ve only exceeded this limit twice.
+Offering a range of alternatives is an effective customer engagement tool, as it caters to different needs and perceived usage patterns.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the early 2000s, Hungarian T-Mobile offered thousands of different pricing packages.
+Customers couldn&amp;#8217;t choose from all these options at any given time, but once they selected a package, they could keep it indefinitely.
+During my tenure there, we conducted a project to assess the marketing value of these packages.
+We randomly selected 10,000 anonymized clients and calculated the potential revenue loss if we had offered them the cheapest package that would have met their needs.
+The findings indicated that such a change would result in a 30% revenue loss.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Concurrently, we surveyed 1,000 of these 10,000 clients, asking which package they would choose if they had the option to select from all available packages.
+Surprisingly, the results showed that the potential revenue gain would be 30%.
+This suggests that people often opt for a more expensive package because it offers a sense of security.
+This tendency is also observable in the realm of cloud services, where customers frequently select higher-priced options for the perceived safety they offer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The second reason for the complex pricing of cloud services is, on the other hand, quite rational.
+The fundamental value proposition of cloud services lies in optimization.
+Cloud providers continuously work on optimizing their infrastructure.
+This ongoing process of optimization helps reduce their costs while still delivering the same value to their clients.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Cloud providers, while adept at optimizing their infrastructure, cannot directly optimize your application.
+If you manage to reduce your application&amp;#8217;s resource consumption by 10%, they are often willing to offer a discount on a portion of your bill.
+You might not receive the full extent of the cost savings they achieve, but it still creates a win-win situation.
+Their revenue might decrease slightly, but their profit margin can increase.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In the current phase where cloud providers are experiencing growth and attracting more clients, they are generally open to providing discounts if your optimizations help reduce their operational costs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Nowadays, it&amp;#8217;s typically a wise decision to analyze and optimize your cloud usage.
+While there might be some exceptional cases where this isn&amp;#8217;t necessary, generally speaking, it&amp;#8217;s a beneficial practice.
+Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-summary-and-takeaway&quot;&gt;7. Summary and Takeaway&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The cloud is an undeniable presence in today&amp;#8217;s technology landscape.
+It&amp;#8217;s important to consider cloud solutions as an alternative to your on-premises setup.
+This decision shouldn&amp;#8217;t be made blindly – as is the case with most decisions.
+You need to carefully evaluate the costs and benefits, taking into account your specific situation, negotiating position, potential for optimization, and other relevant factors.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;(This article was republished by &lt;a href=&quot;https://dzone.com/articles/cloud-solutions-are-expensive-or-are-they&quot;&gt;DZONE&lt;/a&gt;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>
