@@ -1,0 +1,178 @@
+---
+
+title: RUST for Java Developers
+layout: posta
+comments: on
+---
+
+
+
+= RUST for Java Developers
+
+== 1. Introduction
+
+Rust is a relatively new system programming language with a lot of hypes around it.
+Some people love Rust, others hate it, and some do these two at the same time.
+There is one thing you must not do: ignore it.
+Even if you identify yourself as a Java developer, you should know a little what Rust is.
+
+In this article I will summarize what the most important features of Rust from a Java developer's point of view.
+I will touch only lightly the obvious differences to Java, like natively versus virtual machine compiled.
+My focus will be more on the features that are special to Rust and are hard to grasp for a Java developer.
+
+There is nothing in this article you cannot find somewhere else.
+Rust has good documentation, if you know Rust, you will find nothing special here.
+Reading this article, however, may save some time to get an overall understanding of what Rust is and why it is important.
+
+== 2. Disclaimer
+
+I am a Java developer, and I know Java fairly well, but I am not a Rust expert.
+I have never participated in a commercial Rust project.
+I have created a simple interpreter skeleton to learn the language, but that is all.
+A bit more than a hello world.
+
+== 3. Low Level Programming Language
+
+Rust is a low-level programming language.
+It is designed to write code for tools, operating systems and typically not for business applications.
+From this perspective it is very much like C.
+
+On the other hand, the language is fairly abstract.
+While C can be considered as a portable readable assembly language, Rust cannot.
+Rust has very high-level coding abstractions which all compile to low-level code.
+Rust calls it zero-cost abstraction.
+Any abstract code has a clear way to translate into machine code, and the developer has the possibility to opt out of the abstraction.
+
+In other words, zero-cost abstraction aims to generate as performant code as C providing programming efficiency through abstract coding structures.
+In my opinion, Rust fulfills this promise.
+
+== 4. Compiled
+
+Rust is compiled using the LLVM compiler tool.
+The generated code is directly executable on the target machine without any supporting run-time.
+
+It means you need different versions of the compiled packages for different architectures, and the compile time may be significantly more than in the case of Java.
+
+On the other hand, the code starts up fast; there is nothing like the JVM warm-up time.
+
+== 5. No `null` pointer
+
+In Rust there is no null pointer.
+The language is designed in a way that it is not possible to have a pointer that points to nowhere.
+
+Null pointers have caused a lot of issues in modern programming languages since 1965.
+It is called the billion-dollar mistake.
+
+NOTE: This term was coined by *Tony Hoare*, a British computer scientist who introduced the null reference in 1965 while designing the ALGOL W programming language.
+
+In my opinion, computing power and compiler technology were not ready for languages like Rust to avoid null pointers from the start.
+So, I think it was not a mistake per se.
+Compiler technology and CPU speed developed by time, so today it is possible to create compilers that can compile languages without null pointers.
+
+NOTE: At the time Algol was developed, there was another programming language in the works.
+It was FORTRAN.
+Algol was a high-abstraction language, while FORTRAN focused on practicalities.
+FORTRAN still exists and is used in many scientific projects.
+Algol, on the other hand, is not widely used.
+You may correct me, but I do not know any practical application.
+It lives on in the ideas that appear in different other programming languages.
+Algol was too early, even permitting null pointers.
+
+Eliminating null pointers and handling them properly is a continuous effort.
+Java introduced `Optional`, Kotlin the `?` postfix operator.
+Rust it is part of the language, and the design is coherent with the other language constructs and the run-time.
+
+You will never get a NPE in Rust unless you explicitly escape safety using `safe` blocks.
+
+== 6. Preprocessor, Macro
+
+Rust, similar to C, has a preprocessing step.
+
+A preprocessor is a processing step that transforms some source code to another.
+Usually it precedes lexical and syntax analysis.
+
+The C preprocessor works on a character level before the lexical analysis.
+This is again something that comes from the early CPU limitations.
+With the available CPU power, it was a good choice.
+It can be implemented independently of the compiler, executed as a separate process.
+The integration on the file level.
+The preprocessor reads the source code as a file and writes the preprocessed output to be consumed by the compiler.
+
+Half-century later, we can see that a character level preprocessor can be abused.
+There are a lot of examples that use the preprocessor not well.
+
+Rust decided to apply the preprocessor at a different stage in the compilation.
+It reads the source code, does lexical analysis, and then starts the macro processing.
+The processing is not a separate process.
+It is part of the compiler itself.
+That way the integration is tighter, there is a higher cohesion between the compiler and the preprocessor.
+You define the preprocessing using a "macro" language that works with lexical units instead of characters.
+
+NOTE: An interesting, and for me personally appealing twist in the preprocessor that it works on lexical trees.
+The result of the lexical analysis is a list of tokens.
+The syntax analyzer usually works on this list.
+Rust inserts an analysis step before it, finding all opening and closing braces, brackets, and so on in pairs.
+This is a simple syntax analysis already.
+The result is a lexical tree that contains the bracketed syntax elements as nodes.
+
+The use of macros is a powerful tool, helping Rust to push some coding error detection to the compilation phase.
+For example, using the `print!` macro the compiler can detect if the  arguments do not match the formatting string.
+
+The built-in macro language is one of two ways to define macros.
+The Rust compiler can start code written in Rust during the preprocessing phase.
+That way you can write your preprocessor working on, reading and writing, altering the lexical tree in Rust.
+This is somewhat similar to Java annotation processing.
+Java annotation processor is started after the syntax analysis, and it is not supposed to modify the abstract syntax tree (AST).
+
+NOTE: Lombok does modify the AST, but it does so using non-documented and hence non-guaranteed APIs.
+It may not work with a new release of Java or with just any JDK.
+A JDK implementing Java in a way incompatible with Lombok is possible and still a valid Java.
+
+I see the modification of the lexical tree problematic.
+It opens up the language and makes a way to have different flavors.
+For example, at the moment we have Java and Java with Lombok as a flavor.
+If the number of flavors gets feral, it may have an adverse effect on the language.
+
+== 7. Object-Oriented Programming
+
+Rust is not object-oriented but it contains a lot of OOP traits (sic).
+OOP is usually characterized as something supporting
+
+. Encapsulation
+. Abstraction
+. Inheritance, and
+. Polymorphism
+
+=== 7.1. Encapsulation
+
+Encapsulation is the bundling of data (fields) and methods (functions) that operate on the data within a single unit, usually a class, and are controlling access to the data via access modifiers.
+
+Rust achieves encapsulation using `struct` and `impl` blocks.
+A `struct` can define a data structure, like in C.
+The `impl` block defines methods that can work on that data structure.
+This is similar to classes in Java.
+If you know modern Java and are familiar with the project Valhalla, you can say a `struct` is similar to a value object.
+
+=== 7.2. Abstraction
+
+Abstraction involves hiding implementation details and exposing only essential functionalities.
+
+Rust has access modifiers, and you can also define traits, which are somewhat similar to Java interfaces.
+
+=== 7.3. Inheritance
+
+Inheritance allows a class to inherit properties and behavior from another class.
+
+Rust does not support classical inheritance (where a class extends another class).
+Instead, it relies on *composition* and *trait bounds* to achieve similar functionality.
+
+This is very similar to how Go approaches the same issue.
+
+=== 7.4. Polymorphism
+
+This is the interesting part.
+Rust does support polymorphism
+
+== 8. Memory Management and Garbage Collection
+
+== 9. Learning Curve

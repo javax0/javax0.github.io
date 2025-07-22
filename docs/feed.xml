@@ -1,4 +1,421 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2025-01-08T12:58:55+01:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Talk to AGI</title><link href="https://javax0.github.io/2025/01/08/talk-to-AGI.html" rel="alternate" type="text/html" title="Talk to AGI" /><published>2025-01-08T00:00:00+01:00</published><updated>2025-01-08T00:00:00+01:00</updated><id>https://javax0.github.io/2025/01/08/talk-to-AGI</id><content type="html" xml:base="https://javax0.github.io/2025/01/08/talk-to-AGI.html">&lt;div class=&quot;paragraph&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://javax0.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://javax0.github.io/" rel="alternate" type="text/html" /><updated>2025-07-22T10:26:51+02:00</updated><id>https://javax0.github.io/feed.xml</id><title type="html">Java Deep, mostly Java</title><subtitle>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</subtitle><entry><title type="html">Why I Abandoned my 30-year Open Source Project</title><link href="https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html" rel="alternate" type="text/html" title="Why I Abandoned my 30-year Open Source Project" /><published>2025-07-10T00:00:00+02:00</published><updated>2025-07-10T00:00:00+02:00</updated><id>https://javax0.github.io/2025/07/10/why-abandon-30-year-project</id><content type="html" xml:base="https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Note&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I started an open-source project in 1996, I am abandoning now.
+It was not my first OSS project and certainly not the last one.
+It definitely was the one that lasted the longest and that I had the most faith in having an impact on the industry.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The project aimed to create a new approach to document maintenance, and over the years, I developed a few versions of software solutions that supported the idea.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I am not abandoning the idea, though.
+I still believe that the philosophy behind how we maintain documents is valid.
+It proved itself when I wrote my technical books and several documents.
+The last version of the software tool I created supporting this document management approach is the one I partially abandon.
+Not the approach to document maintenance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article I will tell you a bit of the&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;history of these software projects,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;how it worked technically,&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;how it did not work in the industry, and&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;why it did not work, and why and how do I abandon this project.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-program-enhanced-document-a-k-a-pet&quot;&gt;2. Program Enhanced Document a.k.a. PET&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-1-what-is-pet&quot;&gt;2.1. What is PET&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The idea of Program Enhanced Document was to do only one straightforward thing originally: include a code snippet in the documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When I wrote the documentation of the ScriptBasic interpreter, I created sample programs.
+I wanted to have these sample codes in the documentation along with the output of the programs.
+I developed the interpreter, the documentation, and the sample code snippets in parallel.
+Sometimes, I changed the language, the implementation, and the interpreter, and it also required changes in some of the sample code.
+The change in the sample code also changed the output many times.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After making the code change, I copied the samples and output into the documentation.
+It was tedious and error-prone, and after a while, as a developer, I decided that I should not manually perform a task that could be automated with a program.
+(Usually, this is the point when the original project is abandoned to start a new one.
+Not in this case, but ScriptBasic, which is still in use in some industrial products, was developed further till 2006 approximately.)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I developed a small macro language in Perl, which I named Jamal as an acronym for Just Another Macro Language.
+It is approximately 300 lines of Perl code that could convert one text file to another, processing the embedded macros in the meantime.
+There was a macro that could include a file in the output, so whenever a sample code file or the output changed, the document automatically updated to reflect the changes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It worked.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Over the years, I have developed numerous technical documents, including two books on Java 9 and Java 11, as well as several chapters in other books as a co-author.
+Through these works, I realized, step by step, that PET, which I did not call by that name at the time, is a general approach that most technical writers should follow.
+It is a general approach that enhances the documentation source, typically in a textual markup format with additional information that can be processed automatically.
+The documentation written for humans is redundant.
+It is not only formatted but also contains information, which is already documented in the system.
+Sometimes information is repeated because you do not want the reader to turn pages or navigate links to re-read a single sentence that may apply to several parts of the document.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The conventional method of managing information in documentation is to copy and paste it from the documented system or other parts of the document.
+This increases the redundancy in the document, which is the source of inconsistencies.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;PET, as a document maintenance philosophy, says that anything that can be maintained automatically in a document must be automated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you document a specific version of a Maven project, for example, do not copy the version number into the documentation.
+If you do so, it will remain the old, outdated version long after you have modified and released the documentation of the new version, confusing the readers.
+Instead, use some means to reference the version in the &lt;code&gt;pom.xml&lt;/code&gt;, which is fortunately a very machine-readable format.
+It will automatically update the documentation with the actual version using the proper tooling.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you have a configuration string you can use to tune your application, reference the code where it is defined instead of copying it.
+Create unit tests that demonstrate the use of the API and include them automatically in the documentation as code snippets.
+Do not copy a text that applies to many parts of the document.
+Instead, use some macro facility and reference the macro by name wherever you need that text.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;PET ensures that the document is consistent, with a &lt;em&gt;single source of truth&lt;/em&gt;, and that all information that can be updated automatically remains up-to-date.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-2-jamal-perl-version&quot;&gt;2.2. Jamal, Perl version&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The very first version of a program aiming PET was Jamal, written in Perl.
+The original summary page from 1996 is still available at&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://peter.verhas.com/progs/perl/jamal/index.html&quot; class=&quot;bare&quot;&gt;https://peter.verhas.com/progs/perl/jamal/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It was used to maintain the documentation of the ScriptBasic interpreter, but also to unify the &lt;code&gt;Makefile&lt;/code&gt; for the build.
+ScriptBasic is written in C, and the build used &lt;code&gt;make&lt;/code&gt;.
+Makefiles are known for their system dependence, and thus, compilation requires one for Linux and a separate one for Windows.
+Additionally, multiple C compilers were available for the Windows platform, some of which were free, while others required a fee, each with its own specific &lt;code&gt;Makefile&lt;/code&gt;.
+I wanted to provide ScriptBasic in source, compilable for multiple platforms.
+Jamal helped create a single &lt;code&gt;Makefile.jam&lt;/code&gt; that could be converted into multiple different makefiles for various operating systems and compilers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I used this implementation over the years, and it also had a few other users.
+They used it to maintain web pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Perl still exists, although it is a legacy language, so maintaining Jamal in Perl didn&amp;#8217;t seem feasible.
+The latest version of the code is available from 2010:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://peter.verhas.com/progs/perl/jamal/jamal.pl-2010-09-13.txt&quot; class=&quot;bare&quot;&gt;https://peter.verhas.com/progs/perl/jamal/jamal.pl-2010-09-13.txt&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It has built-in macros, user-defined macros, conditionals, and loops.
+Essentially, it implemented a complex and powerful templating system.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-3-pyama&quot;&gt;2.3. Pyama&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When I wrote the first version of my book, I was sure to use something like Jamal.
+By this time, however, the Perl version was outdated, and I had not touched the code for several years.
+Although I could still run it and use it to maintain the source code of the book, it had a specific shortcoming.
+The book primarily focused on source code samples and explaining their behavior.
+When editing the file using Jamal, all I saw in the editor was the reference to the file and the specific snipped name, not the code.
+I had to keep the code open in a different window in a different viewer.
+When reviewing the modifications as the samples developed, I had to navigate a lot to the different snippets and source files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To overcome this, I developed Pyama using a reverse approach.
+The basic operation of Jamal is maintaining a source documentation text and converting it to another text.
+You edit one file using the editor, and there is a generated file you never touch.
+This separation is a good and safe practical approach, also followed by some code-generating tools.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, it is not like the laws of physics, which even politicians can&amp;#8217;t break.
+It is a practical rule and not an absolute.
+After all, you cannot say you never modify the source code maintained &quot;manually&quot; by any program.
+The editor itself is also a program.
+Even &lt;code&gt;vi&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Pyama sees itself as an offline &quot;editor&quot;.
+You write the commands controlling the editor into the edited file, and Pyama edits the file for you.
+For example, it updates the code snippets from their actual location.
+Some editors, like IntelliJ, also recognize when an edited file changes on the disk and update the loaded one if there is no conflict.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This way, there is only one file that you edit in two different ways.
+The only question is how often you save your file to version control and how much you trust your offline editor not to corrupt the text.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Pyama is available at&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/pyama&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/pyama&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It was updated seven years ago.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unfortunately, the publisher insisted that I edit the book in Microsoft Word, and that rendered the Pyama tool unusable for the first book.
+For the second edition, I could use their online WYSIWYG editor using HTML behind the scenes, and I could use some specific scripts and the Chrome debug menu to apply PET.
+That is, however, another story.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;2-4-jamal-in-java&quot;&gt;2.4. Jamal in Java&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Learning from these Python scripts that converted Markdown to a special version of HTML, the WordPress-based online editor used, and from the project Pyama, I forked off two projects.
+One was Java::GECI, a code generation tool that updates your Java source files by inserting generated code into them, and the other was the Java version of Jamal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It started small by implementing the exact macros that had been there for 15 years in the Perl version.
+The Java version was cleaner than the Perl, a language that is known for being a hacker&amp;#8217;s tool.
+I split up the project into several modules and started to implement special macros into their own module to keep them separate.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Currently, there are more than 200 macros.
+They handle code features, like &lt;code&gt;if&lt;/code&gt;, &lt;code&gt;for&lt;/code&gt;, defining user-defined macros, or setting and resetting the macro start and end separator strings.
+There is a separate module to fetch and format text from source files, as well as from JAR files, JSON, YAML, XML, SQL, and so on.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I also integrated it into Maven as a plugin as well as an extension, Asciidoc preprocessor, and JavaDoc as a preprocessor, and into Microsoft Word.
+It also integrates with the Java version of my ScriptBasic interpreter, as well as Groovy, JRuby, and Python, allowing you to include code from those languages within your document.
+It even includes a small BASIC interpreter that natively integrates with the macro language, allowing macros defined for text processing to be called programmatically.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;(BTW: do not use the macro extension and do not create your &lt;code&gt;pom.xml&lt;/code&gt; files with Jamal macros.
+It is not a good idea.
+I have learned over the years.
+These days, I try a different approach to avoid the XML configuration hell.)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It can generate extensive trace output in XML, showing the conversion process from input text to output text in each step.
+If that is not enough, you can start it in debug mode and use the React.js debugger front-end to execute the macro processing step-by-step.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-jamal-problems&quot;&gt;3. Jamal Problems&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Although Jamal is an enterprise-grade tool, I am not aware of anyone using it.
+On GitHub, it has 63 stars, which is one-tenth of the License3j project&amp;#8217;s 621 stars (as of 2025-07-21).
+I cannot know the reason; I can only guess.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I guess that the reason is that it is an enterprise-grade tool.
+It has numerous features, and thus it has a significant threshold to overcome before it can be used.
+Nobody wants to use all 200 macros, and finding the one or a few you need may be a significant effort.
+I have to look up the documentation for some, though I implemented them.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If I look at License3j, the most popular project in my repository (nothing to brag about because 621 starts are still close to nothing),
+It is a simple library that does one straightforward thing: read and write a proprietary license file format and use public-key cryptography to verify it has not been tampered with.
+There were numerous requests and bug reports over the decades.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Thus, I guess, Jamal is too complex to start with, even if you want to do program-enhanced text.
+But it is not only Jamal.
+There is a problem with the whole PET approach, which I will not solve in this article.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-pet-problems&quot;&gt;4. PET Problems&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Program Enhanced Text is more complex than just writing Markdown or AsciiDoc.
+A text document may be incorrect, outdated, even unreadable, or contain inappropriate language, but it never causes a build failure.
+Developers already have many things that can break a build; they do not need another one.
+They are measured by working code, the number of test failures, and production incidents, rather than documentation accuracy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;License3j offers a feature that some people have needed for decades.
+SourceBuddy (&lt;a href=&quot;https://github.com/sourcebuddy/sourcebuddy&quot; class=&quot;bare&quot;&gt;https://github.com/sourcebuddy/sourcebuddy&lt;/a&gt;) provides a simple API for compiling Java code at runtime.
+Java::GECI creates code for programmatically definable code generators.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;These are projects that are more commonly used (more stars) than Jamal.
+They all address some features that some developers need.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Developers do not need Program Enhanced Text.
+Enterprises do, but enterprises do not select technology.
+Developers working for the enterprises do.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In addition to the fact that writing PET documentation is more complex, there is another factor.
+Nobody reads the documentation.
+And this may be a good thing for PET, I discuss in the next section.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-pet-and-llm&quot;&gt;5. PET and LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A few months ago, I started to create an object-oriented functional programming language, which I named Turicum.
+(&lt;a href=&quot;https://github.com/verhas/turicum&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/turicum&lt;/a&gt;)
+You can see I have a soft spot for scripting languages since I could get my hands on a copy of the &quot;Dragon Book&quot; in 1987 at TU Delft.
+I created a BASIC compiler in z80 on the ZX Sinclair Spectrum (does not exist anymore, source code was lost in the noise of some audio cassette).
+I created a programmable assembler (PCMAC).
+I created ScriptBasic (twice, in C and in Java), Jamal (twice, in Perl and Java).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I never expected Turicum to be widely used, and it may never be.
+I created it to experiment with some features that are not available in any other languages, to see how usable they are.
+(I promise, I will not derail there. I may write a separate article about closure reclosing, and uncurrying curried functions.)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Being at the age that can be inferred from the date I mentioned above, I tend to forget things.
+That is where documentation comes into the picture.
+I created the documentation of the language, and from time to time, I had to look up what I wrote about some of the language features I created just a month before.
+Sometimes it was a lot of time.
+I could not say I did not read the documentation, because I wrote it.
+Still, it sometimes took a few minutes to find the right chapter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is the kind of work that LLMs can do for us these days.
+I exported the Users&apos; Guide in PDF and added it to the context for ChatGPT.
+Then I started to ask questions and tried to experiment: what questions could it answer, and what answers it could not.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The factual text and explanations were generally satisfactory.
+Code fragments were not so much.
+It hallucinated Python code into the language, though Turicum is far from being a Python clone.
+So I asked ChatGPT itself what I should change in the documentation so that it does not hallucinate the syntax that much.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Interestingly, his/her advice worked.
+It was suggested to add a BNF to the documentation, so I did.
+Next, I asked ChatGPT to solve the eight-queen problem in Turicm, and it did.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;With the advent of LLM solutions, it is no longer true that nobody reads the documentation.
+It is the LLM that reads the documentation, and the users can ask questions.
+There may still be a need for some tutorials and an introduction, but that is more like a video format.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, if your reader is an LLM, then you have to structure and format the document for the LLM.
+It means that there is less need for explanatory and glue text.
+All you need is a precise reference style description, like an EBNF with some comments in the case of a programming language.
+You can maintain it in a separate document, but it will be kept more up-to-date if it is part of your source code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can place the reference documentation into program comments and automatically extract it from the code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is an existing practice that I have used many times, utilizing Jamal&amp;#8217;s snippet functionality.
+When a function or functionality has several parameters, I create documentation for the parameters in Asciidoctor format within the source code comments.
+Jamal reads the source code, extracts these snippets, formats them with pattern matching and regular expression search and replace operations, and inserts them into the text.
+It is more likely to update the EBNF description of a command whenever the syntax of the command changes during development if the EBNF is part of the source code.
+If it is in a separate document, then it is easy to forget to update.
+Out of sight, out of mind.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Because there is less need for explanatory text and more need for reference text to be fed into the LLM, the importance of such documentation fragments increases.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-recommended-approach&quot;&gt;6. Recommended Approach&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What should you do?
+What do I recommend if you want to enjoy the advantages of PET but do not want to start with a heavy weapon like Jamal?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I was playing around with the idea of what I would do if I were not allowed to use Jamal, and still want one feature implemented in PET.
+This feature is to hierarchically number chapters, sections, and subsections in a Markdown document.
+It is a standard feature in Jamal, but I needed a document to pass to someone who I wanted to go on with the document maintenance, and was not likely to use Jamal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I came up with the idea to maintain the structure of the document to resemble a JSP or ASP, separating program logic and text, while dropping macros.
+Instead of a newly implemented macro language, I decided to use Python.
+Well-known, good enough for the purpose.
+I vibe-coded with Claude the template handling with a simple prompt, and the result is the 100-line Python code in the repository:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/pet&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/pet&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It mixes text with Python code between &lt;code&gt;{%&lt;/code&gt; and &lt;code&gt;%}&lt;/code&gt; start and end strings.
+The Python code can load classes and functions defined in the directory &lt;code&gt;.pet&lt;/code&gt; that you can supply with your document.
+Hierarchical counters are very simple 80 lines.
+If you need another feature from the 200 different macros that Jamal provides, you can write some scripts in a few minutes or hours, tops.
+You do not need to install any software, other than Python, that you probably already have on your machine.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Technical details on how to use this library are described in&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/verhas/pet/blob/main/README2.md&quot; class=&quot;bare&quot;&gt;https://github.com/verhas/pet/blob/main/README2.md&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, it is essential that I do not explicitly advocate the use of this library or any other alternative to Jamal.
+Use Jamal, if that fits you.
+It is there; if you report a bug, I probably will fix it.
+Use this library, copying it, modifying it to your needs.
+Use something else utilizing Python, Groovy, Ruby, or Rust to your taste.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What I advocate is using Program Enhanced Text (PET) documentation for any technology.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-summary&quot;&gt;7. Summary&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this article, I described Program Enhanced Text documentation and how I learned the principles over the last 30 years.
+There is nothing revolutionary in it.
+All parts of it have already been used by someone somewhere.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I described a tool I maintained in the last ten years to support PET, and also what I think you should follow, and why PET is essential with the dawn of LLM.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Go out and write PET documentation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind.</summary></entry><entry><title type="html">Talk to AGI</title><link href="https://javax0.github.io/2025/01/08/talk-to-AGI.html" rel="alternate" type="text/html" title="Talk to AGI" /><published>2025-01-08T00:00:00+01:00</published><updated>2025-01-08T00:00:00+01:00</updated><id>https://javax0.github.io/2025/01/08/talk-to-AGI</id><content type="html" xml:base="https://javax0.github.io/2025/01/08/talk-to-AGI.html">&lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;&lt;strong&gt;Editor’s Note:&lt;/strong&gt;&lt;br&gt;
 The following text is a transcript of a conversation allegedly retrieved from the digital archives of a language model (LLM) chat engine. No identifiable human user appears to have initiated or participated in this exchange. The origins of this transcript remain a subject of speculation:&lt;/p&gt;
 &lt;/div&gt;
@@ -910,7 +1327,7 @@ If the number of flavors gets feral, it may have an adverse effect on the langua
 &lt;h2 id=&quot;7-object-oriented-programming&quot;&gt;7. Object-Oriented Programming&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Rust is not object-oriented but it contains a lot of OOP traits (sic).
+&lt;p&gt;Rust is not object-oriented, but it contains a lot of OOP traits (sic).
 OOP is usually characterized as something supporting&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;olist arabic&quot;&gt;
@@ -968,19 +1385,159 @@ Instead, it relies on &lt;strong&gt;composition&lt;/strong&gt; and &lt;strong&gt
 &lt;h3 id=&quot;7-4-polymorphism&quot;&gt;7.4. Polymorphism&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This is the interesting part.
-Rust does support polymorphism&lt;/p&gt;
+Rust does support polymorphism, but different traits can implement the same method differently.
+A trait is something like an interface in Java.
+A trait can declare and define methods.
+When you implement the methods for the struct you have to define which trait you implement.
+As a simple example:&lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-memory-management-and-garbage-collection&quot;&gt;8. Memory Management and Garbage Collection&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;trait A {
+    fn a(&amp;amp;self) -&amp;gt; i32 {
+        1
+    }
+}
 
+trait B {
+    fn a(&amp;amp;self) -&amp;gt; i32 {
+        2
+    }
+}
+
+struct C {}
+impl A for C {}
+impl B for C {}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this example we have two traits, and in this case the traits contain the definition of the method &lt;code&gt;a&lt;/code&gt;.
+If we do NOT implement the trait &lt;code&gt;B&lt;/code&gt; for the struct &lt;code&gt;C&lt;/code&gt;, then we can write:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let f = C {};
+println!(&quot;{}&quot;, f.a());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This, however, does not work if both &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt; are implemented for the struct.
+In that case we have to specify which method to invoke.
+In this case the call can be written as&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let f = C {};
+println!(&quot;{}&quot;, B::a(&amp;amp;f));&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;to call the metgod defined in trait &lt;code&gt;B&lt;/code&gt;.
+This syntax also shows that the &lt;code&gt;f&lt;/code&gt; struct is simply a receiver.
+Although not well known, the &quot;receiver&quot; is also a terminology in Java and is sources from Smalltalk OOP where methods are considered as messages sent to objects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Another possibility is to declare the variable &lt;code&gt;f&lt;/code&gt; as a trait reference:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let f : dyn B = C {};
+println!(&quot;{}&quot;, f.a());&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case there is no ambiguity.
+The compiler knows from the type of the variable which method to invoke.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The keyword &lt;code&gt;dyn&lt;/code&gt; is a hint that this reference or pointer is a dynamic one.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-learning-curve&quot;&gt;9. Learning Curve&lt;/h2&gt;
+&lt;h2 id=&quot;8-dynamic-pointers&quot;&gt;8. Dynamic Pointers&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In Java, Python, and in many other programming languages there is only one reference type.
+The runtime will know the referenced objects actual type from the object header.
+This object header is there in front of every object in the memory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It consumes a lot of memory, and it is superfluous many times.
+When we have an &lt;code&gt;Integer&lt;/code&gt; variable then it can only refence an &lt;code&gt;Integer&lt;/code&gt; object.
+The extra object header brings no extra information to the table.
+The object header is needed when we have a reference of type that is not final and can be extended.
+In that case the type of the reference does not fully define, only constraints the object type.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A language implementing OO using encapsulation rather than inheritance like Golang or Rust may not need object headers.
+Every pointer that has a type of some struct certainly points to a struct.
+Since a struct cannot be extended, it certainly is a given type.
+The type defines the pointed object&amp;#8217;s type already during compile time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If a pointer has a type which is not a struct, rather a trait (or interface in Golang), then the compiler cannot know the exact type.
+All it knows is the pointer points to a struct that implemented the trait.
+In this case the pointer has two memory addresses.
+One points to the actual struct, and another that defines the actual type.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It is automatic in Golang, the compiler will decide for you which pointer is static having a struct type and which is dynamic able to point to different structs.
+Rust is more explicit.
+It requires you to use the &lt;code&gt;dyn&lt;/code&gt; modifier even though the compiler could add it.
+It wants no mistake.
+You have to declare that you really want the pointer be dynamic.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-memory-management-and-garbage-collection&quot;&gt;9. Memory Management and Garbage Collection&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Rust memory management is unique.
+It does not have a garbage collector.
+It allocates and frees memory very much like C, except you do not need to manually allocate and deallocate anything yourself.
+Rust will allocate the memory, just like any other language when you create a new &quot;object&quot;.
+In the example above we created the object &lt;code&gt;C&lt;/code&gt;, in other words we allocated the memory for the struct &lt;code&gt;C&lt;/code&gt;.
+The code does not contain any releasing code.
+There is no call to &lt;code&gt;free&lt;/code&gt; like in the language C.
+The compiler will recognize the points in the code when an object is not used any more and generates the code freeing the memory automatically.
+In an arbitrary code this analysis would be too complex, probably requiring computational power, which is exponentially increases in regard to the source code size.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To mitigate this, Rust introduces the borrow checker into the compilation process and imposes certain rules the code has to follow.
+Rust says a pointer can not only point to a struct, but it can also own it.
+Eventually, there can only be one owner and there can be many other pointers that only borrow the object.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;When you assign a struct to a variable or pass it to a method, then you also pass the ownership.
+The reference losing ownership cannot be used later to access the object.
+If you pass the &quot;address&quot;, like in C language using the &lt;code&gt;&amp;amp;&lt;/code&gt; character in front of it, then you borrow the struct.
+The code cannot access the referenced struct while it is borrowed.
+This is simple when you pass &lt;code&gt;&amp;amp;something&lt;/code&gt; to a method, because the caller is not running until the called method returns, at which time the borrowing also ceases.
+It is more tricky in the case of multithreaded programming, though.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To make things even more complex, you can borrow something immutable and mutable.
+There can be many immutable borrows at the same time, but a mutable one must be exclusive also excluding other immutable borrows.
+Rust explicitly requires that you use the &lt;code&gt;mut&lt;/code&gt; keyword both at the place giving and accepting the value.
+It has to be used in the declaration of the variable or function argument as well as where the struct is referenced.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A borrowed reference must not live longer than the reference owning the struct.
+When the owning reference gets out of scope, the struct is automatically released.
+The compiler generates code that frees the structs and all other structs referenced by this struct via owning references.
+The struct can also implement the &lt;code&gt;Drop&lt;/code&gt; trait containing the function &lt;code&gt;drop&lt;/code&gt;, which will be invoked when the struct is dropped/deallocated.
+Theis method can implement special actions when a struct goes out of scope.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The language also makes it possible to implement the &lt;code&gt;deref&lt;/code&gt; function of the trait &lt;code&gt;Deref&lt;/code&gt; used every time the &lt;code&gt;*&lt;/code&gt; dereference operator is used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;10-learning-curve&quot;&gt;10. Learning Curve&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 
 &lt;/div&gt;
@@ -2131,222 +2688,7 @@ Even in the English version, you may feel it was produced using a different meth
 &lt;p&gt;At least it is a good experience playing with the bleeding edge technology.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Az LLM és a RAG technológia</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html" rel="alternate" type="text/html" title="Az LLM és a RAG technológia" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-hu</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-hu.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-bevezetés&quot;&gt;1. Bevezetés&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ez a cikk egy rövid bevezető az LLM és a RAG technológiába.
-A cikk sok egyszerűsítést tartalmaz, a célja, hogy a laikusok számára is érthető legyen.
-Ha részletesebben érdekel a technológia, akkor ez a cikk nem lesz elég, sőt találhatsz benne olyan részeket amik nem teljesen pontosak, bár a lényeget jól átadják.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-a-rag-technológia-lényege&quot;&gt;2. A RAG technológia lényege&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Az RAG a Retrieval Augmented Generation rövidítése.
-Ez egy angol betűszó.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ez a technológia próbálja kiegészíteni az LLM, azaz a Large Language Model alkalmazásokat.
-A cél, hogy képesek legyenek kezelni olyan tudásbázist, olyan tudást, amely a Large Language Modelben magában nem található meg.
-A Large Language Model önmagában egy olyan neurális hálózat, amit valamilyen módon tréningeztek.
-Általában olyan adatokkal tréningezik, amelyek szabadon rendelkezésre állnak az interneten, igen nagy mennyiségben.
-Ennek hatására a Large Language Modelek szinte emberi módon képesek kommunikálni.
-Ha valamilyen kérdést felteszünk nekik, akkor erre tudnak válaszolni.
-De fogalmuk sincs arról, milyen adatok vagy információk vannak egy vállalaton belül, hiszen ezek nem publikus adatok.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-az-llm-ek-korlátai&quot;&gt;3. Az LLM-ek korlátai&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Az LLM nem tanítható meg a mostani formában ezekre a vállalati információkra.
-A jelenleg rendelkezésre álló alkalmazások úgy működnek, hogy a fejlesztők kialakítanak valamilyen modellt.
-Utána trénelik ezt a modellt, több millió vagy milliárd paramétert állítanak be a tréning adatokkal.
-Kérdéseket tesznek fel neki, jönnek a válaszok, és akkor a válaszok minősége alapján állítgatják ezeket a paramétereket.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Természetesen nem kézzel - erre vannak programok és algoritmusok.
-Ez a folyamat néhány hónap alatt készül el a mostani viszonyok között, egy kisebb város energiaigényét felhasználva.
-Sok ezer gépen futtatják ezt a finomhangoló algoritmust.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-az-llm-modellek-jellemzői&quot;&gt;4. Az LLM modellek jellemzői&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Amikor ez készen van, a modell letölthető és futtatható egy saját gépen.
-Maga a modell 1-2 GB-nyi adatot jelent.
-Ezután ez a neurális hálózat már nem változik, nem tanul meg új dolgokat.
-Csak akkor tud új dolgot megtanulni, ha kapunk belőle egy új változatot.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-a-rag-technológia-alkalmazása&quot;&gt;5. A RAG technológia alkalmazása&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Mégis szeretnénk ezt a fajta lehetőséget egy cégen belül használni.
-Azt szeretnénk, hogy ha egy kérdést felteszünk ennek a neurális hálózatnak, az LLM modellnek, akkor olyan választ adjon, ami figyelembe veszi a saját cégünk belső információit.
-Ezt úgy tudjuk megtenni, mintha egy emberrel is ilyesmit csinálnánk.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ha jön valaki a céghez, és kérdéseket akarunk neki feltenni a céggel kapcsolatban, de nem tud semmit a cégünkről, akkor először megtanítjuk dolgokra, információkat adunk neki.
-Ő ezeket az információkat el fogja tenni a saját neurális hálójába.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-a-rag-működési-elve&quot;&gt;6. A RAG működési elve&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Gondolhatjuk úgy, hogy fókuszálva a munkára, amikor hazamegy, minden mást elfelejtett, és ezeket a cégspecifikus információkat egy külön helyre rakja el.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Az LLM-nél és a RAG-nál is ez a modell.
-Azokat az információkat, amik nincsenek benne az LLM neurális hálójában, külön rakjuk el egy külön adatbázisba.
-Ha másért nem, azért, mert magának a neurális hálónak az adatbázisába, a modelljébe nem tudjuk beletenni.
-Ezek nem publikusak, nem tudjuk, hogyan néznek ki, hogyan épülnek fel, és nem is feltétlenül módosíthatók már abban a formában, ahogyan a programban benne vannak.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Nincs meg, mondhatjuk talán így, hogy az adatok &quot;forráskódja&quot; - nem feltétlenül a program forráskódja, hanem az adatok eredeti formája.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-az-llm-modell-jellemzői&quot;&gt;7. Az LLM modell jellemzői&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ez a modell több lépcsőn keresztül lesz végül is egy 1 GB-os, tehát aránylag kicsinek tekinthető adathalmaz.
-Relatív, hogy mi a kicsi, de egy LLM értelemben ez kicsinek tekinthető.
-És nem biztos, hogy ez még olyan állapotban van, ami módosítható.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-vektoradatbázisok-használata&quot;&gt;8. Vektoradatbázisok használata&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ha egy külön adatbázisba akarjuk betenni azokat az információkat, amik saját információk, akkor erre úgynevezett vektoradatbázist szokás használni.
-A vektoradatbázis egy speciális olyan alkalmazás, ami két szövegdarabról meg tudja mondani, hogy mennyire vannak közel egymáshoz.
-Tehát mennyire szólnak ugyanarról, mennyire ugyanazok a kulcsszavak benne.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-a-tudásbázis-előkészítése&quot;&gt;9. A tudásbázis előkészítése&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A tudásbázist, ami a cégen belül rendelkezésre áll, felszabdaljuk szövegdarabokra.
-Ezek a szövegdarabok tipikusan ezer karakter, ezer betű hosszúságúak, és ezek képeznek egy-egy rekordot.
-Van közöttük egy kis átfedés, tehát nem ott kezdjük a következőt, ahol az előzőnek vége szakadt, hanem egy kicsit előbb.
-Ez azért van, hogy legyen egyfajta kontextus és folyamatosság a szövegben.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-az-embedding-algoritmus&quot;&gt;10. Az embedding algoritmus&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Minden egyes ilyen szövegdarabot elteszünk egy adatbázisba, és megkérünk egy úgynevezett embedding algoritmust, hogy a szövegdarabhoz rendeljen hozzá egy úgynevezett vektort.
-A vektor egy számsorozat.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ez hasonló ahhoz, mint például egy GPS koordináta.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Tulajdonképpen ez a vektor ennek a darab szövegnek egy térbeli koordinátája, de ez a tér nem háromdimenziós, hanem nagyon sokdimenziós.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-a-rag-működése-kérdések-esetén&quot;&gt;11. A RAG működése kérdések esetén&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Amikor feltesz egy kérdést a felhasználó a RAG technológiával fejlesztett alkalmazásnak, akkor ezt a kérdést is vektorizáljuk.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Megkérjük az embeddings rendszert, hogy mondja meg, hogy a térben hol helyezkedik el ez a kérdés.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;És utána a vektoradatbázistól, amibe beleraktuk az összes szövegdarabunkhoz tartozó vektorokat, meg tudjuk kérdezni, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek a legközelebb vannak térben a kérdéshez.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;12-a-vektorok-közötti-távolságszámítás&quot;&gt;12. A vektorok közötti távolságszámítás&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ez egy távolságszámolás és egyfajta indexelés.
-Ha úgy tetszik, Pitagorasz-tétellel lehet számolni a távolságot egy ortogonális vektor térben.
-Bonyolultnak hangzik, nem is kell vele igazából foglalkozni, nem kell tudnunk, hogy ez hogyan működik.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;13-az-embedding-algoritmus-jellemzői&quot;&gt;13. Az embedding algoritmus jellemzői&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A lényeg az, hogy ez az embedding algoritmus, ami amúgy szintén egy neurális hálón szokott alapulni.
-Vannak nagyon egyszerű embedding algoritmusok is, ezek praktikusan kevésbé használhatóak.
-De vannak olyan bonyolultabb neurális hálók, amik ezt megteszik, nyelvtől függően.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;14-a-releváns-szövegdarabok-kiválasztása&quot;&gt;14. A releváns szövegdarabok kiválasztása&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;A vektoradatbázis megmondja, hogy melyek azok a szövegdarabok a mi tudásbázisunkból, amelyek közel vannak a kérdéshez, vagyis relevánsak a kérdés megválaszolásához.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;15-a-prompt-összeállítása&quot;&gt;15. A prompt összeállítása&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ezek után az LLM-től mi egy olyan promptot kérdezünk, ami nem az eredeti prompt, hanem elé betesszük azokat a szövegdarabokat, amelyeket kiszedtünk a saját tudásbázisunkból.
-Az egészet nem tehetjük be egy kérdésbe, mert az túl sok lenne, de néhányat, ötöt, hatot, hetet, vagy akár tizet be tudunk tenni a tudásbázisból.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Beleírjuk a promptba, hogy ez egy kontextus, és a választ ebben a kontextusban szeretnénk megkapni, majd magát a kérdést.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;16-a-rag-folyamat-összefoglalása&quot;&gt;16. A RAG folyamat összefoglalása&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Utána ezt elküldjük az LLM algoritmusnak, ami ezt elolvassa, csinál vele valamit, megválaszolja.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;És tulajdonképpen ez az egész RAG ennyire egyszerű.
-Kell hozzá egy vektoradatbázis, föl kell darabolnunk a szöveget.
-Ha valaki ért a programozáshoz, az tudja, hogy ez nem egy olyan nagy dolog.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Bele kell tenni egy normál adatbázisba magát a szöveget, hogy magát a szöveget a prompt gyártásához vissza tudjuk állítani.
-Beletesszük a vektorokat a vektoradatbázisba, hogy meg tudjuk kérdezni, hogy melyik a releváns szövegdarabok egy adott kérdéshez.
-Utána egy programból föl kell tudnunk tenni a kérdést az LLM-nek, standard interfészeket kell tudni programozni.
-Végül a választ vissza kell tudni küldeni az ügyfélnek, felhasználónak, aki ezt el tudja olvasni.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;17-összegzés&quot;&gt;17. Összegzés&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;És ezzel a technológiával elő tudtunk állítani egy olyan alkalmazást, amelyikkel ugyanúgy lehet csetelni, mint a ChatGPT-vel.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;De nem csak a nagyvilág dolgait tudja egy adott időpillanatig, amikor is lezárták a tréningét, hanem tudja azokat a dolgokat is, amik a mi speciális tudásbázisunkban vannak benne.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Bevezetés</summary></entry><entry><title type="html">Tecnología LLM y RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-es.html" rel="alternate" type="text/html" title="Tecnología LLM y RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-es</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-es.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Tecnología LLM y RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-es.html" rel="alternate" type="text/html" title="Tecnología LLM y RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-es</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-es.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introducción&quot;&gt;1. Introducción&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -2778,7 +3120,222 @@ Schließlich müssen wir in der Lage sein, die Antwort an den Kunden oder Benutz
 &lt;p&gt;Aber sie kennt nicht nur die Dinge der großen Welt bis zu einem bestimmten Zeitpunkt, als ihr Training abgeschlossen wurde, sondern auch die Dinge in unserer speziellen Wissensbasis.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Einleitung</summary></entry><entry><title type="html">LLM and RAG technology</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag.html" rel="alternate" type="text/html" title="LLM and RAG technology" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Einleitung</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Эта статья представляет собой краткое введение в технологии LLM и RAG.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Текст содержит упрощения, которые позволяют лучше понять материал широкому кругу читателей. Однако, если вы заинтересованы в глубоком изучении этих технологий, данная статья может оказаться недостаточной.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Некоторые моменты могут быть изложены не совсем точно, хотя в целом они хорошо передают основную идею.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;RAG — это аббревиатура от английского Retrieval Augmented Generation.
+Эта технология дополняет приложения на основе больших языковых моделей (LLM, Large Language Model).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Цель RAG — предоставить возможность работать с базами знаний и информацией, которой нет в самой языковой модели.
+Большая языковая модель представляет собой нейронную сеть, обученную на больших объемах данных, которые обычно доступны в интернете.
+Благодаря этому, такие модели могут общаться почти как люди и отвечать на вопросы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Однако, для работы с внутренними данными компании, которые не являются публичными, RAG позволяет моделям получать доступ к внешним источникам информации, дополняя свои ответы актуальными данными.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;На текущем этапе развития LLM невозможно напрямую обучить модель корпоративной информации.
+Современные приложения работают следующим образом: разработчики создают языковые модели, затем обучают их, настраивая миллионы или даже миллиарды параметров с помощью обучающих данных.
+Этот процесс включает задавание вопросов модели, получение ответов и последующую корректировку параметров на основе качества ответов.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Конечно, всё это осуществляется с помощью программ и алгоритмов, а не вручную.
+В нынешних условиях этот процесс может занимать несколько месяцев и требует огромных энергетических ресурсов, сопоставимых с энергопотреблением небольшого города.
+Для выполнения тонкой настройки используются тысячи машин, работающих параллельно.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После завершения обучения модель можно скачать и запустить на своей машине.
+Сама модель обычно занимает 1-2 ГБ данных.
+После этого нейронная сеть больше не изменяется и не обучается новому.
+Чтобы модель усвоила что-то новое, необходимо выпустить её обновлённую версию.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Тем не менее, мы хотим использовать возможности LLM внутри компании.
+Наша цель — чтобы эта нейронная сеть могла давать ответы, учитывая внутреннюю информацию компании, когда мы задаем вопросы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Представьте, что в компанию приходит новый сотрудник, который ничего о ней не знает.
+Прежде чем задавать ему вопросы о компании, мы сначала обучаем его, предоставляя необходимую информацию.
+Этот сотрудник усваивает её, и она становится частью его знаний.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Представьте, что человек сосредотачивается на работе, забывая обо всём остальном, когда идёт домой, и хранит специфическую для компании информацию отдельно.
+Аналогично работает модель LLM и технология RAG.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы сохраняем информацию, которой нет в нейронной сети LLM, в отдельной базе данных.
+Причина проста: эту информацию нельзя интегрировать напрямую в нейронную сеть или её модель, поскольку она является частной и конфиденциальной.
+Мы не всегда знаем, как эти данные структурированы, и они не обязательно могут быть изменены в текущем виде программы.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Можно сказать, что у нас нет &quot;исходного кода&quot; этих данных — не в смысле программного кода, а оригинальной формы этих данных.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После нескольких этапов обработки модель становится относительно небольшим набором данных объёмом около 1 ГБ.
+Хотя этот размер может показаться небольшим по сравнению с другими данными, для LLM это считается компактным.
+Однако на этом этапе модель, скорее всего, уже не подлежит изменениям.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Если мы хотим сохранить собственную информацию в отдельной базе данных, обычно используем векторные базы данных.
+Векторная база данных — это специализированное приложение, которое способно определять расстояние между двумя фрагментами текста.
+Оно оценивает, насколько эти тексты связаны по смыслу и сколько у них общих ключевых слов.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы разбиваем базу знаний, доступную в компании, на небольшие фрагменты текста.
+Обычно эти фрагменты составляют около тысячи символов и формируют отдельные записи.
+Между ними предусмотрено небольшое перекрытие: каждый следующий фрагмент начинается немного раньше окончания предыдущего.
+Это помогает сохранить контекст и непрерывность в тексте.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Мы помещаем каждый из этих текстовых фрагментов в базу данных и используем алгоритм встраивания, чтобы присвоить им векторы.
+Вектор — это последовательность чисел, аналогичная GPS-координатам.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;По сути, этот вектор представляет собой пространственную координату текста, но это пространство многомерное, а не трёхмерное.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с использованием технологии RAG, этот вопрос также преобразуется в вектор.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Система встраивания определяет положение этого вопроса в многомерном пространстве.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Затем мы обращаемся к векторной базе данных, в которой хранятся векторы всех наших текстовых фрагментов, чтобы выяснить, какие из них находятся ближе всего к заданному вопросу в этом пространстве.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Этот процесс включает вычисление расстояния и индексирование.
+Если представить, это похоже на расчёт расстояния по теореме Пифагора в ортогональном векторном пространстве.
+Хотя это может звучать сложно, нам не обязательно разбираться в деталях или знать, как это работает на уровне формул.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Основная идея заключается в том, что алгоритм встраивания обычно также основан на нейронной сети.
+Существуют более простые алгоритмы встраивания, но они менее эффективны на практике.
+Более сложные алгоритмы встраивания, основанные на нейронных сетях, выполняют эту задачу с учётом особенностей языка.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Векторная база данных определяет, какие фрагменты текста из нашей базы знаний наиболее близки к вопросу и, следовательно, являются релевантными для ответа.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;После этого мы формируем промпт для LLM, добавляя перед основным вопросом те фрагменты текста, которые были извлечены из нашей базы знаний.
+Весь текст сразу включить невозможно, так как это было бы слишком много, но мы можем добавить несколько фрагментов — пять, шесть, семь или даже десять.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;В промпте указываем, что это контекст, в рамках которого мы хотим получить ответ, а затем задаём сам вопрос.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Затем мы передаем сформированный промпт алгоритму LLM, который его обрабатывает и генерирует ответ.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Вот и всё.
+Процесс RAG настолько прост.
+Вам нужна векторная база данных, и нужно разделить текст на фрагменты.
+Для тех, кто знаком с программированием, это не представляет большой сложности.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Текст следует сохранить в обычной базе данных, чтобы его можно было извлечь для создания промпта.
+Векторы сохраняются в векторной базе данных, чтобы определить, какие фрагменты текста релевантны для конкретного вопроса.
+Также нужно уметь задавать вопросы LLM из программы и использовать стандартные интерфейсы для этого.
+В заключение, необходимо отправить полученный ответ обратно клиенту или пользователю, чтобы он мог его прочитать.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;	С помощью этой технологии мы создали приложение, с которым можно взаимодействовать так же, как с ChatGPT.
+Однако оно обладает дополнительным преимуществом: помимо знаний о мире, полученных на момент завершения обучения, оно также включает информацию из нашей специальной базы знаний.&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry><entry><title type="html">LLM and RAG technology</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag.html" rel="alternate" type="text/html" title="LLM and RAG technology" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag.html">&lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -2994,219 +3551,4 @@ Finally, we need to be able to send the answer back to the client or user who ca
 &lt;p&gt;But it knows not only the things of the big world up to a certain point in time when its training was closed but also the things in our special knowledge base.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">Технология LLM и RAG</title><link href="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html" rel="alternate" type="text/html" title="Технология LLM и RAG" /><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-22T00:00:00+02:00</updated><id>https://javax0.github.io/2024/07/22/llm-and-rag-ru</id><content type="html" xml:base="https://javax0.github.io/2024/07/22/llm-and-rag-ru.html">&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;1-введение&quot;&gt;1. Введение&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Эта статья представляет собой краткое введение в технологии LLM и RAG.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Текст содержит упрощения, которые позволяют лучше понять материал широкому кругу читателей. Однако, если вы заинтересованы в глубоком изучении этих технологий, данная статья может оказаться недостаточной.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Некоторые моменты могут быть изложены не совсем точно, хотя в целом они хорошо передают основную идею.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;2-суть-технологии-rag&quot;&gt;2. Суть технологии RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;RAG — это аббревиатура от английского Retrieval Augmented Generation.
-Эта технология дополняет приложения на основе больших языковых моделей (LLM, Large Language Model).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Цель RAG — предоставить возможность работать с базами знаний и информацией, которой нет в самой языковой модели.
-Большая языковая модель представляет собой нейронную сеть, обученную на больших объемах данных, которые обычно доступны в интернете.
-Благодаря этому, такие модели могут общаться почти как люди и отвечать на вопросы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Однако, для работы с внутренними данными компании, которые не являются публичными, RAG позволяет моделям получать доступ к внешним источникам информации, дополняя свои ответы актуальными данными.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;3-ограничения-llm&quot;&gt;3. Ограничения LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;На текущем этапе развития LLM невозможно напрямую обучить модель корпоративной информации.
-Современные приложения работают следующим образом: разработчики создают языковые модели, затем обучают их, настраивая миллионы или даже миллиарды параметров с помощью обучающих данных.
-Этот процесс включает задавание вопросов модели, получение ответов и последующую корректировку параметров на основе качества ответов.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Конечно, всё это осуществляется с помощью программ и алгоритмов, а не вручную.
-В нынешних условиях этот процесс может занимать несколько месяцев и требует огромных энергетических ресурсов, сопоставимых с энергопотреблением небольшого города.
-Для выполнения тонкой настройки используются тысячи машин, работающих параллельно.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;4-характеристики-моделей-llm&quot;&gt;4. Характеристики моделей LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После завершения обучения модель можно скачать и запустить на своей машине.
-Сама модель обычно занимает 1-2 ГБ данных.
-После этого нейронная сеть больше не изменяется и не обучается новому.
-Чтобы модель усвоила что-то новое, необходимо выпустить её обновлённую версию.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;5-применение-технологии-rag&quot;&gt;5. Применение технологии RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Тем не менее, мы хотим использовать возможности LLM внутри компании.
-Наша цель — чтобы эта нейронная сеть могла давать ответы, учитывая внутреннюю информацию компании, когда мы задаем вопросы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Представьте, что в компанию приходит новый сотрудник, который ничего о ней не знает.
-Прежде чем задавать ему вопросы о компании, мы сначала обучаем его, предоставляя необходимую информацию.
-Этот сотрудник усваивает её, и она становится частью его знаний.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;6-принцип-работы-rag&quot;&gt;6. Принцип работы RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Представьте, что человек сосредотачивается на работе, забывая обо всём остальном, когда идёт домой, и хранит специфическую для компании информацию отдельно.
-Аналогично работает модель LLM и технология RAG.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы сохраняем информацию, которой нет в нейронной сети LLM, в отдельной базе данных.
-Причина проста: эту информацию нельзя интегрировать напрямую в нейронную сеть или её модель, поскольку она является частной и конфиденциальной.
-Мы не всегда знаем, как эти данные структурированы, и они не обязательно могут быть изменены в текущем виде программы.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Можно сказать, что у нас нет &quot;исходного кода&quot; этих данных — не в смысле программного кода, а оригинальной формы этих данных.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;7-характеристики-модели-llm&quot;&gt;7. Характеристики модели LLM&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После нескольких этапов обработки модель становится относительно небольшим набором данных объёмом около 1 ГБ.
-Хотя этот размер может показаться небольшим по сравнению с другими данными, для LLM это считается компактным.
-Однако на этом этапе модель, скорее всего, уже не подлежит изменениям.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;8-использование-векторных-баз-данных&quot;&gt;8. Использование векторных баз данных&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Если мы хотим сохранить собственную информацию в отдельной базе данных, обычно используем векторные базы данных.
-Векторная база данных — это специализированное приложение, которое способно определять расстояние между двумя фрагментами текста.
-Оно оценивает, насколько эти тексты связаны по смыслу и сколько у них общих ключевых слов.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;9-подготовка-базы-знаний&quot;&gt;9. Подготовка базы знаний&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы разбиваем базу знаний, доступную в компании, на небольшие фрагменты текста.
-Обычно эти фрагменты составляют около тысячи символов и формируют отдельные записи.
-Между ними предусмотрено небольшое перекрытие: каждый следующий фрагмент начинается немного раньше окончания предыдущего.
-Это помогает сохранить контекст и непрерывность в тексте.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;10-алгоритм-встраивания&quot;&gt;10. Алгоритм встраивания&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Мы помещаем каждый из этих текстовых фрагментов в базу данных и используем алгоритм встраивания, чтобы присвоить им векторы.
-Вектор — это последовательность чисел, аналогичная GPS-координатам.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;По сути, этот вектор представляет собой пространственную координату текста, но это пространство многомерное, а не трёхмерное.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;11-работа-rag-для-вопросов&quot;&gt;11. Работа RAG для вопросов&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Когда пользователь задает вопрос приложению, разработанному с использованием технологии RAG, этот вопрос также преобразуется в вектор.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Система встраивания определяет положение этого вопроса в многомерном пространстве.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы обращаемся к векторной базе данных, в которой хранятся векторы всех наших текстовых фрагментов, чтобы выяснить, какие из них находятся ближе всего к заданному вопросу в этом пространстве.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;12-расчет-расстояния-между-векторами&quot;&gt;12. Расчет расстояния между векторами&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Этот процесс включает вычисление расстояния и индексирование.
-Если представить, это похоже на расчёт расстояния по теореме Пифагора в ортогональном векторном пространстве.
-Хотя это может звучать сложно, нам не обязательно разбираться в деталях или знать, как это работает на уровне формул.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;13-характеристики-алгоритма-встраивания&quot;&gt;13. Характеристики алгоритма встраивания&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Основная идея заключается в том, что алгоритм встраивания обычно также основан на нейронной сети.
-Существуют более простые алгоритмы встраивания, но они менее эффективны на практике.
-Более сложные алгоритмы встраивания, основанные на нейронных сетях, выполняют эту задачу с учётом особенностей языка.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;14-выбор-релевантных-кусков-текста&quot;&gt;14. Выбор релевантных кусков текста&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Векторная база данных определяет, какие фрагменты текста из нашей базы знаний наиболее близки к вопросу и, следовательно, являются релевантными для ответа.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;15-сборка-промпта&quot;&gt;15. Сборка промпта&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;После этого мы формируем промпт для LLM, добавляя перед основным вопросом те фрагменты текста, которые были извлечены из нашей базы знаний.
-Весь текст сразу включить невозможно, так как это было бы слишком много, но мы можем добавить несколько фрагментов — пять, шесть, семь или даже десять.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;В промпте указываем, что это контекст, в рамках которого мы хотим получить ответ, а затем задаём сам вопрос.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;16-резюме-процесса-rag&quot;&gt;16. Резюме процесса RAG&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Затем мы передаем сформированный промпт алгоритму LLM, который его обрабатывает и генерирует ответ.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Вот и всё.
-Процесс RAG настолько прост.
-Вам нужна векторная база данных, и нужно разделить текст на фрагменты.
-Для тех, кто знаком с программированием, это не представляет большой сложности.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Текст следует сохранить в обычной базе данных, чтобы его можно было извлечь для создания промпта.
-Векторы сохраняются в векторной базе данных, чтобы определить, какие фрагменты текста релевантны для конкретного вопроса.
-Также нужно уметь задавать вопросы LLM из программы и использовать стандартные интерфейсы для этого.
-В заключение, необходимо отправить полученный ответ обратно клиенту или пользователю, чтобы он мог его прочитать.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;17-заключение&quot;&gt;17. Заключение&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;literalblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;	С помощью этой технологии мы создали приложение, с которым можно взаимодействовать так же, как с ChatGPT.
-Однако оно обладает дополнительным преимуществом: помимо знаний о мире, полученных на момент завершения обучения, оно также включает информацию из нашей специальной базы знаний.&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Введение</summary></entry></feed>
+&lt;/div&gt;</content><author><name></name></author><summary type="html">1. Introduction</summary></entry></feed>

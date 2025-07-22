@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Why I Abandoned my 30-year Open Source Project | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Why I Abandoned my 30-year Open Source Project" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind." />
+<meta property="og:description" content="Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind." />
+<link rel="canonical" href="https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html" />
+<meta property="og:url" content="https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-10T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Why I Abandoned my 30-year Open Source Project" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-07-10T00:00:00+02:00","datePublished":"2025-07-10T00:00:00+02:00","description":"Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind.","headline":"Why I Abandoned my 30-year Open Source Project","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html"},"url":"https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Why I Abandoned my 30-year Open Source Project</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-07-10T00:00:00+02:00" itemprop="datePublished">Jul 10, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I started an open-source project in 1996, I am abandoning now.
+It was not my first OSS project and certainly not the last one.
+It definitely was the one that lasted the longest and that I had the most faith in having an impact on the industry.</p>
+</div>
+<div class="paragraph">
+<p>The project aimed to create a new approach to document maintenance, and over the years, I developed a few versions of software solutions that supported the idea.</p>
+</div>
+<div class="paragraph">
+<p>I am not abandoning the idea, though.
+I still believe that the philosophy behind how we maintain documents is valid.
+It proved itself when I wrote my technical books and several documents.
+The last version of the software tool I created supporting this document management approach is the one I partially abandon.
+Not the approach to document maintenance.</p>
+</div>
+<div class="paragraph">
+<p>In this article I will tell you a bit of the</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>history of these software projects,</p>
+</li>
+<li>
+<p>how it worked technically,</p>
+</li>
+<li>
+<p>how it did not work in the industry, and</p>
+</li>
+<li>
+<p>why it did not work, and why and how do I abandon this project.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-program-enhanced-document-a-k-a-pet">2. Program Enhanced Document a.k.a. PET</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="2-1-what-is-pet">2.1. What is PET</h3>
+<div class="paragraph">
+<p>The idea of Program Enhanced Document was to do only one straightforward thing originally: include a code snippet in the documentation.</p>
+</div>
+<div class="paragraph">
+<p>When I wrote the documentation of the ScriptBasic interpreter, I created sample programs.
+I wanted to have these sample codes in the documentation along with the output of the programs.
+I developed the interpreter, the documentation, and the sample code snippets in parallel.
+Sometimes, I changed the language, the implementation, and the interpreter, and it also required changes in some of the sample code.
+The change in the sample code also changed the output many times.</p>
+</div>
+<div class="paragraph">
+<p>After making the code change, I copied the samples and output into the documentation.
+It was tedious and error-prone, and after a while, as a developer, I decided that I should not manually perform a task that could be automated with a program.
+(Usually, this is the point when the original project is abandoned to start a new one.
+Not in this case, but ScriptBasic, which is still in use in some industrial products, was developed further till 2006 approximately.)</p>
+</div>
+<div class="paragraph">
+<p>I developed a small macro language in Perl, which I named Jamal as an acronym for Just Another Macro Language.
+It is approximately 300 lines of Perl code that could convert one text file to another, processing the embedded macros in the meantime.
+There was a macro that could include a file in the output, so whenever a sample code file or the output changed, the document automatically updated to reflect the changes.</p>
+</div>
+<div class="paragraph">
+<p>It worked.</p>
+</div>
+<div class="paragraph">
+<p>Over the years, I have developed numerous technical documents, including two books on Java 9 and Java 11, as well as several chapters in other books as a co-author.
+Through these works, I realized, step by step, that PET, which I did not call by that name at the time, is a general approach that most technical writers should follow.
+It is a general approach that enhances the documentation source, typically in a textual markup format with additional information that can be processed automatically.
+The documentation written for humans is redundant.
+It is not only formatted but also contains information, which is already documented in the system.
+Sometimes information is repeated because you do not want the reader to turn pages or navigate links to re-read a single sentence that may apply to several parts of the document.</p>
+</div>
+<div class="paragraph">
+<p>The conventional method of managing information in documentation is to copy and paste it from the documented system or other parts of the document.
+This increases the redundancy in the document, which is the source of inconsistencies.</p>
+</div>
+<div class="paragraph">
+<p>PET, as a document maintenance philosophy, says that anything that can be maintained automatically in a document must be automated.</p>
+</div>
+<div class="paragraph">
+<p>If you document a specific version of a Maven project, for example, do not copy the version number into the documentation.
+If you do so, it will remain the old, outdated version long after you have modified and released the documentation of the new version, confusing the readers.
+Instead, use some means to reference the version in the <code>pom.xml</code>, which is fortunately a very machine-readable format.
+It will automatically update the documentation with the actual version using the proper tooling.</p>
+</div>
+<div class="paragraph">
+<p>If you have a configuration string you can use to tune your application, reference the code where it is defined instead of copying it.
+Create unit tests that demonstrate the use of the API and include them automatically in the documentation as code snippets.
+Do not copy a text that applies to many parts of the document.
+Instead, use some macro facility and reference the macro by name wherever you need that text.</p>
+</div>
+<div class="paragraph">
+<p>PET ensures that the document is consistent, with a <em>single source of truth</em>, and that all information that can be updated automatically remains up-to-date.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-2-jamal-perl-version">2.2. Jamal, Perl version</h3>
+<div class="paragraph">
+<p>The very first version of a program aiming PET was Jamal, written in Perl.
+The original summary page from 1996 is still available at</p>
+</div>
+<div class="paragraph">
+<p><a href="https://peter.verhas.com/progs/perl/jamal/index.html" class="bare">https://peter.verhas.com/progs/perl/jamal/index.html</a></p>
+</div>
+<div class="paragraph">
+<p>It was used to maintain the documentation of the ScriptBasic interpreter, but also to unify the <code>Makefile</code> for the build.
+ScriptBasic is written in C, and the build used <code>make</code>.
+Makefiles are known for their system dependence, and thus, compilation requires one for Linux and a separate one for Windows.
+Additionally, multiple C compilers were available for the Windows platform, some of which were free, while others required a fee, each with its own specific <code>Makefile</code>.
+I wanted to provide ScriptBasic in source, compilable for multiple platforms.
+Jamal helped create a single <code>Makefile.jam</code> that could be converted into multiple different makefiles for various operating systems and compilers.</p>
+</div>
+<div class="paragraph">
+<p>I used this implementation over the years, and it also had a few other users.
+They used it to maintain web pages.</p>
+</div>
+<div class="paragraph">
+<p>Perl still exists, although it is a legacy language, so maintaining Jamal in Perl didn&#8217;t seem feasible.
+The latest version of the code is available from 2010:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://peter.verhas.com/progs/perl/jamal/jamal.pl-2010-09-13.txt" class="bare">https://peter.verhas.com/progs/perl/jamal/jamal.pl-2010-09-13.txt</a></p>
+</div>
+<div class="paragraph">
+<p>It has built-in macros, user-defined macros, conditionals, and loops.
+Essentially, it implemented a complex and powerful templating system.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-3-pyama">2.3. Pyama</h3>
+<div class="paragraph">
+<p>When I wrote the first version of my book, I was sure to use something like Jamal.
+By this time, however, the Perl version was outdated, and I had not touched the code for several years.
+Although I could still run it and use it to maintain the source code of the book, it had a specific shortcoming.
+The book primarily focused on source code samples and explaining their behavior.
+When editing the file using Jamal, all I saw in the editor was the reference to the file and the specific snipped name, not the code.
+I had to keep the code open in a different window in a different viewer.
+When reviewing the modifications as the samples developed, I had to navigate a lot to the different snippets and source files.</p>
+</div>
+<div class="paragraph">
+<p>To overcome this, I developed Pyama using a reverse approach.
+The basic operation of Jamal is maintaining a source documentation text and converting it to another text.
+You edit one file using the editor, and there is a generated file you never touch.
+This separation is a good and safe practical approach, also followed by some code-generating tools.</p>
+</div>
+<div class="paragraph">
+<p>However, it is not like the laws of physics, which even politicians can&#8217;t break.
+It is a practical rule and not an absolute.
+After all, you cannot say you never modify the source code maintained "manually" by any program.
+The editor itself is also a program.
+Even <code>vi</code>.</p>
+</div>
+<div class="paragraph">
+<p>Pyama sees itself as an offline "editor".
+You write the commands controlling the editor into the edited file, and Pyama edits the file for you.
+For example, it updates the code snippets from their actual location.
+Some editors, like IntelliJ, also recognize when an edited file changes on the disk and update the loaded one if there is no conflict.</p>
+</div>
+<div class="paragraph">
+<p>This way, there is only one file that you edit in two different ways.
+The only question is how often you save your file to version control and how much you trust your offline editor not to corrupt the text.</p>
+</div>
+<div class="paragraph">
+<p>Pyama is available at</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/pyama" class="bare">https://github.com/verhas/pyama</a></p>
+</div>
+<div class="paragraph">
+<p>It was updated seven years ago.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, the publisher insisted that I edit the book in Microsoft Word, and that rendered the Pyama tool unusable for the first book.
+For the second edition, I could use their online WYSIWYG editor using HTML behind the scenes, and I could use some specific scripts and the Chrome debug menu to apply PET.
+That is, however, another story.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-4-jamal-in-java">2.4. Jamal in Java</h3>
+<div class="paragraph">
+<p>Learning from these Python scripts that converted Markdown to a special version of HTML, the WordPress-based online editor used, and from the project Pyama, I forked off two projects.
+One was Java::GECI, a code generation tool that updates your Java source files by inserting generated code into them, and the other was the Java version of Jamal.</p>
+</div>
+<div class="paragraph">
+<p>It started small by implementing the exact macros that had been there for 15 years in the Perl version.
+The Java version was cleaner than the Perl, a language that is known for being a hacker&#8217;s tool.
+I split up the project into several modules and started to implement special macros into their own module to keep them separate.</p>
+</div>
+<div class="paragraph">
+<p>Currently, there are more than 200 macros.
+They handle code features, like <code>if</code>, <code>for</code>, defining user-defined macros, or setting and resetting the macro start and end separator strings.
+There is a separate module to fetch and format text from source files, as well as from JAR files, JSON, YAML, XML, SQL, and so on.</p>
+</div>
+<div class="paragraph">
+<p>I also integrated it into Maven as a plugin as well as an extension, Asciidoc preprocessor, and JavaDoc as a preprocessor, and into Microsoft Word.
+It also integrates with the Java version of my ScriptBasic interpreter, as well as Groovy, JRuby, and Python, allowing you to include code from those languages within your document.
+It even includes a small BASIC interpreter that natively integrates with the macro language, allowing macros defined for text processing to be called programmatically.</p>
+</div>
+<div class="paragraph">
+<p>(BTW: do not use the macro extension and do not create your <code>pom.xml</code> files with Jamal macros.
+It is not a good idea.
+I have learned over the years.
+These days, I try a different approach to avoid the XML configuration hell.)</p>
+</div>
+<div class="paragraph">
+<p>It can generate extensive trace output in XML, showing the conversion process from input text to output text in each step.
+If that is not enough, you can start it in debug mode and use the React.js debugger front-end to execute the macro processing step-by-step.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-jamal-problems">3. Jamal Problems</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Although Jamal is an enterprise-grade tool, I am not aware of anyone using it.
+On GitHub, it has 63 stars, which is one-tenth of the License3j project&#8217;s 621 stars (as of 2025-07-21).
+I cannot know the reason; I can only guess.</p>
+</div>
+<div class="paragraph">
+<p>I guess that the reason is that it is an enterprise-grade tool.
+It has numerous features, and thus it has a significant threshold to overcome before it can be used.
+Nobody wants to use all 200 macros, and finding the one or a few you need may be a significant effort.
+I have to look up the documentation for some, though I implemented them.</p>
+</div>
+<div class="paragraph">
+<p>If I look at License3j, the most popular project in my repository (nothing to brag about because 621 starts are still close to nothing),
+It is a simple library that does one straightforward thing: read and write a proprietary license file format and use public-key cryptography to verify it has not been tampered with.
+There were numerous requests and bug reports over the decades.</p>
+</div>
+<div class="paragraph">
+<p>Thus, I guess, Jamal is too complex to start with, even if you want to do program-enhanced text.
+But it is not only Jamal.
+There is a problem with the whole PET approach, which I will not solve in this article.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-pet-problems">4. PET Problems</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Program Enhanced Text is more complex than just writing Markdown or AsciiDoc.
+A text document may be incorrect, outdated, even unreadable, or contain inappropriate language, but it never causes a build failure.
+Developers already have many things that can break a build; they do not need another one.
+They are measured by working code, the number of test failures, and production incidents, rather than documentation accuracy.</p>
+</div>
+<div class="paragraph">
+<p>License3j offers a feature that some people have needed for decades.
+SourceBuddy (<a href="https://github.com/sourcebuddy/sourcebuddy" class="bare">https://github.com/sourcebuddy/sourcebuddy</a>) provides a simple API for compiling Java code at runtime.
+Java::GECI creates code for programmatically definable code generators.</p>
+</div>
+<div class="paragraph">
+<p>These are projects that are more commonly used (more stars) than Jamal.
+They all address some features that some developers need.</p>
+</div>
+<div class="paragraph">
+<p>Developers do not need Program Enhanced Text.
+Enterprises do, but enterprises do not select technology.
+Developers working for the enterprises do.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the fact that writing PET documentation is more complex, there is another factor.
+Nobody reads the documentation.
+And this may be a good thing for PET, I discuss in the next section.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-pet-and-llm">5. PET and LLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A few months ago, I started to create an object-oriented functional programming language, which I named Turicum.
+(<a href="https://github.com/verhas/turicum" class="bare">https://github.com/verhas/turicum</a>)
+You can see I have a soft spot for scripting languages since I could get my hands on a copy of the "Dragon Book" in 1987 at TU Delft.
+I created a BASIC compiler in z80 on the ZX Sinclair Spectrum (does not exist anymore, source code was lost in the noise of some audio cassette).
+I created a programmable assembler (PCMAC).
+I created ScriptBasic (twice, in C and in Java), Jamal (twice, in Perl and Java).</p>
+</div>
+<div class="paragraph">
+<p>I never expected Turicum to be widely used, and it may never be.
+I created it to experiment with some features that are not available in any other languages, to see how usable they are.
+(I promise, I will not derail there. I may write a separate article about closure reclosing, and uncurrying curried functions.)</p>
+</div>
+<div class="paragraph">
+<p>Being at the age that can be inferred from the date I mentioned above, I tend to forget things.
+That is where documentation comes into the picture.
+I created the documentation of the language, and from time to time, I had to look up what I wrote about some of the language features I created just a month before.
+Sometimes it was a lot of time.
+I could not say I did not read the documentation, because I wrote it.
+Still, it sometimes took a few minutes to find the right chapter.</p>
+</div>
+<div class="paragraph">
+<p>This is the kind of work that LLMs can do for us these days.
+I exported the Users' Guide in PDF and added it to the context for ChatGPT.
+Then I started to ask questions and tried to experiment: what questions could it answer, and what answers it could not.</p>
+</div>
+<div class="paragraph">
+<p>The factual text and explanations were generally satisfactory.
+Code fragments were not so much.
+It hallucinated Python code into the language, though Turicum is far from being a Python clone.
+So I asked ChatGPT itself what I should change in the documentation so that it does not hallucinate the syntax that much.</p>
+</div>
+<div class="paragraph">
+<p>Interestingly, his/her advice worked.
+It was suggested to add a BNF to the documentation, so I did.
+Next, I asked ChatGPT to solve the eight-queen problem in Turicm, and it did.</p>
+</div>
+<div class="paragraph">
+<p>With the advent of LLM solutions, it is no longer true that nobody reads the documentation.
+It is the LLM that reads the documentation, and the users can ask questions.
+There may still be a need for some tutorials and an introduction, but that is more like a video format.</p>
+</div>
+<div class="paragraph">
+<p>However, if your reader is an LLM, then you have to structure and format the document for the LLM.
+It means that there is less need for explanatory and glue text.
+All you need is a precise reference style description, like an EBNF with some comments in the case of a programming language.
+You can maintain it in a separate document, but it will be kept more up-to-date if it is part of your source code.</p>
+</div>
+<div class="paragraph">
+<p>You can place the reference documentation into program comments and automatically extract it from the code.</p>
+</div>
+<div class="paragraph">
+<p>This is an existing practice that I have used many times, utilizing Jamal&#8217;s snippet functionality.
+When a function or functionality has several parameters, I create documentation for the parameters in Asciidoctor format within the source code comments.
+Jamal reads the source code, extracts these snippets, formats them with pattern matching and regular expression search and replace operations, and inserts them into the text.
+It is more likely to update the EBNF description of a command whenever the syntax of the command changes during development if the EBNF is part of the source code.
+If it is in a separate document, then it is easy to forget to update.
+Out of sight, out of mind.</p>
+</div>
+<div class="paragraph">
+<p>Because there is less need for explanatory text and more need for reference text to be fed into the LLM, the importance of such documentation fragments increases.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-recommended-approach">6. Recommended Approach</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What should you do?
+What do I recommend if you want to enjoy the advantages of PET but do not want to start with a heavy weapon like Jamal?</p>
+</div>
+<div class="paragraph">
+<p>I was playing around with the idea of what I would do if I were not allowed to use Jamal, and still want one feature implemented in PET.
+This feature is to hierarchically number chapters, sections, and subsections in a Markdown document.
+It is a standard feature in Jamal, but I needed a document to pass to someone who I wanted to go on with the document maintenance, and was not likely to use Jamal.</p>
+</div>
+<div class="paragraph">
+<p>I came up with the idea to maintain the structure of the document to resemble a JSP or ASP, separating program logic and text, while dropping macros.
+Instead of a newly implemented macro language, I decided to use Python.
+Well-known, good enough for the purpose.
+I vibe-coded with Claude the template handling with a simple prompt, and the result is the 100-line Python code in the repository:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/pet" class="bare">https://github.com/verhas/pet</a></p>
+</div>
+<div class="paragraph">
+<p>It mixes text with Python code between <code>{%</code> and <code>%}</code> start and end strings.
+The Python code can load classes and functions defined in the directory <code>.pet</code> that you can supply with your document.
+Hierarchical counters are very simple 80 lines.
+If you need another feature from the 200 different macros that Jamal provides, you can write some scripts in a few minutes or hours, tops.
+You do not need to install any software, other than Python, that you probably already have on your machine.</p>
+</div>
+<div class="paragraph">
+<p>Technical details on how to use this library are described in</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/verhas/pet/blob/main/README2.md" class="bare">https://github.com/verhas/pet/blob/main/README2.md</a></p>
+</div>
+<div class="paragraph">
+<p>However, it is essential that I do not explicitly advocate the use of this library or any other alternative to Jamal.
+Use Jamal, if that fits you.
+It is there; if you report a bug, I probably will fix it.
+Use this library, copying it, modifying it to your needs.
+Use something else utilizing Python, Groovy, Ruby, or Rust to your taste.</p>
+</div>
+<div class="paragraph">
+<p>What I advocate is using Program Enhanced Text (PET) documentation for any technology.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-summary">7. Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this article, I described Program Enhanced Text documentation and how I learned the principles over the last 30 years.
+There is nothing revolutionary in it.
+All parts of it have already been used by someone somewhere.</p>
+</div>
+<div class="paragraph">
+<p>I described a tool I maintained in the last ten years to support PET, and also what I think you should follow, and why PET is essential with the dawn of LLM.</p>
+</div>
+<div class="paragraph">
+<p>Go out and write PET documentation.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2025/07/10/why-abandon-30-year-project.html';
+            this.page.identifier = '/2025/07/10/why-abandon-30-year-project.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2025/07/10/why-abandon-30-year-project.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

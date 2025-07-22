@@ -256,7 +256,7 @@ If the number of flavors gets feral, it may have an adverse effect on the langua
 <h2 id="7-object-oriented-programming">7. Object-Oriented Programming</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Rust is not object-oriented but it contains a lot of OOP traits (sic).
+<p>Rust is not object-oriented, but it contains a lot of OOP traits (sic).
 OOP is usually characterized as something supporting</p>
 </div>
 <div class="olist arabic">
@@ -314,19 +314,159 @@ Instead, it relies on <strong>composition</strong> and <strong>trait bounds</str
 <h3 id="7-4-polymorphism">7.4. Polymorphism</h3>
 <div class="paragraph">
 <p>This is the interesting part.
-Rust does support polymorphism</p>
+Rust does support polymorphism, but different traits can implement the same method differently.
+A trait is something like an interface in Java.
+A trait can declare and define methods.
+When you implement the methods for the struct you have to define which trait you implement.
+As a simple example:</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="8-memory-management-and-garbage-collection">8. Memory Management and Garbage Collection</h2>
-<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>trait A {
+    fn a(&amp;self) -&gt; i32 {
+        1
+    }
+}
 
+trait B {
+    fn a(&amp;self) -&gt; i32 {
+        2
+    }
+}
+
+struct C {}
+impl A for C {}
+impl B for C {}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example we have two traits, and in this case the traits contain the definition of the method <code>a</code>.
+If we do NOT implement the trait <code>B</code> for the struct <code>C</code>, then we can write:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>let f = C {};
+println!("{}", f.a());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This, however, does not work if both <code>A</code> and <code>B</code> are implemented for the struct.
+In that case we have to specify which method to invoke.
+In this case the call can be written as</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>let f = C {};
+println!("{}", B::a(&amp;f));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to call the metgod defined in trait <code>B</code>.
+This syntax also shows that the <code>f</code> struct is simply a receiver.
+Although not well known, the "receiver" is also a terminology in Java and is sources from Smalltalk OOP where methods are considered as messages sent to objects.</p>
+</div>
+<div class="paragraph">
+<p>Another possibility is to declare the variable <code>f</code> as a trait reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>let f : dyn B = C {};
+println!("{}", f.a());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case there is no ambiguity.
+The compiler knows from the type of the variable which method to invoke.</p>
+</div>
+<div class="paragraph">
+<p>The keyword <code>dyn</code> is a hint that this reference or pointer is a dynamic one.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="9-learning-curve">9. Learning Curve</h2>
+<h2 id="8-dynamic-pointers">8. Dynamic Pointers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In Java, Python, and in many other programming languages there is only one reference type.
+The runtime will know the referenced objects actual type from the object header.
+This object header is there in front of every object in the memory.</p>
+</div>
+<div class="paragraph">
+<p>It consumes a lot of memory, and it is superfluous many times.
+When we have an <code>Integer</code> variable then it can only refence an <code>Integer</code> object.
+The extra object header brings no extra information to the table.
+The object header is needed when we have a reference of type that is not final and can be extended.
+In that case the type of the reference does not fully define, only constraints the object type.</p>
+</div>
+<div class="paragraph">
+<p>A language implementing OO using encapsulation rather than inheritance like Golang or Rust may not need object headers.
+Every pointer that has a type of some struct certainly points to a struct.
+Since a struct cannot be extended, it certainly is a given type.
+The type defines the pointed object&#8217;s type already during compile time.</p>
+</div>
+<div class="paragraph">
+<p>If a pointer has a type which is not a struct, rather a trait (or interface in Golang), then the compiler cannot know the exact type.
+All it knows is the pointer points to a struct that implemented the trait.
+In this case the pointer has two memory addresses.
+One points to the actual struct, and another that defines the actual type.</p>
+</div>
+<div class="paragraph">
+<p>It is automatic in Golang, the compiler will decide for you which pointer is static having a struct type and which is dynamic able to point to different structs.
+Rust is more explicit.
+It requires you to use the <code>dyn</code> modifier even though the compiler could add it.
+It wants no mistake.
+You have to declare that you really want the pointer be dynamic.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="9-memory-management-and-garbage-collection">9. Memory Management and Garbage Collection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rust memory management is unique.
+It does not have a garbage collector.
+It allocates and frees memory very much like C, except you do not need to manually allocate and deallocate anything yourself.
+Rust will allocate the memory, just like any other language when you create a new "object".
+In the example above we created the object <code>C</code>, in other words we allocated the memory for the struct <code>C</code>.
+The code does not contain any releasing code.
+There is no call to <code>free</code> like in the language C.
+The compiler will recognize the points in the code when an object is not used any more and generates the code freeing the memory automatically.
+In an arbitrary code this analysis would be too complex, probably requiring computational power, which is exponentially increases in regard to the source code size.</p>
+</div>
+<div class="paragraph">
+<p>To mitigate this, Rust introduces the borrow checker into the compilation process and imposes certain rules the code has to follow.
+Rust says a pointer can not only point to a struct, but it can also own it.
+Eventually, there can only be one owner and there can be many other pointers that only borrow the object.</p>
+</div>
+<div class="paragraph">
+<p>When you assign a struct to a variable or pass it to a method, then you also pass the ownership.
+The reference losing ownership cannot be used later to access the object.
+If you pass the "address", like in C language using the <code>&amp;</code> character in front of it, then you borrow the struct.
+The code cannot access the referenced struct while it is borrowed.
+This is simple when you pass <code>&amp;something</code> to a method, because the caller is not running until the called method returns, at which time the borrowing also ceases.
+It is more tricky in the case of multithreaded programming, though.</p>
+</div>
+<div class="paragraph">
+<p>To make things even more complex, you can borrow something immutable and mutable.
+There can be many immutable borrows at the same time, but a mutable one must be exclusive also excluding other immutable borrows.
+Rust explicitly requires that you use the <code>mut</code> keyword both at the place giving and accepting the value.
+It has to be used in the declaration of the variable or function argument as well as where the struct is referenced.</p>
+</div>
+<div class="paragraph">
+<p>A borrowed reference must not live longer than the reference owning the struct.
+When the owning reference gets out of scope, the struct is automatically released.
+The compiler generates code that frees the structs and all other structs referenced by this struct via owning references.
+The struct can also implement the <code>Drop</code> trait containing the function <code>drop</code>, which will be invoked when the struct is dropped/deallocated.
+Theis method can implement special actions when a struct goes out of scope.</p>
+</div>
+<div class="paragraph">
+<p>The language also makes it possible to implement the <code>deref</code> function of the trait <code>Deref</code> used every time the <code>*</code> dereference operator is used.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="10-learning-curve">10. Learning Curve</h2>
 <div class="sectionbody">
 
 </div>
