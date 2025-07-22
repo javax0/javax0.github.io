@@ -1,18 +1,15 @@
 ---
-{%@define title=RUST for Java Developers%}
-title: {%title%}
+
+title: RUST for Java Developers
 layout: posta
 comments: on
 ---
-{%@import javax0.jim%}
-{%@comment
 
-=========================================================================================
-%}{%@sep 〔〕%}
 
-= 〔title〕
 
-〔section Introduction〕
+= RUST for Java Developers
+
+== 1. Introduction
 
 Rust is a relatively new system programming language with a lot of hypes around it.
 Some people love Rust, others hate it, and some do these two at the same time.
@@ -27,14 +24,14 @@ There is nothing in this article you cannot find somewhere else.
 Rust has good documentation, if you know Rust, you will find nothing special here.
 Reading this article, however, may save some time to get an overall understanding of what Rust is and why it is important.
 
-〔section Disclaimer〕
+== 2. Disclaimer
 
 I am a Java developer, and I know Java fairly well, but I am not a Rust expert.
 I have never participated in a commercial Rust project.
 I have created a simple interpreter skeleton to learn the language, but that is all.
 A bit more than a hello world.
 
-〔section Low Level Programming Language〕
+== 3. Low Level Programming Language
 
 Rust is a low-level programming language.
 It is designed to write code for tools, operating systems and typically not for business applications.
@@ -49,7 +46,7 @@ Any abstract code has a clear way to translate into machine code, and the develo
 In other words, zero-cost abstraction aims to generate as performant code as C providing programming efficiency through abstract coding structures.
 In my opinion, Rust fulfills this promise.
 
-〔section Compiled〕
+== 4. Compiled
 
 Rust is compiled using the LLVM compiler tool.
 The generated code is directly executable on the target machine without any supporting run-time.
@@ -58,7 +55,7 @@ It means you need different versions of the compiled packages for different arch
 
 On the other hand, the code starts up fast; there is nothing like the JVM warm-up time.
 
-〔section No `null` pointer〕
+== 5. No `null` pointer
 
 In Rust there is no null pointer.
 The language is designed in a way that it is not possible to have a pointer that points to nowhere.
@@ -87,7 +84,7 @@ Rust it is part of the language, and the design is coherent with the other langu
 
 You will never get a NPE in Rust unless you explicitly escape safety using `safe` blocks.
 
-〔section Preprocessor, Macro〕
+== 6. Preprocessor, Macro
 
 Rust, similar to C, has a preprocessing step.
 
@@ -136,7 +133,7 @@ It opens up the language and makes a way to have different flavors.
 For example, at the moment we have Java and Java with Lombok as a flavor.
 If the number of flavors gets feral, it may have an adverse effect on the language.
 
-〔section Object-Oriented Programming〕
+== 7. Object-Oriented Programming
 
 Rust is not object-oriented, but it contains a lot of OOP traits (sic).
 OOP is usually characterized as something supporting
@@ -146,7 +143,7 @@ OOP is usually characterized as something supporting
 . Inheritance, and
 . Polymorphism
 
-〔subsection Encapsulation〕
+=== 7.1. Encapsulation
 
 Encapsulation is the bundling of data (fields) and methods (functions) that operate on the data within a single unit, usually a class, and are controlling access to the data via access modifiers.
 
@@ -156,13 +153,13 @@ The `impl` block defines methods that can work on that data structure.
 This is similar to classes in Java.
 If you know modern Java and are familiar with the project Valhalla, you can say a `struct` is similar to a value object.
 
-〔subsection Abstraction〕
+=== 7.2. Abstraction
 
 Abstraction involves hiding implementation details and exposing only essential functionalities.
 
 Rust has access modifiers, and you can also define traits, which are somewhat similar to Java interfaces.
 
-〔subsection Inheritance〕
+=== 7.3. Inheritance
 
 Inheritance allows a class to inherit properties and behavior from another class.
 
@@ -171,7 +168,7 @@ Instead, it relies on *composition* and *trait bounds* to achieve similar functi
 
 This is very similar to how Go approaches the same issue.
 
-〔subsection Polymorphism〕
+=== 7.4. Polymorphism
 
 This is the interesting part.
 Rust does support polymorphism, but different traits can implement the same method differently.
@@ -235,7 +232,7 @@ The compiler knows from the type of the variable which method to invoke.
 
 The keyword `dyn` is a hint that this reference or pointer is a dynamic one.
 
-〔section Dynamic Pointers〕
+== 8. Dynamic Pointers
 
 In Java, Python, and in many other programming languages there is only one reference type.
 The runtime will know the referenced objects actual type from the object header.
@@ -263,7 +260,7 @@ It requires you to use the `dyn` modifier even though the compiler could add it.
 It wants no mistake.
 You have to declare that you really want the pointer be dynamic.
 
-〔section Memory Management and Garbage Collection〕
+== 9. Memory Management and Garbage Collection
 
 Rust memory management is unique.
 It does not have a garbage collector.
@@ -301,5 +298,4 @@ The language also makes it possible to implement the `deref` function of the tra
 
 
 
-〔section Learning Curve〕
-
+== 10. Learning Curve
