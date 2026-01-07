@@ -1,0 +1,453 @@
+---
+title: "Synthetic and bridge methods"
+layout: posta
+comments: on
+---
+
+If you have ever played with reflection and executed `getDeclaredMethods()` you may have been surprised. You may get methods that are not present in the source code. Or, perhaps, you had a look at the modifiers of some of the methods and saw that some of these special methods are volatile. Btw: this is nasty question for Java interviews "What does it mean, when a method is volatile?" The proper answer is that a method can not be volatile. At the same time there can be some method among those returned by `getDeclaredMethods()` or even`getMethods()` for which `Modifier.isVolatile(method.getModifiers())` is true.
+
+This has happened to one of the link:https://github.com/verhas/immutator/issues/2[users of the project immutator]. He realized that immutator (which itself digs quite deep into the dark details of Java) generated Java source that was not compilable using the keyword `volatile` as modifier for a method. As a consequence it did not work either.
+
+What has happened there? What are the bridge and syntethic methods?
+
+
+==== 1.1.1. Visibility
+
+
+When you create a nested or embedded class the private variables and methods of the nested class are reachable from the top level class. This used by the link:http://javax0.wordpress.com/2013/12/18/design-pattern-immutable-embedded-builder/[immutable embedded builder pattern]. This is a well defined behavior of Java, defined in the language specification.
+
+[quote]
+____
+
+link:http://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html#jls-6.6.1[JLS7, 6.6.1 Determining Accessibility]
+
+[em]#... if the member or constructor is declared private, then access is
+permitted if and only if it occurs within the body of the top level class (§7.6)
+that encloses the declaration of the member or constructor...#
+
+____
+
+
+[source,java]
+----
+package synthetic;
+
+public class SyntheticMethodTest1 {
+    private A aObj = new A();
+
+    public class A {
+        private int i;
+    }
+
+    private class B {
+        private int i = aObj.i;
+    }
+
+    public static void main(String[] args) {
+        SyntheticMethodTest1 me = new SyntheticMethodTest1();
+        me.aObj.i = 1;
+        B bObj = me.new B();
+        System.out.println(bObj.i);
+    }
+}
+----
+
+
+How is it handled by the JVM? The JVM does not know inner or nested classes. For the JVM all classes are top level outer classes. All classes are compiled to be a top level class, and this is the way how those nice `...$. .class` files are created.
+
+[source,text]
+----
+ $ ls -Fart
+../                         SyntheticMethodTest2$A.class  MyClass.java  SyntheticMethodTest4.java  SyntheticMethodTest2.java
+SyntheticMethodTest2.class  SyntheticMethodTest3.java     ./            MyClassSon.java            SyntheticMethodTest1.java
+----
+
+
+
+If you create an nested or inner class it will be compiled to be a full blown top level class.
+
+How will the private fields be available from the outer class? If those get into a top level class and are private, as they really are, then how will they be reachable from the outer class?
+
+The way javac solves this issue that for any field, method or constructor being private but used from the top level class it generates a synthetic method. These synthetic methods are used to reach the original private filed/method/constructor. The generation of these methods are done in a clever way: only those are generated that are really needed and used from outside.
+
+[source,java]
+----
+package synthetic;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+public class SyntheticMethodTest2 {
+
+    public static class A {
+        private A(){}
+        private int x;
+        private void x(){};
+    }
+
+    public static void main(String[] args) {
+        A a = new A();
+        a.x = 2;
+        a.x();
+        System.out.println(a.x);
+        for (Method m : A.class.getDeclaredMethods()) {
+            System.out.println(String.format("%08X", m.getModifiers()) + " " + m.getName());
+        }
+        System.out.println("--------------------------");
+        for (Method m : A.class.getMethods()) {
+            System.out.println(String.format("%08X", m.getModifiers()) + " " + m.getReturnType().getSimpleName() + " " + m.getName());
+        }
+        System.out.println("--------------------------");
+        for( Constructor<?> c : A.class.getDeclaredConstructors() ){
+            System.out.println(String.format("%08X", c.getModifiers()) + " " + c.getName());
+        }
+    }
+}
+----
+
+
+Since the name of the generated methods depend on the implementation and is not guaranteed the most I can say for the output of the above program is that on the specific platform where I executed it produced the following output:
+
+[source]
+----
+2
+00001008 access$1
+00001008 access$2
+00001008 access$3
+00000002 x
+--------------------------
+00000111 void wait
+00000011 void wait
+00000011 void wait
+00000001 boolean equals
+00000001 String toString
+00000101 int hashCode
+00000111 Class getClass
+00000111 void notify
+00000111 void notifyAll
+--------------------------
+00000002 synthetic.SyntheticMethodTest2$A
+00001000 synthetic.SyntheticMethodTest2$A
+----
+
+
+In the program above we assign value to the field `x` and we also call the method of the same name. These are needed to trigger the compiler to generate the synthetic methods. You can see that it generated three methods, presumably the setter and the getter for the field`x` and a synthetic method to the method `x()`. These synthetic methods, however, are not listed in the next list returned by `getMethods()` since these are synthetic methods and as such are not available for generic invocation. They are, in this sense, as private methods.
+
+The hexa numbers can be interpreter looking at the constants defined in the class `java.lang.reflect.Modifier`:
+
+[source]
+----
+00001008 SYNTHETIC|STATIC
+00000002 PRIVATE
+00000111 NATIVE|FINAL|PUBLIC
+00000011 FINAL|PUBLIC
+00000001 PUBLIC
+00001000 SYNTHETIC
+----
+
+
+There are two constructors in the list. There is a private one and a synthetic one. The private exists, since we defined it. The synthetic on the other hand exists because we invoked the private one from outside. Bridge methods, however, do not had any so far.
+
+
+==== 1.1.2. Generics and inheritance
+
+
+So good, so far, but we still did not see any "volatile" methods.
+
+Looking at the source code of `java.lang.reflec.Modifier` you can see that the constant `0x00000040` is defined twice. Once as `VOLATILE` and once as `BRIDGE` (this latter is package private and is not for general use).
+
+To have such a method a very simple program will do:
+
+[source,java]
+----
+package synthetic;
+
+import java.lang.reflect.Method;
+import java.util.LinkedList;
+
+public class SyntheticMethodTest3 {
+
+    public static class MyLink extends LinkedList<String> {
+        @Override
+        public String get(int i) {
+            return "";
+        }
+    }
+
+    public static void main(String[] args) {
+
+        for (Method m : MyLink.class.getDeclaredMethods()) {
+            System.out.println(String.format("%08X", m.getModifiers()) + " " + m.getReturnType().getSimpleName() + " " + m.getName());
+        }
+    }
+}
+----
+
+
+We have a linked list that has a method `get(int)` returning `String`. Let's not discuss the clean code issues. This is a sample code to demonstrate the topic. The same issues come up in clean code as well, though more complex and harder to get to the point when it causes a problem.
+
+The output says
+
+[source]
+----
+00000001 String get
+00001041 Object get
+----
+
+
+we have two `get()` methods. One that appears in the source code and another one, which is synthetic and bridge. The decompiler `javap` says that the generated code is:
+
+[source]
+----
+public java.lang.String get(int);
+  Code:
+   Stack=1, Locals=2, Args_size=2
+   0:   ldc     #2; //String
+   2:   areturn
+  LineNumberTable:
+   line 12: 0
+
+
+public java.lang.Object get(int);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:   aload_0
+   1:   iload_1
+   2:   invokevirtual   #3; //Method get:(I)Ljava/lang/String;
+   5:   areturn
+----
+
+
+The interesting this is that the signature of the two methods is the same and only the return types are different. This is allowed in the JVM even though this is not possible in the Java language. The bridge method does not do anything else, but calls the original one.
+
+Why do we need this synthetic method? Who will use it. For example the code that wants to invoke the method `get(int)` using a variable that is no of the type `MyLink`:
+
+[source,java]
+----
+        List<?> a = new MyLink();
+        Object z = a.get(0);
+----
+
+
+It can not call the method returning `String` because there is no such in `List`. To make it more demonstrative lets override the method `add()` instead of `get()`:
+
+[source,java]
+----
+package synthetic;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class SyntheticMethodTest4 {
+
+    public static class MyLink extends LinkedList<String> {
+        @Override
+        public boolean add(String s) {
+            return true;
+        }
+    }
+
+    public static void main(String[] args) {
+        List a = new MyLink();
+        a.add("");
+        a.add(13);
+    }
+}
+----
+
+
+We can see that the bridge method
+
+[source]
+----
+public boolean add(java.lang.Object);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:   aload_0
+   1:   aload_1
+   2:   checkcast       #2; //class java/lang/String
+   5:   invokevirtual   #3; //Method add:(Ljava/lang/String;)Z
+   8:   ireturn
+----
+
+
+not only calls the original one. It also checks that the type conversion is OK. This is done during run-time not done by the JVM itself. As you expect it does throw up in the line 18:
+
+[source]
+----
+Exception in thread "main" java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String
+	at synthetic.SyntheticMethodTest4$MyLink.add(SyntheticMethodTest4.java:1)
+	at synthetic.SyntheticMethodTest4.main(SyntheticMethodTest4.java:18)
+----
+
+
+When you get the question about volatile methods at an interview next time, you may know even more than the interviewer.
+
+=== Comments imported from Wordpress
+
+
+*Paul Holser* 2014-03-03 21:18:53
+
+
+
+
+
+[quote]
+____
+Nice set of command-line switches for "ls" there. 8^)
+____
+
+
+
+
+
+*Peter Verhas* 2014-02-28 18:17:00
+
+
+
+
+
+[quote]
+____
+Fixed. Thanks.
+____
+
+
+
+
+
+*Jacob Zimmerman* 2014-02-28 14:53:21
+
+
+
+
+
+[quote]
+____
+You spelled 'Synthetic' wrong in the title
+____
+
+
+
+
+
+*Narasimha Sumanth Y* 2015-09-04 04:42:57
+
+
+
+
+
+[quote]
+____
+Hi, you have explained in detail about the jvm using bridge method but not the volatile method. I don't think that, the very fact volatile and bridge have same modifier codes of 0x00000040 in the java.lang.reflec.modifier means that they both have the same functionality. Couldn't be there a functional difference which is expected to be showed during run-time but still binding to the same modifier code in compile time/ de-compile? Or am i so wrong? Please clarify...
+____
+
+
+
+
+
+*Ben Keller* 2015-12-22 23:56:29
+
+
+
+
+
+[quote]
+____
+My understanding is that you are expected to mask the result of getModifiers() with the method modifiers to ensure you are seeing the modifiers as intended.
+So, do
+[source,java]
+----
+m.getModifiers() &amp; Modifier.methodModifiers()
+----
+
+to ensure that you don't see the bridge bit as volatile
+____
+
+
+
+
+
+*Piotr Joński* 2016-04-08 06:46:29
+
+
+
+
+
+[quote]
+____
+Could you tell me why java does not have a package modifier, that could be specified in java.lang.reflect.Modifier class?
+Why package fields have modifiers '0' ?
+
+How can you determine if the field or method is package? There is no Modifier.isPackage(...) method.
+
+And how is the most elegant solution to do this? Introduce your own PACKAGE constant?
+____
+
+
+
+
+
+*Peter Verhas* 2015-12-23 08:49:30
+
+
+
+
+
+[quote]
+____
+If you apply
+
+[source,java]
+----
+m.getModifiers() &amp; Modifier.methodModifiers()
+----
+
+
+you will not see the method as "volatile". But the same time you will not see it being synthetic either.
+____
+
+
+
+
+
+*Peter Verhas* 2015-09-04 10:02:57
+
+
+
+
+
+[quote]
+____
+There is nothing like a volatile method. That is the reason why the java run-time can use the same numerical value to signal a volatile field as it uses to signal a synthetic method. Similarly there is no synthetic field.
+____
+
+
+
+
+
+*Peter Verhas* 2016-04-08 22:24:20
+
+
+
+
+
+[quote]
+____
+That is because package protected is the default. When there is no modifier then the access to a method or field is package level. (in case of class. In case of interface the default and only possibility is public.) I recommend to use the isXXX() methods to check the modifiers and if all are false then there is no modifier: access is package level.
+____
+
+
+
+
+
+*EventBus源码解析 源码阅读记录 &#8211; 圣骑士wind &#8211; | 长流技术* 2016-06-24 10:31:19
+
+
+
+
+
+[quote]
+____
+[&#8230;] 是编译器生成的方法, 见参考链接: Synthetic and bridge&nbsp;methods https://docs.oracle.com/javase/tutorial/java/generics/bridgeMethods.html [&#8230;]
+____

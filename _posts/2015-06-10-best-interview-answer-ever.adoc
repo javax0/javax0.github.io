@@ -1,0 +1,32 @@
+---
+title: "Best Interview Answer Ever" 
+layout: posta
+comments: on
+---
+
+I am not absolutely sure that this one deserves the title, but it should run for the prize. I swear it is not just made up. It actually happened during a java technical interview where the candidate applied for a senior position.
+
+Q: When you work in a group following agile methodology and scrum what is the velocity of a team?
+
+A: This is 6.1
+
+image::http://bloggar.nwt.se/genusbooden/files/2014/06/wait-what.jpg[]
+
+
+=== Comments imported from Wordpress
+
+
+*Stefan Reich* 2015-08-02 13:26:04
+
+
+
+
+
+[quote]
+____
+I hate that kind of job interview.
+____
+
+
+
+

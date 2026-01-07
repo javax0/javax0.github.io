@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tecnología LLM y RAG | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Tecnología LLM y RAG" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introducción" />
+<meta property="og:description" content="1. Introducción" />
+<link rel="canonical" href="https://javax0.github.io/2024/07/22/llm-and-rag-es.html" />
+<meta property="og:url" content="https://javax0.github.io/2024/07/22/llm-and-rag-es.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-22T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tecnología LLM y RAG" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-07-22T00:00:00+02:00","datePublished":"2024-07-22T00:00:00+02:00","description":"1. Introducción","headline":"Tecnología LLM y RAG","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/07/22/llm-and-rag-es.html"},"url":"https://javax0.github.io/2024/07/22/llm-and-rag-es.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tecnología LLM y RAG</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-07-22T00:00:00+02:00" itemprop="datePublished">Jul 22, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-introducción">1. Introducción</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Este artículo es una breve introducción a la tecnología LLM y RAG.
+El artículo contiene muchas simplificaciones que las personas no especializadas pueden entender.
+Si estás interesado en la tecnología con más detalle, este artículo no será suficiente. Puedes encontrar partes que no son completamente precisas, aunque transmiten bien la esencia.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-la-esencia-de-la-tecnología-rag">2. La esencia de la tecnología RAG</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>RAG es un acrónimo de Retrieval Augmented Generation (Generación Aumentada por Recuperación).
+Es un acrónimo en inglés.</p>
+</div>
+<div class="paragraph">
+<p>Esta tecnología intenta complementar las aplicaciones LLM o Large Language Model (Modelo de Lenguaje Grande).
+El objetivo es poder manejar bases de conocimiento e información que no se encuentran en el propio Modelo de Lenguaje Grande.
+El Modelo de Lenguaje Grande es una red neuronal que ha sido entrenada de alguna manera.
+Usualmente se entrenan con grandes cantidades de datos que están disponibles libremente en línea.
+Como resultado, los Modelos de Lenguaje Grande pueden comunicarse de una manera casi humana.
+Si les hacemos una pregunta, pueden responderla.
+Sin embargo, necesitan aprender sobre qué datos o información existen dentro de una empresa, ya que estos no son datos públicos.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-limitaciones-de-los-llm">3. Limitaciones de los LLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Los LLM no pueden ser enseñados esta información corporativa en su forma actual.
+Actualmente, las aplicaciones disponibles funcionan cuando los desarrolladores crean algunos modelos.
+Luego, entrenan este modelo, estableciendo millones o miles de millones de parámetros con datos de entrenamiento.
+Hacen preguntas, obtienen respuestas y luego ajustan estos parámetros basándose en la calidad de las respuestas.</p>
+</div>
+<div class="paragraph">
+<p>Por supuesto, hay programas y algoritmos para esto, no se hace a mano.
+En las condiciones actuales, este proceso tarda unos meses en completarse utilizando los requisitos energéticos de una pequeña ciudad.
+Ejecutan este algoritmo de ajuste fino en miles de máquinas.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-características-de-los-modelos-llm">4. Características de los modelos LLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cuando está listo, el modelo se puede descargar y ejecutar en tu máquina.
+El modelo en sí representa 1-2 GB de datos.
+Después de esto, esta red neuronal ya no cambia; no aprende cosas nuevas.
+Solo puede aprender algo nuevo si obtenemos una nueva versión.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-aplicación-de-la-tecnología-rag">5. Aplicación de la tecnología RAG</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sin embargo, queremos usar este tipo de capacidad dentro de una empresa.
+Queremos que esta red neuronal, el modelo LLM, dé una respuesta que tenga en cuenta la información interna de nuestra empresa cuando hacemos una pregunta.
+Podemos hacer esto como si estuviéramos haciendo algo similar con humanos.</p>
+</div>
+<div class="paragraph">
+<p>Si alguien viene a la empresa, y queremos hacerle preguntas sobre la empresa, pero no saben nada sobre nuestra empresa, primero les enseñamos cosas y les damos información.
+Ellos pondrán esta información en su red neuronal.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-principio-de-funcionamiento-de-rag">6. Principio de funcionamiento de RAG</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Podemos ver si se enfocan en el trabajo y olvidan todo lo demás cuando se van a casa, y mantienen esta información específica de la empresa en un lugar separado.</p>
+</div>
+<div class="paragraph">
+<p>Este es el modelo para LLM y RAG también.
+Ponemos la información que no está en la red neuronal del LLM por separado en una base de datos separada.
+Si no por otra razón, no podemos ponerla en la base de datos de la red neuronal o en su modelo.
+Estos son privados. No sabemos cómo se ven o cómo están estructurados, y no necesariamente son modificables en la forma en que están en el programa.</p>
+</div>
+<div class="paragraph">
+<p>No tenemos, podríamos decir, el "código fuente" de los datos - no necesariamente el código fuente del programa, sino la forma original de los datos.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-características-del-modelo-llm">7. Características del modelo LLM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Este modelo se convierte en 1 GB a través de varios pasos y es un conjunto de datos relativamente pequeño.
+Es relativo a lo que es pequeño, pero en términos de LLM, esto se considera pequeño.
+Y no es seguro que todavía esté en un estado que pueda ser modificado.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="8-uso-de-bases-de-datos-vectoriales">8. Uso de bases de datos vectoriales</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Si queremos poner nuestra propia información en una base de datos separada, normalmente usamos una base de datos vectorial.
+Una base de datos vectorial es una aplicación especial que puede determinar la distancia entre dos piezas de texto.
+Entonces, ¿cuánto tratan sobre lo mismo y cuántas son las palabras clave exactas?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="9-preparación-de-la-base-de-conocimientos">9. Preparación de la base de conocimientos</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cortamos la base de conocimientos disponible dentro de la empresa en piezas de texto.
+Estas piezas de texto típicamente tienen mil caracteres o mil letras de largo y forman registros individuales.
+Hay un poco de superposición entre ellos, así que no empezamos el siguiente donde terminó el anterior, sino un poco antes.
+Esto es para tener contexto y continuidad en el texto.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="10-el-algoritmo-de-incrustación">10. El algoritmo de incrustación</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ponemos cada una de estas piezas de texto en una base de datos y le pedimos a un algoritmo de incrustación que le asigne un vector.
+El vector es una secuencia de números.</p>
+</div>
+<div class="paragraph">
+<p>Es similar a, por ejemplo, coordenadas GPS.</p>
+</div>
+<div class="paragraph">
+<p>Esencialmente, este vector es una coordenada espacial de este texto, pero este espacio no es tridimensional sino muy multidimensional.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="11-operación-rag-para-preguntas">11. Operación RAG para preguntas</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cuando un usuario dirige una pregunta a una aplicación desarrollada con tecnología RAG, también vectorizamos esta pregunta.</p>
+</div>
+<div class="paragraph">
+<p>Le pedimos al sistema de incrustación que nos diga dónde se encuentra esta pregunta en el espacio.</p>
+</div>
+<div class="paragraph">
+<p>Luego, podemos preguntarle a la base de datos vectorial, en la que pusimos los vectores pertenecientes a todas nuestras piezas de texto, qué piezas de texto de nuestra base de conocimientos están más cerca en el espacio de la pregunta.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="12-cálculo-de-distancia-entre-vectores">12. Cálculo de distancia entre vectores</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Es un cálculo de distancia e indexación.
+Si quieres, puedes calcular la distancia con el teorema de Pitágoras en un espacio vectorial ortogonal.
+Aunque suena complicado, realmente no necesitamos ocuparnos de ello o saber cómo funciona.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="13-características-del-algoritmo-de-incrustación">13. Características del algoritmo de incrustación</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El punto es que este algoritmo de incrustación generalmente también se basa en una red neuronal.
+También hay algoritmos de incrustación elementales, pero estos son prácticamente menos utilizables.
+Hay sistemas de incrustación más complejos basados en redes neuronales que hacen esto, dependiendo del idioma.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="14-selección-de-piezas-de-texto-relevantes">14. Selección de piezas de texto relevantes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La base de datos vectorial nos dice qué piezas de texto de nuestra base de conocimientos están cerca de la pregunta, lo que significa que son relevantes para responder la pregunta.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="15-ensamblaje-del-prompt">15. Ensamblaje del prompt</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Después de esto, le pedimos al LLM un prompt que no es el original, sino que ponemos delante de él esas piezas de texto que extrajimos de nuestra propia base de conocimientos.
+No podemos encajar todo en una sola pregunta porque sería demasiado, pero podemos incluir algunas, cinco, seis, siete o incluso diez de la base de conocimientos.</p>
+</div>
+<div class="paragraph">
+<p>Escribimos en el prompt que este es un contexto, y queremos obtener la respuesta en este contexto, luego la pregunta en sí.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="16-resumen-del-proceso-rag">16. Resumen del proceso RAG</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Luego, enviamos esto al algoritmo LLM, que lo lee, hace algo con él y lo responde.</p>
+</div>
+<div class="paragraph">
+<p>Y esto es todo.
+Todo el RAG es así de simple.
+Necesitas una base de datos vectorial; necesitas cortar el texto.
+Si alguien entiende de programación, sabe que esto no es gran cosa.</p>
+</div>
+<div class="paragraph">
+<p>Necesitamos poner el texto en una base de datos normal para poder restaurarlo para la generación de prompts.
+Ponemos los vectores en la base de datos vectorial para poder preguntar cuáles son las piezas de texto relevantes para una pregunta dada.
+Luego, necesitamos poder hacer preguntas al LLM desde un programa y programar interfaces estándar.
+Finalmente, necesitamos poder enviar la respuesta de vuelta al cliente o usuario que puede leerla.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="17-resumen">17. Resumen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Con esta tecnología, producimos una aplicación con la que puedes chatear igual que con ChatGPT.</p>
+</div>
+<div class="paragraph">
+<p>Pero sabe no solo las cosas del gran mundo hasta cierto punto en el tiempo cuando se cerró su entrenamiento, sino también las cosas en nuestra base de conocimientos especial.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2024/07/22/llm-and-rag-es.html';
+            this.page.identifier = '/2024/07/22/llm-and-rag-es.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2024/07/22/llm-and-rag-es.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

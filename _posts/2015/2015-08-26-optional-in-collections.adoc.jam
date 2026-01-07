@@ -1,0 +1,117 @@
+---
+title: "Optional in collections" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Sometime it is argued that the type `Optional` is worth being used in collections. It allegedly solves the problem of e.g.: `HashMap` that returns `null` in case there is no mapping for a key as well as when the value `null` is mapped to the key. If you use a `Map<Optional<Something>>` then you can clearly separate a missing mapping and an absent value. __And that way you are one level deeper in the rabbit hole.__
+
+First of all
+
+
+{%subsection |you can%}
+
+
+tell if a key is mapped to `null` or not mapped without using `Optional`. There is the method `containsKey()`. This is one more method call to separate the non-mapped key from a mapped `null` value. However calling the methods of `Optional` is also. So what is the point? On the other hand
+
+
+{%subsection |you do not need%}
+
+
+to tell if the key is mapped to `null` or the mapping is missing. If there is a difference in your program code between the two cases then you created the code for the business login in a wrong way. This is certainly code smell. Think of `null` as "nothing", and instead of thinking "`null` is assigned to the key 'aaaaaarrghhh'" say out loud: Nothing is assigned to the key 'aaaaaarrghhh'. You see? There is no difference except that all look at you now in the office.
+
+And using optional as a value in a `Map`
+
+
+{%subsection |you will%}
+
+
+end up one level deeper in the rabbit hole after a while. Code lives independent life. It is not only you, who develop it. In large organizations there are developers who are certainly drunk when code. (This is the  only reasonable explanation for some code.) They will soon populate your `Map<Optional<Something>>` with 
+
+
+	* `null` values, 
+	* absent `Optional` values 
+	* and even with `Optional` object that wrap something else but not your "`Something`". 
+
+
+From time to time, if you are lucky you may even find some non `null`, non absent `Optional<Something>` values.
+
+ 
+
+=== Comments imported from Wordpress
+
+
+*Use of optional is optional | Java Deep* 2015-09-02 16:01:06
+{%@comment id: 8677 %}
+
+{%@comment author_url: https://javax0.wordpress.com/2015/09/02/use-of-optional-is-optional/ %}
+{%@comment author_IP: 192.0.82.85 %}
+{%@comment date_gmt: 2015-09-02 15:01:06 %}
+[quote]
+____
+[&#8230;] the article of last week &#8220;Optional in collections&#8221; today I can&#8217;t help but talking a bit more about the same beast. A bit more [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Using Java 8&#039;s &#039;Optional&#039; is Optional -* 2015-12-02 10:55:50
+{%@comment id: 9297 %}
+
+{%@comment author_url: http://www.thepointofinterest.com/2015/12/using-java-8s-optional-is-optional/ %}
+{%@comment author_IP: 66.96.183.93 %}
+{%@comment date_gmt: 2015-12-02 09:55:50 %}
+[quote]
+____
+[&#8230;] the article of last week “Optional in collections” today I can&#8217;t help but talking a bit more about the same beast in a bit more [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*David Kovacs* 2015-08-26 16:28:38
+{%@comment id: 8642 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 89.134.145.17 %}
+{%@comment date_gmt: 2015-08-26 15:28:38 %}
+[quote]
+____
+I agree in not using Optional. Using Optional instead of null has only one justification, it makes more visible in the code when something can be optional/null or not. The @NonNull and @Nullable annotation solves this cleaner.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Using Java 8&#039;s &#039;Optional&#039; is Optional | JAVA* 2015-12-03 06:06:27
+{%@comment id: 9311 %}
+
+{%@comment author_url: http://java.hot4web.com/2015/12/03/using-java-8s-optional-is-optional/ %}
+{%@comment author_IP: 52.24.44.94 %}
+{%@comment date_gmt: 2015-12-03 05:06:27 %}
+[quote]
+____
+[&#8230;] the article of last week &ldquo;Optional in collections&rdquo; today I can&rsquo;t help but talking a bit more about the same beast in a bit more [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Robert* 2015-08-31 14:45:55
+{%@comment id: 8668 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 38.88.190.162 %}
+{%@comment date_gmt: 2015-08-31 13:45:55 %}
+[quote]
+____
+It seems to me that Optional is really designed around certain types of functional chaining.  I think it tends to work (better) in languages like Scala, but I question how useful it really is in Java. To me at the moment I don't see a good value.  If Java were to move a lot further into being a functional language then maybe it would become more valuable; but with so much need for backwards compatibility I just don't see that happening anytime soon (it ever).
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

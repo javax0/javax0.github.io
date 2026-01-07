@@ -1,0 +1,48 @@
+---
+title: "What DSLs are not for" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+link:http://en.wikipedia.org/wiki/Domain-specific_language[Domain specific languages] are special programming languages. Each fits some special "domain" and makes the business code simpler. Using a DSL the business level problem can be implemented higher level and therefore the resulting code is simpler, it is created faster, presumably contains less errors. Some DSLs in some areas make it even possible to develop business functionality by the domain experts who have limited programming experience. There are many great books on DSLs link:http://martinfowler.com/dsl.html[Martin Fowler's one]  being at least one of, if not the best of the topic.
+
+Many times the decision to use DSL is to shorten release cycles. A mature software in a rapidly changing business domain may change frequently but many times the change is small. If it requires the change of the code then the whole release cycle is to be repeated. Code is modified, unit tested, release candidate is created, QA tests the new version and finally the release is ready after weeks the new business need arose. The obvious approach is to embed some DSL into the application and develop some business function that is likely to be changed in the future in this DSL. The "script" written in DSL may not be part of the real release and therefore the change can go through the system faster. Developers have less obvious coding, which developers usually do not like, business is happy getting the modified functions faster. Right?
+
+WRONG!
+
+But not so obviously at the first time, perhaps. The DSL functions fine, the new behavior is delivered faster and there is no problem. Some time later, however, there come a new feature that can not be implemented in the DSL and needs the change of the code application code. Why not extend the DSL and implement the new functionality in the new version of the DSL? This approach is very lucrative but it is very dangerous.
+
+DSL are like alcohol. They can have a purpose and can serve good. A cup of quality wine after a nice summer evening supper should not harm. Too much of it regularly will ruin your life. A DSL that has too many features may be dangerous. Some may use it for the good, but there is a possibility for abuse. The release process was examined and engineered when the DSL was introduced but may not be reviewed as the DSL became more and more powerful and suddenly you may face a situation when new features are developed into the software out of the release cycle. At some point the release process and the most crucial part of it, quality assurance may be ruined.
+
+DSL should be simple. Modification of the application scripting should also follow some release management. There may not be release management at all. I have heard of software projects where the software was released to public without any significant testing. If there was an error, the users complained about it and a new release came out an hour later. Fixing one bug, creating a new one. No problem if the business can stand that. The actual software was a facebook like application where new feature was more important for the users than uninterrupted use. Other applications in telecom, banking should be tested a bit more rigorous. Regulation may even demand all releases to be archived. In that case scripting out of the release cycle is out of question.
+
+And there may be something in the middle. Some part, some features of the application may need strict release management, while other may not demand that. Some part can be scripted using some DSL, other core functions need strong QA and release management. Some features may mix the both: scripted and still part of the cycle.
+
+The important message is:
+
+[quote]
+____
+Application scripting in DSL does not ease release management and/or QA. If the release management cycle can be releases for some part of the application feature, DSL may be a tool to aid that, but DSL is never the reason.
+____
+
+
+
+=== Comments imported from Wordpress
+
+
+*Valery* 2014-09-23 22:26:56
+{%@comment id: 2105 %}
+{%@comment author_email: vsilaev@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 178.172.141.51 %}
+{%@comment date_gmt: 2014-09-23 21:26:56 %}
+[quote]
+____
+Peter,
+
+Fully agree with you. To convince your readers - try to count how many keywords (and even worse - valid combinations of keywords) exist in SAP ABAP? See here - http://help.sap.com/abapdocu_731/en/abenabap_index.htm. It should not be surprising why SAP consultants have such fabulous rates :)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

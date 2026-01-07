@@ -1,0 +1,138 @@
+---
+
+title: Get Rid of pom.xml
+layout: posta
+comments: on
+---
+
+
+
+= Get Rid of pom.xml
+
+NOTE: A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+
+== 1. Introduction
+
+You want to use Maven, but you feel uneasy with the XML format of the pom file.
+What to do?
+
+== 2. Introduction 2
+
+The introduction says it all, but here we go a bit more detailed.
+
+When developing a Java project, you can choose different build tools.
+The most commonly used tools are Maven and Gradle.
+Lingering from the past, you may sometimes see remnants of old Ant projects.
+There are Sbt, Bazel, Buck, Pant, and Mill.
+These are niche tools.
+You can also try Bach if you like to experiment.
+If you're familiar with Maven and Gradle, you should be' good to go.
+
+Maven was created to be a declarative build tool, as opposed to the that-time prevalent Ant's commanding nature.
+Grade followed Maven many years later when developers started to feel the limitations of this declarativeness.
+Developers like freedom.
+They/we want to tell the developer tool what to do.
+After all, we have programmed that way for the last 70 years in various imperative programming languages.
+You may find some Prolog programmers in some dusty corners behind some long-locked-up doors if you peek.
+Do not.
+Close those doors back and let the departed rest.
+
+Enterprises (a.k.a. the leaders of developers, representing the enterprise and its objectives) do not appreciate developer autonomy.
+Freedom results in individual solutions.
+An individual solution is always more expensive to maintain than a uniform one.
+This is also true for the build systems and Gradle.
+
+If you ever download an open-source project from GitHub using Gradle, what is the first command you execute?
+
+[source]
+----
+    gradle tasks
+----
+
+...then you can see in the output what tasks there are, and then, only after you understand what tasks you can perform, can you start the build.
+What does the same look like in the case of Maven?
+
+[source]
+----
+    mvn clean install
+----
+
+and it builds the project for you.
+
+As a side note, it is a shame that you use `clean install` when a simple `verify` is enough.
+This is a kind of muscle memory coming from the everyday development
+when there is an old, messed-up partial build in the `target` directory,
+and you learned from IDE integration that it is better if you always have the up-to-date version in the local repo.
+
+Nevertheless, it is standard, well-known, like the `wq!` keystroke to exit `vi`.
+
+Enterprises (a.k.a. managers) often prefer Maven.
+A new team member, or a new team, does not need to spend time learning the build structure.
+Maven projects have a standard structure.
+
+If you need a specific step in the build process, you may face an issue.
+You need to use a Maven plugin or create a new one.
+From the management point of view, difficulty is also an advantage.
+Making it challenging to create project-specific items in the build process will ensure developers do it only when absolutely necessary.
+
+The price for all these advantages is that you have to use XML to configure the project.
+After all, XML is so enterprise, isn't it?
+Or can you avoid using XML in the POM file?
+
+Multiple solutions try to do that, so developers need to exist.
+
+In the article, we will examine existing solutions, their pros and cons, and then propose a new one that retains the advantages and mitigates most of the disadvantages.
+
+== 3. How not to XML in POM?
+
+If you want to replace the XML format with something else in the pom files, you can have two approaches:
+
+* preprocess some project definition and produce the XML as the output before the compilation starts, or
+
+* use a Maven extension that reads the project structure from some proprietary format.
+
+The first approach is not professional.
+It is not integrated into the Maven ecosystem, and it is proprietary.
+The other one is Polyglot Maven.
+
+Polyglot Maven is a Maven extension.
+Maven loads a Maven extension before reading the pom file,
+and the extension can hook itself up with Maven,
+registering for the task of reading the project object model.
+If you want to run a Maven extension, you should create an `.mvn` directory in your project with an  `extensions.xml`:
+
+[source]
+----
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <extensions>
+    <extension>
+        <groupId></groupId>
+        <artifactId></artifactId>
+        <version></version>
+    </extension>
+</extensions>
+----
+
+Maven will automatically load the extension provided by the Maven coordinates and run it.
+
+Polyglot Maven can read the project object model in different formats, including
+
+* atom,
+* clojure,
+* groovy,
+* java,
+* kotlin,
+* ruby,
+* scala,
+* yaml.
+
+The project is at
+
+https://github.com/takari/polyglot-maven
+
+
+
+
+== 4. Summary

@@ -1,0 +1,66 @@
+---
+title: "Project lollipop" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+When a young child goes to see a doctor he or she usually gets a lollipop. This is not something really needed for their health, especially argued by dentists. Lollipops do not increase health. They do not make checkup easier. They simply make the whole process more pleasant for the children.
+
+This is similar in IT projects. Stakeholders spend money on your project right from the start but see no benefit for long time. If you provide lollipop, the process may be a bit more pleasant and you can lower the risk of financing change during the project especially in ramp-up period.
+
+Lollipop is not quick win. Quick wins are also very important and should be part of a project to make success more certain. They deliver "real" business value and help to assure all project participants that the project will deliver value in the long run as well. Stakeholders as well as other participants, typically users. Quick wins are part of the final solution in the long run, just scheduled to be delivered sooner than their logical delivery time would otherwise be. Their early schedule usually costs extra money, but it pays back on the human factor. Sometimes quick win deliveries are altered by time, sometimes they are eliminated totally by the end of the project so it may seem that their development was totally waste. But still: they are used for a period and they deliver significant business values.
+
+Lollipops are different a bit. Lollipop is not something necessary for the goal of the project, for the "real" business. They are some features that some of the stakeholders like. Something like adding an Excell export from some database. Business people like Excell exports like children like lollipop. They do not deliver great business value, however they are cheap. Just like lollipop. And then again, some time they turn out to be of real business value: found money, be happy. (This is not really the case for lollipops.)
+
+When you design your projects, think about the possible lollipops. They may be different for each stakeholder, but it is worth devoting the time to find them. If you did it is less likely when you explain why you overrun the budget or time they angrily ask you: where is the poop?
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2013-07-29 13:09:34
+{%@comment id: 26 %}
+{%@comment author_email: lukas.eder@gmail.com %}
+{%@comment author_url: http://lukaseder.wordpress.com %}
+{%@comment author_IP: 31.164.230.186 %}
+{%@comment date_gmt: 2013-07-29 12:09:34 %}
+[quote]
+____
+Haha, nice one! We used to call them "VIP-requirements", issued by stakeholders from the very top who didn't have a lot of say in the project, otherwise.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17895174 %}
+
+*Peter Verhas* 2013-07-29 15:09:39
+{%@comment id: 27 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 165.222.185.132 %}
+{%@comment date_gmt: 2013-07-29 14:09:39 %}
+[quote]
+____
+Very close but this is not exactly the same. Gently exceeding your users expectation is sometimes possible, sometimes not. There are users for whom you just simply can not exceed any expectations. That is bad for them since they are always dissatisfied, and it is bad for the developer because of the imminent stress that it builds. You just can not disclose.
+
+Lollipop is something that does not pay back business wise and if the psychological effects were not taken into account a good project manager would negotiate them off. But she/he does not because they are kind of munitions.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 25 %}
+{%@comment user_id: 31131067 %}
+
+*tamasrev* 2013-07-28 21:36:36
+{%@comment id: 25 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.98.237.33 %}
+{%@comment date_gmt: 2013-07-28 20:36:36 %}
+[quote]
+____
+I think this is what the pragmatic programmers call "Gently exceed your users' expectations"
+http://pragmatictips.com/69
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

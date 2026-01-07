@@ -1,0 +1,356 @@
+---
+title: "Repeated code" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |Introduction%}
+
+
+It is usually not good to have copy/paste code in our Java application but sometimes it is unavoidable. For example the project License3j provides a method `isXXX` in the `Feature` class for each `XXX` type it supports. In that case, we can do no better than write
+
+[source,java]
+----
+    public boolean isBinary() {
+        return type == Type.BINARY;
+    }
+
+    public boolean isString() {
+        return type == Type.STRING;
+    }
+
+    public boolean isByte() {
+        return type == Type.BYTE;
+    }
+
+    public boolean isShort() {
+        return type == Type.SHORT;
+    }
+
+and so on
+
+----
+
+
+for each and every feature type the application supports. And there are some types there: Binary, String, Byte, Short, Int, Long, Float, Double, BigInteger, BigDecimal, Date, UUID. It is not only a boring task to type all the very similar methods, but it is also error-prone. A very few humans are good at doing such a repetitive task. To avoid that we can use the Java::Geci framework and as the simplest solution we can use the generator Iterate.
+
+
+{%section |POM dependency%}
+
+
+To use the generator we have to add the dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>com.javax0.geci</groupId>
+    <artifactId>javageci-core</artifactId>
+    <scope>test</scope>
+    <version>1.4.0</version>
+</dependency>
+----
+
+
+The library is executed only during when the tests run, therefore the use of it does not imply any extra dependency. Whoever wants to use the library License3j does not need to use Java::Geci. This is only a development tool used in `test` scope.
+
+
+{%section |Unit Test running it%}
+
+
+The dependency will not run by itself. After all the dependency is not a program. It is a bunch of class files packaged into a JAR to be available on the classpath. We have to execute the generator and it has to be done through the framework creating a unit test:
+
+[source,java]
+----
+    @Test
+    @DisplayName("run Iterate on the sources")
+    void runIterate() throws IOException {
+        Geci geci = new Geci();
+        Assertions.assertFalse(
+            geci.register(Iterate.builder()
+                              .define(ctx -> ctx.segment().param("TYPE", ctx.segment().getParam("Type").orElse("").toUpperCase()))
+                              .build())
+                .generate()
+            , geci.failed()
+        );
+    }
+----
+
+
+It creates a `Geci` object, instantiates the generator using a builder and then invokes `generate()` on the configured framework Geci object. The `define()` call seems a bit cryptic as for now. We will shed light on that later.
+
+
+{%section |Source Code Preparation%}
+
+
+The final step before executing the build is to define a template and the values to insert into the template. Instead of writing all the methods all we have to do is to write a template and an editor fold segment:
+
+[source,java]
+----
+    /* TEMPLATE
+    LOOP Type=Binary|String|Byte|Short|Int|Long|Float|Double|BigInteger|BigDecimal|Date|UUID
+    public boolean is{{Type}}() {
+        return type == Type.{{TYPE}};
+    }
+
+     */
+    //<editor-fold id="iterate">
+    //</editor-fold>
+----
+
+
+When we execute the generator through the framework it will evaluate the template for each value of the placeholder `Type` and it will replace each `{{Type}}` with the actual value. The resulting code will be inserted into the editor-fold segment with the `id` "iterate".
+
+Looking at the template you can see that there is a placeholder `{{TYPE}}`, which is not defined in the list. This is where the unite test `define()` comes into the picture. It defines a consumer that consumes a context and using that context it reads the actual value of `Type`, creates the uppercased version of the value and assigns it to the segment parameter named `TYPE`.
+
+Generally, that is it. There are other functionalities using the generator, like defining multiple values per iteration assigned to different placeholders, escaping or skipping lines and so on. About those here is an excerpt from the documentation that you can read up-to-date and full az https://github.com/verhas/javageci/blob/master/ITERATE.adoc
+
+
+{%section |Documentation Excerpt%}
+
+
+In the Java source files where you want to use the generator you have to annotate the class with the annotation `@Geci("iterate")`. You can also use the `@Iterate` annotation instead, which is defined in the `javageci-core-annotations` module. This will instruct the Geci framework that you want to use the `iterate` generator in the given class.
+
+
+{%subsection |`TEMPLATE`%}
+
+
+A template starts after a line that is `/\*TEMPLATE` or `TEMPLATE`. There can be spaces before and after and between the `/*` and the word `TEMPLATE` but there should not be anything else on the line. When the generator sees such a line it starts to collect the following lines as the content of the template.
+
+The end of the template is signaled by a line that has `*/` on it and nothing else (except spaces).
+
+The content of the template can contain parameters between `{{` and `}}` characters similarly as it is used by the mustache template program. (The generator is not using mustache, template handling is simpler.)
+
+
+{%subsection |`LOOP`%}
+
+
+While collecting the lines of the template some of the lines are recognized as parameter definitions for the template. These lines do not get into the trunk of the template. (Command names on these lines are always capital.)
+
+As you could see in the introduction the line
+
+[source,text]
+----
+    LOOP type=int|long|short
+----
+
+
+is not part of the template text. It instructs the generator to iterate through the types and set the parameter `{{type}}` in the text to `int` first, `long` the second and `short` the last. That way you can iterate over multiple values of a single parameter.
+
+A more complex template may need more than one parameter. In that case, you can list them in the `LOOP` line as
+
+[source,text]
+----
+    LOOP type,var=int,aInt|long,aLong|short,aShort
+----
+
+
+This will tell the generator to set the parameter `{{type}}` the same way as before for the three iterations but the same time also set the parameter `{{var}}` to `aInt` in the first loop, to `aLong` in the second loop and `aShort` in the last loop.
+
+If the list of the values is too long it is possible to split the list into multiple `LOOP` lines. In this case, however, the variables have to be repeated in the second, third and so on `LOOP` lines. Their order may be different, but if there is a variable undefined in some of the `LOOP` lines then the placeholder referring to it will be resolved and remains in the `{{placeholder}}` form.
+
+The above example can also be written
+
+[source,text]
+----
+    LOOP type,var=int,aInt
+    LOOP var,type=aLong,long
+    LOOP type,var=short,aShort
+----
+
+
+and it will result in the same values as the above `LOOP` repeated here:
+
+[source,text]
+----
+    LOOP type,var=int,aInt|long,aLong|short,aShort
+----
+
+
+
+{%subsection |Default `editor-fold`%}
+
+
+The templates are processed from the start of the file towards the end and the code generated is also prepared in this order. The content of the generated code will be inserted into the `editor-fold` segment that follows the template directly. Although this way the `id` of the
+`editor-fold` segment is not really interesting you must specify a unique `id` for each segment. This is a restriction of the the Java::Geci framework.
+
+
+{%subsection |Advanced Use%}
+
+
+
+{%subsubsection |`EDITOR-FOLD-ID`%}
+
+
+It may happen that you have multiple templates looping over different values and you want the result to go into the same `editor-fold` segment. It is possible using the `EDITOR_FOLD_ID`.
+
+In the following example
+
+[source,text]
+----
+package javax0.geci.iterate.sutclasses;
+
+public class IterateOverMultipleValues {
+    /* TEMPLATE
+    {{type}} get_{{type}}Value(){
+      {{type}} {{variable}} = 0;
+      return {{variable}};
+    }
+
+    LOOP type,variable=int,i|long,l|short,s
+    EDITOR-FOLD-ID getters
+     */
+    //
+            // nothing gets here
+    //
+
+    //
+    int get_intValue(){
+      int i = 0;
+      return i;
+    }
+
+    long get_longValue(){
+      long l = 0;
+      return l;
+    }
+
+    short get_shortValue(){
+      short s = 0;
+      return s;
+    }
+
+    //
+}
+----
+
+
+the generated code gets into the `editor-fold` that has the `id` name `getters` even though this is not the one that follows the template definition.
+
+Use this feature to send the generated code into a single segment from multiple iterating templates. Usually, it is a good practice to keep the template and the segment together.
+
+
+{%subsubsection |`ESCAPE` and `SKIP`%}
+
+
+The end of the template is signaled by a line that is `*/`. This is essentially the end of a comment. What happens if you want to include a comment, like a JavaDoc into the template. You can write the `*/` characters at the end of the comment lines that still have some characters in it. This solution is not elegant and it essentially is a workaround.
+
+To have a line that is exactly a comment closing or just any line that would be interpreted by the template processing, like a `LOOP` line you should have a line containing nothing else but an `ESCAPE` on the previous line. This will tell the template processing to include the next line into the template text and continue the normal processing on the line after.
+
+Similarly, you can have a line `SKIP` to ignore the following line altogether. Using these two commands you can include anything into a template.
+
+An example shows how you can include a JavaDoc comment into the template:
+
+[source,text]
+----
+package javax0.geci.iterate.sutclasses;
+
+public class SkippedLines {
+    /* TEMPLATE
+    /**
+     * A simple zero getter serving as a test example
+     * @return zero in the type {{type}}
+    ESCAPE
+     */
+    // SKIP
+    /*
+    {{type}} get_{{type}}Value(){
+      {{type}} {{variable}} = 0;
+      return {{variable}};
+    }
+    LOOP type,variable=int,i|long,l|short,s
+    EDITOR-FOLD-ID getters
+     */
+    //
+    /**
+     * A simple zero getter serving as a test example
+     * @return zero in the type int
+     */
+    int get_intValue(){
+      int i = 0;
+      return i;
+    }
+    /**
+     * A simple zero getter serving as a test example
+     * @return zero in the type long
+     */
+    long get_longValue(){
+      long l = 0;
+      return l;
+    }
+    /**
+     * A simple zero getter serving as a test example
+     * @return zero in the type short
+     */
+    short get_shortValue(){
+      short s = 0;
+      return s;
+    }
+    //
+}
+----
+
+
+The template starts with the comment and a comment can actually contain any other comment starting. Java comments are not nested. The end of the template is, however the line that contains the `*/` string. We want this line to be part of the template thus we precede it with the line `ESCAPE` so it will not be interpreted as the end of the template. On the other hand, for Java, this ends the comment. To continue the template we have to get "back" into comment mode since we do not want the Java compiler to process the template as code. (Last but not least because the template using placeholders is probably not a syntactically correct Java code fragment.) We need a new `/*` line, which we do not want to get into the template. This line is, therefore, preceded with a line containing `// SKIP`. (Skip lines can have optional `//` before the command.)
+
+The result you can see in the generated code. All methods have the proper JavaDoc documentation.
+
+
+{%subsubsection |`SEP1` and `SEP2`%}
+
+
+Looping over the values you have to separate the names of the placeholders with `,` and  `|` the list of the values. For example, the sample above contains
+
+[source,text]
+----
+    LOOP type,variable=int,i|long,l|short,s
+----
+
+
+two placeholder names `type` and `variable` and three values for each. Placeholders do not need to contain special characters and it is the best if they are standard identifiers. The values, however, may contain a comma or a vertical bar. In that case, you can redefine the string (not only a single character) that the template `LOOP` command can use instead of the single character strings `,` and `|`.
+
+For example the line
+
+[source,text]
+----
+    SEP1 /
+----
+
+
+says that the names and the values should be separated by `/` instead of only one and
+
+[source,text]
+----
+    SEP2 &amp;
+----
+
+
+the list of the values should be separated by one character `&amp;amp;` string. The `SEP1` and `SEP2` will have effect only if they precede the `LOOP` command and they are effective only for the template they are used in. Following the above commands, the `LOOP` example would look like
+
+[source,text]
+----
+    LOOP type/variable=int/i&amp;long/l&amp;short/s
+----
+
+
+That way there is nothing to prevent us to add another value list
+
+[source,text]
+----
+    LOOP type/variable=int/i&amp;long/l&amp;short/s&amp;byte,int/z
+----
+
+
+which eventually will result in a syntax error with the example template, but demonstrates the point redefining the name and the value list separators.
+
+
+{%subsection |Configuration%}
+
+
+The generator is implemented the configuration tools supported by the Geci framework and all the parameters are configurable. You can redefine the regular expressions that match the template start, end, skip and so on lines in the unit test where the generator object is created, in the annotation of the class or in the editor-fold parameters.
+
+
+{%section |Takeaway%}
+
+
+The iterate generator is an extremely easy to use generator to create code that is repetitive. This is also the major danger: you should be strong enough to find a better solution and use it only when it is the best solution.

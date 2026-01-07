@@ -1,0 +1,509 @@
+---
+title: "Does javac do optimization? Does not seem..."
+layout: posta
+comments: on
+---
+
+We usually say that java programmers have to write code that looks good and all other issues are solved by the compiler. For example having a complex boolean expression is better moved to a separate method with a good name and with a single `return` statement containing the expression. The original `if` or `while` will be much easier to understand. The java compiler is clever enough to see that the code is only called from a single place and will move the code inline.
+
+Is it really true? I have heard that the JIT compiler does the optimization and the javac compiler does not. Let us have a look at some simple class:
+
+[source,java]
+----
+public class OptimizeThis {
+	private int a(int x, int y) {
+		return x + y;
+	}
+
+	public int add(int x, int y, int z) {
+		return a(a(x, y), z);
+	}
+}
+----
+
+
+There is a lot of space for optimization. The method `a()` could be left out from all the fun. The code could be included in the method `add()` and the code would be much faster.
+Something like this:
+[source,java]
+----
+public class Optimized {
+	public int add(int x, int y, int z) {
+		return x + y + z;
+	}
+}
+----
+
+Let us compile the class `OptimizeThis` and disassemble using `javap`:
+
+[source,text]
+----
+verhasp:java verhasp$ javac OptimizeThis.java
+$ javap -v -p OptimizeThis.class
+Classfile /Users/verhasp/.../src/main/java/OptimizeThis.class
+  Last modified 2012.07.08.; size 327 bytes
+  MD5 checksum 9ba33fe0979ff0948a683fab2dc32d12
+  Compiled from "OptimizeThis.java"
+public class OptimizeThis
+  SourceFile: "OptimizeThis.java"
+  minor version: 0
+  major version: 51
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #4.#15         //  java/lang/Object."<init>":()V
+   #2 = Methodref          #3.#16         //  OptimizeThis.a:(II)I
+   #3 = Class              #17            //  OptimizeThis
+   #4 = Class              #18            //  java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Utf8               Code
+   #8 = Utf8               LineNumberTable
+   #9 = Utf8               a
+  #10 = Utf8               (II)I
+  #11 = Utf8               add
+  #12 = Utf8               (III)I
+  #13 = Utf8               SourceFile
+  #14 = Utf8               OptimizeThis.java
+  #15 = NameAndType        #5:#6          //  "<init>":()V
+  #16 = NameAndType        #9:#10         //  a:(II)I
+  #17 = Utf8               OptimizeThis
+  #18 = Utf8               java/lang/Object
+{
+  public OptimizeThis();
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+
+  private int a(int, int);
+    flags: ACC_PRIVATE
+    Code:
+      stack=2, locals=3, args_size=3
+         0: iload_1
+         1: iload_2
+         2: iadd
+         3: ireturn
+      LineNumberTable:
+        line 3: 0
+
+  public int add(int, int, int);
+    flags: ACC_PUBLIC
+    Code:
+      stack=4, locals=4, args_size=4
+         0: aload_0
+         1: aload_0
+         2: iload_1
+         3: iload_2
+         4: invokespecial #2                  // Method a:(II)I
+         7: iload_3
+         8: invokespecial #2                  // Method a:(II)I
+        11: ireturn
+      LineNumberTable:
+        line 7: 0
+}
+verhasp:java verhasp$
+----
+
+
+You can see we have both of the methods. The code
+
+[source,text]
+----
+  private int a(int, int);
+    flags: ACC_PRIVATE
+    Code:
+      stack=2, locals=3, args_size=3
+         0: iload_1
+         1: iload_2
+         2: iadd
+         3: ireturn
+----
+
+
+is the private method `a()` and the code
+
+[source,text]
+----
+  public int add(int, int, int);
+    flags: ACC_PUBLIC
+    Code:
+      stack=4, locals=4, args_size=4
+         0: aload_0
+         1: aload_0
+         2: iload_1
+         3: iload_2
+         4: invokespecial #2                  // Method a:(II)I
+         7: iload_3
+         8: invokespecial #2                  // Method a:(II)I
+        11: ireturn
+----
+
+
+is the public method `add()`. The code itself is simple. The method `a()` loads on the operand stack the first local variable (`iload_1`), then it does the same with the second (`iload_2`), and then adds the two (`iadd`). What is left on the operand stack is used to return (`ireturn`).
+
+	* the local variable number zero is `this` in case of non-static methods
+	* the arguments are also treated as local variables
+	* for the first few local variables there are shorthand java byte codes, because the generated code accesses these the most and this saves some space and speed
+	* we are using `int` only and thus we need not care about more complex issues, like a `double` occupying two slots.
+
+Them method `add()` is almost as simple. Loads the value of `this` on the operand stack two times. It is needed to call the non-static method `a()`. After that it loads the first and the second local variable on the stack (the first two method arguments) and in the command #4 (line 61.) calls the method `a()`. After this it loads the third local variable on the stack. This time the stack contains the variable `this`, the result of the previous call to method `a()` and then the third local variable, which is the third argument to the method `add()`. Then it calls the method `a()`.
+
+Let us have a look at the code generated from the class `Optimized`:
+
+[source,text]
+----
+$ javap -v -p Optimized.class
+Classfile /Users/verhasp/.../src/main/java/Optimized.class
+  Last modified 2012.07.08.; size 251 bytes
+  MD5 checksum 2765acd1d55048184e9632c1a14a8e21
+  Compiled from "Optimized.java"
+public class Optimized
+  SourceFile: "Optimized.java"
+  minor version: 0
+  major version: 51
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #3.#12         //  java/lang/Object."<init>":()V
+   #2 = Class              #13            //  Optimized
+   #3 = Class              #14            //  java/lang/Object
+   #4 = Utf8               <init>
+   #5 = Utf8               ()V
+   #6 = Utf8               Code
+   #7 = Utf8               LineNumberTable
+   #8 = Utf8               add
+   #9 = Utf8               (III)I
+  #10 = Utf8               SourceFile
+  #11 = Utf8               Optimized.java
+  #12 = NameAndType        #4:#5          //  "<init>":()V
+  #13 = Utf8               Optimized
+  #14 = Utf8               java/lang/Object
+{
+  public Optimized();
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+
+  public int add(int, int, int);
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=4, args_size=4
+         0: iload_1
+         1: iload_2
+         2: iadd
+         3: iload_3
+         4: iadd
+         5: ireturn
+      LineNumberTable:
+        line 3: 0
+}
+----
+
+
+Much simpler. Is it also faster? The proof of the pudding is in the eating. If it is not tasty then the dog will eat it. However...
+
+Here we have again the two classes extended with some `main` methods (one for each).
+[source,java]
+----
+public class OptimizeThis {
+	private int a(int x, int y) {
+		return x + y;
+	}
+
+	public int add(int x, int y, int z) {
+		return a(a(x, y), z);
+	}
+
+	public static void main(String[] args) {
+		OptimizeThis adder = new OptimizeThis();
+		final int outer = 100_0000_000;
+		final int loop = 100_0000_000;
+		Long tStart = System.currentTimeMillis();
+		for (int j = 0; j < outer; j++) {
+			for (int i = 0; i < loop; i++) {
+				int x = 1;
+				int y = 2;
+				int z = 3;
+				adder.add(x, y, z);
+			}
+		}
+		Long tEnd = System.currentTimeMillis();
+		System.out.println(tEnd - tStart);
+	}
+}
+----
+
+
+and
+
+[source,java]
+----
+public class Optimized {
+	public int add(int x, int y, int z) {
+		return x + y + z;
+	}
+
+	public static void main(String[] args) {
+		Optimized adder = new Optimized();
+		final int outer = 100_0000_000;
+		final int loop = 100_0000_000;
+		Long tStart = System.currentTimeMillis();
+		for (int j = 0; j < outer; j++) {
+			for (int i = 0; i < loop; i++) {
+				int x = 1;
+				int y = 2;
+				int z = 3;
+				adder.add(x, y, z);
+			}
+		}
+		Long tEnd = System.currentTimeMillis();
+		System.out.println(tEnd - tStart);
+	}
+}
+----
+
+
+In addition to this we also created an empty class, named `Empty` that returns constant zero.
+
+[source,java]
+----
+public class Empty {
+	public int add(int x, int y, int z) {
+		return 0;
+	}
+
+	public static void main(String[] args) {
+		Empty adder = new Empty();
+		final int outer = 100_0000_000;
+		final int loop = 100_0000_000;
+		Long tStart = System.currentTimeMillis();
+		for (int j = 0; j < outer; j++) {
+			for (int i = 0; i < loop; i++) {
+				int x = 1;
+				int y = 2;
+				int z = 3;
+				adder.add(x, y, z);
+			}
+		}
+		Long tEnd = System.currentTimeMillis();
+		System.out.println(tEnd - tStart);
+	}
+}
+----
+
+
+Here we have an executing script that can be called after executing the command `javac *.java`:
+
+[source,bash]
+----
+#! /bin/sh
+echo "Empty"
+java Empty
+echo "Optimized"
+java Optimized
+echo "OptimizeThis"
+java OptimizeThis
+----
+
+
+And the result:
+[strong]#STOP!!!!# Before you open it try to estimate the ration between the optimized and non-optimized version and also how much faster the class `Empty` is. If you have your estimation you can open the result:
+
+[source,bash]
+----
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1970
+Optimized
+1987
+OptimizeThis
+1970
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1986
+Optimized
+2026
+OptimizeThis
+2001
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1917
+Optimized
+1892
+OptimizeThis
+1899
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1908
+Optimized
+1903
+OptimizeThis
+1899
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1898
+Optimized
+1891
+OptimizeThis
+1892
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1896
+Optimized
+1896
+OptimizeThis
+1897
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1897
+Optimized
+1903
+OptimizeThis
+1897
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1908
+Optimized
+1892
+OptimizeThis
+1900
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1899
+Optimized
+1905
+OptimizeThis
+1904
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1891
+Optimized
+1896
+OptimizeThis
+1896
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1895
+Optimized
+1891
+OptimizeThis
+1904
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1898
+Optimized
+1889
+OptimizeThis
+1894
+verhasp:java verhasp$ ./testrun.sh
+Empty
+1917
+Optimized
+1894
+OptimizeThis
+1898
+verhasp:java verhasp$
+----
+
+
+Conclusion? Before you vote on the first choice read all the possible answers!
+
+[polldaddy poll=6445870]
+
+[small]#The tests were executed on a 8GB memory MacBook Pro7,1 with  OS X 10.7.4, 7-es Java (you could notice it that it was already java7) Still here you can have the output of 'java -version':#
+
+[source,bash]
+----
+verhasp:java verhasp$ java -version
+java version "1.7.0_04"
+Java(TM) SE Runtime Environment (build 1.7.0_04-b21)
+Java HotSpot(TM) 64-Bit Server VM (build 23.0-b21, mixed mode)
+----
+
+
+[small]#Next time something more interesting.#
+
+=== Comments imported from Wordpress
+
+
+*Mark* 2013-01-30 19:41:33
+
+
+
+
+
+[quote]
+____
+On “return a(a(x, y), z);”…
+
+A loosely connected topic was on conversation this morning when I popped the question to my girlfriend: “Now it’s OK, that Java[8] and C++[11] is going down the road building lambdas and such functional elements into the language, but will those elements be only syntactic mas…bation, or could we make use of the optimalizations already known from FP langs?” [1] [2]
+
+I meant that Haskell could handle lists of infinite length passed to a function, and could take the first n element of it, while in many languages we cannot even “create” an infinite-length list:
+
+> let takefive x = take 5 x
+> takefive [1..]
+[1,2,3,4,5]
+
+Or just look at the “solve problems with recursive functions” approach of these languages.
+
+These examples, apart from the fact that the lazyness of FP languages explains a lot of such things, must imply a lot of compiler/parser optimizations.
+
+Now back to your example of how dummy our javac compiler is when coming to such a simply recursion-like embedding: a(a(x,y), z); If this couldn’t be unrolled by a compiler, then I am pretty sure massively recursive functions are not either… :-( Yet. We’ll see.
+
+[1] OK, I should have read on about compilers implementation, but I came across your post first.
+[2] Yeah, popping the question isn’t the traditional way, but she is also a programmer, so this legitimates the situation ;-)
+____
+
+
+
+
+
+*Peter Verhas* 2014-08-29 13:57:36
+
+
+
+
+
+[quote]
+____
+Thanks for the comment. It is true that JIT can optimize even more after warming up. The experiments above, which are not meant to be benchmarks, simply demonstrate that JIT optimize even before warm up.
+____
+
+
+
+
+
+*Esko Luontola* 2014-08-29 13:30:49
+
+
+
+
+
+[quote]
+____
+Your benchmarks are faulty. The JIT would even remove the whole for loops if the code was warmed properly.
+
+To better understand micro benchmarking on Java, see http://shipilev.net/#benchmarking
+____
+
+
+
+
+
+*Microbenchmarking comes to Java 9 | Java Deep* 2016-09-11 15:20:21
+
+
+
+
+
+[quote]
+____
+[&#8230;] years ago I was writing about how Java compiler optimizes the code it executes. Or rather how javac does not do that and the same time JIT does. I made some [&#8230;]
+____

@@ -1,0 +1,223 @@
+---
+title: Open Source Blog
+layout: posta
+comments: on
+---
+
+
+
+
+
+
+
+
+
+
+
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog[https://github.com/javax0/javax0.github.io/tree/master/_projects/2023-01-31-opensource-blog]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/2023-01-31-opensource-blog.adoc.jam]
+****
+====
+== 1. Introduction
+
+This article is about the philosophy behind creating an open-source blog.
+The article will discuss
+
+* what an open-source blog means
+
+
+== 2. What is an Open-Source Blog?
+
+We know what open-source software (OSS) is.
+It is many things.
+
+* OSS is free to redistribute.
+* Source code is included.
+* The license allows modification.
+* Supports the integrity of the author's code.
+* No discrimination against persons or groups.
+* No discrimination against fields of endeavor.
+* Distribution of license.
+* License must not be specific to a product.
+* License must not restrict other software.
+* License must be technology-neutral.
+
+(source link:https://en.wikipedia.org/wiki/The_Open_Source_Definition[Wikipedia, Open Source Definition]])
+
+The initiative of OSS was extended to documentation, for example, the GNU Free Documentation License.
+The most well-known licensing scheme is the link:https://en.wikipedia.org/wiki/Creative_Commons_license[Creative Commons License].
+
+These mainly focus on the rights and the way the product is used.
+It is imperative, and there is a good reason that most approaches look at this side of OSS and documentation.
+This side regulates the use and how OSS creates value in the economy.
+
+For me, as a developer, the other side is more important.
+
+Let me use the well-known parable link:https://en.wikipedia.org/wiki/Blind_men_and_an_elephant[about the blind men and the elephant].
+Everybody touches a different part of the elephant and has a different opinion about what an elephant is.
+The industry is mainly interested in the fertilizing output that comes out of the OSS ecosystem.
+I stay more at the other end of the elephant, at the trunk and the mouth that feeds the animal.
+I drew a picture of an elephant showing the developer side:
+
+image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/elephant.png[width=500px]
+
+When we create open-source software, we usually do it for fun.
+It is why I was drawing the elephant.
+It is fun.
+In a commercial project, you never do that.
+
+Also, open source, for me, is cooperation.
+We do it together.
+There is a  team of developers, and we develop the software together.
+Other people use the software, and few start to complain.
+
+[%collapsible,title="Four Levels of OSS Developer Success (click to open)"]
+====
+. You create a project, and no one notices.
+It is always how it starts, but even this is fun.
+Creating software is fun.
+If it is not fun, then don't do it.
+. Some people have started to use your software.
+You do not know about it because they do not give you feedback.
+You google your project name and may see it mentioned, appearing at places.
+. People start asking stupid and annoying questions.
+It is the real success.
+People believe your software is so good that they invest effort in asking when they cannot get along.
+Your users are introverted developers.
+From their side, asking is a considerable effort.
+. There are hate posts about your software.
+It is the ultimate success.
+Some people write about why no one should not use your software.
+I could never reach this level with any of my projects.
+
+It is when you start your OSS project.
+When you join an already-running OSS project, it is different.
+In that case, you jump on an already running train... sorry: elephant.
+Your name gets to the list of developers, and you can be proud that your tiny but essential change was added to the project.
+====
+
+What about blogs?
+What will make this blog to be open source?
+
+* It is open for collaboration.
+* Source code is included.
+* Blog content is free to redistribute.
+* The license allows modification.
+* Supports the integrity of the author's code.
+* No discrimination against persons or groups.
+* No discrimination against fields of endeavor.
+* Distribution of license.
+* License must not be specific to a product.
+* License must not restrict other software.
+* License must be technology-neutral.
+
+In the following sections, I will look at these aspects.
+
+There is no separate section in this article for
+
+* The license allows modification
+* Distribution of license
+* License must not be specific to a product
+* License must not restrict other software
+* License must be technology-neutral
+
+There are provided by the CC-BY license governing the content of the blog.
+
+== 3. It is open for collaboration
+
+It is the most critical aspect of open-source blogging.
+You can use the content of this blog according to the CC-BY license terms.
+It allows practically any use, even commercial, so long you attribute the source.
+
+But that is the rear end of the elephant.
+We are interested in feeding the elephant.
+
+This blog is maintained in a link:https://www.writethedocs.org/guide/docs-as-code/[Doc as Code] style.
+The blog is edited using markup.
+The selected markup is Asciidoc, and I also use the Jamal preprocessor.
+The article source files are `.adoc.jam` files.
+
+The source is maintained on GitHub in a public repository.
+It means that you can look at any article.
+Not only those which are already published but also the articles which are under construction.
+You can also have a look at the history of article editing.
+
+Articles are created and edited for days, sometimes for weeks.
+It is similar to program features.
+Not to interfere with the already released article set, these article sources are maintained in separate branches.
+GitHub allows you to list all these branches and look at what is cooking.
+
+In addition, you can fork the repository, create new articles, and suggest modifications to any article creating a pull request.
+True to the open-source philosophy, I will consider every pull request.
+
+== 4. Source code is included
+
+It is almost evident in the case of documentation or blogs.
+The source is the text itself.
+
+Usually, it is, but that is a mistake.
+It is like programming in machine code.
+
+When you code in machine code, the binary is the source code.
+We don't do that.
+The reason: it isn't easy and involves a lot of mechanical work that computers can do.
+We program in high-level languages.
+
+When we document, we still create the documentation in "machine code" to some extent.
+Maybe, the level we are in is not machine code.
+After all, you do not edit a PDF binary.
+What we usually do is assembly level.
+
+The better approach is to use tools to write the documentation at a high level.
+Do NOT copy and paste the information from the documented system.
+Write code that will do the copy-pasting, reformatting, extracting, and transformation needed for the documentation.
+
+Jamal does it for this blog, and Jamal source of the blog articles are available in a public Git repository:
+
+link:https://github.com/javax0/javax0.github.io[https://github.com/javax0/javax0.github.io]
+
+In addition to the source of the articles, the source for the build environment is also in the repository.
+You can use them to start your blog if you like.
+Their license is Apache 2.0, as denoted by the `LICENSE` file in the repo root.
+
+== 5. Blog content is free to redistribute
+
+There is no technical blocker since the code is available as open source.
+The license is reasonably permissive, CC-BY.
+I even encourage redistribution.
+As you can see on the opening page, I have an agreement for many years with DZone and JCG.
+I also discussed with Baeldung, but their policy does not fit redistribution.
+
+You can find articles from the blog on Chinese, Russian, and Hindi sites.
+You can also feel free to copy, modify, and translate as long you follow attribution CC-BY.
+
+== 6. Supports the integrity of the author's code
+
+When the article is modified, you have to note it in the attribution so that the readers will know that it is a derivative.
+They can easily see the difference between the original and the derived work using backlinking.
+
+== 7. No discrimination against persons or groups
+
+I am not racist.
+There is no need to say more about it.
+
+== 8. No discrimination against fields of endeavor
+
+It is the part that makes me a bit uncomfortable, but what can I do?
+If you use the content of my articles to destroy the universe, I must be OK with it.
+
+== 9. Summary
+
+Use the blog!
+Do not only READ it!
+Be part of this blog!
+
+Reading is fine.
+First step.
+
+Commenting is welcome.
+
+Suggesting modifications and writing articles to be published here is the ultimate goal of being an open-source blog.

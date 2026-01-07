@@ -1,0 +1,60 @@
+---
+title: "Should I write a new unit test?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Recently in a project a method was altered from `private` to be `public`. The functionality that was used only inside the class was needed from outside and the without any other change the method got into the interface the class implemented and the keyword `private` was changed to `public`. To do that this was a task. We estimated the effort. How much was it? 2 hours. Although the 2-hour time is not a huge one in a project, project management was not happy with that and practicing control they asked, what does it take so long to replace `private` to `public` in a Java source file. The discussion was something like this:
+
+
+	* Why is it two hours to replace the word private to public?
+	* We also have to write unit test for the method.
+	* But there are already unit tests for the class, not?
+	* Yes, but we do not test private methods in unit tests and thus there are no unit tests testing this method.
+	* I assume that the coverage of the unit tests is 100%
+	* Yes it is.
+	* Then this method is also covered by unit tests 100%. Right?
+	* Well, yes... as long as code coverage. But functional coverage...
+
+
+This is a situation where functional coverage and code coverage has significant differences. When we create unit tests we are interested in functional coverage. If the methods of a class can perform all the functions they have to, and this is tested by the unit tests, then the class has 100% functional coverage in unit tests. If running unit tests executes each and every line at least once, and all possible branches of code execution is executed both way (part after the `then` and also after the `else`) then the code coverage is 100%.
+
+We usually measure the code coverage for the practical reason that we can measure that cheaply. Functional coverage can not be measured so easily. We need a formal definition of the functions and some test versus functionality matching and coverage estimation that is hard if not impossible to automate. On the other hand code coverage is a good measure and we can get very far measuring that even though we know it is not perfect.
+
+There are four different cases:
+
+[cols="1,2"]
+|===
+|*cF* code coverage < 100% functional coverage 100%
+|*CF* code coverage 100%  functional coverage 100%
+
+|code coverage 100% functional coverage < 100%
+|*cf* code coverage < 100%  functional coverage < 100%
+
+|===
+
+[b]#CF# is the ideal case, when both functional and code coverage is 100%. We may never reach that state, but that is what we aim for. The problem is you can never prove or know how close you got there.
+
+[b]#cf# is the usual case when we do not have enough unit tests and thus neither code nor functional coverage is 100%.
+
+[b]#Cf# is also very frequent. This is the case in most projects. The code is covered by unit tests, still there can be some cases not tested. If you look at the simple sample method:
+
+[source,java]
+----
+double div(double a, double b){ return a/b; }
+----
+
+
+A simple test dividing `2.0` by `1.0` will result 100% code coverage, still we did not test the case when `b` is zero.
+
+The tricky combination is [b]#cF#. Juniors usually say that this is not possible. They are right in the sense that there is very limited practical value in this case. It happens rarely. But sometimes it does and it means that there is dead code. If all the functions can be executed without ever touching a certain line, than that line is superfluous.
+
+So what does it have to do with the situation making a private method public? The code did not change thus it will not change [b]#C# to [b]#c# in code coverage, but functionality changed implicitly.
+
+The functionality of a private method is limited by the use of the method inside the class. The contract between the private method and their clients is very informal, and since they are tightly coupled there is no too much room for worries caring about special argument values. If the method in the example above is called ensuring in the caller that `b` is never zero then this is fine. There is no JavaDoc, there is no checking. If the method becomes public then the contract changes. The general part does not change, but the fine prints do.
+
+You have to declare that argument `b` should never be zero, and you have to define what happens if some client happens to call it that way. This is a new functionality that just emerged without any new code just making the method public. New functionality deserves new unit tests.
+
+[big]#Summary#
+
+If you change a private method to be public and you promote it to be part of the interface the class implements do not assume that this is only a keyword change. Create the appropriate tests that double check the functionality.

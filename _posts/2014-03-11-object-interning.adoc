@@ -1,0 +1,282 @@
+---
+title: "Object Interning"
+layout: posta
+comments: on
+---
+
+Java stores the string constants appearing in the source code in a pool. In other words when you have a code like
+
+[source,java]
+----
+String a = "I am a string";
+String b = "I am a string";
+----
+
+
+the variables `a` and `b` will hold the same value. Not simply two strings that are equal but rather the very same string. In Java words `a == b` will be true. However this works only for Strings and small integer and long values. Other objects are not interned thus if you create two objects that hold exactly the same values they are usually not the same. They may and probably be equal but not the same objects. This may be a nuisance some time. Probably when you fetch some object from some persistence store. If you happen to fetch the same object more than one time you probably would like to get the same object instead of two copies. In other words I may also say that you only want to have one single copy in memory of a single object in the persistence. Some persistence layers do this for you. For example JPA implementations follow this pattern. In other cases you may need to perform caching yourself.
+
+In this example I will describe a simple intern pool implementation that can also be viewed on the link:http://stackoverflow.com/questions/3323807/generic-internpoolt-in-java/22044014#22044014[stackoverflow topics]. In this article I also explain the details and the considerations that led to the solution depicted there (and here as well). This article contains more detailed tutorial information than the original discussion.
+
+
+==== 1.1.1. Object pool
+
+
+Interning needs an object pool. When you have an object and you want to intern that object you essentially look in the object pool to see if there is already an object equal to the one in hand. In case there is one we will use the one already there. If there is no object equal to the actual one then we put the actual object into the pool and then use this one.
+
+There are two major issues we have to face during implementation:
+
+	* Garbage Collection
+	* Multi-thread environment
+
+
+When an object is not needed anymore it has to be removed from the pool. The removal can be done by the application but that would be a totally outdated and old approach. One of the main advantage of Java over C++ is the garbage collection. We can let GC collect these objects. To do that we should not have strong references in the object pool to the pooled objects.
+
+
+==== 1.1.2. Reference
+
+
+If you know what soft, weak and phantom references, just jump to the next section.
+
+You may noticed that I did not simply say "references" but I said "strong references". If you have learned that GC collects objects when there are no references to the object then it was not absolutely correct. The fact is that it is a strong reference that is needed for the GC to treat an object untouchable. To be even more precise the strong reference should be reachable travelling along other strong references from local variables, static fields and similar ubiquitous locations. In other word: the (strong) references that point point from one dead object to another does not count, they together will be removed and collected.
+
+So if these are strong references, then presumably there are not so strong references you may think. You are right. There is a class named link:http://docs.oracle.com/javase/7/docs/api/java/lang/ref/Reference.html[`java.lang.ref.Reference`] and there are three other classes that extend it. The classes are
+
+
+	* link:http://docs.oracle.com/javase/7/docs/api/java/lang/ref/PhantomReference.html[`PhantomReference`]
+	* link:http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html[`WeakReference`] and
+	* link:http://docs.oracle.com/javase/7/docs/api/java/lang/ref/SoftReference.html[`SoftReference`]
+
+
+in the same package. If you read the documentation you may suspect that what we need is the weak one. Phantom is out of question for use to use in the pool, because phantom references can not be used to get access to the object. Soft reference is an overkill. If there are no strong references to the object then there is no point to keep it in the pool. If it comes again from some source, we will intern it again. It will certainly be a different instance but nobody will notice it since there is no reference to the previous one.
+
+Weak references are the ones that can be use to get access to the object but does not alter the behavior of the GC.
+
+
+==== 1.1.3. WeakHashMap
+
+
+Weak reference is not the class we have to use directly. There is a class named link:http://docs.oracle.com/javase/7/docs/api/java/util/WeakHashMap.html[`WeakHashMap`] that refers to the key objects using soft references. This is actually what we need. When we intern an object and want to see if it is already in the pool we search all the objects to see if there is any equal to the actual one. A map is just the thing that implements this search capability. Holding the keys in weak references will just let the GC collect the key object when nobody needs it.
+
+We can search so far, which is good. Using a map we also have to get some value. In this case we just want to get the same object, so we have to put the object into the map when it is not there. However putting there the object itself would ruin what we gained keeping only weak references for the same object as a key. We have to create and put a weak reference to the object as a key.
+
+
+==== 1.1.4. WeakPool
+
+
+After that explanation here is the code. It just says if there is an object equal to the actual one then `get(actualObject)` should return it. If there is none, `get(actualObject)` will return null. The method `put(newObject)` will put a new object into the pool and if there was any equal to the new one, it will overwrite the place of the old one with the new.
+
+[source,java]
+----
+public class WeakPool<T> {
+  private final WeakHashMap<T, WeakReference<T>> pool = new WeakHashMap<T, WeakReference<T>>();
+  public T get(T object){
+      final T res;
+      WeakReference<T> ref = pool.get(object);
+      if (ref != null) {
+          res = ref.get();
+      }else{
+          res = null;
+      }
+      return res;
+  }
+  public void put(T object){
+      pool.put(object, new WeakReference<T>(object));
+  }
+}
+----
+
+
+
+==== 1.1.5. InternPool
+
+
+The final solution to the problem is an intern pool, that is very easy to implement using the already available `WeakPool`. The `InternPool` has a weak pool inside, and there is one single synchronized method in it `intern(T object)`.
+
+[source,java]
+----
+public class InternPool<T> {
+  private final WeakPool<T> pool = new WeakPool<T>();
+  public synchronized T intern(T object) {
+    T res = pool.get(object);
+    if (res == null) {
+        pool.put(object);
+        res = object;
+    }
+    return res;
+  }
+}
+----
+
+
+The method tries to get the object from the pool and if it is not there then puts it there and then returns it. If there is a matching object already there then it returns the one already in the pool.
+
+
+==== 1.1.6. Multi-thread
+
+
+The method has to be synchronized to ensure that the checking and the insertion of the new object is atomic. Without the synchronization it may happen that two threads check two equal instances in the pool, both of them find that there is no matching object in it and then they insert their version into the pool. One of them, the one putting its object later will be the winner overwriting the already there object but the looser also thinks that it owns the genuine single object. Synchronization solves this problem.
+
+
+==== 1.1.7. Racing with the Garbage Collector
+
+
+Even though the different threads of the java application using the pool can not get into trouble using the pool at the same time we still should look at it if there is any interference with the garbage collector thread.
+
+It may happen that the reference gets back null when the weak reference `get` method is called. This happens when the key object is reclaimed by the garbage collector but the weak hash map in the weak poll implementation still did not delete the entry. Even if the weak map implementation checks the existence of the key whenever the map is queried it may happen. The garbage collector can kick in between the call of `get()` to the weak hash map and to the call of `get()` to the weak reference returned. The hash map returned a reference to an object that existed by the time it returned but, since the reference is weak it was deleted until the execution of our java application got to the next statement.
+
+In this situation the `WeakPool` implementation returns null. No problem. `InternPool` does not suffer from this also.
+
+If you look at the other codes in the before mentioned link:http://stackoverflow.com/questions/3323807/generic-internpoolt-in-java/22044014#22044014[stackoverflow topics], you can see a code:
+
+[source,java]
+----
+public class InternPool<T> {
+
+    private WeakHashMap<T, WeakReference<T>> pool =
+        new WeakHashMap<T, WeakReference<T>>();
+
+    public synchronized T intern(T object) {
+        T res = null;
+        // (The loop is needed to deal with race
+        // conditions where the GC runs while we are
+        // accessing the 'pool' map or the 'ref' object.)
+        do {
+            WeakReference<T> ref = pool.get(object);
+            if (ref == null) {
+                ref = new WeakReference<T>(object);
+                pool.put(object, ref);
+                res = object;
+            } else {
+                res = ref.get();
+            }
+        } while (res == null);
+        return res;
+    }
+}
+----
+
+
+In this code the author created an infinite loop to handle this situation. Not too appealing, but it works. It is not likely that the loop will be executed infinite amount of time. Likely not more than twice. The construct is hard to understand, complicated. The morale: single responsibility principle. Focus on simple things, decompose your application to simple components.
+
+
+==== 1.1.8. Conclusion
+
+
+Even though Java does interning only for String and some of the objects that primitive types are boxed to it is possible and sometimes desirable to do interning. In that case the interning is not automatic, the application has to explicitly perform it. The two simple classes listed here can be used to do that using copy paste into your code base or you can
+
+[source,xml]
+----
+        <dependency>
+          <groupId>com.javax0</groupId>
+          <artifactId>intern</artifactId>
+          <version>1.0.0</version>
+        </dependency>
+----
+
+
+import the library as dependency from the maven central plugin. The library is minimal containing only these two classes and is available under the Apache license. The source code for the library is on link:https://github.com/verhas/intern[GitHub].
+
+
+==== 1.1.9. Poll
+
+
+After we managed to have a pool, now lets to have a poll! Please answer the following questions, honestly:
+
+[polldaddy poll=7857636]
+
+=== Comments imported from Wordpress
+
+
+*Objektum Internálás | tifyty* 2014-04-02 07:17:50
+
+
+
+
+
+[quote]
+____
+[&#8230;] a cikk az eredeti angol nyelvű cikk alapján [&#8230;]
+____
+
+
+
+
+
+*Java &#8211; String Object | String Literal | String intern() | Codinko* 2015-11-01 04:10:07
+
+
+
+
+
+[quote]
+____
+[&#8230;] https://javax0.wordpress.com/2014/03/11/object-interning/ [&#8230;]
+____
+
+
+
+
+
+*Chris Hennick* 2016-06-22 13:28:50
+
+
+
+
+
+[quote]
+____
+Why not use Collections.newSetFromMap(new WeakHashMap<T, Boolean>)? And not use a ClassToInstanceMap to make InternPool a singleton for each T?
+____
+
+
+
+
+
+*Thomas Wolkenstein* 2018-03-07 14:31:07
+
+
+
+
+
+[quote]
+____
+With Collections.newSetFromMap there is no way to access the interned shared object. You can not exchange a new Object with the shared one.
+____
+
+
+
+
+
+*Robert* 2021-11-28 13:02:25
+
+
+
+
+
+[quote]
+____
+Great article! I am pretty much the same solution in my implementation of an Interner.
+
+However, I am worried that there is still a potential race condition with GC. Consider the following sequence of events while executing the following code from WeakPool.get:
+
+[source]
+----
+`  WeakReference<T> ref = pool.get(object);
+  if (ref != null) {
+      res = ref.get();
+  }else...
+`
+----
+
+
+Just after executing ref = pool.get(object)  you have a weak reference ('ref') to the potential "canonical instance" ('res'), but you do not yet have a strong reference to it...
+
+What __might__ the GC do in that nano second of time?
+
+Is it possible that the GC could decide "res isn't strongly reachable, therefore i can reclaim it", and delete the weak hash map entry __before__ finalizing and reclaiming the weak reference in 'ref'?
+i.e. could your "res = ref.get()" give you a strong ref to res just after GC has deleted the weak hash map entry? If so you will now be using an object that is no longer interned in the pool...
+
+I am hoping the above scenario is not actually possible. Ideally GC should guarantee that if, for example, a call to WeakRef.get() gives you a strong reference, then __no__ actions have been taken to start nullifying/reclaiming __any__ weak references to that object. Maybe the "finalizable, finalized, and then reclaimed" sequence of GC ensures this? But I am not an expert on GC, so not sure whether that is a contractual guarantee of GC?
+
+If the race condition is possible, there might be a simple solution: If you do get a non null 'res', then maybe you could immediately execute a 'put' to ensure it is in the pool even if GC just removed it?
+____

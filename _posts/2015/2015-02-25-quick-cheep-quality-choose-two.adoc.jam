@@ -1,0 +1,103 @@
+---
+title: "Quick, Cheap, Quality: choose two" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+[caption id="attachment_845" align="alignleft" width="203"]image:https://javax0.files.wordpress.com/2015/02/quick-cheap-fast2-e1424604360219.png[link="https://javax0.files.wordpress.com/2015/02/quick-cheap-fast2-e1424604360219.png"] You can select two[/caption]It is old and common wisdom. Even printed on billboard of the mechanics shop where my car is usually repaired. And as with many well known facts: they are ignored many times. 
+
+Although his is a wider issue, and many statements I am going to make in this article is valid for other industries, I will focus on IT and more specifically on software development. I do that, because this is where I have experience and my interest. The software industry is new as compared to building constructions or car repair and the customers many times have unreal expectations. To make the situation worse bad developers and companies harvest the obliviousness of customers cheating them. This leads to misery and many times customers learn that software vendors are unreliable and they just tend not to believe what we say even when they face an honest vendor.
+
+There will be no liberation of the world in this article. There is no such article that could do that, not even such a minor aspect of our lives as customer vendor relationship in software development.
+
+
+{%section |As a vendor choose two you can control%}
+
+
+After you realized that there is no free lunch and selected two of the above, it is still not the end of the story. You can say, for example, that you want quality software and fast, no matter what it costs. If you can not control the time or the quality you may get only one or none of the three above.
+
+
+{%subsection |Controlling money%}
+
+
+Controlling the money is the easiest these days so long as long there is a healthy society where contracts are obeyed and executed. You have a contract with the software vendor and you pay no more than the contract price. I have seen software projects when the software was not ready by time and the vendor demanded more money to finish. The customer had two choices. Pay the extra and get the software with some delay or start the whole project with another vendor from scratch. Both of them meant extra cost. Extra payment: obvious. Project start over: investment into vendor relationship on technical level and time to market money lost.
+
+Looking at the story you can say the vendor simply blackmailed the customer. Real life is not that simple many times and a story can not be told in a paragraph as complex as the life is. I was lucky not to be involved in the whole story since I could see that there was foul play on both sides. It is kind of culture how we play these games.
+
+
+{%subsection |Controlling time%}
+
+
+Perhaps time is the second in this list. At least it can easily be measured since the invention of the link:http://en.wikipedia.org/wiki/Chronograph[chronograph]. Controlling is, however, more than just measure. As you could see in the example above facing the fact that the software is not ready at the end of the project is a disaster.
+
+To control the time you should use mile stones and project deliverables that show the progress of the project. It may be so important that in some project I have experienced delivery of artifacts that were not needed in the long run and from the position of the developers it seemed to be waste of money. We were asked, and paid of course, to develop a version of a software with an extremely simple UI that was not appropriate for use in the production version. Not a single line of code of this UI was used in the final version. Even though this was capable to demonstrate that the back-end of the software was partially developed it was possible for the customer to check some of the features and there was no room for slide ware lies. (We actually did not intend to lie, but even if we wanted there was no room: the demo was working on a partially developed back-end.)
+
+On the other hand the strong control of time may lead to something that hardly can be named "control" in the noble sense of management. Tracking the progress, requiring constant administration and deliverables only for the time tracking may lead to unjustifiable overhead cost. Since the developers are usually not knowledgable about management they do not usually understand the importance of the measurement of their work and this may lead to frustration adversely affect motivation and thus work.
+
+As is always: there has to be a good balance. There is no easy way to find the balance though. As one of my junior coworker once said when there was too much control and checkpoint in the project: "It is controlling without con." (for those who have brain challenges: trolling)
+
+
+{%subsection |Controlling quality%}
+
+
+This is the hardest. It is not even trivial to measure the quality. There are great practices in software development that can help the measurement of the quality of a developing software product but they are not measuring quality itself in purest form. They measure something that may, if we are lucky, correlate with the quality of the software. We can measure the number of bugs discovered during a test phase. We can use sonar, PMD, findbugs, checkstyle on the code and follow strict coding conventions. These alone however does not assert that you will have good quality.
+
+It is also a misconcept to aim for bug free software. There can be bugs in the code. The aim is to have a software that fits the business needs. If a software is targeted toward prospect customers, general internet audience who get distracted from a menu structure not intuitive enough then the UI has to be designed accordingly tested with trial audience and fine tuned. It incurs cost. If the cost is less than the business gain: go for it. 
+
+If you work for a company and the intranet application is used by internal users, who spend 8 hours a day using the application they learn to use a menu system even that is not too intuitive. I have experienced a software development project where we wanted to make the menu structure more intuitive and the users refused the change wanting the old, bad style structure back: they have already learnt where to click, what key combos to press.
+
+
+{%section |Conclusion%}
+
+
+All of these subjects deserve more discussion than a short article or just a section in an article. Here they are more as a discussion ice breaker than something to learn from like a tutorial. Just some ideas and fragments that you can add to in comments if you like.
+
+=== Comments imported from Wordpress
+
+
+*johnspikowski* 2015-03-09 20:49:42
+{%@comment id: 7092 %}
+
+{%@comment author_url: http://gravatar.com/johnspikowski %}
+{%@comment author_IP: 24.19.241.121 %}
+{%@comment date_gmt: 2015-03-09 19:49:42 %}
+[quote]
+____
+Hi Peter, Enjoyed your article. Give me a ping when you find time to revisit one of you other masterpieces, Script BASIC. (ANSI C open source project)
+
+John
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 6781 %}
+{%@comment user_id: 0 %}
+
+*Iorek* 2015-02-25 16:40:47
+{%@comment id: 6780 %}
+
+{%@comment author_url: http://petyo61.wordpress.com %}
+{%@comment author_IP: 193.68.38.6 %}
+{%@comment date_gmt: 2015-02-25 15:40:47 %}
+[quote]
+____
+What's wrong? Typo in the title line? Brain challenged readers? It is not you Peter.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17463056 %}
+
+*Peter Verhas* 2015-02-25 17:22:28
+{%@comment id: 6781 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 185.12.129.229 %}
+{%@comment date_gmt: 2015-02-25 16:22:28 %}
+[quote]
+____
+I was making cheep work. Sorry.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 6780 %}
+{%@comment user_id: 31131067 %}

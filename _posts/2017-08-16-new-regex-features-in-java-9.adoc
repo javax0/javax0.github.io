@@ -1,0 +1,211 @@
+---
+title: "New Regex Features in Java 9" 
+layout: posta
+comments: on
+---
+
+I recently received my complimentary copy of the book link:https://www.packtpub.com/application-development/java-9-regular-expressions["Java 9 Regular Expressions"] from link:https://anubhava.wordpress.com/[Anubhava Srivastava] published by Packt. The book is a good tutorial and introduction to anyone who wants to learn what regular expressions are and start from scratch. Those who know how to use regex the book may still be interesting to reiterate the knowledge and to deepen into a more complex feature like zero-length assertions, backreferences, and alike.
+
+In this article, I will focus on the regular expression features that are specific to Java 9 and were not available in earlier version of the JDK. There is not many, though.
+
+
+== 1. Java 9 Regular Expression Module
+
+
+The JDK in Java 9 is split up into modules. One could rightfully expect that there is a new module for the regular expression handling packages and classes. Actually, there is none. The module `java.base` is the default module on which all other modules depend on by default and thus the classes of the exported packages are always available in Java applications. The regular expression package `java.util.regex` is exported by this module. This makes the development a bit simpler: there is no need to explicitly 'require' a module if we want to use regular expressions in our code. It seems that regular expressions are so essential to Java that it got included in the base module.
+
+
+== 2. Regular Expression Classes
+
+
+The package `java.util.regex` contains the classes
+
+
+	* `MatchResult`
+	* `Matcher`
+	* `Pattern` and
+	* `PatternSyntaxException`
+
+
+The only class that has changed API is `Matcher`.
+
+
+== 3. Changes in class Matcher
+
+
+The class `Matcher` adds five new methods. Four of those are overloaded versions of already existing methods. These are:
+
+
+	* `appendReplacement`
+	* `appendTail`
+	* `replaceAll`
+	* `replaceFirst`
+	* `results`
+
+
+The first four exists in earlier versions and there is only change in the types of the arguments (after all that is what overloading means).
+
+
+== 4. appendReplacement/Tail
+
+
+In case of `appendReplacement` and `appendTail` the only difference is that the argument can also be a `StringBuilder` and not only `StringBuffer`. Considering that `StringBuilder` introduced in Java 1.5 something like 13 years ago nobody should say that this is an inconsiderate act.
+
+It is interesting though how the link:https://docs.oracle.com/javase/9/docs/api/java/util/regex/Matcher.html[currently online version of the API JDK] documents the behaviour of `appendReplacement` for `StringBuilder` argument. The older, `StringBuffer` argumented method explicitly documents that the replacement string may contain named references that will be replaced by the corresponding group. The `StringBuilder` argumented version misses this. The documentation seems like copy/paste and then edited. The text replaces "buffer" to "builder" and alike and the text documenting the named reference feature is deleted.
+
+I tried the functionality using Java 9 build160 and the outcome is the same for these two method versions. This should not be a surprise since the source code of the two methods is the same, a simple copy/paste in the JDK with the exception of the argument type.
+
+Seems that you can use
+
+[source,java]
+----
+    @Test
+    public void testAppendReplacement() {
+
+        Pattern p = Pattern.compile("cat(?<plural>z?s?)");
+        //Pattern p = Pattern.compile("cat(z?s?)");
+        Matcher m = p.matcher("one catz two cats in the yard");
+        StringBuilder sb = new StringBuilder();
+        while (m.find()) {
+            m.appendReplacement(sb, "dog${plural}");
+            //m.appendReplacement(sb, "dog$001");
+        }
+        m.appendTail(sb);
+        String result = sb.toString();
+        assertEquals("one dogz two dogs in the yard", result);
+    }
+----
+
+
+both the commented lines or the line above each. The documentation, however speaks only about the numbered references.
+
+
+== 5. replaceAll/First
+
+
+This is also an "old" method that replaces matched groups with some new strings. The only difference between the old version and the new is how the replacement string is provided. In the old version the string was given as a `String` calculated before the method was invoked. In the new version the string is provided as a `Function<MatchResult,String>`. This function is invoked for each match result and the replacement string can be calculated on the fly.
+
+Knowing that the class `Function` was introduced only 3 years ago in Java 8 the new use of it in regular expressions may be a little slap-dash. Or, perhaps ... may be we should see this as a hint that ten years from now, when the class `Fuction` will be 13 years old, we will still have Java 9?
+
+Lets dig a bit deeper into these two methods. (Actually only to `replaceAll` because `replaceFirst` is the same except that it replaces only the first matched group.) I tried to create some not absolutely intricate examples when such a use could be valuable.
+
+The first sample is from the JDK documentation:
+
+[source,java]
+----
+    @Test
+    public void demoReplaceAllFunction() {
+        Pattern pattern = Pattern.compile("dog");
+        Matcher matcher = pattern.matcher("zzzdogzzzdogzzz");
+        String result = matcher.replaceAll(mr -> mr.group().toUpperCase());
+        assertEquals("zzzDOGzzzDOGzzz", result);
+    }
+----
+
+
+It is not too complex and shows the functionality. The use of a lambda expression is absolutely adequate. I can not imagine a simpler way to uppercase the constant string literal "dog". Perhaps only writing "DOG". Okay I am just kidding. But really this example is too simple. It is okay for the documentation where anything more complex would distract the reader from the functionality of the documented method. Really: do not expect less intricate examples in a JavaDoc. It describes how to use the API and not why the API was created an designed that way.
+
+But here and now we will look at some more complex examples. We want to replace in a string the `#` characters with the numbers 1, 2, 3 and so on. The string contains numbered items and in case we insert a new one into the string we do not want to renumber manually. Sometimes we group two items, in which case we write `##` and then we just want to skip a serial number for the next `#`. Since we have a unit test the code describes the functionality better than I can put it into words:
+
+[source,java]
+----
+    @Test
+    public void countSampleReplaceAllFunction() {
+        AtomicInteger counter = new AtomicInteger(0);
+        Pattern pattern = Pattern.compile("#+");
+        Matcher matcher = pattern.matcher("# first item\n" +
+                "# second item\n" +
+                "## third and fourth\n" +
+                "## item 5 and 6\n" +
+                "# item 7");
+        String result = matcher.replaceAll(mr -> "" + counter.addAndGet(mr.group().length()));
+        assertEquals("1 first item\n" +
+                "2 second item\n" +
+                "4 third and fourth\n" +
+                "6 item 5 and 6\n" +
+                "7 item 7", result);
+    }
+----
+
+
+image::https://javax0.files.wordpress.com/2017/08/replacealllambda.png[]
+
+The lambda expression passed to `replaceAll` gets the counter and calculates the next value. If we used one `#` then it increases it by 1 if we used two, then it adds two to the counter and so on. Because a lambda expression can not change the value of a variable in the surrounding environment (the variable has to be effectively final) the counter can not be an `int` or `Integer` variable. We need an object that holds an int value and can be changed. `AtomicInteger` is exactly that even if we do not use the atomic feature of it.
+
+The next example goes even further and does some mathematical calculation. It replaces any floating point formatted number in the string to the sine value of it. That way it corrects our sentence since sin(pi) is not even close to pi, which can not be precisely expressed here. It is rather close to zero:
+
+[source,java]
+----
+    @Test
+    public void calculateSampleReplaceAllFunction() {
+        Pattern pattern = Pattern.compile("\\d+(?:\\.\\d+)?(?:[Ee][+-]?\\d{1,2})?");
+        Matcher matcher = pattern.matcher("The sin(pi) is 3.1415926");
+        String result = matcher.replaceAll(mr -> "" + (Math.sin(Double.parseDouble(mr.group()))));
+        assertEquals("The sin(pi) is 5.3589793170057245E-8", result);
+    }
+----
+
+
+We will also play around a bit with this calculation for the demonstration of the last method in our list, which is a brand new one in the `Matcher` class.
+
+
+== 6. Stream results()
+
+
+The new method `results()` returns a stream of the matching results. To be more precise it returns a `Stream` of `MatchResult` objects. In the example below we use it to collect any floating point formatted number from the string and print their sine value comma separated:
+
+[source,java]
+----
+    @Test
+    public void resultsTest() {
+        Pattern pattern = Pattern.compile("\\d+(?:\\.\\d+)?(?:[Ee][+-]?\\d{1,2})?");
+        Matcher matcher = pattern.matcher("Pi is around 3.1415926 and not 3.2 even in Indiana");
+        String result = String.join(",",
+                matcher
+                        .results()
+                        .map(mr -> "" + (Math.sin(Double.parseDouble(mr.group()))))
+                        .collect(Collectors.toList()));
+        assertEquals("5.3589793170057245E-8,-0.058374143427580086", result);
+    }
+----
+
+
+
+== 7. Summary
+
+
+The new regular expression methods introduced in the Java 9 JDK are not essentially different from what was already available. They are neat and handy and in some situation , hey may ease programming. There is nothing that could have not been introduced in the earlier version. This is just the way of Java to make such changes to the JDK slow and well thought. After all that is why we love Java, don't we?
+
+[small]#The whole code copy paste from the IDE can be found and downloaded from the following link:https://gist.github.com/verhas/7037ecda49b061dc49a857ca468d4c02[gist]#
+
+=== Comments imported from Wordpress
+
+
+*Andriy Kryvtsun* 2017-08-18 12:02:24
+
+
+
+
+
+[quote]
+____
+Interesting, why they simply not change signatures of appendReplacement and appendTail using java.lang.Appendable and don't doubling methods count?
+____
+
+
+
+
+
+*This Week in Spring &#8211; August 29th, 2017 | Alexius DIAKOGIANNIS* 2017-08-29 06:36:06
+
+
+
+
+
+[quote]
+____
+[&#8230;] I liked this look at the new support for regular expressions in Java 9. [&#8230;]
+____
+
+
+

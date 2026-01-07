@@ -1,0 +1,204 @@
+---
+title: "Given, When, Then..." 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+The words __given, when, then__ should ring the bell for anybody, who was writing BDD tests. If not, then you should read a link:http://martinfowler.com/bliki/GivenWhenThen.html[recent article] of Martin Fowler.
+
+The structure of a test as for BDD has three parts:
+
+	* GIVEN the part, that describes the structure of the system before the tests starts. The test itself "describes" this state with a series of setup commands to move the system under test (SUT) into the state that is prerequisite of the test.
+	* WHEN is the part that triggers the SUT. The triggers are usually method calls to the SUT and ideally contains only a few calls that are necessary to test the feature of the system that is the tested feature of the system.
+	* THEN test that the state of the SUT has changed appropriately and shows the observable changes that the test is focusing on.
+
+
+As Martin Fowler writes __"Some people like to put Given-When-Then as comments to mark informal blocks inside unit tests."__ I also followed this approach and I was busy writing `//GIVEN`, `//WHEN`, `//THEN` comments, but I was always bothered by comments. I am not excluding comments from my programming arsenal, but many times when I feel to write comments, especially inline comments, I can find better ways. Many times I find it to be a better approach to move even a single line, not to mention two or more lines, into a separate method with a speaking name and calling the private method from the place where the lines originally were. This proves to be much better in most cases than writing comment on the lines.
+
+What is it then with the `//GIVEN`, `//WHEN`, `//THEN` comments? Is there any way to express the test better?
+
+Certainly there are better ways. One way is to use some framework to express your tests, like link:http://cukes.info/[Cucumber], or link:http://jbehave.org/[JBehave] or if you use some non-Java language some other framework as described on the [a]#wiki page of Behavior driven development#. I personally recommend to devote the time and learn those frameworks, and use one that fits your taste. Just as in the general case: time invested into testing in any form is never wasted.
+
+
+[quote]
+____
+Time invested into testing is never wasted.
+____
+
+
+
+But what to do if you just write some simple test project. Something of a few classes that does not justify the use of any such test frameworks. Of course, you still need testing, as there is only one project that does not need testing: the `null` project (or `/dev/null` for old school gentlemen). So you just start a very small project, say a half afternoon, and you start to write your code (of the unit test at first place of course). Should you write `//GIVEN`, `//WHEN`, `//THEN` comments?
+
+Well, your taste. Recently I realized that I can also write the `GIVEN`, `WHEN`, `THEN` as labels in front of the blocks that contain the 'given', 'when' and 'then' code. Do not feel surprised, if you have never heard of labels in Java. Most Java programmers did not. They are stone age residues, totally useless and are kept for compatibility reason. I opt that they are in the language by mistake inherited from C, Perl and other fossils. However, if they are there, why not use them? The example code
+
+[source,java]
+----
+	@Test
+	@SuppressWarnings("unused")
+	public void given_AnACL_when_SubjectQueryAFunction_then_GivesPermisssion() {
+		final Subject subject;
+		final AccessControlList acl;
+		final Function function;
+		GIVEN: {
+			subject = mock(Subject.class);
+			function = mock(Function.class);
+			acl = new AccessControlList.Builder().add(
+					new AccessControlElement.Builder().subject(subject)
+							.function(function).build()).build();
+		}
+		final boolean permitted;
+		WHEN: {
+			permitted = can(subject).using(acl).execute(function);
+		}
+		THEN: {
+			assertThat(permitted, is(true));
+		}
+	}
+----
+
+
+shows you the idea. Is it better than
+
+[source,java]
+----
+	@Test
+	public void given_AnACL_when_SubjectQueryAFunction_then_GivesPermisssion() {
+		final Subject subject;
+		final AccessControlList acl;
+		final Function function;
+		// GIVEN
+		subject = mock(Subject.class);
+		function = mock(Function.class);
+		acl = new AccessControlList.Builder().add(
+				new AccessControlElement.Builder().subject(subject)
+						.function(function).build()).build();
+
+		final boolean permitted;
+		// WHEN
+		permitted = can(subject).using(acl).execute(function);
+
+		// THEN
+		assertThat(permitted, is(true));
+
+	}
+----
+
+
+? Matter of taste. Your opinion?
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2013-12-12 08:18:40
+{%@comment id: 102 %}
+{%@comment author_email: lukas.eder@gmail.com %}
+{%@comment author_url: http://lukaseder.wordpress.com %}
+{%@comment author_IP: 194.230.155.86 %}
+{%@comment date_gmt: 2013-12-12 07:18:40 %}
+[quote]
+____
+That's quite clever, Peter! I had never thought of using labels this way.
+
+I love labels, by the way. They're the window functions / grouping sets of Java. A device whose mystery is only exceeded by its power ;-)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17895174 %}
+
+*lukaseder* 2013-12-12 08:16:39
+{%@comment id: 101 %}
+{%@comment author_email: lukas.eder@gmail.com %}
+{%@comment author_url: http://lukaseder.wordpress.com %}
+{%@comment author_IP: 194.230.155.86 %}
+{%@comment date_gmt: 2013-12-12 07:16:39 %}
+[quote]
+____
+[quote]
+____
+Well, I think using barely known language elements aren’t good for code readability
+____
+
+
+Worse than barely known DSLs? :-)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 96 %}
+{%@comment user_id: 17895174 %}
+
+*stokito* 2013-12-08 11:48:13
+{%@comment id: 97 %}
+{%@comment author_email: stokito@gmail.com %}
+{%@comment author_url: http://stokito.wordpress.com %}
+{%@comment author_IP: 77.122.181.166 %}
+{%@comment date_gmt: 2013-12-08 10:48:13 %}
+[quote]
+____
+I would like to recommend you Spock. It looks like exactly what you need.
+https://code.google.com/p/spock/wiki/SpockBasics
+
+class HelloSpock extends spock.lang.Specification {
+    def "length of Spock's and his friends' names"() {
+        expect:
+        name.size() == length
+
+        where:
+        name     | length
+        "Spock"  | 5
+        "Kirk"   | 4
+        "Scotty" | 6
+    }
+}
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 15527361 %}
+
+*Norbert Csík* 2013-12-07 22:02:20
+{%@comment id: 96 %}
+{%@comment author_email: norbert.csik@gmail.com %}
+{%@comment author_url: http://csiknet.wordpress.com %}
+{%@comment author_IP: 77.234.74.6 %}
+{%@comment date_gmt: 2013-12-07 21:02:20 %}
+[quote]
+____
+Well, I think using barely known language elements aren't good for code readability. However, the structure of the code is better than before.
+I would prefer the inline comments.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 3127750 %}
+
+*tomekkaczanowski* 2014-01-02 12:21:36
+{%@comment id: 115 %}
+{%@comment author_email: tkaczano@poczta.onet.pl %}
+{%@comment author_url: http://practicalunittesting.com %}
+{%@comment author_IP: 195.116.242.159 %}
+{%@comment date_gmt: 2014-01-02 11:21:36 %}
+[quote]
+____
+Interesting idea to use labels - I have never thought of this. I use inline comments cause my whole team like this, however sometimes blank lines are enough.
+BTW. If you interested in such things you might enjoy my latests (free) book "Bad Tests, Good Tests" (at http://practicalunittesting.com). It includes many examples of imperfect tests and discusses how they could be improved. Cheers!
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Gabriel Kohen* 2017-10-30 20:05:16
+{%@comment id: 11655 %}
+{%@comment author_email: gabriel@kohenfamily.net %}
+{%@comment author_url:  %}
+{%@comment author_IP: 108.171.130.172 %}
+{%@comment date_gmt: 2017-10-30 19:05:16 %}
+[quote]
+____
+I would add method-name-tested_ before the test name to easily group and navigate to unit tests for that method.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

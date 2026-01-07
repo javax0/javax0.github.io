@@ -1,0 +1,69 @@
+---
+title: "Unit test life?" 
+layout: posta
+comments: on
+---
+
+You can not program without testing. You write unit tests first and then you write your code. (Well, I know you don't but just let's focus on best practice.) When there is an error in the code, first you write a new unit test that demonstrates the bug and then you fix it. After the unit test runs fine the same bug should never ever happen again without being immediately signaled by the unit test.
+
+Later the integration and user tests come. They test the application and in case there is some error the developer fixes the code. If possible and feasible we create new unit tests to cover the case that was not discovered earlier so that the same bug will not slip to more expensive integration and user tests. In other cases unit testing is not possible or would just be too cumbersome and not worth paying the cost when the bug is strongly related to integration or user experience.
+
+This is a working practice that was developed for software creation during the last twenty or so years.
+
+
+Real life is, however, not that simple. There may be no time to create the new unit tests after a bug was discovered during integration or user tests. You fix the bug and test the functionality of the application manually and omit the new unit, or non-unit but still automated test because creating that is too expensive, would require too long time and project constraints are tight. The bug you fix is serious, high level, show-stopper and this is already the last few days of the testing period. So you focus on doing the right thing: get the job done, fix the bug.
+
+[quote]
+____
+
+
+* Have you started to fix the bug we reported yesterday?
+* __No. We had no time to deal with it. We had to attend to higher level issues.__
+* Higher Level? What are you talking about? There can no fix be more important than this!
+* __Then why did you report it as a cosmetic in the first place?__
+* Cosmetic????? COSMIC!!!!
+
+Sometimes even drop-down lists do not prevent erroneous user input.
+
+____
+
+
+Later, over a calm weekend perhaps, you start to think about the case. How come that a serious bug is only discovered at the end of the testing period? Isn't there a bug in the testing process?
+
+Unless the bug was introduced during the recent bugfixes, in which case there can also be some issue with how the developers fix bugs, there is a bug in the testing process. The tests cover all significant functionality of the application and the test cases that assert the correct behavior are ordered by severity. The test cases that are supposed to discover severe issues should be executed sooner, and less important, cosmetic issues should be tested later. If this was not the case: it is a bug.
+
+How do you fix this bug? Move the test case that was executed late to it's proper position. It will not fix the bug manifestation that has already happened, the very same way as a bug fix does not remedy the lost money caused by program malfunction. Fix will just prevent causing more damage. During the next release period (well, yes, think about good old waterfall) the regression testing will discover the same bug sooner.
+
+But why do not we create a unit test for the testing process? Why don't we have unit tests for the processes of the corporate? How could we generalize the idea and practice of unit testing over all aspects of the life?
+
+=== Comments imported from Wordpress
+
+
+*szabolcsszijarto* 2014-12-03 14:41:07
+
+
+
+
+
+[quote]
+____
+Valid points, but for complex business applications, even a relatively high functional test coverage covers not much more than the tip of the iceberg. The  total number of customer, product, channel and use case combinations is so high that realistically only a relatively critical subset can be tested. This applies even more to UAT where resources are usually even more limited. Consequently most test cases can actually result in critical issues with potentially high business impact. For this reason I don't think much can be achieved by re-prioritizing test cases alone.
+____
+
+
+
+
+
+*tvk* 2014-12-03 14:56:29
+
+
+
+
+
+[quote]
+____
+I think it's a great idea to have a dynamic regression test order, starting with the most critical test cases. It can work even in Scrum or Kanban.
+____
+
+
+

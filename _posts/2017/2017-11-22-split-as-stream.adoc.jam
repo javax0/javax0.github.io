@@ -1,0 +1,166 @@
+---
+title: "Split as stream" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+I am preparing a regular expression tutorial update for the company I work for. The original tutorial was created in 2012 and Java has changed a wee bit since then. There are new Java language releases and though the regular expression handling is still not perfect in Java (nb. it still uses non-deterministic FSA) there are some new features. I wrote about some of those in a previous post focusing on the new Java 9 methods. This time however I have to look at all the features that are new since 2012.
+
+{%section |splitAsStream since 1.8%}
+
+This way I found `splitAsStream` in the `java.util.regex.Pattern` class. It is almost the same as the method `split` except that what we get back is not an array of `String` objects but a stream. The simplest implementation would be something like
+
+[source,java]
+----
+public Stream<String> splitAsStream(final CharSequence input) {
+    return Arrays.stream(p.split(input));
+}
+----
+
+
+I could see many such implementations when a library tried to keep pace with the new winds and support streams. Nothing is simpler then converting the array or the list available from some already existing functionality to a stream.
+
+The solution, however, is sub-par losing the essence of streams: doing only as much work as needed. And this, I mean "doing only as much work as needed" should happen while the stream is processed and not while the developer converts the array or collection returning method to a stream returning one. Streams deliver the results in a lean way, just in time. You see how many expressions we have for being lazy.
+
+The JDK implementation leverages the performance advantages of streams. If you look at the source code you can see immediately that the implementation is slightly more complex than the before mentioned simple solution. Lacking time I could devote to the study of the implementation and perhaps lacking interest, I used another approach to demonstrate that the implementation respects the stream laziness.
+
+The argument to the method is a `CharSequence` and not a `String`. `CharSequence` is an interface implemented by `String` but we can also implement it. To have a feeling how lazy the stream implementation in this case is I created an implementation of `CharSequence` that debug prints out the method calls.
+
+[source,java]
+----
+class MyCharSequence implements CharSequence {
+
+    private String me;
+
+    MyCharSequence(String me) {
+        this.me = me;
+    }
+
+    @Override
+    public int length() {
+        System.out.println("MCS.length()=" + me.length());
+        return me.length();
+    }
+
+    @Override
+    public char charAt(int index) {
+        System.out.println("MCS.charAt(" + index + ")=" + me.charAt(index));
+        return me.charAt(index);
+    }
+
+    @Override
+    public CharSequence subSequence(int start, int end) {
+        System.out.println("MCS.subSequence(" + start + "," + end + ")="
+                                              + me.subSequence(start, end));
+        return me.subSequence(start, end);
+    }
+}
+----
+
+
+Having this class at hand, I could execute the following simple main method:
+
+[source,java]
+----
+public static void main(String[] args) {
+    Pattern p = Pattern.compile("[,\\.\\-;]");
+    final CharSequence splitIt =
+              new MyCharSequence("one.two-three,four;five;");
+    p.splitAsStream(splitIt).forEach(System.out::println);
+}
+----
+
+
+The output shows that the implementation is really lazy:
+
+[source]
+----
+MCS.length()=24
+MCS.length()=24
+MCS.length()=24
+MCS.charAt(0)=o
+MCS.charAt(1)=n
+MCS.charAt(2)=e
+MCS.charAt(3)=.
+MCS.subSequence(0,3)=one
+one
+MCS.length()=24
+MCS.charAt(4)=t
+MCS.charAt(5)=w
+MCS.charAt(6)=o
+MCS.charAt(7)=-
+MCS.subSequence(4,7)=two
+two
+MCS.length()=24
+MCS.charAt(8)=t
+MCS.charAt(9)=h
+MCS.charAt(10)=r
+MCS.charAt(11)=e
+MCS.charAt(12)=e
+MCS.charAt(13)=,
+MCS.subSequence(8,13)=three
+three
+MCS.length()=24
+MCS.charAt(14)=f
+MCS.charAt(15)=o
+MCS.charAt(16)=u
+MCS.charAt(17)=r
+MCS.charAt(18)=;
+MCS.subSequence(14,18)=four
+four
+MCS.length()=24
+MCS.charAt(19)=f
+MCS.charAt(20)=i
+MCS.charAt(21)=v
+MCS.charAt(22)=e
+MCS.charAt(23)=;
+MCS.subSequence(19,23)=five
+five
+MCS.length()=24
+----
+
+
+The implementation goes ahead and when it finds the first element for the stream, it returns it. We can process the string “one” and it processes further characters only when we get back for further elements. Why does it have to call the method length three times at the start? I have no idea. Perhaps it wants to be very sure that the length of the sequence is not magically changes.
+
+
+{%section |Morale%}
+
+This is a good example how a library has to be extended to support streams. It is not a problem if the application just converts the collection or array to a stream in the first version but if analysis shows that the performance pays back the investment then the real stream laziness should be implemented.
+
+
+{%subsection |Side note%}
+
+The implementation of `CharSequence` is mutable, but the processing requires that it remains constant otherwise the result is undefined. I can  confirm that.
+
+Next week I will show a possible use of the `splitAsStream` that makes use of the feature that it does not read further in the character sequence than it is needed.
+
+
+=== Comments imported from Wordpress
+
+
+*Richard* 2019-06-04 10:09:34
+{%@comment id: 27572 %}
+{%@comment author_email: richardfearn@gmail.com %}
+{%@comment author_url: http://gravatar.com/richardfearn %}
+{%@comment author_IP: 86.142.168.195 %}
+{%@comment date_gmt: 2019-06-04 09:09:34 %}
+[quote]
+____
+[quote]
+____
+
+Why does it have to call the method length three times at the start? I have no idea. Perhaps it wants to be very sure that the length of the sequence is not magically changes.
+
+____
+
+
+Couldn't resist :-D
+
+I couldn't see it calling length three times at the start, even using the original JDK 8 release from 2014. It gets called twice.
+
+The first call to length() is when the Matcher is created (it stores the length of the string). Then length() gets called each time it tries to get the next match - if the current position is the end of the string (current == input.length()), there are no more matches.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 10571615 %}

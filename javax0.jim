@@ -1,0 +1,83 @@
+{@comment}
+define the 'section', 'subsection' and 'subsubsection' macros that number the individual sections
+
+{@counter:define id=:scount}
+{@counter:define id=:sscount}
+{@counter:define id=:ssscount}
+{@define section($x)=== {scount}. $x{@counter:define id=:sscount}}
+{@define subsection($x)==== {scount last}.{sscount}. $x{@counter:define id=:ssscount}}
+{@define subsubsection($x)===== {scount last}.{sscount last}.{ssscount}. $x}
+
+{#define :ARTICLE={#file (format="$bareNaked"){@pos (top format="%f")}}}
+{#define asciidoc:output={@directory (format=$absolutePath) _posts}}
+
+{@define article($fileName,$refText)=link:/{@replace (regex) |$fileName|(\d)-|$1/|}.html[$refText]}
+{@define liquid($x)={@escape* `liquid`{`liquid`} $x {@escape* `liquid`}`liquid`}}
+{@define raw($x)={liquid raw}$x{liquid endraw}}
+
+{@define IMAGE_LOCATION=image::https://raw.githubusercontent.com/javax0/javax0.github.io/master/assets/images/}
+{#define png($x,...$Y)={IMAGE_LOCATION}$x.png[$Y]}
+{#define svg($x,...$Y)={IMAGE_LOCATION}$x.svg[$Y]}
+{#define jpg($x,...$Y)={IMAGE_LOCATION}$x.jpg[$Y]}
+
+{@define java($X)=[source,java]
+----
+{@snip (actions=number,trim format="%2d. ") $X}
+----}
+
+{@define articleDisclaimer=
+[%collapsible,title=Article Management Technical Details]
+====
+****
+* Code link:https://github.com/javax0/javax0.github.io/tree/master/_projects/{ARTICLE}[https://github.com/javax0/javax0.github.io/tree/master/_projects/{ARTICLE}]
+* Article source link:https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam[https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam]
+****
+====}
+
+
+{@define codeDisclaimer=
+[%collapsible,title=Code Sample Disclaimer]
+====
+****
+The code samples are available on GitHub in the link:https://github.com/javax0/javax0.github.io/tree/master/_projects[project directory].
+Each article has a project directory named `YYYY-MM-DD-article-title` where the project code files are.
+
+For this article it is ``{ARTICLE}``.
+
+The samples are automatically copied from the project directory to the article using Jamal.
+No manual copy, no outdated stale samples.
+****
+====}
+
+{@define outputDisclaimer=
+[%collapsible,title=Output Disclaimer, sidebar]
+====
+[sidebar]
+The output in the unit tests is redirected calling `System.setOut()`.
+The output is collected to a file and then this file is included calling `include [verbatim]` Jamal macro into the article.
+====}
+
+{@define commentDisclaimer=
+[%collapsible,title="How to Comment", sidebar]
+====
+****
+Use the Disqus commenting possibility to comment.
+If you find any incorrectness in the article, you are welcome to mention it.
+You can also access the source code of the article on github at
+
+link:https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam[`https://github.com/javax0/javax0.github.io/blob/master/_posts/{ARTICLE}.adoc.jam`]
+
+You are welcome to create a link:https://github.com/javax0/javax0.github.io/issues/new[ticket], create a  link:https://github.com/javax0/javax0.github.io/fork[fork], suggest modification via pull requests.
+Note that this repository also contains the demonstration sample source code.
+
+For other aspects of commenting read the link:https://javax0.github.io/about/[ABOUT] page of this blog.
+****
+====}
+
+{@define sampleOutput($X)=[source,text]
+----
+{#include [verbatim] ../../_projects/{ARTICLE}/$X}
+----}
+
+{@import contributors.jim}
+{@define useLatex=:stem: latex{@define latex($x)=stem:[$x]}}

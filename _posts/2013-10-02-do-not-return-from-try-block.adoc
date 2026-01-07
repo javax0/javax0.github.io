@@ -1,0 +1,57 @@
+---
+title: "Do not return from 'try' block" 
+layout: posta
+comments: on
+---
+
+The document JPS_Coding_Standard_java R43 suggest that you do not abruptly exit a finally block. This means returning from it, throwing exception. The document lists two examples that are great, but then there are more things not to do:
+
+[quote]
+____
+
+Do not abruptly return from a try block!
+
+____
+
+
+
+Assume you have a try/finally construct and you return from the 'try' branch:
+
+[source,java]
+----
+    StringBuilder stringed(final int a) {
+        final StringBuilder b = new StringBuilder();
+        try {
+            b.append(a);
+            return b;
+        }
+        finally {
+            b.append(new StringBuilder().append(a).reverse());
+        }
+    }
+----
+
+
+What you actually should expect is to have a string builder returned containing the decimal representation of the `int` number `a`. However the finally branch modifies the object even before the method returns. Clean code says that there should be only one return statement in a method. Here we have only one, and still it is not clear what happens.
+
+One may argue that the method works properly and it is supposed to return the string builder that contains the decimal representation of the number twice, once normal and once reversed and this is the way try and finally works. You may be a hard core old programmer who eats Java code for breakfast, but the code to be produced should always be targeting the average Java programmer, who will have trouble maintaining the code and understanding reading it is a must.
+
+Better: never ever return from a try block. And just to try to impress you: the following is also a perfectly valid, and the same time perfectly mindless Java code:
+
+[source,java]
+----
+    int $_() {
+        $_: {
+            try {
+                return 1;
+            }
+            finally {
+                break $_;
+            }
+        }
+        return 0;
+    }
+----
+
+
+If you can tell me the return value without hesitation and with total certainty, you are in the top 1% of the Java programmers. In that case you know the language more than needed and you wasted your time learning it to that level.

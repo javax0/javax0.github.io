@@ -1,0 +1,151 @@
+---
+title: "When null checking miserably fails" 
+layout: posta
+comments: on
+---
+
+
+== 1. Disclaimer
+
+
+Before going on I have to state that the techniques described in this article serve no practical purpose when we program Java. It is like a crossword or puzzle. It may train your brain in logical thinking, may develop your Java language knowledge or even your thinking skills. It is like a trick a magician performs. At the end you realize that nothing is what it looks like. Never do such tricks in real life programming that you may need to apply to solve this mind twister.
+
+
+== 2. The Problem
+
+
+I recently read an link:http://darylmathison.wordpress.com/2013/11/08/when-a-string-is-null-but-not-null/[article] that described the debugging case when
+
+[source,java]
+----
+if(trouble != null &amp;&amp; !trouble.isEmpty()) {
+  System.out.println(“fine here: ” + trouble);
+  }else{
+  System.out.println(“not so fine here: ” + trouble);
+}
+----
+
+
+was printing out
+
+[source,text]
+----
+fine here: null
+----
+
+
+The actual bug was that the string contained "null", a.k.a. the characters 'n', 'u', 'l' and 'l'. May happen in real life especially when you concatenate strings without checking the nullity of a variable.
+
+Then I started to think about other similar strange code and debug situation. Could I make it so that the variable is not only "null" string with these characters but really null? Seems to be crazy? Have a look at the code:
+
+[source,java]
+----
+package com.javax0.blog.nullisnotnull;
+
+public class NullIsNotNull {
+
+	public static void troubled(){
+		String trouble = new String("hallo");
+		Object z = trouble != null &amp;&amp; !trouble.toString().isEmpty() ? 
+                                                          trouble.toString() : "";
+		if (z == null) {
+			System.out.println("z is really " + z + "?");
+		}
+	}
+}
+----
+
+
+Will it ever print out the 
+
+[source,text]
+----
+z is really null?
+----
+
+
+question. The fact is that you can create a Java class containing a `public static void main()` so that starting that class as a Java application the sentence will be printed when `main()` invokes the method `troubled()`. In other words: I really invoke the method `troubled()` and the solution is not that `main()` prints the sentence.
+
+In this case the variable `z` is not only printed as "null" but it really is null.
+
+
+== 3. Hints
+
+
+The solution should not involve
+
+
+	* reflection
+	* byte code manipulation
+	* calling JNI
+	* special class loaders
+	* java agent
+	* annotation processor
+
+
+These are too heavy tools. You do not need such armory for the purpose.
+
+
+=== 3.1. Hint #1
+
+
+If I change the code so that the variable `z` is `String` it does not even compile:
+
+[caption id="attachment_622" align="aligncenter" width="630"]image:https://javax0.files.wordpress.com/2014/10/java_ee_-_stringdemo_src_main_java_com_javax0_blog_nullisnotnull_nullisnotnull_java_-_eclipse_-__users_verhasp_github_javax_blog.png[link="https://javax0.files.wordpress.com/2014/10/java_ee_-_stringdemo_src_main_java_com_javax0_blog_nullisnotnull_nullisnotnull_java_-_eclipse_-__users_verhasp_github_javax_blog.png"] This is what I see in Eclipse[/caption]
+
+If it confused you even more, then sorry. Read on!
+
+
+=== 3.2. Hint #2
+
+
+In the Java language `String` is an identifier and not a keyword. The link:http://docs.oracle.com/javase/specs/jls/se8/jls8.pdf[Java Language Specification] section 3.9 may give more information on the significance of this.
+
+
+=== 3.3. Hint #3
+
+
+The method `toString()` in class `Object` has a return type `java.lang.String`. You may want to read my link:http://javax0.wordpress.com/2014/09/03/name-of-the-class/[article] about the difference between the name, simple name and canonical name of a class. It may shed some light and increase the hit count of the article.
+
+
+=== 3.4. Hint #4
+
+ 
+To use a class declared in the same package you need not import that package.
+
+
+== 4. Solution
+
+
+The solution is to create a class named `String` in the same package. In that case the compiler will use this class instead of `java.lang.String`. The ternary operator in the code is simple magician trick. Something to diverge your attention from the important point. The major point is that String is not `java.lang.String` in the code above. If you still can not find out how to create the trick class, click on the collapsed source code block to see it in all glory:
+
+[source,java]
+----
+package com.javax0.blog.nullisnotnull;
+
+class String {
+	private java.lang.String jString;
+	private boolean first = true;
+
+	public String(java.lang.String s) {
+		jString = s;
+	}
+
+	public boolean isEmpty() {
+		return jString.isEmpty();
+	}
+
+	@Override
+	public java.lang.String toString() {
+		if( first ){
+			first = false;
+			return jString;
+		}
+		return null;
+	}
+
+	public static void main(java.lang.String[] args) {
+		NullIsNotNull.troubled();
+	}
+}
+----

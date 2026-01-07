@@ -1,0 +1,93 @@
+---
+title: "Do We Need User Acceptance Test?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+(Betteridge's law of headlines does not apply.)
+
+I was wondering long time why we do UAT. Do not be mistaken. I do not want to say not to do that type of testing. I just did not understand why it is User Acceptance Test. To be more precise I did not understand why it is User. And if it is User then why is it Acceptance?
+
+In this article I will ruminate a bit on this, and by the end I will get to the conclusion that UAT is really UAT.
+
+When we develop professional software, we deliver it to the customer. Not to the User. To the customer. Sometimes these two actors are the same, but that is only a special case. The two roles are different, and in our business model, we should have two stick figures, one for each. We want the customer accepting what we deliver and we want to have the customer to be happy with what we have achieved. It is not the user. We develop software professional from the start until the end and this includes that we are paid for that. Customer is the actor who pays the bill. It is not the user.
+
+The difference is clear in an example when we deliver an administrative software that helps a large bank, insurance company, and mining company to perform the administration with less human resource replacing the manual work with cheaper software labor. In that case the users are the administrators, the customer is the director of the company. The director never ever touches any administrative screen. The director a.k.a. the customer is happy if the users can use the system and the administration goes well. What we really want to achieve is customer satisfaction.
+
+[quote]
+____
+What we need is Customer Satisfaction Assurance Test (CSAT).
+____
+
+
+The thing is that we cannot do that directly. The same is true with unit tests. We need functional coverage and we do code coverage. The two are not the same, but there is a correlation between the two. The same is true with technical interviews. What we need to know is that the candidate will perform well in the position working for the firm. What we do: we ask simple or complex, but usually annoying and stupid questions and hopelessly hope that the answers’ correctness will correlate with the future performance the company wants. The same is true with stocks, marriage, health... We fail in all of those, though we do our best. That is UAT.
+
+We cannot do CSAT. What we do is UAT, we hope that the result will correlate with customer satisfaction, they will pay our bills, future orders will come, and we will live a financially viable and happy life. What a miserable failure most of the time! Never mind.
+This is not generally true, but we can safely assume as a work hypothesis that the
+customer is satisfied if the users are okay.
+
+Sometimes there are no users per se, especially in the IoT arena and that is a reason why nobody cares for example security. That is why we are doomed to use shitty IoT applications which put you in a position that may obnoxiously be familiar if you have ever visited a proctologist or gynecologist. However, this is another story. Usually there are users.
+We want the users to be happy.
+
+Wait! No! No! And also third time: no! We actually do not mind if the user is happy and it generally is good to have the user happy but we do not explicitly want them to be. We also do not want them not to be. That is not the question. We just do not bother. We want customer satisfaction, which is ad 1. not the user an ad 2. a level less than happy. The customer is satisfied if the business needs are met and business needs can only be met if the users can work with the system. Users will accept a new system only if they can work with it.
+
+image::https://javax0.files.wordpress.com/2017/12/uat-pic1.png[]
+
+The next question is why do we not want the user to be happy? The aggressive answer would be that it is a different profession. The professional answer is that the PNL analysis does not justify it (PNL= profit &amp; loss). We have a maximum revenue that depends on many factor. Mostly on how good our sales people can promote. (Side note: did you know that thesaurus.com lists the word “promote” as a synonym for “lie”?) However, this time let us ignore this factor, which is by the way happens to be the most significant revenue factor, but irrelephant from the UAT point of view. We focus on customer happiness only for now. The formula is:
+
+Income = I(user happiness)
+
+This is a monotonically increasing function. The happier the user is the more income we generate. This increase may lag behind the difference of user happiness; it may even be zero, but a happier user never meant less income. Well, maybe if you work as a link:https://javax0.wordpress.com/2014/12/24/do-not-work-on-unimportant-projects/[sexton], but that is far from software development.
+
+If the program works faster, the UI is simpler to understand, the functions work seamless then the users are happier and they will love us. On the other side, doing that increases the cost. Faster working usually needs more hardware, simpler UI needs more design and analysis work and many times UI refactoring and these do not come free.
+
+We also have costs that are also dependent on the user happiness level we want to achieve:
+
+Costs = C(user happiness)
+
+The profit in PNL is the difference of the income and the costs. Let’s denote user happiness with UH because this looks more scientific:
+
+P = I (UH) – C(UH)
+
+Both I and C increase with UH. The usual characteristics of these functions is that I increases fast when UH is small. For example when we have a program that has a bug making it unusable them the income is fairly low. I mean zero. Nobody except government agencies will pay for a software that does not work. With a small investment, we can fix the bug, we can get a software that is just usable, and the users accept it. Out income jumped we will get paid.
+
+If we look at the income on the project level this is the maximum we can get. Any further investment to increase user happiness is waste of the shareholders money.
+
+We can also look on a broader scale. We believe that creating better than just usable software will generate further revenue. If the people have a picture of us as quality software provider, it will not hurt us. In that case, the income should be calculated considering the future income amounts with their probability factors and discounting to present value. That is when we feel lost. How can you do that? Sorry, you cannot. This is when science turns to be art. Still it is important to know when you develop software: there are features that you unfold to close the project and get paid, and there are features that you develop in the woeful hope of future income.
+
+image::https://javax0.files.wordpress.com/2017/12/uat-pic22.png[]
+
+As we get further along the line of the user happiness axis calculating the income and cost functions, we will see that the income does not grow any further too rapidly. On the other hand after a while the cost starts to grow quite rapidly. When you have developed the main use cases, the happy path execution of the process works, the most frequently exceptional cases are covered then you have to stop. Nobody should develop a functionality into a mobile billing application that calculates the roaming costs for a phone of a deceased whose phone accidentally was buried with him in the coffin (or with her). Never happens. If ever say the person gets exhumed, moved to another country and the phone still works then in this single special case handling the situation manually or even by means of pigeon mail is cheaper than developing (and maintaining!!!) the software for the special case. (You see: even sextons are not immune of software problems.) When you have a user interface that can perform the most frequent use cases with one click, the less frequent ones with two clicks and some rare use cases with three or more clicks; then there is no bonus to make everything to one click. Enough is enough. 20% of the features will generate 80% of the revenue. link:https://en.wikipedia.org/wiki/Pareto_principle[That is pareto.]
+
+
+{%subsubsection |Conclusion%}
+
+
+UAT is only one of the procedures that we regularly do. It is industry best practice. Everybody does that so we also do it. The reasoning is bad.
+
+[quote]
+____
+When there is an industry best practice we can follow it, but senior engineers should also know the reason.
+____
+
+
+In case of UAT we should know that it is not the “user” whose happiness and satisfaction is primarily important for us. It is the customer, but one cannot be without the other.
+
+P.S.: When I said “different profession”, I was implying psychologist. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

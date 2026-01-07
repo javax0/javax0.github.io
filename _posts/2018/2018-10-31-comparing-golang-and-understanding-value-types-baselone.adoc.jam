@@ -1,0 +1,23 @@
+---
+title: "Comparing Golang and Understanding Value Types BaselOne" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Comparing Golang and Understanding Value Types BaselOne Video
+
+I was invited again to deliver my talk comparing Go language with Java and to talk a bit about value types. This time it was in Basel at the BaselOne conference. This one day conference happens once a year in Basel at the MarkHalle. This is a kind of shopping mall close to the railway station. The place is not too posh so you will not feel uncomfortable walking around in the typical developer outfits. At the same time, there are a lot of food places and the conference organizers provided coupons valid for some food. There were three rooms for parallel talks. One of the rooms is actually a café and you can really buy coffee before the talk and later listen to the talk while sipping your mocha. The audience was composed mainly of local developers from within Switzerland. The organization of the conference is very much related to the link:https://www.jug.ch/[Swiss Java Users' Group]. There was no official video recording of the conference but organizers welcomed my recording and gave me permission to publish the video, so here it goes.
+
+I have edited the video I recorded during the conference where I presented Comparing Golang and Understanding Value Types. The video shows the slides and, just for the sake of completeness and to increase the enjoyment factor, my slender myself presenting in PIP.
+
+https://youtu.be/upgfrw6xP6Y
+
+I delivered the talk also in May in Vilnius and before that April, the same year in Mainz at W-JAX. Both of those times the talk was disturbed some external noise. This time we had nothing like that. I almost started to miss it. (not really)
+
+Now that JAX also published the video
+
+https://vimeo.com/jaxtv/review/288743607/ce57328338
+
+You can compare the three, how different the same talk can be. (Seriously, I do not think it is interesting for anyone.) Here is the Vilnius conference video:
+
+https://youtu.be/wuJOjL8J5sE

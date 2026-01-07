@@ -1,0 +1,226 @@
+---
+title: "Name of the class" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+In Java every class has a name. Classes are in packages and this lets us programmers work together avoiding name collision. I can name my class `A` and you can also name your class `A` so long as long they are in different packages, they work together fine.
+
+If you looked at the API of the class `Class` you certainly noticed that there are three different methods that give you the name of a class:
+
+
+	* `getSimpleName()` gives you the name of the class without the package.
+	* `getName()` gives you the name of the class with the full package name in front.
+	* `getCanonicalName()` gives you the canonical name of the class.
+
+
+Simple is it? Well, the first is simple and the second is also meaningful unless there is that disturbing canonical name. That is not evident what that is. And if you do not know what canonical name is, you may feel some disturbance in the force of your Java skills for the second also. What is the difference between the two?
+
+If you want a precise explanation, visit the link:http://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html#jls-6.7[chapter 6.7 of Java Language Specification]. Here we go with something simpler, aimed simpler to understand though not so thorough.
+
+Let's see some examples:
+
+[source,java]
+----
+package pakage.subpackage.evensubberpackage;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class WhatIsMyName {
+	@Test
+	public void classHasName() {
+		final Class<?> klass = WhatIsMyName.class;
+		final String simpleNameExpected = "WhatIsMyName";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName";
+		Assert.assertEquals(nameExpected, klass.getName());
+		Assert.assertEquals(nameExpected, klass.getCanonicalName());		
+	}
+...
+----
+
+
+This "unit test" just runs fine. But as you can see there is no difference between name and canonical name in this case. (Note that the name of the package is `pakage` and not `package`. To test your java lexical skills answer the question why?)
+
+Let's have a look at the next example from the same junit test file:
+
+[source,java]
+----
+	@Test
+	public void arrayHasName() {
+		final Class<?> klass = WhatIsMyName[].class;
+		final String simpleNameExpected = "WhatIsMyName[]";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "[Lpakage.subpackage.evensubberpackage.WhatIsMyName;";
+		Assert.assertEquals(nameExpected, klass.getName());
+		final String canonicalNameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName[]";
+		Assert.assertEquals(canonicalNameExpected, klass.getCanonicalName());		
+	}
+----
+
+
+Now there are differences. When we talk about arrays the simple name signals it appending the opening and closing brackets, just like we would do in Java source code. The "normal" name looks a bit weird. It starts with an `L` and semicolon is appended. This reflects the internal representation of the class names in the JVM. The canonical name changed similar to the simple name: it is the same as before for the class having all the package names as prefix with the brackets appended. Seems that `getName()` is more the JVM name of the class and `getCanonicalName()` is more like the fully qualified name on Java source level.
+
+Let's go on with still some other example (we are still in the same file):
+
+[source,java]
+----
+	class NestedClass{}
+	
+	@Test
+	public void nestedClassHasName() {
+		final Class<?> klass = NestedClass.class;
+		final String simpleNameExpected = "NestedClass";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName$NestedClass";
+		Assert.assertEquals(nameExpected, klass.getName());
+		final String canonicalNameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName.NestedClass";
+		Assert.assertEquals(canonicalNameExpected, klass.getCanonicalName());		
+	}
+----
+
+
+The difference is the dollar sign in the name of the class. Again the "name" is more what is used by the JVM and canonical name is what is Java source code like. If you compile this code, the Java compiler will generate the files:
+
+
+	* `WhatIsMyName.class` and
+	* `WhatIsMyName$NestedClass.class`
+
+
+Even though the class is named nested class it actually is an inner class. However in the naming there is no difference: a static or non-static class inside another class is just named the same. Now let's see something even more interesting:
+
+[source,java]
+----
+	@Test
+	public void methodClassHasName() {
+		class MethodClass{};
+		final Class<?> klass = MethodClass.class;
+		final String simpleNameExpected = "MethodClass";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName$1MethodClass";
+		Assert.assertEquals(nameExpected, klass.getName());
+		final String canonicalNameExpected = null;
+		Assert.assertEquals(canonicalNameExpected, klass.getCanonicalName());
+	}
+----
+
+
+This time we have a class inside a method. Not a usual scenario, but valid from the Java language point of view. The simple name of the class is just that: the simple name of the class. No much surprise.
+
+The "normal" name however is interesting. The Java compiler generates a JVM name for the class and this name contains a number in it. Why? Because nothing would stop me having a class with the same name in another method in our test class and inserting a number is the way to prevent name collisions for the JVM. The JVM does not know or care anything about inner and nested classes or classes defined inside a method. A class is just a class. If you compile the code you will probably see the file `WhatIsMyName$1MethodClass.class` generated by javac. I had to add "probably" not because I count the possibility of you being blind, but rather because this name is actually the internal matter of the Java compiler. It may choose different name collision avoiding strategy, though I know no compiler that differs from the above.
+
+The canonical name is the most interesting. It does not exist! It is null. Why? Because you can not access this class from outside the method defining it. It does not have a canonical name. Let's go on.
+
+What about anonymous classes. They should not have name. After all, that is why they are called anonymous.
+
+[source,java]
+----
+	@Test
+	public void anonymousClassHasName() {
+		final Class<?> klass = new Object(){}.getClass();
+		final String simpleNameExpected = "";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "pakage.subpackage.evensubberpackage.WhatIsMyName$1";
+		Assert.assertEquals(nameExpected, klass.getName());
+		final String canonicalNameExpected = null;
+		Assert.assertEquals(canonicalNameExpected, klass.getCanonicalName());
+	}
+----
+
+
+Actually they do not have simple name. The simple name is empty string. They do, however have name, made up by the compiler. Poor javac does not have other choice. It has to make up some name even for the unnamed classes. It has to generate the code for the JVM and it has to save it to some file. Canonical name is again null.
+
+Are we ready with the examples? No. We have something simple (a.k.a. primitive) at the end. Java primitives.
+
+[source,java]
+----
+	@Test
+	public void intClassHasName() {
+		final Class<?> klass = int.class;
+		final String intNameExpected = "int";
+		Assert.assertEquals(intNameExpected, klass.getSimpleName());
+		Assert.assertEquals(intNameExpected, klass.getName());
+		Assert.assertEquals(intNameExpected, klass.getCanonicalName());
+	}
+----
+
+
+If the class represents a primitive, like `int` (what can be simpler than an int?) then the simple name, "the" name and the canonical names are all `int` the name of the primitive.
+
+Just as well an array of a primitive is very simple is it?
+
+[source,java]
+----
+	@Test
+	public void intArrayClassHasName() {
+		final Class<?> klass = int[].class;
+		final String simpleNameExpected = "int[]";
+		Assert.assertEquals(simpleNameExpected, klass.getSimpleName());
+		final String nameExpected = "[I";
+		Assert.assertEquals(nameExpected, klass.getName());
+		final String canonicalNameExpected = "int[]";
+		Assert.assertEquals(canonicalNameExpected, klass.getCanonicalName());
+	}
+----
+
+
+Well, it is not simple. The name is `[I`, which is a bit mysterious unless you read the link:http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.3[respective chapter] of the JVM specification. Perhaps I talk about that another time.
+
+
+{%section |Conclusion%}
+
+
+The simple name of the class is simple. The "name" returned by `getName()` is the one interesting for JVM level things. The `getCanonicalName()` is the one that looks most like Java source.
+
+You can get the full source code of the example above from the gist link:https://gist.github.com/verhas/e789d700d3c9abc6afa0[e789d700d3c9abc6afa0] from GitHub.
+
+
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2014-09-04 09:02:42
+{%@comment id: 1711 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 84.3.188.140 %}
+{%@comment date_gmt: 2014-09-04 08:02:42 %}
+[quote]
+____
+Yes. That is exactly what the sample code shows.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 1701 %}
+{%@comment user_id: 31131067 %}
+
+*ArrrA* 2014-09-03 23:14:00
+{%@comment id: 1701 %}
+{%@comment author_email: arrr@arrr.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 90.165.141.253 %}
+{%@comment date_gmt: 2014-09-03 22:14:00 %}
+[quote]
+____
+Interesting entry. I don't recall well, but when i used anonymous classes, i believe simpleName returned empty
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*When null checking miserably fails | Java Deep* 2014-11-05 10:00:59
+{%@comment id: 3896 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://javax0.wordpress.com/2014/11/05/nonnullstringisnull/ %}
+{%@comment author_IP: 66.135.48.185 %}
+{%@comment date_gmt: 2014-11-05 09:00:59 %}
+[quote]
+____
+[&#8230;] method toString() in class Object has a return type java.lang.String. You may want to read my article about the difference between the name, simple name and canonical name of a class. It may shed some [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

@@ -1,0 +1,19 @@
+---
+title: "Test coverage decreased and it is good (short, read)"
+layout: posta
+comments: on
+---
+
+Synchronicity concept of Carl Gustav Jung says that events are "meaningful coincidences" if they occur with no causal relationship yet seem to be meaningfully related. Such a thing happened to me recently related to some pull requests. I was working on a FOSS project and I created a pull request that was refused by the CI server with the reason that a pull request that decreases the test coverage level cannot be merged. I knew why the code coverage percentage decreased and I knew that this not only was not bad but actually, it was good. I could convince the maintainers to skip this condition in this case. A few days later a junior developer told me that his pull request was refused in a totally unrelated project with the same reason. He explained to the lead developers why it was OK to decrease the code coverage, but in the end, they asked him to create some new tests. He is junior. Happening the same thing in two consecutive days made me feel that this may be meaningful and perhaps worth writing about it.
+
+But how can that happen that the code coverage decreases and it is good?
+
+Assume that you have a simple program, that has 100 LOC (lines of code). 50 LOC are covered by tests and the other 50 LOC are not. The code coverage is 50%.
+
+You modify the code and refactor a method, which is originally 20 LOC, 100% covered by tests and the result is 10 LOC, 100% covered by the original tests. It is just that the old code was badly designed and redundant (level 5, Programmer induced redundancy). Now the coverage is 100%* 40/90 = 44.44%.
+
+Is this a problem? The sheer number 44.44% by itself is actually a problem, just as well as the 50% before the refactoring was a problem. However, the fact that the code was made simpler and shorter and because of that the coverage decreased is definitely not a problem.
+
+Should you delete this rule from the CI server build process, namely that a pull request must not decrease the relative test code coverage? Certainly not. There are many more cases when a lazy or just not careful enough developer misses some tests than the case that I described above. The decreasing coverage is a good indicator that the pull request may not be of superb quality. There are exceptions though and those have to be handled.
+
+Should you command a junior in case of such a pull request to write some more tests that increase the coverage although totally unrelated to the actual change? I do not know. I certainly would not do that. I would accept the pull request making an exception and then I would ask the junior to create some more tests if that is needed. But these are totally unrelated. On second thought though, it may be a good idea to refuse the pull request. After all, juniors have to be educated not only about coding and programming but also about how the real-life with real-jerk seniors works.

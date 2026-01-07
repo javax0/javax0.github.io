@@ -1,0 +1,177 @@
+---
+title: "Java 9 Module Services"
+layout: posta
+comments: on
+---
+
+
+== 1. Wiring and Finding
+
+
+Java has a `ServiceLoader` class for long time. It was introduced in 1.6 but a similar technology was in use since around Java 1.2. Some software components used it, but the use was not widespread. It can be used to modularize the application (even more) and to provide a mean to extend an application using some kind of plug-ins that the application does not depend on compile time. Also, the configuration of these services is very simple: just put it on the class/module path. We will see the details.
+
+image::https://javax0.files.wordpress.com/2018/01/serviceloader1.png[]
+
+The service loader can locate implementations of some interfaces. In EE environment there are other methods to configure implementations. In the non-EE environment, Spring became ubiquitous, which has a similar, though not the exact same solution to a similar, but not an exactly same problem. Inversion of Control (IoC) and Dependency Injections (DI) provided by Spring are the solution to the configuration of the wiring of the different components and are the industry best practice how to separate the wiring description/code from the actual implementation of the functionalities that the classes have to perform.
+
+As a matter of fact, Spring also supports the use of the service loader so you can wire an implementation located and instantiated by the service loader. You can find a short and nicely written article about that link:https://dzone.com/articles/extensible-libraries-with-serviceloader-and-spring[here].
+
+`ServiceLoader` is more about how to find the implementation before we could inject it into the components that need it. Junior programmers sometimes mistakenly mix the two and it is not without reason: they are strongly related.
+
+image::https://javax0.files.wordpress.com/2018/01/iocanddi.png[]
+
+Perhaps because of this most of the applications, at least those that I have seen, do not separate the wiring and the finding of the implementation. These applications usually use Spring configuration for both finding and wiring and this is just OK. Although this is a simplification, we should live with and be happy with it. We should not separate the two functions just because we can. Most of the applications do not need to separate these. They are neatly sitting on a simple line of the XML configuration of a Spring application.
+
+[quote]
+____
+We should program on a level of abstraction that is needed but never more abstract.
+____
+
+
+Yes, this sentence is a paraphrase of a saying that is attributed to Einstein. If you think about it you can also realize that this statement is nothing more than the principle KISS (keep it simple and stupid). The code, not you.
+
+`ServiceLoader` finds the implementation of a certain class. Not all the implementations that may be on the classpath. It finds only those that are “advertised”. (I will tell later what "advertised" means.) A Java program cannot traverse through all the classes that are on the classpath, or can they?
+
+
+== 2. Browsing the classpath
+
+
+__This section is a little detour, but it is important to understand why `ServiceLoader` works the way it does, even before we discuss how it does.__
+
+A Java code cannot query the classloader to list all the classes that are on the classpath. You may say I lie because Spring does browse the classes and finds automatically the implementation candidates. Spring actually cheats. I will tell you how it does. For now, accept that the classpath cannot be browsed. If you look at the documentation of the class `ClassLoader` you do not find any method that would return the array, stream or collection of the classes. You can get the array of the packages but you cannot get the classes even from the packages.
+
+The reason for it is the level of abstraction how Java handles the classes. The class loader loads the classes into the JVM and the JVM does not care from where. It does not assume that the actual classes are in files. There are a lot of applications that load classes, not from a file. As a matter of fact, most of the applications load some of the classes from some different media. Also your programs, you just may not know it. Have you ever used Spring, Hibernate or some other framework? Most of these frameworks create proxy objects during run-time and the loads these objects from the memory using a special class loader. The class loader cannot tell you if there will ever be a new object created by the framework it supports. The classpath, in this case, is not static. There is even no such thing as classpath for these special class loaders. They find the classes dynamically.
+
+Okay. Well said and described in detail. But then again: how does Spring find the classes? Spring actually makes a bold assumption. It assumes that the class loader is a special one: `URLClassLoader`. (And as link:https://blog.codefx.org/about-nicolai-parlog/[Nicolai Parlog] writes in his link:https://blog.codefx.org/java/java-9-migration-guide/[article] it is not true with Java 9 any more.) It works with a classpath that contains URLs and it can return the array of URLs.
+
+`ServiceLoader` does not make such an assumption and as such it does not browse the classes.
+
+
+== 3. How does ServiceLoader Find a Class
+
+
+The ServiceLoader can find and instantiate classes that implement a specific interface. When we call the static method `ServiceLoader.load(interfaceKlass)`, it returns a “list” of classes that implement this interface. I used “list” between quotes because technically it returns an instance of `ServiceLoader`, which itself implements `Iterable` so we can iterate over the instances of the classes that implement the interface. The iteration is usually done in a `for` loop invoking the method `load()` following the (:) colon.
+
+To successfully find the instances, the JAR files that contain the implementations should have a special file in the directory `META-INF/service` having the fully qualified name of the interface. Yes, the name has dots in it and there is no any specific file name extension, but nevertheless, it has to be a text file. It has to contain the fully qualified name of the class that implements the interface in that JAR file.
+
+The `ServiceLoader` invokes the `ClassLoader` method `findResources` to get the URLs of the files and reads the names of the classes and then it asks the `ClassLoader` again to load those classes. The classes should have a public zero-argument constructor so that the `ServiceLoader` can instantiate each.
+
+Having those files to contain the name of the classes to piggyback the class loading and instantiation using the resource load works, but it is not too elegant.
+Java 9, while keeping the annoying `META-INF/services` solution introduced a new approach. With the introduction of Jigsaw, we have modules and modules have module descriptors. A module can define a service that a `ServiceLoader` can load and a module can also specify what services it may need to load via the `ServiceLoader`. This new way the discovery of the implementation of the service interface moves from textual resources to Java code. The pure advantage of it is that coding errors related to wrong names can be identified during compile time, or module load time to make failing code fail faster.
+
+To make things more flexible or just to make them uselessly more complex (future will tell) Java 9 also works if the class is not an implementation of the service interface but does have a `public static provider()` method that returns an instance of the class that implements the interface. (Btw: in this case, the provider class even may implement the service interface if it wants, but it generally is a factory so why would it. Mind SRP.)
+
+
+== 4. Sample Code
+
+
+You can download a multi-module maven project from link:https://github.com/verhas/module-test[`https://github.com/verhas/module-test`].
+
+This project contains three modules `Consumer`, `Provider` and `ServiceInterface`. The consumer calls the `ServiceLoader` and consumes the service, which is defined by an interface `javax0.serviceinterface.ServiceInterface` in the module `ServiceInterface` and implemented in the module `Provider`. The structure of the code can be seen in the following picture:
+
+image::https://javax0.files.wordpress.com/2017/12/modules-in-ide.png[]
+
+The `module-info` files contain the declarations:
+
+[source,java]
+----
+module Provider {
+    requires ServiceInterface;
+    provides javax0.serviceinterface.ServiceInterface
+      with javax0.serviceprovider.Provider;
+}
+
+module Consumer {
+    requires ServiceInterface;
+    uses javax0.serviceinterface.ServiceInterface;
+}
+
+module ServiceInterface {
+    exports javax0.serviceinterface;
+}
+----
+
+
+
+
+== 5. Pitfalls
+
+
+Here I will tell you some of the stupid mistakes I made while I created this very simple example so that you can learn from my mistakes instead of repeating the same. First of all, there is a sentence in the Java 9 JDK documentation in the `ServiceLoader` that reads
+
+__In addition, if the service is not in the application module, then the module declaration must have a requires directive that specifies the module which exports the service.__
+
+I do not know what it wants to say, but what it means to me is not true. Maybe I misinterpret this sentence, which is likely.
+
+Looking at our example the `Consumer` module uses something that implements the `javax0.serviceinterface.ServiceInterface` interface. This something is actually the `Provider` module and the implementation in it, but it is decided only during run time and can be replaced by any other fitting implementation. Thus it needs the interface and thus it has to have the `requires` directive in the module info file requiring the `ServiceInterface` module. __It does not have to require the `Provider` module!__ The `Provider` module similarly depends on the `ServiceInterface` module and has to require it. The `ServiceInterface` module does not require anything. It only exports the package that contains the interface.
+
+image::https://javax0.files.wordpress.com/2018/01/modules-sample.png[]
+
+It is also important to note that neither the `Provider` nor the `Consumer` modules are not required to export any package. `Provider` provides the service declared by the interface and implemented by the class named after the `with` keyword in the module info file. It provides this single class for the world and nothing else. To provide only this class it would be redundant to export the package containing it and it would possibly unnecessarily open the classes that may happen in the same package but are module internal. `Consumer` is invoked from the command line using the `–m` option and that also it does not require the module to export any package.
+The command like to start the program is
+
+[source]
+----
+java -p Consumer/target/Consumer-1.0.0-SNAPSHOT.jar:
+  ServiceInterface/target/ServiceInterface-1.0.0-SNA
+  PSHOT.jar:Provider/target/Provider-1.0.0-SNAPSHOT.
+  jar -m Consumer/javax0.serviceconsumer.Consumer
+----
+
+
+and it can be executed after a successful `mvn` install command. Note that the maven compiler plugin has to be at least version 3.6 otherwise, the ServiceInterface-1.0.0-SNAPSHOT.jar will be on the classpath instead of the module path during the compilation and the compilation will fail not finding the `module-info.class` file.
+
+
+== 6. What is the point
+
+
+The `ServiceLoader` can be used when an application is wired with some modules only during run-time. A typical example is an application with plugins. I myself ran into this exercise when I ported link:https://github.com/verhas/jScriptBasic[ScriptBasic for Java] from Java 7 to Java 9. The BASIC language interpreter can be extended by classes containing public static methods and they have to be annotated as `BasicFunction`. The last version required that the host application embedding the interpreter list all the extension classes calling an API in the code. This is superfluous and not needed. The `ServiceLoader` can locate service implementation for which the interface (`ClassSetProvider`) is defined in the main program, and then the main program can call the service implementations one after the other and register the classes returned in the sets. That way the host application does not need to know anything about the extension classes, it is enough that the extension classes are put on the module path and that each provides the service.
+
+The JDK itself also uses this mechanism to locate loggers. The new Java 9 JDK contains the `System.LoggerFinder` class that can be implemented as a service by any module and if there is an implementation that the `ServiceLoader` can find the method `System.getLogger()` will find that. This way the logging is not tied to the JDK, not tied to a library during compile time. It is enough to provide the logger during run-time and the application, the libraries the application uses and the JDK all will use the same logging facility.
+
+With all these changes in the service loading mechanism, and making it part of the language from being piggy-backed on resource loading one may hope that this type of service discovery will gain momentum and will be used in broader scale as it was used before.
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2018-01-22 21:58:42
+
+
+
+
+
+[quote]
+____
+Thank you for the correction. I appreciate it a lot.
+____
+
+
+
+
+
+*Juergen Hoeller* 2018-01-22 21:09:30
+
+
+
+
+
+[quote]
+____
+Please note that Spring does __not__ make hard assumptions about URLClassLoader: That particular ClassLoader subtype is only really used as one way of detecting classpath root entries (the other way is the "java.class.path" manifest entry) when asked to scan the entire classpath from the very root downwards. However, in practice, Spring applications typically perform narrow scans from so-called base packages downwards, and all we really need to work there is the standard ClassLoader.getResources(name) method which has to be able to resolve package locations as JarURLConnection or as a common jar URL (which keeps working fine on JDK 9).
+____
+
+
+
+
+
+*Java 9 Modularity 關鍵字整理 - Ajoshow* 2018-02-01 16:49:29
+
+
+
+
+
+[quote]
+____
+[&#8230;] Java 9 Module Services [&#8230;]
+____

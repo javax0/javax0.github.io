@@ -1,0 +1,163 @@
+---
+title: "Supporting Java 8" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Although Java has version 13 released as for now, there are a lot of production installations running with Java 8. As a professional, I develop Java 8 code many times even these days and I have to be happy that this is not Java 6. On the other hand as an open-source developer, I have my liberty to develop my Java code using Java 11, 12 or even 13 if that pleases me. And it does.
+
+On the other hand, though, I want my code to be used. Developing a tool like License3j or Java::Geci, which are kind of libraries releasing Java 11 compatible byte code cuts off all the Java 8 based applications that may use these libraries.
+
+[quote]
+____
+I want the libraries to be available from Java 8.
+____
+
+
+One solution is to keep two branches parallel in the Git repo and have a Java 11+ and a Java 8 version of the code. This is what I have done for Java::Geci 1.2.0 release. It is cumbersome, error-prone and it is a lot of work. I had this code only because my son, who is also a Java developer starting his career volunteered.
+
+(No, I did not pressure him. He speaks and writes better English than I do, and he regularly reviews these articles fixing my broken languages. If he has different opinion about the pressure, he is free to insert here any note till the closing parenthesis, I will not delete or modify that. NOTE: )
+
+Anything above between the `NOTE:` and `)` is his opinion.
+
+The other possibility is to use link:https://github.com/bsideup/jabel[Jabel].
+
+In this article, I will write about how I used Jabel in the project Java::Geci. The documentation of Jabel is short but still complete and it really works like that for simpler projects. For example I really only had to add a few lines to the `pom.xml` in case of the Licenese3j project. For more complex projects that were developed over a year without thinking about any compromise for Java 8 compatibility, it is a bit more complex.
+
+
+{%section |About Jabel%}
+
+
+Jabel is an open-source project available from https://github.com/bsideup/jabel. If you have a Java 9+ project source you can configure Jabel to be part of the compilation process. It is an annotation processor that hooks into the compilation process and kind of tricks the compiler to accept the Java 9+ features as they were available for Java 8. The compiler will work and generate Java 8, Jabel does not interfere with the byte code generation, so this is as genuine as it can be out of the Java compiler fresh and warm. It only instructs the compiler not to freak out on Java 9+ features when compiling the code.
+
+The way it works and why it can work is well written on the project's GitHub page. What I wrote above may not even be precise.
+
+
+{%section |Backport issues%}
+
+
+When creating Java code using Java 9+ features targeting a Java 8 JVM it is not only the byte code version that we should care about. The code executed using the Java 8 JVM will use the Java 8 version of the JDK and in case we happen to use some classes or methods that are not available there then the code will not run. Therefore we have two tasks:
+
+
+* Configure the build to use Jabel to produce Java 8 byte-code
+* eliminate the JDK calls that are not available in Java 8.
+
+
+
+{%subsection |Configure Build%}
+
+
+I will not describe here how to configure Jabel to be part of the build using Maven. It is documented on the site and is straightforward.
+
+In the case of Java::Geci I wanted something different. I wanted a Maven project that can be used to create Java 8 as well as Java 11 targets. I wanted this because I wanted Java::Geci to support JPMS just as before and also to create state-of-the-art byte code (class nesting instead of bridge methods for example) for those projects that run on Java 11 or later.
+
+As the first step, I created a profile named `JVM8`. Jabel is only configured to run only when this profile is active.
+
+This profile also sets the release as
+
+[source,text]
+----
+<release>8</release>
+----
+
+
+so the very first time the compiler was freaking out when it saw the `module-info.java` files. Fortunately, I can exclude files in the POM file in the `JVM8` profile. I also excluded `javax0/geci/log/LoggerJDK9.java` and I will talk about that later.
+
+I also tried to use Maven to automatically configure the version number to have the `-JVM8` postfix if it runs with the `JVM8` profile but it was not possible. Maven is a versatile tool and can do many things and in case of a simpler project doing that should be the approach. In the case of Java::Geci I could not do that because Java:Geci is a multi-module project.
+
+Multi-module projects refer to each other. At least the child module reference the parent module. The version of the child module may be different from the version of the parent module. It is kind of logical since their evolution and development are not necessarily tied together. However, usually, it is. In projects, like Java::Geci that has seven child modules and each child module has the very same version number as the parent the child modules can inherit all the parameters, dependencies, compiler options and so on, from the parent but the version. It cannot inherit the version because it does not know which parent version to inherit it from. It is a catch 22.
+
+The Java::Geci development goes around this problem using the Jamal preprocessor maintaining the eight `pom.xml` files. Whenever there is a change in the build configuration it has to be edited in one of the `pom.xml.jam` files or in one of the included `*.jim` files and then the command line `mvn -f genpom.xml clean` will regenerate all the new `pom.xml` files. This also saves some repetitive code as the preprocessed Jamal files are not so verbose as the corresponding XML files. The price for this is that the macros used have to be maintained.
+
+Java::Geci has a `version.jim` file that contains the version of the project as a macro. When targeting a Java 8 release then the version in this file has to be changed to `x.y.z-JVM8` and the command `mvn -f genpom.xml clean` has to be executed. Unfortunately, this is a manual step that I may forget. I may also forget to remove the `-JVM8` postfix after the Java 8 target was created.
+
+To mitigate the risk of this human error I developed a unit test that checks the version number is coherent with the compilation profile. It identified the compilation profile reading the `/javax0/geci/compilation.properties` file. This is a resource file in the project filtered by Maven and contains
+
+[source,text]
+----
+projectVersion=${project.version}
+profile=${profile}
+----
+
+
+When the test runs the properties are replaced by the actual values as defined in the project. `project.version` is the project version. The property `profile` is defined in the two profiles (default and `JVM8`) to be the name of the profile.
+
+If the version and the profile do not match the test fails. Following the philosophy of Java::Geci, the test does not just order the programmer to fix the "bug" when the test itself can also fix the bug. It modifies the `version.jim` file so that it contains the correct version. It does not, however, run the pom file generating Jamal macros.
+
+As a result of this I will get release files with version `x.y.z` and also `x.y.z-JVM8` after the second build with some manual editing work.
+
+
+{%subsection |Eliminate Java 8+ JDK calls%}
+
+
+
+{%subsubsection |Simple calls%}
+
+
+This is a simple task at first sight. You must not use methods that are not in Java 8 JDK. We could do anything using Java 8 so it is a task that certainly possible.
+
+For example every
+
+[source,java]
+----
+" ".repeat(tab)
+----
+
+
+has to be eliminated. To do that I created a class `JVM8Tools` that contain static methods. For example:
+
+[source,java]
+----
+public static String space(int n){
+    final StringBuilder sb = new StringBuilder(/*20 spaces*/"                    ");
+    while( sb.length() < n){
+        sb.append(sb);
+    }
+    return sb.substring(0,n).toString();
+}
+----
+
+
+is defined there and using this method I can write
+
+[source,java]
+----
+space(tab)
+----
+
+
+instead of the invocation of `String::repeat` method. This part was easy.
+
+
+{%subsubsection |Mimicking `getNestHost`%}
+
+
+What was a bit more difficult is to implement the `getNestHost()` method. There is no such thing in Java 8, but the selector expressions included in the Tools module of Java::Geci lets you use expressions, like
+
+[source,java]
+----
+Selector.compile("nestHost -> (!null &amp; simpleName ~ /^Map/)").match(Map.Entry.class)
+----
+
+
+to check that the class `Entry` is declared inside `Map`, which it trivially is. It makes sense to use this expression even in Java 8 environment someone chooses to do so and I did not want to perform amputation dropping this feature from Java::Geci. It had to be implemented.
+
+The implementation checks the actual run-time and in case the method is there in the JDK then it calls that via reflection. In other cases, it mimics the functionality using the name of the class and trying to find the `$` character that separates the inner and the enclosing class name. This may lead to false results in the extremely rare case when there are multiple instances of the same class structures loaded using different class loaders. I think that a tool, like Java::Geci can live with it, it barely happens while executing unit tests.
+
+There is also a speed drawback calling the method `Class#getNestHost` reflectively. I decide to fix it if there will be real demand.
+
+
+{%subsubsection |Logging support%}
+
+
+The last issue was logging. Java 9 introduced a logging facade that is highly recommended to be used by the libraries. Logging is a long-standing problem in the Java environment. The problem is not that there is not any. Quite the opposite. There are too many. There is Apache Commons Logging, Log4j, Logback, the JDK built-in java util logging. A standalone application can select the logging framework it uses, but in case a library uses a different one then it is difficult if not impossible to funnel the different log messages into the same stream.
+
+Java 9 thus introduced a new facade that a library can use to send out its logs and the applications can channel the output through the facade to whatever logging framework they want. Java::Geci uses this facade and provides logging API for the generators through it. In case the JVM8 environment this is not possible. In that case Java::Geci channels the log messages into the standard Java logger. To do that there is a new interface `LoggerJDK` implemented by two classes `LoggerJVM8` and `LoggerJDK9`. The source code for the latter is excluded from the compilation in case the target is Java 8.
+
+The actual logger tries to get the `javax0.geci.log.LoggerJDK9#factory` via reflection. If it is there, then it is possible to use the Java 9 logging. If it is not there then the logger falls back to with the factory to `javax0.geci.log.LoggerJVM8#factory`. That way only the logger factory is called via reflection, which happens only once for every logger. Logging itself is streamlined and uses the target logging without any reflection, thus without speed impediment.
+
+
+{%section |Takeaway%}
+
+
+It is possible to support Java 8 in most of the library project without unacceptable compromise. We can create two different binaries from the same source that support the two different versions in a way that the version supporting Java 9 and later does not "suffer" from the old byte code. There are certain compromises. You must avoid calling Java 9+ API and in case there is an absolute need, you have top provide a fall-back and you can provide a reflection-based run-time detection solution.

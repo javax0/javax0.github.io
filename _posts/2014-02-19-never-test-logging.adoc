@@ -1,0 +1,238 @@
+---
+title: "Never Test Logging"
+layout: posta
+comments: on
+---
+
+Technical logging is usually not tested. As link:http://stackoverflow.com/users/20487/avdi[commentator]  write on link:http://stackoverflow.com/questions/1168151/unit-testing-logging-and-dependency-injection[stack overflow]:
+
+[quote]
+____
+
+... I practice TDD/BDD pretty religiously and I almost never test logging. With some exceptions logging is either a developer convenience or a usability factor, not part of the method's core specification.
+
+____
+
+
+There is also a technical side why developers are reluctant, as link:http://stackoverflow.com/users/22656/jon-skeet[Jon] writes on the same page:
+
+[quote]
+____
+
+It's a pain, either making the production code messy (due to injecting the logger) or the test smelly (replacing the static logger with a mock).
+
+____
+
+
+After those two statements we have to stop and think for a while. (After all, thinking never hurts, does it?) When we are talking about logging, do we mean the logging as a function or the tools that we use? Many times there is no difference: we use logging tools for logging. Absolutely logical. On the other hand when somebody asks a question about how to test logging there is a good chance that s/he is using the logging tool for something else than logging.
+
+[quote]
+____
+Using logging tools and logging functionality are sometimes not the same.
+____
+
+
+When testing logging comes into picture you should feel link:http://en.wikipedia.org/wiki/Code_smell[code smell].
+
+
+==== 1.1.1. Testing Logging Functionality
+
+
+The first question that we have to answer is : what is logging as a functionality? What is it for? (And this time this is not about deforestation.)
+
+When you write statements, like `log.debug("accountIsDisabled() returned true");`, is there any functional specification that you fulfill? I bet there is none. Technical logging is not a functional requirement. Logging is used to help the developer and the support people to better understand the behavior of the program, when something non expected happens in the program. This is not something that is inherent to the core functionality of the code.
+
+The important fraction of the above sentences is "when something non expected happens". I hear the roar of junior and semi senior developers: "We also log when something expected but exception occurs, like database connection dropped." Well, my friend, let me tell you that you only think you log. You actually do not log. You alert. You presumably use some logging tool to perform alerting and this is what makes you think that you do logging. In reality, however, you are not. And this is very important.
+
+I do not say that you should not use a logging tool for anything else other that logging. You can send alerts to a file, send SMS, tweet, whatever using a special log4j appender. No problem. However make sure that this is the best choice from the available tools. If you think you are logging, if you are not aware that you are actually alerting you prevent yourself realizing that you perhaps use a sub optimal tool for the purpose. When you send anything through your log tool's drain to a log file that describes something, which is the description and the details of a well expected behavior then you should ask yourself the question: am I logging, or am I doing something else?
+
+(Note: that something non-expected may happen outside of the program as well, in which case we also need logging. However that is not technical logging. Typically this is legal audit logging. You should test such logging.)
+
+After we defined what I really mean when I talk about logging, my next statement is the following:
+
+[quote]
+____
+You should not test technical logging!
+____
+
+
+The statement may be shocking the first time. Why did not I write "you need not test"? Simply because there is nothing in programming that you "may but need not do" if you are a professional. You and your team have a goal. It includes product, time, budget, quality and all other "such" things. You get there on a way paved with effort. You have to minimize this effort. Not for your own good, or because you are lazy, but for the shareholders sake. Effort is cost. They provide the budget not for your enjoyment, but rather for achieving a business goal. That is the way businesses work, and professional programmers operate in business. That is one of the mandatory requirements to be professional. If you need not do something to achieve the goals, then you should not. Otherwise you waste the money that is not yours.
+
+If you still feel that there is a real business need to test logging then start to sniff. This is code smell again. You probably are not logging, only using logging tools.
+
+
+==== 1.1.2. Testing Logging Tools Functionality
+
+
+When you use a logging tool for something other than logging then you may well want to do some testing. Assume you decided after careful and professional assessment of all the possible technical solutions that you will use a logging framework for something, which is not logging. Alerting for example. In that case you want to test that your code uses the logging appropriately. Then comes the issue with the `private static final` loggers that you can not overwrite even using reflection. (You may succeed if you try, but that is against the JLS and JVM standards and may not always work.)
+
+But again: this is not logging, this is using only the logging tool for some function, say alerting. Alerting functionality should be coded testable. In that case put aside the static loggers and focus on functionality. Separate the technical logging from alerting and properly inject dependency and mock the objects as usual during testing. Wrap alerting into a separate class, package and mock that while testing and test the wrap separately.
+
+Whenever you program something to be tested you have to code it testable. Which is obvious since you develop your code using TDD.
+
+
+
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2014-03-24 11:45:50
+
+
+
+
+
+[quote]
+____
+I myself would say that statics are bad design in many cases. Not always.
+____
+
+
+
+
+
+*Wengfu Zhoudong* 2014-03-24 12:32:21
+
+
+
+
+
+[quote]
+____
+Perhaps the problem is the language that is being used. It is acknowledged by most IT professionals that Java is obsolete, riddled with security issues and is old-fashioned in its structure.
+____
+
+
+
+
+
+*lmm* 2014-03-24 11:37:51
+
+
+
+
+
+[quote]
+____
+Statics are bad design; unfortunately log4j etc. encourage this on dubious performance grounds (sure, you don't want to be instantiating a new logger every time you create some hot object - but if you understand basic program design you won't do that. Instantiating a new database accessor object would be just as bad - should those be static too?). If you use ordinary OOP techniques and DI then logging becomes no harder to test than anything else.
+____
+
+
+
+
+
+*ReadingLog: a fresh one about test logging | What Folti thought...* 2014-02-19 11:34:54
+
+
+
+
+
+[quote]
+____
+[&#8230;] article is about relation of test and logging. It was very thought provoking for me just because in my team [&#8230;]
+____
+
+
+
+
+
+*m50d* 2014-03-24 13:32:34
+
+
+
+
+
+[quote]
+____
+Those are bold claims to be making without citations. Java certainly lacks some modern language features and applets should probably be retired but for server-side apps I'd argue that its design is inherently more secure than e.g. Ruby or Javascript.
+____
+
+
+
+
+
+*tamasrev* 2014-02-22 23:13:51
+
+
+
+
+
+[quote]
+____
+Wow, this starts a train of thoughts:
+
+Alerting, monitoring, self-debugging, collecting usage statistics, collecting debug data from the production system: They mostly fulfill non-functional requirements:
+- The customer needs a maintainable system. (alerting, monitoring, self-debugging; sometimes: collecting debug data)
+- The customer needs to know what's going on with their service (collecting usage statistics)
+
+There is an exception though: sometimes when we cannot reproduce a bug then we might add logging to the production system, then wait until it occurs again. Or, maybe, it's alerting too.
+
+Anyway, there is one case when one *must* test technical logging: when we change legacy code then other modules might depend on the logging - even though we don't know about it. At least, once I fall into this fallacy: I edited a perl script that generated html and csv files. It had a strange logging, which I failed to fully preserve. Later I learned that the crontab sent this strange lines to my boss and to the boss of his boss. I should've tested and preserved the stdout logging too.
+____
+
+
+
+
+
+*Peter Verhas* 2014-03-24 13:44:00
+
+
+
+
+
+[quote]
+____
+You mean "less secure" ?
+____
+
+
+
+
+
+*m50d* 2014-03-24 13:49:08
+
+
+
+
+
+[quote]
+____
+@peter I mean more secure. The type system makes it easier to write secure code, the servlet API is well isolated, and consider e.g. tomcat's ability to enforce security policies on each individual war.
+____
+
+
+
+
+
+*Peter Verhas* 2014-03-24 14:09:22
+
+
+
+
+
+[quote]
+____
+Right, it is my English. I agree with your statements.
+____
+
+
+
+
+
+*Martin Grajcar* 2014-07-10 02:01:25
+
+
+
+
+
+[quote]
+____
+Even when using DI as much as possible, I see no reason for injecting loggers. There are needed in too many places and are pretty irrelevant for the functionality (with a few exceptions already mentioned like alerting, but then I would inject an Alerter encapsulating the Logger), so injecting them is IMHO code pollution. And there are also some objects which don't get created via DI and polluting their constructor by loggers would be too bad. For me,
+
+private static final Logger = MyLoggerFactory.newLogger();
+
+works best. It's hack determining the Logger name from the stack trace (doing this once per class is cheap), it's refactoring-proof, and can be (via an ugly static property) be used to mock the Logger. It's ugly, but totally practical.
+
+And no, I'd never use it for a DB or anything but logging.
+____

@@ -1,0 +1,156 @@
+---
+title: "Generating Source Code, a Compromise"
+layout: posta
+comments: on
+---
+
+
+== 1. Source Code Generation is not Good
+
+
+The most important statement in this topic before we would even start to discuss anything else is that source code generation is a suboptimal solution. It may be needed and it may be a viable solution, but whenever source code is generated it could have been done some way better. It is just that the environment, the available tools, developers are not fit for the purpose. Let me give some examples.
+
+When you program Java you use Eclipse, IntelliJ or NetBeans. Each of these IDEs is capable of generating `hashCode()`. What is wrong with it? The language could provide a declarative description of how to compute the function. The hash code depends on the hash code of the fields and the calculation is fairly standard. Why can't we just define which fields should be taken into account and the language would implicitly provide us with the method? In this case, the language is insufficient for the purpose. I do not say that Java should provide such a feature. Maybe it should, maybe it should not.
+
+In case of setters and getters the case is more prominent. Java needs them and we have to generate them whenever there is a need. Other languages, like C#, Swift or even Groovy support the feature on the language level.
+
+Another example from my practice when I needed several business object classes converted to `Map<String,String>` with a special format. I created some utility classes that listed the fields using reflection and performed the conversion. This solution, however, was rejected during code review. The code was too complex and later teams who will be responsible for the maintenance may not be able to cope with the code. I could have said that they should hire cleverer people, but that costs more money and they wanted code that is cheap to maintain. The solution was to write extremely similar code for each and every business objects class. It could have been generated if there was any tool that could do that and, which could have been part of the build process, which again increases maintenance cost. In this case, the human environment was insufficient.
+[small]#Please do not start flame war on this part of the article. This example is partially made up for NDA reasons, and after all it is not the major topic of the article.#
+
+
+== 2. Navigare Necesse Est
+
+
+The above examples clearly depict that source code generation is a must. We may not like it though, but it is a must. The next question is when to generate code, which phase of the development process?
+
+It is fairly obvious that source code can only be generated before the compilation phase. You can generate source code after the compilation phase, but that is like calling a doctor after the patient is dead: no use. We can generate code during the build process, just before the compilation phase or as part of the editing process. Both have advantages and disadvantages.
+
+
+=== 2.1. Editing Phase Source Code Generation
+
+
+When you generate code while you edit the code the code generation does not need to be part of the build process. This means that the rebuild of the code is simpler, there are fewer
+potential deviations from the standard build process and thus you are more likely to be able to do it when you work in a restricted enterprise environment. An example is when you use your IntelliJ to generate `hashCode()`. The generated method is available immediately in the editing environment, and functions like auto-complete will take the generated code into account.
+
+The disadvantage is that the process is triggered manually. The more manual the process is the more room there is for human errors. You create a new field and you forget to update the `hashCode()` in the class. The generated code also gets into the source code repository that may not be optimal. Source code repository is for the source code and generated source code is not really source-code, is it?
+
+
+=== 2.2. Build Process Source Code Generation
+
+
+When you generate the source code during the build process the code generation tool will certainly rely on the last version of the source code. In our example there will not be any field left out from the `hashCode()` method.
+
+The disadvantage is that the build process is more complex. Your favorite code generation tool may not be available or allowed in the environment you work in. The tools that can be hooked into the build process usually generate whole files. It is not likely that you will generate a `hashCode()` method into the middle of a class using a tool that runs on the build server in batch mode. Also, you will not have the generated code in your IDE and you may lose some of the code editing support.
+
+Build time source code generation tools are usually also environment specific. You may have a tool that works for Java but does not work for Rust or Python projects.
+
+There is no clear "one is better than the other" decision. Sometimes build time source code generation is better, other purposes are fit better with edit time source code generation. I created tools like link:https://github.com/verhas/fluflu[Fluflu] mentioned in my article "link:https://javax0.wordpress.com/2014/08/27/named-parameters-in-java/[Named parameters in Java]", or link:https://github.com/verhas/scriapt[Scriapt] Java annotation processing tool described in the article "link:https://javax0.wordpress.com/2013/09/11/dont-write-biolerplate-use-scriapt/[Don’t write boilerplate, use scriapt]". These tools are Java specific and build time executable. They are annotation processors, that hook into the Java compilation process and thus interestingly the IDEs continuous builds also handle them.
+
+
+== 3. Source Code Generation In-line
+
+
+This time I want to write about a Python written tool link:https://github.com/verhas/pyama[Pyama] that can be used to generate code not only for Java but also for Go, Rust, Markdown or just anything else. It is an editing phase tool and it was designed with editing in mind. The major idea was to automate the part of the editing process that can be automated.
+
+
+=== 3.1. My Demanding Need
+
+
+The demanding need was my editing the new edition of my book link:https://www.packtpub.com/application-development/java-9-programming-example[Java 9 Programming by Example] published by Packt. The first edition of the book was edited in MS Word and I had to copy paste the source code samples from the IDE. However, book and code development is not a linear work. Sometimes the code was edited and modified after it was copied. It was a huge work to revisit each code sample in the book to see if the latest version is included in the document. I wanted something else, something more automatic. Luckily the second edition that will address Java 11 is edited with a different format that I can convert from Markdown. I edit the text in Markdown and I needed a tool that copies the code samples into the text.
+
+The first idea was to create a tool that converts a `.md.pre` file that contains markdown and special directives controlling the source code inclusion into `.md` containing the code snippets. Such a solution, however, would not allow me to see the full rendered document in a Markdown WYIWYG editor. IntelliJ lets me render the markdown document text on the left side of the screen and see the result on the right side, which is a great help when I forget closing a backtick. Thus I decided to create a tool that can copy the snippets into my edited text file. It is also very handy that IntelliJ keeps the file almost all the time saved and reloads it when it is modified on the disk. Therefore I can edit the file in the editor and I can safely edit the file with any external tool. To develop this tool was also a nice Python learning project.
+
+I also wanted to create something that was more general than just fetching snippets from code files and insert them into markdown documents. The outcome was a framework that, by now, has several extensions. One is handling snippets and markdown, others generate Java code (setters, getters, equals, hashCode, constructors, builder methods), handle text macros, execute Python scripts in any code files and so on. These extensions are samples and you can create other extensions with a few lines of Python code. As far as the book writing and Markdown Pyama proved to be an extremely valuable tool.
+
+
+=== 3.2. Pyama Architecture
+
+
+When generating code into already existing source files, it is evident that the unit of editing should be something more granular than a file. We should not overwrite a whole file with something new. The tool has to distinguish between the lines that need to be altered, or rather that are allowed to be altered and those that must not be touched. Pyama introduces the notion of a segment when processing files. The tool splits up the source files it works with into segments. Segments contain lines of the text files. Thus a link:https://github.com/verhas/pyama[pyama] project works with files, each file contains segments and each segment contains lines. The segments of a file make up the whole file. In other words, there are no lines outside of segments. Pyama reads the contents of the files into the memory and then it invokes configured handlers (Python objects) to do whatever they should with the individual segments. When invoked, a handler works with a single segment. It can collect information from it, it can build up data structures to use later and it can read and modify the lines that are in the segment. This way the code of a handler is extremely simple, because it does nothing else but processes a list of strings and it does not need to care for anything else.
+
+To decide where a segment starts an ends link:https://github.com/verhas/pyama[pyama] asks the handler objects for regular expressions to identify lines that start and end segments. Different handlers may work with different segments and they may have different start and end patterns.
+
+The segments in all files are processed a few times invoking the handlers in several passes. For example, the snippet reader may collect the code snippets from the configured source files into a snippet store where each snippet is identified with a name. In the next pass, the snippet writer handler looks at segments that start with a line referencing a named snippet and it replaces the lines of the segment with the current version of the collected snippet.
+
+The snippet reader says that each line that contains `START SNIPPET` starts a new segment and such a segment lasts till a line containing `END SNIPPET` or till the end of the file. Then the code
+
+[source,text]
+----
+// START SNIPPET main_java
+     System.out.println("Hello, world!");
+// END SNIPPET
+----
+
+
+will collect a snippet that contains the code sample. The snippet writer manages segments that start with a line that contains `USE SNIPPET` and the name of the snippet and end with a line containing `END SNIPPET`. If there is a line in a file that the snippet writer processes that reads
+
+[source,text]
+----
+USE SNIPPET main_java
+     System.out.println("Hello, outdated string world!");
+END SNIPPET
+----
+
+
+it will replace it with
+
+[source,text]
+----
+USE SNIPPET main_java
+     System.out.println("Hello, world!");
+END SNIPPET
+----
+
+
+The lines with the `USE SNIPPET` and `END SNIPPET` remain in the code, but in most formats, it is possible to hide them into some comment field that the output (HTML renderer, or Java compiler) will ignore.
+
+This is only the tip of the iceberg of this code generation, text processing tool. There are handlers that can number the snippet lines, trim the code, skip certain lines that may not be interesting for the printout, apply regular expression search and replace, or even execute small Python scripts that can create the segment text.
+
+For example the following code
+
+[source,text]
+----
+/* PYTHON SNIPPET xxx
+fields = ["String name", "String office", "BigDecimal salary"]
+print("    public void setParameters(",end="")
+print(", ".join(fields), end="")
+print("){")
+for field in fields:
+    field_name = field.split(" ")[1]
+    print("        this." + field_name + " = " + field_name + ";")
+print("        }")
+
+print("""
+    public Map getMap(){
+        Map retval = new HashMap();\
+""")
+for field in fields:
+    field_name = field.split(" ")[1]
+    print("        retval.put(\""+field_name+"\", this."+field_name+");")
+print("        return retval;\n        }")
+
+END SNIPPET*/
+
+public class SimpleBusinessObject {
+    //USE SNIPPET ./xxx
+    public void setParameters(String name, String office, BigDecimal salary){
+        this.name = name;
+        this.office = office;
+        this.salary = salary;
+        }
+
+    public Map getMap(){
+        Map retval = new HashMap();
+        retval.put("name", this.name);
+        retval.put("office", this.office);
+        retval.put("salary", this.salary);
+        return retval;
+        }
+    //END SNIPPET
+}
+----
+
+
+can easily be changed to contain another field, just adding to the type and the name of the field to the array named fields. In real life examples the source printing code would be in some external file and imported, and probably the generated code would also be more complex than this sample. This code, however, enlightens that with minimal Python knowledge such manual tasks can be automated.
+
+Please feel free to try and use link:https://github.com/verhas/pyama[pyama] available from GitHub.

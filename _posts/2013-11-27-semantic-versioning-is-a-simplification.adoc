@@ -1,0 +1,120 @@
+---
+title: "Semantic versioning is a simplification" 
+layout: posta
+comments: on
+---
+
+link:http://semver.org/[Semantic version] seems to become a de facto standard in the industry. This is very good since the versioning of software packages is very important when we want to compare two versions and decide which one  to use. Without semantic versioning you have to consult the documentation to decide if you can upgrade the use library from version 1.34 to 1.36. When you rely on semantic versioning the answer is simple (in theory): yes, you can. Version 1.36 has to be backward compatible with version 1.34 Decision is as easy as saying it out loud and then the time saved can be used for some more precious work that needs brain. In practice there may be some problem, but in that case the basic assumption, semver was used, turns out to be false.
+
+How can we tell that 1.36 is backward compatible with version 1.34? That comes from the definition of semantic versioning. The `M.m.p` scheme, Major, minor, patch, says that Major versions introduce incompatible change, minor compatible change and patch is what the name says: bug fix.
+
+You can notice that `M` and `m` talks about the __specification__ of the library, while `p` about the __implementation__ . There is nothing new about this. Java SE documentation contains a link:http://docs.oracle.com/javase/tutorial/deployment/jar/packageman.html[chapter] about product versioning. The chapter talks about how to version packages, and recommends to use separate specification and implementation versions. The versions are defined in the manifest file in the JAR file that contains the package. Specification version is recommended to have the form `major.minor.micro`. There is no recommendation for the implementation version. A sample manifest file looks:
+
+[source,text]
+----
+Manifest-version: 1.0
+
+Name: java/util/
+Specification-Title: "Java Utility Classes"
+Specification-Version: "1.2"
+Specification-Vendor: "Sun Microsystems Inc."
+Package-Title: "java.util"
+Package-Version: "build57"
+Package-Vendor: "Sun Microsystems. Inc."
+----
+
+
+Semantic versioning as an approach is compatible with this. Semver does not support micro versions for the specification, only major and minor, but after all the ORACLE/SUN documentation itself does not say too much about the micro: __ major version numbers identify significant functional changes, minor version numbers identify smaller extensions to the functionality, micro versions are even finer grained versions.__ Even finer grained. That is all about it. Do we need that? My suggestion is: not. And this is the implicit suggestion of semver.
+
+Einstein link:http://quoteinvestigator.com/2011/05/13/einstein-simple/[allegedly] said: __Everything should be made as simple as possible, but not simpler.__
+
+This is the case of semantic versioning and Java package versioning. As time proved, Java packaging versioning is simply not simple. It is too complex to be practical and real life versioning problems do not need this level of complexity. Other versioning approaches may be too simple and at the end of the day semver may just fit the purpose.
+
+Maven is a huge supporter of semantic versioning and the link:http://maven.apache.org/shared/maven-archiver/index.html[archiver plugin] helps you to include the versions into the manifest file so that your package is compatible with the Java SE recommendation and Java RT can query the version of a package. The version of your library is specified in the `pom.xml` file and this version is used when creating the manifest.
+
+[source,text]
+----
+Implementation-Title: ${project.name}
+Implementation-Version: ${project.version}
+Implementation-Vendor-Id: ${project.groupId}
+Implementation-Vendor: ${project.organization.name}
+
+Specification-Title: ${project.name}
+Specification-Version: ${project.version}
+Specification-Vendor: ${project.organization.name}
+----
+
+
+Interesting that both the specification and the implementation version contains the whole package version. The semantic version compatible solution would be to include only the `M.m` version in the specification version and either the whole version number or only the rest for the implementation version.
+
+
+
+=== Comments imported from Wordpress
+
+
+*Verhás István* 2013-11-28 12:50:10
+
+
+
+
+
+[quote]
+____
+At first the missing link for product versioning is http://docs.oracle.com/javase/7/docs/technotes/guides/versioning/spec/versioning2.html. The documentation is confused and therefore the quoted part in this blog also. It calls Package-* properties instead of Implementation-* ones. On the other hand in the maven example and also the offical tutorial changes into Implementation-* properties. To make it clear i have created a sample MANIFEST.MF and a very short App:
+
+[source,]
+----
+MANIFEST.MF
+Manifest-version: 1.0
+
+Name: sandbox/
+Specification-Title: "Java Utility Classes"
+Specification-Version: "1.2"
+Specification-Vendor: "Sun Microsystems Inc."
+Package-Title: "java.util"
+Package-Version: "build57"
+Package-Vendor: "Sun Microsystems. Inc."
+Implementation-Title: ${project.name}
+Implementation-Version: ${project.version}
+Implementation-Vendor-Id: ${project.groupId}
+Implementation-Vendor: ${project.organization.name}
+----
+
+
+`App.java`
+
+[source,]
+----
+package sandbox;
+
+public class App {
+
+    public static void main(String[] args) {
+        Package thisPackage = Package.getPackage("sandbox");
+
+        System.out.println("thisPackage.getImplementationVersion()=" + thisPackage.getImplementationVersion());
+        System.out.println("thisPackage.getSpecificationVersion()=" + thisPackage.getSpecificationVersion());
+    }
+}
+----
+
+
+after building the result is:
+[source,]
+----
+verhasi$ java -cp target/sandbox-1.0.0-SNAPSHOT.jar sandbox.App
+thisPackage.getImplementationVersion()=1.0.0-SNAPSHOT
+thisPackage.getSpecificationVersion()="1.2"
+verhasi$ java -version
+java version "1.7.0_21"
+Java(TM) SE Runtime Environment (build 1.7.0_21-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 23.21-b01, mixed mode)
+verhasi$
+----
+
+
+As a conclusion we can state that at least this version of java uses the Implementation-* properties in the Package class returning getImplementationVersion(). I have filed it as a bug at http://bugreport.sun.com/bugreport Bug Id: 9008521.
+____
+
+
+

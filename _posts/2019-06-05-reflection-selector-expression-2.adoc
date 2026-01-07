@@ -1,0 +1,122 @@
+---
+title: "Reflection selector expression"
+layout: posta
+comments: on
+---
+
+Java::Geci is a code generator that runs during unit test time. If the generated code fits the actual version of the source code then the test does not fail. If there is a need for any modification then the tests modify the source code and fail. For example, there is a new field that needs a setter and getter then the accessor generator will generate the new setter and getter and then it fails. If there is no new field then the generated code is just the one that is already there, no reason to touch the source code: the test that started the generator finishes successfully.
+
+Because Java::Geci generators run as tests, which is run-time and because they need access to the Java code structures for which they generate code Java reflection is key for these generators.
+
+To help the code generators to perform their tasks there are a lot of support methods in the `javageci-tools` module.
+
+[source,text]
+----
+com.javax0.geci
+javageci-tools
+1.1.1
+
+----
+
+
+In this article, I will write one class in this module: `Selector` that can help you select a field, method or class based on a logical expression.
+
+
+== 1. Introduction
+
+
+The class `javax0.geci.tools.reflection.Selector` is a bit like the regular expression class `Pattern`. You can create an instance invoking the static method `compile(String expression)`. On the instance, you can invoke `match(Object x)` where the `x` object can be either a `Field` a `Method` or a `Class` or something that can be cast of any of those (Let's call these CFoMs). The method `match()` will return `true` if `x` fits the expression that was compiled.
+
+
+== 2. Selector expression
+
+
+The expression is a Java String. It can be as simple as `true` that will match any CFoM. Similarly `false` will not match anything. So far trivial. There are other conditions that the expression can contain. `public`, `private` `volatile` and so on can be used to match a CFoM that has any of those modifiers. If you use something like `volatile` on a CFoM that cannot be volatile (class or method) then you will get IllegalArgumentException.
+
+For classes you can have the following conditions:
+
+
+* `interface` when the class is interface
+* `primitive` when it is a primitive type
+* `annotation` when it is an annotation
+* `anonymous`
+* `array`
+* `enum`
+* `member`
+* `local`
+
+
+Perhaps you may look up what a member class is and what a local class is. It is never too late to learn a bit of Java. I did not know it was possible to query that a class is a local class in reflection until I developed this tool.
+
+These conditions are simple words. You can also use pattern matching. If you write `extends ~ /regex/` it will match only classes that extend a class that has a name matching the regular expression `regex`. You can also match the `name`, `simpleName` and `canonicalName` against a regular expression. In case our CFoM `x` is a method or field then the return type is checked, except in case of `name` because they also have a name.
+
+
+== 3. Conditions
+
+
+There are many conditions that can be used, here I list only a subset. The detailed documentation that contains all the words is at https://github.com/verhas/javageci/blob/master/FILTER_EXPRESSIONS.md
+
+Here is an appetizer though:
+
+`protected`, `package`, `static`, `public`, `final`, `synthetic`,
+`synchronized`, `native`, `strict`, `default`, `vararg`, `implements`,
+`overrides`, `void`, `transient`, `volatile`, `abstract`
+
+
+== 4. Expression Structure
+
+
+Checking one single thing would not be too helpful. And also calling the argument of the method `compile()` to be an "expression" suggests that there is more.
+
+You can combine the conditions to full logical expression. You can create a selector `Selector.compile("final | volatile")` to match all fields that are kind of thread safe being either `final` or `volatile` or both (which is not possible in Java, but the selector expression would not mind). You can also say `Selector.compile("public &amp;amp; final &amp;amp; static")` to match only those fields that are `public`, `final` and `static`. Or you can `Selector.compile("!public &amp;amp; final &amp;amp; static")` to match the `final` and `static` fields that are `private`, `protected` or package private, also as "not public". You can also apply parenthesis and with those, you can build up fairly complex logical expressions.
+
+
+== 5. Use
+
+
+The usage can be any application that heavily relies on reflection. In Java::Geci the expression can be used in the `filter` parameter of any generator that generates some code for the methods or for the fields of a class. In that case, the `filter` can select which fields or methods need code generation. For example, the default value for the `filter` in case of the accessor generator is `true`: generate setters and getter for all the fields. If you need only setters and getters for the private fields you can specify `filter="private"`. If you want to exclude also final fields you can write `filter="!final &amp; private". In that case, you will not get a getter for the final fields. (Setters are not generated for final fields by default and at all. The generator is clever.)
+
+Using streams it is extremely easy to write expressions, like
+
+[source,text]
+----
+Arrays.stream(TestSelector.class.getDeclaredFields())
+.filter(Selector.compile("private &amp; primitive")::match)
+.collect(Collectors.toSet());
+----
+
+
+that will return the set of the fields that are private and primitive. Be aware that in that case, you have some selector compilation overhead (only once for the stream, though) and in some cases, the performance may not be acceptable.
+
+Experiment and see if it suits your needs.
+
+I just forgot to add: You can also extend the selector during run-time calling the `selector(String,Function)` and/or `selectorRe(String,Function)` methods.
+
+=== Comments imported from Wordpress
+
+
+*Reflection selector expression | Howdy Android - Android World* 2019-06-08 13:31:25
+
+
+
+
+
+[quote]
+____
+[&#8230;] Printed on Howdy Android with permission by Peter Verhas, associate at our JCG program. See the unique article right here: Reflection selector expression [&#8230;]
+____
+
+
+
+
+
+*Handling repeated code automatically | Java Deep* 2019-09-25 15:00:17
+
+
+
+
+
+[quote]
+____
+[&#8230;] Reflection Selector Expression [&#8230;]
+____

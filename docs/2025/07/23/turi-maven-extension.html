@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Get Rid of pom.xml | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Get Rid of pom.xml" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind." />
+<meta property="og:description" content="Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind." />
+<link rel="canonical" href="https://javax0.github.io/2025/07/23/turi-maven-extension.html" />
+<meta property="og:url" content="https://javax0.github.io/2025/07/23/turi-maven-extension.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-23T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Get Rid of pom.xml" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-07-23T00:00:00+02:00","datePublished":"2025-07-23T00:00:00+02:00","description":"Note A Human wrote this article. Other than proofreading and sentence-level style suggestions, no AI was utilized. This is one of the last surviving members of its kind.","headline":"Get Rid of pom.xml","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2025/07/23/turi-maven-extension.html"},"url":"https://javax0.github.io/2025/07/23/turi-maven-extension.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Get Rid of pom.xml</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-07-23T00:00:00+02:00" itemprop="datePublished">Jul 23, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You want to use Maven, but you feel uneasy with the XML format of the pom file.
+What to do?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-introduction-2">2. Introduction 2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The introduction says it all, but here we go a bit more detailed.</p>
+</div>
+<div class="paragraph">
+<p>When developing a Java project, you can choose different build tools.
+The most commonly used tools are Maven and Gradle.
+Lingering from the past, you may sometimes see remnants of old Ant projects.
+There are Sbt, Bazel, Buck, Pant, and Mill.
+These are niche tools.
+You can also try Bach if you like to experiment.
+If you&#8217;re familiar with Maven and Gradle, you should be' good to go.</p>
+</div>
+<div class="paragraph">
+<p>Maven was created to be a declarative build tool, as opposed to the that-time prevalent Ant&#8217;s commanding nature.
+Grade followed Maven many years later when developers started to feel the limitations of this declarativeness.
+Developers like freedom.
+They/we want to tell the developer tool what to do.
+After all, we have programmed that way for the last 70 years in various imperative programming languages.
+You may find some Prolog programmers in some dusty corners behind some long-locked-up doors if you peek.
+Do not.
+Close those doors back and let the departed rest.</p>
+</div>
+<div class="paragraph">
+<p>Enterprises (a.k.a. the leaders of developers, representing the enterprise and its objectives) do not appreciate developer autonomy.
+Freedom results in individual solutions.
+An individual solution is always more expensive to maintain than a uniform one.
+This is also true for the build systems and Gradle.</p>
+</div>
+<div class="paragraph">
+<p>If you ever download an open-source project from GitHub using Gradle, what is the first command you execute?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>    gradle tasks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8230;&#8203;then you can see in the output what tasks there are, and then, only after you understand what tasks you can perform, can you start the build.
+What does the same look like in the case of Maven?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>    mvn clean install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and it builds the project for you.</p>
+</div>
+<div class="paragraph">
+<p>As a side note, it is a shame that you use <code>clean install</code> when a simple <code>verify</code> is enough.
+This is a kind of muscle memory coming from the everyday development
+when there is an old, messed-up partial build in the <code>target</code> directory,
+and you learned from IDE integration that it is better if you always have the up-to-date version in the local repo.</p>
+</div>
+<div class="paragraph">
+<p>Nevertheless, it is standard, well-known, like the <code>wq!</code> keystroke to exit <code>vi</code>.</p>
+</div>
+<div class="paragraph">
+<p>Enterprises (a.k.a. managers) often prefer Maven.
+A new team member, or a new team, does not need to spend time learning the build structure.
+Maven projects have a standard structure.</p>
+</div>
+<div class="paragraph">
+<p>If you need a specific step in the build process, you may face an issue.
+You need to use a Maven plugin or create a new one.
+From the management point of view, difficulty is also an advantage.
+Making it challenging to create project-specific items in the build process will ensure developers do it only when absolutely necessary.</p>
+</div>
+<div class="paragraph">
+<p>The price for all these advantages is that you have to use XML to configure the project.
+After all, XML is so enterprise, isn&#8217;t it?
+Or can you avoid using XML in the POM file?</p>
+</div>
+<div class="paragraph">
+<p>Multiple solutions try to do that, so developers need to exist.</p>
+</div>
+<div class="paragraph">
+<p>In the article, we will examine existing solutions, their pros and cons, and then propose a new one that retains the advantages and mitigates most of the disadvantages.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-how-not-to-xml-in-pom">3. How not to XML in POM?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you want to replace the XML format with something else in the pom files, you can have two approaches:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>preprocess some project definition and produce the XML as the output before the compilation starts, or</p>
+</li>
+<li>
+<p>use a Maven extension that reads the project structure from some proprietary format.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The first approach is not professional.
+It is not integrated into the Maven ecosystem, and it is proprietary.
+The other one is Polyglot Maven.</p>
+</div>
+<div class="paragraph">
+<p>Polyglot Maven is a Maven extension.
+Maven loads a Maven extension before reading the pom file,
+and the extension can hook itself up with Maven,
+registering for the task of reading the project object model.
+If you want to run a Maven extension, you should create an <code>.mvn</code> directory in your project with an  <code>extensions.xml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+  &lt;extensions&gt;
+    &lt;extension&gt;
+        &lt;groupId&gt;&lt;/groupId&gt;
+        &lt;artifactId&gt;&lt;/artifactId&gt;
+        &lt;version&gt;&lt;/version&gt;
+    &lt;/extension&gt;
+&lt;/extensions&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Maven will automatically load the extension provided by the Maven coordinates and run it.</p>
+</div>
+<div class="paragraph">
+<p>Polyglot Maven can read the project object model in different formats, including</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>atom,</p>
+</li>
+<li>
+<p>clojure,</p>
+</li>
+<li>
+<p>groovy,</p>
+</li>
+<li>
+<p>java,</p>
+</li>
+<li>
+<p>kotlin,</p>
+</li>
+<li>
+<p>ruby,</p>
+</li>
+<li>
+<p>scala,</p>
+</li>
+<li>
+<p>yaml.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The project is at</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/takari/polyglot-maven" class="bare">https://github.com/takari/polyglot-maven</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-summary">4. Summary</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2025/07/23/turi-maven-extension.html';
+            this.page.identifier = '/2025/07/23/turi-maven-extension.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2025/07/23/turi-maven-extension.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

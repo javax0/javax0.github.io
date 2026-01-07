@@ -1,0 +1,97 @@
+---
+title: "The dumbest interview question ever" 
+layout: posta
+comments: on
+---
+
+This article is not really about informatics at first. But on second though...
+
+
+== 1. Why are sewer covers round?
+
+
+This is the interview question that I believe is the most pointless ever. This is asked many times and the interviewer usually expects the clever answer: "Because this is the shape that prevents the cover to be dropped into the hole under it." When I got this question once I had different answer: "Because there are no corners and thus there are no singularities where very huge forces can appear, which are responsible for cracks usually." Actually I learned that at the university when I had to study a subject about mechanics and machinery. I graduated as electric engineer and I only later became software specialist. After many years of software engineering I have now a different opinion about this question.
+
+
+== 2. What I really think sewer covers are round for?
+
+
+Because it was always the way like that. Somebody, sometime a hundred or two-hundred years ago created the first sewer top and there was some reason to design it round. They documented it (or not) and started the production. For a short period of time the engineers knew the reasons, but after, say 20 years, the reasons were forgotten and sewer covers were created round for some forgot reasons. Simply because that was the way to do it.
+
+So what? Somebody designed it and it was good,we can follow. Is there any problem with the approach? YES.
+
+The decision was made in a certain environment that radically changed. Labour was cheaper that time, automation was non-existent and metallurgy was far from what it is now. I do not imply that the round form is bad. I do not imply that we have to use octagonal or star shaped sewer tops. I only express my strong belief that nobody was checking the validity of the assumptions recently.
+
+
+== 3. What does it do with software?
+
+
+Nothing really more than design and logic that we also use in software engineering. As well as routine, practice, pattern, drill. Many times without considering the original boundary conditions.
+
+So next time when somebody asks you this question on an interview just tell them: "Because this is the shape that prevents the cover to be dropped into the hole under it."
+
+=== Comments imported from Wordpress
+
+
+*David Kovacs* 2015-09-11 18:29:00
+
+
+
+
+
+[quote]
+____
+“Because this is the shape that prevents the cover to be dropped into the hole under it.”
+
+Circle is one shape, but Reuleaux polygons would be fine for that reason. Maybe a concave equilateral hexagon could not dropped in the hole.
+____
+
+
+
+
+
+*Szaszvari Peter* 2015-09-11 11:38:14
+
+
+
+
+
+[quote]
+____
+Enjoyed much!
+____
+
+
+
+
+
+*tvk* 2015-09-14 08:15:17
+
+
+
+
+
+[quote]
+____
+My answer: By using round shape you don't have to adjust the cover's angle to match into the hole. Given that these covers are quite heavy, rolling them into the right angle would require quite much effort.
+____
+
+
+
+
+
+*Shai Almog (@Codename_One)* 2015-11-01 15:13:46
+
+
+
+
+
+[quote]
+____
+Ask them why plane windows are rounded or round as a response...
+The first commercial flight jet engine had square windows and a few years after its launch it started crashing mysteriously... After 2 or 3 crashes they investigated and came to the conclusion that the windows had weaknesses due to the corners.
+____
+
+
+
+

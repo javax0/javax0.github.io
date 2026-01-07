@@ -1,0 +1,102 @@
+---
+{%@sep 〔〕%}
+〔@define title=Better Writing with AI〕\
+title: 〔title〕
+layout: posta
+comments: on
+---
+〔@import javax0.jim〕
+〔@comment
+
+=========================================================================================
+〕
+
+= 〔title〕
+
+〔section Introduction〕
+
+I wrote the https://javax0.github.io/2024/07/22/llm-and-rag.html[previous article] using AI's help.
+In this article, which I write the conventional way, I describe
+
+* what I did
+* why I did, and
+* what I think about the result.
+
+〔section How I wrote the LLM article〕
+
+As a first step, I created some handwritten notes and bullet points about what I wanted to discuss in the article.
+As a very first attempt, I tried to do the article without the structure at hand, but the result was terrible.
+I was deviating from the topic, so I created a long, blossoming text that would be acceptable in a live conference speech but not in a written article.
+
+After creating the notes, I dictated the article, walking up and down in my room and feeding the text into MacWhisperer.
+I was essentially dictating the text of the article.
+
+I have used English for 45 years, but it is not my first language.
+The transcription is fine; my accent is good enough for dictation.
+I can speak English in front of an audience; dictating an article's text is a different trade.
+I was not content with the result.
+
+I repeated the process in my mother tongue, Hungarian.
+The result was better, but still not perfect, but I had no more options for this phase.
+
+I copied the transcribed text into the article and asked calude.ai to clean it up.
+Since it was Hungarian, I used Hungarian for the prompting, but the result is language-independent.
+
+Claude.ai first made a short version of the article, like a one-pager, though I asked it not to shorten it.
+I amended the prompt and could get as far as 70% of the original text.
+
+Making the text shorter is acceptable to some level you can expect.
+Spoken text is more verbose than one in an article.
+However, 30% was too much, and I looked at some specific content that claude.ai skipped.
+I asked why it skipped that part, and strangely, it fixed the text instead of answering the question.
+I had to command it to answer the question and not treat it as scolding.
+
+The explanation was reasonable, but again, it apologized and explained that it was its fault for assuming those parts were unnecessary.
+And it provided a corrected full-length text, which was finally acceptable.
+
+I could use it, but as a programmer, I wanted a workflow I could repeat without haggling with an AI.
+So, I asked calue.ai to provide me with the prompt I should have asked in the first place.
+It did, I tried, and it worked.
+
+Now, I had a Hungarian text that was almost perfect.
+I was proofreading it and fixing some of the grammar, which was correct but smelled like a machine.
+Then, I asked calude.ai to translate it into English.
+
+I fed the translated text to Grammarly, and I fixed it.
+
+Then I asked calude.ai to translate the English into German, Spanish, and Russian.
+I do not know these languages well enough to check, though.
+I understand them to various levels, but the level is far from my English enhanced with Grammarly or my Hungarian.
+
+The Russian translation was a bit tricky.
+Claude.ai has already translated the text to German from English, but it has started to complain that the text is too long for one session.
+How about summarizing it in Russian or translating it into smaller etaps?
+
+I told it that it had already translated the English version without question to German.
+And then claude.ai said that okay, then, and it translated the text.
+
+My Russian-speaking colleague told me it reeks a bit of AI, but that should be okay.
+
+It is okay because... and here comes the next part:
+
+〔section What I wanted to achieve〕
+
+Writing an article is delivering information.
+It takes a lot of time and effort to write one.
+With the recent development of AI technologies, I started to use AI to proofread my English.
+I thought I would also use it to transcribe it from spoken text.
+After all, I can speak faster than I can write.
+If there is something that a machine can do instead of a human, then let the machine do it.
+
+To answer the question of how to do it is engineering.
+And I did what I did; here you are.
+
+〔section Conclusion, Feelings〕
+
+Is the result good?
+Please read the article; I linked it at the top, and you can tell.
+Dictating and speaking are different from writing.
+It is faster, but the style will be different.
+Even in the English version, you may feel it was produced using a different method.
+
+At least it is a good experience playing with the bleeding edge technology.

@@ -1,0 +1,327 @@
+---
+title: "Creating a Java::Geci generator" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+A few days back I wrote about link:https://javax0.wordpress.com/2019/04/24/how-to-generate-souce-code/[Java::Geci] architecture, code generation philosophy and the possible different ways to generate Java source code.
+
+In this article, I will talk about how simple it is to create a generator in Java::Geci.
+
+
+{%section |Hello, Wold generator%}
+
+
+
+{%subsection |`HelloWorld1`%}
+
+
+The simplest ever generator is a `Hello, World!` generator. This will generate a method that prints `Hello, World!` to the standard output. To create this generator the Java class has to implement the `Generator` interface. The whole code of the generator is:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.api.GeciException;
+import javax0.geci.api.Generator;
+import javax0.geci.api.Source;
+
+public class HelloWorldGenerator1 implements Generator {
+    public void process(Source source) {
+        try {
+            final var segment = source.open("hello");
+            segment.write_r("public static void hello(){");
+            segment.write("System.out.println(\"Hello, World\");");
+            segment.write_l("}");
+        } catch (Exception e) {
+            throw new GeciException(e);
+        }
+    }
+}
+----
+
+
+This really is the whole generator class. There is no simplification or deleted lines. When the framework finds a file that needs the method `hello()` then it invokes `process()`.
+
+The method `process ()` queries the segment named "hello". This refers to the lines
+
+[source,java]
+----
+    //<editor-fold id="hello">
+    //</editor-fold>
+----
+
+
+in the source code. The `segment` object can be used to write lines into the code. The method `write()` writes a line. The method `write_r()` also writes a line, but it also signals that the lines following this one have to be indented. The opposite is `write_l()` which signals that already this line and the consecutive lines should be tabbed back to the previous position.
+
+To use the generator we should have a class that needs it. This is
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+public class HelloWorld1 {
+    //<editor-fold id="hello">
+    //</editor-fold>
+}
+----
+
+
+We also need a test that will run the code generation every time we compile the code and thus run the unit tests:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.engine.Geci;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static javax0.geci.api.Source.maven;
+
+public class TestHelloWorld1 {
+
+    @Test
+    @DisplayName("Start code generator for HelloWorld1")
+    void testGenerateCode() throws Exception {
+        Assertions.assertFalse(new Geci()
+                .only("^.*/HelloWorld1.java$")
+                .register(new HelloWorldGenerator1()).generate(), Geci.FAILED);
+    }
+}
+----
+
+
+When the code has executed the file `HelloWorld1.java` will be modified and will get the lines inserted between the editor folds:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+public class HelloWorld1 {
+    //<editor-fold id="hello">
+    public static void hello(){
+        System.out.println("Hello, World");
+    }
+    //</editor-fold>
+}
+----
+
+
+This is an extremely simple example that we can develop a bit further.
+
+
+{%subsection |`HelloWorld2`%}
+
+
+One thing that is sub-par in the example is that the scope of the generator is limited in the test calling the `only()` method. It is a much better practice to let the framework scan all the files and select the source files that themselves some way signal that they need the service of the generator. In the case of the "Hello, World!" generator it can be the existence of the `hello` segment as an editor fold in the source code. If it is there the code needs the method `hello()`, otherwise it does not. We can implement the second version of our generator that way. We also modify the implementation not simply implementing the interface `Generator` but rather extending the abstract class `AbstractGeneratorEx`. The postfix `Ex` in the name suggests that this class handles exceptions for us. This abstract class implements the method `process()` and calls the to-be-defined `processEx()` which has the same signature as `process()` but it is allowed to throw an exception. If that happens then it is encapsulated in a `GeciException` just as we did in the first example.
+
+The code will look like the following:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.api.Source;
+import javax0.geci.tools.AbstractGeneratorEx;
+
+import java.io.IOException;
+
+public class HelloWorldGenerator2 extends AbstractGeneratorEx {
+    public void processEx(Source source) throws IOException {
+        final var segment = source.open("hello");
+        if (segment != null) {
+            segment.write_r("public static void hello(){");
+            segment.write("System.out.println(\"Hello, World\");");
+            segment.write_l("}");
+        }
+    }
+}
+----
+
+
+This is even simpler than the first one although it is checking the segment existence. When the code invokes `source.open("hello")` the method will return `null` if there is no segment named `hello` in the source code. The actual code using the second generator is the same as the first one. When we run both tests int the codebase they both generate code, fortunately identical.
+
+The test that invokes the second generator is
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.engine.Geci;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static javax0.geci.api.Source.maven;
+
+public class TestHelloWorld2 {
+
+    @Test
+    @DisplayName("Start code generator for HelloWorld2")
+    void testGenerateCode() throws Exception {
+        Assertions.assertFalse(new Geci()
+                .register(new HelloWorldGenerator2())
+                .generate(), Geci.FAILED);
+    }
+}
+----
+
+
+Note that this time we did not need to limit the code scanning calling the method `only()`. Also the documentation of the method `only(RegEx x)` says that this is in the API of the generator builder as a last resort.
+
+
+{%subsection |`HelloWorld3`%}
+
+
+The first and the second version of the generator are working on text files and do not use the fact that the code we modify is actually Java. The third version of the generator will rely on this fact and that way it will be possible to create a generator, which can be configured in the class that needs the code generation.
+
+To do that we can extend the abstract class `AbstractJavaGenerator`. This abstract class finds the class that corresponds to the source code and also reads the configuration encoded in annotations on the class as we will see. The abstract class implementation of `processEx()` invokes the `process(Source source, Class klass, CompoundParams global)` only if the source code is a Java file, there is an already compiled class (sorry compiler, we may modify the source code now so there may be a need to recompile) and the class is annotated appropriately.
+
+The generator code is the following:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.api.Source;
+import javax0.geci.tools.AbstractJavaGenerator;
+import javax0.geci.tools.CompoundParams;
+
+import java.io.IOException;
+
+public class HelloWorldGenerator3 extends AbstractJavaGenerator {
+    public void process(Source source, Class<?> klass, CompoundParams global)
+            throws IOException {
+        final var segment = source.open(global.get("id"));
+        final var methodName = global.get("methodName", "hello");
+        segment.write_r("public static void %s(){", methodName);
+        segment.write("System.out.println(\"Hello, World\");");
+        segment.write_l("}");
+    }
+
+    public String mnemonic() {
+        return "HelloWorld3";
+    }
+}
+----
+
+
+The method `process()` (an overloaded version of the method defined in the interface) gets three arguments. The first one is the very same `Source` object as in the first example. The second one is the `Class` that was created from the Java source file we are working on. The third one is the configuration that the framework was reading from the class annotation. This also needs the support of the method `mnemonic()`. This identifies the name of the generator. It is a string used as a reference in the configuration. It has to be unique.
+
+A Java class that needs itself to be modified by a generator has to be annotated using the `Geci` annotation. The `Geci` annotation is defined in the library `javax0.geci.annotations.Geci`. The code of the source to be extended with the generated code will look like the following:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import javax0.geci.annotations.Geci;
+
+@Geci("HelloWorld3 id=&#039;hallo&#039; methodName=&#039;hiya&#039;")
+public class HelloWorld3 {
+    //<editor-fold id="hallo">
+    //</editor-fold>
+}
+----
+
+
+Here there is a bit of a nuisance. Java::Geci is a test phase tool and all the dependencies to it are test dependencies. The exception is the annotations library. This library has to be a normal dependency because the classes that use the code generation are annotated with this annotation and therefore the JVM will look for the annotation class during run time, even though there is no role of the annotation during run-time. For the JVM test execution is just a run-time, there is no difference.
+
+To overcome this Java::Geci lets you use any annotations so long as long the name of the annotation interface is `Geci` and it has a `value`, which is a `String`. This way we can use the third hello world generator the following way:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@HelloWorld3a.Geci(value = "HelloWorld3 id=&#039;hallo&#039;", methodName = "hiyaHuya")
+public class HelloWorld3a {
+    //<editor-fold id="hallo">
+    //</editor-fold>
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface Geci {
+        String value();
+
+        String methodName() default "hello";
+    }
+}
+----
+
+
+Note that in the previous example the parameters `id` and `methodName` were defined inside the `value` string (which is the default parameter if you do not define any other parameters in an annotation). In that case, the parameters can easily be misspelled and the IDE does not give you any support for the parameters simply because the IDE does not know anything about the format of the string that configures Java::Geci. On the other hand, if you have your own annotations you are free to define any named parameters. In this example, we defined the method `methodName` in the interface. Java::Geci is reading the parameters of the annotation as well as parsing the `value` string for parameters. That way some generators may use their own annotations that help the users with the parameters defined as annotation parameters.
+
+The last version of our third "Hello, World!" application is perhaps the simplest:
+
+[source,java]
+----
+package javax0.geci.tutorials.hello;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public class HelloWorld3b {
+    //<editor-fold id="HelloWorld3" methodName = "hiyaNyunad">
+    //</editor-fold>
+}
+----
+
+
+There is no annotation on the class, and there is no comment that would look like an annotation. The only thing that is there an `editor-fold` segment that has the `id` `HelloWorld3`, which is the mnemonic of the generator. If it exists there, the `AbstractJavaGenerator` realizes that and reads the parameters from there. (Btw: it reads extra parameters that are not present on the annotation even if the annotation is present.) And not only reads the parameters but also calls the concrete implementation, so the code is generated. This approach is the simplest and can be used for code generators that need only one single segment to generate the code into, and when they do not need separate configuration options for the methods and fields that are in the class.
+
+
+{%section |Summary%}
+
+
+In this article, I described how you can write your own generator and we also delved into how the annotations can be used to configure the class that needs generated code. Note that some of the features discussed in this article may not be in the release version but you can download and build the (b)leading edge version from https://github.com/verhas/javageci.
+
+=== Comments imported from Wordpress
+
+
+*Generating setters and getters using Java::Geci | Java Deep* 2019-05-29 16:01:35
+{%@comment id: 27548 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2019/05/29/generating-setters-and-getters-using-javageci/ %}
+{%@comment author_IP: 192.0.118.9 %}
+{%@comment date_gmt: 2019-05-29 15:01:35 %}
+[quote]
+____
+[&#8230;] the article , we created very simple hello-world generators to introduce the framework and how to generate [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Producing setters and getters utilizing Java::Geci | Howdy Android - Android World* 2019-06-02 14:07:50
+{%@comment id: 27566 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://www.hello-android.com/2019/06/02/producing-setters-and-getters-utilizing-javageci-howdy-android/ %}
+{%@comment author_IP: 23.239.65.122 %}
+{%@comment date_gmt: 2019-06-02 13:07:50 %}
+[quote]
+____
+[&#8230;] the article , we created quite simple hello-world mills to introduce the framework and tips on how to generate [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Handling repeated code automatically | Java Deep* 2019-09-25 15:00:20
+{%@comment id: 28314 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2019/09/25/handling-repeated-code-automatically/ %}
+{%@comment author_IP: 192.0.89.230 %}
+{%@comment date_gmt: 2019-09-25 14:00:20 %}
+[quote]
+____
+[&#8230;] Creating a Java::Geci generator [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

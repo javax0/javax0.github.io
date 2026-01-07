@@ -1,0 +1,5 @@
+This directory contains the source projects.
+
+Every article can have one or more projects.
+The projects of the article are in the subdirectory, which bears the same name as the article without the `adoc.jam` extension.
+The posts read the snippets from these files.

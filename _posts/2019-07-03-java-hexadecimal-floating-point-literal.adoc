@@ -1,0 +1,188 @@
+---
+title: "Java hexadecimal floating point literal"
+layout: posta
+comments: on
+---
+
+
+== 1. How I met hexadecimal floating point numbers
+
+
+I was developing a new functionality into Java::Geci to make it less prone to code reformatting. The current release of the code will overwrite an otherwise identical code if it was reformatted. It is annoying since it is fairly easy to press the reformatting key shortcut and many projects even require that developers set their editor to automatically format the code upon save. In those cases Java::Geci cannot be used because as soon as the code is reformatted the generator thinks that the code it generates is not the same as the one already in the source file, updates it and signals the change of the code failing the unit tests.
+
+The solution I was crafting compares the Java source files first converting them to a list of lexical elements. That way you can even reformat the code inserting new-lines, spaces, etc. so long as long the code remains the same. To do that I needed a simplified lexical analyzer for Java. Writing a lexical analyzer is not a big deal, I created several for different reasons since I first read the link:https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools[Dragon Book] in 1987. The only thing I really needed is the precise definition of what are the string, character, number literals, the keywords and so on. In short: what is the definition of the Java language on the lexical level and how is it processed. Fortunately, there is a precise definition for that, the link:https://docs.oracle.com/javase/specs/[Java Language Specification], which is not only precise but also readable and has examples. So I started to read the corresponding chapters.
+
+To my bewilderment, I could see there that there is a possibility in the Java language to express a floating point in hexadecimal. Strange, is it? Since I have not ever seen it, first I thought that this was something new introduced in Java 12 but my investigation showed that it probably was introduced in Java 1.5 That was the very first Java version I really liked but not because of hexadecimal floating points. So this was how I met this beast in the standard face to face. I started to wonder if this beast can be found at all in the wild or is it only something that can be seen captive in the confinements of the text of the JLS. So...
+
+
+== 2. I put up a vote on Twitter
+
+
+
+
+image::https://javax0.files.wordpress.com/2019/06/img_3109.jpg?w=297[]
+
+As you can see nine decent humans answered the question, mostly saying that they have had no idea about this feature.
+
+Probably hexadecimal floating points are the least known and used feature of the Java language right after lambdas and streams (just kidding... hexadecimal floating points are important, no?)
+
+Even though I did some scientific study in the past, I cannot see any use of hexadecimal floating point literals.
+
+
+
+
+== 3. What is a floating point number?
+
+
+We will get to hexadecimal floating point numbers, but to understand that we have to know first what a floating point number, generally is.
+
+Floating point numbers have a mantissa and exponent. The mantissa has an integer and a fractional part, like `iii.ffff`. The exponent is an integer number. For example, 31.415926E-1 is a floating point number and an approximation for the ratio of the diameter and the circumference of a circle.
+
+Java internally stores the `float` numbers on link:https://en.wikipedia.org/wiki/Single-precision_floating-point_format[32 bit] and `double` number on link:https://en.wikipedia.org/wiki/Double-precision_floating-point_format[64 bit]. The actual bits are used according to the IEEE 754 standard.
+
+That way the bits store a sign on a single bit, then the exponent on 8 or 11 bits and finally the mantissa on 23 or 52 bits for 32- or 64-bit float/double respectively. The mantissa is a fractional number with a value between 1 and 2. This could be represented with a bit stream, where the first bit means 1, the second means 1/2 and so on. However, because the number is always stored normalized and therefore the number is always between [1 and 2) the first bit is always 1. There is no need to store it. Tus the mantissa is stored so that the most significant bit means 1/2, the next 1/2[sup]#2# and so on but when we need the value we add to it 1.
+
+The mantissa is unsigned (hence we have a separate signum bit). The exponent is also unsigned, but the actual number of bitshifts are calculated subtracting 127 or 1023 from the value to get a signed number. It specifies how many bits the mantissa should virtually be shifted to the left or right. Thus when we write `31.415926E-1f` then the exponent will NOT be -1. That is the decimal format of the number.
+
+The actual value is `01000000010010010000111111011010`. Breaking it down:
+
+
+* 0 sign, the number is positive. So far so good.
+* 10000000 128, which means we have to shift the mantissa one bit left (multiply the value by two)
+* 10010010000111111011010 is $latex 4788186/2^23+1 \approx 1.570796251296997$. The hex representation of this bit stream is `0x490FDA`
+
+
+And here comes the
+
+
+== 4. Hexadecimal floating point literal
+
+
+We can write the same number in Java as `0x0.C90FDAP2f`. This is the hexadecimal floating point representation of the same number.
+
+The mantissa `0xC9aFDA` should be familiar to the hexadecimal representation of the number above `0x490FDA`. The difference is that the first character is `C` instead of `4`. That is the extra one bit, which is always 1 and is not stored in the binary representation. `C` is `1100` while the original `4` is `0100`. The exponent is the signed decimal representation of the actual bitshifts needed to push the number to the proper position.
+
+The format of the literal is not trivial. First of all, you HAVE TO use the exponent part and the character for the exponent is `p` or `P`. This is a major difference from the decimal representation. (UPDATE: If the exponent was optional you could not tell if, for example, `0.55` is a decimal floating point or a hexadecimal floating point. A hexadecimal number can, by accident, contain only decimal characters and still be hexadecimal.)
+
+After a little bit of thinking it becomes obvious that the exponent cannot be denoted using the conventional `e` or `E` since that character is a legitimate hexadecimal digit and it would be ambiguous in case of numbers like `0x2e3`. Would this be a hexadecimal integer or $latex 2\times 2^3$. It is an integer because we use `p` and not `e`.
+
+The reason why the exponent part is mandatory I can only guess. Because developers got used to decimal floating point numbers with  `e` or `E` as exponent it would be very easy to misread `0xC90F.0e+3` as a single floating point number, even though in case of hexadecimal floating point `p` is required instead of `e`. If the exponent were not mandatory this example would be a legit sum of a floating point number and an integer. The same time it looks like a single number, and that would not be good.
+
+The other interesting thing is that the exponent is decimal. This is also because some hexadecimal digits were already in use for other purposes. The float and double suffix. In case you want to denote that a literal is a float, you can append the `f` or `F` to the end. If you want to denote that this literal is double then you can append `d` or `D` to the end. This is the default, so appending `D` is optional. If the exponent were hexadecimal we would not know if `0x32.1P1f` is a float literal or a double and having a lot of magnitudes different value. This way, that that exponent is decimal it is a float number $latex (32+1/2)\times 2^1$.
+
+
+== 5. Java and IEEE 754
+
+
+Java implemented the IEEE 754 standard strictly until Java 1.2 This link:https://en.wikipedia.org/wiki/IEEE_754[standard] defines not only the format of the numbers when stored in memory but also defines rules how calculations should be executed. After the Java release 1.2 (including 1.2) the standard was released to make the implementations more liberal allowing to use more bits to store intermediate results. This was and it still is available on the Intel CPU platforms and it is used heavily in numeric calculations in other languages like FORTRAN. This was a logical step to allow the implementations to use of this higher precision.
+
+The same time to preserve backward compatibility the `strictfp` modifier was added to the language. When this modifier is used on a class, interface or method the floating point calculations in those codes will strictly follow the IEEE 754 standard.
+
+
+== 6. Takeaway
+
+
+
+* There are hexadecimal floating point literals in Java. Remember it and also what `strictfp` is because somebody may ask you about it on a Java interview. No practical use in enterprise programming.
+* Do not use them unless it makes the code more readable. I can barely imagine any situation where this would be the case. So, simply put: do not use them just because you can.
+* Follow me on Twitter `@verhas` to get notification about new articles.
+
+
+[twitter-follow screen_name='verhas']
+
+I think that is it, nothing more. By the time this article is published, I will probably be swimming across the lake of Zürich along with ten thousand people. This is a big event here.
+
+Oh... and yes: if you have ever used hexadecimal floating point literals in Java to make it more readable, please share the knowledge in the comments. I dare say in the name of the readers: we are interested.
+
+UPDATE: Joseph Darcy, (Engineer, OpenJDK developer at Oracle, marathoner, fast walker, occasional photographer, lots of other things.) provided feedback on Twitter. I copied his reply to here as it is absolutely valuable and adds value to this article for the benefit of the reader:
+
+[quote]
+____
+The mapping between decimal strings and particular settings of binary floating-point values is often non-obvious. Hexadecimal floating-point literals provide a straightforward text to binary fp mapping when needed, such as in tests. See https://blogs.oracle.com/darcy/hexadecimal-floating-point-literals
+____
+
+
+image::https://javax0.files.wordpress.com/2019/07/joseph_darcy_on_twitter___the_mapping_between_decimal_strings_and_particular_settings_of_binary_floating-point_values_is_often_non-obvious__hexadecimal_floating-point_literals_provide_a_.png?w=300[]
+
+=== Comments imported from Wordpress
+
+
+*Babu Kalakrishnan* 2021-01-22 02:03:34
+
+
+
+
+
+[quote]
+____
+I chanced upon this animal while browsing through the Java library source code for java.util.Random (See line 92 of https://hg.openjdk.java.net/jdk8/jdk8/jdk/file/tip/src/share/classes/java/util/Random.java). Had never heard of such a syntax till then, so looked it up in the JLS and voila! there it was in section 3.10.2 !
+____
+
+
+
+
+
+*mf* 2019-08-22 14:04:24
+
+
+
+
+
+[quote]
+____
+I found an actual usage of this feature: Google Guava uses a HFPL in
+com.google.common.hash.Hashing.LinearCongruentialGenerator.nextDouble():673
+(see https://github.com/google/guava/blob/64276db0c49df56a609374d4617af88653c24e2b/guava/src/com/google/common/hash/Hashing.java)
+
+In fact not even the Oracle docs have an example of this feature.
+____
+
+
+
+
+
+*Peter Verhas* 2019-08-22 14:06:44
+
+
+
+
+
+[quote]
+____
+Good catch! Thank you.
+____
+
+
+
+
+
+*mf* 2021-11-05 09:15:41
+
+
+
+
+
+[quote]
+____
+Finally in the JDK 15 documentation the hexadecimal floating point literal representations for Double/Float MAX_VALUE and MIN_VALUE were added so at least there are now some actual examples for this syntax:
+https://docs.oracle.com/javase/specs/jls/se15/html/jls-3.html#jls-3.10.2
+____
+
+
+
+
+
+*Martin Grajcar* 2019-07-06 17:45:00
+
+
+
+
+
+[quote]
+____
+I agree that they're of hardly any use, but there's e.g.,
+
+public static final double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324
+
+which can't be reasonably written otherwise. I guess, I used it once for 2**100, where I needed to downscale some crazy numbers in order to avoid overflow (Project Euler, nothing practical).
+____

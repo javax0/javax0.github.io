@@ -1,0 +1,140 @@
+---
+title: "Design Patterns: Pattern or Anti-Pattern, that is the question" 
+layout: posta
+comments: on
+---
+
+I have recently encountered the wiki page link:http://en.wikipedia.org/wiki/Anti-pattern#Software_engineering[Anti-pattern] that has an exhaustive list of anti patterns. Some of them were obvious for me. Some of them made me think a bit, other a bit more. Then I started to look for the anti-pattern "singleton" on the page and I could not find it. (Text search stops at singlet...)
+
+[quote]
+____
+Is singleton a pattern or an anti-pattern?
+____
+
+
+Do not worry. I will not talk about singletons. There are more than link:http://stackoverflow.com/questions/11292109/why-is-singleton-considered-an-anti-pattern-in-java-world-sometimes[enough discussions] about that on the net. For now let me just use singleton as an example. In case of singleton there is no clean line between pattern and anti-pattern.
+
+As an example, singleton can easily be used, it is easy to understand and serves the purpose being a good example. Singletons were very popular until a few years ago until they started to be considered as anti-pattern. What has changed? Do computer scientists became cleverer and discover that something they thought as a good pattern was actually anti-pattern? Was singleton an anti-pattern from the very start, we just did not know it? Or did singleton itself change from being a good design pattern to be an anti-pattern?
+
+In my opinion, the answer, strangely: both of the cases. It is very similar to physical theory. Newtons theorem says that the force is proportional with the acceleration and the mass of the body accelerating. Einstein said that this is not true, and the larger the speed the larger the error is. Was Newton wrong? Yes, in some sense. Can we still use Newton's laws? Yes we can, and actually we do in case of low speed (as compared to the speed of light).
+
+Were singletons bad from the very start? Yes, just as much as they are now. Can we still use singletons? Yes we can, and actually we do in case of low spee... ops in case of simple problems that do not need considerations that make singleton to be an anti-pattern.
+
+It seems that anti-pattern is environment dependent. And in this case environment is much more complex than in case of physics. Quantum theory, relativity or irreversible thermodynamics (that my father is professor of) are simple, because they do not consider humans. They are only about the matter. 
+
+[quote]
+____
+Programming is about people.
+____
+
+
+This is something that we tend to forget many times. When it all started it was all about bits and bytes, registers, memory and hexa code. A program was either running and executing well or not. But later it became more and more complex. Computer science became information technology. More and more people use IT and more and more people write programs. They are programmers who do this for living. Even a relatively simple project, if it is commercial needs six to eight programmers. They, we are also part of the environment that the "pattern or anti-pattern"-ness depends on.
+
+The environment also contains simple things, like frameworks, programming languages, operating systems and other technical details, but none of them individually or together has a complexity comparable that of the humans.
+
+image:http://javax0.files.wordpress.com/2013/11/anti-design-pattern.jpg?w=269[link="http://javax0.files.wordpress.com/2013/11/anti-design-pattern.jpg?w=269"]
+
+When making a decision on the pattern versus anti-pattern debate many asks the question: what can the pattern be used for? What is this good for? What good can it do? These are important questions. If there is no good: no reason to consider the pattern. But it does not make it anti-pattern. If there is no good then the approach is simply not a pattern. The important question what bad it can do? What way average Joe can f@#k up the structure. How likely is it that someone applying the pattern will shoot his own leg? This is not new thing. link:http://en.wikipedia.org/wiki/Game_theory[Game theory] also states that this is more important to minimize the maximum loss than to maximize the possible gain.
+
+Looking at a pattern, can you tell that? Probably not. In some cases, yes. Congrats, you found an anti-pattern. In other cases you can not find any wrong use. It does not mean there is none. Time will show. Average Joe will come and will use the pattern in ways you could not imagine in your wildest dream (or night mare for that matter).
+
+Thus anti-pattern is not something inherently bad, just as guns do not kill people. The use of patterns in a wrong way is bad. When people tend to use a pattern more the wrong way, then it is an anti-pattern. This is the case with singletons.
+
+Similar thing can be captured with code commenting. When I started to learn programming Pascal our [a]#teacher# required that 50% of the code has to be meaningful comment. How does it come today? Clean code says that comment is evil. Sort of. Too many comments smell. At times I find myself in projects where comments are totally evicted. Not even Javadoc is allowed. Weird? This is just the way they apply the clean code pattern.
+
+So the question that starts to bug me these days is whether using design patterns in programming is a good pattern or is that itself an anti-pattern?
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2013-12-20 20:12:13
+
+
+
+
+
+[quote]
+____
+__"because I believe being asked about in an interview is the main purpose of their existence"__
+
+You just made my day!
+____
+
+
+
+
+
+*Design Patterns: Still controversial | tamasrev* 2014-02-13 23:15:06
+
+
+
+
+
+[quote]
+____
+[&#8230;] Verhas uses a great metaphor here: whether a design pattern is a good thing or a bad thing is the same question whether guns are good [&#8230;]
+____
+
+
+
+
+
+*Tervezési minta: belső építő megváltoztathatatlan objektumokhoz | tifyty* 2013-12-20 14:56:08
+
+
+
+
+
+[quote]
+____
+[&#8230;] múlt héten a Javax0 blogon jelentettem meg egy kis agymenést arról, hogy jók-e egyáltalán a tervezési minták. Ezen a héten pedig ezt cikket írtam, [&#8230;]
+____
+
+
+
+
+
+*Bence Takács* 2013-12-16 15:37:31
+
+
+
+
+
+[quote]
+____
+I think Singleton is the best example you could bring up: to declare an object to be singleton/multiton per PC/JVM/process/classloader/thread is a very important feature. It was 10 years ago and it is nowadays too. Additionally it is such an important feature that it happened to be integrated into frameworks in a decoupled and easily extendable way. And now it is claimed to be an antipattern to implement it again in the old-style coupled and specific way. This is a very good example to the evolution you are speaking about :-)
+____
+
+
+
+
+
+*Design Pattern: Immutable Embedded Builder | Java Deep* 2013-12-18 15:57:56
+
+
+
+
+
+[quote]
+____
+[&#8230;] week I wrote about what makes a pattern anti-pattern. This week I present a design pattern&#8230; or wait&#8230; [&#8230;]
+____
+
+
+
+
+
+*Péter András Szászvári* 2013-12-20 20:05:28
+
+
+
+
+
+[quote]
+____
+Many questions, few answers. Why do I have the feeling that you have more answers than this? Average Joe is hurting me. Many ways. One way is that Average Joe comes along and asks me about design patterns on an interview (because I believe being asked about in an interview is the main purpose of their existence).  Reminds me to Mr Pólya in his book "How to Solve It" as he tries to formulate the good way of problem solving, creative thinking to Average Joe. Will not happen. Let's face it. It all boils down to one thing. You will have to think. For that you will have to be able to do so. The capable percentage of the population is not changing, determined by biology for thousands of years. Let me not say the rest...
+____
+
+
+

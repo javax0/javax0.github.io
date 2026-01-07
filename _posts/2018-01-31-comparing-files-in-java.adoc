@@ -1,0 +1,138 @@
+---
+title: "Comparing files in Java"
+layout: posta
+comments: on
+---
+
+I am creating a series of video tutorials for PACKT about network programming in Java. There is a whole section about Java NIO. One sample program is to copy a file via raw socket connection from a client to a server. The client reads the file from the disk, and the server saves the bytes as they arrive, to disk. Because this is a demo, the server and the client are running on the same machine and the file is copied from one directory to the exact same directory but a different name. The proof of the pudding is eating it: the files have to be compared.
+
+The file I wanted to copy was created to contain random bytes. Transferring only text information can leave sometimes some tricky bug lurking in the code. The random file was created using the simple Java class:
+
+[source,text]
+----
+package packt.java9.network.niodemo;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Random;
+
+public class SampleMaker {
+    public static void main(String[] args) throws IOException {
+        byte[] buffer = new byte[1024 * 1024 * 10];
+        try (FileOutputStream fos = new FileOutputStream("sample.txt")) {
+            Random random = new Random();
+            for (int i = 0; i < 16; i++) {
+                random.nextBytes(buffer);
+                fos.write(buffer);
+            }
+        }
+    }
+}
+----
+
+
+Using IntelliJ comparing files is fairly easy, but since the files are binary and large this approach is not really optimal. I decided to write a short program that will not only signal that the files are different but also where the difference is. The code is extremely simple:
+
+[source,text]
+----
+package packt.java9.network.niodemo;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class SampleCompare {
+    public static void main(String[] args) throws IOException {
+        long start = System.nanoTime();
+        BufferedInputStream fis1 = new BufferedInputStream(new FileInputStream("sample.txt"));
+        BufferedInputStream fis2 = new BufferedInputStream(new FileInputStream("sample-copy.txt"));
+        int b1 = 0, b2 = 0, pos = 1;
+        while (b1 != -1 &amp;&amp; b2 != -1) {
+            if (b1 != b2) {
+                System.out.println("Files differ at position " + pos);
+            }
+            pos++;
+            b1 = fis1.read();
+            b2 = fis2.read();
+        }
+        if (b1 != b2) {
+            System.out.println("Files have different length");
+        } else {
+            System.out.println("Files are identical, you can delete one of them.");
+        }
+        fis1.close();
+        fis2.close();
+        long end = System.nanoTime();
+        System.out.print("Execution time: " + (end - start)/1000000 + "ms");
+    }
+}
+----
+
+
+The running time comparing the two 160MB files is around 6 seconds on my SSD equipped Mac Book and it does not improve significantly if I specify a large, say 10MB buffer as the second argument to the constructor of `BufferedInputStream`. (On the other hand, if we do not use the `BufferedInputStream` then the time is approximately ten times more.) This is acceptable, but if I simply issue a `diff sample.txt sample-copy.txt` from the command line, then the response is significantly faster, and not 6 seconds. It can be many things, like Java startup time, code interpretation at the start of the `while` loop, till the JIT compiler thinks it is time to start to work. My hunch is, however, that the code spends most of the time reading the file into the memory. Reading the bytes to the buffer is a complex process. It involves the operating system, the device drivers, the JVM implementation and they move bytes from one place to the other and finally we only compare the bytes, nothing else. It can be done in a simpler way. We can ask the operating system to do it for us and skip most of the Java runtime activities, file buffers, and other glitters.
+
+We can ask the operating system to read the file to memory and then just fetch the bytes one by one from where they are. We do not need a buffer, which belongs to a Java object and consumes heap space. We can use memory mapped files. After all, memory mapped files use Java NIO and that is exactly the topic of the part of the tutorial videos that are currently in the making.
+
+Memory mapped files are read into the memory by the operating system and the bytes are available to the Java program. The memory is allocated by the operating system and it does not consume the heap memory. If the Java code modifies the content of the mapped memory then the operating system writes the change to the disk in an optimized way, when it thinks it is due. This, however, does not mean that the data is lost if the JVM crashes. When the Java code modifies the memory mapped file memory then it modifies a memory that belongs to the operating system and is available and is valid after the JVM stopped. There is no guarantee and 100% protection against power outage and hardware crash, but that is very low level. If anyone is afraid of those then the protection should be on the hardware level that Java has nothing to do anyway. With memory mapped files we can be sure that the data is saved into the disk with certain, very high probability that can only be increased by failure tolerant hardware, clusters, uninterruptible power supplies and so on. These are not Java. If you really have to do something from Java to have the data written to disk then you can call the `MappedByteBuffer.force()` method that asks the operating system to write the changes to disk. Calling this too often and unnecessarily may hinder the performance though. (Simple because it writes the data to disk and returns only when the operating system says that the data was written.)
+
+Reading and writing data using memory mapped files is usually much faster in case of large files. To have the appropriate performance the machine should have significant memory, otherwise, only part of the file is kept in memory and then the page faults increase. One of the good things is that if the same file is mapped into the memory by two or more different processes then the same memory area is used. That way processes can even communicate with each other.
+
+The comparing application using memory mapped files is the following:
+
+[source,text]
+----
+package packt.java9.network.niodemo;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class MapCompare {
+    public static void main(String[] args) throws IOException {
+        long start = System.nanoTime();
+        FileChannel ch1 = new RandomAccessFile("sample.txt", "r").getChannel();
+        FileChannel ch2 = new RandomAccessFile("sample-copy.txt", "r").getChannel();
+        if (ch1.size() != ch2.size()) {
+            System.out.println("Files have different length");
+            return;
+        }
+        long size = ch1.size();
+        ByteBuffer m1 = ch1.map(FileChannel.MapMode.READ_ONLY, 0L, size);
+        ByteBuffer m2 = ch2.map(FileChannel.MapMode.READ_ONLY, 0L, size);
+        for (int pos = 0; pos < size; pos++) {
+            if (m1.get(pos) != m2.get(pos)) {
+                System.out.println("Files differ at position " + pos);
+                return;
+            }
+        }
+        System.out.println("Files are identical, you can delete one of them.");
+        long end = System.nanoTime();
+        System.out.print("Execution time: " + (end - start) / 1000000 + "ms");
+    }
+}
+----
+
+
+To memory map the files we have to open them first using the `RandomAccessFile` class and ask for the channel from that object. The channel can be used to create a `MappedByteBuffer`, which is the representation of the memory area where the file content is loaded. The method `map` in the example maps the file in read-only mode, from the start of the file to the end of the file. We try to map the whole file. This works only if the file is not larger than 2GB. The start position is `long` but the size of the area to be mapped is limited by the size of an `Integer`.
+
+Generally this it... Oh yes, the running time comparing the 160MB random content files is around 1sec.
+
+
+==== 1.1.1. UPDATE:
+
+
+https://twitter.com/snazy pointed out that the part of the code
+
+[source,text]
+----
+        for (int pos = 0; pos < size; pos++) {
+            if (m1.get(pos) != m2.get(pos)) {
+                System.out.println("Files differ at position " + pos);
+                return;
+            }
+        }
+----
+
+
+can be replaced using the built-in `ByteBuffer::mismatch` method. The code is simpler, it does exactly what the example code is aiming and it is probably faster.

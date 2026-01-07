@@ -1,0 +1,100 @@
+---
+title: "Process Handling in Java 9" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Managing operating system processes in Java was a daunting task all times. The reason for that is the poor tooling and poor API that are available. To be honest that is not without reason: Java was not meant for the purpose. If you wanted to manage OS processes, you had the shell, perl script whatever you wanted. For larger applications that faced tasks that are more complex, you were supposed to program the issue in C or C++.
+
+When you really had to manage processes from Java you had to create operating system dependent code. It was possible, you could query some environment variables and then you could implement different behavior depending on the operating system. This approach works until Java 8 but it has several drawbacks. Testing costs more, development is more complex. As Java became more and more mature and widespread the demand for this type of applications arose. We can clearly see for example that the question link:https://stackoverflow.com/questions/6356340/killing-a-process-using-java[https://stackoverflow.com/questions/6356340/killing-a-process-using-java] put up on StackOverflow in 2011 had more than hundred thousand of views. Some application and thus some developers need a solution for this problem, which is really a solution and not a workaround.
+
+In this case, providing an API in the JDK is a solution. It will not make process-handling OS independent. The operating systems differ and process handling is an area very much tied to the OS. The system dependent part of the code is, however, moves to the JDK runtime and Java development team tests it and not the applications separately. It eases the burden of testing on their side. In addition, the development becomes cheaper as the API is already there and we do not need to program it separately for BSD, OSX, Linux, and Windows not to mention OpenVMS. Finally, the application may run faster. Again an example. If we needed the list of the running processes then we had to start an external process that dumps the list of the processes to the standard output. The output of this process had to be captured and analyzed as string. Now, with the advent of Java 9, we will have a simple call for that, which is implemented invoking the appropriate operating system call and it does not need the execution of a separate process, nor the parsing of a string output for an information that was already there just not available in Java.
+To read about all the details of process handling of Java 9 you can read the documentation currently available on the URL link:https://docs.oracle.com/javase/9/docs/api/index.html[https://docs.oracle.com/javase/9/docs/api/index.html] or you can soon read the book [strong]#Mastering Java 9# from Packt link:https://www.packtpub.com/application-development/mastering-java-9[https://www.packtpub.com/application-development/mastering-java-9] in which I wrote the chapter about process handling. In this article I will talk about some issues why we need the new class ProcessHandle It may not be that evident for some developers who are not that much experienced with operating system processes and how the operating system works.
+
+
+{%subsubsection |ProcessHandle%}
+
+
+In short an instance of `ProcessHandle` represents an operating system process. All operating systems identify alive processes using PIDs which is a TLA abbreviating Process Identifier. These are small (or not that small) integer numbers. Some operating system could use something else, like names, or some cryptic strings but they do not. There is no benefit and it happens that all of them use numbers to identify processes.
+
+When we program in OO manner we abstract the problem so that it better explains the problem we model. There is a rule, however, that we should not make our model more abstract than the problem itself. That just introduces unnecessary complexity to the application increasing cost. In this case, it seems to be obvious (or rather oblivious) to use `int` to identify a process. If the operating system does not do it more abstract then why should we? Just because in Java everything is an object? (Btw: not true.)
+
+The reason for that is there is no one to one match between PIDs and ProcessHandle instances. Let’s re-read the first two sentences of this section:
+
+__“… ProcessHandle represents an operating system process. All operating systems identify alive processes using PIDs …”__
+
+There is that little word “alive” in the second sentence and believe me that makes a difference. Being alive is very different from being dead, although we do not have a firsthand direct comparison. A ProcessHandle instance may keep a reference to a process that is already wiped off from memory. Imagine the situation that you look at the list of the processes on Linux issuing the ‘`ps –ef`’ command and then you see that Tomcat is eating the CPU and consumes ever increasing memory most likely because the application you deployed has a bug looping. You decide to kill the process so you look at the pid displayed and issue the command ‘`kill -9 666`’ if the pid happens to be `666`. By that time, the process has eaten up all the memory it could have from the OS and because you did not configure any swap file on the machine, the JVM disappears without trace. The kill process will complain that there is no process for the defined pid. It may also happen that the operating system has already started a totally different process that happens to have that pid. Has it ever happened? Now you shake your head and that is because it has never happened in your practice. On Linux by default, the maximum number that can be a pid is 32768. When will that ever wrap around? Actually not a long time, but usually not so far so that the pid is reused between issuing the ‘`ps`’ and ‘`kill`’ commands. And what happens if a small embedded system sets the `/proc/sys/kernel/pid_max` smaller. Say much smaller, like 16 that fits four bits? It may not be a big problem when you issue the command interactively because you are there and if the system crashes you can restarts the process or the whole system if needed. You can do the corrective action if you made a “mistake”. Java applications are not that intelligent and we should not have the chance even in an embedded system to kill a process we did not want to.
+
+image:https://javax0.files.wordpress.com/2017/07/processapi.png[link="https://javax0.files.wordpress.com/2017/07/processapi.png"]
+
+process handling based on pid
+
+To handle that situation Java has the interface `ProcessHandle`. Instead of pids we have `ProcessHandle`s. If we need the `ProcessHandle `of the currently running process (the JVM) then we can call the static method `ProcessHandle::current` (note that I used the nice Java 8 method handle notation). You can get the pid of the current process calling `getPid()` on that instance of `ProcessHandle` but after a while you will not do it. It is just an old habit wanting the pid of a process. You do not need it when you have the handle.
+
+When you have a process handle, say processHandle you can get a Stream calling `processHandle.children()`. This will list the immediate offspring processes. If you want a “transitive closure”, so you want to list not only the children but also the children of children and so on you have to call `processHandle.descendants()`. But what if you are really greedy and want to get a hand(le) on all processes. Then you should call the static method `ProcessHandle::allProcesses`.
+Streams are famous for being populated lazy creating the next element only when needed. In case of process list it would lead to interesting results, therefore in this case the dataset backing the stream of processes is a snapshot created when one of the `children()`, `descendants()` or `allProcesses()` was called.
+Now we have a handle to a process. What can we do with it?
+
+We can `processHandle.destroy()` it and we can also call `processHandle.destroyForcibly()`. That is what everybody was wanting, as per the cited stack overflow article. We can also check if the process the handle is assigned to is still alive calling `processHandle.isAlive()`. You can also get access to the parent process handle calling `processHandle.parent()`. Note that not all processes have a parent process. One of them never had and any other process may be orphan when the parent process has terminated. For this reason, the return value of this method is `Optional`. Java 9 has new features in the `Optional` class we well, but that is a different story, here we focus on the processes.
+
+If the process is still alive but we want to wait for the termination of the process, we can do it in a modern, asynchronous way. We can get a `CompletableFuture` from the process handle calling `processHandle.onExit()` that will complete when the process terminates. Java 9 has new features in the `CompletableFuture` class as well, but that is a different story, here we focus on the processes. Do I repeat myself?
+
+There is an interface inside the interface `ProcessHandle` called Info. We can get an instance of the information from the process handle calling `processHandle.info()`. Through this instance, we can get access to the arguments as an optional string array, to the command line as an optional string, to the command as a string and to the user, the process belongs to also as an optional string. We can also get information about when the process was started and also about the total CPU usage in form of optional `Instant` and optional `Duration`. These new classes were introduced in Java 8 and Java 9 has new features … Okay, it starts to be boring.
+
+
+{%subsubsection |Summary%}
+
+
+What can we do with all these features? In the book, I mention I created a simple process controlling application. A similar one I had to create around 2006 in perl. It starts processes as described in a configuration file and if any of them fails it restarts. But this is only one example. There are other scenarios where process handling can be handy. You want to fill in forms and convert them to PDF. To do that you start some word processor with command line parameters to do that. The tasks are queueing and they are started one after the other to keep reasonable performance you convert at most a configurable n document in n processes. If a process takes too long you kill it, send a message about it to the person who started the request to your conversion server and schedule it to run during the night or some less busy period.
+
+We can develop such programs in Java without using external shell, python or perl scripts, and it simply makes the project simpler and cheaper.
+
+=== Comments imported from Wordpress
+
+
+*Java Annotated Monthly &#8211; August 2017 | IntelliJ IDEA Blog* 2017-08-02 09:42:44
+{%@comment id: 11267 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://blog.jetbrains.com/idea/2017/08/java-annotated-monthly-august-2017/ %}
+{%@comment author_IP: 52.17.120.8 %}
+{%@comment date_gmt: 2017-08-02 08:42:44 %}
+[quote]
+____
+[&#8230;] Process Handling in Java 9 &#8211; updates to the process API in Java 9, well worth being aware of [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Vinayak A* 2017-09-25 06:22:49
+{%@comment id: 11467 %}
+{%@comment author_email: vinayak.akk@gmail.com %}
+{%@comment author_url: http://www.codenuclear.com/process-api-improvements-java-9/ %}
+{%@comment author_IP: 115.112.143.190 %}
+{%@comment date_gmt: 2017-09-25 05:22:49 %}
+[quote]
+____
+Hi Sir,
+
+Can we restart windows system using process API in java 9?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2017-09-25 21:47:35
+{%@comment id: 11470 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 31.10.157.113 %}
+{%@comment date_gmt: 2017-09-25 20:47:35 %}
+[quote]
+____
+No
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 11467 %}
+{%@comment user_id: 31131067 %}

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Programming Language with no Syntax? | Java Deep, mostly Java</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Programming Language with no Syntax?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. Introduction" />
+<meta property="og:description" content="1. Introduction" />
+<link rel="canonical" href="https://javax0.github.io/2024/09/08/ouroboros.html" />
+<meta property="og:url" content="https://javax0.github.io/2024/09/08/ouroboros.html" />
+<meta property="og:site_name" content="Java Deep, mostly Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-08T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Programming Language with no Syntax?" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-08T00:00:00+02:00","datePublished":"2024-09-08T00:00:00+02:00","description":"1. Introduction","headline":"Programming Language with no Syntax?","mainEntityOfPage":{"@type":"WebPage","@id":"https://javax0.github.io/2024/09/08/ouroboros.html"},"url":"https://javax0.github.io/2024/09/08/ouroboros.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://javax0.github.io/feed.xml" title="Java Deep, mostly Java" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Java Deep, mostly Java</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Java Deep</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Programming Language with no Syntax?</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-09-08T00:00:00+02:00" itemprop="datePublished">Sep 8, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="1-introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Is it possible to have a programming language that has no syntax?
+It sounds like a contradiction.
+Programming languages are all about syntax, plus a bit of code generation, optimization, run-time environment, and so on.
+But syntax is the most important part as far as programmers are concerned.
+When encountering a new programming language, it takes time to learn the syntax.</p>
+</div>
+<div class="paragraph">
+<p>Could we just make the syntax disappear or at least make it as simple as possible?
+Could we also make the syntax arbitrary so that the programmer writing the code can define it for themselves?</p>
+</div>
+<div class="paragraph">
+<p>Ouroboros is a programming language that tries to do just that.
+It has the simplest syntax ever.
+It is so simple that it does not even have a syntax analyzer.
+All it has is a lexical analyzer, which is 20 lines long.</p>
+</div>
+<div class="paragraph">
+<p>At the same time, you can write complex programs and even expressions with parentheses and operators of different precedence, assuming you write your own syntax for that in the program.
+That way, no syntax also means any syntax.</p>
+</div>
+<div class="paragraph">
+<p>This article is an introduction to Ouroboros, a programming language with no syntax.
+It is a toy, never meant to be used in production, but it is a fun toy to play with, especially if you have ever wanted to create your own programming language.</p>
+</div>
+<div class="paragraph">
+<p>There were programming languages with minimal syntax.
+One of the very first languages was LISP, which used only parentheses to group statements as lists.</p>
+</div>
+<div class="paragraph">
+<p>If you are familiar with TCL, you may remember how simple the language is.
+However, it still defines complex expressions and control structures as part of the language.</p>
+</div>
+<div class="paragraph">
+<p>Another simple language to mention is FORTH.
+It is a stack language.
+The syntax is minimal.
+You either put something on the stack or call a function that works with the values on the stack.
+FORTH was also famous for its minimal assembly core and for the fact that the rest of the compiler was written in FORTH itself.</p>
+</div>
+<div class="paragraph">
+<p>These languages inspired the design of Ouroboros.
+LISP is known for the simplest syntax.
+One might say that LISP has the simplest syntax of all programming languages, but it would be a mistake.
+True to its name, it uses parentheses to delimit lists, which can be either data or programming structures.
+As you may know, LISP stands for "Lots of Irritating Superfluous Parentheses."</p>
+</div>
+<div class="paragraph">
+<p>Ouroboros does not do that.
+It inherits the use of <code>{</code> and <code>}</code> from TCL, but unlike LISP, you are forced to use them only where they are really needed.</p>
+</div>
+<div class="paragraph">
+<p>Ouroboros, although being an interpreted language, can compile itself.
+Well, not really compile, but you can define syntax for the language in the language itself.
+However, it is not like in the case of compilers where the compiler is written in the source language.
+One of the first compilers was the PASCAL compiler written by Niklaus Wirth in PASCAL.
+The C compiler was also written in C, and more and more language compilers are written in the language they compile.</p>
+</div>
+<div class="paragraph">
+<p>In the case of an interpreted language, it is a bit different.
+It is not a separate program that reads the source code and generates machine code.
+It is the executing code, the application program itself, that becomes part of the interpreter.</p>
+</div>
+<div class="paragraph">
+<p>That way, you cannot look at it and say: this code is not Ouroboros.
+Any code can be, depending on the syntax you define for it at the start of the code.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="2-the-name-of-the-game">2. The Name of the Game</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before diving into what Ouroboros is, let&#8217;s talk about the name itself.
+Ouroboros coils around itself in an endless cycle of creation and recreation.
+The name "Ouroboros" is as multifaceted as the language itself, offering layers of meaning that reflect its unique nature and aspirations.</p>
+</div>
+<div class="sect2">
+<h3 id="2-1-the-eternal-cycle">2.1. The Eternal Cycle</h3>
+<div class="paragraph">
+<p>At its core, Ouroboros draws inspiration from the ancient symbol of a serpent consuming its own tail.
+This powerful image represents the cyclical nature of creation and destruction, perfectly encapsulating our language&#8217;s self-referential definition.
+Just as the serpent feeds upon itself to sustain its existence, Ouroboros the language is defined by its own constructs, creating a closed loop of logic and functionality.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-2-ur-the-essence-of-simplicity">2.2. UR: The Essence of Simplicity</h3>
+<div class="paragraph">
+<p>Abbreviated as "UR," Ouroboros embraces the concept of fundamental simplicity.
+In German, "Ur—" signifies something primordial, primitive, or in its most basic form.
+This perfectly encapsulates the design philosophy behind Ouroboros: a language stripped down to its absolute essentials.</p>
+</div>
+<div class="paragraph">
+<p>By pushing the simplification of syntax to the extreme, Ouroboros aims to be the "ur-language" of programming—a return to the most elemental form of computation.
+Like the basic building blocks of life or the fundamental particles of physics, Ouroboros provides a minimal set of primitives from which complex structures can emerge.</p>
+</div>
+<div class="paragraph">
+<p>This radical simplicity is not a limitation but a feature.
+It challenges programmers to think at the most fundamental level, fostering a deep understanding of computational processes.
+In Ouroboros, every construct is essential, every symbol significant.
+It&#8217;s programming distilled to its purest form.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-3-our-shared-creation">2.3. Our Shared Creation</h3>
+<div class="paragraph">
+<p>The name begins with "Our-," emphasizing the collaborative nature of this language.
+Ouroboros is not just a tool but a shared endeavor that belongs to its community of developers and users.
+It&#8217;s a language crafted by us, for us, evolving through our collective efforts and insights.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-4-hidden-treasures">2.4. Hidden Treasures</h3>
+<div class="paragraph">
+<p>Delve deeper into the name, and you&#8217;ll uncover more linguistic gems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Oro" in many Romance languages means "gold" or "prayer." Ouroboros can be seen as a golden thread of logic, or a prayer-like mantra of computational thought.</p>
+</li>
+<li>
+<p>"Ob-" as a prefix often means "toward" or "about," suggesting that Ouroboros is always oriented toward its own essence, constantly reflecting upon and refining itself.</p>
+</li>
+<li>
+<p>"Boros" could be playfully interpreted as a variation of "bytes," hinting at the language&#8217;s digital nature.</p>
+</li>
+<li>
+<p>Parsing the name as "our-ob-oros" reveals a delightful multilingual wordplay: "our way to the treasure." This blend of English ("our"), Latin ("ob" meaning "towards"), and Greek ("oros," which can be associated with "boundaries" or "definitions") mirrors the language&#8217;s eclectic inspirations.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Just as Ouroboros draws from the diverse traditions of TCL, LISP, and FORTH, its name weaves together linguistic elements from different cultures.
+This multilingual, multi-paradigm approach guides us toward the treasures of computation, defining new boundaries along the way, much like how TCL offers flexibility, LISP promotes expressiveness, and FORTH emphasizes simplicity and extensibility.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="2-5-a-name-that-bites-back">2.5. A Name That Bites Back</h3>
+<div class="paragraph">
+<p>Ultimately, Ouroboros is a name that challenges you to think recursively, to see the end in the beginning and the whole in every part.
+It&#8217;s a linguistic puzzle that mirrors the very nature of the programming language it represents—complex, self-referential, and endlessly fascinating.</p>
+</div>
+<div class="paragraph">
+<p>As you embark on your journey with Ouroboros, remember that you&#8217;re not just writing code; you&#8217;re participating in an ancient cycle of creation, where every end is a new beginning, and every line of code feeds into the greater whole of computational possibility.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="3-what-is-ouroboros">3. What is Ouroboros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ouroboros is a programming language that has no syntax.
+I have already said that, and now comes the moment of truth: it is a "lie."
+There is no programming language with absolutely no syntax.
+UR has a syntax, and it is defined with this sentence:</p>
+</div>
+<div class="paragraph">
+<p><em>You write the lexical elements of the language one after the other.</em></p>
+</div>
+<div class="sect2">
+<h3 id="3-1-syntax">3.1. Syntax</h3>
+<div class="paragraph">
+<p>That is all.</p>
+</div>
+<div class="paragraph">
+<p>When the interpreter starts to execute the code, it begins reading the lexical elements one after the other.
+It reads as many elements as it needs to execute some code and not more.
+To be specific, it reads exactly one lexical element before starting execution.
+When the execution triggered by the element is finished, it goes on reading the next element.</p>
+</div>
+<div class="paragraph">
+<p>The execution itself can trigger more reads if the command needs more elements.
+We will see it in the next example soon.</p>
+</div>
+<div class="paragraph">
+<p>A lexical element can be a number, a string, a symbol, or a word.
+Symbols and words can and should have an associated command to execute.</p>
+</div>
+<div class="paragraph">
+<p>For example, the command <code>puts</code> is borrowed shamelessly from TCL and is associated with the command that prints out a string.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>puts "Hello, World!"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is the simplest program in Ouroboros.
+When the command behind <code>puts</code> starts to execute, it asks the interpreter to read the next element and evaluate it.
+In this example, it is a constant string, so it is not difficult to calculate.
+The value of a constant string is the string itself.</p>
+</div>
+<div class="paragraph">
+<p>The next example is a bit more complex:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>puts add "Hello, " "World!"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, the argument to the command <code>puts</code> is another command: <code>add</code>.
+When <code>puts</code> asks the interpreter to get its argument, the interpreter reads the next element and then starts to execute.
+As <code>add</code> starts to execute, it needs two arguments, which it asks from the interpreter.
+Since these arguments are strings, <code>add</code> concatenates them and returns the result.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3-2-blocks">3.2. Blocks</h3>
+<div class="paragraph">
+<p>There is a special command denoted by the symbol <code>{</code>.
+The lexical analyzer recognizing this character will ask the interpreter to read the following elements until it finds the closing <code>}</code>.
+This call is recursive in nature if there are embedded blocks.</p>
+</div>
+<div class="paragraph">
+<p>The resulting command is a block command.
+A block command executes all the commands in it and results in the last result of the commands in the block.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>puts add {"Hello, " "World!"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If we close the two strings into a block, then the output will be a single <code>World!</code> without the `Hello, `.
+The block "executes" both strings, but the value of the block is only the second string.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3-3-commands">3.3. Commands</h3>
+<div class="paragraph">
+<p>The commands implemented are documented in the <a href="https://github.com/verhas/ouroboros/blob/main/README.adoc">readme</a> of the project on GitHub.
+The actual set of commands is not fascinating.
+Every language has a set of commands.</p>
+</div>
+<div class="paragraph">
+<p>The fascinating part is that in UR there is no difference between functions and commands.
+Are <code>puts</code> or <code>add</code> commands or functions?
+How about <code>if</code> and <code>while</code>?
+They are all commands, and they are not part of the language per se.
+They are part of the implementation.</p>
+</div>
+<div class="paragraph">
+<p>The command <code>if</code> asks the interpreter to fetch one argument, evaluated.
+It will use this as the condition.
+After this, it will fetch the next two elements without evaluation.
+Based on the boolean interpretation of the condition, it will ask the interpreter to evaluate one of the two arguments.</p>
+</div>
+<div class="paragraph">
+<p>Similarly, the command <code>while</code> will fetch two arguments without evaluation.
+It then evaluates the first as a condition, and if it is true, it will evaluate the second and then go back to the condition.
+It fetched the condition unevaluated because it will need to evaluate it again and again.
+In the case of the <code>if</code> command, the condition is evaluated only once, so we did not need a reference to the unevaluated version.</p>
+</div>
+<div class="paragraph">
+<p>Many commands use the unevaluated version of the arguments.
+This use makes it possible to use the "binary" operators as multi-argument operators.
+If you want to add up three numbers, you can write <code>add add 1 2 3</code>, or <code>add* 1 2 3 {}</code>, or <code>{add* 1 2 3}</code>.
+The command <code>add</code> fetches the first argument unevaluated and sees if it is a <code>*</code>.
+If it is <code>*</code>, then it will fetch the arguments until it encounters the end of the arguments or an empty block.</p>
+</div>
+<div class="paragraph">
+<p>This is a little syntactic sugar, which should be peculiar in the case of a language that has no syntax.
+It really is there to make the experiment and the playing with the language bearable.
+On the other side, it erodes the purity of the language.
+It is also only a technical detail, and I mention it only because we will need to understand it when we discuss the metamorphic nature of the language.
+It will be needed to understand the use of the first example there.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3-4-variables">3.4. Variables</h3>
+<div class="paragraph">
+<p>UR supports variables.
+Variables are strings with values associated with them.
+The value can be any object.</p>
+</div>
+<div class="paragraph">
+<p>When the interpreter sees a symbol or a bare word (identifier) to evaluate, it will check the value associated with it.
+If the value is a command, then it will execute the command.
+In other cases, it will return the value.</p>
+</div>
+<div class="paragraph">
+<p>The variables are scoped.
+If you <code>set</code> a variable in a block, then the variable is visible only in that block.
+If there are variables with the same name in the parent block, then the variable in the child block will shadow the variable in the parent block.</p>
+</div>
+<div class="paragraph">
+<p>Variable handling and scoping are implementation details and not strictly part of the language.</p>
+</div>
+<div class="paragraph">
+<p>The implementation as it is now supports boolean, long, double, big integer, big decimal, and string primitive values.
+It also supports lists and objects.</p>
+</div>
+<div class="paragraph">
+<p>A list is a list of values, and it can be created with the <code>list</code> command.
+The argument to the command is a block.
+The command <code>list</code> will ask the interpreter to fetch the argument unevaluated.
+Afterward, it evaluates the block from the start the same way as the block command does.
+However, instead of throwing away the resulting values and returning the last one, it returns a list of the results.</p>
+</div>
+<div class="paragraph">
+<p>An object is a map of values.
+It can be created with the <code>object</code> command.
+The argument to the command is the parent object.
+The fields of the parent object are copied to the new object.</p>
+</div>
+<div class="paragraph">
+<p>Objects also have methods.
+They are the fields that have a command as a value.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="4-introspection">4. Introspection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The interpreter is open like a cracked safe after a heist.
+Nothing is hard-wired into the language.
+When I wrote that the language interpreter recognizes bare words, symbols, strings, etc., it was only true for the initial setup.
+The lexical analyzers implemented are UR commands, and they can be redefined.
+They are associated with the names <code>$keyword</code>, <code>$string</code>, <code>$number</code>, <code>$space</code>, <code>$block</code>, <code>$blockClose</code>, and <code>$symbol</code>.
+The interpreter uses the variable structures to find these commands.
+There is another variable named <code>$lex</code> that is a list of the lexical analyzers.</p>
+</div>
+<div class="paragraph">
+<p>The interpreter uses this list when it needs to read the next lexical element.
+It invokes the first, then the second, and so on until one of them returns a non-null value, a lexical element, which is a command.</p>
+</div>
+<div class="paragraph">
+<p>If you modify this list, then you can change the lexical analyzers, and that way you can change the syntax of the language.</p>
+</div>
+<div class="paragraph">
+<p>The simplest example is changing the interpretation of the end-of-line character.</p>
+</div>
+<div class="paragraph">
+<p>You may remember that we can use the binary operators using multiple arguments terminated with an empty block.
+It would be nice if we could omit the block and just write <code>add* 1 2 3</code> simply adding a new-line at the end.
+We can do that by changing the lexical analyzer that recognizes the end-of-line character, and this is exactly what we are going to do in this example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>set q add* 3 2
+1 {} puts q
+insert $lex 0 '{
+if { eq at source 0 "\n"}
+   {sets substring 1 length source source '{}}}
+set q add* 3 2
+1 {} puts q</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We insert a new lexical analyzer at the beginning of the list.
+If the very first character of the current state of the source code is a new-line character, then the lexical analyzer eats this character and returns an empty block.</p>
+</div>
+<div class="paragraph">
+<p>The command <code>source</code> returns the source code that was not parsed by the interpreter yet.
+The command <code>sets</code> sets the source code to the string value specified.</p>
+</div>
+<div class="paragraph">
+<p>The first <code>puts q</code> will print 6 because at the time of the first calculation, new-lines are just ignored, and that way the value of <code>q</code> is <code>add* 3 2 1 {}</code>.
+The second <code>puts q</code> will print 5 because the new-line is eaten by the lexical analyzer, and the value of <code>q</code> is <code>add* 3 2 {}</code>.
+Here, the closing <code>{}</code> was the result of the lexical analysis of the new-line character.
+The values <code>1</code> and <code>{}</code> on the next line are calculated, but they do not have any effect.</p>
+</div>
+<div class="paragraph">
+<p>This is a very simple example.
+If you want to see something more complex, the project file <code>src/test/resources/samples/xpression.ur</code> contains a script that defines a numerical expression parser.</p>
+</div>
+<div class="paragraph">
+<p>There is a special command called <code>fixup</code>.
+This command forces the interpreter to parse the rest of the source.
+After this point, the lexical analyzers are not used anymore.</p>
+</div>
+<div class="paragraph">
+<p>Executing this command does not give any performance benefit, and that is not the purpose.
+It is more like a declaration that all the codes that are part of the source code introspection and the metamorphic calculation are done.
+A special implementation of the command can also take the parsed code and generate an executable, turning the interpreter into a compiler.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="5-technical-considerations">5. Technical Considerations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The current version is implemented in Java.
+Ouroboros is not a JVM language, though.
+We do not compile the code to Java byte-code.
+The Java code interprets the source and executes it.</p>
+</div>
+<div class="paragraph">
+<p>The implementation is an MVP focusing on the metamorphic nature of the language.
+It is meant to be an experiment.
+This is the reason why there are no file, network, and other I/O operations except the single <code>puts</code> command that writes to the standard output.</p>
+</div>
+<div class="paragraph">
+<p>The Java service loader feature is used to load the commands and to register them with their respective names in the interpreter.
+It means that implementing extra commands is as simple as creating them, writing a class implementing a <code>ContextAgent</code> to register them (see the source code), and putting them on the classpath.</p>
+</div>
+<div class="paragraph">
+<p>The whole code is open-source and available on GitHub.
+It is licensed under the Apache License 2.0 (see the license file in the repo).
+It is exactly 100 classes at the time of writing this article.
+It means that the source code is simple, short, and easy to understand.
+If you need some straightforward scripting language in your application, you can use it.
+It was not meant to be for production, though.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="6-going-further">6. Going Further</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is no plan currently to extend the language and include more commands.
+We only plan to create more metamorphic code in the language.
+The reason for that is that we do not see the language as a practical tool as of today.
+If it proves to be useful and gains a user base and utilization, we certainly will incorporate more commands to support I/O, file handling, networking, and so on.</p>
+</div>
+<div class="paragraph">
+<p>We also have visions of implementing the interpreter in other languages, like in Rust and Go.
+Anyone suggesting or wanting to develop commands for better usability or adding features is welcome.
+It can be a parallel project, or it can be merged into the main project if that makes sense.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="7-conclusion">7. Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In exploring Ouroboros, we delved into the concept of a programming language that minimizes syntax to the point of almost non-existence.
+This radical approach challenges the conventional understanding of what a programming language should be, presenting a system where syntax is both absent and infinitely customizable.
+By drawing inspiration from languages like LISP, TCL, and FORTH, Ouroboros embodies simplicity and introspection, allowing programmers to define their syntax and commands within the language itself.</p>
+</div>
+<div class="paragraph">
+<p>While Ouroboros is not designed for practical production use, it serves as an intriguing experiment in language design and metaprogramming.
+Its self-referential nature and minimalistic design offer a playground for developers interested in the fundamentals of computation, syntax design, and language interpretation.
+Whether it evolves into a more robust tool or remains a fascinating intellectual exercise, Ouroboros pushes the boundaries of how we think about programming languages, inviting us to consider the possibility of a language where syntax is as mutable and recursive as the Ouroboros serpent itself.</p>
+</div>
+</div>
+</div>
+
+
+<!-- Disqus comments section goes here (if comments are enabled) -->
+
+<hr/>
+<h1>Comments</h1>
+<p>Please leave your comments using Disqus, or just press one of the happy faces.
+If for any reason you do not want to leave a comment here, <a href="https://github.com/javax0/javax0.github.io/issues">you can still create a Github ticket</a>.</p>
+<div class="comments">
+    <div id="disqus_thread"></div>
+
+    <script type="text/javascript">
+
+        /* * * STOP! * * */
+        /* You shouldn't need to edit ANYTHING below to get this working! */
+        /* Instead, edit the key `disqus.shortname` in _config.yml */
+
+        var disqus_config = function (){
+            this.page.url = 'https://javax0.github.io/2024/09/08/ouroboros.html';
+            this.page.identifier = '/2024/09/08/ouroboros.html';
+        };
+
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://javax0.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+  </div><a class="u-url" href="/2024/09/08/ouroboros.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Java Deep, mostly Java</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Java Deep, mostly Java</li><li><a class="u-email" href="mailto:peter@verhas.com">peter@verhas.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">verhas</span></a></li><li><a href="https://www.twitter.com/verhas"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">verhas</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>javax0 is a technical Java oriented blog. Whenever I find something interesting, in the mood and feel the power to publish it, you will get it here. Publications are usually released on Wednesday 15:00am GMT. Earlier posts of the blog were published on Javax0 Wordpress Site at https://javax0.wordpress.com</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+---
+title: "Default methods and multiple inheritance" 
+layout: posta
+comments: on
+---
+
+Recently Lukas JOOQ Eder posted and link:http://blog.jooq.org/2015/02/02/top-5-use-cases-for-nested-types/[article] about nested classes and their use. This is an interesting topic and his article is, as always, interesting and worth reading. There was only one slight statement I could not agree with and we had a brief reply chain leading to default method and why there can not be something like
+
+[source,java]
+----
+class Outer {
+    <non-static> interface Inner {
+        default void x() {
+            System.out.println(Outer.this.toString());
+        }
+    }
+ 
+    Inner2 y() {
+        return new Inner2();
+    }
+}
+ 
+class Inner2 implements Inner {
+}
+ 
+// This would now print Outer.toString()
+// to the console
+new Outer().y().x();
+----
+
+
+in Java. In the above code the default method of an inner interface would refer to the instance that is enclosing the interface, so to say. I believed that a "reply" was not the best communication form for this, as the original topic was different and here I go.
+
+
+== 1. What are default methods
+
+
+You probably know. If not google it, or read my articles link:https://javax0.wordpress.com/2014/03/26/the-true-nature-of-java-8-default-methods/[Java 8 default methods: what can and can not do?] and link:https://javax0.wordpress.com/2014/04/02/how-not-to-use-java-8-default-methods/[How not to use Java 8 default methods].
+
+If you googled you can see that default methods in Java 8 bring the Canaan, multiple inheritance is available.
+
+There is a very good discussion about it on link:http://stackoverflow.com/questions/7857832/are-defaults-in-jdk-8-a-form-of-multiple-inheritance-in-java[stackoverflow] with real professionals, who do know Java:
+
+[quote]
+____
+Java has always had multiple inheritance of types. Default methods add multiple inheritance of behavior, but not of state. (Multiple inheritance of state in languages like C++ is where most of the trouble comes from.) –  link:http://stackoverflow.com/users/3553087/brian-goetz[Brian Goetz] Jun 21 '14 at 2:05 
+____
+
+
+In this article I will examine a little how to interpret and understand that statement.
+
+
+== 2. Types of inheritance
+
+
+The quote from link:http://stackoverflow.com/users/3553087/brian-goetz[Brian Goetz] mentions:
+
+
+	* inheritance of types
+	* inheritance of behavior, and
+	* inheritance of state.
+
+
+Inheritance of types is very easy and well known for Java programmers. You define abstract methods in the interface, but you do not specify how they work, only the return value and the signature of the methods. With default methods Java 8 introduced inheritance of behavior without inheritance of state. But can you really have inheritance of behavior without inheritance of state? Not really. At least in Java 8 you can have inheritance of state though this is not recommended, not well performing (I mean: it may be slow) and also cumbersome and error prone to program. But you can, and I will show here how. (In addition to the thread local nonsense I published in the article I referred above.)
+
+I believe that Java 8 inventors wanted the default method to keep backward compatibility while implementing the functional interfaces (e.g.: streams) in the standard run time. I recently watched the series link:http://www.imdb.com/title/tt2802850/[Fargo] and I feel the language designers just obliviously answered "yes" to the question "Is that what you really want?"
+
+
+== 3. State inheritance with default methods
+
+
+Default methods can not access fields (except static fields, that are final anyway in interfaces, so let's forget them for the while). Just like you can not access private fields of class A from a class B extending A. Or the other way around: you can not access the private fields of B from A. You can however have getters and setters in B and if you declare them as abstract methods in A you gain the access. Open sesame. Getters and setters are the solution.
+
+When you declare abstract methods in an interface for all the state fields you want to access from default methods you can access them. This way you get the very same result as if there was real state inheritance. The difference is the syntax: you use getter and setter methods instead of the field name, and you have to declare these in the interface. That way compile phase checks that the getters and setters are really there.
+
+You can see that things with Java 8 get really complicated. Mix that up with generics and you may not find a living soul who understands it all. Having a construct, like
+
+[source,java]
+----
+Outer.this.toString()
+----
+
+
+from the sample code above would make it even more complex with no real leverage, probably.
+
+I believe I have some knowledge about what default methods are in Java 8 and what you can do with them. Having 10 years of Java and more than 30 years of programming experience, however, is not enough for me to tell how you should use default methods. I feel envy for the developers that still work with Java 1.6 or earlier in production code: they need not worry about default methods. (It was meant to be a joke.)
+
+Even though I try to give some advices.
+
+
+== 4. Recommendation
+
+
+Never mimic state inheritance in default methods. Hard to tell what it is in practice though. Calling a getter or setter is clearly is. Calling some abstract methods that are implemented in the implementing class may or may not be. If doubt: better do not.
+
+Never ever use the threadlocal trick I wrote in the other article.
+
+Use default methods for what Java language inventors used it: keep backward compatibility in your library interfaces. If you ever released a library and it contains an interface (how could otherwise it be, btw) __do not change it...__ Think about client code using your library that implements the interface. From Java 8 you have the possibility to finish the sentence: __do not change it incompatible.__ If there is a new method: create a default implementation so the code that already implemented the previous version remains compatible and there is no need to extend these classes.
+
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2015-02-11 19:19:23
+
+
+
+
+
+[quote]
+____
+Hi there! ;)
+
+Well it is very probable that the EG would not allow "inner interfaces" because of their averseness to multiple inheritance of state. And also because it looks and feels complicated and useless (I didn't deny that). But that is simply a __motivation__ not to do it. It doesn't mean that it is technically wrong.
+
+My only point was that it would be technically feasible, and perhaps, useful in 1-2 cases.
+
+Cheers,
+Lukas
+____
+
+
+
+

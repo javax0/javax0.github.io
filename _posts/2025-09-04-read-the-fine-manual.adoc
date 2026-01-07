@@ -1,0 +1,64 @@
+---
+
+title: Read the Fine Manual
+layout: posta
+comments: on
+---
+
+
+
+= Read the Fine Manual
+
+NOTE: A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+
+== 1. Introduction
+
+You write documentation nobody reads.
+With the introduction of LLM and AI chat, at least LLM will read it.
+What changes?
+
+== 2. RTFM
+
+You all know the expression RTFM.
+It stands for "Read the Fine Manual!"
+This is a command when someone does not understand something about your program and asks a question that he or she could answer themselves if they read the manual.
+The word "fine" is sometimes replaced with a more vulgar version depending on the mood, but the meaning is the same:
+
+There is a documentation you created for the users, and they do not read it.
+That is why the UI has to be intuitive and highly optimized.
+It is used by users who do not read.
+
+This is actually a good thing.
+I am happy that nobody is reading the documentation.
+I like it because it means that programs are used more widely and are available to a larger number of people.
+
+In 1990, when I first met the Internet, it was only available at universities.
+We had a mailing list for all Hungarian users.
+At the time, there was no Internet access in Hungary.
+All members were working at a university or research institute abroad.
+The list did not need moderation.
+The users were disciplined and polite.
+
+It is unimaginable in today's environment.
+Internet access became ubiquitous, and as I like to say, even illiterates write posts.
+They can not read or write, but they still do.
+This phenomenon has its drawbacks, but generally, it is a positive development.
+
+Not much time later, I was working for Digital Equipment Corporation.
+I was working as a salesperson, selling VAX machines, or at least I was trying.
+The order system we had to enter the orders had a terminal UI with a qwerty keyboard with 20 function keys, from F1 to F20.
+All function keys had some functionality for fast operation.
+It meant that you had no choice but to read the documentation and to memorize all the keys.
+
+You would not be able to force that on today's user base.
+People want mouse clicks, touchpad gestures, VR hand movements, and graphical UI, either 2D or 3D, in augmented or virtual reality.
+They also do not want to read documentation.
+They just want to use the programs, and most of the time they just do.
+
+When they have a problem, they ask.
+The difference is that today, users can also ask AI chatbots.
+
+
+== 3. Summary

@@ -1,0 +1,176 @@
+---
+title: "Java Dynamic Proxy" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Proxy is a design pattern. We create and use proxy objects when we want to add or modify some functionality of an already existing class. The proxy object is used instead of the original one. Usually the proxy objects have the same methods as the original one and in Java proxy classes usually `extend` the original class. The proxy has a handle to the original object and can call the method on that.
+
+This way proxy classes can implement many things in a convenient way:
+
+	* logging when a method starts and stops
+	* perform extra checks on arguments
+	* mocking the behavior of the original class
+	* implement lazy access to costly resources
+
+without modifying the original code of the class. (The above list is not extensive, only examples.)
+
+In practical applications the proxy class does not directly implement the functionality. Following the single responsibility principle the proxy class does only proxying and the actual behavior modification is implemented in handlers. When the proxy object is invoked instead of the original object the proxy decides if it has to invoke the original method or some handler. The handler may do its task and may also call the original method.
+
+Even though the proxy pattern does not only apply into situation when the proxy object and proxy class is created during run-time, this is an especially interesting topic in Java. In this article I will focus on these proxies.
+
+This is an advanced topic because it requires the use of the reflection class, or byte code manipulation or compiling Java code generated dynamically. Or all of these. To have a new class not available as a byte code yet during run-time will need the generation of the byte code, and a class loader that loads the byte code. To create the byte code you can use link:https://github.com/cglib/cglib[cglib] or link:http://bytebuddy.net/[bytebuddy] or the built in Java compiler.
+
+When we think about the proxy classes and the handlers they invoke we can understand why the separation of responsibilities in this case is important. The proxy class is generated during run-time, but the handler invoked by the proxy class can be coded in the normal source code and compiled along the code of the whole program (compile time).
+
+The easiest way to do this is to use the `java.lang.reflect.Proxy` class, which is part of the JDK. That class can create a proxy class or directly an instance of it. The use of the Java built-in proxy is easy. All you need to do is implement a `java.lang.InvocationHandler` so that the proxy object can invoke that. `InvocationHandler` interface is extremely simple. It contains only one method: `invoke()`. When `invoke()` is invoked the arguments contain the original object, which is proxied, the method that was invoked (as a reflection `Method` object) and the object array of the original arguments. A sample code demonstrate the use:
+
+[source,java]
+----
+package proxy;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+public class JdkProxyDemo {
+
+    interface If {
+        void originalMethod(String s);
+    }
+
+    static class Original implements If {
+        public void originalMethod(String s) {
+            System.out.println(s);
+        }
+    }
+
+    static class Handler implements InvocationHandler {
+        private final If original;
+
+        public Handler(If original) {
+            this.original = original;
+        }
+
+        public Object invoke(Object proxy, Method method, Object[] args)
+                throws IllegalAccessException, IllegalArgumentException,
+                InvocationTargetException {
+            System.out.println("BEFORE");
+            method.invoke(original, args);
+            System.out.println("AFTER");
+            return null;
+        }
+    }
+
+    public static void main(String[] args){
+        Original original = new Original();
+        Handler handler = new Handler(original);
+        If f = (If) Proxy.newProxyInstance(If.class.getClassLoader(),
+                new Class[] { If.class },
+                handler);
+        f.originalMethod("Hallo");
+    }
+
+}
+----
+
+
+If the handler wants to invoke the original method on the original object it has to have access it. This is not provided by the Java proxy implementation. You have to pass this argument to the handler instance yourself in your code. (Note that there is an object usually named `proxy` passed as an argument to the invocation handler. This is the proxy object that the Java reflection dynamically generate and not the object we want to proxy.) This way you are absolutely free to use a separate handler object for each original class or use some shared object that happens to know some way which original object to invoke if there is any method to invoke at all.
+
+As a special case you can create an invocation handler and a proxy of an interface that does not have any original object. Even more it is not needed to have any class to implement the interface in the source code. The dynamically created proxy class will implement the interface.
+
+What should you do if the class you want to proxy does not implement an interface? In that case you have to use some other proxy implementation. We will look at about that next week.
+
+=== Comments imported from Wordpress
+
+
+*Creating a Proxy Object Using cglib -* 2016-01-30 15:08:09
+{%@comment id: 9596 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://www.thepointofinterest.com/2016/01/creating-a-proxy-object-using-cglib/ %}
+{%@comment author_IP: 66.96.183.93 %}
+{%@comment date_gmt: 2016-01-30 14:08:09 %}
+[quote]
+____
+[&#8230;] the previous post I was talking about the standard Java-based proxy objects. These can be used when you want to have [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Creating a proxy object using cglib | Java Deep* 2016-01-27 16:05:26
+{%@comment id: 9584 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2016/01/27/creating-a-proxy-object-using-cglib/ %}
+{%@comment author_IP: 192.0.82.158 %}
+{%@comment date_gmt: 2016-01-27 15:05:26 %}
+[quote]
+____
+[&#8230;] the previous post I was talking about the standard Java based proxy objects. These can be used when you want to have [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*grimmeld* 2016-03-15 09:04:34
+{%@comment id: 9684 %}
+{%@comment author_email: dammkewl@hotmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 145.131.196.98 %}
+{%@comment date_gmt: 2016-03-15 08:04:34 %}
+[quote]
+____
+In the fourth paragraph you have a typo I think, "proxy cass" should be "proxy class" I presume.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 3074261 %}
+
+*Peter Verhas* 2016-03-15 09:07:17
+{%@comment id: 9685 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 165.222.184.144 %}
+{%@comment date_gmt: 2016-03-15 08:07:17 %}
+[quote]
+____
+thanks, fixed
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 9684 %}
+{%@comment user_id: 31131067 %}
+
+*Java Dynamic Proxy | 演道网* 2019-05-03 14:33:42
+{%@comment id: 27454 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://www.go2live.cn/nocate/java-dynamic-proxy.html %}
+{%@comment author_IP: 123.57.145.149 %}
+{%@comment date_gmt: 2019-05-03 13:33:42 %}
+[quote]
+____
+[&#8230;] 应用场景 [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Stefan D* 2018-03-23 17:04:28
+{%@comment id: 12284 %}
+{%@comment author_email: douma4@gmail.com %}
+{%@comment author_url: http://gravatar.com/stefandouma %}
+{%@comment author_IP: 95.97.71.14 %}
+{%@comment date_gmt: 2018-03-23 16:04:28 %}
+[quote]
+____
+I think you confuse Decorator vs Proxy. Their implementation is mostly the same, but their intention is different. Decorator adds functionality to an existing object, like logging when a method is called. A proxy controls access to an object, like in access control or having a remote object.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 9387516 %}

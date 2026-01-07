@@ -1,0 +1,158 @@
+---
+title: About Questions on Linked In Java Developers Community
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+=========================================================================================
+%}
+{%@sep 〔〕%}
+〔#snip:collect from="../../_projects/〔ARTICLE〕/src/test/java"〕
+= About the Questions on Linked In Java Developers Community
+
+This article is a rant about the questions that are posted on the Linked In Java Developers Community.
+I see many times questions that are not well formulated, and the answers are not well thought through.
+
+There is some good in it.
+Being brave to go ahead and publish may be a good thing, but there is also some bad in it.
+I face candidates during Java technical interviews many times giving "typical" wrong answers to some questions.
+The source of that is the spread of these false and half, easy to misunderstand information.
+One forum for them is LinkedIn Java Developers Community.
+Presumably, there are other platforms.
+
+What makes me really sad is that this community is moderated.
+Still, questions of questionable quality are published.
+
+My aim with this article is to raise awareness in the vain hope that this will change.
+
+〔section Examples〕
+
+In this section, I will display and discuss two examples.
+After that I will write a few words of conclusion.
+
+〔subsection Example 1〕
+
+The very first question that I faced recently is the following:
+
+****
+__Which one of the following loop cannot be used to change the value of any element in an array variable__
+
+* The While Loop
+
+* The ForEach Loop
+
+* The For Loop
+****
+
+NOTE: A simple grammar checker could also help a bit, but that is not an issue worth mentioning.
+
+〔png |linked-in-question-example-1|〕
+
+I can understand the intention of the question.
+The author really wanted to draw attention to the fact that a simple for-each loop cannot be used to modify the array elements it is looping through in a naive way.
+
+〔java TestExample0〕
+
+As clearly demonstrated by the above example, when we loop over an array using a for-each loop, the loop variable is NOT the array element.
+It is the value of the array element.
+In the case of a primitive value, this is a copy of the value.
+In the case of an object array, this is a copy of the reference to the object.
+Which, indeed, in some sense is the copy of the value but not the copy of the object, rather the reference.
+
+What we can do is to modify the object that the reference points to.
+I can even say that if the value is an object (reference), then we can modify the object, hence the value.
+For example,
+
+〔java TestExample1〕
+
+will modify the field `value` in the object array.
+
+NOTE: Just for the shake of brevity I created an overly simplistic `equals` method.
+Don't do that in production code.
+Don't do that even in test code.
+Creating a `equals()` method without a matching `hashCode()` is a deadly sin.
+
+You can say that blaming the author on the language and the precision is nitpicking.
+Do not forget, however, that these questions are targeting Java juniors, who can be confused by the imprecise language very easily.
+
+And as a bonus, here is another example that modifies the original array.
+If you look at it, you may realize that this is the same as the previous example, just overcomplicated.
+
+〔java TestExample2〕
+
+〔subsection Example 2〕
+The next question is the following:
+
+****
+__What is the access modifier for an interface in Java?__
+
+* public
+
+* private
+
+* protected
+
+* No modifier
+****
+
+At least in this question, there is no grammar error.
+
+〔png |linked-in-question-example-2|〕
+
+Even if I do not know too much about Java, the question is fishy.
+A modifier is something that modifies something.
+Java is a well-designed language.
+There is some clutter in it.
+It could cut some things shorter, like writing `public static void` in front of `main` and decorating it with a whole class surrounding it.
+However, if something is not needed, it is not there.
+There is nothing like mandatory modifiers that you HAVE TO write.
+There is no "general and universal" access modifier for an interface.
+
+Some answers pointed out that an interface can be public, private, protected or package-private.
+Not any of the interfaces though, because only nested interfaces can be private or protected, and only inside a class.
+
+What the author wanted to ask, I assume, was the default visibility of the members in an interface.
+That is public.
+From the votes, as depicted below, it seems that three quarters of the people answered the question according to the intention of the author.
+
+〔png |linked-in-question-example-3|〕
+
+However, a significant number of people said that there is no need for a modifier, which is also true.
+By default, the members are public, and for a long time in the history of Java that was the only option.
+
+〔section Conclusion〕
+
+Asking questions is a good thing.
+Usually, people ask questions because they want to learn.
+StackOverflow is an excellent platform for that.
+
+These questions, however, more like exams.
+Professors ask such questions.
+It is a profession.
+
+To ask an "exam" question, you have to be an expert in the field.
+But that is not enough.
+You also have to be precise and know what and how to ask.
+You have to understand what the readers will learn from your question.
+
+I feel that many of these authors evaluate this latter assuming that all the readers will read the questions and also the answers.
+
+First of all: there is no answer.
+People vote and hardly ever go back when the voting finishes.
+The answer is simply the result, but no explanation for the details.
+The explanation is in the comments.
+Many times there are some good comments but also many misleading.
+
+It reminds me of a Peter Bruegel painting from 1568, "The Blind Leading the Blind".
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/%D0%9F%D1%80%D0%B8%D1%82%D1%87%D0%B0_%D0%BE_%D1%81%D0%BB%D0%B5%D0%BF%D1%8B%D1%85.jpeg/2560px-%D0%9F%D1%80%D0%B8%D1%82%D1%87%D0%B0_%D0%BE_%D1%81%D0%BB%D0%B5%D0%BF%D1%8B%D1%85.jpeg[width=600]
+
+If you want to ask a question: do it.
+However, do it right.
+Before publishing it for thousands of people, ask a few friends to read it.
+If more than one misunderstands it, then you have to rephrase it.
+If some of them give a wrong answer and then seeing the right one, they start to argue about the question and the correctness: the question is wrong.
+You may believe that they are wrong and not the question, but you cannot change your audience.
+You can change your question.
+Your question can hypothetically be correct, but wrong for the given audience.

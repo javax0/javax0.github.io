@@ -1,0 +1,458 @@
+---
+title: "Generating setters and getters using Java::Geci"
+layout: posta
+comments: on
+---
+
+In the link:https://javax0.wordpress.com/2019/05/08/creating-a-javageci-generator/[article ], we created very simple hello-world generators to introduce the framework and how to generate generators generally. In this article, we will look at the accessor generator, which is defined in the core module of Java::Geci and which is a commercial grade and not a demo-only generator. Even though the generator is commercial grade, using the services of the framework it has simple code so that it can be represented in an article.
+
+
+== 1. What does an accessor generator
+
+
+Accessors are setters and getters. When a class has many fields and we want to help encapsulation we declare these fields to be `private` and create setters and getters, a pair for each field that can set the value for the field (the setter) and can get the value of the field (the getter). Note that contrary to what many juniors think creating setters and getters is not encapsulation by itself, but it may be a tool to do proper encapsulation. And the same time note that it also may NOT be a tool for proper encapsulation. You can read more about it in "Joshua Bloch: Effective Java 3rd Edition" Item 16.
+
+Read it with a bit of caution though. The book says that it was updated for Java 9. That version of Java contains the module system. The chapter Item 16 does not mention it and even this edition still says to use private members with setters and getters for public classes, which in case of Java 9 may also mean classes in packages that the module does not export.
+
+Many developers argue that setters and getters are inherently evil and a sign of bad design. Don't make a mistake! They do not advocate to use the raw fields directly. That would even be worse. They argue that you should program with a more object-oriented mindset. In my opinion, they are right and still in my professional practice I have to use a lot of classes maintaining legacy applications using legacy frameworks containing setters, getters, which are needed by the programming tools around the application. Theory is one thing and real life is another. Different integrated development environments and many other tools like generate setters and getters for us unless we forget to execute them when a new field was added.
+
+A setter is a method that has an argument of the same type as the field and returns `void`. (A.k.a. does not return any value.) The name of the setter, by convention, is `set` and the name of the field with the first letter capitalized. For the field `businessOwner` the setter is usually `setBusinessOwner`. The setter sets the value of the field to that of the argument of the setter.
+
+The getter is also a method which does not have any argument but returns the argument value and hence it has the same return type as the type of the field. The name of the getter, by convention, is `get` and again the name of the field capitalized. That way the getter will be `getBusinessOwner`.
+
+In case of `boolean` or `Boolean` type fiels the getter may have the `is` prefix, so `isBusinessOwner` could also be a valid name in case the field is some boolean type.
+
+An accessor generates setter and getter for all the fields it has to.
+
+
+== 2. How to generate accessors
+
+
+The accessor generator has to generate code for some of the fields of the class. This generator is the ideal candidate for a filtered field generator in Java::Geci. A filtered field generator extends the `AbstractFilteredFieldsGenerator` class and its `process()` method is invoked once for each filtered field. The method also gets the `Field` as a third parameter in addition to the usual `Source` and `CompoundParams` parameter that we already saw in the link:https://javax0.wordpress.com/2019/05/08/creating-a-javageci-generator/[article a few weeks ago].
+
+The class `AbstractFilteredFieldsGenerator` uses the configuration parameter `filter` to filter the fields. That way the selection of which field to take into account is the same for each generator that extends this class and the generators should not care about field filtering: it is done for them.
+
+The major part of the code of the generator is the following:
+
+[source,java]
+----
+public class Accessor extends AbstractFilteredFieldsGenerator {
+
+    ...
+
+    @Override
+    public void process(Source source, Class<?> klass,
+                        CompoundParams params,
+                        Field field) throws Exception {
+        final var id = params.get("id");
+        source.init(id);
+        var isFinal = Modifier.isFinal(field.getModifiers());
+        var name = field.getName();
+        var fieldType = GeciReflectionTools.typeAsString(field);
+        var access = check(params.get("access", "public"));
+        var ucName = cap(name);
+        var setter = params.get("setter", "set" + ucName);
+        var getter = params.get("getter", "get" + ucName);
+        var only = params.get("only");
+        try (var segment = source.safeOpen(id)) {
+            if (!isFinal &amp;&amp; !"getter".equals(only)) {
+                writeSetter(name, setter, fieldType, access, segment);
+            }
+            if (!"setter".equals(only)) {
+                writeGetter(name, getter, fieldType, access, segment);
+            }
+        }
+    }
+}
+----
+
+
+The code at the place of the ellipsis contains some more methods, which we will look at later. The first call is to get the parameter `id`. This is a special parameter and in case it is not defined then default `params.get("id")` returns is the mnemonic of the generator. This is the only parameter that has such a global default value.
+
+The call to `source.init(id)` ensures that the segment will be treated as "touched" even if the generator does not write anything to that segment. It may happen in some cases and when writing a generator it never hurts calling `source.init(id)` for any segment that the generator intends to write into.
+
+The code looks at the actual field to check if the field is final. If the field is final then it has to get the value by the time the object is created and after that, no setter can modify it. In this case, only a getter will be created for the field.
+
+The next thing the setter/getter generator needs is the name of the field and also the string representation of the type of the field. The static utility method `GeciReflectionTools.typeAsString()` is a convenience tool in the framework that provides just that.
+
+The optional configuration parameter `access` will get into the variable of the same name and it will be used in case the access modifier of the setter and the getter needs to be different from `public`. The default is `public` and this is defined as the second argument to the method `params.get()`. The method `check()` is part of the generator. It checks that the modifier is correct and prevents in most cases generation of syntax errored code (e.g.: creating setters and getter with access modifier `pritected`). We will look at that method in a while.
+
+The next thing is the name of the getter and the setter. By default is `set/get`+ capitalized name of the field, but it can also be defined by the configuration parameter `setter` and `getter`. That way you can have `isBusinessOwner` if that is an absolute need.
+
+The last configuration parameter is the key `only`. If the code specifies `only='setter'` or `only='getter'` then only the setter or only the getter will be generated.
+
+The segment the generator wants to write into is opened in the head of the try-with-resources block and then calls local `writeSetter` and `writeGetter` methods. There are two different methods to open a segment from a source object. One is calling `open(id)`, the other one if `safeOpen(id)`. The first method will try to open the segment and if the segment with the name is not defined in the class source file then the method will return `null`. The generator can check the nullity and it has the possibility to use a different segment name if it is programmed so. On the other hand `safeOpen()` throws a `GeciException` if the segment cannot be opened. This is the safer version to avoid later null pointer exceptions in the generator. Not nice.
+
+Note that the setter is only written if the field is not final and if the `only` configuration key was NOT configured to be `getter` (only).
+
+Let's have a look at these two methods. After all, these are the real core methods of the generators that do actually generate code.
+
+[source,java]
+----
+    private static void writeGetter(String name, String getterName,
+                                    String type, String access, Segment segment) {
+        segment.write_r(access + " " + type + " " + getterName + "(){")
+                .write("return " + name + ";")
+                .write_l("}")
+                .newline();
+    }
+
+    private static void writeSetter(String name, String setterName,
+                                    String type, String access, Segment segment) {
+        segment.write_r(access + " void " + setterName + "(" +
+                type + " " + name + "){")
+                .write("this." + name + " = " + name + ";")
+                .write_l("}")
+                .newline();
+    }
+----
+
+
+The methods get the name of the field, the name of the accessor, the type of the field as a string, the access modifier string and the `Segment` the code has to be written into. The code generators do not write directly into the source files. The segment object provided by the framework is used to send the generated code and the framework inserts the written lines into the source code if that is needed.
+
+The `write()`, `write_l()` and `write_r()` methods of the segment can be used to write code. They work very much like `String.format` if there are more than one parameters, but they also care about the proper tabulating. When the code invokes `write_r()` then the segment will remember that the lines following it have to be tabulated four spaces to the right more. When the code calls  `write_l()` then the segment knows that the tabulation has to be decreased by four characters (even for the actual written line). They also handle multi-line strings so that they all will be properly tabulated.
+
+[quote]
+____
+Generated code should also be readable.
+____
+
+
+The final non-trivial method is the access modifier check.
+
+[source,java]
+----
+    private static final Set<String> accessModifiers =
+            Set.of("public", "private", "protected", "package");
+...
+
+    private String check(final String access) {
+        if (!access.endsWith("!") &amp;&amp; !accessModifiers.contains(access)) {
+            throw new GeciException("&#039;"+access+"&#039; is not a valid access modifier");
+        }
+        final String modifiedAccess;
+        if( access.endsWith("!")){
+            modifiedAccess = access.substring(0,access.length()-1);
+        }else {
+            modifiedAccess = access;
+        }
+        if( modifiedAccess.equals("package")){
+            return "";
+        }
+        return modifiedAccess;
+    }
+----
+
+
+The purpose of this check is to protect the programmer from mistyping the access modifier. It checks that the access modifier is either `private` (I do not see a real use case for this one though), `protected`, `public` or `package`. The last one is converted to an empty string, as the package protected access is the default for class methods. The same time using the empty string in the configuration to denote package private access is not really readable.
+
+That way if the code is configured `pritected` including a typo the code generator will throw an exception and refuses to generate code that is known to contain syntax error. On the other hand, the access modifier can also be more complex. In some rare cases, the program may need synchronized getters and setters. We do not try to figure out automatically anything like that checking if the field is volatile or such, because these are border cases. However, the generator provides a possibility to overcome the limited syntax checking and that way just to provide any string as access modifier. If the access modifier string ends with an exclamation mark then it means the programmer using the generator takes full responsibility for the correctness of the access modifier and the generator will use it as it is (without the exclamation mark of course).
+
+What is left are the methods `mnemonic` and `cap`:
+
+[source,java]
+----
+    private static String cap(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+
+    @Override
+    public String mnemonic() {
+        return "accessor";
+    }
+----
+
+
+The method `mnemonic()` is used by the framework to identify the sources that need the service of this generator and also to use it as a default value for the configuration parameter `id`. All generators should provide this. The other one is `cap` that capitalizes a string. I will not explain how it works.
+
+
+== 3. Sample use
+
+
+[source,java]
+----
+@Geci("accessor filter=&#039;private | protected&#039;")
+public class Contained1 {
+
+    public void callMe() {
+
+    }
+
+    private final String apple = "";
+    @Geci("accessors only=&#039;setter&#039;")
+    private int birnen;
+
+    int packge;
+
+    @Geci("accessor access=&#039;package&#039; getter=&#039;isTrue&#039;")
+    protected boolean truth;
+    @Geci("accessor filter=&#039;false&#039;")
+    protected int not_this;
+
+    public Map<String,Set<Map<Integer,Boolean>>> doNothingReally(int a, Map b, Set<Set> set){
+        return null;
+    }
+
+    //<editor-fold id="accessor" desc="setters">
+
+    //</editor-fold>
+
+}
+----
+
+
+The class is annotated with the `Geci` annotation. The parameters is `accessor filter='private | protected'` that defines the name of the generator to be used on this source file and configures the filter. It says that we need setters and getters for the fields that are private and protected. The logical expression should be read: "filter the field is it is private or protected".
+
+Some of the fields are also annotated. `birnen` will get only a setter, `truth` setter and getter will be package protected and the getter will be named `isTrue()`. The field `not_this` will not get a setter or getter because the filter expression is overridden in the field annotation and it says: `false` that will never be `true`, which is needed to be processed by the generator.
+
+The field `apple` is not annotated and will be processed according to the class level configuration. It is private therefore it will get accessor and because it is `final` it will get only a getter.
+
+The code between the
+
+[source,text]
+----
+    //<editor-fold id="accessor" desc="setters">
+
+    //</editor-fold>
+----
+
+
+will contain the generated code. (You have to run the code to see it, I did not copy it here.)
+
+
+== 4. Summary
+
+
+In this article, we looked at a generator, which is a real life, commercial grade generator in the Java::Geci framework. Walking through the code we discussed how the code works, but also some other, more general aspects of writing code generators. The next step is to start a project using Java::Geci as a test dependency, use the accessor generator instead of the IDE code generator (which lets you forget to re-execute the setter getter generation) and later, perhaps you can create your own generators for even more complex tasks than just setters and getters.
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2019-05-31 09:32:35
+
+
+
+
+
+[quote]
+____
+The selection of the name was on purpose. It is an abbreviation that stands for GEnerate Code Inline.
+
+About the "How about lombok?" have a look at
+
+https://github.com/verhas/javageci/blob/master/FAQ.md
+
+I added a section to the end:
+
+Lombok is a special annotation processor that modifies the abstract
+syntax tree (AST) during its execution. There are multiple issues with
+such behavior that the project using it should live with. Before
+deciding lombok you have to decide if you can and if you want to
+live with these:
+
+
+* The way Lombok works altering the AST it also modifies the Java
+language syntax. In some sense when you code using Lombok you are
+programing in a Java language with a Lombok flavor. This may also be
+a concern when you want to hire a developer to maintain the code: they
+have to know the lombok flavour. It may not be a big deal or it may
+be.
+* The possibility to modify the AST is not part of the guaranteed API
+for the annotation processing tools. It means that Lombok may not work
+with some implementation of the Java compiler including future
+versions.
+* There is no real source code generated by Lombok. The modified AST is
+fed into the compiler. That way debugging may be a bit harder when you
+want to put a breakpoint into somewhere the generated code. You can
+argue that this is not an issue, because you should not be debugging
+generated code. However, where would you put the breakpoint when you
+want to stop every time a setter is invoked. It is the body of the
+setter even you do not want to debug the setter itself. (See a few
+words about delombok later.)
+* Because there is no generated source code Lombok has to be part of the
+whole build process. It has to be available on the developer machine
+as well as on the CI server.
+* You can get rid of lombok. There is a project delombok that generates
+the source code for the functionality. This functionality is designed
+to get rid of lombok from a project and not to live with it
+continuously. After the code changed it is not trivial to get rid of
+the already generated and not needed code and to insert the new code.
+* Lombok was not designed to be a framework for code generators. You
+have the generators that are available and that it mainly it. It is
+not impossible to write new generators into the Lombok project but it
+is not trivial and, mainly, it was not designed for that purpose.
+Java::Geci, on the other hand, is mainly a library/framework that
+provides API to write your own generators and the generators
+implemented in the `core` module are there as examples. Yes, we know
+that most of the developers will only use these generators, but we
+also have the hope that other developers will create generators of
+their own. There are already examples in some source code proprietary
+projects.
+
+____
+
+
+
+
+
+*Iorek* 2019-05-30 21:55:58
+
+
+
+
+
+[quote]
+____
+Funny name, I cannot believe it was not on purpose. How about Lombook? https://projectlombok.org/
+____
+
+
+
+
+
+*Martin Grajcar* 2019-06-03 23:38:07
+
+
+
+
+
+[quote]
+____
+I guess, I should have chosen a different word. It's just that I love Lombok and dislike extensive criticism of it - it's a fantastic tool and IMHO should get more support (with a tiny bit of support from Oracle, it could turn from a hacky solution to a standard tool).
+
+I didn't and don't claim that you had any bad intentions with your comparison. I also see, I haven't read your FAQ carefully enough (breakpoints) and haven't thought far enough (build process).
+
+Thank you for the update. I don't feel a need for forking. I might want to add a sentence like
+"Lombok is a different kind of tool" (but I don't know where I'd fit well) as I can imagine using a source code generator in addition to Lombok (I actually do it already on a tiny project).
+____
+
+
+
+
+
+*Handling repeated code automatically | Java Deep* 2019-09-25 15:00:18
+
+
+
+
+
+[quote]
+____
+[&#8230;] Generating Getters and Setters using Java::Geci [&#8230;]
+____
+
+
+
+
+
+*Peter Verhas* 2019-06-02 13:56:07
+
+
+
+
+
+[quote]
+____
+I tend to disagree with you. Even though I updated the FAQ. If you feel that the verbiage is still FUD like, you are welcome to make a fork, modify the FAQ.md and create a pull request. It is [strong]#not# my intention to make it FUD like. There is no incentive to "fight against Lombok". The FAQ simply compares the two solutions.
+
+Having that said, factually:
+
+
+breakpoints: The FAQ does not say it is not possible to put a breakpoint into the generated code. Eclipse can put a breakpoint on a method that does not exist in the source code. The FAQ says: "That way debugging may be a bit harder when you want to put a breakpoint into somewhere the generated code." I think that the fact that the cited StackOverflow article exists proves that it is indeed "harder" to put a breakpoint there.
+build process: There can be other reasons that a library available on the development machine is not available on the CI server than just simply forgetting. As a matter of fact, you selected the least likely reason. The real reason can be that corporate policy may not allow Lombok to be part of the ecosystem but at the same time, the same policy provides a bit of wider freedom for the developers what to use on their machines. I know one example of that, where this is the case.
+
+
+Here is the changed part of the FAQ:
+
+[quote]
+____
+
+* There is no real source code generated by Lombok. The modified AST is
+fed into the compiler. That way debugging may be a bit harder when
+you want to put a breakpoint into somewhere the generated code. You
+can argue that this is not an issue, because you should not be
+debugging generated code. However, where would you put the
+breakpoint when you want to stop every time a setter is invoked? It
+is the body of the setter even you do not want to debug the setter
+itself. (See a few words about delombok later.) Some of the IDEs,
+like Eclipse or IntelliJ let you put a breakpoint on a method
+specifying the class and the name of the method. It is a bit more
+cumbersome than just clicking on the gutter on a specific line.
+* Because there is no generated source code Lombok has to be part of the
+whole build process. It has to be available on the developer machine
+as well as on the CI server. It is hardly ever a problem but in some
+corporate environment the policy may not allow Lombok to be used on
+the CI server but the same time there is larger freedom on the
+developers machine.
+
+____
+
+____
+
+
+
+
+
+*Martin Grajcar* 2019-06-01 23:33:17
+
+
+
+
+
+[quote]
+____
+Sorry, but the Lombok part of the FAQ sounds more like FUD, please improve it. Sure, Lombok is no substitute for Geci and the other way round.
+
+Invalid points:
+- breakpoints: https://stackoverflow.com/a/45357724/581205
+- build process: This is only a problem when you're prone to forgetting to add your libraries. What happens when you forget to add e.g., Guava?
+
+Valid but FUD-like formulated:
+- Lombok flavor: I guess, there are people out there having problems to understand this flavor, but they most probably don't code in Java. Isn't that flavor just what many wished Java would look like? Especially with getters and setters, it just does what many other languages provide out of the box.
+- There is no real source code generated: Yes, and that's why I prefer it to any other tool. Without the generated boilderplate, my classes are much smaller and it's much easier to navigate. YMMV.
+- can get rid of Lombok: Indeed, you can, and you're right that it's a sort of a one way ticket. You can do it regularly as a part of your build process, e.g., when you need the generated code for another tool (I do it in order to see how much boilerplate gets saved).. You can replace the source by the generated code, but that's only meant as the last resort. As long as Lombok works well, you won't do it.
+
+That all said, I think I like Geci, especially the ingenious idea of running as a test.
+____
+
+
+
+
+
+*Peter Verhas* 2019-06-04 14:32:04
+
+
+
+
+
+[quote]
+____
+May I reflect on your statement
+
+"with a tiny bit of support from Oracle, it could turn from a hacky solution to a standard tool"
+
+although this is very offtopic here since it is my blog I do not mind ;-)
+
+At the same time, Java is not ORACLE's "blog" or product. It is important that this is not ORACLE who decides on different future features. It is a consortium that decides. ORACLE has great influence but is only one player and there is a clear and well-defined procedure who things get decided, sometimes against the will of ORACLE's representatives.
+
+The support that Lombok misses is the API for AST modification. It is a hacky solution that works but it is not a guaranteed feature. The Java process has to vote and accept a guaranteed API. Thus, I think this is not ORACLE.
+
+The other thing with a Lombok-like annotation-processing tool is that it can greatly change the language. It can go so far that you would not be able to tell what the code actually does. It can remove some code from the AST that is in the source and can add arbitrarily. In the case of Lombok, it is bearable. It is moderate and is within a certain limit so that it is a matter of state if you can live with the setters, getters and so on that is NOT in the code. It is a matter of taste.
+
+However, having an AST modifying API defined and extensive support to make such annotation-processing tools easy to make would make the hell loose. In my opinion, this is the main reason why this API, used by Lombok, is not supported. Lombok is a nice playground, not for mission-critical production tools. It can be safely used in some projects. It can even safely be used in some commercial projects, knowing the risks. The advantage of the playground is that it shows in practice what features are valuable in real life and then when this knowledge is established then Java can accommodate the feature into the core language.
+____
+
+
+
+
+
+*Peter Verhas* 2019-06-04 14:34:19
+
+
+
+
+
+[quote]
+____
+I would also like to thank you the comments. They are valuable and comments and feedbacks are the major rewards writing a blog. I would welcome if you could write an article or just a few words about your experiences. Keep your finger on the pulse of the project repo, there are new features every week, trying to keep backward compatibility.
+____

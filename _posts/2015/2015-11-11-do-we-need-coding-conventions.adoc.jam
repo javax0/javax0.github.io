@@ -1,0 +1,117 @@
+---
+title: "Do we need coding conventions?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+There are things that just come natural and we forget to wonder if it could be some other way. It is like that the sun rise morning and sets evening. But scientists raise the question and even though the sun still rise in the morning and still sets evening we gathered a lot of knowledge about it. It is similar to every profession. We do thing, follow procedures and do not ask the question: why? Should we?
+
+In some cases we follow some procedure because that is the way we always did. We write program codes in lines, because that was the only way to record code in link:https://en.wikipedia.org/wiki/IBM_RPG[RPG] that was created for link:https://en.wikipedia.org/wiki/Punched_card[Hollerith cards]. You do not even know what a Hollerith card is but you still write code lines in an editor and still many times the suggested maximal line length is 72 characters. Should we write code into 72 character length lines? No, obviously. Many times we do not. Modern editors and screens make it more feasible to have longer lines. Still there is a maximum length that makes the code more readable. Integrated development environments, like Eclipse wrap too long lines if we ask them. Nobody questions it. What people question is the actual length of the line. Should be 80 character, 130 or 125 or something else? One thing is certain: when coding in a team there should be only one decided and agreed limit. The sad thing is that setting a coding standard sometimes is a good ground and source for dissension.
+
+From my practice the most important Java coding question (as far as temperature of debates shows) before starting a project is:
+[quote]
+____
+"Should there be a space between the keyword 'if' and the opening parenthesis?"
+____
+
+You may laugh, but just look at the following two sample code segments:
+
+[source,java]
+----
+  if( debugIsSwitchedOn )log.debug("Here we go");
+----
+
+
+and
+
+[source,java]
+----
+  if ( debugIsSwitchedOn )log.debug("Here we go");
+----
+
+
+Now you can understand that answering this question and having a consensus on that may make a project success or fail. The proper selection between waterfall and agile methodology is a matter of free choice and does not really effect the outcome of the project as much as this question. At least if I measure importance based on the effort put into the debate usually.
+
+Now you think that I am kidding. Some way yes, but lets have a look at from another angle:
+[quote]
+____
+If having or not having a space between the keyword 'if' and the opening parenthesis is not important then why do people invest so much emotion and effort discussing it?
+____
+
+It seems that such nuances are important for the developers. And what is important for the developers is important for the project. Unhappy developers do not deliver successful project.
+
+This is not a hard coded area, like performance of reflection or thread local usage in Tomcat that you can try, test, measure and have a final word. This is more psychology that I am not an expert in, but still I have my experience in coding and I have my ideas about the question I set forth. After all having a discussion about a topic we are not expert in is at least such a good ground for a dispute as something that is more religious than fact based, like the space between the 'if' and '('.
+
+
+{%section |Code is owned by the developer%}
+
+
+Today agile methodology says that the code belongs to the group. Anyone can fix any part of the code. In old times it was not the case. We did not stick to such "expensive" and strict rules. Developers were lone wolfs and were responsible for their own code. Sharing the code has its cost involving the other members to learn the code somebody else from the group developed. In the long run it is cheaper when you consider the maintenance cost of the code starting even before the first release during debugging sessions. Even though sharing the code is not the human nature. Developers in the deep soul are still lone wolfs and honestly when I code I am alone. I am in a kind of flow state many times realizing that last ten minutes I spent with coding was actually more than an hour. Having enough experience I am not reluctant to share the code with others, explain if needed what and why is there. (Btw: need for extensive explanation is already a code smell unless the other side is junior, in which case the explanation is more kind of education.)
+
+This means that in the deep heart we still own the code. Each and every member of the developer team should feel owning the code to be effective when she has to fix a bug, extend a feature. And the feeling is greatly affected by small nuances, like how we usually format the code. I open the source code in my IDE, I see the code using the coloring and the font face I set (that already makes it a bit cosy) and try to understand the code. If the coding convention is totally different from my code: it is a distraction. Up to some level I can convince myself not to pay attention to the fact the the opening braces are on the next line, like we do when we program C# but it is an annoyment when we code in Java. That is not the way we usually do it. Eclipse, IntelliJ or even some vi macro helps to reformat, but then we waste time when comparing the pull request in GitHub: there will be a lot of changes most of it formatting. We loose the information in the noise.
+
+If the group has coding convention the code will look more like mine even if developed by some fellow programmer. I will look at it, I will understand it easier. You should not underestimate the effect of that.
+
+
+{%section |The actual coding convention is not important%}
+
+
+It is more important that the group has one (and only one). To have it settled during the start of the project is a good topic to increase group cohesion. Even if the discussion goes into a wrong direction and the final decision is not optimal, what can you loose? A space between the keyword 'if' and '('? People, especially when a group is recently formed has to forge itself and forging is usually at high temperature. It has to be like that and what can be a better topic where flames make no real harm?
+
+
+=== Comments imported from Wordpress
+
+
+*Erdin Eray* 2015-11-12 20:01:02
+{%@comment id: 9194 %}
+
+{%@comment author_url: http://alreadycoded.tumblr.com %}
+{%@comment author_IP: 46.1.159.160 %}
+{%@comment date_gmt: 2015-11-12 19:01:02 %}
+[quote]
+____
+As a linguistics student, I wish to present a point of perspective here. The matter in this article is called as the distinction between descriptivism and prescriptivism.
+
+A prescriptivist simply says how you should speak or write a langauge system, while the descriptivists (which is widely accepted by linguists) say there's no need to since it's a natural process of language system and that we should investigate the language system.
+
+So from this perspective, there's a system of any programming language, so any attempt of writing rules might be violated by any way and that does not really matter. However, according to discourse analysis which is a field of linguistics, if you tend to violate the rules of a discourse society (a society of any programming language), you're simply excluded. I mean if something is developed for the development group (like web frameworks, GUI frameworks etc.), we should be loyal to rules, not in a strict manner but loyal to fundamentals (like documenting etc.). That matters just a little bit if we're inside the production level.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Cheryl* 2015-11-18 00:19:00
+{%@comment id: 9218 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 180.191.130.183 %}
+{%@comment date_gmt: 2015-11-17 23:19:00 %}
+[quote]
+____
+Nice article. I don't really like the idea of cramping the programmer’s natural creativity with excessive constraints and restrictions. Yes,  Coding convention is important but should be to the minimum level.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*tamasrev* 2015-11-11 21:15:29
+{%@comment id: 9185 %}
+
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 80.99.48.140 %}
+{%@comment date_gmt: 2015-11-11 20:15:29 %}
+[quote]
+____
+I really like this post. Totally agree with it.
+
+There are some corner cases though. Most of the languages have industry-wide standards, like this is the one Sun used to recommend: http://www.oracle.com/technetwork/java/codeconvtoc-136057.html They put a space between the 'if' and '('
+It can be annoying, when a specific coding standard differs a lot from the default one. Especially for new members on the team - the first couple of weeks will be more difficult than necessary.
+
+Another corner case is when a team has a standard but has no automatic tool to enforce it. I find it a waste when I see technical leads sorting out white spaces.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

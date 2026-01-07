@@ -1,0 +1,23 @@
+{@counter:define id=sc}\
+{@define section={sc}. {@counter:define id=ssc}}\
+{@define subsection={sc last}.{ssc}}\
+{@define asciidoc:output=target/AAAAAAAAA.txt}
+{section}
+{section}
+{section}
+{section}
+{section}
+{subsection}
+{subsection}
+{subsection}
+{subsection}
+{section}
+{subsection}
+{subsection}
+{section}
+{section}
+{subsection}
+{subsection}
+{subsection }
+
+

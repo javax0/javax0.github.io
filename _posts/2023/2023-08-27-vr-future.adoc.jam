@@ -1,0 +1,294 @@
+---
+{%@define title=Virtual and Augmented Reality is Here%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}
+{%@sep 〔〕%}
+= 〔title〕
+
+〔section Introduction〕
+
+Virtual reality is a technology when you wear some device projecting a non-existent world into your senses.
+This way, you partially or completely lose the connection to the real world and are immersed in the virtual world.
+Current technology does not allow a complete loss of connection to the real world, and the senses are mainly limited to vision and hearing.
+Usually, two LCD devices with special optics are mounted on your head, and different sensors track your head movement.
+The computers display pictures on the LCDs that change as you move your head, showing a static or dynamic virtual reality around you.
+
+In this article, I will write about the history of virtual reality and how I got my fingers wet.
+I will also write about what I experienced recently with my newly bought Meta Quest Pro and how I see the future of virtual reality.
+
+〔section History〕
+
+The first virtual reality device was the first loudspeaker headset limited to audio senses, but the term was not used for that.
+
+The first virtual reality device, called virtual reality, was the Sensorama, built by Morton Heilig in 1962.
+I had a set on my head in 1995 at an exhibition IFABO in Budapest.
+I worked for Digital Equipment Corporation then, and we had a stand there.
+My task was to show the visitors the virtual reality headset that DEC created in cooperation with Kubota.
+If you Google the term __"Kubota Denali VR"__ you may find interesting traces of history.
+I had little time to try and play with it, but I was impressed.
+
+I was convinced that VR is the future and will be here as soon as 2000 in five years.
+I remember this because I was young and "brave" enough to express this prediction publicly.
+
+〔subsection Derail: Prediction and Braveness〕
+
+When you are an expert, you can predict the future with a certain precision.
+You are a visionary if you tell others how you see the future and are correct.
+If you are wrong, then you are a fool.
+
+When you are young and at an early stage of your Dunnig-Kruger curve, you are brave enough to express your predictions.
+So, I was brave enough to say that VR will be here in five years.
+I stated it in a forum not smaller than the main central state-running radio stating Kossuth Radio in Hungary.
+Nobody remembered it after five years, so it was not a big shame, but in 2015, twenty years later, the same guy invited me again to the radio to review my predictions.
+It was interesting.
+
+I had some good predictions, like saying that mobile phones will be ubiquitous and be a personal computing device connected to the internet.
+But my VR prediction was off the rails.
+
+Why is it important to mention this other than it gives you credibility when you admit your past mistakes in an article?
+Now I see what I did not see then and why VR did not sweep the board.
+In this article, I will repeat the mistake I made almost thirty years ago and predict VR's future again.
+
+Why am I so __"brave"__ to do that?
+Because I am old enough to be brave again.
+Young people are brave enough to predict the future because they do not understand that their predictions may bite back.
+Old people know that when the prediction bites back, they will not be there to be bitten.
+
+****
+Never trust the prediction of a young or an old expert.
+****
+
+〔section Current Experiences〕
+
+I bought my first VR headset in 2017.
+It was a Sony Playstation VR.
+It was a birthday present from me.
+
+At that time, I saw the state of VR as mainly a plaything.
+Gaming and entertainment.
+I had some play with Fruit Ninja and Beat Saber.
+I tried some other games but got dizzy very soon, and I realized why I was wrong in 1995.
+
+The technology for the VR headset was not good enough.
+It lacked resolution, was too expensive, and needed improvement in tracking the head movement and lag of screen refresh.
+Lag is very important.
+
+When, for example, you tilt your head and the world you see tilts with your head for a moment and then gets back to its state to make the horizon horizontal again, you get dizzy.
+The lag is the time between your head's movement and the picture on the screen.
+The lag does not need to be large enough to be consciously recognizable, and it may still make you dizzy.
+
+When the virtual world is dynamic, like car racing, your balance organ, the vestibular system, gets confused.
+You see the car and the world around you running, but you are stationary.
+That is what makes you really vomit.
+
+Parts of these problems can be solved, others not.
+In 1995, even in a static environment, I got easily dizzy.
+Today, it is much better, and (jumping a bit ahead) I can spend hours working in VR, watching virtual screens in a virtual café.
+As a matter of fact, I write this article with a Meta Quest Pro on my head, and I am sitting in a virtual café in Immersed.
+
+I knew this was not my last VR set, and I will have a next one suitable for work.
+I was following the news about the vast investments of Meta and Facebook into VR.
+However, I was waiting for Apple to come up with the next generation of VR.
+I use a lot of Apple products.
+They have superb usability and a hefty price tag.
+On the other hand, if a senior engineer living in Switzerland who has paid off (never had) all the mortgages raised cannot afford the overpriced products, then who can?
+
+When the Apple Vision Pro was introduced with the price tag of 3.5k USD, I realized I would not wait for Apple.
+I could, but I do not want to pay that amount for something 1.0 and experimental.
+I could also read between the marketing videos' lines to know that this headset may be better than the competition, but it is still experimental.
+It is not Apple's fault.
+Although I expected a working version, I can see that this expectation was unrealistic.
+It is not Apple Vision Pro that is experimental; it is the whole VR field, even after 30 years.
+
+The reason, as I see now after experimenting with the Meta Quest Pro, is not technology.
+Technology has developed enough during the last three decades so that companies can produce VR with good enough LCD, tracking, and optics.
+It is the software that is immature, and it is in a unique way.
+
+When you think about immature software, you usually think of software that has bugs.
+Although the Meta Quest Pro certainly has bugs, that is not why I say it is immature.
+
+Currently, there is no best practice on how we can and will use VR for work.
+To develop that knowledge will need much work.
+It includes those early experimenters willing to invest their time and effort in working with this immature technology.
+It also needs a lot of money from companies like Facebook to develop the software.
+
+Many software developed today will be thrown away in a few years.
+Not because they are buggy or low quality but because they implement unusable use-case scenarios.
+Nobody knows what is usable.
+Do we want to navigate in a three-dimensional space with boxes and spheres representing different files?
+Should we represent directories as boxes and zoom into them to see the files, or will they be lined up behind them?
+Should we imitate the kinematics of natural objects in a gravitational field like in our everyday earthly environment?
+Should we float in space without specific directions when we move between some abstract objects representing files, folders, programming elements, and relationships between these objects?
+We will try; some people will like the first, some will be best fitting with the second, and others will prefer something developed we cannot even imagine today.
+
+When I ordered my Meta Quest Pro, I was unsure what I would use it for.
+I did not expect it to be ready for work.
+I was hoping, but I realized that it may not be.
+I imagined different use cases.
+
+* Work in a virtual environment with virtual screens, using Immersed.
+* Play games.
+* Play some games, which are a workout.
+
+〔section Meta Quest Pro First Steps〕
+
+I had mixed feelings when I got the Meta Quest Pro.
+First of all, I had to wait a month till it arrived.
+While waiting, I watched many YouTube videos about the device and the programs, so I was hiked.
+Clearly, it was a mistake.
+
+After I started, it froze, and I had to restart it.
+But it did not happen ever again.
+
+I had to install an app on my iPad/iPhone to use the headset.
+It is okay, but I had to Google it because the QR code on the printed users' manual led to a 404 page.
+I deserve a seamless start for a 1000$.
+
+It does not have a good tutorial.
+It has a tutorial, but it is like someone had to write one to tick it off from the to-do list rather than one written for the user.
+The usability and the guidance of Apple products spoiled me.
+For example, there is a mirror in the virtual environment, which shows your avatar.
+I did not get any information from the tutorial or documentation that it has a use.
+I saw my avatar's reflection, but nobody told me that I could customize my avatar if I clicked there with the virtual laser beam.
+Later, I also found the menu system to set up the avatar.
+
+After five hours of use, I still could not figure out the different uses of the buttons.
+After a few weeks, I know why: there is no convention.
+Different applications use the different buttons differently.
+There are X  and Y and A  and B buttons, but they have no unified meaning or use.
+The only more or less fixed convention is that the shooting button for your index finger is shooting, and the trigger button for your thumb is grabbing.
+
+I had some early bad experiences with the power and speaker loudness buttons.
+As I was moving the headset on and off a few times, I accidentally pressed these buttons.
+I had to learn muscle memory to grab the headset, a different way from what I first felt natural.
+
+The hand-tracking feature is amazing but not usable.
+It is amazing because it works, but I had to switch it off when working in a virtual environment.
+When I type, the controllers are not in my hand.
+The headset recognizes this, and all my typing movements it tries to interpret as hand gestures.
+Bizarre results.
+
+The screen resolution for the virtual screens is usable, but they cannot compete with my two displays, 5k each setup.
+I can see the pixels and the difference between the virtual and the actual screens.
+
+The keyboard use is also a pain point.
+There are two ways to use the keyboard.
+One is a so-called portal.
+It is a shape fixed in the virtual space that shows the real world behind the shape.
+It is like a window to the real world from the virtual world.
+You can open a portal for the keyboard and see your keyboard blurry.
+
+The problem probably comes from the fact that the cameras were designed for tracking, not showing the real world.
+I can see my keyboard but must adjust the light, and the picture waves slightly.
+
+The other possibility is to use a so-called tracked keyboard.
+In this case, the software identifies the keyboard by its shape and draws a virtual keyboard where the actual keyboard is.
+At the same time, it draws your hands in real-time, so you see your hands and keys in a virtual environment.
+It works as a labor experiment.
+Only a few keyboards are supported: some Logitech models, Apple Magic keyboards, and Macbook Pro and Air keyboards.
+Luckily, I have a magic keyboard, but I use a Windows native Hungarian keyboard layout.
+Virtual keyboards support only US layout.
+Not even Y and Z swapped for many European keyboards.
+
+You must have a high-speed connection between the PC/MacBook and the headset to use virtual displays.
+To have that, I configured my MacBook to use my iPhone interned via a tethered connection.
+The Wi-Fi uses the 5GHz band and provides a dedicated hotspot for the headset.
+With this setup, the lag between the computer and the headset is 6m; that should be enough.
+Because I still could feel a little lag in the mouse movement, I ordered a USB-C to USB-C Oculus cable.
+I feel ashamed to admit how much I paid for it, but it moved the latency to 2ms.
+The mouse is still lagging.
+
+I also had to switch to dark mode with IntelliJ for better visibility on the virtual screens.
+
+Watching movies is impressive.
+And I did not mean the link:https://www.youtube.com/watch?v=h8srG_iKh5Y[special movies].
+Just a good old boring Netflix, Disney, Amazon, etc. movies.
+
+〔section Apps I Used〕
+
+I tried a few applications, and other than a few games I already used before, I categorize each application as experimental.
+The most mature application is Immersed.
+There are a lot of problems with it, but I use it every day for a few hours.
+It proves it is usable, but to be honest, I am not absolutely sure if I use it because
+
+* I really like it despite the drawbacks or
+* I have buyer's remorse and must convince myself that I did not waste my money.
+
+What I have experienced, though, is that meeting people in a virtual environment is much more natural than I expected.
+When I do a video conference, I see the faces of the people I talk to.
+When I do a virtual meeting, I can only see the avatars.
+I expected it to be less natural, but somehow, it felt more in the present.
+You are visually in the same space as the other people's avatars; you talk to them, and your hands are tracked and shown, as well as your facial expression.
+I also experienced that we needed less "who talks when" protocol than in a video conference.
+
+I also tried a mind-mapping application called Noda.
+I do not use mind mapping often, but I wanted to see how it works.
+I was surprised.
+Using spatial representation of the mind map is much more natural than the flat one.
+
+I also tried some 3D drawing, and I am still behind my plans with CAD for 3D printing.
+
+〔section Future Apps〕
+
+And this is the chapter where I will make a fool of myself.
+Let's hope that I live long enough to see it.
+I will not give exact year numbers when something will come.
+
+There will be a lot of technical development in the next few years, but that is something out of my experience.
+I expect many steps forward regarding the software, applications, and development.
+
+Right now, we have different applications that present virtual worlds and something in it.
+Immersed does two things: 1. provides a space where people and their avatars are visible and can interact, and 2. provides virtual screens.
+Noda, the mind mapping application, also provides 1. a virtual space and 2. a virtual mind map.
+
+It is somehow analogous to the MS-DOS times when you could run only one application on the screen simultaneously.
+
+I expect the virtual space to become the desktop.
+It has to be provided by the operating system, and the different applications will be able to use it, placing and moving different virtual objects in it.
+I have not read articles that envision this model, but I am sure this is how VR architects at big companies envision the future.
+What do we miss there?
+
+We miss the copy/paste and the drag-and-drop functionality.
+I do not mean literally.
+I do not think we should have a virtual clipboard and drag-and-drop virtual objects.
+But we need a way to use different applications in the same virtual space and make them interact.
+What we miss is the act, which is the most natural way of interaction between applications like drag and drop and copy/paste on the desktop.
+
+With that, I am sure we will soon forget the desktop and the windows and virtual windows.
+Tethering a MacBook to a headset is like tethering a horse to a railway car.
+It was needed briefly to provide the continuity of cultural development, but we will forget it.
+We will have a VR version of programming IDEs; we will have 3D CAD, mind mapping, 3D UML diagrams, ORM representation, and so on.
+These will run on the headset, and we will not need to embed the 2D desktop into our 3D virtual world.
+
+〔section Conclusion〕
+
+This article is not about software development, but since most of my articles are about that, I expect that most of my readers are.
+
+What should you do as a developer?
+What is the message?
+
+First of all, you must not ignore VR technology anymore.
+The headsets become better and cheaper, and the software will develop.
+Immerse, for one, can be a good excuse to buy a headset if you need an excuse.
+You should get acquainted with the technology, what is available, and what can be developed.
+Expect new operating system features supporting VR and new APIs and tools.
+There will be many opportunities in the coming years around this technology.
+
+
+
+
+
+
+
+
+
+
+
+

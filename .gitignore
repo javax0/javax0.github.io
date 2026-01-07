@@ -1,0 +1,13 @@
+.idea
+.asciidoctor/
+.asciidoctor/lib
+.sass-cache/
+.jekyll-cache/
+venv
+.jekyll-metadata
+.ruby-version
+Makefile
+*.class
+.mvn/
+*.jar
+target/

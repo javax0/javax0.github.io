@@ -1,0 +1,114 @@
+---
+title: "Final volatile" 
+layout: posta
+comments: on
+---
+
+I was writing my link:https://www.packtpub.com/application-development/java-9-programming-example[book] over the weekend and I was looking for some simple example that could demonstrate the real need of `volatile` modifier in multi-thread code. Years ago when I last time demonstrated the multi-thread capability Java was still 32-bit, or at least there was 32-bit Java available. On 32 bits you could concurrently increment long variables and because the lower and upper 32 bits were handled in different processor shift there was a chance that two threads garbled some way the non-volatile variable. Now with Java 9 this is not the case. Now Java is 64-bit and I had to demonstrate the need for a `volatile` on 64-bit before anyone comes up the stupid idea that it was only needed for 32-bit. (I could tell stories, but I try to keep it a professional blog. Not with much success, but still.)
+
+I was searching stackoverflow and found link:http://stackoverflow.com/questions/5816790/the-code-example-which-can-prove-volatile-declare-should-be-used[this page] that contains many meaningless, or less than usable answer (which clearly demonstrates that the topic is not simple) but it also contains a sample from link:http://stackoverflow.com/users/210216/jed-wesley-smith[Jed Wesley-Smith] that inspired my demonstrating code for the link:https://www.packtpub.com/application-development/java-9-programming-example[book]:
+
+[source,java]
+----
+package packt.java9.by.example.thread;
+
+public class VolatileDemonstration implements Runnable {
+    private Object o = null;
+    private static final Object NON_NULL = new Object();
+    @Override
+    public void run() {
+        while( o == null );
+        System.out.println("o is not null");
+    }
+    public static void main(String[] args)
+                           throws InterruptedException {
+        VolatileDemonstration me = new VolatileDemonstration();
+        new Thread(me).start();
+        Thread.sleep(1000);
+        me.o = NON_NULL;
+    }
+}
+----
+
+
+This code will never finish, unless you convert the field `o` volatile. We also need the 1000ms sleep to allow the JIT to optimize the code of the method `run()` after which it never reads the variable `o` ever again. The JIT assumes intra-thread semantics and takes the liberty to optimize the code that way. ([a]#Java Language Specification# 17.4.7)
+
+But what happens if you have a field that you can not convert to `volatile`? What? Can't you just write the keyword `volatile` in front of the type `Object`? Perhaps I was giving too much hint in the title of the article...
+
+A `final` field can not be `volatile`. Of course: a `final` can not change, there is no point to re-read it from the main memory and waste CPU cycles for the synchronization of any change of it between the CPU caches. But that is not true.
+
+[quote]
+____
+Final variables can be changed once.
+____
+
+
+This is something that novice Java developers tend to forget. When an object is created any `final` field has the zero value. In case of an object this value is `null`. The field has to get its final value until the end of the initialization process, that is until the end of the execution of the constructor (any constructor). Look at the following code:
+
+[source,java]
+----
+package packt.java9.by.example.thread;
+
+public class VolatileDemonstration implements Runnable {
+    private final Object o;
+    private static final Object NON_NULL = new Object();
+    @Override
+    public void run() {
+        while( o == null );
+        System.out.println("o is not null");
+    }
+
+    public VolatileDemonstration() throws InterruptedException {
+        new Thread(this).start();
+        Thread.sleep(1000);
+        this.o = NON_NULL;
+    }
+}
+----
+
+
+The constructor starts the new thread, sleeps and then sets the field that can not be `volatile`. What is the solution?
+
+What solution? There is no solution! This is a demonstration code. Just don't write code that does things like this: that is the solution. OK?
+
+[b]#Takeaway#
+
+What can we learn from this? Not all of the followings can be directly implied from the above, but they are all related to the phenomenon. I could write a longer article leading to any of the followings but it would have only abused your patience.
+
+__Juniors__
+
+
+	* Final fields can be changed once. It is not true that they are not changing never (sic).
+	* A thread may read the value of a final field once and it may not read it ever again. If the JVM runs for years the thread may keep the value in the thread context in some registry or CPU cache for years as long as it likes.
+	* Never let `this` escape from the constructor.
+	* Among other more trivial things the "never let `this` escape from the constructor" also means not to pass it as argument to a method that can be overridden or not under the control of the programmer, who is responsible for the current class.
+	* Write well behaving code or else you will suffer the slings and arrows of your outrageous program.
+
+
+__Seniors__
+
+
+	* See the takeaways for juniors and teach them.
+	* You have a nice brain twister code for education.
+	* Java is not a perfect language allowing such constructs. But do not tell juniors. When they realize it they are already seniors and then it is just too late.
+	* The solution is a liquid mixture in which the minor component is uniformly distributed within the major component.
+
+
+
+
+=== Comments imported from Wordpress
+
+
+*shanekelly92* 2016-12-27 21:25:33
+
+
+
+
+
+[quote]
+____
+Good article, volatile is often misunderstood.
+____
+
+
+

@@ -1,0 +1,106 @@
+---
+title: "Can you call non-static method from a static?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+There are questions on a Java technical interview that even the most entry level junior is expected to give the right answer for. Since I am facing candidates who are not that junior I do not even bother most of the times to ask those questions. I assume that the candidate knows the correct answer. Some time however there are some candidates who I feel from the start they are&nbsp;juniors and to cut the interview short not wasting his/her and my time I ask some of those simple questions. The answers usually reveals the real level of knowledge and we can get to an agreement in short time about the assessed level.
+
+Sometimes I also meet candidates who not only simply do not know the answer but give wrong answer. To know something wrong is worse than not knowing. Out of these very few even insists and tries to explain how I should have interpreted their answer. That is already a personality problem and definitely a no-go in an interview.
+
+One such simple question is:
+[quote]
+____
+Can a static method in a class call a non-static method of the same class?
+____
+
+If you know Java a little bit you know the answer: no, it can not. A static method belongs to the class and not the instance. It can even be executed using the name of the class directly without any instance of the class. It can even run when there is not even a single instance of the class in the whole JVM. How could it invoke a normal method that runs attached to an instance?
+
+But then again: the answer from one candidate this time was: yes. And he even started to explain that it may happen that the static method has access to an instance. It may get an instance as a method argument and through that reference it can call an instance method. That person was right. It did not, however, mended the fact that he did not know Java good enough, but as a matter of fact in this very specific question she was right.
+
+What is the morale of the story? You tell.
+
+=== Comments imported from Wordpress
+
+
+*Kofa* 2015-12-04 21:22:08
+{%@comment id: 9314 %}
+
+{%@comment author_url: http://kovacs-telekes.org/ %}
+{%@comment author_IP: 176.63.254.87 %}
+{%@comment date_gmt: 2015-12-04 20:22:08 %}
+[quote]
+____
+It's a bit like the questions from school: 'what's the next number in the sequence'? I have to agree with the others that the answer was acceptable and logical, it's just not what you had in mind; you wanted to hear the 'canonical' answer ('no').
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 44825336 %}
+
+*Peter Verhas* 2017-07-11 11:40:17
+{%@comment id: 11205 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 195.56.119.209 %}
+{%@comment date_gmt: 2017-07-11 10:40:17 %}
+[quote]
+____
+An interesting rant to this article:
+
+http://blogs.tedneward.com/post/when-interviews-fail/
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 31131067 %}
+
+*tamasrev* 2015-11-25 16:46:21
+{%@comment id: 9261 %}
+
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 213.163.40.33 %}
+{%@comment date_gmt: 2015-11-25 15:46:21 %}
+[quote]
+____
+The question was too board, I guess :)
+I'd say yes too. Like, it's a stupid example but it's good for the compiler: you create an instance in the static method, then you invoke a method on this instance. Voila.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}
+
+*tvk* 2015-12-29 16:59:28
+{%@comment id: 9436 %}
+
+{%@comment author_url: http://kodzaj.blog.hu %}
+{%@comment author_IP: 91.82.100.194 %}
+{%@comment date_gmt: 2015-12-29 15:59:28 %}
+[quote]
+____
+The morale for me:
+A healthy and professional conversation is more important than the answer itself.
+If the interviewer blindly insists to some putative 'right answer', that is also a good sneak peek into the company culture.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*csorbazoli* 2015-11-25 21:32:08
+{%@comment id: 9263 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 176.63.13.51 %}
+{%@comment date_gmt: 2015-11-25 20:32:08 %}
+[quote]
+____
+Yes, you usually do it from the public static void main method of a class:)
+First instantiate the class then call a method of it.
+But the trivial answer would be "no", unless you are expecting to have a tricky question;)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 38769047 %}

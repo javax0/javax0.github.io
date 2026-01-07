@@ -1,0 +1,339 @@
+---
+title: "JDK14 instanceof EA issue" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Tagir Valeev recently had a tweet about the preview feature of the soon coming JDK14 release of Java:
+
+[quote]
+____
+link:https://twitter.com/hashtag/Java14?src=hash&amp;ref_src=twsrc%5Etfw[#Java14] pattern matching brings name shadowing to the next level of craziness. Here I add or remove the `final` modifier for the `FLAG` field, which is accessed only in unreachable `if` branch. This actually changes the program semantics! link:https://twitter.com/hashtag/ProgrammingIsFun?src=hash&amp;ref_src=twsrc%5Etfw[#ProgrammingIsFun]. link:https://t.co/UToRY3mpW9[pic.twitter.com/UToRY3mpW9]— Tagir Valeev (@tagir_valeev) link:https://twitter.com/tagir_valeev/status/1210431331332689920?ref_src=twsrc%5Etfw[December 27, 2019]
+____
+
+
+link:https://platform.twitter.com/widgets.js[https://platform.twitter.com/widgets.js]
+
+The issue is that there is a planned and in the EA release already available new feature of Java that introduces pattern variables and the current version of the proposed new standard leaves room for some really spooky coding issue.
+
+Following the tweet, the details were discussed in detail enough to understand the actual problem. In this article, however, I will summarize what all this is about so that you do not need to dig yourself through the tweets and the standards.
+
+
+{%section |What is a pattern variable%}
+
+
+Before getting into the deep detail of the issue outlines in the tweet above, let's discuss a bit, what a pattern variable is. (Maybe a bit sloppy, more explanatory than precise and complete, but here it comes.)
+
+Programming many times we need to check the type of some objects. The operator `instanceof` does that for us. A typical sample code can be something like this:
+
+[source,java]
+----
+// HOW THIS IS TODAY, JAVA < 14
+
+Object z = "alma";
+if (!(z instanceof String)){
+    throw new IllegalArgumentException();
+}
+System.out.println(((String)z).length());
+----
+
+
+In real life, the variable `z` may come from somewhere else, in which case it is not so obvious that this __is__ a string. When we want to print out the length of the string using `println` we already know that the object referenced by `z` is a string. The compiler, on the other hand, does not.We have to cast the variable to a `String` and then we can use the `length()` method. Other languages do it better. Ideally, I could write:
+
+[source,java]
+----
+// HOW IT WOULD BE THE SIMPLEST
+
+Object z = "alma";
+if (!(z instanceof String)){
+    throw new IllegalArgumentException();
+}
+System.out.println(z.length());
+----
+
+
+That is not the Java way and also that is not the way JDK14 simplifies this programming pattern. Instead, the proposed feature introduces a new syntax for the `instanceof` operator that introduces a new variable: a __pattern variable__.
+
+To make a long story short, the above example will look the following:
+
+[source,java]
+----
+// HOW IT IS IN JDK14-EA / OpenJDK (build 14-ea+28-1366)
+
+Object z = "alma";
+if (!(z instanceof String s)){
+    throw new IllegalArgumentException();
+}
+System.out.println(s.length());
+----
+
+
+It introduces a new variable `s` that is in scope only when the referenced object is a `String`. A simpler version of the code without the exception throwing part would be
+
+[source,java]
+----
+Object z = "alma";
+if (z instanceof String s){
+    // we have here 's' and it is a String
+    System.out.println(s.length());
+}
+
+// we do not have 's' here
+----
+
+
+When the condition is true, the object is a string thus we have 's'. If the condition is false then we jump over the then_statement, and there we do not have 's' as we do not have a string. 's' is available in the code which only runs when the object is a string. That way the variable scope of a pattern variable is determined and constrained not only by the syntactical scope of the variable but also by the possible control flow. Only the control flow that can be analyzed with certainty is taken into account.
+
+Such control-flow analysis is not unparalleled in the Java compiler. A Java program will not compile, for example, if there is an unreachable code that the compiler can detect.
+
+So far it seems to be simple and we are all happy to get the new feature in Java 14.
+
+
+{%section |The JSL14 standard%}
+
+
+The precise scope calculation is defined in the JLS14 (Java Language Specification 14) standard. At the time of this article, the spec is only available as a preview.
+
+http://cr.openjdk.java.net/~gbierman/jep305/jep305-20191021/specs/patterns-instanceof-jls.html#jls-6.3.2.2
+
+As the execution flow of a Java program can be controlled by many different language-constructs the scope of a pattern variable is defined for each of these structures. There are separate sections for the different logical operators that evaluate short-circuit, 'if' statement, 'while' statement and so on. I do not want to discuss the different cases extensively. I will focus here only on the case of the 'if' statement without the 'else' part. The standard cited above says:
+
+[quote]
+____
+[em]#The following rules apply to a statement `if (e) S` (14.9.1):
+
+* A pattern variable introduced by e when true is definitely matched at `S`.
+
+It is a compile-time error if any pattern variable introduced by `e` when true is already in scope at `S`.
+
+* `V` is introduced by `if (e) S` if and only if `V` is introduced by `e` when `false` and `S` cannot complete normally.
+
+It is a compile-time error if any pattern variable introduced by the `if` statement is already in scope.#
+____
+
+
+The interesting part is the "cannot complete normally". A good example of this is our example above: we create a so-called guarding `if` statement. When the variable `z` is not a `String` then we throw an exception, return or do something else that will always prevent the execution to reach the code after the `if` statement when the variable is not a `String`.
+
+In the case of a `throw` or `return` statement, it is usually very straightforward and easy to see that the code "cannot complete normally". In case of an infinite loop, this is not always so evident.
+
+
+{%section |The Problem%}
+
+
+Let's have a look at the following code fragment:
+
+[source,java]
+----
+private static boolean FLAG = true;
+static String variable = "Hello from field";
+
+public static void main() {
+    Object z = "Hello from pattern matching";
+    if (!(z instanceof String variable)){
+        while (FLAG) {
+            System.out.println("We are in an endless loop");
+        }
+    }
+    System.out.println(variable);
+}
+----
+
+
+In this case, we have a loop, which is infinite or not. It depends on the other part of the code that may alter the value of the class field `FLAG` from `true` to `false`. This part of the code "can complete normally".
+
+If we modify the above code just a little making the field `FLAG` to be `final`, as
+
+[source,java]
+----
+private static final boolean FLAG = true;
+static String variable = "Hello from field";
+
+public static void main() {
+    Object z = "Hello from pattern matching";
+    if (!(z instanceof String variable)){
+        while (FLAG) {
+            System.out.println("We are in an endless loop");
+        }
+    }
+    System.out.println(variable);
+}
+----
+
+
+then the compiler will see that the loop is infinite and cannot complete normally. The program will print out `Hello from field` in the first case, and it will print `Hello from pattern matching`. The pattern `variable` in the second case hides the field `variable` because of the scope of the pattern variable is extended to the commands following the `if` statement because the then-part cannot complete normally.
+
+This is really a problem with this preview feature as it is. The readability of the code, in this case, is very questionable. The scope of the pattern variable and if it is hiding a field or not depends on the `final` modifier of the field, which is not there. When we look at some code the actual execution and the result of the code should be simple and should not really depend on some code that is far away and may skip our attention reading the code locally.
+
+This is not the only situation in Java that has this anomaly. You can have a class named `String` for example in your codebase. The code of the classes, which are in the same package will use that class when they refer to the type `String`. If we delete the `String` class from the user code then the meaning of the `String` type becomes `java.lang.String`. The actual meaning of the code depends on some other code that is "far".
+
+This second example, however, is a hack and it is not likely that a Java programmer who has not lost their mind names a class `String` (seriously https://github.com/verhas/jScriptBasic/blob/master/src/main/java/com/scriptbasic/classification/String.java?) or some other name that also exists in the JDK in the `java.lang` package. Maybe it is pure luck, maybe it was well considered during the decision making to avoid the mandatory import of the classes from the `java.lang` package. This is history.
+
+The variable name shadowing and the situation above is, on the other hand, does not seem to be so weird and something that surely will not accidentally happen in some Java code.
+
+Fortunately, this is only a preview feature. It will be in the JDK14 as it is, but as a preview feature it is only available when the javac compiler and the java execution uses the `--enable-preview` flag and the preview feature may change in the future in an incompatible way.
+
+
+{%section |Solution%}
+
+
+I cannot tell how it will change. I cannot even tell that it will change at all. It is only my personal opinion that it would be very sad if it remained like that. With this feature, Java would be a better language so long as long we count how brilliantly and readable a seasoned Java programmer can program. But it will worse if we look at how a non-seasoned, fresh junior can fuck the code up. In my humble opinion, this second is the more important and Java has a very strong point in this. Java is not a hacker language, and you should be very desperate to write a very unreadable code. I would not like it changing.
+
+After having said that we can look at the technical possibilities. One is to abandon the feature, which would not really be a good solution. It would not actually be a solution.
+
+Another possibility is to limit the scope of the pattern variables to the `then` statement or to the `else` statement.
+
+https://twitter.com/jmichaelras/status/1210480245465329664
+
+That way we do not rely on the "cannot complete normally" feature of the code. The `else` guarantees that the `else` branch is executed only when the condition of the `if` statement is `false`. This will make the solution less elegant.
+
+Again another possibility is to forbid for the pattern variables to shadow any field variable. It would solve the problem outlined above but would introduce a different one. With this restriction, it could happen that an existing class with methods and pattern variable `V` stops compiling when we introduce a new field variable named `V`. At least this issue is compile-time and not some code that is buggy during run-time.
+
+[quote]
+____
+I rather have 100 compile time error than one run-time error.
+____
+
+
+Still another possibility is to abandon the pattern variable and just to use the original variable with extended type information where the current preview solution uses the pattern variable. Kotlin fans would love this solution. This would also elegantly eliminate the shadowing issue because the local variable already shadows (or does not) the field variable. The drawback of this solution is that the variable type re-scoped would have different types in different places in the code. Let's have a look at the following code:
+
+[source,java]
+----
+package javax0.jdk14.instanceof0;
+
+public class Sample2 {
+    public static class A {
+        public static void m(){
+            System.out.println("A");
+        }
+    }
+    public static class B extends A {
+        public static void m(){
+            System.out.println("B");
+        }
+    }
+    public static void main(String[] args) {
+        A a = new B();
+        if( a instanceof B b){
+            b.m();
+        }
+        a.m();
+    }
+}
+----
+
+
+This code will print out `B` then `A` because the call to `b.m()` is the same as `B.m()` based on the declared type of the variable `b` and the same way `a.m()` is the same as `A.m()` based on the declared type of the variable `a`. Omitting the pattern variable and using the original variable could make confusion:
+
+[source,java]
+----
+// NOT ACTUAL CODE
+    public static void main(String[] args) {
+        A a = new B();
+        if( a instanceof B){
+            a.m();
+        }
+        a.m();
+    }
+----
+
+
+Would `a.m()` call different methods on different lines?
+
+As you can see there is no known good or best solution to this issue... except one. Call your representative in the JDK "parliament" and tell them that it is not good that way. (Psst: they already know it from the original tweet.)
+
+
+{%section |Takeaway%}
+
+
+This is a special article because this is not about some well established Java feature or some good programming tool or style, pattern, methodology. We discussed a preview feature. A preview feature that, perhaps, proves why we need preview features in Java.
+
+Use the latest LTS version for long-running commercial projects that will need long term support from you.
+
+Use the latest released Java version for your experiments and opensource projects and be prepared to support older Java versions if the users need it.
+
+Do not use the preview features in your projects or be prepared to have a new release from your code in case they change in the next Java releases when they become non-preview but normal features.
+
+Experiment with the pre-view features to embrace them and to have a kind of muscle memory when they become real features. And also to give feedback to the Java community in case you feel they are not really perfect.
+
+Be part of the community!
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2020-01-15 20:49:18
+{%@comment id: 28699 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 83.78.199.96 %}
+{%@comment date_gmt: 2020-01-15 19:49:18 %}
+[quote]
+____
+And now spelling out the name you attract even more people googling the name of the company...
+
+:-| Sorry.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 28698 %}
+{%@comment user_id: 31131067 %}
+
+*Meh.* 2020-01-15 20:06:43
+{%@comment id: 28698 %}
+{%@comment author_email: noemail@noemail.gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 173.27.151.54 %}
+{%@comment date_gmt: 2020-01-15 19:06:43 %}
+[quote]
+____
+Might want to change your headliner to spell out what you mean by "EA" because 99.99% of the readers following links from elsewhere are going to wonder what Electronic Arts has to do JDK14.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Solomon Ucko* 2020-12-08 04:55:45
+{%@comment id: 30070 %}
+{%@comment author_email: solly.ucko@gmail.com %}
+{%@comment author_url: http://sollyucko.wordpress.com %}
+{%@comment author_IP: 96.255.209.36 %}
+{%@comment date_gmt: 2020-12-08 03:55:45 %}
+[quote]
+____
+What about disallowing the case where the variable isn't actually bound anywhere, so it errors rather than silently using the variable from the outer scope, or something like that?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 102638496 %}
+
+*Stefan Reich* 2020-05-13 16:38:10
+{%@comment id: 29189 %}
+{%@comment author_email: stefan.reich.maker.of.eye@googlemail.com %}
+{%@comment author_url: https://botcompany.de %}
+{%@comment author_IP: 90.186.71.198 %}
+{%@comment date_gmt: 2020-05-13 15:38:10 %}
+[quote]
+____
+I made a similar construct in my Java extension which looks simply like this:
+
+[source,text]
+----
+if (z cast String) print(z.length());
+----
+
+
+Which transpiles to:
+
+[source,text]
+----
+if (z instanceof String) print(((String) z).length());
+----
+
+
+No new identifier needed, so no scope problem.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

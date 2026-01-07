@@ -1,0 +1,203 @@
+---
+title: "noException in stream operation" 
+layout: posta
+comments: on
+---
+
+__This article is about some simple coding practice. Nothing really fancy. It is also discussed on link:https://stackoverflow.com/questions/27644361/how-can-i-throw-checked-exceptions-from-inside-java-8-streams[StackOverflow].__
+
+You just refactored a huge and complex loop to a more readable stream expression forgetting that some of the method calls throw exception. The method containing this code throws this exception, it is declared in the method head. You do not want to deal with this exception on this level. It is cared about on higher levels of the call stack. And you get that annoying error in the code like a splinter under the nail.
+
+Say you want to convert strings to IP addresses.
+
+[source,java]
+----
+private static final String[] allowed = {"127.0.0.1", "::1"};
+
+...
+
+Arrays.stream(allowed)
+      .map(InetAddress::getByName)
+      .collect(Collectors.toSet());
+----
+
+
+The problem is that `getByName(String host)` throws `UnknownHostException`. This is not a `RuntimeException` so it has to be checked but the method `map()` needs a `Function` as an argument and `Function` does not throw any exception. We need a version of `getByName` that does not throw exception (or we need to use a different language that is more lame with exceptions).
+
+[source,java]
+----
+Arrays.stream(allowed)
+       .map(s -> {
+                   try {
+                     return InetAddress.getByName(s);
+                     } catch (UnknownHostException e) {
+                     throw new RuntimeException(e);
+                     }
+                 }).collect(Collectors.toSet());
+----
+
+
+This is just more ugly and messier than the original loop was. Could this try/catch whatever thing be put into a utility class and call some lame static method that wraps the actual call? Kind of yes. Import the following method statically:
+
+[source,java]
+----
+    public interface ExceptionalSupplier<T> {
+        T apply() throws Exception;
+    }
+...
+    public static <T> T lame(ExceptionalSupplier<T> z) {
+        try {
+            return z.apply();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+----
+
+
+After the import you can write
+
+[source,java]
+----
+Arrays.stream(allowed)
+      .map(s -> lame(() -> InetAddress.getByName(s)))
+      .collect(Collectors.toSet());
+----
+
+
+the catch is that you can not just `lame( ... )` the call. You have to convert it to an exceptional supplier. A functional interface that has the same look-alike as `Supplier` but it allows exceptions.
+
+Still not ideal. (Well, it is Java, so what did you expect?) Okay. It is Java, but it still can be made better. What if instead of converting the expression through a supplier to an expression that is not throwing the exception we could convert the "Function" that throws the exception into one that is not throwing the exception. We need a method that accepts an exceptional function and returns a normal function. That way we can save the `() ->` noise in our code. Readability rulez.
+
+[source,java]
+----
+    public interface ExceptionalFunction<T, R> {
+        R apply(T r) throws Exception;
+    }
+...
+    public static <T, R> Function<T, R> lame(ExceptionalFunction<T, R> f) {
+        return (T r) -> {
+            try {
+                return f.apply(r);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+----
+
+
+With that utility the "final" expression will be
+
+[source,java]
+----
+Collection<InetAddress> allowedAddresses =
+        Arrays.stream(allowed)
+              .map(lame(InetAddress::getByName))
+              .collect(Collectors.toSet());
+----
+
+
+The actual utility class in the link:https://gist.github.com/verhas/a2ae93fc8ee14746b54df767e54ab9ce[GIST] defines a `WrapperException` extending `RuntimeException` so that you can catch the exception somewhere in the method, like
+
+[source,java]
+----
+public myMethod() throws IOException {
+try{
+    ... do whatever here we do ...
+   } catch (RuntTimeExceptionWrapper.WrapperException we) {
+       throw (IOException) we.getCause();
+   }
+----
+
+
+That way the method will throw the exception but if anywhere there is another `RuntimeException` that will be throwing up uncaught.
+
+This is just a simple, nice and little trick that helps you keep up with Java, which is backward compatible instead of starting development with some other language that is modern, clutter-free and let's you focus more on the functionality you need to code instead of coding techniques.
+
+=== Comments imported from Wordpress
+
+
+*Martin* 2017-08-31 22:37:35
+
+
+
+
+
+[quote]
+____
+Are you saying the checked exceptions are lame, old-fashioned, clutter-full and don't let you focus more on the functionality?
+____
+
+
+
+
+
+*Peter Verhas* 2017-08-31 23:28:23
+
+
+
+
+
+[quote]
+____
+I am not alone with that feeling. Many other languages live a happy life, not to mention the programmers of those languages without ever declaring a method throwing an exception. Having to declare the exceptions has benefits and has cost. During the last twenty years of Java it seems that the cost is more than the benefit.
+
+It would be nice to see an article that collects some statistics and compares the costs and the benefits. I doubt it can reasonably be done. But it would be nice to have it anyway. And we won't.
+
+So answering your question: I am not saying that. Which does not necessarily means I am saying the opposite.
+____
+
+
+
+
+
+*Martin* 2017-09-01 00:22:41
+
+
+
+
+
+[quote]
+____
+You're not saying that, but I am. While I love strictness, things like type safety and static analysis, I see hardly any benefits of checked exceptions. The classical examples like "FileNotFoundException -> ask the user" are more than ridiculous. I wonder if there's any program taking advantage of them. Java type system has nothing allowing to parameterize types with checked exceptions, so it all makes no sense. If there was something like Function[IOException]<String, InetAddress%gt; usable in your example, then checked exceptions could make sense. Without it, the question is: Are checked exception more useful then readability of lambdas and everything else?
+
+I used to believe that catching Exception (or even Throwable) is wrong, but I've changed my mind: Sometimes, a special handling for subclasses is needed, but usually you shouldn't do anything (but oftentimes are forced to wrap) and there are places where everything should be caught. Like here: https://github.com/google/guava/issues/2888 Agreed?
+____
+
+
+
+
+
+*Márton* 2017-09-01 18:58:40
+
+
+
+
+
+[quote]
+____
+In thoose cases, when we want to control streams providing multiple data with asynchronity in mind, I always recommend reactive extension (tho in C# the API is much clearer for me). https://github.com/reactive-streams/reactive-streams-jvm this solution also provides
+* mandatory non-blocking backpressure
+* asynchronously passing elements between components
+* etc..
+You can define error handling in any step of the composition. Also You can define retry count, timeout.
+____
+
+
+
+
+
+*Peter Verhas* 2017-09-01 20:30:42
+
+
+
+
+
+[quote]
+____
+Reactive streams, soon being part of Java JDK by the dawn of Java 9, have their application and Java 8 introduced streams also. There may be some cases when the use may overlap and one can decide which one to apply.
+____
+
+
+

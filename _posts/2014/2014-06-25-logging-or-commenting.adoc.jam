@@ -1,0 +1,55 @@
+---
+title: "Logging or Commenting ?" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+When my recent link:http://javax0.wordpress.com/2014/03/05/logging-or-debugging/[article] was republished on link:http://java.dzone.com/articles/logging-or-debugging[dzone] Jonathan Fisher added a valuable comment stating:
+
+[quote]
+____
+
+...
+I think I have something else you should write an article on: "Logging or Commenting?" I see debug statements as "living comments", one that explain the execution of the program to the next guy, but also provides valuable intel in production.
+
+____
+
+
+I have seen that practice only once. There was a coding environment with strict coding rules that forbid commenting. They said you should comment Javadoc on the interfaces but nothing else. If your code is not readable reading the code and the unit tests then your code has to be changed.
+
+In this environment programmers, who wanted to comment, soon started using logs. But before getting to that let's see why.
+
+
+{%subsubsection |Is Commenting Bad?%}
+
+
+Generally commenting is bad. It was not bad when assembly and FORTRAN were the programming languages. Those languages were to generate executable code and not to express ideas. Languages today focus more on expressiveness, ease of coding and the translation from ideas to executable is done by compiler more than this was possible in the era of FORTRAN. Now we have the CPU and memory to compile languages like Java, Groovy, Scala. When these language are at hand and you feel like needing comments you have to think about two things:
+
+
+	* Is your code really readable? Could not it just been rewritten to express the ideas carved into the comment?
+	* Is the information you want to type as a comment really a comment? Or it should be part of the documentation, and should not be put into the code?
+
+
+If you think you can not write the code more expressive because the business domain is just complex and does not fit the code, please visit the article link:http://blog.jooq.org/2013/02/26/the-golden-rules-of-code-documentation/[The Golden Rules of Code Documentation] and the link:http://javax0.wordpress.com/2013/04/07/to-comment-or-not-to-comment-that-is-the-question/[rant] to the challenge.
+
+Comments are to be read by programmers, who maintain your code. If the words would rather fit the documentation in a Wiki, do not distract the programmers following you.
+
+
+{%subsubsection |Are logs bad?%}
+
+
+Generally logging is good. However if logging is to overcome the commenting restrictions then a good weapon is used for the bad. Don't. It is a more general concept than logging. As a matter of fact even broader than programming. Don't use a tool it was not designed for.
+
+There is a fear that logging decreases performance. Using modern logging libraries and solutions this should not be a factor to seriously consider except edge cases. Even if it is, first measure and then tune. Do not prejudice or have a-priory assumptions about performance.
+
+
+{%subsubsection |Conclusion%}
+
+
+Logging should add to readability. Since it is a separate aspect, different from the original business aspect the code was developed for, there is a danger that inserting the logging statements will decrease readability. When you develop code you should pay attention to this. For example I recommend that you never externalize or use fields/variables to store the logging strings. Logging texts should make sense where the statements are.
+
+Insert logging statements bravely, never hesitate. When you code review take into account that there are two sequences of logging statements. One sequence is linear as you read the code. The other sequence is how the printouts get into the log file following the program execution. Perhaps making a log review involving production, support people can be a good practice. It can be similar to code review: a fresh eye looks at the generated logs and gives feedback on readability. I have experienced this ad-hoc but never as a planned activity. If anyone tried, give feedback.
+
+And generally: do logging for logging. Use commenting for commenting. If you have to dig a grave, use a shovel. If you have a nail: use a hammer. Use the appropriate tool and do not mix usage.
+
+

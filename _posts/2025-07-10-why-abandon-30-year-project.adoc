@@ -1,0 +1,313 @@
+---
+
+title: Why I Abandoned my 30-year Open Source Project
+layout: posta
+comments: on
+---
+
+
+
+= Why I Abandoned my 30-year Open Source Project
+
+NOTE: A Human wrote this article.
+Other than proofreading and sentence-level style suggestions, no AI was utilized.
+This is one of the last surviving members of its kind.
+
+== 1. Introduction
+
+I started an open-source project in 1996, I am abandoning now.
+It was not my first OSS project and certainly not the last one.
+It definitely was the one that lasted the longest and that I had the most faith in having an impact on the industry.
+
+The project aimed to create a new approach to document maintenance, and over the years, I developed a few versions of software solutions that supported the idea.
+
+I am not abandoning the idea, though.
+I still believe that the philosophy behind how we maintain documents is valid.
+It proved itself when I wrote my technical books and several documents.
+The last version of the software tool I created supporting this document management approach is the one I partially abandon.
+Not the approach to document maintenance.
+
+In this article I will tell you a bit of the
+
+* history of these software projects,
+
+* how it worked technically,
+
+* how it did not work in the industry, and
+
+* why it did not work, and why and how do I abandon this project.
+
+== 2. Program Enhanced Document a.k.a. PET
+
+=== 2.1. What is PET
+
+The idea of Program Enhanced Document was to do only one straightforward thing originally: include a code snippet in the documentation.
+
+When I wrote the documentation of the ScriptBasic interpreter, I created sample programs.
+I wanted to have these sample codes in the documentation along with the output of the programs.
+I developed the interpreter, the documentation, and the sample code snippets in parallel.
+Sometimes, I changed the language, the implementation, and the interpreter, and it also required changes in some of the sample code.
+The change in the sample code also changed the output many times.
+
+After making the code change, I copied the samples and output into the documentation.
+It was tedious and error-prone, and after a while, as a developer, I decided that I should not manually perform a task that could be automated with a program.
+(Usually, this is the point when the original project is abandoned to start a new one.
+Not in this case, but ScriptBasic, which is still in use in some industrial products, was developed further till 2006 approximately.)
+
+I developed a small macro language in Perl, which I named Jamal as an acronym for Just Another Macro Language.
+It is approximately 300 lines of Perl code that could convert one text file to another, processing the embedded macros in the meantime.
+There was a macro that could include a file in the output, so whenever a sample code file or the output changed, the document automatically updated to reflect the changes.
+
+It worked.
+
+Over the years, I have developed numerous technical documents, including two books on Java 9 and Java 11, as well as several chapters in other books as a co-author.
+Through these works, I realized, step by step, that PET, which I did not call by that name at the time, is a general approach that most technical writers should follow.
+It is a general approach that enhances the documentation source, typically in a textual markup format with additional information that can be processed automatically.
+The documentation written for humans is redundant.
+It is not only formatted but also contains information, which is already documented in the system.
+Sometimes information is repeated because you do not want the reader to turn pages or navigate links to re-read a single sentence that may apply to several parts of the document.
+
+The conventional method of managing information in documentation is to copy and paste it from the documented system or other parts of the document.
+This increases the redundancy in the document, which is the source of inconsistencies.
+
+PET, as a document maintenance philosophy, says that anything that can be maintained automatically in a document must be automated.
+
+If you document a specific version of a Maven project, for example, do not copy the version number into the documentation.
+If you do so, it will remain the old, outdated version long after you have modified and released the documentation of the new version, confusing the readers.
+Instead, use some means to reference the version in the `pom.xml`, which is fortunately a very machine-readable format.
+It will automatically update the documentation with the actual version using the proper tooling.
+
+If you have a configuration string you can use to tune your application, reference the code where it is defined instead of copying it.
+Create unit tests that demonstrate the use of the API and include them automatically in the documentation as code snippets.
+Do not copy a text that applies to many parts of the document.
+Instead, use some macro facility and reference the macro by name wherever you need that text.
+
+PET ensures that the document is consistent, with a __single source of truth__, and that all information that can be updated automatically remains up-to-date.
+
+=== 2.2. Jamal, Perl version
+
+The very first version of a program aiming PET was Jamal, written in Perl.
+The original summary page from 1996 is still available at
+
+https://peter.verhas.com/progs/perl/jamal/index.html
+
+It was used to maintain the documentation of the ScriptBasic interpreter, but also to unify the `Makefile` for the build.
+ScriptBasic is written in C, and the build used `make`.
+Makefiles are known for their system dependence, and thus, compilation requires one for Linux and a separate one for Windows.
+Additionally, multiple C compilers were available for the Windows platform, some of which were free, while others required a fee, each with its own specific `Makefile`.
+I wanted to provide ScriptBasic in source, compilable for multiple platforms.
+Jamal helped create a single `Makefile.jam` that could be converted into multiple different makefiles for various operating systems and compilers.
+
+I used this implementation over the years, and it also had a few other users.
+They used it to maintain web pages.
+
+Perl still exists, although it is a legacy language, so maintaining Jamal in Perl didn't seem feasible.
+The latest version of the code is available from 2010:
+
+https://peter.verhas.com/progs/perl/jamal/jamal.pl-2010-09-13.txt
+
+It has built-in macros, user-defined macros, conditionals, and loops.
+Essentially, it implemented a complex and powerful templating system.
+
+=== 2.3. Pyama
+
+When I wrote the first version of my book, I was sure to use something like Jamal.
+By this time, however, the Perl version was outdated, and I had not touched the code for several years.
+Although I could still run it and use it to maintain the source code of the book, it had a specific shortcoming.
+The book primarily focused on source code samples and explaining their behavior.
+When editing the file using Jamal, all I saw in the editor was the reference to the file and the specific snipped name, not the code.
+I had to keep the code open in a different window in a different viewer.
+When reviewing the modifications as the samples developed, I had to navigate a lot to the different snippets and source files.
+
+To overcome this, I developed Pyama using a reverse approach.
+The basic operation of Jamal is maintaining a source documentation text and converting it to another text.
+You edit one file using the editor, and there is a generated file you never touch.
+This separation is a good and safe practical approach, also followed by some code-generating tools.
+
+However, it is not like the laws of physics, which even politicians can't break.
+It is a practical rule and not an absolute.
+After all, you cannot say you never modify the source code maintained "manually" by any program.
+The editor itself is also a program.
+Even `vi`.
+
+
+Pyama sees itself as an offline "editor".
+You write the commands controlling the editor into the edited file, and Pyama edits the file for you.
+For example, it updates the code snippets from their actual location.
+Some editors, like IntelliJ, also recognize when an edited file changes on the disk and update the loaded one if there is no conflict.
+
+This way, there is only one file that you edit in two different ways.
+The only question is how often you save your file to version control and how much you trust your offline editor not to corrupt the text.
+
+Pyama is available at
+
+https://github.com/verhas/pyama
+
+It was updated seven years ago.
+
+Unfortunately, the publisher insisted that I edit the book in Microsoft Word, and that rendered the Pyama tool unusable for the first book.
+For the second edition, I could use their online WYSIWYG editor using HTML behind the scenes, and I could use some specific scripts and the Chrome debug menu to apply PET.
+That is, however, another story.
+
+=== 2.4. Jamal in Java
+
+Learning from these Python scripts that converted Markdown to a special version of HTML, the WordPress-based online editor used, and from the project Pyama, I forked off two projects.
+One was Java::GECI, a code generation tool that updates your Java source files by inserting generated code into them, and the other was the Java version of Jamal.
+
+It started small by implementing the exact macros that had been there for 15 years in the Perl version.
+The Java version was cleaner than the Perl, a language that is known for being a hacker's tool.
+I split up the project into several modules and started to implement special macros into their own module to keep them separate.
+
+Currently, there are more than 200 macros.
+They handle code features, like `if`, `for`, defining user-defined macros, or setting and resetting the macro start and end separator strings.
+There is a separate module to fetch and format text from source files, as well as from JAR files, JSON, YAML, XML, SQL, and so on.
+
+I also integrated it into Maven as a plugin as well as an extension, Asciidoc preprocessor, and JavaDoc as a preprocessor, and into Microsoft Word.
+It also integrates with the Java version of my ScriptBasic interpreter, as well as Groovy, JRuby, and Python, allowing you to include code from those languages within your document.
+It even includes a small BASIC interpreter that natively integrates with the macro language, allowing macros defined for text processing to be called programmatically.
+
+(BTW: do not use the macro extension and do not create your `pom.xml` files with Jamal macros.
+It is not a good idea.
+I have learned over the years.
+These days, I try a different approach to avoid the XML configuration hell.)
+
+It can generate extensive trace output in XML, showing the conversion process from input text to output text in each step.
+If that is not enough, you can start it in debug mode and use the React.js debugger front-end to execute the macro processing step-by-step.
+
+== 3. Jamal Problems
+
+Although Jamal is an enterprise-grade tool, I am not aware of anyone using it.
+On GitHub, it has 63 stars, which is one-tenth of the License3j project's 621 stars (as of 2025-07-21).
+I cannot know the reason; I can only guess.
+
+I guess that the reason is that it is an enterprise-grade tool.
+It has numerous features, and thus it has a significant threshold to overcome before it can be used.
+Nobody wants to use all 200 macros, and finding the one or a few you need may be a significant effort.
+I have to look up the documentation for some, though I implemented them.
+
+If I look at License3j, the most popular project in my repository (nothing to brag about because 621 starts are still close to nothing),
+It is a simple library that does one straightforward thing: read and write a proprietary license file format and use public-key cryptography to verify it has not been tampered with.
+There were numerous requests and bug reports over the decades.
+
+Thus, I guess, Jamal is too complex to start with, even if you want to do program-enhanced text.
+But it is not only Jamal.
+There is a problem with the whole PET approach, which I will not solve in this article.
+
+== 4. PET Problems
+
+Program Enhanced Text is more complex than just writing Markdown or AsciiDoc.
+A text document may be incorrect, outdated, even unreadable, or contain inappropriate language, but it never causes a build failure.
+Developers already have many things that can break a build; they do not need another one.
+They are measured by working code, the number of test failures, and production incidents, rather than documentation accuracy.
+
+License3j offers a feature that some people have needed for decades.
+SourceBuddy (https://github.com/sourcebuddy/sourcebuddy) provides a simple API for compiling Java code at runtime.
+Java::GECI creates code for programmatically definable code generators.
+
+These are projects that are more commonly used (more stars) than Jamal.
+They all address some features that some developers need.
+
+Developers do not need Program Enhanced Text.
+Enterprises do, but enterprises do not select technology.
+Developers working for the enterprises do.
+
+In addition to the fact that writing PET documentation is more complex, there is another factor.
+Nobody reads the documentation.
+And this may be a good thing for PET, I discuss in the next section.
+
+== 5. PET and LLM
+
+A few months ago, I started to create an object-oriented functional programming language, which I named Turicum.
+(https://github.com/verhas/turicum)
+You can see I have a soft spot for scripting languages since I could get my hands on a copy of the "Dragon Book" in 1987 at TU Delft.
+I created a BASIC compiler in z80 on the ZX Sinclair Spectrum (does not exist anymore, source code was lost in the noise of some audio cassette).
+I created a programmable assembler (PCMAC).
+I created ScriptBasic (twice, in C and in Java), Jamal (twice, in Perl and Java).
+
+I never expected Turicum to be widely used, and it may never be.
+I created it to experiment with some features that are not available in any other languages, to see how usable they are.
+(I promise, I will not derail there. I may write a separate article about closure reclosing, and uncurrying curried functions.)
+
+Being at the age that can be inferred from the date I mentioned above, I tend to forget things.
+That is where documentation comes into the picture.
+I created the documentation of the language, and from time to time, I had to look up what I wrote about some of the language features I created just a month before.
+Sometimes it was a lot of time.
+I could not say I did not read the documentation, because I wrote it.
+Still, it sometimes took a few minutes to find the right chapter.
+
+This is the kind of work that LLMs can do for us these days.
+I exported the Users' Guide in PDF and added it to the context for ChatGPT.
+Then I started to ask questions and tried to experiment: what questions could it answer, and what answers it could not.
+
+The factual text and explanations were generally satisfactory.
+Code fragments were not so much.
+It hallucinated Python code into the language, though Turicum is far from being a Python clone.
+So I asked ChatGPT itself what I should change in the documentation so that it does not hallucinate the syntax that much.
+
+Interestingly, his/her advice worked.
+It was suggested to add a BNF to the documentation, so I did.
+Next, I asked ChatGPT to solve the eight-queen problem in Turicm, and it did.
+
+With the advent of LLM solutions, it is no longer true that nobody reads the documentation.
+It is the LLM that reads the documentation, and the users can ask questions.
+There may still be a need for some tutorials and an introduction, but that is more like a video format.
+
+However, if your reader is an LLM, then you have to structure and format the document for the LLM.
+It means that there is less need for explanatory and glue text.
+All you need is a precise reference style description, like an EBNF with some comments in the case of a programming language.
+You can maintain it in a separate document, but it will be kept more up-to-date if it is part of your source code.
+
+You can place the reference documentation into program comments and automatically extract it from the code.
+
+This is an existing practice that I have used many times, utilizing Jamal's snippet functionality.
+When a function or functionality has several parameters, I create documentation for the parameters in Asciidoctor format within the source code comments.
+Jamal reads the source code, extracts these snippets, formats them with pattern matching and regular expression search and replace operations, and inserts them into the text.
+It is more likely to update the EBNF description of a command whenever the syntax of the command changes during development if the EBNF is part of the source code.
+If it is in a separate document, then it is easy to forget to update.
+Out of sight, out of mind.
+
+Because there is less need for explanatory text and more need for reference text to be fed into the LLM, the importance of such documentation fragments increases.
+
+== 6. Recommended Approach
+
+What should you do?
+What do I recommend if you want to enjoy the advantages of PET but do not want to start with a heavy weapon like Jamal?
+
+I was playing around with the idea of what I would do if I were not allowed to use Jamal, and still want one feature implemented in PET.
+This feature is to hierarchically number chapters, sections, and subsections in a Markdown document.
+It is a standard feature in Jamal, but I needed a document to pass to someone who I wanted to go on with the document maintenance, and was not likely to use Jamal.
+
+I came up with the idea to maintain the structure of the document to resemble a JSP or ASP, separating program logic and text, while dropping macros.
+Instead of a newly implemented macro language, I decided to use Python.
+Well-known, good enough for the purpose.
+I vibe-coded with Claude the template handling with a simple prompt, and the result is the 100-line Python code in the repository:
+
+https://github.com/verhas/pet
+
+It mixes text with Python code between `{%` and `%}` start and end strings.
+The Python code can load classes and functions defined in the directory `.pet` that you can supply with your document.
+Hierarchical counters are very simple 80 lines.
+If you need another feature from the 200 different macros that Jamal provides, you can write some scripts in a few minutes or hours, tops.
+You do not need to install any software, other than Python, that you probably already have on your machine.
+
+Technical details on how to use this library are described in
+
+https://github.com/verhas/pet/blob/main/README2.md
+
+However, it is essential that I do not explicitly advocate the use of this library or any other alternative to Jamal.
+Use Jamal, if that fits you.
+It is there; if you report a bug, I probably will fix it.
+Use this library, copying it, modifying it to your needs.
+Use something else utilizing Python, Groovy, Ruby, or Rust to your taste.
+
+What I advocate is using Program Enhanced Text (PET) documentation for any technology.
+
+== 7. Summary
+
+In this article, I described Program Enhanced Text documentation and how I learned the principles over the last 30 years.
+There is nothing revolutionary in it.
+All parts of it have already been used by someone somewhere.
+
+I described a tool I maintained in the last ten years to support PET, and also what I think you should follow, and why PET is essential with the dawn of LLM.
+
+Go out and write PET documentation.

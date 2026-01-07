@@ -1,0 +1,148 @@
+---
+title: "Named parameters in Java (updated)" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Creating a method that has many parameters is a major sin. Whenever there is a need to create such a method, sniff in the air: it is a code smell. Harden your unit tests and then refactor. No excuse, no buts. Refactor! Use builder pattern or even better use Fluent API. For the latter the annotation processor [del]#link:https://github.com/verhas/fluflu[fluflu] may be of great help.# (Update: as of 2019. fluflu is deprecated. Use a more modern and handier solution: link:https://github.com/verhas/javageci[Java::Geci].)
+
+Having all that said we may come to a point in our life when we face real life and not the idealistic pattern that we can follow in our hobby projects. There comes the legacy enterprise library monster that has the method of thousands of parameters and you do not have the authority, time, courage or interest (bad for you) to modify ... ops... refactor it. You could create a builder as a facade that hides the ugly API behind it if you had the time. Creating a builder is still code that you have to unit test even before you write (you know: TDD) and you just may not have the time. The code that calls the monstrous method is also there already, you just maintain it.
+
+You can still do some little trick. It may not be perfect, but still something.
+
+Assume that there is a method
+
+[source,java]
+----
+public void monster(String contactName, String contactId, String street, String district,
+                    ...
+                    Long pT){
+...
+}
+----
+
+
+The first thing is to select your local variables at the location of the caller wisely. Pity the names are already chosen and you may not want to change it. There can be some reason for that, for example, there is an application-wide naming convention followed that may make sense even if not your style. So the call
+
+[source,java]
+----
+monster(nm, "05300" + dI, getStrt(), d, ... , z+g % 3L );
+----
+
+
+is not exactly what I was talking about. That is what you have and you can live with it, or just insert new variables into the code:
+
+[source,java]
+----
+String contactName = nm;
+String contactId = "05300" + dI;
+String street = getStrt();
+Street district = d;
+...
+Long pT = z+g % 3L;
+monster(contactName, contactId, street, district, ... ,pT );
+----
+
+
+or you can even write it in a way that is not usual in Java, though perfectly legal:
+
+[source,java]
+----
+String contactName, contactId, street, district;
+...
+Long pT;
+monster(contactName = nm, contactId = "05300" + dI, street = getStrt(), district = d, ... ,pT = z+g % 3L );
+----
+
+
+Tasty is it? Depends. I would not argue on taste. If you do not like that, there is an alternative way. You can define auxiliary and very simple static methods:
+
+[source,java]
+----
+static <T> T contactName(T t){ return T;}
+static <T> T contactId(T t){ return T;}
+static <T> T street(T t){ return T;}
+static <T> T district(T t){ return T;}
+...
+static <T> T pT(T t){ return T;}
+
+monster(contactName(nm), contactId("05300" + dI), street(getStrt()(, district(d), ... ,pT(z+g % 3L) );
+----
+
+
+The code is still ugly but a bit more readable at the place of the caller. You can even collect static methods into a utility class, or to an interface in case of Java 8 named like `with`, `using`, `to` and so on. You can statically import them to your code and have some method call as nice as
+
+[source,java]
+----
+doSomething(using(someParameter), with(someOtherParameter), to(resultStore));
+----
+
+
+When all that is there, you can feel honky dory if you answer the final question: what the blessed whatever[sup]#*# is parameter `pT`.
+
+([sup]#*# "whatever" you can replace with some other words, whichever you like)
+
+=== Comments imported from Wordpress
+
+
+*Mircea* 2014-09-01 07:52:23
+{%@comment id: 1645 %}
+{%@comment author_email: m_chirac@yahoo.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 94.18.243.144 %}
+{%@comment date_gmt: 2014-09-01 06:52:23 %}
+[quote]
+____
+Cool. I didn't know that neither. :) Thanks.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Laszlo Gazsi* 2014-08-27 11:25:56
+{%@comment id: 1543 %}
+{%@comment author_email: laszlo@gazsi.net %}
+{%@comment author_url: http://laszlo.gazsi.net %}
+{%@comment author_IP: 217.13.183.252 %}
+{%@comment date_gmt: 2014-08-27 10:25:56 %}
+[quote]
+____
+Wow, I didn't know it was possible to pass the parameters as: monster(contactName = nm, contactId = "05300" + dI, street = getStrt()... This will come very handy in the project I currently work on, since it contains dozens of methods with too much parameters. And it becomes even more frustrating when you see a method call like someMethod(someArg, null, null, null, someArg2, null, "", null, null).
+
+Thank you for sharing!
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Adam* 2014-10-22 12:14:47
+{%@comment id: 2940 %}
+{%@comment author_email: apribek@hotmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 84.1.149.4 %}
+{%@comment date_gmt: 2014-10-22 11:14:47 %}
+[quote]
+____
+It's just assignments to those dummy variables in the same line, not some special parameter passing, of course. But good idea nevertheless.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 1543 %}
+{%@comment user_id: 0 %}
+
+*Generating Source Code, a Compromise | Java Deep* 2018-05-23 15:01:08
+{%@comment id: 12476 %}
+{%@comment author_email:  %}
+{%@comment author_url: https://javax0.wordpress.com/2018/05/23/generating-source-code-a-compromise/ %}
+{%@comment author_IP: 192.0.101.169 %}
+{%@comment date_gmt: 2018-05-23 14:01:08 %}
+[quote]
+____
+[&#8230;] with edit time source code generation. I created tools like Fluflu mentioned in my article &#8220;Named parameters in Java&#8220;, or Scriapt Java annotation processing tool described in the article &#8220;Don’t write [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

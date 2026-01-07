@@ -1,0 +1,7 @@
+---
+title: "bug-classification"
+layout: posta
+comments: on
+---
+
+The quadrant describes the four different type of bugs.

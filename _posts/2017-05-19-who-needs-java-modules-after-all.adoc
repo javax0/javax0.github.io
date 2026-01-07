@@ -1,0 +1,79 @@
+---
+title: "Who needs Java modules after all ?" 
+layout: posta
+comments: on
+---
+
+link:https://twitter.com/shelajev[Oleg Selajev] asked on link:https://twitter.com[twitter]
+
+[quote]
+____
+[a]#Jigsaw questions for 1000. I as an X want  JPMS modules. What is X if it's not a platform developer?#
+____
+
+
+My answer is that __X is a human being (minus platform developers, because that was a condition)__. We all need module system to have safer code resulting in more reliable systems resulting in better performance in the business resulting in better economy resulting in human happiness. Perhaps I went a bit too far with the conclusions but the point is that module system is needed by everyone in the industry whether they're aware of it or not. You will get it. First of all we should start with the ob(li)vious answer to the question.
+
+
+[quote]
+____
+
+link:https://twitter.com/nipafx[Nicolai Parlog] said: __link:https://twitter.com/nipafx/status/865338227506520064[Every library developer whose types are not all public.]__
+
+____
+
+
+
+Very true. As a library developer I want to design my libraries so that I separate the API. I wan to separate the public interface from the implementation. This is what we, programmers call "encapsulation". This is soooo good to encapsulate. We love to do it! We do it, because it is hilarious! We love it!
+
+On the second thought though we do it because it is a tool to create reliable bug free (he he he) software.
+
+It helps the code developers who __use__ my code that encapsulates the internal state and implementation to write better code. It is a bit like raising children. I as parent disallow certain things that they would do. Eat lots of chocolate, stay up late and so on. And this is for their own good, even though they do not see or understand it at the moment. Later, of course, when they grow up and become parents themselves they will understand and do the same. It is not much different with library developers and library using programmers, except, perhaps, that programmers never grow up.
+
+Similarly I as a library developer need JPMS for the sake of the developers who are going to use my code. My library will not be better or worse just because I encapsulate. (Side note: it will be better, but not because of the lessened number of bugs in it.) I can easily get the implication that I as a library developer want JPMS the least. Who cares if you, dear programmer, shoot off your testicles using my library? It is your responsibility to call only the public API and not some frequently modified internal class and method. Or is it?
+
+Not really. It is also my responsibility to create a library that is easy to use and hard to make mistakes using it. This is what we call usability. This is where JPMS module system comes into the picture. Without JPMS I can document what packages are public and which are implementation specific. The contract between me and the users of the library is that they will not use the privates of my library and for this well behaviour I will keep the public part of the library stable so that they do not need to change their code from release to release. (Btw. has anyone ever realized how literally bloody this name, jPMS is? What the fly? PMS, really? Not to mention seeing currently all the cramps related to it: nomen est omen. It was not a lucky baptism.)
+
+Let's get back on our rail: why do we need module system for that? Developers are disciplined (he he he) people and they do not want to harm themselves. They should not and they will not use internal code of the library. That is not good for them on the long run and they are well aware of that. The catch is the __long run__ thingy. link:https://en.wikiquote.org/wiki/John_Maynard_Keynes[In the long run we are all dead.] There will be a point during the development, typically a few days before release date, when some of the internal APIs of a library just seem lucrative to be used. In some weird way those internal calls are just exactly what you need. You know that you are not supposed to use them, and there is a good, well-mannered solution, but that needs more time to develop. It is just that with the release date approaching you do not have the time to follow that pattern. Not to mention feeling proud about the "I can do that", "how well I know these tools" thoughts, instead of feeling shame tampering with the parts of the library that are private.
+
+That is where Java Module System comes into the picture. You will not be able to do shortcuts. You will sigh remembering the good old days when Java was open to the whole world whatever there was on the classloader (not to mention FORTRAN programming, am I right or just the contrary I am right?) but you will follow the rules, because it just will not work otherwise.
+
+You think that you are not vulnerable to such vanity as using the internal parts of a library. Here is a test: did you recognize that I used the expression "internal APIs of a library"? If not, then feel ashamed but don't admit it. No need. Java Module System will help to forget things that do not exist, like internal API. Nonsense. API is public. There is no such thing as internal API. The resulting code will be better, easier to maintain, less prone to library upgrades and thus cheaper at the bottom line.
+
+In the long run, when we are all dead our offspring will create better code and having module level encapsulation will be an obvious thing, just like world peace will be that time.
+
+So I need Java Module System, you need it, and everybody else needs it for a better world and for the sake of world peace.
+
+__Disclaimer: The author of the article no speaks English as naive language ;-)__
+
+=== Comments imported from Wordpress
+
+
+*Iorek* 2017-05-19 16:42:55
+
+
+
+
+
+[quote]
+____
+Am I right that this module system is somewhat similar to what we had in OSGI bundles?
+____
+
+
+
+
+
+*Peter Verhas* 2017-05-22 10:30:14
+
+
+
+
+
+[quote]
+____
+Yes and no. Saying either 'yes' or 'no' I'd expect someone to come and argue with me. In some features it is somewhat similar, in other aspects different.
+____
+
+
+

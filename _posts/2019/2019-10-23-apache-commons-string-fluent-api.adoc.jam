@@ -1,0 +1,297 @@
+---
+title: "Apache Commons StringUtils Fluent Facade" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |Fluent API to Apache Commons StringUtils%}
+
+
+This library is simply a fluent wrapper around Apache StringUtils 
+methods.
+
+
+{%subsection |Introduction%}
+
+
+Apache StringUtils has a lot of methods that come very handy when
+dealing with strings. The main advantage of StringUtils is that the
+implementation is there, tested, a lot of people are using them. These
+little utilities make coding easier. There is one thing with this class.
+
+[quote]
+____
+
+StringUtils method names are not nice and they are not chain-able.
+
+____
+
+
+They do not provide a fluent readable API. This library is a simple
+fluent API wrapper around StringUtils that will make some code that
+heavily use StringUtils even more readable.
+
+
+{%subsection |How to use%}
+
+
+Using StringUtils you can say, for example,
+`StringUtils.substringBefore("abrakadabra","ab")`. Which means the part
+of the string `abrakadabra` before the first occurrence of `ab` in it.
+You know because you have read the documentation.
+
+Using Javax0::string you write
+
+[source,java]
+----
+str("abrakadabra").before("ab")
+----
+
+
+A bit more readable. Or not. It still depends on your taste and what you
+got used to.
+
+It gets more interesting when you want to have the string before the
+last occurrence of `ab`. Using StringUtils you write
+`StringUtils.substringBeforeLast("abrakadabra","ab")`. A bit different
+functionality and a new method. Using Javax0::string you write this as
+the following:
+
+[source,java]
+----
+str("abrakadabra").before.last("ab")
+----
+
+
+or even (just to be grammatically correct)
+
+[source,java]
+----
+str("abrakadabra").before.the.last("ab")
+----
+
+
+What do you write when you want to achieve the same functionality but you do not care about the character casing? Something like
+`StringUtils.substringBeforeIgnoreCase("abrakadabra","AB")` does not
+exists. On the other hand you can write
+
+[source,java]
+----
+str("abrakadabra").ignoreCase().before("AB")
+----
+
+
+and similarly
+
+[source,java]
+----
+ str("abrakadabra").ignoreCase().before.the.last("AB")
+----
+
+
+Without remembering all the different method names you can use all the
+combinations replacing `before` with `after`.
+
+StringUtils also has `prependIfMissing()` and
+`prependIfMissingIgnoreCase()`. Using Javax0::string you can simply
+write
+
+[source,java]
+----
+str("alma").prependIfMissing("A")
+----
+
+
+or
+
+[source,java]
+----
+str("alma").ignoreCase().prependIfMissing("A")
+----
+
+
+without remembering a new method name.
+
+
+{%subsection |Testing methods%}
+
+
+StringUtils has some string testing methods, like `isEmpty()` and
+`isBlank()`. With Javax0::string you can use these in a fluent way.
+Instead of remembering the `isEmpty()` or other names you can write
+
+[source,java]
+----
+str("").is.empty()
+----
+
+
+As it is written here, it does not seem to be a big deal, after all: is this such a big difference between `isEmpty` and `is.empty`? The answer is yes when you do not remember the name of the possible method and you start to write `is.` the IDE will offer you all the possible test methods. Still, it is also true for the `is` prefix without the dot. The real difference is that the field `is` a reference to a special class that contains only the boolean methods you can select with the editors autocomplete only from the boolean methods. You can also write
+
+[source,java]
+----
+str("").is.not.empty()
+----
+
+
+instead of using the less readable `!str("").is.empty()`. Similarly you can
+write
+
+[source,java]
+----
+str("").is.blank()
+----
+
+
+and last but not least
+
+[source,java]
+----
+str("").is.not.blank()
+----
+
+
+This is through using the field `not`, which is also part of the "`is.` object". But this goes on using more such fields.
+
+
+{%subsection |Testing multiple strings%}
+
+
+StringUtils has `StringUtils.isAnyBlank()` that works with an array of strings.
+In Javax0::string you write
+
+[source,java]
+----
+strs("a","b").is.any.blank()
+----
+
+
+and similarly, you can negate the expression writing
+
+[source,java]
+----
+strs("a","b").is.not.any.blank()
+----
+
+
+or
+
+[source,java]
+----
+strs("a","b").is.none.blank()
+----
+
+
+which are essentially the same. You can also use `empty()` as well
+exactly the same way.
+
+
+{%subsection |Testing length%}
+
+
+You also have extra functionality to check the length of strings. You
+can write
+
+[source,java]
+----
+str(null).is.shorter.than(1)
+str("").is.shorter.than(1)
+str("A").is.shorter.than(1)
+str("A").is.shorter.than("AA")
+str("A").is.shorter.than(string("AA").before.last("A").toStringBuilder().append("A"))
+str("AA").is.longer.than("A")
+str("A").is.longer.than(1)
+str("A").is.longer.than(0)
+str("A").is.not.longer.than(1)
+str("A").length() == 1
+str("A").is.theSameLength.as("B")
+----
+
+
+to compare the length of a string to a number or to the length of another string.
+
+
+{%subsection |Padding%}
+
+
+You can pad similarly as `StringUtils.leftPad()`,
+`StringUtils.rightPad()` and `StringUtils.center()`. This you can write as
+
+[source,java]
+----
+str("").pad(3)
+str("A").pad(3)
+str("A").left().pad(3)
+str("A").right().pad(3)
+ str("A").both().pad(4)
+----
+
+
+
+{%subsection |Null handling%}
+
+
+Having a `null` instead of a string when you start with `str(null)` it will cause no harm. On the output, you will get what was going in on the input unless you want something else. Because the API is fluent you can write for any call something like
+
+[source,java]
+----
+str("abrakadabra").notNull().before("ab")
+----
+
+
+to guarantee that the result will be empty string even if the input was
+`null`. On the other hand, you can
+
+[source,java]
+----
+str("abrakadabra").forceNull().before("ab")
+----
+
+
+to force that the result is `null` instead of an empty string and even more
+you can write
+
+[source,java]
+----
+str("abrakadabra").fforceNull().before("ab")
+----
+
+
+to get null not only for empty strings, but also for blank results.
+
+[source,java]
+----
+str("abrakadabra").forceEmpty().before("ab")
+----
+
+
+will get you empty string even if the result is `null` or blank.
+
+
+{%subsection |Chaining%}
+
+
+When you start the string expression with the static method `str()` then
+the result after calling some of the string methods is a string and with
+that, the call chain ends. Sometimes this is the best approach, but other
+times you want to write longer call chains. In that case, you have to use
+the longer named static method `string()` or `strings()` in the plural in
+case the methods work on multiple strings.
+
+Using `string()` or `strings()` you can write longer chains, like
+
+[source,java]
+----
+string("A").left().pad(2).right().pad(3).both().pad(5, &#039;.&#039;).toString()
+string("a"), string("abrakadabra").before("ka").after("br").toString()
+----
+
+
+Note that the result in this case is
+
+[source,java]
+----
+string("abrakadabra").before("ab").is.not.empty()
+----
+

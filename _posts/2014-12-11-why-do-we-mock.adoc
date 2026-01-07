@@ -1,0 +1,74 @@
+---
+title: "Why do we mock?" 
+layout: posta
+comments: on
+---
+
+I do Java interviews. During the interviews I ask technical question that I know the answer for. You may think this is boring. To be honest: sometimes it is. But sometimes it is interesting to learn what misconcepts there are. I happened to ask during the interview what you can read in the title: "Why do we mock?". The answer was interesting. I can not quote word by word and I also would not like to do that for editorial, ethical and many other reasons. I also would like to stress that a misconcept does not qualify the person clever or stupid or anything. It is just a misconcept that comes from someone's personal experience. Here is what she/he was saying.
+
+__We use mocks so that we can write tests for units that use heavy services that may not be available when we run the test. It is also important to mock so that the tests can run fast even when the services would make the testing slow. It may also happen in an enterprise environment that some of the services are not available when we develop, and therefore testing would be impossible if we did not use mocks.__
+
+Strictly speaking the above statements are true. I would not argue about why you or anybody else uses mocks. But as a Java professional I would argue about what the major and first goal we use mocks for.
+
+[quote]
+____
+We use mocks to separate the modules from each other during testing so that we can tell from the test results which module is faulty and which passed the tests.
+____
+
+
+This is what unit tests were invented for the first place. There are side effects, like those mentioned above. There are other side effects. For example the unit tests are great documentations. If formulated well they explain better how the unit works and what interfaces it needs and provides than any javadoc. Especially that javadocs tend to be outdated while Junit tests fail during build if get outdated.
+
+Another side effect is that you write testable code if you craft the unit tests first and this generally improve your coding style.
+
+Saying it simply: unit testing is testing units. Units bare without dependencies. And this can be done with mocks. The other things are side effects. We like them, but thy are not the main reason to mock when we unit test.
+
+=== Comments imported from Wordpress
+
+
+*tvk* 2014-12-18 09:19:02
+
+
+
+
+
+[quote]
+____
+I would ask this follow-up questions:
+"Would you use a service which is needed for a unit test if the service is available and quick?"
+"And what if this service is also continuously developed at the time? What if it makes side effects? What if it contains bugs?"
+____
+
+
+
+
+
+*Peter Verhas* 2014-12-18 10:16:30
+
+
+
+
+
+[quote]
+____
+Technically: yes. Practically: there is no time. An interview is 60 minutes and there is no time to discover all the areas and everything that the candidate knows well or does not know well. The aim of the interview is to get an approximate assessment about the knowledge of the candidate.
+
+Later, if and when we work together we discuss things and we, professionals, help each other to develop code as well as our own skills.
+____
+
+
+
+
+
+*Iorek* 2014-12-14 22:47:17
+
+
+
+
+
+[quote]
+____
+Good one.
+____
+
+
+

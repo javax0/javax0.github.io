@@ -1,0 +1,47 @@
+---
+title: "How We Chose Framework" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+When you develop your application most of the time you are writing code that deals with some of the resources. Code lines that open database connection, allocate memory and alikes. The lower level you code the more code is dealing with the computational environment. This is cumbersome and though may be enjoyable for some of the programmers the less such code is needed the better. The real effort delivering business value is when you write code lines that implement business function. It is obvious that you just can not make a simple decision to write only business function implementing code. The other types of code lines are also needed to execute the code and it is also true that the border between infrastructure code and business code is sometimes blurry. You just can not tell sometime whether the code you type is infrastructure or business.
+
+What you really can do is to select a framework that fits the business problem the best. Something that is easy to configure, does not need boiler plate code and easy to learn. That way you can focus more on the business code. Well, easy to say, hard to do. How could you tell which framework will be the best on the long run when the project has so many uncertainties? You can not tell precisely. But you can try and strive for more precision. And a model does to follow does not hurt. So what is the model in this case?
+
+During the lifetime of a project there will be a constant effort to develop the business logic. If the business logic is fixed the number of the code lines to develop that can not change much. There may be some difference because some programming language is more verbose than the other, but this is not significant. The major difference is framework supporting code. There is also an effort to learn the framework, however that may be negligible for a longer project. This effort is needed at the start of the project, say sprint 1 and 2 and after that this fixed cost diminishes compared to the total cost of development. For the model I setup I will neglect this effort not at least because I can not measure a-priori how much effort an average programmer needs to learn a specific framework.
+
+So the final, very simplified model is to compare the amount of code delivering business value compared to the amount of code configuring and supporting the selected framework. How to measure this?
+
+I usually... Well, not usually. Selecting a framework is not an everyday practice. What we did in our team last time to perform a selection was the following:
+
+We pre selected five possible frameworks. We ruled out one of them in the first run as not being widely known and used. We did not want to be on the bleeding edge. Another was filtered out as closer examination showed that the framework is a total misfit for our purpose. There remained three. After that we looked up projects on GitHub that utilized one of the framework, at least two for each framework (and not more than three). We looked at 8 projects total and we counted the lines categorizing each as business versus framework code lines. And then we realized that this just can not be done during the lifetime of a human, therefore we made it simpler. We started to categorize the classes based on their names. There were business classes related to some business data and also classes named after some business functions. The rest was treated as framework supporting, configuration class.
+
+The final outcome was to sculptured into a good old ppt presentation and we added the two slides to the other slides that qualitatively analyzed the three frameworks listing pros and the cons. The final outcome, no surprise, was coherent: the calculation showed that the framework requiring the less configuration and supporting code was the one we favored anyway.
+
+What was the added value then?
+
+Making the measurement we had to review projects and we learnt a lot about the frameworks. Not as much as one coding in it, but more than just staring at marketing materials. We touched real code that programmers created while facing the real problems and the real features of the frameworks. This also helps the evaluator to gain more knowledge, gives a rail to grab on and lead us where to look, what to try when piloting the framework.
+
+It is also an extremely important result that the decision process left less doubt in us. If the outcome were just opposite then we would have been in trouble and it would have made us thinking hard: why did we favor a framework that needs more business irrelevant code. But it did not. The result was concise with common sense.
+
+Would I recommend this calculation to be the sole source for framework selection? Definitely no. But it can be a good addition that you can perform burning two or three days of your scrum team and it also helps your team to get the tip of their fingers into new technologies.
+
+=== Comments imported from Wordpress
+
+
+*Zsolt János* 2014-07-03 22:05:10
+{%@comment id: 878 %}
+{%@comment author_email: zsoca8711@gmail.com %}
+{%@comment author_url: https://www.facebook.com/zsolt.janos %}
+{%@comment author_IP: 84.2.9.132 %}
+{%@comment date_gmt: 2014-07-03 21:05:10 %}
+[quote]
+____
+Hi!
+
+Just out of interest... Which 5 frameworks were discussed? :)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

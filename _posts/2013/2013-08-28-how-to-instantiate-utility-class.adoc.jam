@@ -1,0 +1,34 @@
+---
+title: "How to instantiate utility class" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+In a link:#[previous blog] we had a look how to protect utility classes to be instantiated. We finally got to this class:
+
+[source,java]
+----
+public final class YouJustCanNotInstantiate {
+    private YouJustCanNotInstantiate() {
+        throw new RuntimeException("You just can not instantiate this class.");
+    }
+}
+----
+
+
+Seems to be a tough guy. Still there are ways to get an instance of this class:
+
+[source,java]
+----
+Field f = Unsafe.class.getDeclaredField("theUnsafe");
+f.setAccessible(true);
+Unsafe unsafe = (Unsafe) f.get(null);
+YouJustCanNotInstantiate s1 = (YouJustCanNotInstantiate) unsafe.allocateInstance(YouJustCanNotInstantiate.class);
+----
+
+
+It works fine on ORACLE JVM, but be aware that this is not standard and may not work on other JVMs. Actually there is no guaranteed Java way that always works. However there is a project called link:https://code.google.com/p/objenesis/[Objenesis] that does the trick and works on Android, Rockit, Gcj and Perc JVM in addition to the "standard" ORACLE JVM. Have a look at it! It is an interesting project at least to learn from.
+
+[b]#WARNING:# if a class was not meant to be instantiated and was protected from that the way above, then you will deserve what you get following this pattern. You have been warned.
+
+[small]#Credit: Yuriy Fuksenko, and Norbert Madarász for pointing out these solutions on LinkedIn#

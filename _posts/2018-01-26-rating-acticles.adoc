@@ -1,0 +1,20 @@
+---
+title: "Rating Articles" 
+layout: posta
+comments: on
+---
+
+
+== 1. Rating
+
+My last article was commented as __"Weakest article in a long time, and it shows a prime example of typical inch pincher stuff certain people still like to make a fuzz about."__
+
+To ease this type of feedback for you, I switched on the rating functionality. (I do not know why I did not do that before.)
+
+You can simply click on the stars at the top of the article to express you like or dislike an article. (It is not shown on the opening page, you have to click on the title of the article to get to the article's own page.) This will help me to write better articles, and it will also help the other readers to skip articles when they are not that good.
+
+== 2. Update
+
+This article was imported from Wordpress hosting.
+On the new hosting environment, the commenting and the rating is different.
+On Github I use Disqus, which provides the "rating" by default.

@@ -1,0 +1,52 @@
+---
+layout: page
+title: About
+permalink: /about/
+---
+
+
+== This is Javax0
+
+This is the new Javax0 blog.
+The old blog started in 2013 was hosted at https://javax0.wordpress.com[Wordpress.com]
+The editing, maintaining, and whatnot was a bit too cumbersome.
+Therefore, I started this site.
+Technical details of blogging are in the link:/2022/12/07/blog-posting.html[article].
+
+=== Content License
+
+The blog content can be used governed by the link:https://en.wikipedia.org/wiki/Creative_Commons_license[Creative Commons License]
+
+image:https://upload.wikimedia.org/wikipedia/commons/e/e1/CC_BY_icon.svg[]
+
+
+=== Commenting Policy
+
+For commenting, I use Disqus. Comments are moderated.
+
+I will delete inappropriate comments, especially unsolicited advertisements, spams and unrelated comments.
+I also delete meaningless comments; like "Hey, I like it".
+They were numerous in the previous site for some reason, I can only suspect.
+
+I delete comments, which are racists, offensive, sexists etc.
+I have never encountered any of those in the last ten years on this blog.
+
+However, I do NOT delete a comment if I do not like it, or is offensive against me.
+
+=== Contribution
+
+If you want to contribute to an article, you are welcome.
+You will be on the article as author.
+It is not too common, but has happened in the past.
+The best way is forking the blog repo, adding the article and making a pull request.
+
+The blog repository is
+
+`https://github.com/javax0/javax0.github.io`
+
+The repository contains the Asciidoc files, the Jamal files, and the occasional source codes for the articles.
+
+I retain the right to accept or reject any article without explanation.
+But it is only a right that I retain, I may not exercise it.
+
+If you find a typo, or something to correct in an article or the code the article is referencing, then fork, modify, pull request.

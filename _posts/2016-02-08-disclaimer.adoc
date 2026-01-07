@@ -1,0 +1,7 @@
+---
+title: "Disclaimer" 
+layout: posta
+comments: on
+---
+
+All stories on this blog are made up. They have never really happened. They are to make the articles more live and more interesting. Similar stories may have happened or happen in the past, present or future to me, to you or to anyone dead, alive or not yet born. If you find any similarity between some story and real-life it is most probably an error in real-life. But that is the basic nature of real-life: it is full of coincidences and errors. Nobody is to be blamed.

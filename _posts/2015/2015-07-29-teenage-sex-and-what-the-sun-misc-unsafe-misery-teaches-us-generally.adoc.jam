@@ -1,0 +1,103 @@
+---
+title: "Teenage Sex and What the sun.misc.Unsafe Misery Teaches Us Generally" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Lukas Eder wrote an link:http://blog.jooq.org/2015/07/20/what-the-sun-misc-unsafe-misery-teaches-us/[article] about the miseries of the proposed drop off of `sun.misc.Unsafe`. If you have not heard that Oracle will remove the internal sun.misc.Unsafe class in Java 9 then read the article of Lukas and follow some of the links he provides at your discretion. His article is about what we learn from this happening.
+
+`sun.misc.Unsafe` is a class available in most of the Java implementations delivering some "unsafe" functionality that are not available in other ways. These functions are not part of the specification and are not guaranteed to be available. They just happen to be there and are available via some nasty reflection hack. In other words: you should not use it, but you can. There are some Java tools that help protect you from using the interface but not too heavily.
+
+Other languages, like Perl do not even have that level of protection. In that language there is no 'private', 'protected' or other access modifier. What is created in a module it is there. You can use an underscore in front of the method to signal that it is meant to be private but that is more a polite 'please' than a harsh 'thou shalt not'. The philosophy there says that you won't come to my bedroom, not because I am standing there with a machine gun, but because going there would not be nice.
+
+What `sun.misc.Unsafe` misery teaches us is that it does not work. Sorry to say, but it __seems__ you need to have a gun in your hand to prevent library users invading your bedroom. That is also what Lukas suggests: put all your library internal code into a single package and make all package private.
+
+But there are also other approaches. If you look at Jira and Confluence and the extensions you can write you see a different approach. By natural evaluation Jira started small and the designers probably never dreamed about such a huge developer community writing all purpose extensions to their software. They simply did not define an API at all. There were the jar files, the classes in them and extensions were free to invoke any method of any class more or less. The result: every extension had to be tested against each version of the software and when you had an extension working with one of the versions of Jira it may not work with the next (minor upgraded) version. Atlassian had a long way to define an API that is stable and is "officially" available for extension modules. Do they put everything else into a single package? I do not think so. Instead they listen to their customers, they have developers forum and they do have empowered employees listening on those channels and understand the needs and their API provides features that are needed by the users.
+
+And this is the more appealing approach. If you provide the features that the users of the library need, they won't bother to go into the bedroom.
+[quote]
+____
+
+If you do not provide the features, they WILL come in. You can not prevent them doing that, just like you can not prevent teenage sex. If you do provide what they need, they will not use forbidden calls no non API classes.
+____
+
+This is actually what Sun and later ORACLE failed to do properly (imho). They did not provide the features and "unsafe" was just there. They warned us many times not to use that, but they failed to tell what to use instead. And now it all is coming apart at the seams. What will be the consequences?
+
+What I see as most probably scenario is the following:
+
+	* Java 9 will come out without unsafe.
+	* Because many libraries make use of the "unsafe" package implementation the industry acceptance of Java 9 will be delayed. The enterprise standard Java version remains 8 (or 7 or 6 in some enterprises) for prolonged time.
+	* There will be signs of possible market loss for Java that will drive Oracle to give some solution.
+	* There will be some API developed by Oracle providing a limited set of features (most commonly used features) of the current unsafe feature set.
+	* Libraries will be modified within few months using the new API.
+	* Enterprises will skip to the version that supports the new API.
+
+What I do not expect to change is the attitude of Oracle to customers.
+
+We will see how accurate it was in ... two to three years?
+
+=== Comments imported from Wordpress
+
+
+*David Kovacs* 2015-08-07 17:56:39
+{%@comment id: 8484 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 171.25.193.26 %}
+{%@comment date_gmt: 2015-08-07 16:56:39 %}
+[quote]
+____
+Great article, but there are alternatives to Unsafe. If someone wants better perfomance (this is the goal), then use C or C++ over JNI (has some cost for passing arguments like arrays). Using an undocumented and unsupported internal class is not the solution, it is the problem.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2015-07-29 21:47:41
+{%@comment id: 8430 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 178.83.177.249 %}
+{%@comment date_gmt: 2015-07-29 20:47:41 %}
+[quote]
+____
+Special thanks to István Kovács who suggested a lot of corrections to the language of the article.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 31131067 %}
+
+*Philippe Marschall* 2015-08-04 12:41:25
+{%@comment id: 8463 %}
+
+{%@comment author_url: http://marschall.github.io/ %}
+{%@comment author_IP: 194.126.144.2 %}
+{%@comment date_gmt: 2015-08-04 11:41:25 %}
+[quote]
+____
+My understanding is that Java 9 will ship with sun.misc.Unsafe. A lot (serialization, lambda, java.util.concurrent, ...) JDK classes depend on functionality only offered by Unsafe.
+Unsafe will just be not visible by default to the application. You will either be able to use a JVM flag or some additional nasty reflection hacks to have access to it again.
+In the end, not really a change at all.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter* 2015-08-16 14:21:28
+{%@comment id: 8572 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 80.218.32.7 %}
+{%@comment date_gmt: 2015-08-16 13:21:28 %}
+[quote]
+____
+Watch "JVMLS 2015 - The Secret History and Tragic Fate of sun.misc.Unsafe" on YouTube
+https://youtu.be/4HG0YQVy8UM
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

@@ -1,0 +1,78 @@
+---
+title: "Do not use immutable in your API" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Why should an API define methods that accept Guava Immutable collection types? It should not. The intent of the author of such an API is clear: she wants to declare and be safe that the method does not modify the collection that the caller passes. The problem is that it forces the caller to use Guava immutable collections and the caller can not just pass a hash or tree map, a hash set or whatever is a matching type for the actual collection. I know that this is not a big deal to convert a map or set to the immutable counterpart, but let me, as a user of a library have the freedom to decide if I want to do that.
+
+It does not mean that I do not need guarantee. When an API documents that a collection that the caller passes will not be altered, I expect the implementation (a.k.a. library) not to do that. I expect it working just like any other feature, which is documented. However, the implementation is the internal responsibility of the library and has to be well coded during development time. It simply should not call any of the mutating methods. To assess that the development time tools have to be used. Unit tests. Code analysis.
+
+If the library wants to be on the safe side, it can use the Guava library to "copy" the value passed as argument to the API from a collection interface to the appropriate immutable implementation. Or it can use the JDK built in `Collections.unmodifiableXXX` methods. Whether it does it or not is implementation detail. The API, the declaration of the classes, methods, arguments are the "interface". The API user should only face the interface and not the implementation details.
+
+Therefore I say: do not use immutable implementations in the method parameter list. Use them in the implementation only.
+
+=== Comments imported from Wordpress
+
+
+*Martin Grajcar* 2014-11-01 18:52:49
+{%@comment id: 3653 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 84.176.178.239 %}
+{%@comment date_gmt: 2014-11-01 17:52:49 %}
+[quote]
+____
+Your article is titled "Do not use immutable in your API", but you concentrated on the easier side only, namely formal parameters. What about declaring a method to return an immutable collection?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Martin Grajcar* 2014-11-02 20:02:39
+{%@comment id: 3718 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 84.176.166.180 %}
+{%@comment date_gmt: 2014-11-02 19:02:39 %}
+[quote]
+____
+The problem with interfaces is that there's no such interface. If my API returns `List` while I need to pass it around, I can easily wrap it using `ImmutableList.copyOf`. If I'm happy and the list is already immutable, then it's essentially free... in terms of speed. The boilerplate code is to be written and read (and unlike with the arguments, it's to be written outside of the API).
+
+But yes, it's a detail. If the API already has an `ImmutableList`, then it can return it. If the implementation changes, so that it has no more `ImmutableList` to return, then it'll be forced to wrap whatever it has; possibly wasting time, but this is IMHO no big deal as the probability of this happening is very low.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 3714 %}
+{%@comment user_id: 0 %}
+
+*Bence Sarosi* 2014-11-02 19:13:03
+{%@comment id: 3714 %}
+{%@comment author_email: Bence_Sarosi@epam.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 80.98.201.199 %}
+{%@comment date_gmt: 2014-11-02 18:13:03 %}
+[quote]
+____
+Well, that's implementation detail as well. The best, I think, would be trying to only accept and return interfaces and standard built-in objects as much as possible. There are, of course, cases when this is not feasible. Those are hard times. On the other hand, however, the majority of scenarios (we're talking about developing fresh code for an API) grant you this opportunity, for which the good practice of developing for testability (or TDD straight away) provides an excellent aid.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 3653 %}
+{%@comment user_id: 0 %}
+
+*Black* 2014-10-31 14:24:21
+{%@comment id: 3570 %}
+{%@comment author_email: b.sheep@seznam.cz %}
+{%@comment author_url: http://Sheep %}
+{%@comment author_IP: 91.213.143.248 %}
+{%@comment date_gmt: 2014-10-31 13:24:21 %}
+[quote]
+____
+You are insane.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

@@ -1,0 +1,149 @@
+---
+title: "var and language design" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+
+{%section |What is var in Java%}
+
+
+The `var` predefined type introduced in Java 10 lets you declared local variables without specifying the type of the variable when you assign a value to the variable. When you assign a value to a variable the type of the expression already defines the type of the variable, thus there is no reason to type the type on the left side of the line again. It is especially good when you have some complex long types with a lot of generics, for example
+
+[source,java]
+----
+HashMap<String,TreeMap<Integer,String> myMap = mapGenerator();
+----
+
+
+Generic types you could already inherit in prior Java versions but now you can simply type
+
+[source,java]
+----
+var myMap = mapGenerator();
+----
+
+
+This is simpler, and most of the times more readable than the previous version. The aim of the `var` is mainly readability. It is important to understand that the variables declared this way will have a type and the introduction of this new predefined type (not a keyword) does not render Java to be a dynamic language. There are a few things that you can do this way that you could not before or you could do it only in a much more verbose way. For example, when you assign an instance of an anonymous class to a variable you can invoke the declared methods in the class through the `var` declared variables. For example:
+
+[source,java]
+----
+var m = new Object{ void z(){} }
+m.z();
+----
+
+
+you can invoke the method `z()` but the code
+
+[source,java]
+----
+Object m = new Object{ void z(){} }
+m.z();
+----
+
+
+does not compile. You can do that because anonymous classes actually have a name at their birth, they just lose it when the instance gets assigned to a variable declared to be the type of `Object`.
+
+There is a little shady part of the `var` keyword. This way we violate the general rule to instantiate the concrete class but declare the variable to be the interface. This is a general abstraction rule that we usually follow in Java most of the times. When I create a method that returns a `HashMap` I usually declare the return value to be a `Map`. That is because `HashMap` is the implementation of the return value and as such is none of the business of the caller. What I declare in the return type is that I return something that implements the `Map` interface. The way I do it is my own duty. Similarly, we declare usually the fields in the classes to be of some interface type if possible. The same rule should also be followed by local variables. A few times it helped me a lot when I declared a local variable to be `Set` but the actual value was `TreeSet` and then typing the code I faced some error. Then I realized that I was using some of the features that are not `Set` but `SortedSet`. It helped me to realize that sorted-ness is important in the special case and that it will also be important for the caller and thus I had to change the return type of the method also to be `SortedSet`. Note that `SortedSet` in this example is still an interface and not the implementation class.
+
+With the use of `var` we lose that and we gain a somewhat simpler source code. It is a trade-off as always. In case of the local variables the use of the variable is close in terms of source code lines to the declaration, therefore the developer can see in a glimpse what is what and what is happening, therefore the "bad" side of this tradeoff is acceptable. The same tradeoff in case of method return values or fields is not acceptable. The use of these class members can be in different classes, different modules. It is not only difficult but it may also be impossible to see all the uses of these values, therefore here we remain in the good old way: declare the type.
+
+
+{%section |The future of var (just ideas)%}
+
+
+There are cases when you cannot use `var` even for local variables. Many times we have the following coding pattern:
+
+[source,java]
+----
+final var variable; // this does not work in Java 11
+if ( some condition ) {
+    variable = expression_1
+    // do something here
+} else {
+    variable = expression_2
+    // do something here
+}
+----
+
+
+Here we can not use `var` because there is no expression assigned to the variable on the declaration itself. The compiler, however, could be extended. From now on what I talk about is not Java as it is now. It is what I imagine how it can be in some future version.
+
+If the structure is simple and the "do something here" is empty, then the structure can be transformed into a ternary operator:
+
+[source,java]
+----
+final var variable = some condition ? ( expression_1 ) : (expression_2)
+----
+
+
+In this case, we can use the `var` declaration even if we use an old version of Java, e.g.: Java 11. However, be careful!
+
+[source,java]
+----
+var h = true ? 1L : 3.3;
+----
+
+
+What will be the actual type of the variable `h` in this example? `Number`? The ternary operator has complex and special type coercion rules, which usually do not cause any issue because the two expressions are close to each other. If we let the structure described above use a similar type coercion then the expressions are not that close to each other. As for now, the distance is far enough for Java not to allow the use of the `var` type definition. My personal opinion is that the `var` declaration should be extended sometime in the future to allow the above structure but only in the case when the two (or more in case of more complex structure) expressions have exactly the same type. Otherwise, we may end up having an expression that results in an `int`, another that results in a `String` and then what will the type of the variable be? Do not peek at the picture before answering!
+
+image::https://javax0.files.wordpress.com/2018/10/string-int-coercion.png[]
+
+(This great example was given by Nicolai Parlog.)
+
+I can also imagine that in the future we will have something that is similar to Scala `val`, which is `final var` in Java 11. I do not like the `var` vs. `val` naming though. It is extremely sexy and geekish, but very easy to mistake one for the other. However, if we have a local variable declaration that starts with the `final` keyword then why do we need the `var` keyword after that?
+
+Finally, I truly believe that `var` is a great tool in Java 11, but I also expect that it's role will be extended in the future.
+
+=== Comments imported from Wordpress
+
+
+*tamasrev* 2019-03-06 16:08:09
+{%@comment id: 20879 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 193.178.168.100 %}
+{%@comment date_gmt: 2019-03-06 15:08:09 %}
+[quote]
+____
+Let's write Perl in java!
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}
+
+*Martin Grajcar* 2019-03-10 00:42:38
+{%@comment id: 21283 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 91.17.163.28 %}
+{%@comment date_gmt: 2019-03-09 23:42:38 %}
+[quote]
+____
+[quote]
+____
+
+The same rule should also be followed by local variables.
+
+____
+
+
+I rather disagree. Methods should be short and the usual rules matter much less. Sure, things like you describe (SortedSet) may happen, but this is probably very rare. IMHO the advantage of using a verbose generic interface name instead of just var is more than offset by the increased code length. From lengthy declarations, broken lines result and hamper readability even more.
+
+[quote]
+____
+
+... var is a great tool in Java 11, but I also expect that it’s role will be extended in the future.
+
+____
+
+
+I'd love to see val (while the name is geeky similar, it's better than not having it). Concerning other extensions, I'm rather sceptical, as the cases when var doesn't work are rather rare.
+
+Thank you for the article.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 150283678 %}

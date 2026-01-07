@@ -1,0 +1,68 @@
+---
+title: "Raid, backup and archive"
+layout: posta
+comments: on
+---
+
+This is a short tutorial about the similarities and the differences of redundant storage, backup, and archive functionality. I felt a need to create this short introduction because I realized that many IT professionals do not know the difference between these operations and many times mix them or using the wrong approach for some purpose.
+
+I personally once was the witness of a backup at a Hungarian bank, which was stored on a partition of a raid set disk, which also held the operational data. Raid controller failure happened. Backup was unusable. Technically it was not a backup. A Digital Equipment Corp. engineer was restoring the allocation bits of the raid set for two weeks to restore account data. Although neither the bank, which shall not be named, nor Digital do not exist anymore I am more than convinced that similar backups still do.
+
+== 1. What these methods are
+
+Redundant storage, backup, and archive copy operational data. They do that aiming more stability in operation. The copied data is stored in a redundant way and in case there is some event that needs data deleted or corrupted previously the copied version is still available. The differences between these data redundancy increasing strategies are
+
+	* (NEED) the type of event that creates the need for the deleted data
+	* (CAUSE) the type of event that causes the deletion of the data
+	* (DISCOVERY) how the data loss or need is recognized
+	* (HOW) how the actual copy is created and stored
+
+
+=== 1.1. image::https://javax0.files.wordpress.com/2018/01/raid.png[] Redundant storage
+
+Redundant storage copies the data online and all the time. (HOW) When there is some change in the data the redundant information is created in some storage media as soon as the hardware and software make it possible. The action of copy is not batched. It is not waiting for a bunch of data to be copied together. It is copied as soon as possible.
+
+The actual implementation is usually some RAID configuration. A RAID configuration two or more same-size disks parallel. In case of two disks, anything written on one is written to the other at the same time. When reading one of the disks is used, which makes reading twice as fast regarding the data transfer assuming that the data transfer bus between the disk and the computer is fast enough. Seek time in case of rotating (non-SSD) disks is not improved.
+
+When there are three or more disks the writing is a bit different. In this situation whenever a bit is changed on one disk then the bit is also changed on the last disk of the RAID set. The RAID controller keeps the bits of the last disk of the set to be the XOR value of the same bits on the other disks. That way the data is "partially copied".
+
+In case of a hardware failure, the RAID solutions usually allow the faulty disk to be replaced without switching off the disk system. The controller will automatically reconstruct the missing data.
+
+(NEED) Redundant storage keeps the data available during normal operation and prevents data loss in case of (CAUSE) hardware failure. All the data is copied all the time and in case there is a failure the data recovery causes a few milliseconds in data access delay. Data redundancy recovery may be longer in the range o few minutes or hours, but the data is available unless there are multiple failures.
+
+(DISCOVERY) The data loss is automatically detected because the redundancy is checked upon every read.
+
+=== 1.2. image::https://javax0.files.wordpress.com/2018/01/backup.png[] Backup
+
+(HOW) Backup copies data usually to offline media. The copy is started at regular intervals, like every hour, day or week. When a backup is executed files that changed since the last backup are copied to the backup media. Backup can cover the application data or can cover the whole operating system. Many times operating system is not backed up. When there is a need to restore the information OS is installed fresh from installation media and only the application files are restored from the backup storage. This may require smaller backup storage, faster backup and restore execution.
+
+There are different techniques called full, partial and differential backups. Creating backups without purging old data would infinitely grow the size of the backup media. This would not only cost ever increasing money buying the media but the burden to catalog and keep the old media would also mean a huge operational cost burden. To optimize the costs old backups are deleted with special strategy. As an example, a strategy can require to create a backup every day and delete the backups that are older than one week except those that were created on Monday. Backups older than a month can also be deleted except those that were created on the first Monday of the month and similarly backups older than a year may be deleted except the backup of January and June.
+
+(NEED) The data stored on the backup media is needed if it is discovered that some data was deleted. (CAUSE) The reason for the deletion may be human error or sabotage. A user of the system mistyped the name of a record to be deleted or thought that the data is not needed anymore and later it is realized that it was a mistake. Sabotage is a deliberate action when somebody having access to the system deletes or alters data as a wrongdoing. In either case, the data is ruined by human interaction. It may also be possible that the data is ruined by disaster (flood, fire, earthquake) or some hardware error that causes much more severe damage than a simple disk error.
+
+The backup media itself can also be the target of the sabotage. Disaster can also damage backup media. For this reason, backup is usually stored offline disconnected from the main operating system and many times the media is transferred to a different location.
+
+When data needs to be restored the backup media has to be copied back to the operational components to restore the information that was deleted or altered. The restore process needs to connect the backup media, or a copy of the backup media to the operational components and copy the data back. The connecting is usually a manual process because anything automated can be the target for a sabotage. Because of manual nature of the process restoring a backup is usually a long time. It may be a few minutes, hours or days. Usually the older the backup the more time is needed to get back the operational data.
+
+=== 1.3. image::https://javax0.files.wordpress.com/2018/01/archive.png[] Archive
+
+(HOW) The creation of an archive is very similar to the creation of a backup. We copy some of the data to some offline media and we store it for a long time. The archive copy is usually done on data that was not yet archived. Archive this way is kind of incremental usually. (CAUSE) Archive stores data, which is deleted from the system deliberately by the normal operational processes, because it is not needed by the operation. The archive is not aiming to provide a backup source for data that is found to be deleted accidentally. The data stored in the archive is never needed for normal operation. (DISCOVERY/NEED) The archive data is needed for extraordinary operation.
+
+For example, the mobile company does not need the cell information of individual phones for a long time. It is an operation data stored in the HLR and VLR database and this information is not even backed up usually. In case there is data loss getting the actual information is faster gathering it from the GSM network than restoring from a backup being probably fairly outdated (mobile phones move in the meantime). On May 9, 2002, some robbers killed 8 people in the small Hungarian town Mor. A few years later when the investigation got to the point to examine the mobile phone movements in the area the data was not available as operational data but it was available in the archives. Analysing GSM cell data to support the operation of homicide investigation is not a normal operation of a telecom company.
+
+You archive data that you are obligated to store and archive by law, you suspect that you may need for some unforeseeable future purpose. Records that describe the business level operations and transactions are archived usually.
+
+== 2. Comparison
+
+image::https://javax0.files.wordpress.com/2018/01/raid-backup-archive1.png[]
+As you can see from the above one of the method cannot replace the other. They supplement each other and if you do not implement one of them then you can expect that the operation will be sub-par.
+
+The example in the intro explains clearly why redundant storage does not eliminate the need for a backup. Similarly archiving cannot be replaced by an otherwise proper backup solution. The error, in this case, will not face you so harsh and evident because of the long-term nature of the archive. Nevertheless, an archive is not the same as backup.
+
+In some cases, I have seen the use of archive as the source of data backup. This is a forgivable sin only when the data loss has already happened and the archive still has the data you need. On the other hand, the archive does not contain all the operational data, only those that have long-term business relevance.
+
+== 3. Summary
+
+This is a short introduction to redundant storage, backup, and archive. Do not think that understanding what is written here makes you an expert in any of these topics. Each of the topics is a special expert area with tons of literature to learn and loads of exercises to practice and ace. On the other hand, now you should understand the basic roles of these methods, what they are good for and what they are not good for, as well as you should know the most important differences to avoid the mistakes that others have already committed.
+
+There is no need to repeat old mistakes. Commit new ones!

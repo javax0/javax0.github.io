@@ -1,0 +1,141 @@
+---
+title: "Using Junit Test Name" 
+layout: posta
+comments: on
+---
+
+
+== 1. Name your tests
+
+
+When we create Junit test usually there is no practical use of the name of the method. The Junit runner uses reflection to discover the test methods and since version 4 you are not restricted to start the name of the method with `test` anymore. The name of the test methods are there for documentation purpose.
+
+There are different styles people follow. You can name your test in the `given_Something_when_Something_then_Something` style I also followed for a while. Other schools start the name of the method with the world `should` to describe what the tested object "should" do. I do not really see why this is significantly better than starting the name of the method with `test`. If all methods starts with the same prefix, then this is only noise. These days I tend to name the methods as simple statements about what the SUT does.
+
+
+== 2. How to Access the Test Name?
+
+
+Technically you are free to name your methods so long as long the names are unique. The name is usually not used in the test and the outcome of the test should not depend on the actual name of the test method. Even though there is a way supported by Junit to access the name of the method.
+
+If you have a Junit Rule
+
+[source,java]
+----
+@Rule
+public TestName name = new TestName();
+----
+
+
+you can refer to the object `name` in your test getting the name of the actual method as
+
+[source,java]
+----
+String testName = name.getMethodName();
+----
+
+&nbsp;
+
+
+== 3. What can we use this for?
+
+
+Sometimes the unit under test creates some huge structure that can be serialized as a binary or text file. It is a usual practice to run the test once, examine the resulted file and if that is OK then save it to use for later comparison. Later test executions compare the actual result with the one that was saved and checked by the developer.
+
+A similar scenario may be used in case of integration tests when the external systems are stubbed and their responses can be fetched from some local test data file instead of querying the external service. 
+
+In such situations the name of the test can be used to create a file name storing the test data. The name of the test is unique and makes it easy to pair the data with the test needing it. I used this approach in the link:https://github.com/verhas/jscglib[jscglib] library. This library provides a fluent API to create Java source code. The tests contain some java builder pattern director code and then the resulted source code is saved into a file or compared to an already stored result.
+
+To save the file the aux method `getTargetFileName` was used
+
+[source,java]
+----
+	private String getTargetFileName() {
+		String testName = name.getMethodName();
+		String fileName = "target/resources/" + testName + ".java";
+		return fileName;
+	}
+----
+
+
+To get the name of the resource the method `getResourceName` was used:
+
+[source,java]
+----
+	private String getResourceName() {
+		String testName = name.getMethodName();
+		return testName + ".java";
+	}
+----
+
+
+After that loading and saving the generated Java code was a breeze:
+
+[source,java]
+----
+	private void saveGeneratedProgram(String actual) throws IOException {
+		File file = new File(getTargetFileName());
+		file.getParentFile().mkdirs();
+		FileOutputStream fos = new FileOutputStream(file);
+		byte[] buf = actual.getBytes("utf-8");
+		fos.write(buf, 0, buf.length);
+		fos.close();
+	}
+
+	private String loadJavaSource() {
+		try {
+			String fileName = getResourceName();
+			InputStream is = this.getClass().getResourceAsStream(fileName);
+			byte[] buf = new byte[3000];
+			int len = is.read(buf);
+			is.close();
+			return new String(buf, 0, len, "utf-8");
+		} catch (Exception ie) {
+			return null;
+		}
+	}
+----
+
+
+Generally that is the only example I know that you can use the name of a test method for other than documentation.
+
+
+== 4. What you should not use the name for
+
+
+There is a saying in my language: "Everybody is good in something. At least demonstrating failure." The following example demonstrates such a failure.
+
+I have seen a code that was encoding test data into the name of the test method. Access to the test method name was also implemented in a strange way. The programmer probably did not know that there is a supported way getting the name of the method. This lack of knowledge may have stopped him or her to do the evil, but this person was a genius. The test test method was calling static method of a helper class. This static method was throwing an exception, it also caught it and looked into the stack trace to identify the name of the caller method.
+
+After it had access to the name the code applied regular expression to extract the values from the method name.
+
+
+== 5. Summary
+
+
+I do not know what the intention of the developers of Junit was giving us the class link:http://junit.org/apidocs/org/junit/rules/TestName.html[`TestName`]. Probably there was some use case that needed the feature. I am certain that they did not provide the function because it was possible to do so. If you do not know what the API you provide is good for, you probably should not provide it just because you can. Novice programmers will use it wrong way more than good.
+
+Also on the other hand: if you see something in a API that can be used it does not mean that you should use the feature. You should better understand the aim of the feature what it was designed for and use it accordingly.
+
+Writing unit tests is more important than naming them. Debate on the naming of unit tests is useless so long as long there are no unit tests.
+
+Write unit tests as many as needed, but not more.
+
+
+=== Comments imported from Wordpress
+
+
+*Sandro Zbinden* 2015-05-06 21:51:07
+
+
+
+
+
+[quote]
+____
+Interessting post about unit test names. In my opinion a Unit Test name should provide information about what is beeing tested and thus can be longer than usual method names. About the TestName Rule we currently use the TestName Rule to show in our ant build which test is currently running. All our tests are extending from a BaseTest class that prints in the before method when a test methods is started and after execution when it is finished. This comes in handy when executing integrationtests that might cause a deadlock. Then you want to know which test is causing the deadlock.
+____
+
+
+
+

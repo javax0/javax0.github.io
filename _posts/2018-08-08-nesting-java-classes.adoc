@@ -1,0 +1,307 @@
+---
+title: "Nesting Java classes" 
+layout: posta
+comments: on
+---
+
+
+== 1. Nested classes and private methods
+
+
+When you have a class inside another class they can see each others `private` methods. It is not well known among Java developers. Many candidates during interviews say that `private` is a visibility that lets a code see a member if that is in the same class. This is actually true, but it would be more precise to say that there is a class that both the code and the member is in. When we have nested and inner classes it can happen that the `private` member and the code using it is in the same class and at the same time they are also in different classes.
+
+As an example, if I have two nested classes in a top-level class then the code in one of the nested classes can see a `private` member of the other nested class.
+
+It starts to be interesting when we look at the generated code. The JVM does not care about classes inside other classes. It deals with JVM "top-level" classes. The compiler will create `.class` files that will have a name like `A$B.class` when you have a class named `B` inside a class `A`. There is a `private` method in `B` callable from `A` then the JVM sees that the code in `A.class` calls the method in `A$B.class`. The JVM checks access control. When we discussed this with juniors somebody suggested that probably the JVM does not care the modifier. That is not true. Try to compile `A.java` and `B.java`, two top-level classes with some code in `A` calling a `public` method in `B`. When you have `A.class` and `B.class` modify the method in `B.java` from being `public` to be `private` and recompile `B` t a new `B.class`. Start the application and you will see that the JVM cares about the access modifiers a lot. Still, you can invoke in the example above from `A.class` a method in `A$B.class`.
+
+To resolve this conflict Java generates extra synthetic methods that are inherently package private, call the original private method inside the same class and are callable as far as the JVM access control is considered. On the other hand, the Java compiler will not compile the code if you figure out the name of the generated method and try to call in from the Java source code directly. I wrote about in details more than 4 years ago https://javax0.wordpress.com/2014/02/26/syntethic-and-bridge-methods/.
+
+If you are a seasoned developer then you probably think that this is a weird and revolting hack. Java is so clean, elegant, concise and pure except this hack. And also perhaps the hack of the `Integer` cache that makes small `Integer` objects (typical test values) to be equal using the `==` while larger values are only `equals()` but not `==` (typical production values). But other than the synthetic classes and `Integer` cache hack Java is clean, elegant, concise and pure. (You may get I am a Monty Python fan.)
+
+The reason for this is that nested classes were not part of the original Java, it was added only to version 1.1 The solution was a hack, but there were more important things to do at that time, like introducing JIT compiler, JDBC, RMI, reflection and some other things that we take today for granted. That time the question was not if the solution is nice and clean. Rather the question was if Java will survive at all and be a mainstream programming language or dies and remains a nice try. That time I was still working as a sales rep and coding was only a hobby because coding jobs were scarce in East Europe, they were the mainly boring bookkeeping applications and were low paid. Those were a bit different times, the search engine was named AltaVista, we drank water from the tap and Java had different priorities.
+
+The consequence is that for more than 20 years we are having slightly larger JAR files, slightly slower java execution (unless the JIT optimizes the call chain) and obnoxious warnings in the IDE suggesting that we better have package protected methods in nested classes instead of `private` when we use it from top-level or other nested classes.
+
+
+== 2. Nest Hosts
+
+
+Now it seems that this 20-year technical debt will be solved. The http://openjdk.java.net/jeps/181 gets into Java 11 and it will solve this issue by introducing a new notion: nest. Currently, the Java bytecode contains some information about the relationship between classes. The JVM has information that a certain class is a nested class of another class and this is not only the name. This information could work for the JVM to decide on whether a piece of code in one class is allowed or is not allowed to access a `private` member of another class, but the JEP-181 development has something more general. As times changed JVM is not the Java Virtual Machine anymore. Well, yes, it is, at least the name, however, it is a virtual machine that happens to execute bytecode compiled from Java. Or for the matter from some other languages. There are many languages that target the JVM and keeping that in mind the JEP-181 does not want to tie the new access control feature of the JVM to a particular feature of the Java language.
+
+The JEP-181 defines the notion of a `NestHost` and `NestMembers` as attributes of a class. The compiler fills these fields and when there is access to a private member of a class from a different class then the JVM access control can check: are the two classes in the same nest or not? If they are in the same nest then the access is allowed, otherwise not. We will have methods added to the reflective access so we can get the list of the classes that are in a nest.
+
+
+== 3. Simple Nest Example
+
+
+Using the
+
+[source,text]
+----
+$ java -version
+java version "11-ea" 2018-09-25
+Java(TM) SE Runtime Environment 18.9 (build 11-ea+25)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11-ea+25, mixed mode)
+----
+
+
+version of Java today we can make already experiments. We can create a simple class:
+
+[source,text]
+----
+package nesttest;
+public class NestingHost {
+    public static class NestedClass1 {
+        private void privateMethod() {
+            new NestedClass2().privateMethod();
+        }
+    }
+    public static class NestedClass2 {
+        private void privateMethod() {
+            new NestedClass1().privateMethod();
+        }
+    }
+}
+----
+
+
+Pretty simple and it does nothing. The private methods call each other. Without this the compiler sees that they simply do nothing and they are not needed and the byte code just does not contain them.
+The class to read the nesting information
+
+[source,text]
+----
+package nesttest;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+public class TestNest {
+    public static void main(String[] args) {
+        Class host = NestingHost.class.getNestHost();
+        Class[] nestlings = NestingHost.class.getNestMembers();
+        System.out.println("Mother bird is: " + host);
+        System.out.println("Nest dwellers are :\n" +
+                Arrays.stream(nestlings).map(Class::getName)
+                      .collect(Collectors.joining("\n")));
+    }
+}
+----
+
+
+The printout is as expected:
+
+[source,text]
+----
+Mother bird is: class nesttest.NestingHost
+Nest dwellers are :
+nesttest.NestingHost
+nesttest.NestingHost$NestedClass2
+nesttest.NestingHost$NestedClass1
+----
+
+
+Note that the nesting host is also listed among the nest members, though this information should be fairly obvious and redundant. However, such a use may allow some languages to disclose from the access the private members of the nesting host itself and let the access allow only for the nestlings.
+
+
+== 4. Byte Code
+
+
+The compilation using the JDK11 compiler generates the files
+
+
+* `NestingHost$NestedClass1.class`
+* `NestingHost$NestedClass2.class`
+* `NestingHost.class`
+* `TestNest.class`
+
+
+There is no change. On the other hand if we look at the byte code using the `javap` decompiler then we will see the following:
+
+[source,text]
+----
+$ javap -v build/classes/java/main/nesttest/NestingHost\$NestedClass1.class
+Classfile .../packt/Fundamentals-of-java-18.9/sources/ch08/bulkorders/build/classes/java/main/nesttest/NestingHost$NestedClass1.class
+  Last modified Aug 6, 2018; size 557 bytes
+  MD5 checksum 5ce1e0633850dd87bd2793844a102c52
+  Compiled from "NestingHost.java"
+public class nesttest.NestingHost$NestedClass1
+  minor version: 0
+  major version: 55
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #5                          // nesttest/NestingHost$NestedClass1
+  super_class: #6                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 3
+Constant pool:
+
+*** CONSTANT POOL DELETED FROM THE PRINTOUT ***
+
+{
+  public nesttest.NestingHost$NestedClass1();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 6: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lnesttest/NestingHost$NestedClass1;
+}
+SourceFile: "NestingHost.java"
+NestHost: class nesttest/NestingHost
+InnerClasses:
+  public static #13= #5 of #20;           // NestedClass1=class nesttest/NestingHost$NestedClass1 of class nesttest/NestingHost
+  public static #23= #2 of #20;           // NestedClass2=class nesttest/NestingHost$NestedClass2 of class nesttest/NestingHost
+
+----
+
+
+If we compile the same class using the JDK10 compiler, then the disassembles lines are the following:
+
+[source,text]
+----
+$ javap -v build/classes/java/main/nesttest/NestingHost\$NestedClass1.class
+Classfile /C:/Users/peter_verhas/Dropbox/packt/Fundamentals-of-java-18.9/sources/ch08/bulkorders/build/classes/java/main/nesttest/NestingHost$NestedClass1.class
+  Last modified Aug 6, 2018; size 722 bytes
+  MD5 checksum 8c46ede328a3f0ca265045a5241219e9
+  Compiled from "NestingHost.java"
+public class nesttest.NestingHost$NestedClass1
+  minor version: 0
+  major version: 54
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #6                          // nesttest/NestingHost$NestedClass1
+  super_class: #7                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 3, attributes: 2
+Constant pool:
+
+*** CONSTANT POOL DELETED FROM THE PRINTOUT ***
+
+{
+  public nesttest.NestingHost$NestedClass1();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #2                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 6: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lnesttest/NestingHost$NestedClass1;
+
+  static void access$100(nesttest.NestingHost$NestedClass1);
+    descriptor: (Lnesttest/NestingHost$NestedClass1;)V
+    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method privateMethod:()V
+         4: return
+      LineNumberTable:
+        line 6: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0    x0   Lnesttest/NestingHost$NestedClass1;
+}
+SourceFile: "NestingHost.java"
+InnerClasses:
+  public static #14= #6 of #25;           // NestedClass1=class nesttest/NestingHost$NestedClass1 of class nesttest/NestingHost
+  public static #27= #3 of #25;           // NestedClass2=class nesttest/NestingHost$NestedClass2 of class nesttest/NestingHost
+----
+
+
+The Java 10 compiler generates the `access$100` method. The Java 11 compiler does not. Instead, it has a nesting host field in the class file. We finally got rid of those synthetic methods that were causing surprises when listing all the methods in some framework code reflective.
+
+
+== 5. Hack the nest
+
+
+Let's play a bit cuckoo. We can modify the code a bit so that now it does something:
+
+[source,text]
+----
+package nesttest;
+public class NestingHost {
+//    public class NestedClass1 {
+//        public void publicMethod() {
+//            new NestedClass2().privateMethod(); /* <-- this is line 8 */
+//        }
+//    }
+
+    public class NestedClass2 {
+        private void privateMethod() {
+            System.out.println("hallo");
+        }
+    }
+}
+----
+
+
+we also create a simple test class
+
+[source,text]
+----
+package nesttest;
+
+public class HackNest {
+
+    public static void main(String[] args) {
+//        var nestling =new NestingHost().new NestedClass1();
+//        nestling.publicMethod();
+    }
+}
+----
+
+
+First, remove all the `//` from the start of the lines and compile the project. It works like charm and prints out `hallo`. After this copy the generated classes to a safe place, like the root of the project.
+
+[source,text]
+----
+$ cp build/classes/java/main/nesttest/NestingHost\$NestedClass1.class .
+$ cp build/classes/java/main/nesttest/HackNest.class .
+----
+
+
+Let's compile the project, this time with the comments and after this copy back the two class files from the previous compilation:
+
+[source,text]
+----
+$ cp HackNest.class build/classes/java/main/nesttest/
+$ cp NestingHost\$NestedClass1.class build/classes/java/main/nesttest/
+----
+
+
+Now we have a `NestingHost` that knows that it has only one nestling: `NestedClass2`. The test code, however, thinks that there is another nestling `NestedClass1` and it also has a public method that can be invoked. This way we try to sneak an extra nestling into the nest. If we execute the code then we get an error:
+
+[source,text]
+----
+$ java -cp build/classes/java/main/ nesttest.HackNest
+Exception in thread "main" java.lang.IncompatibleClassChangeError: Type nesttest.NestingHost$NestedClass1 is not a nest member of nesttest.NestingHost: current type is not listed as a nest member
+        at nesttest.NestingHost$NestedClass1.publicMethod(NestingHost.java:8)
+        at nesttest.HackNest.main(HackNest.java:7)
+----
+
+
+It is important to recognize from the code that the line, which causes the error is the one where we want to invoke the private method. The Java runtime does the check only at that point and not sooner.
+
+Do we like it or not? Where is the fail-fast principle? Why does the Java runtime start to execute the class and check the nest structure only when it is very much needed? The reason, as many times in the case of Java: backward compatibility. The JVM can check the nest structure consistency when all the classes are loaded. The classes are only loaded when they are used. It would have been possible to change the classloading in Java 11 and load all the nested classes along with the nesting host, but it would break backward compatibility. If nothing else the lazy singleton pattern would break apart and we do not want that. We love singleton, but only when single malt (it is).
+
+
+== 6. Conclusion
+
+
+The JEP-181 is a small change in Java. Most of the developers will not even notice. It is a technical debt eliminated and if the core Java project does not eliminate the technical debt then what should we expect from the average developer?
+
+As the old Latin saying says: "Debitum technica necesse est deletur."
+
+
+== 7. Update
+
+
+Brian Goetz  2018-09-06 on https://dzone.com/articles/nesting-java-classes :
+"You theorize that the motivation for the lazy check is compatibility, but there is a much simpler explanation: this is yet another example of Java's pervasive commitment to dynamic linkage.  References to other classes and class members are only checked for validity and accessibility when they are actually needed, such as when a method is called, or a class is extended.  This is just more of the same -- nothing new here."

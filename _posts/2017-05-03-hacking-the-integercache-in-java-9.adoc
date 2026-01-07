@@ -1,0 +1,269 @@
+---
+title: "Hacking the IntegerCache in Java 9" 
+layout: posta
+comments: on
+---
+
+Five years ago I published an article in Hungarian about how to alter the IntegerCahe in the JDK. Doing that is essentially hacking the Java run-time and there is no practical advantage unless while you develop the hacking code you get a better understanding how reflection works and how the Integer class is implemented.
+
+The `Integer` class has a private nested class named `IntegerCache` that contains Integer objects for the int values -127 to 128. When the code has to box an `int` to `Integer` and the value is within this range then the run-time uses the cache instead of creating new Integer object. This is done for speed optimization reasons bearing in mind that the int values in programs are many times in this range (think about array indexing).
+
+The side effect of this is that many times using the identity operator to compare two Integer objects may work so long as long the value is in the range. This is typically during unit test. In operational mode, when some of the values get bigger than 128 the code fails.
+
+Hacking the `IntegerCache` using reflection may also lead to mysterious side effects and note that this is something that has its effect on the whole JVM. If a servlet redefines the small `Integer` cached values then all other servlets running in the same Tomcat under the same JVM will suffer.
+
+There are other articles about it on the net from Lukas Eder
+
+https://blog.jooq.org/2013/10/17/add-some-entropy-to-your-jvm/
+
+and on the excellent blog site Sitepoint:
+
+https://www.sitepoint.com/10-things-you-didnt-know-about-java/
+
+Now that I started to play around with Java 9 early access version it came to my mind if I can do the same hacking with the new version of Java. Before starting that let's refresh what we did with Java 8.
+
+Lukas in his article displays a sample code, I copy here:
+
+[source,java]
+----
+import java.lang.reflect.Field;
+import java.util.Random;
+ 
+public class Entropy {
+  public static void main(String[] args) 
+  throws Exception {
+ 
+    // Extract the IntegerCache through reflection
+    Class<?> clazz = Class.forName(
+      "java.lang.Integer$IntegerCache");
+    Field field = clazz.getDeclaredField("cache");
+    field.setAccessible(true);
+    Integer[] cache = (Integer[]) field.get(clazz);
+ 
+    // Rewrite the Integer cache
+    for (int i = 0; i < cache.length; i++) {
+      cache[i] = new Integer(
+        new Random().nextInt(cache.length));
+    }
+ 
+    // Prove randomness
+    for (int i = 0; i < 10; i++) {
+      System.out.println((Integer) i);
+    }
+  }
+}
+----
+
+
+The code gets access to the `IntegerCache` via reflection and then fills the cache with random values. Naughty.
+
+We can try to execute the same code in Java 9. Do not expect much fun though. Java 9 is more serious when somebody tries to violate it.
+
+[source]
+----
+Exception in thread "main" java.lang.reflect.InaccessibleObjectException:
+  Unable to make field static final java.lang.Integer[]
+  java.lang.Integer$IntegerCache.cache
+  accessible: module java.base does not "opens java.lang" to unnamed module @1bc6a36e
+----
+
+
+We get an exception that did not exist in Java 8. It says that object is not accessible because the module java.base, which is the part of the run-time of the JDK that is automatically imported by each Java program does not 'opens' (sic) the module to the unnamed module. It is thrown from the line where we try to set the field accessible.
+
+The object we could easily access in Java 8 is not accessible any more, because the module system protects it. A code can only access fields, methods, and other things using reflection only if the class is in the same module, or if the  module opens the package for reflective access for the world or for the module that needs the access. This is done in the `module-info.java` module definition file, like
+
+[source,java]
+----
+module myModule {
+    exports com.javax0.module.demo;
+    opens com.javax0.module.demo;
+}
+----
+
+
+The module `java.base` does not open itself for reflective access for us and especially not for the unnamed module, which is the code that we run. If we create a module for our code and name it then the error message will contain the name of that module.
+
+Can we open the module programmatically? There is an `addOpens` method in the `java.lang.reflect.Module` module. Will it work?
+
+Bad news for the hackers that it will not. It can only open a package in a module to another module if that package is already opened for the module calling this method. That way modules can pass on to other modules the right that they already have to access some packages in a reflective way but can not open things that are not open.
+
+But the same time it is a good news. Java 9 is not so easily hackable like Java 8 was. At least this little hole is closed. It seems that Java starts to be professional grade and not to be a toy. Soon the time will come when we can migrate serious programs from RPG and COBOL to Java. (Sorry for the joke.)
+
+
+==== 1.1.1. UPDATE
+
+
+After the article was republished on link:https://dzone.com/articles/hacking-the-integercache-in-java-9[DZONE] link:https://dzone.com/users/230405/prunge.html[Peter Runge] pointed out that the module system in this case still can be neglected using `sun.misc.Unsafe` class. Based on his suggestion the whole hack is here:
+
+[source,java]
+----
+public class IntegerHack {
+
+    public static void main(String[] args)
+            throws Exception {
+        // Extract the IntegerCache through reflection
+        Class usf = Class.forName("sun.misc.Unsafe");
+        Field unsafeField = usf.getDeclaredField("theUnsafe");
+        unsafeField.setAccessible(true);
+        sun.misc.Unsafe unsafe = (sun.misc.Unsafe)unsafeField.get(null);
+        Class<?> clazz = Class.forName("java.lang.Integer$IntegerCache");
+        Field field = clazz.getDeclaredField("cache");
+        Integer[] cache = (Integer[])unsafe.getObject(unsafe.staticFieldBase(field), unsafe.staticFieldOffset(field));
+        // Rewrite the Integer cache
+        for (int i = 0; i < cache.length; i++) {
+            cache[i] = new Integer(
+                    new Random().nextInt(cache.length));
+        }
+
+        // Prove randomness
+        for (int i = 0; i < 10; i++) {
+            System.out.println((Integer) i);
+        }
+    }
+}
+----
+
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2017-05-04 13:46:45
+
+
+
+
+
+[quote]
+____
+You really didn't like that I published this hack in my original article, right? ;)
+____
+
+
+
+
+
+*Peter Verhas* 2017-05-04 11:27:38
+
+
+
+
+
+[quote]
+____
+http://openjdk.java.net/projects/jigsaw/spec/sotms/
+https://www.manning.com/books/the-java-9-module-system
+https://blogs.oracle.com/java/module-system-in-jdk-9
+https://www.sitepoint.com/tag/java-9/
+____
+
+
+
+
+
+*airborn* 2017-05-08 13:09:49
+
+
+
+
+
+[quote]
+____
+This is the only answer on CodeGolf, that I'm aware, of that uses java and is the best scoring answer https://codegolf.stackexchange.com/questions/28786/write-a-program-that-makes-2-2-5
+____
+
+
+
+
+
+*Peter Verhas* 2017-05-04 13:51:11
+
+
+
+
+
+[quote]
+____
+I hated it. I wanted to keep that as a secret for the Hungarian hackers only:
+
+https://tifyty.wordpress.com/2012/07/26/ez-mar-tenyleg-wtf/
+____
+
+
+
+
+
+*Хачим IntegerCache в Java 9 &#8211; iRepost* 2017-05-06 02:06:28
+
+
+
+
+
+[quote]
+____
+[&#8230;] примером, который привел в своей статье Питер Варгас [1]. Читать дальше [&#8230;]
+____
+
+
+
+
+
+*Хачим IntegerCache в Java 9 &#8212; Malanris.ru* 2017-05-06 02:11:23
+
+
+
+
+
+[quote]
+____
+[&#8230;] примером, который привел в своей статье Питер Варгас [1]. Читать дальше →&#013; Хачим IntegerCache в Java 9&#013; Source: [&#8230;]
+____
+
+
+
+
+
+*Iorek* 2017-05-04 09:37:54
+
+
+
+
+
+[quote]
+____
+So there is module finally in Java 9. First time I hear it. Thank you!
+____
+
+
+
+
+
+*Harold's* 2017-06-30 13:41:55
+
+
+
+
+
+[quote]
+____
+
+
+So there is module finally in Java 9.
+____
+
+
+
+
+
+*jeffreydhairston* 2017-08-22 14:05:15
+
+
+
+
+
+[quote]
+____
+So there is module finally in Java 9.
+____
+
+
+

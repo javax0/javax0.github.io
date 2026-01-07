@@ -1,0 +1,455 @@
+---
+title: "The Magic Setter Antipattern" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Setters and getter are evil. When the JavaBean definition was created it seemed to be a good idea. But they do a lot of harm to the Java community. Not as many as the null pointer generally, but enough.
+
+The very first thing is that many juniors believe that implementing setters and getter (hey, it is just a few click in Eclispe!) does encapsulation properly. Should I detail why it does not?
+
+The other things is that using setters and getters are against YAGNI. YAGNI stands for link:http://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it[You aren't gonna need it]. It means that you should not develop a code that the project does not need __now__. The emphasis is on the word __now__. Many programmers tend to develop code that extends the actual functionality and does something more general than actually needed. Even though in principle it could be valuable: in most of the practical cases it is not. The code becomes more complex and on the other hand project never develops to the stage where the generalization the programmer created is needed.
+
+Setters and getter are a clean, simple and very broadly used example of YAGNI. If the setter does nothing else but sets the value of a field and if the getter does nothing else than returns the value of the field then why do we need them at all? Why do not alter the access modifier of the field to the value that the setter and the getter has (probably `public`)?
+
+The answer usually is that you __may need to implement__ some more complex functionality either in the getter or in the setter and then you need not change the "interface" the bean provides. The words "__you may need to implement__" suggests that this is YAGNI. What is more: it is dangerous. Implementing the setters and the getters you implicitly expose the implementation of the class. What does a setter do? Sets the value of a field. For example `setBirthDate()` by definition sets the field `birthDate`. And this is the way your users, who write the code calling the setter will think about it. You may document in your JavaDoc that `setBirthDate()` actually "specifies" a birth date but that is too late. You named the method to be a setter and that is it. Nobody reads JavaDoc. API rulez.
+
+Later, when you change your code and `setBirthDate()` does not only sets birth date or does not even do that the users will not be notified. The change is silent and you just changed the interface you implicitely provided for your users. There will be bugs, debug session, new releases and this is good, because this creates workplace (feel the irony, please). If the users were provided direct access to the fields moving the fields from `public` to behind the barricades of `private` access modifier would cause compile time errors. Perhaps it is only a weird personal taste, but I prefer compile time errors more than bugs. They are easier (read: cheaper) to fix.
+
+Do not worry: you still can modify your API. You can still remove your setters and getters from the set of methods and force fellow programmers to fix their code that implicitly assumed that setters really set and getters get. Please do.
+
+What the actual story was making me write this?
+
+Once upon a time there was an object that could do something. To perform its task you could set either field `aaa` or the field `bbb`, but never both. The application was developed this way and all was good for more than six years. Some day a young programmer princess came riding on white horse wanting to make the world to be a better place. He wanted to make the before mentioned class safer and modified the setter `setAaa()` to `null` the field `bbb` and the other way around. Unit tests shined. Coverage was 100%. (I should learn not to lie.) He submitted a new release of the library and a few weeks later he finished his internship and went back to school. That time the applications started to use the new version of the library. And they failed miserably because of this small change and rolled back to the old version. We all had hard time and summing up, well, the corporate spent approximately one person year of work caused by the simple change not to mention the amount of hair that programmers tore off from their head.
+
+Why did the programs failed? There was some code that cloned an object containing the fields `aaa` and `bbb` in a way like this:
+
+[source,java]
+----
+    BadBean newBadBean = new BadBean();
+    newBadBean.setAaa(oldBadBean.getAaa());
+    newBadBean.setBbb(oldBadBean.getBbb());
+----
+
+
+You see the point. In the new bean the field `aaa` was always `null`.
+
+Now that you have read this article you will never try to create a clever setter. I know you won't! You know the saying: __Always code as if the person who ends up maintaining your code is a violent psychopath who knows where you live.__ Behold!
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2015-03-30 10:09:24
+{%@comment id: 8050 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-03-30 09:09:24 %}
+[quote]
+____
+Something like
+
+[source,java]
+----
+public setAaa(aaa) {
+   this.aaa = aaa;
+   if (aaa!=null) this.bbb = null;
+}
+----
+
+
+would work and __less likely__ to cause harm ...
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 8048 %}
+{%@comment user_id: 31131067 %}
+
+*Peter Verhas* 2015-03-30 09:52:15
+{%@comment id: 8049 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-03-30 08:52:15 %}
+[quote]
+____
+I do not think that we have to choose who was wrong at this late point. The fact that the cloning code was not appropriate does not lift the responsibility of somebody changing an already established interface. It is not the one or the other case. Both practices are wrong.
+
+In case of changing the setter and getter there was good intent to correct a mistake. However -- in my belief -- it was done in a wrong way. If the patient walks with a drag because of a broken leg it may not be the best approach to break the other leg. The original problem breaking the first leg was the use of setters and getters exposing the internals of the bean.
+
+Making the bean clonable, or providing an appropriate builder for the bean would have been good. But that was not what the person making the "correction" did.
+
+DRY: It is just another principle that was violated. It still not validates the wrong movement. A mistake at one place does not justify another mistake another place. It may also worth mentioning that violating DRY you can see many times in large organization. You can see examples of some functionality that has its logical place in one library belonging to one group. and is needed by another. The solution would be to manage the change of the library. It may need many organizational management effort. Programmers are not good in managing and organizing issues. They love to create code that works and have things controlled on the technical level. SO they develop the code where they need it. This clearly leads to code duplication, violation of DRY. But in this case this is already organization issue, that I would not like to touch, out of subject. I am not good at managing things, I like to code and control things on the technical level.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 8047 %}
+{%@comment user_id: 31131067 %}
+
+*Peter Sufliarsky* 2015-03-25 17:42:54
+{%@comment id: 8030 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-03-25 16:42:54 %}
+[quote]
+____
+Actually those clever setters don't look like evil to me. However if they should be clever, they need to be really clever enough. And should not forget about possible null on the input for example. If only Java programmers would always expect null on input. The world would be a nicer place to live.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Jacob Zimmerman* 2015-04-01 18:28:43
+{%@comment id: 8055 %}
+
+{%@comment author_url: http://programmingideaswithjake.wordpress.com %}
+{%@comment author_IP: 71.13.119.2 %}
+{%@comment date_gmt: 2015-04-01 17:28:43 %}
+[quote]
+____
+You missed his point. Using the setters and getters in your classes exposes the object state almost as much as leaving them public. And if you're going to provide getters and setters that aren't doing anything, you might as well be making the fields public.
+
+Granted, overall this was still a poor design, not originally preventing both from getting set, and making the copier do things a dumb way. But that doesn't change the fact that just placing getters and setters for all your fields is a bad idea. Unless it's sole purpose is as a data object. Even then, the data should be set in the constructor and the object remain unchangeable, removing the need for setters.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 8034 %}
+{%@comment user_id: 17955486 %}
+
+*Piotr* 2015-03-26 11:28:37
+{%@comment id: 8039 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 87.239.222.243 %}
+{%@comment date_gmt: 2015-03-26 10:28:37 %}
+[quote]
+____
+What do you say about single responsibility ?
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Peter Verhas* 2015-03-26 17:20:53
+{%@comment id: 8040 %}
+
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 193.134.254.24 %}
+{%@comment date_gmt: 2015-03-26 16:20:53 %}
+[quote]
+____
+@none
+
+[quote]
+____
+
+Just make it public?
+
+____
+
+
+I merely wanted to say that creating setter and getter is not better than making the field `public`.
+
+[quote]
+____
+
+Well, it took your team a year in hour just to find a bug in the state of an object?
+That should be a clue.
+
+____
+
+
+You can come to the conclusion that we are unprofessional and the code base is a mess.
+
+However at the same time you could also come to the conclusion it is a really really huge organization with very many applications that are dependent on that library that was changed. If each application needed one person day to fix the issue, and three person day for an extra regression release test then the one person year was a modest estimation.
+
+You comment presents a great example how easy it is to underestimate the consequences of a "small" mistake.
+
+[quote]
+____
+
+The moral of your story should not be, don’t try to refactor old shitty code.
+
+____
+
+
+And it is not. "Code refactoring is the process of restructuring existing computer code – changing the factoring – without changing its external behavior." In the example the external behavior was changed. It is no refactoring.
+
+[quote]
+____
+
+Please take down your blog post, it is an embarrassment to real programmers.
+
+____
+
+
+http://www.programcreek.com/2012/11/top-100-java-developers-blogs/
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 31131067 %}
+
+*tvk* 2015-03-26 10:19:55
+{%@comment id: 8038 %}
+
+{%@comment author_url: http://kodzaj.blog.hu %}
+{%@comment author_IP: 91.82.100.194 %}
+{%@comment date_gmt: 2015-03-26 09:19:55 %}
+[quote]
+____
+Peter: Are you using non-private fields instead of accessor methods since then? What are your experiences with them?
+
+In my read, the main failure in this story was, that nobody reviewed the code of an intern.
+
+You and I know that 100% code coverage for unit tests doesn't guarantee perfect code. For setters it would be sensible to make assertions that they don't make other unwanted side effects for more possible incoming parameters. So not just an assert would be needed which checks that the actual field has been set, but asserts for other fields that they are not changed, or actually changed if it's needed. Of course this is an overkill, but an experienced programmer will find this kind of mistake by the first look at the code.
+
+Another thing is about cloning: Cloning is a very risky operation as for real creatures as well as digital objects. I believe that cloning should be handled by the object itself but not externally. Or if it's handled externally it should happen with extra care. If the object can clone itself it can use its private fields.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Ottó Takács* 2015-03-26 08:40:09
+{%@comment id: 8037 %}
+
+{%@comment author_url: https://plus.google.com/109696442647592159849 %}
+{%@comment author_IP: 136.173.62.130 %}
+{%@comment date_gmt: 2015-03-26 07:40:09 %}
+[quote]
+____
+@none: you are not professional enough to use your own identity when you write such a comment. Please do not talk about being real programmer...
+
+To the case study: the change was incorrect because the novice did not checked each invocation of the code (Eclipse CTR+ALT+H) even if this is not blocking the mistake (e.g when using framework and reflection) but decreasing the risk..
+
+To the subject:
+
+One of the main problem that getters and setter are expected by frameworks. E.g. all web framework I know is not able to use beans without setters and getters. I have tried to use just plain objects with public field (as data holder "record" type - more info about the concept -> Search for Uncle Bob presentations and videos) but it is failed. I am forced to use getters and setters.
+
+99.99% of getters and setters I have seen and written  is just simply exposing internal state of a class instance.
+
+At least http://projectlombok.org helps eliminating boilerplate code.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*none* 2015-03-26 00:43:23
+{%@comment id: 8034 %}
+
+{%@comment author_url: http://none %}
+{%@comment author_IP: 182.171.233.67 %}
+{%@comment date_gmt: 2015-03-25 23:43:23 %}
+[quote]
+____
+Just make it public?
+This is not what YNGNI is about.
+I think you need to read this.
+http://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29
+Exposing object state is bad.
+Just like global state is bad.
+Why is it bad? 
+Well, it took your team a year in hour just to find a bug in the state of an object?
+That should be a clue.
+How pathetic you must be, to try to blame the person trying to fix your mess.
+
+Just because it broke the shitty code does not mean the code fix was incorrect.
+The fact that the code broke from something so simple means much more.
+I have worked on projects with people like this author, and the code base is always a disaster.
+The moral of your story should not be, don't try to refactor old shitty code.
+And the fact that your company spend a year of man hours to fix a bug as simple as this tell volumes of the competence of the preexisting, obviously incompetent lifers who have fooled management into keeping them.
+
+These are the same people who build mazes into the code bases and use single characters for variable names.
+Their goal is job security.
+They don't do their jobs.
+They sabotage the company for their own self interest.
+
+Please take down your blog post, it is an embarrassment to real programmers.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Joe* 2015-03-30 07:59:40
+{%@comment id: 8047 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 66.87.132.19 %}
+{%@comment date_gmt: 2015-03-30 06:59:40 %}
+[quote]
+____
+You read that entirely wrong and then tried to fit it into your article.  The intern was right.  The people who incorrectly cloned were wrong.  The object should be Cloneable  and the clone method should be used.  Or a builder pattern that handles the scenario correctly should be used.
+
+Worse if this clone pattern issue caused so much time I have to wonder, was it in more than one place?  Doesn't  that violate DRY?
+
+To be honest YAGNI  really should be considered an anti pattern that people looking to slap dash code out the door without design or forethought use as a justification.
+
+Seems to me your throwing an intern under the bus to excuse bad code written by "professional" "developers."
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Martin Grajcar* 2015-03-30 09:22:02
+{%@comment id: 8048 %}
+
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 77.47.82.132 %}
+{%@comment date_gmt: 2015-03-30 08:22:02 %}
+[quote]
+____
+After the intern's change
+
+[source,java]
+----
+setAaa(aaa)
+----
+
+
+is no no-op anymore and that's something nobody expects, so I'd call it wrong. Something like
+
+[source,java]
+----
+public setAaa(aaa) {
+   this.aaa = aaa;
+   if (aaa!=null) this.bbb = null;
+}
+----
+
+
+would work and cause no harm, however,
+
+[source,java]
+----
+assert aaa==null || bbb==null
+----
+
+
+is what I'd strongly prefer (assert-haters can choose something else). My reasoning is "don't enforce what's believed to already hold, assert it instead".
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Bo* 2015-03-29 02:47:06
+{%@comment id: 8046 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 80.109.73.167 %}
+{%@comment date_gmt: 2015-03-29 01:47:06 %}
+[quote]
+____
+Hm, I think this post might easily lead to wrong conclusions, although I do understand the deeper issue. 
+Imagine your story is slightly changed, with the engineer being a senior from the security/QA team, and the bean change is part of making it more robust: the bean was created so you could not set both values. The cloning code in question does that (sets both fields), thereby resulting in unsupported/undefined behavior. Either the bean already caught such wrong behavior (obviously not), otherwise any bets are off with code that happily explores the land of unspecified/unsafe behavior. Would you still blame the engineer for such change? I wouldn't. It's more the question which of the two fragile pieces of code eventually breaks first...
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*test your work | javayourweek* 2015-10-05 14:58:11
+{%@comment id: 8896 %}
+
+{%@comment author_url: https://javayourweek.wordpress.com/2015/10/05/test-your-work/ %}
+{%@comment author_IP: 192.0.100.201 %}
+{%@comment date_gmt: 2015-10-05 13:58:11 %}
+[quote]
+____
+[&#8230;] https://javax0.wordpress.com/2015/03/25/the-magic-setter-antipattern/ [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Reiner* 2015-09-25 23:16:55
+{%@comment id: 8822 %}
+
+{%@comment author_url: http://blog.saddey.net %}
+{%@comment author_IP: 80.187.102.232 %}
+{%@comment date_gmt: 2015-09-25 22:16:55 %}
+[quote]
+____
+Thanks Peter!
+
+Yes, getters and setters used to be a technical necessity in ancient Java Beans days and now turn into pure evil.
+
+Both me and Java (e.g. parallelised lambdas) coming of age, I see a computing world populated by two species:
+
+"Real" objects implementing behaviour - heavy weights
+
+DTOs aggregating values, very much like arrays or collections or maps - light weights, no behaviour added beyond the one inherited from the aggregates
+
+For the latter, IMHO, they should:
+1. be immutable (all fields are final)
+2. have no setters or getters at all
+3. are created using either builder of factory patterns
+
+
+Promotes both reliability and performance. Performance by obviating the need for synchronisation per se (and most programers do fail miserably in this area). Reliability by preventing arbitrary hidden code sequences to change state, either willingly or by chance - effectively turning an object into a global variable of ancient Fortran days: Disgusting!
+Promotes documentation: It's far more easy to document a field, than to copy and paste it to getters / setters (and keep it synchronised as well). Thus the documentation is per se canonical (i.e. there's only one place instead of multiple ones that inevitably tend to diverge over time). Noone likes to create setters and getters manually - thus they are likely to end up having no documentation at all (i.e. Eclipse: Sets the value of / gets the value of). Using a run of the mill IDE, all getters and setters are bound to have the very same effect: They set, or they get - only God knows what and what for.
+IMHO the most important fact (implicitly resulting from 1. immutability): For each instance, there is just ONE place that is/was responsible for creating a particular DTO instance. A constructor / factory / builder is far more easy to prove correct than a sequence of mutations that tends to escape human control with as little as three or four independent variables - short of applying a rule engine to enforce constraints. And even constraints turn out hard to implement with objects, whose state is never final...
+
+
+Take care,
+Reiner
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 4696137 %}
+
+*Brainless Getters &amp; Setters are a Waste | Agile Software Craftsmanship* 2017-04-16 15:02:27
+{%@comment id: 10737 %}
+
+{%@comment author_url: https://agiletribe.wordpress.com/2016/03/07/brainless-getters-setters-are-a-waste/ %}
+{%@comment author_IP: 192.0.89.11 %}
+{%@comment date_gmt: 2017-04-16 14:02:27 %}
+[quote]
+____
+[&#8230;] The Magic Setter Antipattern &#8211; Peter Verhas, March 25, 2015, Setters and getters are evil. [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*CodeChimp* 2017-10-02 12:39:50
+{%@comment id: 11499 %}
+
+{%@comment author_url:  %}
+{%@comment author_IP: 74.217.93.204 %}
+{%@comment date_gmt: 2017-10-02 11:39:50 %}
+[quote]
+____
+I came here because a coworker of mine has argued that JavaBeans is an anti-pattern, and I honestly wanted to read the cases people make as to why they believe that is so.
+
+First off, yes, your example does show a glaringly bad design.  However, I would argue that it is NOT the fault of the JavaBeans (anti???)-pattern, but a flaw in the design of the API in question.  Let me explain...
+
+You say you have a bean that should only be set to "aaa" or "bbb", with the other value being set to null.  The assumption was noble in that if I set "aaa" then I should null "bbb" or if I set "bbb" I should null "aaa", but that's where you went wrong.  I think the proper action would have been to throw an exception the moment you tried to set both OR when you tried to use the bean that had both set (I would opt for when it was set so the exception is thrown immediately when the problem occurred).  That would have been the proper API way to handle a problem where the bean state is not in a bad way.
+
+Second problem: Your unit tests may have all be spot-on, but your integration testing was not.  Had you had a decent set of regression tests it should have identified the issue.
+
+My arguments as to why JavaBeans are good:
+  - It is a well documented, well supported pattern in the community.  Sticking to well supported, well documented patterns is a good thing.
+  - It helps people coming behind you to follow your code.  It is WAY easier to find all the locations a value is set when I can search "setAAA()" and not have to worry about places where I get AAA showing up
+  - Almost ALL the tools used to make our life easier in the Java world revolve around the JavaBean pattern (see well documented, well supported above)
+  - It allows you the chance to deal with exception handling like invalid values being set or lazy-inited collections (largest cause of NPEs, IMHO, is null collections being returned)
+  - It gives you a chance to make properties be "read-only" or "write-only", which is sometimes a good thing
+
+Are there ways to handle all of the above without using JavaBeans?  Sure, absolutely.  Am I advocating that JavaBeans is the best, most sacred pattern to follow?  No, surely not.  But to say it's "bad" or "outdated" or "worthless" is probably not correct either.
+
+As for the JavaDoc comment, I actually read that too.  It was another argument my coworker has brought up.  I am sorry, I have been programming Java for almost 20yrs and I still have a hard time reading my own code I wrote after having not looked at it for some time, let alone trying to figure out what some other person who thinks they are the smartest developer alive does in their fancy attempt to flex their programming muscles.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

@@ -1,0 +1,184 @@
+---
+title: "Random Ideas about Code Style" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+__Some of the sentences of this article are ironic. Others are to be taken serious. It is up to the reader to separate them. Start with these sentences.__
+
+How long should a method be in Java?
+
+This is a question I ask many times during interviews. There is no one best answer. There are programming styles and different styles are just different and many can be ok. I absolutely accept somebody saying that a method should be as short as possible, but I can also accept 20 to 30 lines methods. Above 30 lines I would be a bit reluctant.
+
+[quote]
+____
+"When I wrote this code only God and I understood it. Now only God does."
+Quote from unknown programmer. Last quarter of the XX. century.
+____
+
+
+The most important thing is that the code is readable. When you write the code you understand it. At least you think you understand what you wanted to code. What you actually coded may be a different story. And here comes the importance of readability as opposed to writeablity.
+
+When you refactor a code containing some long method and you split up the method into many small methods you actually create a tree structure from a linear code. Instead of having one line after the other you create small methods and move the actual commands into those. After that the small methods are invoked from a higher level. Why does it make the code more readable?
+
+First of all, because each method will have a name. That is what methods have and in Java we love camel cased talking names.
+
+[source,java]
+----
+private void pureFactoryServiceImplementationIncomnigDtoInvoker(IncomingDto incomingDto){
+  incomingDto.invoke();
+}
+----
+
+
+But why is it any better than inlining the code and using comments?
+
+[source,java]
+----
+// pure factory service implementation incoming dto invoker
+incomingDto.invoke();
+----
+
+
+Probably that is because you have to type `pureFactoryServiceImplementationIncomnigDtoInvoker` twice? I know you will not type it twice. You will copy paste it or use some IDE auto-complete feature and for that reason the type replacing 'Incoming' to 'Incomnig' does not really matter.
+
+[quote]
+____
+
+When you split up the code into small methods the names are a form of comment.
+
+____
+
+
+Very much like what we do in unit tests using JUnit 4.0 or later. Old versions had to start the test methods with the literal `test...` but that was not a good idea. It was discovered long time ago. (I just wonder when Go will get there.) These days Groovy (and especially spock) lets us use whole sentences with spaces and new lines as method names in unit tests. But those method names fortunately should not be typed twice. They are listed and invoked by Junit via reflection and thus they really are what they really are: documentation.
+
+So then the question still is: Why is tree structure better than linear?
+
+Probably that is how our brains work. We look at a method and see that there are two-three method calls in that. There can be a simple branch or loop structure in it, perhaps one nested to the other but not much deeper than that. It is simple and if method names are selected well (I mean really in a good, meaningful and talking way), they are easy to understand, easy to read.
+
+The we can, using the navigational aid of the IDE go to the methods and we can concentrate on the limited context of the method we are looking at. There is a rough rule:
+
+[quote]
+____
+
+You should be able to understand what a method does in 15 seconds.
+
+____
+
+
+If you stare at the method longer and you still have no idea what the method does it means it is too complex. Some people are better apprehending the structure of the code, others are challanged in that. I am in the latter group, so when I review code I many times prefer smaller and simpler methods. I refuse the code to be merged or I refactor it myself depending on the role, the actual task I perform. Juniors I work with think that I am strict and picky. The truth is I am slow. The complexity of the code should be compatible with the weakest chain: any one of the team (including imaginable future maintainers of the next coming 20 years till the code is finally deleted from production) should understand and maintain the code easily.
+
+Many times looking at git history I see refactoring ping-pong. For example the method
+
+[source,java]
+----
+Result getFrom(SomeInput someInput){
+  Result result = null;
+  if( someInput != null ){
+    result = someInput.get();
+  }
+  return result;
+}
+----
+
+
+is refactored to
+
+[source,java]
+----
+Result getFrom(SomeInput someInput){
+  final Result result;
+  if( someInput == null ){
+    result = null;
+  }else{
+    result = someInput.get();
+  }
+  return result;
+}
+----
+
+
+and later the other way around.
+
+One is shorter, while the other one is more declarative. Is the repetitive refactoring back and forth a problem? Most probably is, but not for sure. If it happens only a few times and by different people then this is not something to worry about too much. When the code gets refactored the developer feels the code more attached to him/herself. A more "it is my code" feeling, which is important. Even though a good developer is not afraid to touch and modify any code. (what could happen? test fail? so what? test? what test?) Note that not all developers are good developers. But what is a good developer after all? It is relative. There are better developers and there are not so good. If you see only good developers who are better than you, then probably you are lucky. Or not.
+
+
+=== Comments imported from Wordpress
+
+
+*Martin Grajcar* 2016-04-22 07:11:34
+{%@comment id: 9789 %}
+{%@comment author_email: maaartinus@gmail.com %}
+{%@comment author_url: https://plus.google.com/104379794518123041179 %}
+{%@comment author_IP: 178.255.168.75 %}
+{%@comment date_gmt: 2016-04-22 06:11:34 %}
+[quote]
+____
+@Kovacs Geza: I'm not sure, if you do it like me or the other way round. A public method called 
+collapseAndConvertHyphensAndUnderscoresToCamelCaseAndWhatever could be called just sanitize if it was private. So bigger scope implies a more descriptive name. But the more often a method gets used, the more I prefer a short name (assuming equal scope). The reasons are 1. a heavily used name should be fast to scan over, 2. a heavily used method is something you get quickly familiar with (so a sort of speed dial is fine).
+
+Concerning getFrom, there's only one acceptable style for me:
+
+[source]
+----
+
+Result getFrom(SomeInput someInput) {
+  return someInput == null ? null : someInput.get();
+}
+
+----
+
+
+Anything else would make me think "what complicated thing there a conditional statement is required for?". An expression (even conditional) feels much simpler (something gets computed, that's all).
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 9787 %}
+{%@comment user_id: 0 %}
+
+*Szaszvari Peter* 2016-04-14 07:47:13
+{%@comment id: 9771 %}
+{%@comment author_email: peter.szaszvari@gmail.com %}
+{%@comment author_url: https://plus.google.com/112478567534402128217 %}
+{%@comment author_IP: 193.68.38.6 %}
+{%@comment date_gmt: 2016-04-14 06:47:13 %}
+[quote]
+____
+Peter, it is so good to read! Sometimes your post just heals me. BTW, you could color irony...
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Kovacs Geza* 2016-04-20 13:55:11
+{%@comment id: 9787 %}
+{%@comment author_email: don.kihote@freemail.hu %}
+{%@comment author_url:  %}
+{%@comment author_IP: 212.94.34.202 %}
+{%@comment date_gmt: 2016-04-20 12:55:11 %}
+[quote]
+____
+Regarding to length of the method name I usually thinking on the scope of the method. As many places it is used as shorter names I choose. For e.g. a utility method should be less then 3 camel part but a very specific method might be longer and more descriptive.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*tamasrev* 2016-04-15 09:53:58
+{%@comment id: 9774 %}
+{%@comment author_email: tamas.rev@gmail.com %}
+{%@comment author_url: http://tamasrev.wordpress.com %}
+{%@comment author_IP: 193.178.168.100 %}
+{%@comment date_gmt: 2016-04-15 08:53:58 %}
+[quote]
+____
+Long method as linear code? That's funny :)
+
+I think if a method is as simple as a properties file, then we can keep it long. Otherwise we need to do so about the nested if-s, exception handling, break and return statements that are scattered unevenly through the lines
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 42401512 %}

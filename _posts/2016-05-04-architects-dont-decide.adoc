@@ -1,0 +1,76 @@
+---
+title: "Architects Don't Decide" 
+layout: posta
+comments: on
+---
+
+As pointed out in the article link:http://blog.cleancoder.com/uncle-bob/2016/01/04/ALittleArchitecture.html[A Little Architecture] from Robert C. Martin the job of the architect is not
+
+[quote]
+____
+
+...to lead a team and make all the important decisions about databases and frameworks and web-servers and all that stuff.
+
+____
+
+
+It is to make
+
+[quote]
+____
+
+decisions that a Software Architect makes are the ones that allow you to NOT make the decisions about the database, and the webserver, and the frameworks.
+
+____
+
+
+As the article pointed out juniors have many times different view about the tasks that a senior does than the senior who does it. It is not only the subject of the decision however. This is a bit more. Juniors see the position of an architect as a position of power. He has the right and the power to make decisions. Having the power is always good. You long to have the position of power, don't you. Up to certain age, maturity.
+
+When you get into the position of being an architect you realize that the power is not a privilege. It is a reponsibility. The system the team develops, the architecture, the network, hardware, the operation is not a play field to satisfy your curiosity. It is a professional environment that works based on profit and lost, budget and costs, money, money, money. The decision the architect makes should not be biased by the actual person's interest. This is, by the way, a very common mistake. __"Let's use NoSQL because that is so fancy! We have to use big data!"__
+
+The actual decision should lead to a solution that meets availability, performance, reliability, scalability, manageability and cost criteria. (Btw: the first six critera should be met, the last one should be at least met and minimized, but that is a different story.)
+
+The actual decisions on the architecture and solutions (finally when unavoidable also about framework and database and other stuff) depends on many things. License structure, license cost, company culture, available developers, deadline/time to market, architecture already in place to name a few. If you consider all the constraints you have to meet you will not have too many choices. There will be compromises and finally you will end up with the only one selection that fits. That one is going to be your decision.
+
+Did you really make a decision?
+
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2016-05-06 09:54:11
+
+
+
+
+
+[quote]
+____
+It very well may be wrong from a personal point of view, but it is certainly professional.
+____
+
+
+
+
+
+*Stefan Reich* 2016-05-04 17:04:08
+
+
+
+
+
+[quote]
+____
+[quote]
+____
+
+the operation is not a play field to satisfy your curiosity
+
+____
+
+
+Then You're doing it wrong
+____
+
+
+

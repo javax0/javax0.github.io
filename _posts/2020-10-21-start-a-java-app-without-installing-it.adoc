@@ -1,0 +1,184 @@
+---
+title: "Start a Java app without installing it" 
+layout: posta
+comments: on
+---
+
+This article describes how you can use JShell to download and execute a Java application. It will eliminate the need for the installation of the application.
+
+
+=== 1.1. Do not install, just run!
+
+
+The first obstacle that you have to overcome to make people use your app is the installation. You want people to use the app, try it out. To do that, they first have to install it. At least they have to download it and type in a command line to start it up. If your program is excellent and valuable for the users, they will use it after this step. They will see that it works and can do what it is supposed to do. Before the installation, however, this is a bit different. Users will install the program if they really, really need it. Installation is undoubtedly an entry threshold.
+
+
+=== 1.2. Jamal as Example
+
+
+My example is Jamal that you can download at https://github.com/verhas/jamal. I wrote the first version twenty years ago, and I named it Jamal. The name stands for Just Another Macro language, which I intended to be sarcastic. I thought it was sarcastic because it was so much more different than any other text macro applications. It seems the name was not interpreted as sarcastic but rather literally. Users saw it really as "just another" and it did not become widespread. A few people bothered to install it.
+Now I have a Java version, which is even more versatile and powerful than the previous version. However, if you wanted to use it, you had to install it and start it up with a relatively complex `java -cp ...` command line. My first attempt to overcome this was to create a Maven plugin. A maven plugin executes without installing it. If you have installed Maven, all you need to run a plugin is a Maven command line. A kind of complex one, though. Or it would help if you had a `pom.xml`.
+
+I also created the Maven plugin version because I used Jamal to maintain the `pom.xml` files with Jamal preprocessed. That way, as you can see in an earlier article, I can write
+
+[source,text]
+----
+{dependencyManagement|{dependencies|
+    {@for MODULE in (testsupport,api,core,tools,engine,extensions)={dependency :com.javax0.jamal:jamal-MODULE:{VERSION}}}
+    {@for MODULE in (api,engine,params)={dependency :org.junit.jupiter:junit-jupiter-MODULE:5.2.0:test}}
+    }}
+----
+
+
+instead of a much longer and redundant XML fragment. This source, `pom.xml.jam` is then converted to `pom.xml`, and Maven runs fine.
+
+The solution can still be better because many people do not use Maven. Jamal is not a Maven dependent tool.
+
+I also use a different project to `*.md.jam` files to edit my next book. A book, as a project, does not require Maven. This book is not a Java book. I happen to have Maven on my machine, but the project does not need that.
+
+There is no reason to require installed Maven as a precondition.
+
+There is one precondition that I have to require, and that is an installed Java JDK. I cannot skip that because Jamal is written in Java.
+
+You can also miss this precondition if you have docker, but then you need docker.
+
+However, if you have the JDK installed (at least Java 9), you can quickly start a JShell. JShell executes the Java code from some input file that you specify on the command line. If you want to start Jamal, then the command is:
+
+[source,text]
+----
+jshell https://git.io/jamal
+----
+
+
+The command file is on GitHub, and JShell can download it from there. This command file downloads the JAR files needed to run Jamal, and then it starts Jamal in a separate process.
+
+The actual script splits into separate parts, and the `jamal.jsh` content is
+
+[source,text]
+----
+/open scripts/version.jsh
+/open scripts/jarfetcher.jsh
+/open scripts/executor.jsh
+/open scripts/optionloader.jsh
+/open scripts/defaultoptions.jsh
+
+download("01engine/jamal-engine")
+download("02api/jamal-api")
+download("03tools/jamal-tools")
+download("04core/jamal-core")
+download("08cmd/jamal-cmd")
+
+loadOptions()
+
+for(String jarUrl:extraJars){
+    LOCAL_CACHE.mkdirs();
+    downloadUrl(jarUrl,LOCAL_CACHE);
+    }
+
+execute()
+
+/exit
+----
+
+
+As you can see, the JShell commands and the Java snippets are mixed. The script loads other scripts using the JShell `/open` command. These snippets define the method `download()`, `loadOption()` and `downloadUrl()`.
+
+The script `version.jsh` defines the global variable `VERSION`:
+
+[source,text]
+----
+String VERSION="1.2.0";
+----
+
+
+
+=== 1.3. Downloading and Caching the Program
+
+
+The next script, `jarfetcher.jsh` is a bit more complicated. As of now, it is 100 lines. If you want to look at the whole code, it is available on GitHub. You can calculate the URL from the argument of the `/open` statement and from the URL above used to start Jamal.
+
+The core functionality implemented in this script is the one that downloads the JAR files. This is the following:
+
+[source,text]
+----
+void downloadUrl(String urlString,File cacheRootDirectory) throws IOException {
+    final URL url = new URL(urlString);
+    File jar = new File(cacheRootDirectory.getAbsolutePath() + "/" + getFile(url));
+    classPath.add(jar.getAbsolutePath());
+    if (jar.exists()) {
+        return;
+    }
+    System.out.println("downloading " + url);
+    System.out.println("saving to file " + jar.getAbsolutePath());
+    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    con.setRequestMethod("GET");
+    con.setConnectTimeout(CONNECT_TIMEOUT);
+    con.setReadTimeout(READ_TIMEOUT);
+    con.setInstanceFollowRedirects(true);
+    final int status = con.getResponseCode();
+    if (status != 200) {
+        throw new IOException("GET url &#039;" + url.toString() + "&#039; returned " + status);
+    }
+    InputStream is = con.getInputStream();
+    try (OutputStream outStream = new FileOutputStream(jar)) {
+        byte[] buffer = new byte[8 * 1024];
+        int bytesRead;
+        while ((bytesRead = is.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+    }
+}
+----
+
+
+The method caches the downloaded files into a directory. Environment variables can configure the directory. The default location is `~/.jamal/cache/.jar/`.
+
+If the file exists, then it does not download it again. The code assumes that the files we are using are released JAR files that do not ever change. If this file was never downloaded before, it downloads the file and stores it in the cache directory.
+
+
+=== 1.4. Executing the macro processor
+
+
+When all the files are there, then the script executed Jamal. It is coded in the `executor.jsh`. The method `execute.jsh` contains the following method:
+
+[source,text]
+----
+void execute() throws IOException, InterruptedException {
+    ProcessBuilder builder = new ProcessBuilder();
+    String sep = System.getProperty("path.separator");
+    String cp = String.join(sep,classPath);
+    List<String> arguments = new ArrayList<>();
+    arguments.addAll(List.of("java", "-cp", cp, "javax0.jamal.cmd.JamalMain"));
+    arguments.addAll(commandLineOptions.entrySet().stream().map(e -> "" + e.getKey() + "=" + e.getValue()).collect( Collectors.toSet()));
+    System.out.println("EXECUTING");
+    for( String a : arguments){
+        System.out.println(a);
+    }
+    builder.command(arguments.toArray(String[]::new))
+        .directory(new File("."));
+    Process process = builder.start();
+    process.getInputStream().transferTo(System.out);
+    int exitCode = process.waitFor();
+}
+----
+
+
+As you can see, this script is using the standard Java `ProcessBuilder` to create a new process and then executes Jamal in it.
+
+
+=== 1.5. Extra details
+
+
+The actual operation is a bit more complex. Many options can control Jamal. In the Maven plugin version, these options are in the `pom.xml` file. The command-line version uses, eventually, command-line options. JShell does not handle command-line options that would pass to the executing JShell engine. There are some tricks, like using system properties or environment variables. I find those cumbersome and tricky to use. You usually execute Jamal using the same configuration in a single project. The best way is to have the options in a file. The Jamal startup JShell script reads the file `./jamal.options`. The file has a simple `key value` format. It can contain values for the command line options as keys and extra `jar` and `cp` keys. Jamal is extensible. Extra classes on the classpath may contain macro implementations in Java, and they are used from the text files. Every `jar` defines a URL from where a JAR file downloads. The `cp` key defines local files to be added to the classpath.
+
+These files are project-specific; therefore, these will cache in the current working directory. The cache directory will be `./.jamal/cache/.jar/`.
+
+If the `jamal.options` file does not exist, then the script's first execution will create. The auto-created file will contain the default values and also some documentation.
+
+
+=== 1.6. Summary
+
+
+A Java application can start without downloading it first using JShell. The startup JShell script can be located on the net and downloaded on the fly. It can also fetch other scripts, and you can mix the Java snippets with JShell commands. I recommend having some caching strategy for the JAR files to avoid repetitive downloads. The JShell script can start your application in a new process. You cannot pass command line parameters to a JShell script, but you can use an options file or something else.
+
+Happy scripting.

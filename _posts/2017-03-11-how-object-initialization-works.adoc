@@ -1,0 +1,29 @@
+---
+title: "How object initialization works"
+layout: posta
+comments: on
+---
+
+You may got used to my habit writing about something special, non trivial Java feature or usage. This time it will be a little different. At least for the start. This is a video tutorial about object initialization. We have an interface. Then we have an abstract class that implements the interface and then a concrete class that extends the abstract class. They do nothing except writing some strings to the console when they are executed so we can see what order they are executed. They have static initializer blocks, wherever it possible, non static initializer blocks and constructors.
+
+BTW: can you tell, and be honest to yourself: is it allowed to have a static initializer block inside an interface? If you know java very well, but you can not answer that question with absolute certainty it will not hurt to watch this 9 minute tutorial.
+
+And also stay tuned for the second part, when we get back to real javax0 style and let the hell loose.
+
+[youtube https://www.youtube.com/watch?v=ad31vR74bqc&amp;w=854&amp;h=480]
+
+While you wait for the second tutorial here is a puzzle:
+
+[quote]
+____
+How is it possible to have an instance of the `Concrete` class even though calling `new Concrete()` throws
+`Exception in thread "main" java.lang.NoClassDefFoundError: Could not initialize class com.javax0.classinit.Concrete`
+
+____
+
+
+If you could or could not find the answer to the puzzle watch the second part of the tutorial:
+
+[youtube https://youtu.be/Pvcn4i2J5G0&amp;w=854&amp;h=480]
+
+The source code is available from link:https://github.com/javax0-tutorials/object-initialization[https://github.com/javax0-tutorials/object-initialization].

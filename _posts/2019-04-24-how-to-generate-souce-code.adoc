@@ -1,0 +1,286 @@
+---
+title: "How to generate source code?"
+layout: posta
+comments: on
+---
+
+In this article, I will talk about the different phases of software development where the source code can be generated programmatically and I will compare the different approaches. I will also describe the architecture and the ideas (the kind of eureka moment) of a specific tool that generates code at a specific phase.
+
+
+== 1. Manually
+
+
+This is the answer to the question set in the title. If there is a possibility for the purpose you have to generate the code manually. I have already written an link:https://javax0.wordpress.com/2018/05/23/generating-source-code-a-compromise/[article] a year ago about code generation and I have not changed my mind.
+
+[quote]
+____
+You should not generate code unless you really have to.
+____
+
+
+Weird statement, especially when I promote a FOSS tool that is exactly targeting Java code generation. I know, and still, the statement is that you have to write all the code you can manually. Unfortunately, or for the sake of my little tool, there are enough occasions when manual code generation is not an option, or at least automated code generation seems to be a better option.
+
+
+== 2. Why to generate manually
+
+
+I discussed it already in the referenced article, but here we go again. When the best option is to generate source code then there is something wrong or at least suboptimal in the system.
+
+image::https://javax0.files.wordpress.com/2019/04/sub-par.png[]
+
+
+* the developer creating the code is sub-par,
+* the programming language is sub-par, or
+* the environment, some framework is sub-par.
+
+
+Do not feel offended. When I talk about the "sub-par developer" I do not mean You. You are well above the average developer last but not least because you are open and interested in new things proven by the fact that you are reading this article. However, when you write a code you should also consider the average developer Joe or Jane, who will some time in the future maintain your program. And, there is a very specific feature of the average developers: they are not good. They are not bad either, but they, as the name suggests, are average.
+
+
+=== 2.1. Legend of the sub-par developer
+
+
+It may happen to you what has happened to me a few years back. It went like the following.
+
+Solving a problem I created a mini-framework. Not really a framework, like Spring or Hibernate because a single developer cannot develop anything like that. (It does not stop though some of them trying even in a professional environment, which is contradictory as it is not professional.) You need a team. What I created was a single class that was doing some reflection "magic" converting objects to maps and back. Before that, we had `toMap()` and `fromMap()` methods in all classes that needed this functionality. They were created and maintained manually.
+
+Luckily I was not alone. I had a team. They told me to scrap the code I wrote, and keep creating the `toMap()` and `fromMap()` manually. The reason is that the code has to be maintained by the developers who come after us. And we do not know them as they are not even selected. They may still study at the university or not even born. We know one thing: they will be average developers and the code I created needs a tad more than average skills. On the other hand, maintaining the handcrafted `toMap()` and `fromMap()` methods does not require more than the average skill, though the maintenance is error prone. But that is only a cost issue that needs a bit more investment into QA and is significantly less than hiring ace senior developers.
+
+You can imagine my ambivalent feelings as my brilliant code was refused but with a cushion that praised my ego. I have to say, they were right.
+
+
+=== 2.2. Sub-par framework
+
+
+Well, many frameworks are in this sense sub-par. Maybe the expression "sub-par" is not really the best. For example, you generate Java code from a WSDL file. Why does the framework generate source code instead of Java byte-code? There is a good reason.
+
+Generating byte code is complex and need special knowledge. It has a cost associated with it. It needs some byte-code generation library like Byte Buddy, more difficult to debug for the programmer using the code and is a bit JVM version dependent. In case the code is generated as Java source code, even if it is for some later version of Java and the project is using some lagging version the chances are better, that the project can some way downgrade the generated code in case this is Java source than if it is byte code.
+
+
+=== 2.3. Sub-par language
+
+
+Obviously, we are not talking about Java in this case, because Java is the best in the world and there is nothing better. Or is it? If anyone claims about just any programming language that the language is perfect ignore that person. Every language has strength and weaknesses. Java is no different. If you think about the fact that the language was designed more than 20 years ago and according to the development philosophy it kept backward compatibility very strict it simply implies that there should be some areas that are better in other languages.
+
+Think about the `equals()` and `hashCode()` methods that are defined in the class `Object` and can be overridden in any class. There is no much invention overriding any of those. The overridden implementations are fairly standard. In fact, they are so standard that the integrated development environments each support generating code for them. Why should we generate code for them? Why are they not part of the language in some declarative way? Those are questions that should have very good answers because it would really not be a big deal to implement things like that into the language and still they are not. There has to be a good reason, that I am not the best person to write about.
+
+As a summary of this part: if you cannot rely on the manually generated code, you can be sure that something is sub-par. This is not a shame. This is just how our profession generally is. This is how nature goes. There is no ideal solution, we have to live with compromises.
+
+Then the next question is,
+
+
+== 3. When to generate code?
+
+
+Code generation principally can happen:
+image::https://javax0.files.wordpress.com/2019/04/phases-1.png[]
+
+
+* (BC) before compilation
+* (DC) during compilation
+* (DT) during the test phase
+* (DCL) during class loading
+* (DRT) during run-time
+
+
+In the following, we will discuss these different cases.
+
+
+== 4. (BC) Before compilation
+
+
+The conventional phase is before compilation. In that case, the code generator reads some configuration or maybe the source code and generates Java code usually into a specific directory separated from the manual source code.
+
+In this case, the generated source code is not part of the code that gets into the version control system. Code maintenance has to deal with the code generation and it is hardly an option to omit the code generator from the process and go on maintaining the code manually.
+
+The code generator does not have easy access to the Java code structure. If the generated code has to use, extend or supplement in any way the already existing manual code then it has to analyze the Java source. It can be done line by line or using some parser. In either way, this is a task that will be done again by the Java compiler later and also there is a slight chance that the Java compiler and the tool used to parse the code for the code generator may not be 100% compatible.
+
+
+=== 4.1. (DC) during compilation
+
+
+Java makes it possible to create so-called Annotation Processors that are invoked by the compiler. These can generate code during the compilation phase and the compiler will compile the generated classes. That way the code generation is part of the compilation phase.
+
+The code generators running in this phase cannot access the compiled code, but they can access the compiled structure through an API that the Java compiler provides for the annotation processors.
+
+It is possible to generate new classes, but it is not possible to modify the existing source code.
+
+
+=== 4.2. (DT) during the test phase
+
+
+First, it seems to be a bit off. Why would anyone want to execute code generation during the test phase? However, the FOSS I try to "sell" here does exactly that, and I will detail the possibility, the advantages and honestly the disadvantages of code generation in this phase.
+
+
+=== 4.3. (DCL) during class loading
+
+
+It is also possible to modify the code during the class loading. The programs that do this are called Java Agents. They are not real code generators. They work on the byte code level and modify the already compiled code.
+
+
+=== 4.4. (DRT) during run-time
+
+
+Some code generators work during run-time. Many of these applications generate java bytecode directly and load the code into the running application. It is also possible to generate Java source code, compile the code and load the resulting bytes into the JVM.
+
+
+== 5. Generating Code in Test Phase
+
+
+This is the phase when and where Java::Geci (Java GEnerate Code Inline) generates the code. To help you understand how one comes to the weird idea to execute code generation during unit test (when it is already too late: the code is already compiled) let me tell you another story. The story is made up, it never happened, but it does not dwarf the explaining power.
+
+We had a code with several data classes each with several fields. We had to create the `equals()` and `hashCode()` methods for each of these classes. This, eventually, meant code redundancy. When the class changed, a field was added or deleted then the methods had to be changed as well. Deleting a field was not a problem: the compiler does not compile an `equal()` or `hashCode()` method that refers to a non-existent field. On the other hand, the compiler does not mind such a method that does NOT refer to a new existing field.
+
+From time to time we forgot to update these methods and we tried to invent more and more complex and better ways to counteract the error-prone human coding. The weirdest idea was to create an MD5 value of the field names and have this inserted as a comment into the `equals()` and `hashCode()` methods. In case there was a change in the fields then a test could check that the value in the source code is different from the one calculated from the names of the fields and then signal an error: unit test fails. We never implemented it.
+
+The even weirder idea, that turned out not that weird and finally led to Java::Geci is actually to create the expected `equals()` and `hashCode()` method test during the test from the fields available via reflection and compare it to the one that was already in the code. If they do not match then they have to be regenerated. However, the code at this point is already regenerated. The only issue is that it is in the memory of the JVM and not in the file that contains the source code. Why just signal an error and tell the programmer to regenerate the code? Why does not the test write back the change? After all, we, humans should tell the computer what to do and not the other way around!
+
+image::https://javax0.files.wordpress.com/2019/04/lightbulb.png[]
+
+And this was the epiphany that led to Java::Geci.
+
+
+== 6. Java::Geci Architecture
+
+
+Java::Geci generates code in the middle of the compilation, deployment, execution life cycle. Java::Geci is started when the unit tests are running during the build phase.
+
+This means that the manual and previously generated code is already compiled and is available for the code generator via reflection.
+
+Executing code generation during the test phase has another advantage. Any code generation that runs later should generate only code, which is orthogonal to the manual code functionality. What does it mean? It has to be orthogonal in the sense that the generated code should not modify or interference in any way with the existing manually created code that could be discovered by the unit tests. The reason for this is that a code generation happening any later phase is already after the unit test execution and thus there is no possibility to test if the generated code effects in any undesired way the behavior of the code.
+
+Generating code during the test has the possibility to test the code as a whole taking the manual as well as the generated code into consideration. The generated code itself should not be tested, per se, (that is the task of the test of the code generator project) but the behavior of the manual code that the programmers wrote may depend on the generated code and thus the execution of the tests may depend on the generated code.
+
+To ensure that all the tests are OK with the generated code, the compilation and the tests should be executed again in case there was any new code generated. To ensure this the code generation is invoked from a test and the test fails in case new code was generated.
+
+To get this correct the code generation in Java::Geci is usually invoked
+from a three-line unit test that has the structure:
+
+[source,java]
+----
+Assertions.assertFalse(...generate(...),"code has changed, recompile!");
+----
+
+
+The call to `generate(...)` is a chain of method calls configuring the framework and the generators and when executed the framework decides if the generated code is different or not from the already existing code. It writes Java code back to the source code if the code changed but leaves the code intact in case the generated code has not changed.
+
+The method `generate()` which is the final call in the chain to the code
+generation returns `true` if any code was changed and written back to
+the source code. This will fail the test, but if we run the test again
+with the already modified sources then the test should run fine.
+
+This structure has some constraints on the generators:
+
+
+* Generators should generate exactly the same code if they are executed on the same source and classes. This is usually not a strong requirement, code generators do not tend to generate random source. Some code generators may want to insert timestamps as a comment in the code: they should not.
+* The generated code becomes part of the source and they are not compile-time artifacts. This is usually the case for all code generators that generate code into already existing class sources. Java::Geci can generate separate files but it was designed mainly for inline code generation (hence the name).
+* The generated code has to be saved to the repository and the manual source along with the generated code has to be in a state that does not need further code generation. This ensures that the CI server in the development can work with the original workflow: fetch - compile - test - commit artifacts to the repo. The code generation was already done on the developer machine and the code generator on the CI only ensures that it was really done (or else the test fails).
+
+
+Note that the fact that the code is generated on a developer machine
+does not violate the rule that the build should be machine independent.
+In case there is any machine dependency then the code generation would
+result in different code on the CI server and thus the build will break.
+
+
+== 7. Code Generation API
+
+
+The code generator applications should be simple. The framework has to do all the tasks that are the same for most of the code generators, and should provide support or else what is the duty of the framework?
+
+Java::Geci does many things for the code generators:
+
+
+* it handles the configuration of the file sets to find the source files
+* scans the source directories and finds the source code files
+* reads the files and if the files are Java sources then it helps to find the class that corresponds to the source code
+* supports reflection calling to help deterministic code generation
+* unified configuration handling
+* Java source code generation in different ways
+* modifies the source files only when changed and write back changes
+* provide fully functional sample code generators. One of those is a full-fledged Fluent API generator that alone could be a whole project.
+* supports Jamal templating and code generation.
+
+
+
+== 8. Summary
+
+
+Reading this article you got a picture of how Java::Geci works. You can actually start using it visiting the link:https://github.com/verhas/javageci[GitHub Home Page of Java::Geci]. I will also deliver a talk about this topic in link:https://jax.de/core-java-jvm-languages/code-generation-the-good-parts-why-do-we-generate-source-code-when-we-should-not/[Mainz at the JAX conference] Wednesday, May 8, 2019. 18:15 - 19:15
+
+In the coming weeks, I plan to write more articles about the design considerations and actual solutions I followed in Java::Geci.
+
+You are encouraged to contact me, for the code, create tickets follow on Twitter, Linked-in whatnot. It is fun.
+
+=== Comments imported from Wordpress
+
+
+*Epo Jemba* 2019-06-04 19:41:37
+
+
+
+
+
+[quote]
+____
+Hi Thank you for this great tool,
+I was looking for such approach. In go, they commonly generate their source code and it works pretty well. Your decision to handle the generation in the test phase is clever as well.
+
+Just one question, sorry if non clear : does Java:Geci handles merging of the source file. I mean around the editor-fold block, does the content is kept ?
+
+[source]
+----
+` ... some manualy modified source ...
+//<editor-fold id="HelloWorld3" methodName = "hiyaNyunad">
+//</editor-fold>
+ ... some manualy modified source ...
+`
+----
+
+____
+
+
+
+
+
+*Peter Verhas* 2019-06-05 07:27:55
+
+
+
+
+
+[quote]
+____
+Yes of course. Only the part that is after
+
+[source,java]
+----
+//<editor-fold id="HelloWorld3" methodName = "hiyaNyunad">
+----
+
+
+and before the next
+
+[source,java]
+----
+//</editor-fold>
+----
+
+
+is modified. Everything else, the manual code remains intact.
+____
+
+
+
+
+
+*Handling repeated code automatically | Java Deep* 2019-09-25 15:00:22
+
+
+
+
+
+[quote]
+____
+[&#8230;] How to generate Source Code [&#8230;]
+____

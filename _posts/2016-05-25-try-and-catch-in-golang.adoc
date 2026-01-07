@@ -1,0 +1,210 @@
+---
+title: "Try and Catch in Golang" 
+layout: posta
+comments: on
+---
+
+Golang as opposed to Java does not have exceptions, try/catch/finally blocks. It has strict error handling, functions called panic and recover and a statement named defer. It is a totally different approach. Is it better or is the Java approach the superior? (Sorry that I keep comparing it to Java. I am coming from Java world.)
+
+When we handle exceptional cases in Java we enclose the commands into a 'try' block denoting that something may happen that we want to handle later in a 'catch' block. Then we have the 'finally' block that contains all the things that are to be executed no matter what. The problem with this approach is that it separates the commands that belong to the same concern. We want to deal with some file. So we open a file and later, no matter what, we want to close it. When the programmer writes the finally block the file opening is far away somewhere at the start of the method. To remember all the things that we have to do to clean up the actions at the start of the method you have to scroll up to the start of the method where the 'try' block starts.
+
+Okay! I know that your method is too long if you have to scroll back. Your methods follow clean code principles and are not longer than ten lines each including JavaDoc. Even though the issue is still there. It is formulated according to order the execution is expected and not according to the order the logic dictates. The logic says the following: if I open a file, I will want to close it. If I allocate some resource I will want to release it. It is better keeping the concerns together. We are not programing in assembly where you write the mnemonics in the strict order of execution. We define the algorithmic solution in a high level language and the compiler will generate the assembly. Real work has to be done by the brain, mechanical work is for the CPU. These days we have CPUs.
+
+Golang has the command 'defer' for the purpose. You open a file and you mention on the next line that you will want it to be closed some time calling the function you provide. This is the much better approach, which the developers of the Java language also know hence introducing the interface 'closeable' and try-with-resources statement.
+
+Still programmers coming from the Java world begin introduced to Go are longing for exception handling. If you really want you can mimic it in Go. It will not be the same and I do not really get the point why to ruin something that is good to something old and mediocre, but you can write
+
+[source,java]
+----
+Block{
+		Try: func() {
+			fmt.Println("I tried")
+			Throw("Oh,...sh...")
+		},
+		Catch: func(e Exception) {
+			fmt.Printf("Caught %v\n", e)
+		},
+		Finally: func() {
+			fmt.Println("Finally...")
+		},
+	}.Do()
+----
+
+
+Homework: find out the sample code that is before these lines (Go constructs) that make this possible. Solution is here: https://play.golang.org/p/LXroobH8SM
+
+[source,java" collapse="true]
+----
+package main
+
+import (
+	"fmt"
+)
+
+type Block struct {
+	Try     func()
+	Catch   func(Exception)
+	Finally func()
+}
+
+type Exception interface{}
+
+func Throw(up Exception) {
+	panic(up)
+}
+
+func (tcf Block) Do() {
+	if tcf.Finally != nil {
+
+		defer tcf.Finally()
+	}
+	if tcf.Catch != nil {
+		defer func() {
+			if r := recover(); r != nil {
+				tcf.Catch(r)
+			}
+		}()
+	}
+	tcf.Try()
+}
+
+func main() {
+	fmt.Println("We started")
+	Block{
+		Try: func() {
+			fmt.Println("I tried")
+			Throw("Oh,...sh...")
+		},
+		Catch: func(e Exception) {
+			fmt.Printf("Caught %v\n", e)
+		},
+		Finally: func() {
+			fmt.Println("Finally...")
+		},
+	}.Do()
+	fmt.Println("We went on")
+}
+
+----
+
+
+See also a recent similar solution at http://hackthology.com/exceptions-for-go-as-a-library.html from link:http://hackthology.com/pages/about.html[Tim Henderson]
+
+=== Comments imported from Wordpress
+
+
+*Maaartinus* 2016-05-25 20:45:02
+
+
+
+
+
+[quote]
+____
+Interesting stuff, but without knowing more about golang, I'm a bit lost. Is there something preventing people from ignoring errors? Isn't it the existence of both error return and panic confusing?
+
+Just a remark:
+
+[quote]
+____
+
+__The logic says the following: if I open a file, I will want to close it.__
+
+____
+
+
+This sounds like Lombok:
+@Cleanup InputStream in = new FileInputStream("file");
+IMHO pretty unbeatable (though not as flexible as defer).
+____
+
+
+
+
+
+*Ofux* 2016-06-03 12:46:41
+
+
+
+
+
+[quote]
+____
+"If a language can be abused it will be abused." Sure, and Go actually tries to limit the possibilities to abuse it as much as possible. Panic is a case where it can be abused and I think the only way to prevent that is to tell loudly to everyone what are the best practices.
+
+In the end I agree, your sentence “It will not be the same and I do not really get the point why to ruin something that is good to something old and mediocre, but you can write” should be enough for a reasonable programmer. However, I don't see any reason to show and explain how to make bad things.
+____
+
+
+
+
+
+*Peter Verhas* 2016-06-03 14:27:54
+
+
+
+
+
+[quote]
+____
+"I don’t see any reason to show and explain how to make bad things."
+
+The damage is already there in form of libraries.
+____
+
+
+
+
+
+*Peter Verhas* 2016-05-31 20:38:56
+
+
+
+
+
+[quote]
+____
+I am not that certain that the only good way in Go handling errors is only error return values. For the purpose Go was intended for it seems like that. However successful programming languages are used by programmers for much wider aim that it was originally meant. For uses we can not fore see we can not certainly state that 'panic'-ing is generally bad.
+
+It generally is a good advice not to abuse a language and follow the recommendations of the language creators until you understand all the details of the language and the implementation better than the implementors. On the other hand any language is as bad as much it can be abused. If a language can be abused it will be abused.
+
+I think that for a reasonable programmer, who can read English the sentence: __"It will not be the same and I do not really get the point why to ruin something that is good to something old and mediocre, but you can write"__ should be enough.
+
+If I explain to you how a firearm works it does not necessarily mean I was telling you to shoot yourself in the head.
+____
+
+
+
+
+
+*Ofux* 2016-05-31 09:14:19
+
+
+
+
+
+[quote]
+____
+Defer is indeed far better than try/catch/finally.
+I think you should clearly write that the code you give to mimic Java exceptions must NOT be used. It goes against all rules of error handling in Go. Panics should be used only for truly unexpected errors (an IO error when you open a file is definitely not in this case). I find your article good, but I'm a bit afraid that people new to Go think your code is fine while it isn't.
+____
+
+
+
+
+
+*Ofux* 2016-05-31 09:26:49
+
+
+
+
+
+[quote]
+____
+You can still ignore errors if you want (by discarding the errors returned by a function) but you will have to do that explicitly. In other words, in Go, you need a good reason to ignore an error which is an excellent thing IMHO.
+
+Panic is not confusing because it must be used only for truly unexpected errors (such as diving by zero, or trying to make some operation on a nil reference). All other errors (such as an IO error when you open a file) must be treated by returning error(s) from functions (which is why I don't like at all the code given at the end of this article). As far as you can have multiple returns for a single function in Go, it's quite elegant.
+____
+
+
+

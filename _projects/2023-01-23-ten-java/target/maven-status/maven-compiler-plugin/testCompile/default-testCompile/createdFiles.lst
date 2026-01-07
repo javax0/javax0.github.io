@@ -1,0 +1,5 @@
+com/javax0/blog/hiddenclasses/TestHiddenClassLoader.class
+com/javax0/blog/hiddenclasses/otherpackage/MyPackagePrivateClass.class
+com/javax0/blog/hiddenclasses/otherpackage/OuterClass.class
+com/javax0/blog/hiddenclasses/TestHiddenClassLoader$PublicHello.class
+com/javax0/blog/hiddenclasses/TestHiddenClassLoader$Hello.class

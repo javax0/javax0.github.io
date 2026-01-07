@@ -1,0 +1,256 @@
+---
+{%@define title=Cloud Solutions are Expensive, or are they?%}
+title: {%title%}
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+{%@comment
+
+=========================================================================================
+%}
+{%@sep 〔〕%}
+= 〔title〕
+
+〔section Introduction〕
+
+Cloud solutions are becoming increasingly prevalent.
+I've observed their adoption even among companies that were traditionally very conservative.
+Previously, these organizations insisted that no data leave their premises, operating all applications within data centers safeguarded by two-meter-thick, steel-reinforced concrete walls.
+However, these companies are now beginning to explore and adopt cloud solutions, simultaneously becoming aware of the true costs associated with cloud computing.
+
+In this article, I will delve into the costs associated with cloud solutions.
+While this is not a technical piece, a basic understanding of cloud computing might be beneficial, though I will aim to provide an overview rather than delve into technical specifics.
+
+Additionally, those with a background in economics might find this discussion particularly insightful, as we will be exploring the costs, prices, and the underlying structures that influence them.
+
+As the author of this article, I bring a unique perspective, combining my experience as a senior software architect with my educational background, holding an MBA degree and possessing a foundational understanding of economics.
+
+〔section The price of cloud〕
+
+Companies that perceive cloud solutions as expensive have valid concerns.
+Utilizing cloud services comes with a cost, and given that pricing is typically based on usage, expenses can escalate quickly.
+If your company already possesses servers on-premises or hosted in a data center, maintaining these setups might be more cost-effective than transitioning to the cloud.
+
+There are specific scenarios where the cost factor makes cloud usage less favorable.
+Conversely, there are also situations where opting for a cloud solution can be highly advantageous.
+
+Let's examine an example to illustrate this point.
+
+〔subsection Architecture test〕
+
+In a project we undertook, we proposed a unique solution involving a JDBC proxy for a client.
+This JDBC proxy was a special application that acted like a database server.
+However, instead of storing data itself, it forwarded SQL queries to multiple, different database servers.
+This setup was necessary because the application required data to be inserted into different databases during a multi-year database migration.
+The client requested a proof of concept, necessitating a test environment with six Linux servers.
+
+Renting these servers was not only costly but also challenging, given our location in a small country in Central Europe.
+While purchasing servers was standard, acquiring them for just a few days was an unusual requirement.
+
+Eventually, we approached a company where we knew the director and proposed a unique arrangement during a "lunch" meeting:
+
+- We need six servers for a few days.
+I know you always ship servers to your customers.
+Can we rent them for a few days?
+- We do not rent servers.
+We sell them.
+Also, our delivery line is always on pressure, as soon as the servers come in, we install them and ship them out.
+- Do you ship them also during the weekends?
+- No, of course not, our client offices are closed.
+- So if you have six servers that arrive on Friday, you will not ship them until Monday?
+- Yes.
+That is correct.
+To be more precise, we will ship them only on Tuesday, because we have to install them on Monday.
+- How about we take them for the weekend, we do the testing, and you get them back installed early Monday?
+
+This arrangement was a win-win, but it relied heavily on our business network and negotiating skills.
+Without this connection, we would have faced significant costs.
+
+Today the solution would be much simpler and cost-effective:
+
+You would specify the required hardware using YAML format, register with a cloud provider, start up a Kubernetes (K8s) cluster, upload the objects, and have your servers ready.
+This overlooks the minor details of containers and applications, but these are relatively straightforward.
+
+My estimate is that the total cost for this modern setup would be around or less than $50. In contrast, the official quote we received for a weekend rental of six servers from a large company at that time was around $3,000.
+
+This scenario clearly demonstrates the cost-effectiveness and convenience of cloud solutions.
+
+〔section The economy of the cloud〕
+
+There are indeed specific costs that influence the pricing of cloud solutions.
+A cloud provider incurs expenses for hardware, electricity, cooling systems, network infrastructure, data center facilities, as well as salaries for personnel who install, maintain the hardware, and develop the software that operates the cloud.
+
+The notion that "all these costs are included in the price you pay for the cloud" encapsulates a common perception.
+This sentence between the quotes was suggested by GitHub Copilot.
+This fact, the suggestion reflects what many people believe about costs.
+I have encountered this mindset frequently across various social media platforms and in diverse groups.
+It underscores a general misunderstanding that the fees paid depend on the underlying expenses associated with providing the services.
+
+> The price does not come from the costs.
+
+The pricing of products and services, including cloud solutions, is indeed influenced by costs, but it is not solely determined by them.
+Costs limit the price, as we will see shortly.
+The primary drivers of price are demand and supply.
+Essentially, clients are willing to pay a price that they deem worthwhile for the service or product they receive.
+
+If the price that customers are willing to pay falls below the cost of providing the service or product, suppliers typically will not offer it.
+This economic principle highlights the balance that must be struck in the market: prices need to be high enough to cover costs and generate a profit for suppliers, yet remain low enough to be acceptable to consumers.
+This dynamic equilibrium is a fundamental aspect of market economics and is particularly relevant in the context of cloud computing.
+
+When you begin studying economics, you're introduced to a basic market model where price is often viewed as a function of supply and demand.
+However, in practical scenarios, pricing is commonly calculated with consideration to costs.
+For instance, when you have your car repaired, the bill typically itemizes the costs of parts and labor.
+Yet, in economic terms, such a bill doesn't fully represent the truth.
+
+The prices listed for parts and labor often include an "uplift" – a markup that covers additional expenses and profit.
+This markup is a standard practice in business; it's a way of communicating and playing the game within the market.
+The invoice you receive doesn't usually break down every cost component, such as office heating, electricity, or even indirect costs like a bribe paid to a security inspector.
+Moreover, the profit margin, which can be seen as the cost of the money invested, is also embedded in these prices.
+
+This practice is akin to a card game where all players understand that some level of strategy – or "cheating," in this metaphor – is part of the game.
+If everyone is aware of and engages in these strategies, it becomes a level playing field.
+Similarly, in business, while the invoice might not explicitly list every cost or the exact profit margin, there's an understanding that these elements are inherently included in the prices charged.
+This system of pricing, while not always transparent, is a fundamental aspect of how businesses operate and cover their costs while earning a profit.
+
+When prices in a market are heavily influenced by costs, it typically indicates a highly competitive environment.
+However, the fundamental economic principle of price being driven by supply and demand still holds true.
+In such markets, there's often a dynamic feedback loop that affects supply.
+
+If a particular service or product can be sold with a high profit margin, it naturally attracts more suppliers who want to capitalize on this opportunity.
+This influx of suppliers increases the supply, which, over time, can lead to a decrease in prices until the profit margin aligns more closely with the cost of market entry and investment.
+
+However, entering a market isn't always straightforward or quick.
+During the period it takes for new suppliers to establish themselves, existing suppliers may enjoy a monopolistic or oligopolistic position.
+In such scenarios, these incumbent suppliers have the leverage to set prices at a level that maximizes their profits.
+
+This is notably evident in the cloud computing industry.
+In my opinion, cloud providers are in an oligopolistic situation.
+The market is dominated by a few major players, and their significant presence and control allow them to influence pricing.
+This oligopolistic market structure enables these providers to set prices that are not just cost-driven but also strategically aligned with maximizing their profits, considering the competitive landscape and the value they offer to their customers.
+
+〔section Is the price right for you?〕
+
+The crucial question regarding cloud solutions is whether the price is right for you and your organization.
+The company financial situation may affect the decisions greatly.
+Is the investment in cloud services worth it for your specific needs and circumstances?
+If the answer is yes, then by definition, the service is not expensive for you.
+
+When making this decision, it's important to weigh numerous factors in comparing on-premises solutions to cloud-based ones.
+One key consideration is the nature of the expenditure:
+
+1. **Operating Expense (OPEX):** When you use cloud services, the costs are typically classified as operating expenses.
+This means you pay for the cloud services as you use them, which can be beneficial for cash flow and can often be deducted as expenses in the fiscal year they are incurred.
+
+2. **Capital Expenditure (CAPEX):** On the other hand, investing in hardware and setting up your own data center involves capital expenditure.
+This means a significant upfront investment, which is then depreciated over several years.
+CAPEX can have different tax and financial implications compared to OPEX.
+
+Your decision might also be influenced by how you want to manage your company's finances.
+Are you looking to optimize your expenditures for company valuation or for tax purposes?
+The financial situation of your company can greatly impact this decision.
+For instance, if preserving cash is crucial, OPEX might be more attractive.
+Conversely, if long-term investment and asset building are priorities, CAPEX could be the better route.
+
+Ultimately, the decision between cloud services and on-premises solutions isn't just about the technology.
+It's also deeply rooted in the financial strategy and goals of your organization.
+
+There are several other factors to consider when evaluating cloud solutions:
+
+1. **Flexibility:** Cloud solutions offer significant flexibility.
+With a cloud service, you can dynamically scale your resources up or down based on demand.
+In contrast, with an on-premises data center, you have to invest in hardware capable of handling peak loads, which may not always be efficient.
+
+2. **Operational and Personnel Cost Savings:** Opting for a cloud service can lead to savings in operational and personnel costs associated with running and maintaining a local setup.
+These expenses are typically absorbed by the cloud service provider.
+
+3. **Costs vs.
+Skills:** Paying more for a cloud service than what it would cost to set up locally isn't necessarily a reflection of your luck or skill.
+It does not mean you do it better than the cloud provider.
+Your price includes the additional profit margin of the cloud provider.
+They probably can also do it cheaper, just do not give it to you at that price.
+
+4. **Resource Sharing:** Cloud providers utilize virtual machines and containers configured to share resources among multiple clients.
+This approach is generally more cost-effective than each client maintaining their own hardware.
+
+5. **Expertise and Shared Costs:** Cloud providers employ experts to develop, maintain, and operate their software.
+The cost of this expertise is distributed across all clients, making it more economical than maintaining an in-house team, even with the option of hiring less expensive developers from regions like Eastern Europe or India.
+
+6. **Shared Facility Costs:** Costs related to facility location, cooling, and physical security are shared among all clients of the cloud provider, contributing to overall cost-effectiveness.
+
+If the cost of a cloud solution is unaffordable, and a cheaper alternative, still above the cost of the provider is available, both you and the cloud provider lose out.
+It's a missed business opportunity for the provider, who chooses not to lower prices to capture this segment of the market, thereby maintaining higher profit margins from clients who can afford their services.
+This situation can lead to a loss of economic welfare.
+
+〔section Can I get it cheaper?〕
+
+It's important to remember that the publicly advertised price of cloud services is not always the final price you may pay.
+The approach to pricing can differ significantly depending on whether you are an individual or a company.
+
+As an individual seeking to purchase cloud services, you're likely to pay the listed price.
+While you can request a discount, the response is typically a polite refusal.
+
+However, the situation changes if you represent a company.
+Many professionals, such as consultants, senior experts, or architects, work for organizations where negotiating prices is standard practice.
+If you're involved in estimating costs for a cloud project within a large company, it would be unwise to base your calculations solely on the advertised prices.
+Instead, engage directly with cloud providers.
+They are often willing to assist and, depending on the size and stature of your company, might offer substantial discounts.
+
+Additionally, cloud providers have the most comprehensive understanding of their pricing structures.
+It's beneficial to let them assist with the price calculations, as they can provide insights and options that you might not have considered.
+This approach not only potentially reduces costs but also ensures that you're getting the most value out of your investment in their services.
+
+〔section What is the price?〕
+
+After exploring how to evaluate pricing, the next step is understanding the actual cost of cloud services, which is not straightforward.
+Unlike visiting a grocery store where you can simply look at price tags, the pricing structure of cloud services is composed of multiple components.
+Typically, you might encounter initial setup costs, monthly fees, and various usage-based charges.
+These usage fees can vary and are often categorized separately for network usage, storage, data transfer between locations, CPU usage, memory, and other resources.
+
+The overwhelming complexity of cloud service pricing can be attributed to two main reasons.
+
+Firstly, there's a marketing strategy at play.
+Cloud providers aim to present their prices as attractively low while simultaneously maximizing their revenue.
+A complex pricing structure, offering various alternatives, often leads customers to choose options that aren't the most cost-effective for their needs.
+This choice is influenced by a psychological desire for security; customers tend to opt for a pricing plan that offers a perceived safety net, based on their estimation of future resource usage.
+However, this estimation is often an overestimation.
+
+For example, I personally pay $100 for a GSM mobile plan that includes unlimited calls, SMS, and data, plus 40GB of roaming data, which is shared with my wife on a second device.
+In the past five years, I've only exceeded this limit twice.
+Offering a range of alternatives is an effective customer engagement tool, as it caters to different needs and perceived usage patterns.
+
+In the early 2000s, Hungarian T-Mobile offered thousands of different pricing packages.
+Customers couldn't choose from all these options at any given time, but once they selected a package, they could keep it indefinitely.
+During my tenure there, we conducted a project to assess the marketing value of these packages.
+We randomly selected 10,000 anonymized clients and calculated the potential revenue loss if we had offered them the cheapest package that would have met their needs.
+The findings indicated that such a change would result in a 30% revenue loss.
+
+Concurrently, we surveyed 1,000 of these 10,000 clients, asking which package they would choose if they had the option to select from all available packages.
+Surprisingly, the results showed that the potential revenue gain would be 30%.
+This suggests that people often opt for a more expensive package because it offers a sense of security.
+This tendency is also observable in the realm of cloud services, where customers frequently select higher-priced options for the perceived safety they offer.
+
+The second reason for the complex pricing of cloud services is, on the other hand, quite rational.
+The fundamental value proposition of cloud services lies in optimization.
+Cloud providers continuously work on optimizing their infrastructure.
+This ongoing process of optimization helps reduce their costs while still delivering the same value to their clients.
+
+Cloud providers, while adept at optimizing their infrastructure, cannot directly optimize your application.
+If you manage to reduce your application's resource consumption by 10%, they are often willing to offer a discount on a portion of your bill.
+You might not receive the full extent of the cost savings they achieve, but it still creates a win-win situation.
+Their revenue might decrease slightly, but their profit margin can increase.
+
+In the current phase where cloud providers are experiencing growth and attracting more clients, they are generally open to providing discounts if your optimizations help reduce their operational costs.
+
+Nowadays, it's typically a wise decision to analyze and optimize your cloud usage.
+While there might be some exceptional cases where this isn't necessary, generally speaking, it's a beneficial practice.
+Optimizing cloud usage not only can lead to direct cost savings but also ensures more efficient use of resources, which is advantageous both financially and operationally.
+
+〔section Summary and Takeaway〕
+
+The cloud is an undeniable presence in today's technology landscape.
+It's important to consider cloud solutions as an alternative to your on-premises setup.
+This decision shouldn't be made blindly – as is the case with most decisions.
+You need to carefully evaluate the costs and benefits, taking into account your specific situation, negotiating position, potential for optimization, and other relevant factors.
+
+(This article was republished by link:https://dzone.com/articles/cloud-solutions-are-expensive-or-are-they[DZONE])

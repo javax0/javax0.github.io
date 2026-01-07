@@ -1,0 +1,35 @@
+{@import https://raw.githubusercontent.com/central7/pom/1/pom.jim}
+{@import versions.jim}
+{@define asciidoc:output=pom.xml}
+{project HiddenClasses}
+    {GAV :{GROUPID}:inplace:{VERSION}}
+    {description In place array rearrange toys}
+    {license|The Apache License, Version 2.0|http://www.apache.org/licenses/LICENSE-2.0.txt}
+    {developer|Peter Verhas|peter@verhas.com}
+
+    {properties|
+        {property :project.build.sourceEncoding:UTF-8}
+    }
+
+	{build|
+		{plugins|
+            {plugin|
+                {GAV :org.apache.maven.plugins:maven-compiler-plugin:{MAVEN_COMPILER_PLUGIN_VERSION}}
+                <configuration>
+                    <source>{JAVA_SOURCE}</source>
+                    <target>{JAVA_TARGET}</target>
+                    <release>{JAVA_RELEASE}</release>
+                </configuration>
+            }
+            {plugin|
+                {GAV :org.apache.maven.plugins:maven-surefire-plugin:{SUREFIRE_PLUGIN_VERSION}}
+            }
+        }
+    }
+
+	{dependencies
+	    {dependency|org.mockito|mockito-core|{MOCKITO_VERSION}|test}
+	    {@for MODULE in (api,engine,params)={dependency :org.junit.jupiter:junit-jupiter-MODULE:{JUPITER_VERSION}:test}}
+	}
+{end project}
+{@try {@xmlFormat}}

@@ -1,0 +1,33 @@
+---
+title: "Test JavaBeans" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+The first question is not how to test JavaBeans. The first question is not even if you need to test JavaBeans. The very first question is whether we need JavaBeans at all. 
+
+I am generally against JavaBeans, but when it comes to Java EE and services you can hardly avoid them. And that is the most I can tell about the first question.
+
+The second question is if we need testing them. JavaBeans are usually generated code and the rule is that generated code should not be tested. Testing a generated code implicitly tests the code generator and not the generated code. If there is any error then the generator is faulty. And the generators have their own unit tests. Hopefully. I am, perhaps, still kind of junior having such beliefs.
+
+So what is the conclusion: Shouldn't you test JavaBeans?
+
+WRONG.
+
+Why? Because the assumption that JavaBeans are generated may be false. They are generated at first, but they are source code and source code has long life. Source code gets modified. By programmers. By humans. Humans make mistakes. Programmers are humans. More or less. You get it?
+
+The usual modification to JavaBeans are small. Minor. Trivial. Trivial code should not be tested. Paying careful attention and generally lacking functionality (is setting and getting a real functionality?) makes tests unnecessary. WROGN again, just like my spelling wrong. Did you notice that at first? Probably not. That is also the case with the errors in the setters and getters. There may be only one single letter of typing. No problem, integrated development environments will do the code completion and voila! The typo proliferates and becomes legacy in the whole corporation. Does it cost? Sooner or later it does.
+
+Code is used from JSP, where the editor does not spot the mistake, BeanUtils does not find the getter or setter and need extra code, but the names are already carved into stone and are guarded by dead souls. You try to change it and application developers in the corporate will bang on your door claiming back their good old cozy typo infested setter and getter.
+
+What errors can there be? Presumably any as far as the possibility is concerned, but the most typical are:
+
+
+* Name of the setter or getter has typo and thus does not follow the JavaBeans standard.
+* Setter alters something else not only the field it is supposed to.
+* Setter does something and you can not get back that via the getter.
+
+
+To test these, however, you should not write real unit test code. You should probably create some unit test class files, but  they should not contain more than some declarative code. To do the real test you should use some libraries. A good start link:http://stackoverflow.com/questions/3294959/java-bean-testing-framework[article] is at stackoverflow. They mention link:http://docs.bean-matchers.googlecode.com/git/quickStart.html[Bean Matchers] or link:https://code.google.com/p/rtu/[Reflection Test Utilities]. You can also give a try to link:https://github.com/verhas/JavaBeanTestRunner/[JavaBeanTestRunner] which tests that the setters do not mess up fields they should not, but does not check methods like `toString()`, or `equals()`.
+
+

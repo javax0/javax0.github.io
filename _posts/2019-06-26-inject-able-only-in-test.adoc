@@ -1,0 +1,175 @@
+---
+title: "Inject-able only in test?"
+layout: posta
+comments: on
+---
+
+This article is about some thoughts of test design and testability. Some questions that we discussed with my son, who is a junior Java developer and currently is employed and studies at EPAM Hungary (the same company but a different subsidiary where I work). All the things in this article are good old knowledge, but still, you may find something interesting in it. If you are a junior then because of that. If you are a senior then you can get some ideas on how to explain these things. If neither: sorry.
+
+
+== 1. Introduction to the problem
+
+
+The task they had was some roulette program or some other game simulation code, they had to write. The output of the code was the amount of simulated money lost or won. The simulation used a random number generator. This generator caused a headache when it came to testing. (Yes, you are right: the very basis of the problem was lack of TDD.) The code behaved randomly. Sometimes the simulated player was winning the game, other times it was losing.
+
+
+== 2. Make it testable: inject mock
+
+
+How to make this code testable?
+
+The answer should be fairly obvious: mock the random number generator. Make the use of the source of randomness injected and inject a different non-random source during tests. Randomness is not important during testing and there is no need to test the randomness. We have to believe that the random number generator is good (it is not, it is never good, perhaps good enough, but that is a totally different story) and was tested by its own developers.
+
+[quote]
+____
+Learning #1: Do not test the functionality of your dependency.
+____
+
+
+We can have a field of type `Supplier` initialized to something like `() -> rnd()` lambda and in case of test it is overwritten using a setter.
+
+
+== 3. Is testable good?
+
+
+Now we changed the structure of the class. We opened a new entry to inject a random number generator. Is this okay?
+
+There is no general yes or no answer to that. It depends on the requirements. Programmers like to make their code configurable and more general than they are absolutely needed by the current requirements. The reason that... well... I guess, it is because many times in the past programmers experienced that requirements have changed (no kidding!) and in case the code was prepared for the change then the coding work was easier. This is fair enough reasoning but there are essential flaws in it. The programmers do not know what kind of future requirements may come. Usually, nobody really knows, and everybody has some idea about it.
+
+Programmers usually have the least knowledge. How would they know the future? Business analysts know a bit better, and at the end of the chain, the users and customers know it the best. However, even they do not know the business environment out of their control that may require new features of the program.
+
+Another flaw is that developing of a future requirement now has extra costs that the developers a lot of times do not comprehend.
+
+Practice shows that the result of such 'ahead of time' thinking is usually complex code and flexibility that's hardly ever needed. There is even an acronym for that: link:https://martinfowler.com/bliki/Yagni.html[YAGNI], "You Aren't Gonna Need It".
+
+So, is implementing that injectability feature a YAGNI? Not at all.
+
+First of all: a code has many different uses. Executing it is only one. An equally important one is the maintenance of the code. If the code cannot be tested, it cannot be reliably used. If the code cannot be tested, it cannot be reliably refactored, extended: maintained.
+
+A functionality that is only needed for testing is like a roof bridge on a house. You do not use it yourself while you live in the house, but without them, it would be hard and expensive to check the chimneys. Nobody questions the need for those roof bridges. They are needed, they are ugly and still, they are there. Without them, the house is not testable.
+
+[quote]
+____
+Learning #2: Testable code usually has better structure.
+____
+
+
+But that is not the only reason. Generally, when you create a code testable the final structure will usually be more useable as well. That is, probably, because testing is mimicking the use of the code and designing the code testable will drive your thinking towards the usability to be on the first place and implementation to be only on the second place. And, to be honest: nobody really cares about implementation. Usability is the goal, implementation is only the tool to get there.
+
+
+== 4. Responsibility
+
+
+Okay, we got that far: testability is good. But then there is a question about responsibility.
+
+The source of randomness should be hard-wired into the code. The code and the developer of the code are responsible for the randomness. Not because this developer implemented it, but this developer selected the random number generator library. Selecting the underlying libraries is an important task and it has to be done responsibly. If we open a door to alter this selection of implementation for randomness then we lose control over something that is our responsibility. Or don't we?
+
+Yes and no. If you open the API and provide a possibility to inject a dependency then you are not inherently responsible for the functioning of the injected functionality. Still, the users (your customers) will come to you asking for help and support.
+
+"There is a bug!" they complain. Is it because of your code or something in the special injected implementation the user selected?
+
+You essentially have three choices:
+
+
+    * You may examine the bugs in each of those cases and tell them when the error is not your bug and help them select a better (or just the default) implementation of the function. It will cost you precious time either paid or unpaid.
+    * The same time you can also exclude the issue and say: you will not even examine any bug that cannot be reproduced using the standard, default implementation.
+    * You technically prevent the use of the feature that is there only for the testability.
+
+
+The first approach needs good sales support or else you will end up spending your personal time fixing customers problem instead of spending your paid customer time. Not professional.
+
+The second approach is professional, but customers do not like it.
+
+The third is a technical solution to drive users from #1 to #2.
+
+[quote]
+____
+Learning #3: Think ahead about users' expectations.
+____
+
+
+Whichever solution you choose the important thing is to do it consciously and not just by accident. Know what your users/customer may come up with and be prepared.
+
+
+== 5. Prevent production injecting
+
+
+When you open the possibility to inject the randomness generator into the code how do you close that door for the production environment if you really must?
+
+The first solution, which I prefer, is not to open it wide in the first place. Use it via the initialized field holding the lambda expression (or some other way) that makes it injectable, but do not implement injection support. Let the field be private (but not link:https://dzone.com/articles/final-keyword-and-jvm-memory-impact[final], because that may cause other problems in this situation)  and apply a bit of reflection in the test to alter the content of the private field.
+
+Another solution is to provide a package private setter, or even better an extra constructor to alter/initialize the value of the field and throw an exception if it is used in the production environment. You can check that many different ways:
+
+
+    * Invoke `Class.forName()` for a test class that is not on the classpath in the production environment.
+    * Use `StackWalker` and check that the caller is test code.
+
+
+Why do I prefer the first solution?
+
+[quote]
+____
+Learning #4: Do not use a fancy technical solution just because you can. Boring is usually better.
+____
+
+
+First of all, because this is the simplest and puts all testing code into the test. The setter or the special constructor in the application code is essentially testing code and the byte codes for them are there in the production code. Test code should be in test classes, production code should be in production classes.
+
+The second reason is that designing functionality that is deliberately different in the production and in the test environment is just against the basic principles of testing. Testing should mimic the production environment as much as economically feasible. How would you know that the code will work properly in the production environment when the test environment is different? You hope. There are many environmental factors already that may alter the behavior in the production environment and let bug manifest there only and silently remaining dormant in the test environment. We do not need extra such things to make our testing even riskier.
+
+
+== 6. Summary
+
+
+There are many more aspects of programming and testing. This article was addressing only a small and specific segment that came up in a discussion. The key learnings also listed in the article:
+
+
+    * Test the system under test (SUT) and not the dependencies. Be careful, you may think you are testing the SUT when actually you are testing the functionality of some dependencies. Use stupid and simple mocks.
+    * Follow TDD. Write the test before and mixed with the functionality development. If you don't because just you don't, then at least think about the tests before and while you write the code. Testable code is usually better (not just for the test).
+    * Think about how fellow programmers will use your code. Imagine how a mediocre programmer will use your API and produce the interfaces of your code not only for the geniuses like you, who understand your intentions even better than you.
+    * Do not go for a fancy solution when you are a junior just because you can. Use a boring and simple solution. You will know when you are a senior: when you no longer want to use the fancy solution over the boring one.
+
+
+=== Comments imported from Wordpress
+
+
+*Inject-able solely in check? | Good day Android - Android World* 2019-07-02 08:32:28
+
+
+
+
+
+[quote]
+____
+[&#8230;] Revealed on Good day Android with permission by Peter Verhas, companion at our JCG program. See the unique article right here: Inject-able solely in check? [&#8230;]
+____
+
+
+
+
+
+*Kofa* 2019-07-18 18:22:47
+
+
+
+
+
+[quote]
+____
+I guess with Java 9 you could expose a public, non-configurable interface and a factory that creates a 'properly' configured instance of the non-exposed class (perhaps taking some arguments for the configurable aspects that you want to make available to end users). The factory could be one of your own making, a Spring @Configuration class etc. Without modules, one could use a package-private class and self-discipline, perhaps helped by some build tools (e.g. https://stackoverflow.com/questions/7467756/maven-plugin-to-restrict-specific-packages-from-being-used).
+____
+
+
+
+
+
+*Java Testing Weekly 27 / 2019* 2019-07-01 07:24:06
+
+
+
+
+
+[quote]
+____
+[&#8230;] Inject-able only in test? is a thought-provoking blog post that describes how you can write tests for a legacy code by replacing the real dependencies with test doubles. Also, this blog post explains why you should do this and helps you to make the required changes to your legacy code. [&#8230;]
+____

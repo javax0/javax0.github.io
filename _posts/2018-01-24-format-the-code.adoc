@@ -1,0 +1,186 @@
+---
+title: "Format the code"
+layout: posta
+comments: on
+---
+
+PACKT recently published the book link:https://www.packtpub.com/application-development/mastering-java-9[Mastering Java 9] that I co-authored. The author who started to write the book could not finish, and PACKT had to find people who agreed to write some of the chapters. I previously successfully finished link:https://www.packtpub.com/application-development/java-9-programming-example[Programming Java 9 by Example] and PACKT asked me if I could help. Finally, we wrote the book with Dr. Edward Lavieri.
+
+To my surprise, he used C# bracket placing in the book. That is, the `{` character is placed not on the end of the line but rather at the start of the next line.
+
+[source,C]
+----
+if( myCondition )
+{
+  do something;
+}
+----
+
+
+This is against the usual Java coding convention.
+
+When I started programming C in 1984 I started to use this bracket placement. That time Internet was not reachable and there were no tools to share opinions in such a wide audience like now. It was also not clear how much formatting means when we are coding. What is more, it was not even clear how much readability is important.
+
+Later I learned that the convention in case of C programming usually is to put the `{` character at the end of the line.
+
+[source,C]
+----
+if( myCondition ){
+  do something;
+  }
+----
+
+
+In case of C, it is not always the case. Some programmer teams use the first bracket placement, while others use the later.
+
+In case of Java, the C# style bracket placement is almost extinct. Perhaps it would be interesting to see a statistics over the sources available on GitHub to see how big percent of the Java code uses this or that.
+
+Why is it interesting? Because
+
+[quote]
+____
+
+You should not use C# formatting when you program Java code!
+
+____
+
+
+There are exceptions as always. For example, the company you work for insists on the other coding style. In that case, the company made the bad decision and although it may be okay or even great working for this company, this is certainly a company smell. (See link:https://martinfowler.com/bliki/CodeSmell.html[code smell].)
+
+Why should not you use the other style?
+
+Because of readability. Readability is subjective and still, in this case, I dare say that the Java style bracket placement is more readable. Hold your horses before ranting, I will explain.
+
+
+[quote]
+____
+
+Что было раньше, курица или яйцо?
+
+____
+
+
+For most of you, the above sentence is not readable. I can read it because I grew up in eastern Europe where learning Russian was mandatory. It is also readable for most of the Russian people. They can not only read it, but they can even understand it. For them, it is just as readable as the English sentence
+
+[quote]
+____
+
+What was sooner, the chicken or the egg?
+
+____
+
+
+for us.
+
+Readablility depends on what we got used to. Java programmers got used to
+
+[source,C]
+----
+                      {
+  }
+----
+
+
+bracket placement. C# programmers use the other style. If we see a code that is formatted differently you may oversee some aspect of the code that you would not skip otherwise. The difference is subtle but still it is there. When you hire Java developers you are more likely to find good Java developers for a reasonable price who use and who are accustomed to the industry standard than one who is accustomed to the C# style.
+
+You can find here and there some who are also fluent in C# as well and can read Cyrillic... ops... C# "characters" but it is less common than pure Java developers.
+
+The bottom line is that the TCO of the code will be lower during the lifetime of code development and maintenance if you follow the industry standards. It is that simple.
+
+P.S.: Buy the books!
+
+=== Comments imported from Wordpress
+
+
+*Wyatt U. Carey* 2018-01-25 11:55:00
+
+
+
+
+
+[quote]
+____
+Weakest article in a long time, and it shows a prime example of typical inch pincher stuff certain people still like to make a fuzz about.
+
+It blows the "problem" out of proportion by using a really bad analogy/example (instead, e.g., different forms of quotations w/ adjacent punctuation would fit better, and actually underline the insignificance as the impact on the reader is low in both cases).
+
+But I guess every now and then someone has to reheat exhausted topics (for a blog, time filler at a conference, "31 things to boost your xyz" guides) that were hyped, covered and ridden to death > 15 years ago...
+____
+
+
+
+
+
+*Peter Verhas* 2018-01-25 12:22:53
+
+
+
+
+
+[quote]
+____
+I agree with each and every word of your comment.
+____
+
+
+
+
+
+*Márton Garai* 2018-01-24 17:37:59
+
+
+
+
+
+[quote]
+____
+When reading code, the environment is important. So for example, when You write code into a code base full of
+                    {
+}
+You should do the same. In books the environment is the "industry standard", but most of the code bases might differ in one or two things. Company standard should be followed.
+
+There are times, when some conventions are not clear. Someone uses space after starting bracket, someone not. These might look smaller problem, but the truth is, it's like switching between English, and Russian all the time. That is much bigger problem, than everyone should follow a rule, that I think is industry standard.
+
+How do we realize there are convention for something? For example in Resharper there are LOTS of configuration, that I haven't even thought of can be standardized. Like different "Force chop compound condition in "if"/"while"/"do" statement". Why would I like to that work differently for "if" or for "while"? In bottom line, there might be standards, that not even recognized.
+
+IMHO some standards are not that important, but some have interesting properties, which must be considered. So when company decides standards, those properties have to be chosen carefully.
+
+https://www.youtube.com/watch?v=ZsHMHukIlJY
+
+In Kevlin Henney's talk He expresses several properties of brace placement, and challenges the status quo of
+                            {
+}
+I like that he search for psychological and logical facts about reading anything. Not advertising status quo for being status quo.
+
+When writing a book we clearly don't have a company. So we can substitute company standard with industry standard. In that matter we should be aware of, that industry standards might change without notice. Like more and more programmer listen to Uncle Bob or Kevlin Henney, and their perspective changes programming style of the majority of programmers. And if You say, that industry standards don't change, I think we are on the verge of change between "always comment Your code" and "comment is a failure of expressing Yourself in method names".
+____
+
+
+
+
+
+*tamasrev* 2018-01-26 15:00:07
+
+
+
+
+
+[quote]
+____
+Tabs or spaces? Both! (not)
+____
+
+
+
+
+
+*Márton Garai* 2018-01-26 15:27:25
+
+
+
+
+
+[quote]
+____
+vim > emacs.
+____

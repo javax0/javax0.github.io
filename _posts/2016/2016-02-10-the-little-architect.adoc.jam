@@ -1,0 +1,83 @@
+---
+title: "The Little Architect" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+Uncle Bob published recently an article titled "link:http://blog.cleancoder.com/uncle-bob/2016/01/04/ALittleArchitecture.html[A Little Architecture]". The article is a conversation between a young developer and a senior (Uncle Bob himself presumably) about being software architect. The article starts with these sentences:
+
+[quote]
+____
+
+
+* __I want to become a Software Architect.__
+* That's a fine goal for a young software developer.
+* __I want to lead a team and [strong]#make all the important decisions# about databases and frameworks and web-servers and all that stuff.__
+
+
+____
+
+
+The next part asks the young developer to list what the important things are. However that is not the only thing that may be interesting in this last sentence. There is another thing, perhaps less technical, that hit me. The young developer says: __"make ... decisions"__.
+
+That may be a mistake. You can interpret it differently what "making decision" means, but let me here tell you my thoughts about that. Some thoughts that were triggered by those two words. First of all here is a story, when I was making some decisions.
+
+
+{%section |Story%}
+
+
+Not really many years ago when I was much younger I was acting as system architect and __I made a decision__ on how to store some content. Mainly text and not too large pictures. The obvious choice could be to use database and implement the CRUD operations. A database is always a good solution just as a scarf is always a good gift for Christmas. You love getting a new scarf for every Christmas, don't you?
+
+On second thought, however the real power of database is when the content is to be searched, indexed and when transactions are executed. They are not really requirements for a media store. On the other hand versioning and user level access control was. I have previously implemented something like that in the past and that time we used SVN for content storage. And that worked fine. So I decided that we should go and use SVN this time also. The project was a success story. A little bit more story than success though. Halfway thriving towards the solution the back-end storage was replaced by a DB layer.
+
+Why didn't SVN work?
+
+The reason is simple. The developers did not like and understood the decision. They were not familiar with the technology. They used SVN for source code storage but they never used the programming API of it. Instead of using the Java client they forked external svn processes and they were checking out files individually. Displaying a directory containing 20 files was starting 20 processes one after the other. On that system that was approx. 20 seconds.
+
+Okay. It could have been mended in different ways: there was not enough control on the use of the technology and there was a lack of professional code review as well as performance testing due time and so on. The root of the problems though was that __I made the decision__. I was acting like an omnipotent god, who knows it much better. I was not and I did not.
+
+
+{%section |So what?%}
+
+
+I could do it better discussing the solution more with the developers until we all agree on what the solution could have been. I could understand that the DB solution was better or they could understand how the SVN could have been used that way. We could make a decision together. I could make it so that they could make the decision.
+
+[quote]
+____
+A real architect never makes a decision.
+____
+
+
+A real architect works with the team developing the software asking the right questions making sure that the team make the right decision. 
+
+[quote]
+____
+Good architects approve the decision of the team and bear the responsibility. Bad architects make the decisions and blame the team.
+____
+
+
+Part of it is psychology. If the team makes the decision they are more likely to love the ideas than if they were force fed. They may come up with some ideas that you missed. Good architects recognize that and improve him/herself. Really good architect can even admit at this stage being wrong. On the contrary of what young developers think this increases the esteem. (Unless the architect is wrong more times than not, in which case he/she is not really a good architect.)
+
+Asking the questions also reveal if the team is not prepared for some of the technologies. If they have to learn something new. It may turn out that education is in place or some more familiar technology is to be used. This may also be a smell that you wanted to use some niche technology that may require link:https://javax0.wordpress.com/2013/11/21/cheap-programing-language/[expensive developers] in the coming years to maintain the product. You better don't!
+
+This does not mean that you should open the floodgates. You still should approve the decision and you should not approve a decision you can not live with. If the team makes a decision on some technology that you feel not good enough it means you have not asked the right questions. You should ask more. The responsibility is your.
+
+I recommend that if you want to be a good architect let the team make the decision and help them forging a good one. Approve it and never blame them. That way they will not leave you in cold water. If you even bring free pizza now and then they may even love you.
+
+=== Comments imported from Wordpress
+
+
+*Stefan* 2016-02-10 17:41:50
+{%@comment id: 9618 %}
+{%@comment author_email: info@superinformatiker.de %}
+{%@comment author_url: http://ai1.lol %}
+{%@comment author_IP: 176.2.139.181 %}
+{%@comment date_gmt: 2016-02-10 16:41:50 %}
+[quote]
+____
+Im not impressed anymore, Peter. This is BS.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}

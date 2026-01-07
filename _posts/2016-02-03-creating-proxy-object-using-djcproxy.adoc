@@ -1,0 +1,178 @@
+---
+title: "Creating proxy object using djcproxy" 
+layout: posta
+comments: on
+---
+
+During the last weeks I have shown how to create a proxy object using Java reflection API and cglib. In this article I will show you how this can be done using djcproxy.
+
+[quote]
+____
+Oh, not again, another proxy implementation!
+____
+
+
+What is the point to write about this in addition to the selfish fact that I created this proxy? The point is that this is a proxy that is written in Java, it creates Java code that can be examined. It also compiles and loads the created Java classes on the fly so it is also usable but the main advantage is that you can easily get a good insight how a dynamic proxy works. At least a bit easier than digging around the code of cglib, which is creating byte codes directly.
+
+
+== 1. How to use it
+
+
+You can get the source from link:https://github.com/verhas/djcproxy[github] or you can just add the dependency to you project maven pom.
+
+[source,xml]
+----
+<dependency>
+	<groupId>com.javax0</groupId>
+	<artifactId>djcproxy</artifactId>
+	<version>2.0.3</version>
+</dependency>
+----
+
+
+After that you can use the following code:
+
+[source,java]
+----
+class A {
+  public int method() {
+  return 1;
+  }
+}
+class Interceptor implements MethodInterceptor {
+
+  @Override
+  public Object intercept(Object obj, Method method, Object[] args,
+    MethodProxy mproxy) throws Exception {
+      if (method.getName().equals("toString")) {
+        return "interceptedToString";
+      }
+      return 0;
+  }
+}
+
+ ...
+
+    A a = new A();
+    ProxyFactory<A> factory = new ProxyFactory<>();
+    A s = factory.create(a, new Interceptor());
+----
+
+
+[sub]#This code can be found in the tests of the project in GitHub. This is an edited abbreviated version prone to editing errors.#
+
+The class 'A' is the original class and when we want to create a new proxy object we create a proxy to an already existing object. This is different from reflection or cglib. In case of cglib you create a proxy object and it "contains" the original object. It is not really a containment in OO terms, because the proxy class extends the original class. However because of this extending the proxy object is also an instance of the original class. Cglib does not really care which class instance (object) you want to intercept. You can inject a reference to any object instance to your interceptor if you want. Djcproxy uses a different approach and it does that for you and in your interceptor you will get this object passed as argument. This is why you have to instantiate the object in line 20.
+
+The `Interceptor` implements the interface `MethodInterceptor` also provided in the library. It has only one method: `intercept`, which is invoked when the proxy object method is called. The arguments are
+
+	* `obj` - the original object
+	* `method` - the method that was invoked in the proxy object
+	* `args` - the arguments that were passed to the method call on the proxy object. Note that primitive arguments will be boxed.
+	* `mproxy` - the method proxy that can be used to call the method on the original object or on just any other object of the same type
+
+
+This is all about how to use this library. The next thing is to have a look at what is generated so that you can get a better understanding how a proxy works. Insight never hurts, even if you use a different proxy. Many times debugging or just generating better code is easier when you know the principles of a library you use.
+
+While cglib gives you a static factory method to create new objects djcproxy requires that you create a proxy factory. This is on line numbered above 21. If you want to use it the same way as you used cglib you can declare a static `ProxyFactory` field in the class where you want to use the factory from. On the other hand it is possible to have different factories in different parts of the code. Although the advantage of it is rare, still I believe it is a cleaner approach than providing static factory method.
+
+
+== 2. How does the proxy work?
+
+
+The extra thing in this package is that it lets you get access to the generated source. You can insert the lines
+
+[source,java]
+----
+    String generatedSource = factory.getGeneratedSource();
+    System.out.println(generatedSource);
+----
+
+
+to print out the generated proxy class which is after some formatting is this:
+
+[source,java]
+----
+package com.javax0.djcproxy;
+
+class PROXY$CLASS$A extends com.javax0.djcproxy.ProxyFactoryTest.A implements com.javax0.djcproxy.ProxySetter {
+    com.javax0.djcproxy.ProxyFactoryTest.A PROXY$OBJECT = null;
+    com.javax0.djcproxy.MethodInterceptor PROXY$INTERCEPTOR = null;
+
+    public void setPROXY$OBJECT(java.lang.Object PROXY$OBJECT) {
+        this.PROXY$OBJECT = (com.javax0.djcproxy.ProxyFactoryTest.A) PROXY$OBJECT;
+
+    }
+
+    public void setPROXY$INTERCEPTOR(com.javax0.djcproxy.MethodInterceptor PROXY$INTERCEPTOR) {
+        this.PROXY$INTERCEPTOR = PROXY$INTERCEPTOR;
+
+    }
+
+    PROXY$CLASS$A() {
+        super();
+
+    }
+
+    private com.javax0.djcproxy.MethodProxy method_MethodProxyInstance = null;
+
+    @Override
+    public int method() {
+
+        try {
+            if (null == method_MethodProxyInstance) {
+                method_MethodProxyInstance = new com.javax0.djcproxy.MethodProxy() {
+                    public java.lang.Object invoke(java.lang.Object obj, java.lang.Object[] args) throws Throwable {
+                        return ((com.javax0.djcproxy.ProxyFactoryTest.A) obj).method();
+
+                    }
+                };
+            }
+            return (int) PROXY$INTERCEPTOR.intercept(
+                    PROXY$OBJECT, PROXY$OBJECT.getClass().getMethod("method", new Class[]{}),
+                    new Object[]{}, method_MethodProxyInstance);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+... other overridden methods deleted ...
+
+}
+----
+
+
+Note that the class `A` is a static nested class of `ProxyFactoryTest` for this generated code.
+
+The interesting code is the overriding of the method `method()`. (Sorry for the name. I have no fantasy to have a better name for a method that does nothing.) Let's skip the part where the method checks if there is already a `MethodProxy` instance and if is missing it creates one. The method `method()` actually calls the interceptor object that we defined, passing the proxied object, the reflective method object, the arguments and also the method proxy.
+
+
+== 3. What is the method proxy
+
+
+The name may be confusing first because we already have an "object" proxy. There is a separate method proxy for each method of the original class. These can be used to invoke the original method without reflective call. This speeds up the usage of the proxies. You can also find this call and a similar mechanism in cglib.
+
+
+== 4. Notes
+
+
+The implementation has some flows, for example the late method proxy instantiations have no advantage really but the same time may hurt in case of multi-thread execution of the proxies. It could also be possible to create a proxy object that not only extends a class but also implement arbitrary interfaces (perhaps some that is not even implemented by the extended class). The implementation is used in some other hobby opensource project also available on github about which I may write in the future. They are more demonstrative, educational and proof of concept projects than production code. If you have anything to say on the implementation, the ideas, or just any comments, please reward me with your comments.
+
+
+=== Comments imported from Wordpress
+
+
+*Java compile in Java | Java Deep* 2016-03-09 16:13:22
+
+
+
+
+
+[quote]
+____
+[&#8230;] a previous post I wrote about how to generate a proxy during run-time and we got as far as having Java source code [&#8230;]
+____
+
+
+

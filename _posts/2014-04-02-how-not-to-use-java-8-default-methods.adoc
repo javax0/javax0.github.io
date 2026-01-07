@@ -1,0 +1,433 @@
+---
+title: "How not to use Java 8 default methods"
+layout: posta
+comments: on
+---
+
+
+== 1. Warning: you can not make this unseen once you have read
+
+
+I was talking about the multiple inheritances of default methods in the last blog article and how they behave during compilation and run time. This week I look at how to use default methods to do real inheritance, which actually, default methods were not designed for. For this very reason, please read these lines at your own risk, and do not imply that this is a pattern to be followed, just as well do not imply the opposite. What I write here are some coding technics that can be made using Java 8 but their usability is questionable at least for me. I am also a bit afraid to let some link:http://en.wikipedia.org/wiki/Ifrit[ifrit] out of the bottle, but on the other hands, those ifrits just do not stay there anyway. Some day somebody would let it out. At least I attach the warning sign.
+
+
+==== 1.1.1. Sample problem
+
+
+A few years ago I worked on an application that used a lot of different types of objects that each had a name. After many classes started to contain
+
+[source,java]
+----
+public String getName(){...}
+public void setName(String name){...}
+----
+
+
+methods that were just setters and getters the copy-paste code smell just filled the room unbearable. Therefore we created a class
+
+[source,java]
+----
+class HasName {
+  public String getName(){...}
+  public void setName(String name){...}
+}
+----
+
+
+and each of the classes that had a name, were just extending this class. Actually, it was not working for a long time. There were classes that extended already other classes. In that case, we just tried to move the `HasName` upward in the inheritance line, but in some cases, it just did not work. As we went up the line reaching for the top we realized that those classes and their some other descendants do not have a name, why to force them? To be honest, in real life it was a bit more complex than just having a name. If it were only names, we could live with it having other classes having names. It was something more complex that would just make the topic even more complicated and believe me: it is going to be complex enough.
+
+Summary: we could not implement having the name for some of the objects implemented in some spare classes. But now we could do that using default methods.
+
+
+==== 1.1.2. HasName interface with default implementation
+
+
+Default methods just deliver default functionality. A default method can access the `this` variable, which is always the object that is implementing the interface and on which behalf the method was invoked. If there is an interface `I` and class C implements the interface, when a method on a `C c` object is invoked the variable `this` is actually the object `c`. How would you implement `getName()` and `setName()`?
+
+These are setters and getters that accessing a String variable that is in the object. You can not access that from the interface. But it is not absolutely necessary that the value is stored IN the object. The only requirement is that whatever is set for an object the same is get. We can store the value somewhere else, one for each object instance. So we need some value that can be paired to an object and the lifetime of the value has to be the same as the lifetime of the object. Does it ring the bell?
+
+It is a weak hash map! Yes, it is. And using that you can easily implement the `HasName` interface.
+
+[source,java]
+----
+public interface HasName {
+    class Extensions {
+        private static final WeakHashMap<HasName, String> map = new WeakHashMap<>();
+    }
+    default void setName(String name) {
+        Extensions.map.put(this, name);
+    }
+    default String getName() {
+        return Extensions.map.get(this);
+    }
+}
+----
+
+
+All you have to do is write at the end of the list of interfaces the class implements `HasName` and it magically has.
+
+In this example the only value stored is a `String`. However, you can have instead of `String` any class and you can implement not only setters and getters but any methods that do something with that class. Presumably, these implementations will be implemented in the class and the default methods will only delegate. You can have the class somewhere else, or as an inner class inside the interface. Matter of taste and style.
+
+
+==== 1.1.3. Conclusion
+
+
+Interfaces can not have instance fields. Why? Because in that case, they were not interfaces but classes. Java does not have multiple implementation inheritance. Perhaps it has but "please don't use it" kind of. The default method is a technological mistake. You can call it a compromise. Something that was needed to retain backward compatibility of JDK libraries when extended with functional methods. Still, you can mimic the fields in interfaces using weak hash maps to get access to the inherited class "vtable" of fields and methods to delegate to. With this, you can do real multiple inheritances. The type that your mother always warned you about. I told you!
+
+[b]#Another warning:# the above implementation is NOT thread-safe. If you try to use it in multithread environment you may get link:http://docs.oracle.com/javase/7/docs/api/java/util/ConcurrentModificationException.html[ConcurrentModificationException] or it may even happen that calling `get()` on a weak hash map gets into infinite loop and never returns. I do not tell how to fix the usage of weak hash maps in this scenario. Or, well, I changed my mind, and I do: use default methods only the way they were designed for.
+
+If you want to know more about the Java 8 features there is a comprehensive and short tutorial on Java Code Geeks at link:https://www.javacodegeeks.com/java-8-features-tutorial.html[Java 8 Features Tutorial ]
+
+=== Comments imported from Wordpress
+
+
+*Peter Verhas* 2014-04-07 18:01:13
+
+
+
+
+
+[quote]
+____
+You can solve some problems using Groovy traits, but you have to use Groovy. There is a big difference between the philosophy Groovy and Java. Some may say that Groovy is Java on steroids. I rather would say that Groovy is Java feral. And actually both are carnivore.
+
+The "this problem" I detailed in this article is NOT that interfaces are limited to default methods and can not have state. That is a limitation but that is not a problem. Like it is a limitation that you should not drive faster than speed limit (say 50km/h in Europe) using your scooter in cities, but that is not a problem.
+
+The problem is that someone may think that the limitation is there because the scooter does not run faster. When they can access some real bike or a car they start to speed and kill someone. Most of us drive these more powerful programming languages for many years and we know that the limitation is not because of the engine but because of the safety. The engine is limited on the other hand, because there is no point to go faster.
+
+Your comment points out very well that the problem I pointed out exists and is real.
+
+And the answer is no. You can not solve this problem using Groovy traits.
+
+P.S.: I suspect that the groovy version in your comment is wrong, it could be 2.3.1-beta.
+____
+
+
+
+
+
+*Saurabh J* 2014-04-05 04:36:16
+
+
+
+
+
+[quote]
+____
+If i understood correctly , in your example you are trying to solve a wrong problem here , default methods are not meant for that and more specifically interfaces are not meant to solve this.Java spec very clearly says that "A particular state of any object should be bind to that class or to its same parent class in the hierarchy." Interface in plain terms basically controls the role a particular class can play , it is not supposed to be meant for dealing with the state of an object.
+
+feel free to correct me if my understanding is not correct.
+
+Cheers
+____
+
+
+
+
+
+*Ivan Sopov (@moradan228)* 2014-04-02 10:41:22
+
+
+
+
+
+[quote]
+____
+Use IdentityHashMap or Collections.synchronizedMap(new IdentityHashMap())...
+____
+
+
+
+
+
+*Josh Hyde* 2014-04-02 11:48:26
+
+
+
+
+
+[quote]
+____
+And now you have a memory leak since you're retaining references to every single object that implements this interface.
+____
+
+
+
+
+
+*John Finalizer* 2014-04-02 13:32:10
+
+
+
+
+
+[quote]
+____
+Can interfaces now implement finalize?
+____
+
+
+
+
+
+*Peter Verhas* 2014-04-02 17:47:47
+
+
+
+
+
+[quote]
+____
+Actually not. The link:http://docs.oracle.com/javase/specs/jls/se8/jls8.pdf[Java Language Specification version 8] says:
+
+[quote]
+____
+
+It is a compile-time error if a default method is override-equivalent with a nonprivate method of the class `Object`, because any class implementing the interface will inherit its own implementation of the method.
+
+____
+
+
+Since the method `finalize()` is implemented in the class `Object` and it is `protected` it can not be implemented as a default method.
+
+While playing around with Java 8 version 1.8.0-b132 on my osx I could have an interface defining the method `finalize()` as a default method. The class implementing the interface had to implement the method and could not inherit that from the interface. The compiler actually did not care the rule cited above, but it was concerned by the fact that the implementation is inherited from Object (inheritance from a class extended is stronger than the inheritance from an interface) and the method `finalize()` in Object is protected, which is less visibility than public as it is defined in the interface. Perhaps this is a bug in the ORACLE java implementation.
+____
+
+
+
+
+
+*Peter Verhas* 2014-04-02 17:48:48
+
+
+
+
+
+[quote]
+____
+You actually did only ask if you can implement and I answered that in my previous reply, however I take the liberty to say that you should not even if you could.
+____
+
+
+
+
+
+*Peter Verhas* 2014-04-07 10:28:10
+
+
+
+
+
+[quote]
+____
+Your understanding my intentions are absolutely correct. I wanted to show a bad example detailing why it is bad. The comments underlined and emphasized the "why" part. I am hoping that showing a bad example with explanation is better than letting a "junior" discover the possibility without noticing that it is bad practice.
+____
+
+
+
+
+
+*Joe Wolf* 2014-04-07 16:40:23
+
+
+
+
+
+[quote]
+____
+You can use Groovy traits to solve this problem, which are now available as of Groovy 2.1.3-beta.
+____
+
+
+
+
+
+*JackZ* 2014-04-29 23:30:55
+
+
+
+
+
+[quote]
+____
+I had hoped for a more flexible solution similar to C#'s extension methods or Gosu's enhancements.  With Java's default methods only the owner of the interface can add new methods and, worse, they are not optional.
+____
+
+
+
+
+
+*javinpaul (@javinpaul)* 2014-06-07 04:47:40
+
+
+
+
+
+[quote]
+____
+Nice tutorial. By the way, I have also shared  few examples on link:http://javarevisited.blogspot.sg/2014/02/10-example-of-lambda-expressions-in-java8.html[Java 8 lambda expressions]. Your reader may find that useful.
+
+Regards
+Javin
+____
+
+
+
+
+
+*Peter Verhas* 2015-01-21 09:02:03
+
+
+
+
+
+[quote]
+____
+If it were just the setter and the getter, then lombok could be a solution for the issue. The setter and the getter was a simplified example of the more general problem.
+
+As for lombok I am a bit reluctant. Lombok is not a 'clean' or standard extension of Java. It uses compiler API that is not guaranteed by any standard and may change incompatible even between bug fix releases. If your project works with one version of Java, it may not work with the next. I know that project lombok mitigates this risk to some level, but the mitigation is technical. Not legal and not architectural.
+
+The legal mitigation would be to get a standard that defines the interface lombok uses so that it can not change. But, as far as I can predict, it will not happen.
+
+It will not happen because for architectural reasons. If such an interface gets opened and made available for easy use of wide audience then we would see the proliferation of extensions. Most of them would not be so well mannered and carefully designed as lombok and there would be a lot of extensions that would just extend the language in weird ways. This would ruin the language Java whose major advantage is stability (as a language), compatibility and maturity.
+____
+
+
+
+
+
+*myborobudur* 2015-01-20 22:37:09
+
+
+
+
+
+[quote]
+____
+try lombok http://projectlombok.org/ for your getter/setter problem
+____
+
+
+
+
+
+*Johnes Watson (@JohnesWatson)* 2015-09-05 09:49:33
+
+
+
+
+
+[quote]
+____
+I think I have to end discussions
+
+If I need to have fields of another class in new one should I use inheritance
+Answer is NO
+
+If I have one entity is subset of another one should I use inheritance
+Answer is YES
+Do I need multiple inheritance
+Answer is YES
+because set theory allows for set to be subset of 2 or more other sets
+Do I need ability to inherit fields in such case
+Answer is YES
+Can I use composition for that purpose
+Answer is NO
+because that means that I would need duplicate code contains fields of every parent in child class body
+of course I can create class for fields only
+but it will bring back to question how to get fields of parent in children classes  (just for specialized fields class)
+____
+
+
+
+
+
+*Default methods and multiple inheritance | Java Deep* 2015-02-11 16:06:30
+
+
+
+
+
+[quote]
+____
+[&#8230;] You probably know. If not google it, or read my articles Java 8 default methods: what can and can not do? and How not to use Java 8 default methods. [&#8230;]
+____
+
+
+
+
+
+*Igor Ganapolsky* 2016-03-16 20:54:34
+
+
+
+
+
+[quote]
+____
+Why did you make the Extensions class be an inner class of this interface?  Wouldn't it be better to decouple it.
+____
+
+
+
+
+
+*Peter Verhas* 2016-03-16 21:02:03
+
+
+
+
+
+[quote]
+____
+Since the whole construct is a possible but better avoided antipattern there is no point to discuss which would be better. It is like discussing a weird way of suicide going against a concrete wall in a car 100mph and then asking if it is better to fasten the seatbelt.
+____
+
+
+
+
+
+*Generate less bytecode with default methods | Software n&#039; stuff* 2018-08-11 22:03:12
+
+
+
+
+
+[quote]
+____
+[&#8230;] when used in a general-purpose kind of way. Indeed, they&#8217;ve been the subject of a ton of posts and the way they (fail to) work still surprises people. They&#8217;ve been around for a while now, [&#8230;]
+____
+
+
+
+
+
+*Java中的多重继承 &#8211; Java葵花宝典* 2020-01-11 10:44:38
+
+
+
+
+
+[quote]
+____
+[&#8230;] Peter Verhas展示了您可以使用默认方法来诱发属性：https ://javax0.wordpress.com/2014/04/02/how-not-to-use-java-8-default-methods [&#8230;]
+____
+
+
+
+
+
+*Davi Bicudo* 2018-03-23 09:37:50
+
+
+
+
+
+[quote]
+____
+Hi,
+Thanks for posting this. It helped me with a particular situation in which it seems to be safe.
+I fall into the case of the junior programmer, so please illuminate me if I'm wrong.
+I'm using an Interface to implement some interoperable Enums. Since they are always static final, it seems that here at least the ifrit can't go out. Working out the compilation took a while until I could figure it out but now it's running fine.
+The case was that there was a long list of constants of different types to be defined and applicable to different situations so the idea was to separate them accordingly, having one long Enum for all default values and smaller ones for regular usage. Since Enums can't extend, the only way was to use an Interface to make them interoperable, but then the multiple fields, getters and setters had to be copied and pasted around, turning what should be a rather simple list of constants into long boring classes (and a lot of boring work back and forth when something had to be changed). So now, thanks to your trick, the Enums look nice and everything is much easier to maintain :)
+____

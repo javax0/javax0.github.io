@@ -1,0 +1,86 @@
+= Javax0 Blog Source Code
+
+This is the repository that stores the source code for the blog link:https://javax0.github.io[Javax0 BLOG].
+The blog is structured using the Jekyll site builder.
+The articles are written in Asciidoc, and they use Jamal as a macro language.
+The blog is built locally on the development machine and gets deployed using GIT.
+
+The build is driven by Gradle.
+
+== Gradle Tasks
+
+The following Gradle tasks are available, each depending on the previous one:
+
+* `jamal` goes through all the `.jam` files in the `_posts` directory and generates the `.adoc` files.
+It processes only the `.jam` files that have no corresponding `.adoc` file or the `.jam` file is newer than the `.adoc` file.
+
+* `build` (`dependsOn jamal`) goes through all the `.adoc` files in the `_posts` directory and generates the `.html` files.
+To generate the html, it uses the Jekyll program.
+
+* `run` (`dependsOn build`) starts the Jekyll server to serve the files locally and opens the browser to display the result.
+
+* `add` adds the new and generated files to the GIT repository.
+
+* `commit` commits the changes to the GIT repository.
+The commit message is constant and it is `update`.
+
+* `push` pushes the changes to the GIT repository.
+Doing push essentially publishes the changes to the blog.
+
+* `publish` is the same as `push` but also opens the browser windows showing the blog git publishing progress as well as the resulting blog page.
+
+
+== Directories and files
+
+Here is a short description of what you can find in the different directories and files.
+This documentation is not complete.
+
+=== _posts
+
+This directory contains the articles.
+The article file names are `YYYY-MM-DD-article.adoc.jam`.
+The `.jam` extension means link:https://github.com/verhas/jamal[Jamal] macro extension.
+Jamal processes these files, as shown in the `build` shell script, resulting in the `.adoc` files.
+Also, the `.adoc` files are generated automatically while editing the `.adoc.jam` files in IntelliJ with
+
+* Asciidoctor plugin installed, and
+
+* Jamal preprocessor installed in the `.asciidoctor/lib` directory of the project.
+
+=== _projects
+
+This directory contains the Java or other development projects that are used as demo for the articles.
+There is a subdirectory for each article with the same name as the article (w/o the file extensions).
+For example, the article `2022-12-07-blog-posting.adoc.jam` has the corresponding subdirectory `2022-12-07-blog-posting`.
+
+One article can have zero, one, or more projects.
+
+=== about
+
+Standard Jekyll directory with the about `index.html`.
+
+=== docs
+
+Contains the generated site.
+GitHub Pages is configured to deploy from this directory and not from the branch `gh-pages`.
+Jekyll generates the output to this directory as it is configured in the `_config.yml` file:
+
+
+  destination: docs
+
+
+=== assets
+
+Are static HTML assets, like images in the `images` directory.
+
+=== build
+
+Shell scripts, build the site
+
+=== deploy
+
+Shell script invokes `.build`, then adds, commits, and pushes the new and modified pages.
+
+=== run
+
+A shell script, which runs Jekyll locally.

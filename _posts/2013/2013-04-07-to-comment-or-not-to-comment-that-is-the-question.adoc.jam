@@ -1,0 +1,222 @@
+---
+title: "To comment or not to comment, that is the question" 
+layout: posta
+comments: on
+---
+{%@import javax0.jim%}
+I was reading the article [a]#The Golden Rules of Code Documentation# and I thought to give an example of how I handle the situation expressed there using the following sentence:
+
+[quote]
+____
+If you need comments to clarify code, better think how to write code differently, so it is more understandable. You do not need yet another language (comments) to mess with the primary language (code).
+____
+
+
+The referenced article argues with the statement above even letting personal feelings out:
+
+[quote]
+____
+Quite obviously, this person has written 1-2 “Hello world” applications, where this obviously holds true.
+____
+
+
+I felt touched, since I totally agree with the statement quoted first and at the same time I strongly believe that after 25 years of programming I can not be categorized as a "hello word" programmer. Those who do not know me: I wrote ScriptBasic (C language), Jamal (Perl), jScriptBasic (Java) to mention an excerpt from the few OS projects I was heavily involved in. I can mention but not list the codes I created professionally to feed myself and family for different banks, telcos and honey water companies.
+
+To proof his point, the author of the before mentioned article says:
+
+
+
+[quote]
+____
+How would you write this business logic down into code, such that you can live without comments?
+
+__A stock exchange order of clearing type code 27 needs to be grouped with all other subsequent orders of type code 27 (if and only if they have a rounding lot below 0.01), before actually unloading them within a time-frame of at most 35 seconds (fictional example in a real-life application).__
+____
+
+
+I had three thoughts:
+
+	* Challenge accepted (first instinct, usually stupid)
+	* The text in the quoted quote was about comments between the lines of the code and not the JavaDoc and not even the documentation of the project. The requirement text given as an example is by no means to be put into the code. That is a requirement.
+	* Nothing heals badly formatted requirements like the sample given above. Never mind, that is not a real spec. only an example. Forget this last comment, I do not want to open flame war on this. There is enough battlefield elsewhere.
+
+
+The rest of the referenced article talks about documentation and if I replace the word "comment" with "documentation" in the text I can generally be agreeable with that.
+
+But lets have a look at the fun part! Read again the "spec" above and have a look at the code:
+
+[source,java]
+----
+package stock;
+
+public class StockExchangeOrderUploader implements Runnable {
+
+	private final StockExchangeOrderSource source;
+
+	public StockExchangeOrderUploader(StockExchangeOrderSource source) {
+		this.source = source;
+	}
+
+	private StockExchangeOrderGroup pendingGroup = null;
+
+	public void setPendingGroup(StockExchangeOrderGroup group) {
+		pendingGroup = group;
+	}
+
+	@Override
+	public void run() {
+		while (source.hasNext()) {
+			final StockExchangeOrder order = source.next();
+			if (order.isBelowRoundingLotLimit() &amp;&amp; order.isOfClearingType27()) {
+				if (There.isA(pendingGroup)
+						.whichWasStartedNotSoonerThan35SecondsBeforeThis(order)) {
+					Add.the(order).toThe(pendingGroup);
+				} else {
+					if (There.isAny(pendingGroup)) {
+						Upload.the(pendingGroup);
+					}
+					Add.the(order).toThe(pendingGroup);
+				}
+			}else{
+				Upload.the(order);
+			}
+		}
+		if( There.isAny(pendingGroup)){
+			Upload.the(pendingGroup);
+		}
+	}
+
+}
+----
+
+
+Do you feel the need to put any comment between the lines? Do you need anything?
+
+Oh.... jah.. sorry. Perhaps the other interfaces and classes:
+
+https://github.com/verhas/commentOrNotToComment
+
+
+=== Comments imported from Wordpress
+
+
+*lukaseder* 2013-04-07 08:01:36
+{%@comment id: 16 %}
+{%@comment author_email: lukas.eder@gmail.com %}
+{%@comment author_url: http://lukaseder.wordpress.com %}
+{%@comment author_IP: 84.227.46.131 %}
+{%@comment date_gmt: 2013-04-07 07:01:36 %}
+[quote]
+____
+Aaahaha, I have to "like" this one. Of course, this code still communicates "what", not "why". It does so in a fluent / OO way, instead of an imperative way, which is ultimately no different, except that the API is now polluted with hardly reusable knowledge about this particular requirement. 
+
+Why was it so important in the twisted requirements, to do all this stuff only for clearing type cd 27? And why only for a rounding lot < 0.01. And "why" ...
+
+Anyway, thanks for the great counter-rant:-)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 17895174 %}
+
+*Peter Verhas* 2013-04-07 16:10:27
+{%@comment id: 19 %}
+{%@comment author_email: peter@verhas.com %}
+{%@comment author_url: http://tifyty.wordpress.com %}
+{%@comment author_IP: 46.126.9.81 %}
+{%@comment date_gmt: 2013-04-07 15:10:27 %}
+[quote]
+____
+I still believe that the explanation of 'why' should not get into the comments. Especially not into the in-line code comment, which I mean is not JavaDoc. The 'why' is there in the specification if there is any.
+
+Any text in the program should either be
+
+
+* something needed to execute the code, or
+* something needed to maintain the code
+
+
+The first one is the program code itself and whenever there is any tool that depends on the content of the code to generate code or alter the behaviour of the code: it is the clear sign of some weakness of the language, or just bad tool. One should decide in the actual case which one that is.
+
+The other one is the code and the comments. The code, no question, is needed to maintain the code. Without it there is nothing to maintain. The comment is solely for documentation purposes. There are other documents as well in our everyday practice that are for documentation purposes, like wiki pages being Confluence or md5, generated site reports and so on. The comment part of the documentation is special, because it is inside the code.
+
+We do two things with documents: we read them, and we write them. Probably the writing part comes first, but for our discussion it is irrelephant. Documentation should be tied to the code, in other words be in comment, that is better to be read along with the code or better to write along the code.
+
+JavaDoc is comment because it is written along the code. (Well, yes, if written at all. I mean in ideal case.) You, as a developer, can also read it along the code, but 99% of the cases you read them on web pages, or in the hoover box in Eclipse.
+
+In-line comment is there, because the one, who writes it believes that it helps it being read along the code. It is written by the programmer.
+
+The "'why' does the program do that" part comes from the specification. It is not written by the programmer, but rather a Business Analyst. If ever the requirement changes the BA will not change the comment in the code. If the programmer copies the spec to the code as a comment the data is duplicated while the information remained constant: there is a risk of misalignment of the information between the different representation, even if it is verbatim copy. You may not copy all the document, you may not copy a relevant part: possibility of error. If you must, reference the spec.
+
+If the comment is not about the spec, but some other 'why' then there is some problem. What were your ideas when you wrote that code? Should you write that in a comment? Why isn't that clear from the code. Perhaps you are still programming FORTRAN or some other language that is not expressive enough and you have to extend the code with in-line comments so that it is understandable. Perhaps you use Java, which is a bit more expressive than FORTRAN (just as an example) but you use it in a non-expressive way. That is the point when you have to think about your own style. Perhaps Java as a language is not expressive enough.
+
+Nobody (well, at least wise programmers) says not to use in-line comments ever. The advice is: if you feel like you need some, better think before if there is any other way that is better.
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 16 %}
+{%@comment user_id: 31131067 %}
+
+*lukaseder* 2013-04-11 23:02:55
+{%@comment id: 22 %}
+{%@comment author_email: lukas.eder@gmail.com %}
+{%@comment author_url: http://lukaseder.wordpress.com %}
+{%@comment author_IP: 84.227.46.131 %}
+{%@comment date_gmt: 2013-04-11 22:02:55 %}
+[quote]
+____
+Yes yes ;-)
+
+I'm talking about referencing the spec (ideally along with ticket IDs) and outlining it in 1-2 sentences. If absolutely needed, of course. I'm not talking about verbatim copying of 50 paragraphs of specs. Where did you get *that* idea from? ;-)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 19 %}
+{%@comment user_id: 17895174 %}
+
+*Logging or Commenting ? | Java Deep* 2014-06-25 12:00:06
+{%@comment id: 809 %}
+{%@comment author_email:  %}
+{%@comment author_url: http://javax0.wordpress.com/2014/06/25/logging-or-commenting/ %}
+{%@comment author_IP: 66.155.8.52 %}
+{%@comment date_gmt: 2014-06-25 11:00:06 %}
+[quote]
+____
+[&#8230;] and does not fit the code, please visit the article The Golden Rules of Code Documentation and the rant to the [&#8230;]
+____
+{%@comment approved: 1 %}
+{%@comment type: pingback %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
+
+*Michael Jacob* 2015-09-24 01:02:48
+{%@comment id: 8811 %}
+{%@comment author_email: jacob@j-e-b.net %}
+{%@comment author_url: https://plus.google.com/+MichaelJacob %}
+{%@comment author_IP: 109.193.251.112 %}
+{%@comment date_gmt: 2015-09-24 00:02:48 %}
+[quote]
+____
+I put down a comment detailing the "why" every time I suspect that someone who will read the code in the future will think "This could be implemented much shorter/cleaner/correct using [solution I tried first and spent an hour finding out that it doesn't work that way, why it won't work that ways and how to do it in a way that actually works]"
+
+And every time I see some code that behaves differently in some borderline case I stare at the screen and wish there was a comment telling me if that was intentional or not. (Consider yourself lucky if you have specs down to the method level. Or anything that is more than functional requirements and UI design.)
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 19 %}
+{%@comment user_id: 0 %}
+
+*Rahul Kale* 2017-11-24 06:27:22
+{%@comment id: 11800 %}
+{%@comment author_email: kalerahul86@yahoo.com %}
+{%@comment author_url:  %}
+{%@comment author_IP: 115.114.135.174 %}
+{%@comment date_gmt: 2017-11-24 05:27:22 %}
+[quote]
+____
+Code here is very good example, It made me to think differently
+____
+{%@comment approved: 1 %}
+{%@comment type:  %}
+{%@comment parent: 0 %}
+{%@comment user_id: 0 %}
